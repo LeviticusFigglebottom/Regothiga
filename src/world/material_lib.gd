@@ -25,6 +25,7 @@ const FAMILIES := {
 	"M_robe_boss":  {"albedo": Color(0.16, 0.13, 0.17), "rough": 0.95, "rim": 0.6, "moss": 0.0, "crack": 0.0},
 	"M_habit":      {"albedo": Color(0.72, 0.68, 0.60), "rough": 0.95, "rim": 0.45, "moss": 0.0, "crack": 0.0},
 	"M_leather":    {"albedo": Color(0.30, 0.20, 0.12), "rough": 0.8, "rim": 0.35, "moss": 0.0, "crack": 0.0},
+	"M_roof":       {"albedo": Color(0.20, 0.22, 0.27), "rough": 0.9, "rim": 0.3, "moss": 0.6, "crack": 0.0},
 	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
 }
 

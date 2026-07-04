@@ -1,0 +1,14 @@
+{
+	"candleglass": {
+		"name": "Candleglass",
+		"desc": "A shard of window fused with votive wax. In ruin the glass weeps out of the frames; in glory it never fell. Hold it to the light and a saint's sleeve is still in it."
+	},
+	"sun_creed_charm": {
+		"name": "Sun-Creed Charm",
+		"desc": "A pilgrim's token: the sun half-sunk behind the Black Gate. The creed ran 'wake, watch, wait'. Three words for a kingdom that managed two of them."
+	},
+	"tallow_heart": {
+		"name": "Tallow Heart",
+		"desc": "Rendered from a saint's own votive. It does not beat; it keeps."
+	}
+}

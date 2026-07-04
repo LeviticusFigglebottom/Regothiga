@@ -7,6 +7,7 @@ signal activated(player)
 
 @export var prompt := "Interact"
 @export var enabled := true
+var zone_offset := Vector3.ZERO   # where the usable spot actually is
 
 func _init() -> void:
 	collision_layer = 1 << (VG.L_INTERACT - 1)
@@ -14,6 +15,7 @@ func _init() -> void:
 	monitoring = false
 
 func setup_zone(radius := 1.7, height := 1.6, offset := Vector3.ZERO) -> void:
+	zone_offset = offset
 	var cs := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
 	cyl.radius = radius
@@ -25,3 +27,6 @@ func setup_zone(radius := 1.7, height := 1.6, offset := Vector3.ZERO) -> void:
 func activate(player) -> void:
 	if enabled:
 		activated.emit(player)
+
+func zone_global() -> Vector3:
+	return to_global(zone_offset)

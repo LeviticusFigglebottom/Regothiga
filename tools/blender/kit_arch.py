@@ -102,19 +102,19 @@ def arcade_4m():
     """Cloister arcade module: parapet, twin colonnettes, pointed arch.
     Open span faces the garth. Origin: bottom-center of the run."""
     objs = []
-    # arch panel: opening 2.6 wide springing at 1.85 -> apex ~3.78
-    panel = V.wall_panel_with_arch("arcade_panel", 4.0, 4.0, 0.34, 2.6, 1.85,
+    # arch panel: opening 2.2 wide springing at 1.6 -> apex ~3.23 (below vault)
+    panel = V.wall_panel_with_arch("arcade_panel", 4.0, 4.0, 0.34, 2.2, 1.6,
                                    sharpness=0.8, segments=12)
     objs.append(panel)
-    # parapet under the opening (leave 0.7 m walk-through gap? no — cloister
-    # arcades are windows onto the garth; passage is at portals)
+    # parapet under the opening (arcades are windows onto the garth;
+    # passage is at the portals)
     bm = bmesh.new()
-    V.add_box(bm, (-1.3, -0.15, 0), (1.3, 0.15, 0.9))
+    V.add_box(bm, (-1.1, -0.15, 0), (1.1, 0.15, 0.9))
     objs.append(V.bm_to_object(bm, "arcade_parapet", ("M_stone",)))
     # colonnettes at the jambs
-    for sx in (-1.3, 1.3):
-        col = _colonnette(0.15, 2.05)
-        col.location = (sx + (0.19 if sx < 0 else -0.19), 0, 0.86)
+    for sx in (-1.1, 1.1):
+        col = _colonnette(0.14, 1.72)
+        col.location = (sx + (0.17 if sx < 0 else -0.17), 0, 0.86)
         objs.append(col)
     entry = {"size": [4, 0.5, 4], "origin": "bottom-center"}
     return objs, entry
@@ -526,7 +526,24 @@ def fog_gate_frame():
     return objs, {"size": [4, 1, 5.2], "origin": "bottom-center", "opening": [3.2, 3.1]}
 
 
+def roof_shed_4m():
+    """Lean-to roof over a cloister walk: garth-side eave at ~4.05 m rising
+    to 5.5 m against the outer wall. Origin: bottom-center of the garth eave;
+    slopes toward local blender +Y (away from the garth)."""
+    bm = bmesh.new()
+    a = bm.verts.new((-2, -0.35, 4.02)); b = bm.verts.new((2, -0.35, 4.02))
+    c = bm.verts.new((2, 4.4, 5.52)); d = bm.verts.new((-2, 4.4, 5.52))
+    bm.faces.new((a, b, c, d))
+    bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.09)
+    roof = V.bm_to_object(bm, "roof_slope", ("M_roof",))
+    bm2 = bmesh.new()
+    V.add_box(bm2, (-2, -0.42, 3.86), (2, -0.30, 4.10))
+    fascia = V.bm_to_object(bm2, "roof_fascia", ("M_wood",))
+    return [roof, fascia], {"size": [4, 4.8, 5.6], "origin": "eave-center"}
+
+
 BUILDERS = {
+    "roof_shed_4m": roof_shed_4m,
     "floor_4x4": floor_4x4,
     "wall_4x4": wall_4x4,
     "wall_low_4m": wall_low_4m,

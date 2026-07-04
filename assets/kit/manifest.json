@@ -347,6 +347,16 @@
    4
   ]
  },
+ "roof_shed_4m": {
+  "file": "assets/kit/roof_shed_4m.glb",
+  "origin": "eave-center",
+  "polys": 12,
+  "size": [
+   4,
+   4.8,
+   5.6
+  ]
+ },
  "rubble_l": {
   "file": "assets/kit/rubble_l.glb",
   "origin": "bottom-center",

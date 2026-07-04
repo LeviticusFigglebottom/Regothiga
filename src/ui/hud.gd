@@ -31,9 +31,14 @@ var _boss: Node = null
 const HP_W := 420.0
 const ST_W := 340.0
 
+var lore_root: Control
+var lore_text: Label
+
 func _ready() -> void:
 	layer = 10
+	add_to_group("hud")
 	_build()
+	Game.lore_panel.connect(show_lore)
 	Game.orisons_changed.connect(_on_orisons)
 	Game.player_forgotten.connect(_on_forgotten)
 	Game.player_respawned.connect(func(): _fade_splash(false))
@@ -166,6 +171,36 @@ func _build() -> void:
 	boss_fill.size = Vector2(996, 10)
 	bp.add_child(boss_fill)
 
+	# lore panel (plaques, item descriptions)
+	lore_root = Control.new()
+	lore_root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	lore_root.visible = false
+	root.add_child(lore_root)
+	var ldim := ColorRect.new()
+	ldim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	ldim.color = Color(0, 0, 0, 0.55)
+	lore_root.add_child(ldim)
+	var lpanel := Panel.new()
+	var lsb := StyleBoxFlat.new()
+	lsb.bg_color = Color(0.05, 0.045, 0.04, 0.96)
+	lsb.border_color = Color(0.6, 0.5, 0.32)
+	lsb.set_border_width_all(1)
+	lpanel.add_theme_stylebox_override("panel", lsb)
+	lpanel.position = Vector2(510, 330)
+	lpanel.size = Vector2(900, 400)
+	lore_root.add_child(lpanel)
+	lore_text = Label.new()
+	lore_text.label_settings = _font(SERIF, 26, Color(0.9, 0.87, 0.78), false)
+	lore_text.position = Vector2(46, 46)
+	lore_text.size = Vector2(808, 260)
+	lore_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lpanel.add_child(lore_text)
+	var lhint := Label.new()
+	lhint.label_settings = _font(SERIF, 18, Color(0.6, 0.55, 0.45), false)
+	lhint.position = Vector2(46, 340)
+	lhint.text = "— press any key —"
+	lpanel.add_child(lhint)
+
 	# death splash
 	splash = Control.new()
 	splash.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -234,6 +269,19 @@ func show_toast(text: String) -> void:
 	tw.tween_property(toast_label, "modulate:a", 1.0, 0.4)
 	tw.tween_interval(2.4)
 	tw.tween_property(toast_label, "modulate:a", 0.0, 0.8)
+
+func show_lore(text: String) -> void:
+	lore_text.text = text
+	lore_root.visible = true
+	if Game.player:
+		Game.player.lock_control(true)
+	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -6.0)
+
+func _input(event: InputEvent) -> void:
+	if lore_root != null and lore_root.visible and (event is InputEventKey or event is InputEventJoypadButton) and event.is_pressed():
+		lore_root.visible = false
+		if Game.player:
+			Game.player.lock_control(false)
 
 func show_boss(boss: Node) -> void:
 	_boss = boss

@@ -1,0 +1,8 @@
+{
+	"areas": ["gray_cloister", "basilica_porch"],
+	"graph": {
+		"gray_cloister": { "east": "basilica_porch" },
+		"basilica_porch": { "west": "gray_cloister" }
+	},
+	"start_area": "gray_cloister"
+}

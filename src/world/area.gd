@@ -74,10 +74,20 @@ func _set_layer_collision(layer: Node3D, on: bool) -> void:
 		for c in n.get_children():
 			stack.append(c)
 
-## Bake both navmeshes from the current geometry (called once after build).
+## Bake both navmeshes from the current geometry (on load, and again when
+## base routes change — an opened gate, cleared rubble).
 func bake_navmeshes() -> void:
+	if nav_glory != null:
+		nav_glory.queue_free()
+	if nav_ruin != null:
+		nav_ruin.queue_free()
 	nav_glory = _bake_nav("NavGlory", false)
 	nav_ruin = _bake_nav("NavRuin", true)
+	if _applied >= 0:
+		nav_glory.enabled = _applied != VG.WState.RUIN
+		nav_ruin.enabled = _applied == VG.WState.RUIN
+		_set_layer_collision(glory_layer, _applied != VG.WState.RUIN)
+		_set_layer_collision(ruin_layer, _applied == VG.WState.RUIN)
 
 func _bake_nav(name_: String, ruin_world: bool) -> NavigationRegion3D:
 	var region := NavigationRegion3D.new()

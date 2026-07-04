@@ -8,6 +8,8 @@ signal player_forgotten                  # death splash
 signal player_respawned
 signal remembrance_reclaimed(amount: int)
 signal toast(text: String)               # short diegetic messages
+signal lore_panel(text: String)          # plaque/lore reading
+signal area_cleared(area_id: String)
 
 var player: Node = null
 var current_area: Node = null
@@ -46,6 +48,23 @@ func respawn_player() -> void:
 	player.revive_at(pos)
 	refresh_remembrance()
 	player_respawned.emit()
+
+## A warden has been put to rest: the area opens for free kindling.
+func on_boss_slain(area_id: String) -> void:
+	World.set_cleared(area_id)
+	World.save_game()
+	AudioDirector.play_music("", 2.0)
+	toast.emit("The warden rests. The memory is yours to keep or quench.")
+	area_cleared.emit(area_id)
+	await get_tree().create_timer(2.0, false).timeout
+	if current_area != null and current_area.area_id == area_id:
+		AudioDirector.play_music(current_area.env.music_for(World.get_area_state(area_id)), 4.0)
+
+func snapshot_player() -> void:
+	if player == null:
+		return
+	World.player_data = player.to_save()
+	World.player_data["orisons"] = orisons
 
 func find_lantern(lantern_id: String) -> VigilLantern:
 	for l in get_tree().get_nodes_in_group("lanterns"):
@@ -87,6 +106,29 @@ func set_orisons(n: int) -> void:
 func area_state() -> VG.WState:
 	return World.get_area_state(current_area_id)
 
+var world_root: Node3D = null   # container that owns the current area
+
+## Cross an AreaPortal: unload the region behind, build the one ahead.
+func travel_to(area_id: String, spawn_pos: Vector3) -> void:
+	if world_root == null or player == null:
+		return
+	player.lock_control(true)
+	var old := current_area
+	var next := AreaBuilder.build(area_id)
+	world_root.add_child(next)
+	register_area(next, area_id)
+	if old != null:
+		old.queue_free()
+	# entering an unvisited area finds it in glory (D-009)
+	StateDirector.snap(next, World.get_area_state(area_id))
+	player.global_position = spawn_pos
+	player.velocity = Vector3.ZERO
+	refresh_remembrance()
+	snapshot_player()
+	World.save_game()
+	toast.emit(next.display_name)
+	player.lock_control(false)
+
 signal vigil_kept(lantern)
 
 ## The rest ceremony: kneel, heal, respawn the dead, and turn the world.
@@ -123,7 +165,7 @@ func vigil_flow(lantern: VigilLantern, p) -> void:
 
 	if p != null:
 		p.heal_full()
-		World.player_data = p.to_save()
+		snapshot_player()
 	World.save_game()
 	vigil_kept.emit(lantern)
 	if p != null:

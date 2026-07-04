@@ -19,6 +19,13 @@ import kit_chars  # noqa: E402
 
 OUT = os.path.join(ROOT, "assets", "kit")
 
+# per-piece vertex-mask overrides (ceilings don't grow floor moss, etc.)
+PAINT_OVERRIDES = {
+    "vault_bay_4x4": {"moss_below": -99.0},
+    "roof_shed_4m": {"moss_below": -99.0},
+    "cornice_4m": {"moss_below": -99.0},
+}
+
 
 def main():
     only = set(sys.argv[1:])
@@ -40,7 +47,7 @@ def main():
         V.reset_scene()
         objs, entry = fn()
         path = os.path.join(OUT, f"{name}.glb")
-        V.export_glb(objs, path, seed=hash(name) % 10000)
+        V.export_glb(objs, path, seed=hash(name) % 10000, **PAINT_OVERRIDES.get(name, {}))
         entry["file"] = f"assets/kit/{name}.glb"
         tris = sum(len(o.data.polygons) for o in objs if o.type == 'MESH')
         entry["polys"] = tris

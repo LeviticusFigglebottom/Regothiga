@@ -26,6 +26,7 @@ var flask_max := 3
 var flasks := 3
 var weapon_id := "cloistersword"
 var weapon_level := 0
+var inventory: Dictionary = {}    # item_id -> count
 
 # --- state ------------------------------------------------------------------
 var state: S = S.MOVE
@@ -696,7 +697,7 @@ func nearest_interactable() -> Interactable:
 	var best_d := INF
 	for a in _interact_scan.get_overlapping_areas():
 		if a is Interactable and (a as Interactable).enabled:
-			var d := global_position.distance_squared_to(a.global_position)
+			var d := global_position.distance_squared_to((a as Interactable).zone_global())
 			if d < best_d:
 				best_d = d
 				best = a
@@ -718,6 +719,7 @@ func to_save() -> Dictionary:
 	return {
 		"attributes": attributes, "level": level, "flask_max": flask_max,
 		"weapon": weapon_id, "weapon_level": weapon_level,
+		"inventory": inventory,
 		"pos": [global_position.x, global_position.y, global_position.z],
 	}
 
@@ -730,5 +732,6 @@ func from_save(d: Dictionary) -> void:
 	flask_max = int(d.get("flask_max", 3))
 	weapon_id = d.get("weapon", "cloistersword")
 	weapon_level = int(d.get("weapon_level", 0))
+	inventory = d.get("inventory", {})
 	recompute_derived()
 	heal_full()

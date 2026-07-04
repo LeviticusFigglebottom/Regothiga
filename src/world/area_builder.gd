@@ -1,0 +1,205 @@
+class_name AreaBuilder
+## Compiles data/areas/<id>.json into a live Area (DECISIONS D-007).
+## Constructs: pieces, rows, fills, vault fields, props, and the entity
+## lists (lanterns, gates, fog gates, spawners, npcs, plaques, pickups,
+## portals, cameos). Everything carries a state tag: base | glory | ruin.
+
+static func build(area_id: String) -> Area:
+	var def := DB.area_def(area_id)
+	if def.is_empty():
+		push_error("AreaBuilder: no def for area '%s'" % area_id)
+		return null
+	var area := Area.new()
+	area.area_id = area_id
+	area.name = "Area_" + area_id
+	area.display_name = def.get("name", area_id)
+	area.set_meta("def", def)
+
+	for spec in def.get("fills", []):
+		_fill(area, spec)
+	for spec in def.get("rows", []):
+		_row(area, spec)
+	for spec in def.get("pieces", []):
+		_piece(area, spec, true)
+	for spec in def.get("props", []):
+		_piece(area, spec, false)
+	for spec in def.get("vault_fields", []):
+		_vault_field(area, spec)
+	for spec in def.get("blockers", []):
+		_blocker(area, spec)
+
+	for spec in def.get("lanterns", []):
+		var l := VigilLantern.new()
+		l.lantern_id = spec.get("id", "lantern")
+		l.display_name = spec.get("name", "Vigil Lantern")
+		l.area = area
+		area.base.add_child(l)
+		_place(l, spec)
+	for spec in def.get("gates", []):
+		var g := ShortcutGate.new()
+		g.gate_id = spec.get("id", "gate")
+		g.area_id = area_id
+		g.locked_prompt = spec.get("locked_prompt", "Barred from the other side")
+		area.base.add_child(g)
+		_place(g, spec)
+	for spec in def.get("spawners", []):
+		var s := Spawner.new()
+		s.enemy_id = spec.get("enemy", "penitent")
+		s.face_deg = float(spec.get("face", 0))
+		s.dead_once = spec.get("dead_once", false)
+		s.spawn_flag = "slain_" + spec.get("id", spec.get("enemy", "e"))
+		s.area_id = area_id
+		var tag: String = spec.get("tag", "ruin")
+		area.attach(s, tag)
+		_place(s, spec)
+		if spec.has("fog_gate_id"):
+			s.set_meta("fog_gate_id", spec["fog_gate_id"])
+	for spec in def.get("fog_gates", []):
+		var f := FogGate.new()
+		f.gate_id = spec.get("id", "fog")
+		f.area_id = area_id
+		area.attach(f, spec.get("tag", "ruin"))
+		_place(f, spec)
+		# bind its boss spawner
+		for s in _all_spawners(area):
+			if String(s.get_meta("fog_gate_id", "")) == f.gate_id:
+				f.boss_spawner = s
+	for spec in def.get("npcs", []):
+		var n := NPC.new()
+		n.npc_id = spec.get("id", "aveline")
+		area.attach(n, spec.get("tag", "glory"))
+		_place(n, spec)
+	for spec in def.get("plaques", []):
+		var p := LorePlaque.new()
+		p.text = spec.get("text", "…")
+		area.attach(p, spec.get("tag", "base"))
+		_place(p, spec)
+	for spec in def.get("pickups", []):
+		var k := Pickup.new()
+		k.pickup_id = spec.get("id", "pickup")
+		k.area_id = area_id
+		k.orisons = int(spec.get("orisons", 0))
+		k.item_id = spec.get("item", "")
+		k.item_count = int(spec.get("count", 1))
+		k.label = spec.get("label", "Take")
+		area.attach(k, spec.get("tag", "base"))
+		_place(k, spec)
+	for spec in def.get("cameos", []):
+		var c := BellkeeperCameo.new()
+		area.attach(c, spec.get("tag", "glory"))
+		_place(c, spec)
+	for spec in def.get("portals", []):
+		var pt := AreaPortal.new()
+		pt.to_area = spec.get("to", "")
+		pt.spawn_pos = _v3(spec.get("spawn", [0, 0, 0]))
+		pt.prompt = spec.get("prompt", "Pass on")
+		pt.locked_flag = spec.get("locked_flag", "")
+		pt.locked_prompt = spec.get("locked_prompt", "Sealed")
+		area.attach(pt, spec.get("tag", "base"))
+		_place(pt, spec)
+
+	area.bake_navmeshes.call_deferred()
+	return area
+
+static func _v3(a) -> Vector3:
+	return Vector3(a[0], a[1], a[2]) if a is Array and a.size() >= 3 else Vector3.ZERO
+
+static func _place(n: Node3D, spec: Dictionary) -> void:
+	n.position = _v3(spec.get("at", [0, 0, 0]))
+	n.rotation.y = deg_to_rad(float(spec.get("rot", 0)))
+
+static func _tag_bit(tag: String) -> int:
+	match tag:
+		"glory": return VG.L_WORLD_GLORY
+		"ruin": return VG.L_WORLD_RUIN
+	return VG.L_WORLD_BASE
+
+static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
+	var tag: String = spec.get("tag", "base")
+	var mode := 1 if tag == "glory" else (2 if tag == "ruin" else 0)
+	var piece := KitLib.instance(spec["kit"], mode)
+	_place(piece, spec)
+	if spec.has("scale"):
+		var sc = spec["scale"]
+		piece.scale = _v3(sc) if sc is Array else Vector3.ONE * float(sc)
+	if collide and spec.get("collide", true):
+		KitLib.add_collision(piece, _tag_bit(tag))
+	if spec.get("flames", true) and (tag != "ruin"):
+		KitLib.add_flame_lights(piece)
+	area.attach(piece, tag)
+	return piece
+
+static func _row(area: Area, spec: Dictionary) -> void:
+	var from := _v3(spec.get("from", [0, 0, 0]))
+	var dir := _v3(spec.get("dir", [1, 0, 0]))
+	var count := int(spec.get("count", 1))
+	var step := float(spec.get("step", 4.0))
+	var skip: Array = spec.get("skip", [])
+	for i in count:
+		if i in skip:
+			continue
+		var sub := spec.duplicate()
+		sub["at"] = [from.x + dir.x * step * i, from.y, from.z + dir.z * step * i]
+		_piece(area, sub, spec.get("collide", true))
+
+static func _fill(area: Area, spec: Dictionary) -> void:
+	var mn := _v3(spec.get("min", [0, 0, 0]))
+	var mx := _v3(spec.get("max", [4, 0, 4]))
+	var step := float(spec.get("step", 4.0))
+	var x := mn.x
+	while x < mx.x - 0.01:
+		var z := mn.z
+		while z < mx.z - 0.01:
+			var sub := spec.duplicate()
+			sub["at"] = [x + step * 0.5, mn.y, z + step * 0.5]
+			_piece(area, sub, spec.get("collide", true))
+			z += step
+		x += step
+
+static func _vault_field(area: Area, spec: Dictionary) -> void:
+	var sub := spec.duplicate()
+	sub["kit"] = "vault_bay_4x4"
+	sub["min"] = spec["min"]
+	sub["max"] = spec["max"]
+	var mn := _v3(spec.get("min", [0, 0, 0]))
+	var mx := _v3(spec.get("max", [4, 0, 4]))
+	var spring := float(spec.get("spring", 2.7))
+	var x := mn.x
+	while x < mx.x - 0.01:
+		var z := mn.z
+		while z < mx.z - 0.01:
+			var p := spec.duplicate()
+			p["kit"] = "vault_bay_4x4"
+			p["at"] = [x + 2.0, spring, z + 2.0]
+			p["collide"] = false      # ceilings don't need trimesh for gameplay
+			_piece(area, p, false)
+			z += 4.0
+		x += 4.0
+
+## Invisible impassable volume (collapsed debris etc.) — dress it with props.
+static func _blocker(area: Area, spec: Dictionary) -> void:
+	var tag: String = spec.get("tag", "base")
+	var mn := _v3(spec["min"])
+	var mx := _v3(spec["max"])
+	var body := StaticBody3D.new()
+	body.collision_layer = 1 << (_tag_bit(tag) - 1)
+	body.collision_mask = 0
+	var cs := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = mx - mn
+	cs.shape = box
+	body.add_child(cs)
+	area.attach(body, tag)
+	body.position = (mn + mx) * 0.5
+	cs.position = Vector3.ZERO
+
+static func _all_spawners(area: Area) -> Array:
+	var out: Array = []
+	var stack: Array[Node] = [area]
+	while not stack.is_empty():
+		var n: Node = stack.pop_back()
+		if n is Spawner:
+			out.append(n)
+		for c in n.get_children():
+			stack.append(c)
+	return out
