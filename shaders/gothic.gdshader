@@ -99,7 +99,7 @@ void fragment() {
 	} else if (state_mode == 2) {
 		presence = ruin;
 	}
-	float diss_n = hash13(floor(v_world_pos * 9.0));
+	float diss_n = hash13(floor(v_world_pos * 6.0));
 	if (presence < 0.999) {
 		if (presence < diss_n) {
 			discard;
@@ -156,7 +156,7 @@ void fragment() {
 	if (state_mode != 0 && presence < 0.999) {
 		diss_edge = 1.0 - smoothstep(0.0, 0.25, presence - diss_n);
 	}
-	emis += vg_wave_color * (edge * 1.6 + diss_edge * edge * 6.0);
+	emis += vg_wave_color * (edge * 5.5 + diss_edge * edge * 14.0);
 
 	EMISSION = emis;
 	SPECULAR = 0.15;

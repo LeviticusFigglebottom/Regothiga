@@ -22,7 +22,7 @@
  "banner": {
   "file": "assets/kit/banner.glb",
   "origin": "top-center",
-  "polys": 114,
+  "polys": 238,
   "size": [
    1.1,
    0.3,
@@ -37,6 +37,16 @@
    1.5,
    1.5,
    1.85
+  ]
+ },
+ "bellkeeper_arm": {
+  "file": "assets/kit/bellkeeper_arm.glb",
+  "origin": "shoulder",
+  "polys": 54,
+  "size": [
+   0.5,
+   0.5,
+   1.25
   ]
  },
  "brazier_cold": {
@@ -77,6 +87,76 @@
    0.5,
    0.5,
    1.6
+  ]
+ },
+ "char_aveline": {
+  "file": "assets/kit/char_aveline.glb",
+  "origin": "bottom-center",
+  "polys": 260,
+  "size": [
+   0.8,
+   0.8,
+   1.85
+  ]
+ },
+ "char_bellkeeper": {
+  "file": "assets/kit/char_bellkeeper.glb",
+  "origin": "bottom-center",
+  "polys": 162,
+  "size": [
+   1.4,
+   1.4,
+   2.9
+  ]
+ },
+ "char_latecomer": {
+  "file": "assets/kit/char_latecomer.glb",
+  "origin": "bottom-center",
+  "polys": 138,
+  "size": [
+   0.8,
+   0.8,
+   1.75
+  ]
+ },
+ "char_penitent": {
+  "file": "assets/kit/char_penitent.glb",
+  "origin": "bottom-center",
+  "polys": 178,
+  "size": [
+   0.9,
+   0.9,
+   1.6
+  ]
+ },
+ "char_sleeve_l": {
+  "file": "assets/kit/char_sleeve_l.glb",
+  "origin": "shoulder",
+  "polys": 44,
+  "size": [
+   0.24,
+   0.24,
+   0.6
+  ]
+ },
+ "char_sleeve_r": {
+  "file": "assets/kit/char_sleeve_r.glb",
+  "origin": "shoulder",
+  "polys": 44,
+  "size": [
+   0.24,
+   0.24,
+   0.6
+  ]
+ },
+ "char_ward": {
+  "file": "assets/kit/char_ward.glb",
+  "origin": "bottom-center",
+  "polys": 172,
+  "size": [
+   0.9,
+   0.9,
+   2.0
   ]
  },
  "column_4m": {
@@ -183,6 +263,56 @@
    4
   ]
  },
+ "halberd_ward": {
+  "file": "assets/kit/halberd_ward.glb",
+  "origin": "grip",
+  "polys": 25,
+  "size": [
+   0.5,
+   0.1,
+   2.3
+  ]
+ },
+ "helm_ward": {
+  "file": "assets/kit/helm_ward.glb",
+  "origin": "neck",
+  "polys": 70,
+  "size": [
+   0.55,
+   0.3,
+   0.5
+  ]
+ },
+ "maul_sexton": {
+  "file": "assets/kit/maul_sexton.glb",
+  "origin": "grip",
+  "polys": 28,
+  "size": [
+   0.3,
+   0.3,
+   1.55
+  ]
+ },
+ "pell": {
+  "file": "assets/kit/pell.glb",
+  "origin": "bottom-center",
+  "polys": 48,
+  "size": [
+   1.0,
+   0.4,
+   1.95
+  ]
+ },
+ "penitent_arm": {
+  "file": "assets/kit/penitent_arm.glb",
+  "origin": "shoulder",
+  "polys": 26,
+  "size": [
+   0.3,
+   0.3,
+   0.65
+  ]
+ },
  "pew": {
   "file": "assets/kit/pew.glb",
   "origin": "bottom-center",
@@ -247,6 +377,16 @@
    0.8
   ]
  },
+ "shield_kite": {
+  "file": "assets/kit/shield_kite.glb",
+  "origin": "strap",
+  "polys": 46,
+  "size": [
+   0.42,
+   0.2,
+   0.85
+  ]
+ },
  "statue_saint": {
   "file": "assets/kit/statue_saint.glb",
   "origin": "bottom-center",
@@ -255,6 +395,16 @@
    1,
    1,
    2.6
+  ]
+ },
+ "sword_cloister": {
+  "file": "assets/kit/sword_cloister.glb",
+  "origin": "grip",
+  "polys": 43,
+  "size": [
+   0.32,
+   0.05,
+   1.15
   ]
  },
  "tomb_slab": {

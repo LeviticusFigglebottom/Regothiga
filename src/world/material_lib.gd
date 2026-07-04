@@ -17,9 +17,15 @@ const FAMILIES := {
 	"M_gold":       {"albedo": Color(0.78, 0.55, 0.18), "rough": 0.35, "rim": 1.1, "moss": 0.0, "crack": 0.0,
 					 "emission": Color(1.0, 0.75, 0.3), "emission_energy": 0.35, "emission_gate": 1},
 	"M_wax":        {"albedo": Color(0.85, 0.79, 0.62), "rough": 0.6, "rim": 0.8, "moss": 0.0, "crack": 0.0},
-	"M_cloth":      {"albedo": Color(0.42, 0.09, 0.11), "rough": 0.95, "rim": 0.45, "moss": 0.0, "crack": 0.0},
+	"M_cloth":      {"albedo": Color(0.58, 0.13, 0.16), "rough": 0.95, "rim": 0.8, "moss": 0.0, "crack": 0.0},
 	"M_bell":       {"albedo": Color(0.36, 0.28, 0.15), "rough": 0.5, "rim": 0.8, "moss": 0.2, "crack": 0.0},
-	"M_wraith":     {"albedo": Color(0.35, 0.42, 0.52), "rough": 0.7, "rim": 1.6, "moss": 0.0, "crack": 0.0},
+	"M_wraith":     {"albedo": Color(0.35, 0.42, 0.52), "rough": 0.7, "rim": 1.6, "moss": 0.0, "crack": 0.0,
+					 "emission": Color(0.3, 0.45, 0.7), "emission_energy": 0.18},
+	"M_robe":       {"albedo": Color(0.23, 0.24, 0.28), "rough": 0.95, "rim": 0.5, "moss": 0.0, "crack": 0.0},
+	"M_robe_boss":  {"albedo": Color(0.16, 0.13, 0.17), "rough": 0.95, "rim": 0.6, "moss": 0.0, "crack": 0.0},
+	"M_habit":      {"albedo": Color(0.72, 0.68, 0.60), "rough": 0.95, "rim": 0.45, "moss": 0.0, "crack": 0.0},
+	"M_leather":    {"albedo": Color(0.30, 0.20, 0.12), "rough": 0.8, "rim": 0.35, "moss": 0.0, "crack": 0.0},
+	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
 }
 
 static var _cache: Dictionary = {}

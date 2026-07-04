@@ -1,0 +1,35 @@
+{
+	"longsword": {
+		"lights": [
+			{ "anim": "attack_l1", "windup": 0.26, "active": 0.13, "recovery": 0.36, "chain_from": 0.5,
+			  "dmg_mult": 1.0, "poise_mult": 1.0, "lunge": 2.4,
+			  "hitbox": { "reach": 1.7, "width": 1.9, "height": 1.5 } },
+			{ "anim": "attack_l2", "windup": 0.2, "active": 0.13, "recovery": 0.42, "chain_from": 0.5,
+			  "dmg_mult": 1.1, "poise_mult": 1.05, "lunge": 2.2,
+			  "hitbox": { "reach": 1.7, "width": 1.9, "height": 1.5 } }
+		],
+		"heavy": { "anim": "attack_h", "windup": 0.5, "active": 0.16, "recovery": 0.55,
+			"dmg_mult": 1.7, "poise_mult": 2.2, "lunge": 2.8,
+			"hitbox": { "reach": 1.9, "width": 1.6, "height": 1.8 } }
+	},
+	"great_hammer": {
+		"lights": [
+			{ "anim": "attack_l1", "windup": 0.42, "active": 0.16, "recovery": 0.55, "chain_from": 0.6,
+			  "dmg_mult": 1.0, "poise_mult": 1.0, "lunge": 1.8,
+			  "hitbox": { "reach": 1.8, "width": 1.7, "height": 1.6 } }
+		],
+		"heavy": { "anim": "attack_h", "windup": 0.7, "active": 0.2, "recovery": 0.75,
+			"dmg_mult": 1.8, "poise_mult": 2.4, "lunge": 2.0,
+			"hitbox": { "reach": 2.0, "width": 2.0, "height": 1.8 } }
+	},
+	"halberd": {
+		"lights": [
+			{ "anim": "attack_l1", "windup": 0.34, "active": 0.15, "recovery": 0.45, "chain_from": 0.55,
+			  "dmg_mult": 1.0, "poise_mult": 1.0, "lunge": 2.6,
+			  "hitbox": { "reach": 2.3, "width": 2.0, "height": 1.6 } }
+		],
+		"heavy": { "anim": "attack_h", "windup": 0.55, "active": 0.18, "recovery": 0.6,
+			"dmg_mult": 1.6, "poise_mult": 2.0, "lunge": 3.2,
+			"hitbox": { "reach": 2.5, "width": 1.4, "height": 1.7 } }
+	}
+}

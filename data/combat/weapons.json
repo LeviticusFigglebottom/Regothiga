@@ -1,0 +1,38 @@
+{
+	"cloistersword": {
+		"name": "Cloistersword",
+		"desc": "A brother-blade of the Gray Cloister, ground thin by a hundred years of vigils. The fuller is engraved: 'wake, watch, wait'.",
+		"class": "longsword",
+		"kit": "sword_cloister",
+		"damage": 42,
+		"poise_damage": 22,
+		"scaling": { "strength": 0.45, "grace": 0.35 },
+		"stamina": { "light": 17, "heavy": 30 },
+		"moveset": "longsword",
+		"upgrade": { "per_level": 6, "max": 5 }
+	},
+	"sexton_maul": {
+		"name": "Sexton's Maul",
+		"desc": "The gravedigger's hammer, meant for fence posts and frost-hard earth. It has learned other work since.",
+		"class": "great_hammer",
+		"kit": "maul_sexton",
+		"damage": 66,
+		"poise_damage": 52,
+		"scaling": { "strength": 0.85, "grace": 0.0 },
+		"stamina": { "light": 26, "heavy": 44 },
+		"moveset": "great_hammer",
+		"upgrade": { "per_level": 9, "max": 5 }
+	},
+	"ward_halberd": {
+		"name": "Ward's Halberd",
+		"desc": "Issued to the Cloister Wards for the watching of walls. The haft is worn where a gauntlet gripped it for forty years.",
+		"class": "halberd",
+		"kit": "halberd_ward",
+		"damage": 48,
+		"poise_damage": 30,
+		"scaling": { "strength": 0.55, "grace": 0.25 },
+		"stamina": { "light": 21, "heavy": 36 },
+		"moveset": "halberd",
+		"upgrade": { "per_level": 7, "max": 5 }
+	}
+}

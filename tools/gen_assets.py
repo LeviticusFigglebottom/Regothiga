@@ -15,6 +15,7 @@ import bpy  # noqa: E402
 import vglib as V  # noqa: E402
 import kit_arch  # noqa: E402
 import kit_props  # noqa: E402
+import kit_chars  # noqa: E402
 
 OUT = os.path.join(ROOT, "assets", "kit")
 
@@ -31,6 +32,7 @@ def main():
     builders = {}
     builders.update(kit_arch.BUILDERS)
     builders.update(kit_props.BUILDERS)
+    builders.update(kit_chars.BUILDERS)
 
     for name, fn in builders.items():
         if only and name not in only:

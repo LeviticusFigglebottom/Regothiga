@@ -56,6 +56,23 @@ static func _mesh_instances(node: Node) -> Array[MeshInstance3D]:
 			stack.append(c)
 	return out
 
+## Attach OmniLight3Ds at every flame mesh so candles genuinely light rooms.
+static func add_flame_lights(piece: Node3D, energy := 1.8, range_m := 5.0,
+		color := Color(1.0, 0.72, 0.38)) -> Array[OmniLight3D]:
+	var lights: Array[OmniLight3D] = []
+	for mi in _mesh_instances(piece):
+		if String(mi.name).to_lower().contains("flame"):
+			var l := OmniLight3D.new()
+			l.light_color = color
+			l.light_energy = energy
+			l.omni_range = range_m
+			l.omni_attenuation = 1.6
+			l.shadow_enabled = false
+			l.position = Vector3(0, 0.06, 0)
+			mi.add_child(l)
+			lights.append(l)
+	return lights
+
 ## Wrap a piece's meshes in a StaticBody3D with trimesh collision.
 ## Collision shapes are cached per (piece, mesh) — cheap to instance many.
 static var _shape_cache: Dictionary = {}

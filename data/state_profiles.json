@@ -1,0 +1,90 @@
+{
+	"glory": {
+		"sun_rot": [
+			-26,
+			-118
+		],
+		"sun_color": [
+			1.0,
+			0.82,
+			0.55
+		],
+		"sun_energy": 2.3,
+		"ambient": [
+			0.4,
+			0.38,
+			0.42
+		],
+		"ambient_energy": 0.55,
+		"bg_top": [
+			0.55,
+			0.38,
+			0.28
+		],
+		"bg_horizon": [
+			0.98,
+			0.7,
+			0.4
+		],
+		"fog_color": [
+			0.92,
+			0.74,
+			0.5
+		],
+		"fog_density": 0.0007,
+		"vol_density": 0.004,
+		"vol_albedo": [
+			0.95,
+			0.82,
+			0.62
+		],
+		"exposure": 1.05,
+		"glow": 0.6,
+		"music": "res://assets/audio/theme_glory.wav",
+		"ambience": "res://assets/audio/amb_glory.wav"
+	},
+	"ruin": {
+		"sun_rot": [
+			-54,
+			-36
+		],
+		"sun_color": [
+			0.6,
+			0.71,
+			0.98
+		],
+		"sun_energy": 1.15,
+		"ambient": [
+			0.2,
+			0.24,
+			0.34
+		],
+		"ambient_energy": 0.6,
+		"bg_top": [
+			0.012,
+			0.016,
+			0.035
+		],
+		"bg_horizon": [
+			0.07,
+			0.09,
+			0.15
+		],
+		"fog_color": [
+			0.16,
+			0.2,
+			0.28
+		],
+		"fog_density": 0.0035,
+		"vol_density": 0.012,
+		"vol_albedo": [
+			0.5,
+			0.58,
+			0.75
+		],
+		"exposure": 0.95,
+		"glow": 0.45,
+		"music": "res://assets/audio/theme_ruin.wav",
+		"ambience": "res://assets/audio/amb_ruin.wav"
+	}
+}

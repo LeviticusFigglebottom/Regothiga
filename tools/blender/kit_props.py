@@ -230,7 +230,8 @@ def banner():
     for i in range(nx):
         for j in range(nz):
             bm.faces.new((grid[(i, j)], grid[(i + 1, j)], grid[(i + 1, j + 1)], grid[(i, j + 1)]))
-    # swallowtail cut at the bottom
+    # double-side the cloth so it reads from both faces
+    bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.012)
     obj = V.bm_to_object(bm, "banner_cloth", ("M_cloth",))
     obj.location = (0, 0, 2.5)
     # rod + finials

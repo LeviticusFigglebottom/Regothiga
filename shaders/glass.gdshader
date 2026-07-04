@@ -4,7 +4,7 @@ render_mode cull_disabled, depth_draw_opaque;
 // Stained glass: vertex colors are the jewel tones; glory makes them burn
 // with light, ruin leaves them dead and dark. Participates in the wave.
 
-uniform float glory_glow = 2.6;
+uniform float glory_glow = 1.55;
 uniform float ruin_glow = 0.12;
 uniform int state_mode = 0;
 
@@ -58,6 +58,6 @@ void fragment() {
 	if (vg_wave_r > -500.0) {
 		float d = distance(v_world_pos, vg_wave_origin);
 		float t = 1.0 - clamp(abs(vg_wave_r - d) / vg_wave_band, 0.0, 1.0);
-		EMISSION += vg_wave_color * pow(t, 3.0) * 2.0;
+		EMISSION += vg_wave_color * pow(t, 3.0) * 5.0;
 	}
 }

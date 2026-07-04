@@ -271,12 +271,12 @@ def _clip_convex(poly, clip):
 
 
 GLASS_PALETTE = {
-    "pale":   [(0.62, 0.70, 0.72), (0.66, 0.72, 0.66), (0.70, 0.72, 0.62)],
-    "blue":   [(0.12, 0.22, 0.62), (0.10, 0.28, 0.70)],
-    "ruby":   [(0.60, 0.08, 0.10), (0.68, 0.10, 0.16)],
-    "gold":   [(0.86, 0.62, 0.14), (0.90, 0.70, 0.20)],
-    "violet": [(0.36, 0.12, 0.52)],
-    "green":  [(0.10, 0.44, 0.22)],
+    "pale":   [(0.38, 0.52, 0.50), (0.42, 0.52, 0.40), (0.48, 0.50, 0.36)],
+    "blue":   [(0.06, 0.13, 0.48), (0.05, 0.18, 0.55)],
+    "ruby":   [(0.46, 0.04, 0.07), (0.55, 0.06, 0.11)],
+    "gold":   [(0.72, 0.46, 0.08), (0.78, 0.55, 0.12)],
+    "violet": [(0.26, 0.07, 0.40)],
+    "green":  [(0.06, 0.33, 0.15)],
 }
 
 
@@ -369,9 +369,10 @@ def glass_lancet():
     outline = _lancet_outline(1.44, 1.18, 2.35, 1.15, 10)
     shards = _mosaic(outline, 0.20, rng, (0.0, 2.35), 0.42)
     glass = _glass_from_shards("glass_lancet", shards)
-    # lead backing: solid lancet sheet just behind, reads as the dark lead net
+    # lead backing: solid lancet sheet on the EXTERIOR side (blender -Y ->
+    # local +Z after import), so the interior view sees the jewel shards
     bm = bmesh.new()
-    verts = [bm.verts.new((x, 0.03, y)) for (x, y) in outline]
+    verts = [bm.verts.new((x, -0.035, y)) for (x, y) in reversed(outline)]
     bm.faces.new(verts)
     back = V.new_object("glass_backing", bmesh_to_mesh(bm, "glass_backing"))
     back.data.materials.append(V.material("M_iron"))
