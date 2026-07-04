@@ -153,3 +153,7 @@ vg_wave_band={
 "type": "float",
 "value": 4.0
 }
+vg_wave_color={
+"type": "vec3",
+"value": Vector3(1, 0.78, 0.42)
+}

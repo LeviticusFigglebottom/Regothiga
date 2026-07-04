@@ -1,0 +1,327 @@
+{
+ "altar": {
+  "file": "assets/kit/altar.glb",
+  "origin": "bottom-center",
+  "polys": 138,
+  "size": [
+   2.2,
+   1.2,
+   1.35
+  ]
+ },
+ "arcade_4m": {
+  "file": "assets/kit/arcade_4m.glb",
+  "origin": "bottom-center",
+  "polys": 230,
+  "size": [
+   4,
+   0.5,
+   4
+  ]
+ },
+ "banner": {
+  "file": "assets/kit/banner.glb",
+  "origin": "top-center",
+  "polys": 114,
+  "size": [
+   1.1,
+   0.3,
+   2.6
+  ]
+ },
+ "bell_great": {
+  "file": "assets/kit/bell_great.glb",
+  "origin": "bottom-center",
+  "polys": 135,
+  "size": [
+   1.5,
+   1.5,
+   1.85
+  ]
+ },
+ "brazier_cold": {
+  "file": "assets/kit/brazier_cold.glb",
+  "origin": "bottom-center",
+  "polys": 65,
+  "size": [
+   0.8,
+   0.8,
+   1.1
+  ]
+ },
+ "brazier_lit": {
+  "file": "assets/kit/brazier_lit.glb",
+  "origin": "bottom-center",
+  "polys": 79,
+  "size": [
+   0.8,
+   0.8,
+   1.1
+  ]
+ },
+ "buttress": {
+  "file": "assets/kit/buttress.glb",
+  "origin": "bottom-center",
+  "polys": 30,
+  "size": [
+   1.1,
+   1.2,
+   4.4
+  ]
+ },
+ "candelabra": {
+  "file": "assets/kit/candelabra.glb",
+  "origin": "bottom-center",
+  "polys": 268,
+  "size": [
+   0.5,
+   0.5,
+   1.6
+  ]
+ },
+ "column_4m": {
+  "file": "assets/kit/column_4m.glb",
+  "origin": "bottom-center",
+  "polys": 290,
+  "size": [
+   1,
+   1,
+   4
+  ]
+ },
+ "column_broken": {
+  "file": "assets/kit/column_broken.glb",
+  "origin": "bottom-center",
+  "polys": 41,
+  "size": [
+   1,
+   1,
+   2.2
+  ]
+ },
+ "cornice_4m": {
+  "file": "assets/kit/cornice_4m.glb",
+  "origin": "bottom-center",
+  "polys": 8,
+  "size": [
+   4,
+   0.3,
+   0.3
+  ]
+ },
+ "fence_iron_4m": {
+  "file": "assets/kit/fence_iron_4m.glb",
+  "origin": "bottom-center",
+  "polys": 168,
+  "size": [
+   4,
+   0.1,
+   2.1
+  ]
+ },
+ "floor_4x4": {
+  "file": "assets/kit/floor_4x4.glb",
+  "origin": "top-center",
+  "polys": 96,
+  "size": [
+   4,
+   0.25,
+   4
+  ]
+ },
+ "fog_gate_frame": {
+  "file": "assets/kit/fog_gate_frame.glb",
+  "opening": [
+   3.2,
+   3.1
+  ],
+  "origin": "bottom-center",
+  "polys": 262,
+  "size": [
+   4,
+   1,
+   5.2
+  ]
+ },
+ "gargoyle": {
+  "file": "assets/kit/gargoyle.glb",
+  "origin": "bottom-center",
+  "polys": 132,
+  "size": [
+   0.7,
+   1.0,
+   0.8
+  ]
+ },
+ "gate_iron": {
+  "file": "assets/kit/gate_iron.glb",
+  "origin": "bottom-center",
+  "polys": 144,
+  "size": [
+   2.4,
+   0.1,
+   2.35
+  ]
+ },
+ "glass_lancet": {
+  "file": "assets/kit/glass_lancet.glb",
+  "origin": "bottom-center",
+  "polys": 279,
+  "size": [
+   1.5,
+   0.1,
+   4
+  ]
+ },
+ "glass_lancet_broken": {
+  "file": "assets/kit/glass_lancet_broken.glb",
+  "origin": "bottom-center",
+  "polys": 70,
+  "size": [
+   1.5,
+   0.1,
+   4
+  ]
+ },
+ "pew": {
+  "file": "assets/kit/pew.glb",
+  "origin": "bottom-center",
+  "polys": 30,
+  "size": [
+   1.8,
+   0.5,
+   1.05
+  ]
+ },
+ "plaque": {
+  "file": "assets/kit/plaque.glb",
+  "origin": "bottom-center",
+  "polys": 12,
+  "size": [
+   0.7,
+   0.6,
+   1.2
+  ]
+ },
+ "portal_4m": {
+  "file": "assets/kit/portal_4m.glb",
+  "opening": [
+   1.9,
+   2.9
+  ],
+  "origin": "bottom-center",
+  "polys": 612,
+  "size": [
+   4,
+   0.6,
+   4
+  ]
+ },
+ "rubble_l": {
+  "file": "assets/kit/rubble_l.glb",
+  "origin": "bottom-center",
+  "polys": 400,
+  "size": [
+   3.6,
+   3.6,
+   0.8
+  ]
+ },
+ "rubble_m": {
+  "file": "assets/kit/rubble_m.glb",
+  "origin": "bottom-center",
+  "polys": 220,
+  "size": [
+   2.0,
+   2.0,
+   0.8
+  ]
+ },
+ "rubble_s": {
+  "file": "assets/kit/rubble_s.glb",
+  "origin": "bottom-center",
+  "polys": 100,
+  "size": [
+   1.0,
+   1.0,
+   0.8
+  ]
+ },
+ "statue_saint": {
+  "file": "assets/kit/statue_saint.glb",
+  "origin": "bottom-center",
+  "polys": 122,
+  "size": [
+   1,
+   1,
+   2.6
+  ]
+ },
+ "tomb_slab": {
+  "file": "assets/kit/tomb_slab.glb",
+  "origin": "bottom-center",
+  "polys": 104,
+  "size": [
+   1.2,
+   2.3,
+   0.75
+  ]
+ },
+ "vault_bay_4x4": {
+  "apex": 2.1908902300206647,
+  "file": "assets/kit/vault_bay_4x4.glb",
+  "origin": "spring-center",
+  "polys": 1378,
+  "size": [
+   4,
+   4,
+   2.290890230020665
+  ]
+ },
+ "vigil_lantern": {
+  "file": "assets/kit/vigil_lantern.glb",
+  "origin": "bottom-center",
+  "polys": 204,
+  "size": [
+   1.3,
+   2.1,
+   2.8
+  ]
+ },
+ "wall_4x4": {
+  "file": "assets/kit/wall_4x4.glb",
+  "origin": "bottom-center",
+  "polys": 438,
+  "size": [
+   4,
+   0.5,
+   4
+  ]
+ },
+ "wall_low_4m": {
+  "file": "assets/kit/wall_low_4m.glb",
+  "origin": "bottom-center",
+  "polys": 11,
+  "size": [
+   4,
+   0.5,
+   1.05
+  ]
+ },
+ "window_lancet_4m": {
+  "file": "assets/kit/window_lancet_4m.glb",
+  "glass": "glass_lancet",
+  "glass_pos": [
+   0,
+   0,
+   0
+  ],
+  "origin": "bottom-center",
+  "polys": 102,
+  "size": [
+   4,
+   0.6,
+   4
+  ]
+ }
+}
