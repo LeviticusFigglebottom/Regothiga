@@ -418,6 +418,172 @@
 				18.5
 			],
 			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-2.85,
+				0,
+				-7.35
+			],
+			"rot": 60,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-2.85,
+				0,
+				-7.35
+			],
+			"rot": 60,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				2.85,
+				0,
+				-7.35
+			],
+			"rot": 60,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				2.85,
+				0,
+				-7.35
+			],
+			"rot": 60,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-6.3,
+				0,
+				7.0
+			],
+			"rot": 60,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-6.3,
+				0,
+				7.0
+			],
+			"rot": 60,
+			"tag": "ruin"
+		},
+		{
+			"kit": "censer_hanging",
+			"at": [
+				-6,
+				3.12,
+				-4
+			],
+			"tag": "glory"
+		},
+		{
+			"kit": "censer_fallen",
+			"at": [
+				-6,
+				0,
+				-3.6
+			],
+			"tag": "ruin"
+		},
+		{
+			"kit": "censer_hanging",
+			"at": [
+				6,
+				3.12,
+				-4
+			],
+			"tag": "glory"
+		},
+		{
+			"kit": "censer_fallen",
+			"at": [
+				6,
+				0,
+				-3.6
+			],
+			"tag": "ruin"
+		},
+		{
+			"kit": "garden_bed",
+			"at": [
+				-4.0,
+				-2.42,
+				15.0
+			],
+			"rot": 0,
+			"tag": "glory"
+		},
+		{
+			"kit": "garden_bed_dead",
+			"at": [
+				-4.0,
+				-2.42,
+				15.0
+			],
+			"rot": 0,
+			"tag": "ruin"
+		},
+		{
+			"kit": "garden_bed",
+			"at": [
+				4.0,
+				-2.42,
+				15.0
+			],
+			"rot": 0,
+			"tag": "glory"
+		},
+		{
+			"kit": "garden_bed_dead",
+			"at": [
+				4.0,
+				-2.42,
+				15.0
+			],
+			"rot": 0,
+			"tag": "ruin"
+		},
+		{
+			"kit": "ivy_sheet_a",
+			"at": [
+				-7.75,
+				0,
+				1.0
+			],
+			"rot": 90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				-6.8,
+				0,
+				-6.8
+			],
+			"rot": 45,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				6.8,
+				0,
+				-6.8
+			],
+			"rot": -45,
+			"tag": "ruin"
 		}
 	],
 	"lanterns": [

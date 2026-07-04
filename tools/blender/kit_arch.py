@@ -186,8 +186,8 @@ def vault_bay_4x4():
     verts = {}
     for i in range(grid + 1):
         for j in range(grid + 1):
-            x = -2 + 4 * i / grid
-            z = -2 + 4 * j / grid
+            x = (-2 + 4 * i / grid) * 1.012
+            z = (-2 + 4 * j / grid) * 1.012
             h = spring + min(_arch_y(arch, x), _arch_y(arch, z))
             verts[(i, j)] = bm.verts.new((x, z, h))
     for i in range(grid):

@@ -1725,6 +1725,606 @@
 				8.3
 			],
 			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-11.75,
+				1.16,
+				2
+			],
+			"rot": 0,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-11.75,
+				1.16,
+				2
+			],
+			"rot": 0,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-11.75,
+				1.16,
+				10
+			],
+			"rot": 37,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-11.75,
+				1.16,
+				10
+			],
+			"rot": 37,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				11.75,
+				1.16,
+				2
+			],
+			"rot": 74,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				11.75,
+				1.16,
+				2
+			],
+			"rot": 74,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				11.75,
+				1.16,
+				6
+			],
+			"rot": 111,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				11.75,
+				1.16,
+				6
+			],
+			"rot": 111,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				11.75,
+				1.16,
+				10
+			],
+			"rot": 148,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				11.75,
+				1.16,
+				10
+			],
+			"rot": 148,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-13.85,
+				0,
+				-3.05
+			],
+			"rot": 185,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-13.85,
+				0,
+				-3.05
+			],
+			"rot": 185,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				0.95,
+				0,
+				1.45
+			],
+			"rot": 222,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				0.95,
+				0,
+				1.45
+			],
+			"rot": 222,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-8.35,
+				0,
+				-17.5
+			],
+			"rot": 259,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-8.35,
+				0,
+				-17.5
+			],
+			"rot": 259,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-18.5,
+				0,
+				-9.5
+			],
+			"rot": 296,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-18.5,
+				0,
+				-9.5
+			],
+			"rot": 296,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-13.6,
+				0,
+				-10.4
+			],
+			"rot": 333,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-13.6,
+				0,
+				-10.4
+			],
+			"rot": 333,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				0.5,
+				0,
+				18.55
+			],
+			"rot": 10,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				0.5,
+				0,
+				18.55
+			],
+			"rot": 10,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				3.5,
+				0,
+				18.55
+			],
+			"rot": 47,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				3.5,
+				0,
+				18.55
+			],
+			"rot": 47,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				-19.0,
+				0,
+				-3.2
+			],
+			"rot": 84,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				-19.0,
+				0,
+				-3.2
+			],
+			"rot": 84,
+			"tag": "ruin"
+		},
+		{
+			"kit": "candle_cluster",
+			"at": [
+				9.0,
+				0,
+				-10.8
+			],
+			"rot": 121,
+			"tag": "glory"
+		},
+		{
+			"kit": "candle_cluster_dead",
+			"at": [
+				9.0,
+				0,
+				-10.8
+			],
+			"rot": 121,
+			"tag": "ruin"
+		},
+		{
+			"kit": "censer_hanging",
+			"at": [
+				-10,
+				3.12,
+				0
+			],
+			"rot": 0,
+			"tag": "glory"
+		},
+		{
+			"kit": "censer_fallen",
+			"at": [
+				-9.7,
+				0,
+				-0.2
+			],
+			"rot": 0,
+			"tag": "ruin"
+		},
+		{
+			"kit": "censer_hanging",
+			"at": [
+				0,
+				3.12,
+				-10
+			],
+			"rot": 90,
+			"tag": "glory"
+		},
+		{
+			"kit": "censer_fallen",
+			"at": [
+				0.3,
+				0,
+				-10.2
+			],
+			"rot": 73,
+			"tag": "ruin"
+		},
+		{
+			"kit": "censer_hanging",
+			"at": [
+				10,
+				3.12,
+				4
+			],
+			"rot": 180,
+			"tag": "glory"
+		},
+		{
+			"kit": "censer_fallen",
+			"at": [
+				10.3,
+				0,
+				3.8
+			],
+			"rot": 146,
+			"tag": "ruin"
+		},
+		{
+			"kit": "censer_hanging",
+			"at": [
+				-4,
+				3.12,
+				10
+			],
+			"rot": 270,
+			"tag": "glory"
+		},
+		{
+			"kit": "censer_fallen",
+			"at": [
+				-3.7,
+				0,
+				9.8
+			],
+			"rot": 219,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				-9.7,
+				0,
+				-9.7
+			],
+			"rot": 45,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				9.7,
+				0,
+				9.7
+			],
+			"rot": -135,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				6.9,
+				0,
+				-6.9
+			],
+			"rot": 135,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				-6.9,
+				0,
+				6.9
+			],
+			"rot": -45,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				-16.0,
+				0,
+				-8.0
+			],
+			"rot": 90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "wax_husk",
+			"at": [
+				2.2,
+				0,
+				16.8
+			],
+			"rot": 180,
+			"tag": "ruin"
+		},
+		{
+			"kit": "garden_bed",
+			"at": [
+				5.0,
+				0,
+				-5.0
+			],
+			"rot": 0,
+			"tag": "glory"
+		},
+		{
+			"kit": "garden_bed_dead",
+			"at": [
+				5.0,
+				0,
+				-5.0
+			],
+			"rot": 0,
+			"tag": "ruin"
+		},
+		{
+			"kit": "garden_bed",
+			"at": [
+				-5.0,
+				0,
+				-5.0
+			],
+			"rot": 90,
+			"tag": "glory"
+		},
+		{
+			"kit": "garden_bed_dead",
+			"at": [
+				-5.0,
+				0,
+				-5.0
+			],
+			"rot": 90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "garden_bed",
+			"at": [
+				5.0,
+				0,
+				5.2
+			],
+			"rot": 90,
+			"tag": "glory"
+		},
+		{
+			"kit": "garden_bed_dead",
+			"at": [
+				5.0,
+				0,
+				5.2
+			],
+			"rot": 90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "banner_torn",
+			"at": [
+				-11.7,
+				0.4,
+				-0.2
+			],
+			"rot": 90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "banner_torn",
+			"at": [
+				11.7,
+				0.4,
+				8.2
+			],
+			"rot": -90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "banner_torn",
+			"at": [
+				27.7,
+				0.4,
+				-10
+			],
+			"rot": -90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "ivy_sheet_a",
+			"at": [
+				-7.75,
+				0,
+				-2.0
+			],
+			"rot": -90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "ivy_sheet_b",
+			"at": [
+				7.75,
+				0,
+				3.0
+			],
+			"rot": 90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "ivy_sheet_a",
+			"at": [
+				-3.65,
+				0,
+				15.0
+			],
+			"rot": -90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "ivy_sheet_b",
+			"at": [
+				-19.7,
+				0,
+				-6.5
+			],
+			"rot": -90,
+			"tag": "ruin"
+		},
+		{
+			"kit": "ivy_sheet_a",
+			"at": [
+				3.0,
+				0,
+				11.75
+			],
+			"rot": 180,
+			"tag": "ruin"
+		},
+		{
+			"kit": "ivy_sheet_b",
+			"at": [
+				10.5,
+				0,
+				-11.75
+			],
+			"rot": 0,
+			"tag": "ruin"
+		},
+		{
+			"kit": "book_stack",
+			"at": [
+				-10.6,
+				0,
+				-14.4
+			],
+			"rot": 20,
+			"tag": "base"
+		},
+		{
+			"kit": "scroll_pile",
+			"at": [
+				-9.9,
+				0,
+				-14.8
+			],
+			"rot": -35,
+			"tag": "base"
+		},
+		{
+			"kit": "book_stack",
+			"at": [
+				-6.4,
+				0,
+				-18.3
+			],
+			"rot": 65,
+			"tag": "base"
 		}
 	],
 	"lanterns": [

@@ -336,15 +336,40 @@ def gen_theme_boss():
         x[s:min(s + len(b), n)] += b[:max(n - s, 0)]
     write("theme_boss", lowpass_fft(x, 4200), 0.7)
 
+def birdsong(f0, dur=0.5, warble=28.0):
+    """Tiny larksong motif: chirp with pitch warble and quick decay."""
+    t = t_axis(dur)
+    f = f0 * (1 + 0.09 * np.sin(2 * np.pi * warble * t)) * (1 + 0.25 * np.exp(-t * 9))
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR)
+    return x * env_ad(len(t), 0.02, dur * 0.3)
+
+
+def crow_caw(dur=0.42):
+    """Harsh descending croak: AM noise over a falling saw."""
+    t = t_axis(dur)
+    f = np.linspace(620, 380, len(t))
+    saw = 2 * ((np.cumsum(f) / SR) % 1.0) - 1
+    am = 0.5 + 0.5 * np.sign(np.sin(2 * np.pi * 42 * t))
+    x = saw * am + lowpass_fft(rng.normal(0, 1, len(t)), 1800) * 0.5
+    return lowpass_fft(x, 1500) * env_ad(len(t), 0.03, 0.16)
+
+
 def gen_ambiences():
     dur = 22.0
-    # glory: soft warm air, faint chimes, sparse birds? no birds — candle hiss
+    # glory: soft warm air, faint chimes, larks in the garth
     g = wind(dur, 600, 0.25, seed=21) * 0.5
     n = len(g)
     for at, f in [(5.0, 1174), (13.0, 880), (18.5, 1318)]:
         b = bell(f, 1.6, 0.25) * 0.05
         s = int(at * SR)
         g[s:min(s + len(b), n)] += b[:max(n - s, 0)]
+    r2 = np.random.default_rng(33)
+    for at in (2.2, 7.6, 11.4, 16.0, 19.8):
+        for k in range(r2.integers(2, 4)):
+            c = birdsong(r2.uniform(1900, 3200), r2.uniform(0.22, 0.5)) * 0.055
+            s = int((at + k * 0.35 + r2.uniform(0, 0.1)) * SR)
+            if s + len(c) < n:
+                g[s:s + len(c)] += c
     write("amb_glory", g, 0.4)
     # ruin: hollow wind, deep resonances, drips
     r = wind(dur, 260, 0.6, seed=22) * 0.8
@@ -359,6 +384,13 @@ def gen_ambiences():
         drip = np.sin(2 * np.pi * 2900 * t3) * env_ad(len(t3), 0.002, 0.02) * 0.12
         s = int(at * SR)
         r[s:s + len(drip)] += drip
+    r4 = np.random.default_rng(44)
+    for at in (5.4, 12.8, 19.6):
+        for k in range(r4.integers(1, 3)):
+            c = crow_caw(r4.uniform(0.3, 0.5)) * 0.11
+            s = int((at + k * 0.5) * SR)
+            if s + len(c) < len(r):
+                r[s:s + len(c)] += c
     write("amb_ruin", r, 0.45)
 
 def gen_creature():

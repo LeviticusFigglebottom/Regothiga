@@ -19,6 +19,11 @@ uniform float moss_strength : hint_range(0.0, 1.0) = 0.85;
 uniform float crack_strength : hint_range(0.0, 1.0) = 0.45;
 uniform float ramp_quantize : hint_range(0.0, 1.0) = 0.34;
 
+// painted detail overlay (triplanar, world-space — the kit has no UVs)
+uniform sampler2D detail_tex : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform float tex_scale = 0.5;
+uniform float tex_strength : hint_range(0.0, 1.0) = 0.0;
+
 // Emission (candle gold trim, etc). gate: 0 = always, 1 = glory only, 2 = ruin only
 uniform vec3 emission_color : source_color = vec3(0.0);
 uniform float emission_energy = 0.0;
@@ -28,6 +33,7 @@ uniform int emission_gate = 0;
 //                 1 = glory-only (dissolves out as ruin arrives)
 //                 2 = ruin-only  (dissolves in as ruin arrives)
 uniform int state_mode = 0;
+uniform int albedo_from_vc = 0;   // foliage: COLOR carries paint, not masks
 
 // per-instance dissolve (deaths, pickups fading out)
 instance uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
@@ -115,15 +121,35 @@ void fragment() {
 		}
 	}
 
-	// masks: R wear, G moss zone, B ao
+	// masks: R wear, G moss zone, B ao (unless COLOR is the albedo itself)
 	float wear = v_col.r * wear_strength;
 	float mossm = v_col.g;
 	float ao = mix(1.0, v_col.b, 0.85);
+	if (albedo_from_vc == 1) {
+		wear = 0.0;
+		mossm = 0.0;
+		ao = 1.0;
+	}
 
 	// detail noise breakup so bare stone reads
 	float n1 = vnoise(v_world_pos * detail_scale);
 	float n2 = vnoise(v_world_pos * detail_scale * 3.7 + 11.0);
 	vec3 base = albedo.rgb * (1.0 - detail_strength * 0.5 + detail_strength * (n1 * 0.7 + n2 * 0.3));
+	if (albedo_from_vc == 1) {
+		base = v_col.rgb * (0.85 + 0.3 * n1);
+	}
+
+	// painterly texture overlay: 3-tap triplanar, value-centered at 0.5
+	if (tex_strength > 0.001) {
+		vec3 an = abs(v_world_nrm);
+		vec3 tw = pow(an, vec3(4.0));
+		tw /= (tw.x + tw.y + tw.z);
+		float tx = texture(detail_tex, v_world_pos.zy * tex_scale).r;
+		float ty = texture(detail_tex, v_world_pos.xz * tex_scale).r;
+		float tz = texture(detail_tex, v_world_pos.xy * tex_scale).r;
+		float td = tx * tw.x + ty * tw.y + tz * tw.z;
+		base *= mix(1.0, td * 2.0, tex_strength);
+	}
 
 	// edge-chip highlight from wear mask (reads in both states)
 	base = mix(base, base * 1.22 + vec3(0.03), wear * 0.5);

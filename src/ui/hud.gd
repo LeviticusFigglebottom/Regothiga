@@ -114,14 +114,23 @@ func _build() -> void:
 
 	flask_label = Label.new()
 	flask_label.label_settings = _font(SERIF_B, 26, Color(0.92, 0.86, 0.72))
-	flask_label.position = Vector2(28, 990)
+	flask_label.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	flask_label.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	flask_label.offset_left = 28
+	flask_label.offset_top = -90
+	flask_label.offset_bottom = -50
 	flask_label.text = "Chrism ✕3"
 	root.add_child(flask_label)
 
 	orisons_label = Label.new()
 	orisons_label.label_settings = _font(SERIF_B, 26, Color(0.95, 0.8, 0.45))
-	orisons_label.position = Vector2(1620, 985)
-	orisons_label.size = Vector2(270, 40)
+	orisons_label.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	orisons_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	orisons_label.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	orisons_label.offset_left = -300
+	orisons_label.offset_top = -95
+	orisons_label.offset_right = -30
+	orisons_label.offset_bottom = -55
 	orisons_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	orisons_label.text = "0 orisons"
 	root.add_child(orisons_label)
@@ -129,8 +138,10 @@ func _build() -> void:
 	prompt_label = Label.new()
 	prompt_label.label_settings = _font(SERIF, 24, Color(0.95, 0.92, 0.84))
 	prompt_label.set_anchors_preset(Control.PRESET_CENTER)
-	prompt_label.position = Vector2(760, 640)
-	prompt_label.size = Vector2(400, 40)
+	prompt_label.offset_left = -200
+	prompt_label.offset_top = 100
+	prompt_label.offset_right = 200
+	prompt_label.offset_bottom = 140
 	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt_label.text = ""
 	root.add_child(prompt_label)
@@ -138,8 +149,10 @@ func _build() -> void:
 	toast_label = Label.new()
 	toast_label.label_settings = _font(SERIF, 28, Color(0.92, 0.88, 0.78))
 	toast_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	toast_label.position = Vector2(560, 130)
-	toast_label.size = Vector2(800, 60)
+	toast_label.offset_left = -400
+	toast_label.offset_top = 120
+	toast_label.offset_right = 400
+	toast_label.offset_bottom = 180
 	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast_label.modulate.a = 0.0
 	root.add_child(toast_label)
@@ -152,8 +165,12 @@ func _build() -> void:
 	root.add_child(boss_root)
 	boss_name = Label.new()
 	boss_name.label_settings = _font(SERIF_B, 30, Color(0.93, 0.88, 0.8))
-	boss_name.position = Vector2(560, 906)
-	boss_name.size = Vector2(800, 40)
+	boss_name.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	boss_name.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	boss_name.offset_left = -400
+	boss_name.offset_top = -174
+	boss_name.offset_right = 400
+	boss_name.offset_bottom = -134
 	boss_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	boss_root.add_child(boss_name)
 	var bp := Panel.new()
@@ -161,8 +178,12 @@ func _build() -> void:
 	sb.bg_color = Color(0.06, 0.04, 0.04, 0.9)
 	sb.border_color = Color(0.62, 0.52, 0.34, 0.9)
 	sb.set_border_width_all(1)
-	bp.position = Vector2(460, 948)
-	bp.size = Vector2(1000, 14)
+	bp.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	bp.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	bp.offset_left = -500
+	bp.offset_top = -132
+	bp.offset_right = 500
+	bp.offset_bottom = -118
 	bp.add_theme_stylebox_override("panel", sb)
 	boss_root.add_child(bp)
 	boss_fill = ColorRect.new()
@@ -214,8 +235,10 @@ func _build() -> void:
 	splash_label = Label.new()
 	splash_label.label_settings = _font(SERIF_B, 84, Color(0.62, 0.1, 0.08), false)
 	splash_label.set_anchors_preset(Control.PRESET_CENTER)
-	splash_label.position = Vector2(460, 470)
-	splash_label.size = Vector2(1000, 120)
+	splash_label.offset_left = -500
+	splash_label.offset_top = -60
+	splash_label.offset_right = 500
+	splash_label.offset_bottom = 60
 	splash_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	splash_label.text = "F O R G O T T E N"
 	splash.add_child(splash_label)

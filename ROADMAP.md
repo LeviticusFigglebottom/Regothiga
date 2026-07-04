@@ -22,7 +22,10 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 | Skyline / kingdom backdrop | 🟡 | tower/cathedral/arc/cluster ring in both areas; wants parallax layers + per-area composition pass |
 | Save/persistence | ✅ | full world+player round-trip verified |
 | HUD/UI | 🟡 | bars/prompts/boss bar/death splash/dialogue/rest menus; fixed-resolution layout, needs anchor pass |
-| Audio | 🟡 | fully synthesized pack (bells motif); coherent but synth-grade |
+| Audio | 🟡 | fully synthesized pack (bells motif) + larksong/crow ambiences; coherent but synth-grade |
+| Painted texture pass | ✅ | 8 procedural painterly maps (masonry/slabs/planks/shingles/weave/iron/wax) triplanar-overlaid on every family |
+| Paired glory/ruin decor | ✅ | votive clusters↔melted, gardens↔withered, censers hung↔fallen, banners↔rags, saints↔kneeling husks, ivy, books |
+| Ambient life | 🟡 | birds+petals in glory, crows+ash in ruin; wants perch points, flock behavior, insects |
 | Characters | 🟡 | humanoid silhouette pass done (elbows, pauldrons, proportions); still node-rigs, no skeletal animation |
 | Full-loop verification | ✅ | scripted end-to-end playthrough of the §11 loop (fullloop test) |
 
@@ -36,7 +39,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 - Fast travel between kindled lanterns.
 
 **Art**
-- Painted-texture pass: bake gradient/AO painterly maps in Blender (Cycles) for hero pieces; keep shader family.
+- Painted-texture pass 2: per-piece UV bakes (Cycles AO/edge-wear) for hero props on top of the triplanar layer; trim sheets for portals.
 - Skeletal characters + animation retarget seam (replaces node-rigs; combat data untouched).
 - Weathering decals, ivy geometry, richer ruin deltas (collapsed vault bays, flooded walk).
 - Transformation: rooted orbital camera option, debris geyser at wavefront, per-entity poof timing.
@@ -48,7 +51,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 - Aveline questline (missable, consequence-bearing); the Sexton NPC (armor, shortcut-digging).
 
 **Tech debt / audits**
-- HUD anchor-based layout (currently 1920×1080 logical coordinates).
+- ~~HUD anchor-based layout~~ done (center/right elements anchored).
 - Roof piece UV/skirt so walk roofs read from the garth at all angles.
 - Mesh merging per room + occlusion for perf on real GPUs; collision audit automation (nav-vs-collision diff report).
 - Gamepad glyphs, remapping, accessibility sliders.

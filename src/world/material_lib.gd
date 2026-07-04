@@ -4,6 +4,25 @@ class_name MaterialLib
 ## ruin-only) so layer-exclusive meshes dissolve correctly during the wave.
 
 const GOTHIC := preload("res://shaders/gothic.gdshader")
+
+const TEXTURES := {
+	"M_stone":      ["T_stone", 0.5, 0.62],
+	"M_stone_trim": ["T_trim", 0.7, 0.5],
+	"M_stone_dark": ["T_floor", 0.5, 0.66],
+	"M_wood":       ["T_wood", 0.9, 0.6],
+	"M_roof":       ["T_roof", 0.5, 0.75],
+	"M_cloth":      ["T_cloth", 1.4, 0.32],
+	"M_iron":       ["T_iron", 1.2, 0.45],
+	"M_wax":        ["T_wax", 1.1, 0.4],
+	"M_bell":       ["T_iron", 0.9, 0.5],
+	"M_leather":    ["T_wax", 1.6, 0.35],
+	"M_robe":       ["T_cloth", 1.8, 0.4],
+	"M_robe_boss":  ["T_cloth", 1.4, 0.45],
+	"M_habit":      ["T_cloth", 1.8, 0.45],
+	"M_wraith":     ["T_cloth", 1.6, 0.3],
+	"M_backdrop":   ["T_stone", 0.16, 0.5],
+	"M_steel":      ["T_iron", 1.4, 0.35],
+}
 const GLASS := preload("res://shaders/glass.gdshader")
 const FLAME := preload("res://shaders/flame.gdshader")
 
@@ -17,7 +36,7 @@ const FAMILIES := {
 	"M_gold":       {"albedo": Color(0.78, 0.55, 0.18), "rough": 0.35, "rim": 1.1, "moss": 0.0, "crack": 0.0,
 					 "emission": Color(1.0, 0.75, 0.3), "emission_energy": 0.35, "emission_gate": 1},
 	"M_wax":        {"albedo": Color(0.85, 0.79, 0.62), "rough": 0.6, "rim": 0.8, "moss": 0.0, "crack": 0.0},
-	"M_cloth":      {"albedo": Color(0.58, 0.13, 0.16), "rough": 0.95, "rim": 0.8, "moss": 0.0, "crack": 0.0},
+	"M_cloth":      {"albedo": Color(0.44, 0.07, 0.10), "rough": 0.95, "rim": 0.5, "moss": 0.0, "crack": 0.0},
 	"M_bell":       {"albedo": Color(0.36, 0.28, 0.15), "rough": 0.5, "rim": 0.8, "moss": 0.2, "crack": 0.0},
 	"M_wraith":     {"albedo": Color(0.20, 0.24, 0.33), "rough": 0.75, "rim": 1.5, "moss": 0.0, "crack": 0.0,
 					 "emission": Color(0.25, 0.38, 0.62), "emission_energy": 0.1},
@@ -29,6 +48,7 @@ const FAMILIES := {
 	"M_backdrop":   {"albedo": Color(0.72, 0.60, 0.47), "rough": 1.0, "rim": 0.15, "moss": 0.0, "crack": 0.0, "wear": 0.15},
 	"M_backdrop_dark": {"albedo": Color(0.16, 0.12, 0.10), "rough": 1.0, "rim": 0.0, "moss": 0.0, "crack": 0.0},
 	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
+	"M_foliage":    {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.95, "rim": 0.55, "moss": 0.0, "crack": 0.0, "vc": 1},
 }
 
 static var _cache: Dictionary = {}
@@ -57,5 +77,13 @@ static func get_mat(family: String, state_mode := 0) -> Material:
 		mat.set_shader_parameter("emission_energy", f.get("emission_energy", 0.0))
 		mat.set_shader_parameter("emission_gate", f.get("emission_gate", 0))
 		mat.set_shader_parameter("state_mode", state_mode)
+		mat.set_shader_parameter("albedo_from_vc", f.get("vc", 0))
+		if TEXTURES.has(family):
+			var spec: Array = TEXTURES[family]
+			var tex := load("res://assets/textures/%s.png" % spec[0])
+			if tex != null:
+				mat.set_shader_parameter("detail_tex", tex)
+				mat.set_shader_parameter("tex_scale", spec[1])
+				mat.set_shader_parameter("tex_strength", spec[2])
 	_cache[key] = mat
 	return mat
