@@ -49,9 +49,10 @@ static func build_library() -> AnimationLibrary:
 	}, true))
 
 	lib.add_animation("kneel", make("kneel", 1.2, {
-		"Pose:position": [[0.0, Vector3.ZERO], [0.9, Vector3(0, -0.46, 0.05)], [1.2, Vector3(0, -0.46, 0.05)]],
-		"Pose:rotation": [[0.0, [0, 0, 0]], [0.9, [14, 0, 0]], [1.2, [14, 0, 0]]],
-		"Pose/ShoulderR:rotation": [[0.0, REST_R], [1.0, [52, -6, 0]], [1.2, [52, -6, 0]]],
+		"Pose:position": [[0.0, Vector3.ZERO], [0.9, Vector3(0, -0.62, 0.08)], [1.2, Vector3(0, -0.62, 0.08)]],
+		"Pose:rotation": [[0.0, [0, 0, 0]], [0.9, [17, 0, 0]], [1.2, [17, 0, 0]]],
+		"Pose/ShoulderR:rotation": [[0.0, REST_R], [1.0, [58, -8, 0]], [1.2, [58, -8, 0]]],
+		"Pose/ShoulderR/WeaponMount:rotation": [[0.0, REST_WEAPON], [1.0, [188, 0, 0]], [1.2, [188, 0, 0]]],
 	}))
 
 	lib.add_animation("stagger", make("stagger", 0.7, {

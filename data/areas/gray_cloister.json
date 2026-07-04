@@ -1602,6 +1602,129 @@
 				-6
 			],
 			"tag": "ruin"
+		},
+		{
+			"kit": "wellhead",
+			"at": [
+				-4.5,
+				0,
+				4.0
+			],
+			"rot": 15,
+			"tag": "base"
+		},
+		{
+			"kit": "urn",
+			"at": [
+				-7.3,
+				0,
+				-7.3
+			],
+			"tag": "base"
+		},
+		{
+			"kit": "urn",
+			"at": [
+				7.3,
+				0,
+				-7.3
+			],
+			"tag": "base"
+		},
+		{
+			"kit": "urn",
+			"at": [
+				-7.3,
+				0,
+				7.3
+			],
+			"tag": "base"
+		},
+		{
+			"kit": "urn",
+			"at": [
+				7.3,
+				0,
+				7.3
+			],
+			"tag": "base"
+		},
+		{
+			"kit": "statue_orans",
+			"at": [
+				6.9,
+				0,
+				-6.9
+			],
+			"rot": 135,
+			"tag": "glory"
+		},
+		{
+			"kit": "statue_orans",
+			"at": [
+				-6.9,
+				0,
+				6.9
+			],
+			"rot": -45,
+			"tag": "glory"
+		},
+		{
+			"kit": "sconce_torch",
+			"at": [
+				-3.15,
+				2.0,
+				-8.25
+			],
+			"rot": 180,
+			"tag": "glory"
+		},
+		{
+			"kit": "sconce_torch",
+			"at": [
+				-0.85,
+				2.0,
+				-8.25
+			],
+			"rot": 180,
+			"tag": "glory"
+		},
+		{
+			"kit": "sconce_torch",
+			"at": [
+				0.85,
+				2.0,
+				8.25
+			],
+			"tag": "glory"
+		},
+		{
+			"kit": "sconce_torch",
+			"at": [
+				3.15,
+				2.0,
+				8.25
+			],
+			"tag": "glory"
+		},
+		{
+			"kit": "banner",
+			"at": [
+				-2,
+				0.4,
+				-8.3
+			],
+			"rot": 180,
+			"tag": "glory"
+		},
+		{
+			"kit": "banner",
+			"at": [
+				2,
+				0.4,
+				8.3
+			],
+			"tag": "glory"
 		}
 	],
 	"lanterns": [
@@ -1926,6 +2049,134 @@
 				-7.5
 			],
 			"tag": "ruin"
+		}
+	],
+	"skyline": [
+		{
+			"kit": "cathedral_mass",
+			"at": [
+				46,
+				-1.0,
+				-28
+			],
+			"rot": 0
+		},
+		{
+			"kit": "spire_tower_a",
+			"at": [
+				38,
+				-0.5,
+				10
+			]
+		},
+		{
+			"kit": "spire_tower_b",
+			"at": [
+				60,
+				-2,
+				2
+			],
+			"scale": 1.15
+		},
+		{
+			"kit": "spire_tower_c",
+			"at": [
+				30,
+				-0.5,
+				-46
+			]
+		},
+		{
+			"kit": "spire_tower_b",
+			"at": [
+				-40,
+				-1,
+				-32
+			],
+			"rot": 40
+		},
+		{
+			"kit": "spire_tower_a",
+			"at": [
+				-34,
+				-2,
+				24
+			],
+			"rot": 105,
+			"scale": 0.9
+		},
+		{
+			"kit": "spire_tower_c",
+			"at": [
+				16,
+				-1,
+				46
+			],
+			"rot": 200,
+			"scale": 1.05
+		},
+		{
+			"kit": "buttress_arc",
+			"at": [
+				48,
+				1.5,
+				-8
+			],
+			"rot": 24
+		},
+		{
+			"kit": "buttress_arc",
+			"at": [
+				-36,
+				0.5,
+				-6
+			],
+			"rot": 95
+		},
+		{
+			"kit": "city_cluster_a",
+			"at": [
+				-44,
+				-4,
+				6
+			]
+		},
+		{
+			"kit": "city_cluster_b",
+			"at": [
+				-18,
+				-5,
+				46
+			],
+			"rot": 60
+		},
+		{
+			"kit": "city_cluster_a",
+			"at": [
+				34,
+				-5,
+				38
+			],
+			"rot": 140
+		},
+		{
+			"kit": "city_cluster_b",
+			"at": [
+				64,
+				-6,
+				-40
+			],
+			"rot": 220,
+			"scale": 1.3
+		},
+		{
+			"kit": "spire_tower_a",
+			"at": [
+				78,
+				-4,
+				-18
+			],
+			"scale": 1.4
 		}
 	]
 }

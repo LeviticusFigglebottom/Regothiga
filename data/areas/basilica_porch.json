@@ -22,6 +22,19 @@
 				0,
 				8
 			]
+		},
+		{
+			"kit": "floor_4x4",
+			"min": [
+				-8,
+				-2.62,
+				12
+			],
+			"max": [
+				8,
+				-2.62,
+				20
+			]
 		}
 	],
 	"vault_fields": [
@@ -93,7 +106,7 @@
 			]
 		},
 		{
-			"kit": "wall_low_4m",
+			"kit": "balustrade_4m",
 			"from": [
 				-6,
 				0,
@@ -105,7 +118,56 @@
 				0
 			],
 			"count": 4,
-			"rot": 180
+			"rot": 0,
+			"skip": [
+				1,
+				2
+			]
+		},
+		{
+			"kit": "balustrade_4m",
+			"from": [
+				-6,
+				-2.4,
+				19.8
+			],
+			"dir": [
+				1,
+				0,
+				0
+			],
+			"count": 4,
+			"rot": 0
+		},
+		{
+			"kit": "balustrade_4m",
+			"from": [
+				-8.2,
+				-2.4,
+				14
+			],
+			"dir": [
+				0,
+				0,
+				1
+			],
+			"count": 2,
+			"rot": 90
+		},
+		{
+			"kit": "balustrade_4m",
+			"from": [
+				8.2,
+				-2.4,
+				14
+			],
+			"dir": [
+				0,
+				0,
+				1
+			],
+			"count": 2,
+			"rot": -90
 		}
 	],
 	"pieces": [
@@ -188,6 +250,40 @@
 			],
 			"tag": "ruin",
 			"collide": false
+		},
+		{
+			"kit": "stair_grand_4m",
+			"at": [
+				-2,
+				-0.02,
+				8.2
+			],
+			"rot": 180
+		},
+		{
+			"kit": "stair_grand_4m",
+			"at": [
+				2,
+				-0.02,
+				8.2
+			],
+			"rot": 180
+		},
+		{
+			"kit": "urn",
+			"at": [
+				-4.6,
+				0,
+				7.6
+			]
+		},
+		{
+			"kit": "urn",
+			"at": [
+				4.6,
+				0,
+				7.6
+			]
 		}
 	],
 	"props": [
@@ -284,6 +380,44 @@
 			],
 			"rot": -45,
 			"tag": "glory"
+		},
+		{
+			"kit": "statue_orans",
+			"at": [
+				-6.5,
+				-2.42,
+				13.5
+			],
+			"rot": 45,
+			"tag": "glory"
+		},
+		{
+			"kit": "statue_orans",
+			"at": [
+				6.5,
+				-2.42,
+				13.5
+			],
+			"rot": -45,
+			"tag": "glory"
+		},
+		{
+			"kit": "candelabra",
+			"at": [
+				-4,
+				-2.42,
+				18.5
+			],
+			"tag": "glory"
+		},
+		{
+			"kit": "candelabra",
+			"at": [
+				4,
+				-2.42,
+				18.5
+			],
+			"tag": "glory"
 		}
 	],
 	"lanterns": [
@@ -326,5 +460,129 @@
 			"prompt": "Return to the Gray Cloister"
 		}
 	],
-	"no_gutter": true
+	"no_gutter": true,
+	"skyline": [
+		{
+			"kit": "cathedral_mass",
+			"at": [
+				0,
+				-0.5,
+				-9.0
+			],
+			"rot": 0,
+			"scale": 1.25
+		},
+		{
+			"kit": "spire_tower_a",
+			"at": [
+				-19,
+				-1,
+				-20
+			]
+		},
+		{
+			"kit": "spire_tower_b",
+			"at": [
+				19,
+				-1,
+				-22
+			]
+		},
+		{
+			"kit": "buttress_arc",
+			"at": [
+				-13,
+				3,
+				-14
+			],
+			"rot": 55
+		},
+		{
+			"kit": "buttress_arc",
+			"at": [
+				13,
+				3,
+				-14
+			],
+			"rot": -55
+		},
+		{
+			"kit": "city_cluster_a",
+			"at": [
+				-26,
+				-13,
+				34
+			],
+			"rot": 30
+		},
+		{
+			"kit": "city_cluster_b",
+			"at": [
+				10,
+				-14,
+				42
+			],
+			"rot": 300
+		},
+		{
+			"kit": "city_cluster_a",
+			"at": [
+				36,
+				-12,
+				26
+			],
+			"rot": 160
+		},
+		{
+			"kit": "spire_tower_c",
+			"at": [
+				-38,
+				-10,
+				30
+			],
+			"rot": 75
+		},
+		{
+			"kit": "spire_tower_a",
+			"at": [
+				42,
+				-11,
+				38
+			],
+			"rot": 260,
+			"scale": 0.85
+		},
+		{
+			"kit": "spire_tower_b",
+			"at": [
+				0,
+				-16,
+				66
+			],
+			"scale": 1.5
+		},
+		{
+			"kit": "city_cluster_b",
+			"at": [
+				-8,
+				-15,
+				56
+			],
+			"rot": 200,
+			"scale": 1.4
+		}
+	],
+	"pickups": [
+		{
+			"id": "terrace_prayers",
+			"at": [
+				0,
+				-2.4,
+				18.5
+			],
+			"orisons": 120,
+			"tag": "base",
+			"label": "Gather wax-sealed prayers"
+		}
+	]
 }

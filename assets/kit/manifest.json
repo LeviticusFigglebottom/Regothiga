@@ -19,6 +19,16 @@
    4
   ]
  },
+ "balustrade_4m": {
+  "file": "assets/kit/balustrade_4m.glb",
+  "origin": "bottom-center",
+  "polys": 398,
+  "size": [
+   4,
+   0.4,
+   1.1
+  ]
+ },
  "banner": {
   "file": "assets/kit/banner.glb",
   "origin": "top-center",
@@ -79,6 +89,16 @@
    4.4
   ]
  },
+ "buttress_arc": {
+  "file": "assets/kit/buttress_arc.glb",
+  "origin": "mid-base",
+  "polys": 130,
+  "size": [
+   22,
+   2,
+   12
+  ]
+ },
  "candelabra": {
   "file": "assets/kit/candelabra.glb",
   "origin": "bottom-center",
@@ -89,10 +109,20 @@
    1.6
   ]
  },
+ "cathedral_mass": {
+  "file": "assets/kit/cathedral_mass.glb",
+  "origin": "west-front",
+  "polys": 119,
+  "size": [
+   30,
+   46.0,
+   36
+  ]
+ },
  "char_aveline": {
   "file": "assets/kit/char_aveline.glb",
   "origin": "bottom-center",
-  "polys": 260,
+  "polys": 334,
   "size": [
    0.8,
    0.8,
@@ -102,7 +132,7 @@
  "char_bellkeeper": {
   "file": "assets/kit/char_bellkeeper.glb",
   "origin": "bottom-center",
-  "polys": 162,
+  "polys": 236,
   "size": [
    1.4,
    1.4,
@@ -112,7 +142,7 @@
  "char_latecomer": {
   "file": "assets/kit/char_latecomer.glb",
   "origin": "bottom-center",
-  "polys": 138,
+  "polys": 212,
   "size": [
    0.8,
    0.8,
@@ -132,31 +162,51 @@
  "char_sleeve_l": {
   "file": "assets/kit/char_sleeve_l.glb",
   "origin": "shoulder",
-  "polys": 44,
+  "polys": 80,
   "size": [
-   0.24,
-   0.24,
-   0.6
+   0.26,
+   0.3,
+   0.62
   ]
  },
  "char_sleeve_r": {
   "file": "assets/kit/char_sleeve_r.glb",
   "origin": "shoulder",
-  "polys": 44,
+  "polys": 80,
   "size": [
-   0.24,
-   0.24,
-   0.6
+   0.26,
+   0.3,
+   0.62
   ]
  },
  "char_ward": {
   "file": "assets/kit/char_ward.glb",
   "origin": "bottom-center",
-  "polys": 172,
+  "polys": 246,
   "size": [
    0.9,
    0.9,
    2.0
+  ]
+ },
+ "city_cluster_a": {
+  "file": "assets/kit/city_cluster_a.glb",
+  "origin": "bottom-center",
+  "polys": 108,
+  "size": [
+   18,
+   18,
+   10
+  ]
+ },
+ "city_cluster_b": {
+  "file": "assets/kit/city_cluster_b.glb",
+  "origin": "bottom-center",
+  "polys": 82,
+  "size": [
+   18,
+   18,
+   10
   ]
  },
  "column_4m": {
@@ -387,6 +437,16 @@
    0.8
   ]
  },
+ "sconce_torch": {
+  "file": "assets/kit/sconce_torch.glb",
+  "origin": "wall-mount",
+  "polys": 48,
+  "size": [
+   0.2,
+   0.4,
+   0.5
+  ]
+ },
  "shield_kite": {
   "file": "assets/kit/shield_kite.glb",
   "origin": "strap",
@@ -395,6 +455,56 @@
    0.42,
    0.2,
    0.85
+  ]
+ },
+ "spire_tower_a": {
+  "file": "assets/kit/spire_tower_a.glb",
+  "origin": "bottom-center",
+  "polys": 168,
+  "size": [
+   4.886140391501869,
+   4.886140391501869,
+   33.14309279278289
+  ]
+ },
+ "spire_tower_b": {
+  "file": "assets/kit/spire_tower_b.glb",
+  "origin": "bottom-center",
+  "polys": 168,
+  "size": [
+   4.900847883424359,
+   4.900847883424359,
+   35.61972037936583
+  ]
+ },
+ "spire_tower_c": {
+  "file": "assets/kit/spire_tower_c.glb",
+  "origin": "bottom-center",
+  "polys": 132,
+  "size": [
+   6.031889049542378,
+   6.031889049542378,
+   29.822700560738063
+  ]
+ },
+ "stair_grand_4m": {
+  "file": "assets/kit/stair_grand_4m.glb",
+  "origin": "top-center",
+  "polys": 72,
+  "size": [
+   4.7,
+   4,
+   2.8
+  ]
+ },
+ "statue_orans": {
+  "file": "assets/kit/statue_orans.glb",
+  "origin": "bottom-center",
+  "polys": 132,
+  "size": [
+   1,
+   1,
+   2.9
   ]
  },
  "statue_saint": {
@@ -425,6 +535,16 @@
    1.2,
    2.3,
    0.75
+  ]
+ },
+ "urn": {
+  "file": "assets/kit/urn.glb",
+  "origin": "bottom-center",
+  "polys": 52,
+  "size": [
+   0.7,
+   0.7,
+   1.0
   ]
  },
  "vault_bay_4x4": {
@@ -466,6 +586,16 @@
    4,
    0.5,
    1.05
+  ]
+ },
+ "wellhead": {
+  "file": "assets/kit/wellhead.glb",
+  "origin": "bottom-center",
+  "polys": 44,
+  "size": [
+   2.6,
+   1.5,
+   2.5
   ]
  },
  "window_lancet_4m": {

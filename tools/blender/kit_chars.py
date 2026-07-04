@@ -13,25 +13,31 @@ import vglib as V
 
 
 def _robe_body(name, height, girth, mat, hood=True, hood_lean=0.09):
-    n = 12
+    """Humanoid read: spread hem, drawn waist, carried chest, squared
+    shoulders, cinched neck, deep hood. (Painted-fantasy silhouette pass.)"""
+    n = 14
     h = height
     rings = [
-        (girth * 1.30, 0.0, n, 0),
-        (girth * 1.16, h * 0.05, n, 0),
-        (girth * 0.88, h * 0.34, n, 0),
-        (girth * 0.80, h * 0.50, n, 0),
-        (girth * 0.97, h * 0.66, n, 0),
-        (girth * 0.92, h * 0.76, n, 0),   # shoulders
+        (girth * 1.34, 0.0, n, 0),          # hem
+        (girth * 1.12, h * 0.06, n, 0),
+        (girth * 0.92, h * 0.26, n, 0),     # knee-fall
+        (girth * 0.78, h * 0.46, n, 0),
+        (girth * 0.70, h * 0.55, n, 0),     # waist
+        (girth * 0.88, h * 0.64, n, 0),     # ribcage
+        (girth * 0.98, h * 0.72, n, 0),     # chest
+        (girth * 1.02, h * 0.775, n, 0),    # shoulder shelf
+        (girth * 0.86, h * 0.80, n, 0),
     ]
     if hood:
         rings += [
-            (girth * 0.54, h * 0.82, n, 0),
-            (girth * 0.66, h * 0.89, n, 0),
-            (girth * 0.44, h * 0.97, n, 0),
-            (girth * 0.12, h * 1.05, n, 0),
+            (girth * 0.46, h * 0.835, n, 0),  # neck
+            (girth * 0.60, h * 0.885, n, 0),  # hood bulk
+            (girth * 0.50, h * 0.945, n, 0),
+            (girth * 0.30, h * 0.99, n, 0),   # crown
+            (girth * 0.08, h * 1.045, n, 0),  # peak
         ]
     else:
-        rings += [(girth * 0.5, h * 0.80, n, 0), (girth * 0.2, h * 0.84, n, 0)]
+        rings += [(girth * 0.5, h * 0.82, n, 0), (girth * 0.2, h * 0.86, n, 0)]
     obj = V.loft_rings(name, rings, mat)
     if hood:
         me = obj.data
@@ -60,14 +66,43 @@ def char_latecomer():
 
 
 def char_sleeve(side):
-    """Arm: shoulder cone to cuff + hand. Origin at shoulder, arm along -Z."""
+    """Arm with an elbow: upper arm drops, forearm angles forward, cuff
+    flares, hand closes. Origin at shoulder, hanging along -Z (blender)."""
     sgn = -1 if side == "l" else 1
     n = 8
-    rings = [(0.085, 0.0, n, 0), (0.075, -0.16, n, 0), (0.095, -0.30, n, 0),
-             (0.115, -0.44, n, 0)]  # flared cuff
-    arm = V.loft_rings(f"sleeve_{side}", rings, "M_robe")
-    hand = V.loft_rings("hand", [(0.045, -0.44, n, 0), (0.05, -0.50, n, 0), (0.02, -0.56, n, 0)], "M_wax")
-    return [arm, hand], {"size": [0.24, 0.24, 0.6], "origin": "shoulder"}
+    objs = []
+    upper = V.loft_rings(f"sleeve_{side}", [(0.088, 0.0, n, 0), (0.078, -0.13, n, 0),
+                                            (0.072, -0.24, n, 0)], "M_robe")
+    objs.append(upper)
+    # pauldron cap
+    pauld = V.loft_rings("pauldron", [(0.115, 0.03, n, 0), (0.125, -0.03, n, 0),
+                                      (0.09, -0.1, n, 0)], "M_leather")
+    objs.append(pauld)
+    # forearm: bent ~22 deg toward +Y (forward after import)
+    fore_pts = []
+    for (r, t) in ((0.07, 0.0), (0.082, 0.45), (0.105, 0.85), (0.112, 1.0)):
+        z = -0.24 - 0.22 * t
+        y = 0.10 * t
+        fore_pts.append((r, y, z))
+    bm = bmesh.new()
+    prev = None
+    for (r, y, z) in fore_pts:
+        ring = []
+        for i in range(n):
+            a = 2 * math.pi * i / n
+            ring.append(bm.verts.new((r * math.cos(a), y + r * math.sin(a) * 0.9, z)))
+        if prev:
+            for i in range(n):
+                bm.faces.new((prev[i], prev[(i + 1) % n], ring[(i + 1) % n], ring[i]))
+        prev = ring
+    bm.verts.ensure_lookup_table()
+    bm.faces.new(reversed(bm.verts[:n]))
+    bm.faces.new(prev)
+    objs.append(V.bm_to_object(bm, "forearm", ("M_robe",)))
+    hand = V.loft_rings("hand", [(0.048, -0.46, n, 0), (0.052, -0.52, n, 0), (0.02, -0.575, n, 0)], "M_wax")
+    hand.location = (0, 0.105, 0)
+    objs.append(hand)
+    return objs, {"size": [0.26, 0.3, 0.62], "origin": "shoulder"}
 
 
 def sword_cloister():

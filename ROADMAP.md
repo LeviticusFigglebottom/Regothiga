@@ -1,56 +1,54 @@
 # ROADMAP — Vespergard
 
-Living map of what is real, what is shallow, what is stubbed, and what pass 2+ should take on. Updated at the end of every work session.
+Living map of what is real, what is shallow, what is stubbed, and what pass 2+ should take on.
 
 Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 
-## Pass 1 status
+## Pass 1 status (honest grading)
 
 | System | Status | Notes |
 |---|---|---|
-| Glory↔ruin state system | ⬜ | in progress this pass |
-| Transformation spectacle | ⬜ | in progress this pass |
-| Blender→Godot kit pipeline | ⬜ | in progress this pass |
-| Player combat core | ⬜ | in progress this pass |
-| Enemies + encounters | ⬜ | in progress this pass |
-| Death / Orisons loop | ⬜ | in progress this pass |
-| Vigil lanterns + leveling | ⬜ | in progress this pass |
-| The Gray Cloister (Area A) | ⬜ | in progress this pass |
-| Bellkeeper boss | ⬜ | in progress this pass |
-| NPC (Sister Aveline) | ⬜ | in progress this pass |
-| Basilica of Last Light (Area B) | ⬜ | stub target |
-| Save/persistence | ⬜ | in progress this pass |
-| HUD/UI | ⬜ | in progress this pass |
-| Audio | ⬜ | synthesized pack this pass |
-
-(Statuses will be graded honestly at end of pass; "in progress" rows become ✅/🟡/🩶.)
+| Glory↔ruin state system | ✅ | per-area persistence, layer swaps, dual navmesh, route deltas verified by raycast tests |
+| Transformation spectacle | ✅ | expanding wave, per-fragment morph, dissolve edges, env/sun lerp, particle front, swell audio; captured in-game from player POV |
+| Blender→Godot kit pipeline | ✅ | 60 generated pieces, one shader family, headless author→render→verify loop |
+| Player combat core | ✅ | stamina, i-frame rolls, combos, block/parry/riposte, poise, lock-on — 19 checks green |
+| Enemies + encounters | 🟡 | 2 archetypes + boss; deliberate telegraphs; placement-with-intent; wants more variety + ranged |
+| Death / Orisons loop | ✅ | drop → one-chance remembrance → replacement rule; 22 checks green |
+| Vigil lanterns + leveling | ✅ | rest menu, kindle/gutter choice when cleared, attribute leveling |
+| The Gray Cloister (Area A) | ✅ | 9 rooms/spaces, both states authored, shortcut gate + 2 state-routes, 13 foes |
+| Bellkeeper boss | 🟡 | fog gate, 2 phases, shockwaves, cameo-in-glory; moveset depth + arena drama wanted |
+| NPC (Sister Aveline) | 🟡 | lore lines, weapon blessing, flask upgrade; questline absent |
+| Basilica of Last Light (B) | 🩶 | porch + sunset terrace + skyline; interior sealed ("next passing") |
+| Skyline / kingdom backdrop | 🟡 | tower/cathedral/arc/cluster ring in both areas; wants parallax layers + per-area composition pass |
+| Save/persistence | ✅ | full world+player round-trip verified |
+| HUD/UI | 🟡 | bars/prompts/boss bar/death splash/dialogue/rest menus; fixed-resolution layout, needs anchor pass |
+| Audio | 🟡 | fully synthesized pack (bells motif); coherent but synth-grade |
+| Characters | 🟡 | humanoid silhouette pass done (elbows, pauldrons, proportions); still node-rigs, no skeletal animation |
+| Full-loop verification | ✅ | scripted end-to-end playthrough of the §11 loop (fullloop test) |
 
 ## Pass 2+ backlog (concrete)
 
-**World**
-- Basilica of Last Light as a full area: rose-window nave, triforium loop, the Unrung Bell arc; interconnect back into the Cloister garth (door openable only from basilica side).
-- 3rd area (Ossuary Undercroft) linking both — first true three-way interconnection; area-graph data already supports it.
-- Fast travel between kindled lanterns (ceremony + map-less "bell peal" selection).
-- Richer state-deltas: flooded-in-ruin passages, glory-only lift/bridge machinery, timed state-dependent events (processions in glory).
+**World & scale**
+- Basilica interior as full Area C: rose-window nave, triforium walkway loop, the Unrung Bell arc.
+- Ossuary Undercroft (Area D) linking Cloister and Basilica underground — first three-way interconnection.
+- Skyline pass 2: silhouette LOD ring at 150–400 m, dusk haze layers, birds/bell-echo ambience; per-area skyline compositions.
+- Traversable lower-city streets below the terrace (the stair already lands there).
+- Fast travel between kindled lanterns.
+
+**Art**
+- Painted-texture pass: bake gradient/AO painterly maps in Blender (Cycles) for hero pieces; keep shader family.
+- Skeletal characters + animation retarget seam (replaces node-rigs; combat data untouched).
+- Weathering decals, ivy geometry, richer ruin deltas (collapsed vault bays, flooded walk).
+- Transformation: rooted orbital camera option, debris geyser at wavefront, per-entity poof timing.
 
 **Systems**
-- Skeletal character rigs + animation retarget seam (replace node-rig visuals; combat data untouched).
-- Weight/encumbrance tiers affecting roll (fat/medium/fast) — currently single tier with the hooks in place.
-- Weapon upgrade tree depth (+1..+5, scaling growth), infusions; 2 more weapon classes (halberd, censer-flail).
-- Poise-damage tuning pass across full bestiary; guard-break stance system.
-- Status effects (bleed→"guttering", burn→"waxfire").
-- Talismans/rings ("votive seals") — slot UI exists as roadmap stub.
+- Weight/encumbrance roll tiers; status effects (guttering/waxfire); talismans ("votive seals").
+- Weapon upgrade depth +1..+5 with scaling growth; halberd + censer-flail movesets for the player.
+- 3 more enemy types (ranged Chorister, glory-echo assassin, bell-ox miniboss).
+- Aveline questline (missable, consequence-bearing); the Sexton NPC (armor, shortcut-digging).
 
-**Content**
-- Aveline questline (missable, consequence-bearing: she follows the pilgrim road; can be doomed by clearing areas before buying her wax).
-- 2nd NPC (the Sexton — upgrades armor, digs shortcuts for pay).
-- 3 more enemy types incl. ranged (Chorister) and glory-echo assassin (attacks even in glory — breaks the safety rule *once*, deliberately).
-- 2nd boss (the Sexton's Bell-Ox) + optional duo fight.
-- Item descriptions pass — every item carries a shard of the fall.
-
-**Tech/quality**
-- Recorded/pro audio replacing synth pack; adaptive layers (proximity-to-enemies stem mixing).
-- Cutscene-grade transformation camera option (rooted orbital) with player-motion opt-out.
-- Performance: mesh merging per room, occlusion culling, LOD on kit pieces.
-- Gamepad glyphs, remapping UI, accessibility (subtitle scale, screen shake slider — sliders exist in data only).
-- Proper blackletter display font (custom, licensed or drawn) replacing DejaVu Serif styling.
+**Tech debt / audits**
+- HUD anchor-based layout (currently 1920×1080 logical coordinates).
+- Roof piece UV/skirt so walk roofs read from the garth at all angles.
+- Mesh merging per room + occlusion for perf on real GPUs; collision audit automation (nav-vs-collision diff report).
+- Gamepad glyphs, remapping, accessibility sliders.

@@ -17,7 +17,7 @@ uniform float detail_strength : hint_range(0.0, 1.0) = 0.35;
 uniform float wear_strength : hint_range(0.0, 1.0) = 0.5;
 uniform float moss_strength : hint_range(0.0, 1.0) = 0.85;
 uniform float crack_strength : hint_range(0.0, 1.0) = 0.45;
-uniform float ramp_quantize : hint_range(0.0, 1.0) = 0.5;
+uniform float ramp_quantize : hint_range(0.0, 1.0) = 0.34;
 
 // Emission (candle gold trim, etc). gate: 0 = always, 1 = glory only, 2 = ruin only
 uniform vec3 emission_color : source_color = vec3(0.0);
@@ -137,7 +137,7 @@ void fragment() {
 	float moss_up = clamp(v_world_nrm.y * 0.5 + 0.62, 0.0, 1.0);
 	float moss = mossm * moss_strength * moss_up * smoothstep(0.35, 0.75, n1);
 	ruin_col = mix(ruin_col, vec3(0.16, 0.21, 0.12), clamp(moss, 0.0, 0.85));
-	float crack = smoothstep(0.74, 0.8, n2) * crack_strength;
+	float crack = smoothstep(0.79, 0.85, n2) * crack_strength;
 	ruin_col *= 1.0 - crack * 0.5;
 
 	ALBEDO = mix(glory_col, ruin_col, ruin);

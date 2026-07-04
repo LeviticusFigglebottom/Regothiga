@@ -23,6 +23,11 @@ static func build(area_id: String) -> Area:
 		_piece(area, spec, true)
 	for spec in def.get("props", []):
 		_piece(area, spec, false)
+	for spec in def.get("skyline", []):
+		var sk: Dictionary = spec.duplicate()
+		sk["flames"] = false
+		sk["collide"] = false
+		_piece(area, sk, false)
 	for spec in def.get("vault_fields", []):
 		_vault_field(area, spec)
 	for spec in def.get("blockers", []):
@@ -98,8 +103,24 @@ static func build(area_id: String) -> Area:
 		area.attach(pt, spec.get("tag", "base"))
 		_place(pt, spec)
 
+	# ambient mood: gold motes in glory, ash in ruin, sized to the area
+	var ext := _extent(def)
+	area.add_ambient(ext[0], ext[1])
+
 	area.bake_navmeshes.call_deferred()
 	return area
+
+static func _extent(def: Dictionary) -> Array:
+	var mn := Vector3(1e9, 0, 1e9)
+	var mx := Vector3(-1e9, 0, -1e9)
+	for spec in def.get("fills", []):
+		var a := _v3(spec["min"])
+		var b := _v3(spec["max"])
+		mn.x = minf(mn.x, a.x); mn.z = minf(mn.z, a.z)
+		mx.x = maxf(mx.x, b.x); mx.z = maxf(mx.z, b.z)
+	if mn.x > mx.x:
+		mn = Vector3(-20, 0, -20); mx = Vector3(20, 0, 20)
+	return [mn, mx]
 
 static func _v3(a) -> Vector3:
 	return Vector3(a[0], a[1], a[2]) if a is Array and a.size() >= 3 else Vector3.ZERO

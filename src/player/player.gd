@@ -187,7 +187,7 @@ func _physics_process(dt: float) -> void:
 	if state == S.MOVE:
 		var lv := vis.global_transform.basis.inverse() * velocity
 		lean = Vector2(lv.x, -lv.z) * 0.12
-	vis.locomotion(dt, gs, lean)
+	vis.locomotion(dt, gs, lean, is_on_floor())
 	if not sim_active:
 		cam.stick_look(Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down"), dt)
 
@@ -406,8 +406,10 @@ func _st_attack(dt: float) -> void:
 	if not _atk_hit_open and t >= wind:
 		_atk_hit_open = true
 		_open_hitbox(_atk)
+		vis.trail.visible = true
 	if _atk_hit_open and t >= wind + act and hitbox.monitoring:
 		hitbox.end_swing()
+		vis.trail.visible = false
 
 	# combo input capture during recovery
 	if not sim_active and t > wind + act:
@@ -440,6 +442,7 @@ func _st_attack(dt: float) -> void:
 	if t >= total:
 		_combo_i = 0
 		hitbox.end_swing()
+		vis.trail.visible = false
 		_set_state(S.MOVE)
 		vis.back_to_idle()
 

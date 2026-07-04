@@ -74,6 +74,53 @@ func _set_layer_collision(layer: Node3D, on: bool) -> void:
 		for c in n.get_children():
 			stack.append(c)
 
+## Ambient particle beds per state (motes / ashfall).
+func add_ambient(mn: Vector3, mx: Vector3) -> void:
+	var center := (mn + mx) * 0.5
+	var size := mx - mn
+	var motes := _ambient_emitter(size, Color(1.0, 0.85, 0.55, 0.5), 0.2, Vector3(0.12, 0.05, 0.0), 130)
+	motes.position = center + Vector3(0, 2.2, 0)
+	glory_layer.add_child(motes)
+	var ash := _ambient_emitter(size, Color(0.62, 0.66, 0.75, 0.6), 0.3, Vector3(0.25, -0.5, 0.1), 200)
+	ash.position = center + Vector3(0, 4.0, 0)
+	ruin_layer.add_child(ash)
+
+func _ambient_emitter(size: Vector3, color: Color, scale_max: float, drift: Vector3, amount: int) -> CPUParticles3D:
+	var p := CPUParticles3D.new()
+	p.amount = amount
+	p.lifetime = 9.0
+	p.preprocess = 9.0
+	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	p.emission_box_extents = Vector3(size.x * 0.5, 3.2, size.z * 0.5)
+	p.direction = drift.normalized() if drift.length() > 0.01 else Vector3.DOWN
+	p.spread = 25.0
+	p.initial_velocity_min = drift.length() * 0.5
+	p.initial_velocity_max = drift.length() * 1.4
+	p.gravity = Vector3.ZERO
+	p.scale_amount_min = 0.012
+	p.scale_amount_max = 0.028 * (1.0 + scale_max)
+	var quad := QuadMesh.new()
+	quad.size = Vector2(0.6, 0.6)
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	var grad := Gradient.new()
+	grad.set_color(0, Color(color, 1.0))
+	grad.set_color(1, Color(color, 0.0))
+	var gt := GradientTexture2D.new()
+	gt.gradient = grad
+	gt.fill = GradientTexture2D.FILL_RADIAL
+	gt.fill_from = Vector2(0.5, 0.5)
+	gt.fill_to = Vector2(0.5, 0.0)
+	gt.width = 32
+	gt.height = 32
+	mat.albedo_texture = gt
+	quad.material = mat
+	p.mesh = quad
+	return p
+
 ## Bake both navmeshes from the current geometry (on load, and again when
 ## base routes change — an opened gate, cleared rubble).
 func bake_navmeshes() -> void:

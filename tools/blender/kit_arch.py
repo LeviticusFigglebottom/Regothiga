@@ -531,8 +531,8 @@ def roof_shed_4m():
     to 5.5 m against the outer wall. Origin: bottom-center of the garth eave;
     slopes toward local blender +Y (away from the garth)."""
     bm = bmesh.new()
-    a = bm.verts.new((-2, -0.35, 4.02)); b = bm.verts.new((2, -0.35, 4.02))
-    c = bm.verts.new((2, 4.4, 5.52)); d = bm.verts.new((-2, 4.4, 5.52))
+    a = bm.verts.new((-2.04, -0.35, 4.02)); b = bm.verts.new((2.04, -0.35, 4.02))
+    c = bm.verts.new((2.04, 4.4, 5.52)); d = bm.verts.new((-2.04, 4.4, 5.52))
     bm.faces.new((a, b, c, d))
     bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.09)
     roof = V.bm_to_object(bm, "roof_slope", ("M_roof",))

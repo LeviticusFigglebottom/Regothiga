@@ -1,45 +1,45 @@
 {
 	"glory": {
 		"sun_rot": [
-			-26,
-			-118
+			-13,
+			-63
 		],
 		"sun_color": [
 			1.0,
-			0.82,
-			0.55
+			0.72,
+			0.38
 		],
-		"sun_energy": 2.3,
+		"sun_energy": 2.7,
 		"ambient": [
-			0.4,
-			0.38,
-			0.42
+			0.42,
+			0.33,
+			0.36
 		],
 		"ambient_energy": 0.55,
 		"bg_top": [
-			0.55,
-			0.38,
-			0.28
+			0.46,
+			0.22,
+			0.16
 		],
 		"bg_horizon": [
-			0.98,
-			0.7,
-			0.4
+			1.0,
+			0.58,
+			0.22
 		],
 		"fog_color": [
-			0.92,
-			0.74,
-			0.5
+			1.0,
+			0.66,
+			0.34
 		],
-		"fog_density": 0.0007,
-		"vol_density": 0.004,
+		"fog_density": 0.0011,
+		"vol_density": 0.006,
 		"vol_albedo": [
 			0.95,
 			0.82,
 			0.62
 		],
-		"exposure": 1.05,
-		"glow": 0.6,
+		"exposure": 1.02,
+		"glow": 0.7,
 		"music": "res://assets/audio/theme_glory.wav",
 		"ambience": "res://assets/audio/amb_glory.wav"
 	},

@@ -2,6 +2,10 @@
 
 *A gothic soulslike of glory and ruin.*
 
+![The garth in glory](docs/gallery/garth_glory.png)
+![The garth in ruin](docs/gallery/garth_ruin.png)
+![The terrace at sunset](docs/gallery/terrace_sunset.png)
+
 The Evening Kingdom fell on the night the sun set and did not rise. Its Vigil Lanterns still hold its memory. Walk each region as it **was** — radiant, peopled, safe — learn its halls, meet what remains of its court; then keep vigil, watch the memory gutter, and **fight back through the ruin it became**.
 
 **Signature mechanic:** rest sites toggle the whole area between *glory* and *ruin*. Explore in glory; the gauntlet is ruin. Routes, people, dangers and music all shift with the world.
@@ -53,9 +57,14 @@ python3 tools/audio/synth.py     # audio pack → assets/audio/*.wav
 ## Verification harness
 
 ```sh
-tools/shot.sh                    # deterministic screenshot set (both world states)
-tools/test.sh                    # headless logic tests + full-loop scripted playthrough
+tools/test.sh                    # all headless suites (combat, death loop, area, boss, FULL LOOP)
+tools/test.sh fullloop           # just the scripted end-to-end §11 playthrough
+tools/gallery.sh                 # screenshot every main space in both states -> docs/gallery/
+tools/shot.sh OUT.png [args]     # one framed shot (see src/debug/shot.gd for flags)
 ```
+
+All assets are original and generated in-repo (Blender `bpy` + Python synth);
+no third-party game assets are used.
 
 ## Repository map
 

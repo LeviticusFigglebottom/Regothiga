@@ -12,6 +12,10 @@ var _frames_left := -1
 var _quit_after := -1
 var _cam_spec := ""
 var forced_state := ""   # read by boot/world setup
+var _vigil_frame := -1
+var _seq: Array = []      # seconds after the vigil trigger
+var _seq_t := -1.0
+var _seq_i := 0
 
 func _ready() -> void:
 	for arg in OS.get_cmdline_user_args():
@@ -25,6 +29,11 @@ func _ready() -> void:
 			forced_state = arg.get_slice("=", 1)
 		elif arg.begins_with("--quit-after="):
 			_quit_after = int(arg.get_slice("=", 1))
+		elif arg.begins_with("--vigil-frame="):
+			_vigil_frame = int(arg.get_slice("=", 1))
+		elif arg.begins_with("--shot-seq="):
+			for part in arg.get_slice("=", 1).split(","):
+				_seq.append(float(part))
 	if _shot_path != "" and _frames_left < 0:
 		_frames_left = 30
 
@@ -33,7 +42,22 @@ func _process(_d: float) -> void:
 		_quit_after -= 1
 		if _quit_after == 0:
 			get_tree().quit()
-	if _shot_path == "" or _frames_left < 0:
+	if _vigil_frame > 0:
+		_vigil_frame -= 1
+		if _vigil_frame == 0:
+			_trigger_vigil()
+	if _seq_t >= 0.0 and _seq_i < _seq.size():
+		_seq_t += get_process_delta_time()
+		if _seq_t >= float(_seq[_seq_i]):
+			var img := get_viewport().get_texture().get_image()
+			var p := _shot_path.get_basename() + "_%d.png" % _seq_i
+			DirAccess.make_dir_recursive_absolute(p.get_base_dir())
+			img.save_png(p)
+			print("[shot] saved ", p)
+			_seq_i += 1
+			if _seq_i >= _seq.size():
+				get_tree().quit()
+	if _shot_path == "" or _frames_left < 0 or not _seq.is_empty():
 		return
 	if _frames_left == 10 and _cam_spec != "":
 		_spawn_cam()
@@ -59,3 +83,13 @@ func _spawn_cam() -> void:
 	if parts.size() >= 6:
 		cam.fov = float(parts[5])
 	cam.current = true
+
+func _trigger_vigil() -> void:
+	var lantern = Game.find_lantern("garth")
+	if lantern == null or Game.player == null:
+		push_warning("Shot: no lantern/player for vigil capture")
+		return
+	Game.player.global_position = lantern.respawn_point()
+	Game.player.vis.rotation.y = PI
+	Game.vigil_flow(lantern, Game.player)
+	_seq_t = 0.0
