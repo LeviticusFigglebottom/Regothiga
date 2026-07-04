@@ -133,18 +133,24 @@ signal vigil_kept(lantern)
 
 ## The rest ceremony: kneel, heal, respawn the dead, and turn the world.
 ## D-009 rules: uncleared+glory -> gutter (committed); uncleared+ruin -> rest
-## only; cleared -> free toggle.
-func vigil_flow(lantern: VigilLantern, p) -> void:
+## only; cleared -> free choice (RestUI passes "toggle" or "rest_only").
+func vigil_flow(lantern: VigilLantern, p, choice := "auto") -> void:
 	if StateDirector.transitioning:
 		return
 	var area := lantern.area if lantern.area != null else current_area
 	var aid: String = area.area_id if area != null else current_area_id
 	var cur := World.get_area_state(aid)
 	var target := cur
-	if World.is_cleared(aid):
-		target = VG.WState.GLORY if cur == VG.WState.RUIN else VG.WState.RUIN
-	elif cur == VG.WState.GLORY:
-		target = VG.WState.RUIN
+	match choice:
+		"toggle":
+			target = VG.WState.GLORY if cur == VG.WState.RUIN else VG.WState.RUIN
+		"rest_only":
+			target = cur
+		_:
+			if World.is_cleared(aid):
+				target = VG.WState.GLORY if cur == VG.WState.RUIN else VG.WState.RUIN
+			elif cur == VG.WState.GLORY:
+				target = VG.WState.RUIN
 
 	World.last_vigil = {"area": aid, "lantern": lantern.lantern_id}
 	World.set_area_flag(aid, "lit_" + lantern.lantern_id)

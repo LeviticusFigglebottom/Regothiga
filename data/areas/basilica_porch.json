@@ -325,5 +325,6 @@
 			],
 			"prompt": "Return to the Gray Cloister"
 		}
-	]
+	],
+	"no_gutter": true
 }

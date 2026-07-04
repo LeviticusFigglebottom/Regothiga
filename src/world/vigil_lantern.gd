@@ -43,7 +43,14 @@ func _find_flame(root: Node) -> GeometryInstance3D:
 	return null
 
 func _on_activated(player) -> void:
-	Game.vigil_flow(self, player)
+	if player == null:
+		Game.vigil_flow(self, null)
+		return
+	player.lock_control(true)
+	player.velocity = Vector3.ZERO
+	var ui := RestUI.new(self, player)
+	get_tree().root.add_child(ui)
+	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -8.0)
 
 func on_world_state(area_id: String, s: VG.WState) -> void:
 	if area_id == _area_id():
