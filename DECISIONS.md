@@ -1,0 +1,143 @@
+# DECISIONS — Vespergard
+
+Architecture and direction decisions for the project, with rationale. Newest sections are appended; nothing is deleted, superseded decisions are struck through with a note.
+
+---
+
+## D-000 · What this is
+
+**Vespergard** is a gothic soulslike built in **Godot 4.7** with a **stylized Blender (bpy) asset pipeline**. Its signature mechanic: the world shifts between the radiant **glory** of the fallen Evening Kingdom and its overrun **ruin**, toggled at rest sites. You explore each area in glory, then fight back through it in ruin.
+
+---
+
+## D-001 · Toolchain
+
+| Piece | Choice | Why |
+|---|---|---|
+| Engine | Godot 4.7 stable (official binary) | Native glTF import, Forward+ renderer (volumetric fog, global shader uniforms — both load-bearing for the state system), text-based scene formats that can be authored and diffed headlessly. |
+| Renderer | Forward+ (Vulkan) | Volumetric god-rays in glory, clustered lights for candle-dense interiors, global `uniform`s drive the transformation wave across every material at once. Verified working on CPU (lavapipe) for headless screenshot verification. |
+| Assets | Blender 4.5 LTS via the `bpy` pip module | Fully headless, scriptable, deterministic. Procedural generators are the coherence engine: one gothic style encoded once, emitted uniformly across the whole kit. |
+| Interchange | glTF 2.0 (`.glb`) | Godot-native import; bpy exporter handles Z-up→Y-up. Conventions in D-004. |
+| Language | GDScript only | One language, no build step, headless-friendly. Perf is fine at this scope; hot paths (wave update) are shader-side anyway. |
+| Verification | `bpy` render + `xvfb-run godot` screenshot harness | The author→render→**look**→refine loop. No visual work is authored blind. Logic is verified by headless sim tests that drive the player through the real game. |
+
+**Why not C#/Rust/GDExtension:** iteration speed and headless simplicity dominate; nothing in pass 1 is CPU-bound enough to justify a second toolchain.
+
+---
+
+## D-002 · The two-state model: one area, three layer sets
+
+An area is **not** two levels. It is:
+
+- **Base** — architecture present in both states (walls, floors, vaults, columns). Base geometry never swaps; its *look* morphs (see D-003).
+- **Glory layer** — warm lighting rig, NPCs, intact-only props (candles lit, banners, intact stained glass), glory-only routes/colliders.
+- **Ruin layer** — cold lighting rig, enemies/spawners, rubble, damage overlays, broken variants, ruin-only routes/colliders.
+
+Each layer owns its **navmesh** (two `NavigationRegion3D`s, baked at area load from state-tagged collision groups; toggling swaps the active region). Route differences are therefore *real* — a wall intact in glory and collapsed into a passage in ruin is two different collision + nav worlds.
+
+Persistence: `WorldState` autoload holds per-area `{state, cleared, flags}` plus global flags, saved as JSON in `user://`. The state of every visited area persists; cleared areas toggle freely at their lantern (D-010).
+
+**Why layers, not two scenes:** building one area yields both states (the economy the whole game depends on); the transformation can morph *in place* because both versions coexist in one scene tree; and diffs between states stay data (which layer a node belongs to), not code.
+
+---
+
+## D-003 · One shader to rule the look: `gothic.gdshader`
+
+Every kit surface uses one shared shader family. It provides:
+
+1. **Stylized shading** — half-Lambert ramp partially quantized (painterly-toon, not photoreal), rim light, triplanar detail noise so bare meshes read as stone without texture authoring.
+2. **State morphing on base geometry** — a per-fragment `state` value lerps warm/intact ↔ cold/decayed: desaturation, moss growth (world-height + vertex-color masked), crack darkening (noise threshold), candle/window emission gating. One material, both looks — zero extra authoring per asset.
+3. **The transformation wave** — global uniforms (`vg_wave_r`, `vg_wave_origin`, `vg_wave_dir`, `vg_state_blend`) let the rest-site wave sweep the *entire* world per-fragment: base geometry morphs at the wavefront with a glowing edge band; state-exclusive meshes dissolve in/out with burning edges. This is why the flip is a *moment*, not a hard cut — and why it costs one material parameter, not per-object scripting.
+
+Vertex colors carry per-asset damage/AO masks painted by the bpy generators (R = wear, G = moss zone, B = AO) so decay lands where a human would put it, not uniformly.
+
+**Stained glass is geometry, not texture:** panes are generated as leaded mosaics (colored facets + dark lead lines), vertex-colored, emissive in glory, replaced by shard remnants in ruin. Stylized, texture-free, and it makes the glory windows the showpiece they need to be.
+
+---
+
+## D-004 · Blender→Godot conventions
+
+- Generators live in `tools/blender/`; `tools/gen_assets.py` rebuilds everything deterministically (fixed seeds).
+- **Real-world scale** (4 m module grid), **all transforms applied**, origins at logical snap points, `-Z` forward per glTF (exporter converts Blender Z-up → glTF Y-up).
+- Kit pieces export as individual `.glb` into `assets/kit/`; Godot imports them as scenes; materials are **remapped on import to the shared shader library** by material-name convention (`M_stone`, `M_glass`, `M_iron`, `M_wax`, …) via an import plugin. Blender materials are placeholders; the *Godot* material library is the single source of visual truth.
+- Baking: where a procedural Blender material is used (stone albedo variation), it is baked to textures before export per glTF constraints; most of the kit instead relies on vertex color + shader detail, which keeps the repo light and the look unified.
+- Generated assets are **committed** so the game runs without Blender installed; regeneration requires only `pip install bpy`.
+
+---
+
+## D-005 · Characters: articulated node rigs, not skeletal animation
+
+Characters (player, enemies, NPCs, boss) are robed/hooded figures assembled from kit parts on a small node hierarchy (hips/torso/head/arm pivots/cloak), animated by Godot `AnimationPlayer` clips authored as text resources plus procedural motion (bob, lean, sway) in code. Robes read as full characters without legs; the ghostly glide fits a kingdom of memory.
+
+**Why:** full skeletal round-trip through glTF is the highest-risk, lowest-leverage part of a headless pipeline. Node-rig clips are hand-tunable in text, diffable, and combat timing lives in *data* (D-006) rather than baked animation, so feel can be tuned without re-export. Skeletal characters are a roadmap item; the seam (a `CharacterVisual` scene per archetype) is isolated so swapping later touches nothing in combat code.
+
+---
+
+## D-006 · Combat timing is data, animation is flavor
+
+Weapon movesets, attack windows (windup/active/recovery), stamina costs, poise damage, i-frame windows, and scaling live in `data/combat/*.json`. The combat state machine consumes data; `AnimationPlayer` clips are synchronized visuals. Hitboxes are code-driven shapes enabled during active windows.
+
+**Why:** soulslike feel is 90% timing tuning. Numbers in JSON mean tuning passes never touch systems code, and the headless sim can assert frame-accurate behavior (i-frames, parry windows) deterministically.
+
+---
+
+## D-007 · Areas are compiled from data
+
+`data/areas/<id>.json` describes an area in level-language: wall runs, arcades, floor fields, vault grids, props, lights, spawns, interactables — each tagged `base` / `glory` / `ruin`. `AreaBuilder` compiles this to the scene tree at load (instancing kit scenes, snapping to the module grid), then bakes both navmeshes.
+
+**Why:** pass 2+ adds areas by writing JSON and new kit pieces, not by scene surgery. The area graph (connections, lantern ids, gates) is part of the same data, so world interconnection grows as data too.
+
+---
+
+## D-008 · Original IP glossary (genre furniture renamed)
+
+| Genre term | Vespergard term |
+|---|---|
+| The kingdom / setting | **Vespergard**, the Evening Kingdom — fell on the night the sun set and did not rise |
+| Player character | **The Latecomer** — a pilgrim who arrived after the end |
+| Bonfire / checkpoint | **Vigil Lantern** — resting = **keeping vigil** |
+| World-state toggle | **Kindle** (→ glory) / **Gutter** (→ ruin); lanterns hold the kingdom's memory — glory is the world *remembering itself* around you |
+| Souls / currency | **Orisons** — prayers of the dead, gathered from the fallen |
+| Bloodstain / corpse run | **Remembrance** — your dropped orisons; one chance to reclaim, lost if you fall again |
+| Estus / healing flask | **Chrism Flask** — consecrated oil, charges restored by vigil |
+| Death message | **FORGOTTEN** |
+| Level-up stats | Vitality, Endurance, Strength, Grace, Devotion |
+| Upgrade material | **Candleglass** — fused glass-and-wax shards found in ruin |
+| Area A | **The Gray Cloister** |
+| Area B (stub) | **Basilica of Last Light** |
+| Boss A | **The Bellkeeper** — in glory he rings the cloister hours; in ruin he drags his cracked bell as a weapon |
+| NPC A | **Sister Aveline, the Chandler** — candle-crowned nun; merchant + weapon blessing, met in glory |
+| Enemies | **Waxbound Penitents** (melted votive wretches), **Cloister Wards** (spectral halberd knights) |
+
+Diegesis of the mechanic: lanterns hold the kingdom's memory. A first vigil in a new area **gutters** it — witnessing the truth collapses the dream, and the memory *will not rekindle while the area's warden endures* (bosses gate free toggling). Put the warden to rest and the lantern can kindle or gutter the area at will.
+
+---
+
+## D-009 · Progression rhythm (per area)
+
+1. Enter in **glory** (default for unvisited areas — the memory still burns). Explore safely, meet NPCs, learn layout, unlock shortcuts.
+2. First vigil at the area's lantern → **gutter** → ruin. Pre-clear, the lantern cannot rekindle glory (the warden's presence drowns the memory) — the gauntlet is committed.
+3. Fight back through learned space; shortcuts from glory are lifelines; boss is the climax behind a fog gate.
+4. Warden down → area **cleared** → free kindle/gutter at its lantern, persisted. The route onward opens toward the next area's lantern.
+
+Dropped Remembrances persist across both states (they are *your* memory, not the kingdom's) — dying in ruin never strands your orisons in an unreachable state.
+
+---
+
+## D-010 · Save model
+
+Single JSON save in `user://saves/` (override path via `--save-dir` for tests): player (stats, level, orisons, equipment, flask, position, last lantern), per-area (state, cleared, opened gates, taken items, dead-once entities), world flags (NPC progress), pending Remembrance (area, position, amount). Autosave at vigils, area transitions, and major flags. No manual save slots in pass 1 (roadmap).
+
+---
+
+## D-011 · Audio is synthesized, not sourced
+
+All audio is generated by `tools/audio/synth.py` (pure Python, committed WAVs): state themes (glory choir-warmth / ruin drone), transformation swell, bells (the kingdom's motif), combat foley, UI. No licensing risk, deterministic rebuilds, and the bell-heavy palette *is* the identity. Quality ceiling is real (roadmap: recorded/pro audio) but coherence beats fidelity at this stage.
+
+---
+
+## D-012 · Verification strategy
+
+- **Visual:** `tools/shot.sh` renders deterministic screenshots (fixed camera paths, both states, key beats) via xvfb + lavapipe; iterated on until the Identity Checklist reads true *in the frame*.
+- **Logic:** `tools/sim/` headless tests drive the real game — input-level scripted playthrough of the full pass-1 loop (glory explore → vigil → ruin gauntlet → death/recovery → boss → area B → toggle persistence) plus focused tests (stamina, i-frames, parry, poise, save round-trip, navmesh swap).
+- CI-shaped: everything runs from a clean clone with `godot` + `xvfb-run` only.

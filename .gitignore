@@ -1,0 +1,16 @@
+# Godot
+.godot/
+*.translation
+export_presets.cfg
+
+# Blender
+*.blend1
+*.blend2
+
+# Python
+__pycache__/
+*.pyc
+
+# Scratch
+/scratch/
+*.tmp
