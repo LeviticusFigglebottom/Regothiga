@@ -15,6 +15,7 @@ var _light: OmniLight3D = null
 
 func _ready() -> void:
 	add_to_group(VG.GROUP_STATE_LISTENERS)
+	add_to_group("lanterns")
 	var vis := KitLib.instance("vigil_lantern")
 	add_child(vis)
 	_flame = _find_flame(vis)

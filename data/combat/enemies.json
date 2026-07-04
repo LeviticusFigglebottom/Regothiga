@@ -1,0 +1,74 @@
+{
+	"penitent": {
+		"name": "Waxbound Penitent",
+		"desc": "They burned votives until the wax climbed their arms, and kept praying. What answered wore them like tallow.",
+		"hp": 55, "poise": 30, "poise_regen": 7,
+		"speed": 2.1, "turn": 5.0, "orisons": 21,
+		"aggro_sight": 10.0, "aggro_fov": 130.0, "aggro_hear": 4.0, "leash": 26.0,
+		"body": "char_penitent", "arm_l": "penitent_arm", "arm_r": "penitent_arm",
+		"arm_h": 1.16, "arm_dx": 0.27, "hurt_r": 0.45, "hurt_h": 1.55, "col_r": 0.4,
+		"stagger_time": 0.9,
+		"attacks": [
+			{ "id": "swipe", "range": 2.1, "windup": 0.62, "active": 0.16, "recover": 0.85,
+			  "dmg": 16, "poise_dmg": 18, "reach": 1.7, "width": 1.8, "height": 1.4,
+			  "cooldown": 1.4, "anim": "atk_r", "lunge": 1.5 },
+			{ "id": "flail", "range": 1.8, "windup": 0.8, "active": 0.34, "recover": 1.1,
+			  "dmg": 11, "poise_dmg": 12, "reach": 1.6, "width": 2.2, "height": 1.4,
+			  "cooldown": 4.2, "anim": "atk_double", "lunge": 1.0 }
+		],
+		"sfx_alert": "res://assets/audio/penitent_moan.wav"
+	},
+	"ward": {
+		"name": "Cloister Ward",
+		"desc": "The watch was never relieved. Inside the great helm there is only vigil, distilled.",
+		"hp": 165, "poise": 60, "poise_regen": 14,
+		"speed": 3.1, "turn": 7.0, "orisons": 74,
+		"aggro_sight": 12.0, "aggro_fov": 150.0, "aggro_hear": 6.0, "leash": 30.0,
+		"body": "char_ward", "arm_l": "char_sleeve_l", "arm_r": "char_sleeve_r",
+		"helm": "helm_ward", "weapon": "halberd_ward", "shield": "shield_kite",
+		"arm_h": 1.42, "arm_dx": 0.31, "hurt_r": 0.5, "hurt_h": 1.9, "col_r": 0.42,
+		"stagger_time": 0.8, "block_arc": 95.0, "block_reduction": 0.82,
+		"attacks": [
+			{ "id": "sweep", "range": 2.6, "windup": 0.55, "active": 0.18, "recover": 0.8,
+			  "dmg": 26, "poise_dmg": 30, "reach": 2.3, "width": 2.4, "height": 1.6,
+			  "cooldown": 1.8, "anim": "atk_r", "lunge": 2.0 },
+			{ "id": "thrust", "range": 4.2, "windup": 0.7, "active": 0.22, "recover": 1.0,
+			  "dmg": 32, "poise_dmg": 34, "reach": 2.9, "width": 1.1, "height": 1.4,
+			  "cooldown": 3.5, "anim": "atk_thrust", "lunge": 5.5 },
+			{ "id": "overhead", "range": 2.2, "windup": 0.85, "active": 0.16, "recover": 1.15,
+			  "dmg": 40, "poise_dmg": 55, "reach": 2.1, "width": 1.5, "height": 2.0,
+			  "cooldown": 5.0, "anim": "atk_over", "lunge": 1.6 }
+		],
+		"sfx_alert": "res://assets/audio/ward_hail.wav"
+	},
+	"bellkeeper": {
+		"name": "The Bellkeeper",
+		"desc": "He rang the hours for sixty years. On the last evening he rang until his hands split, and the thirteenth hour never came.",
+		"hp": 920, "poise": 130, "poise_regen": 30,
+		"speed": 2.6, "turn": 4.0, "orisons": 1200,
+		"aggro_sight": 40.0, "aggro_fov": 360.0, "aggro_hear": 40.0, "leash": 999.0,
+		"body": "char_bellkeeper", "arm_l": "bellkeeper_arm", "arm_r": "bellkeeper_arm",
+		"weapon": "bell_great",
+		"arm_h": 1.95, "arm_dx": 0.55, "hurt_r": 0.75, "hurt_h": 2.8, "col_r": 0.7,
+		"stagger_time": 1.6, "is_boss": true,
+		"attacks": [
+			{ "id": "drag_swing", "range": 3.4, "windup": 0.9, "active": 0.24, "recover": 1.3,
+			  "dmg": 34, "poise_dmg": 60, "reach": 3.0, "width": 3.4, "height": 1.8,
+			  "cooldown": 2.2, "anim": "atk_r", "lunge": 2.4 },
+			{ "id": "toll_slam", "range": 2.8, "windup": 1.1, "active": 0.2, "recover": 1.6,
+			  "dmg": 46, "poise_dmg": 80, "reach": 2.6, "width": 2.6, "height": 2.2,
+			  "cooldown": 4.5, "anim": "atk_over", "lunge": 1.2, "shockwave": 4.5 },
+			{ "id": "backswing", "range": 2.0, "windup": 0.45, "active": 0.18, "recover": 0.9,
+			  "dmg": 24, "poise_dmg": 40, "reach": 2.2, "width": 3.0, "height": 1.6,
+			  "cooldown": 3.0, "anim": "atk_back", "lunge": 0.8 },
+			{ "id": "peal_spin", "range": 3.2, "windup": 1.3, "active": 0.5, "recover": 1.8,
+			  "dmg": 30, "poise_dmg": 50, "reach": 3.2, "width": 6.0, "height": 1.8,
+			  "cooldown": 7.0, "anim": "atk_spin", "lunge": 2.0, "phase2_only": true },
+			{ "id": "dead_knell", "range": 6.0, "windup": 1.5, "active": 0.3, "recover": 2.0,
+			  "dmg": 38, "poise_dmg": 30, "reach": 0.5, "width": 0.5, "height": 0.5,
+			  "cooldown": 9.0, "anim": "atk_over", "lunge": 0.0, "shockwave": 7.5, "phase2_only": true }
+		],
+		"phase2_at": 0.55,
+		"sfx_alert": "res://assets/audio/bellkeeper_roar.wav"
+	}
+}

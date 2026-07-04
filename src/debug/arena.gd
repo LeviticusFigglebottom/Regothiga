@@ -44,6 +44,24 @@ func _ready() -> void:
 	add_child(player)
 	player.position = Vector3(0, 0.1, 4)
 
+	# live foes (idle until approached) + a lantern + HUD for playtesting
+	var pen := Spawner.new()
+	pen.name = "PenSpawner"
+	pen.enemy_id = "penitent"
+	pen.position = Vector3(-6, 0, -8)
+	add_child(pen)
+	var ward := Spawner.new()
+	ward.name = "WardSpawner"
+	ward.enemy_id = "ward"
+	ward.position = Vector3(7, 0, -9)
+	ward.face_deg = 180.0
+	add_child(ward)
+	var lantern := VigilLantern.new()
+	lantern.lantern_id = "arena"
+	lantern.position = Vector3(9, 0, 9)
+	add_child(lantern)
+	add_child(HUD.new())
+
 	# warm look
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-35, -120, 0)

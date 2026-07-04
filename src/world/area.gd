@@ -18,6 +18,7 @@ var nav_ruin: NavigationRegion3D
 var _applied: int = -1
 
 func _init() -> void:
+	add_to_group("nav_src")   # navmesh bakes parse this subtree
 	base = Node3D.new(); base.name = "Base"; add_child(base)
 	glory_layer = Node3D.new(); glory_layer.name = "GloryLayer"; add_child(glory_layer)
 	ruin_layer = Node3D.new(); ruin_layer.name = "RuinLayer"; add_child(ruin_layer)
@@ -89,12 +90,15 @@ func _bake_nav(name_: String, ruin_world: bool) -> NavigationRegion3D:
 	mesh.cell_size = 0.22
 	mesh.cell_height = 0.2
 	mesh.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
+	mesh.geometry_source_geometry_mode = NavigationMesh.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
+	mesh.geometry_source_group_name = "nav_src"
 	mesh.geometry_collision_mask = (1 << (VG.L_WORLD_BASE - 1)) \
 		| (1 << ((VG.L_WORLD_RUIN if ruin_world else VG.L_WORLD_GLORY) - 1))
 	region.navigation_mesh = mesh
-	# ensure the inactive layer's colliders are ON for its own bake
-	_set_layer_collision(glory_layer, not ruin_world)
-	_set_layer_collision(ruin_layer, ruin_world)
+	# make sure every layer's colliders carry their true layer bits for the
+	# mask filter (they may have been zeroed by a previous apply_state)
+	_set_layer_collision(glory_layer, true)
+	_set_layer_collision(ruin_layer, true)
 	region.bake_navigation_mesh(false)   # synchronous on load
 	region.enabled = false
 	return region

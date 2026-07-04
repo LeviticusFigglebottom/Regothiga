@@ -27,7 +27,7 @@ static func make(name: StringName, length: float, tracks: Dictionary, loop := fa
 ## The rest pose every clip returns to.
 const REST_R := [12, -8, 0]        # ShoulderR rotation degrees (arm slightly out)
 const REST_L := [10, 10, 0]
-const REST_WEAPON := [196, 0, 8]   # blade along the arm line, tip down-forward
+const REST_WEAPON := [232, 0, 12]  # blade angled back-down, tip clear of the ground
 const REST_SHIELD := [-4, -14, 0]
 
 static func build_library() -> AnimationLibrary:

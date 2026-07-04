@@ -29,6 +29,9 @@ uniform int emission_gate = 0;
 //                 2 = ruin-only  (dissolves in as ruin arrives)
 uniform int state_mode = 0;
 
+// per-instance dissolve (deaths, pickups fading out)
+instance uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
+
 // Transformation wave (global — one knob moves the whole world)
 global uniform float vg_wave_r;
 global uniform vec3 vg_wave_origin;
@@ -105,6 +108,12 @@ void fragment() {
 			discard;
 		}
 	}
+	if (death_diss > 0.001) {
+		float dn = hash13(floor(v_world_pos * 14.0));
+		if (death_diss > dn) {
+			discard;
+		}
+	}
 
 	// masks: R wear, G moss zone, B ao
 	float wear = v_col.r * wear_strength;
@@ -157,6 +166,10 @@ void fragment() {
 		diss_edge = 1.0 - smoothstep(0.0, 0.25, presence - diss_n);
 	}
 	emis += vg_wave_color * (edge * 5.5 + diss_edge * edge * 14.0);
+	if (death_diss > 0.001) {
+		float dn2 = hash13(floor(v_world_pos * 14.0));
+		emis += vec3(0.6, 0.75, 1.2) * (1.0 - smoothstep(0.0, 0.2, dn2 - death_diss)) * 2.0;
+	}
 
 	EMISSION = emis;
 	SPECULAR = 0.15;
