@@ -641,6 +641,44 @@
     -4.6
    ],
    "tag": "base"
+  },
+  {
+   "kit": "hanging_chain",
+   "at": [
+    -2.6,
+    3.0,
+    -6.8
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "hanging_chain",
+   "at": [
+    2.6,
+    3.0,
+    -6.8
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -7.6,
+    3.0,
+    -7.6
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    7.6,
+    3.0,
+    -7.6
+   ],
+   "rot": 135,
+   "tag": "ruin"
   }
  ],
  "lanterns": [

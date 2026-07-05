@@ -21,7 +21,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 | Basilica of Last Light (B+C) | ✅ | porch, terrace, and now the full Nave: triforium gallery, rose window, the Unrung Bell, Precentress boss, Sexton NPC, two puzzles |
 | Skyline / kingdom backdrop | 🟡 | tower/cathedral/arc/cluster ring in both areas; wants parallax layers + per-area composition pass |
 | Save/persistence | ✅ | full world+player round-trip verified |
-| HUD/UI | 🟡 | bars/prompts/boss bar/death splash/dialogue/rest menus; anchored layout; wants gamepad glyphs + menus polish |
+| HUD/UI | ✅ | bars/prompts/boss bar/death splash/dialogue/rest menus; dialogue leave-cycle fixed; wants gamepad glyphs + menus polish |
 | Audio | 🟡 | fully synthesized pack (bells motif) + larksong/crow ambiences; coherent but synth-grade |
 | Painted texture pass | ✅ | 8 procedural painterly maps (masonry/slabs/planks/shingles/weave/iron/wax) triplanar-overlaid on every family |
 | Paired glory/ruin decor | ✅ | votive clusters↔melted, gardens↔withered, censers hung↔fallen, banners↔rags, saints↔kneeling husks, ivy, books |

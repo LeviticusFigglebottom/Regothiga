@@ -159,12 +159,22 @@ static func _tag_bit(tag: String) -> int:
 const PASSABLE_PROPS := ["banner", "banner_torn", "ivy_sheet_a", "ivy_sheet_b",
 	"censer_hanging", "censer_fallen", "sconce_torch", "glass_lancet",
 	"glass_lancet_broken", "candle_cluster", "candle_cluster_dead",
-	"book_stack", "scroll_pile", "rubble_s", "mosaic_medallion"]
+	"book_stack", "scroll_pile", "rubble_s", "mosaic_medallion",
+	"cobweb", "hanging_chain", "hanging_chain_bare", "shroud_dead"]
 
 static func _prop_collides(spec: Dictionary) -> bool:
 	if spec.has("collide"):
 		return bool(spec["collide"])
 	return not (String(spec.get("kit", "")) in PASSABLE_PROPS)
+
+## Kits that are walls/openings you must pass through — these keep exact
+## trimesh collision. Anything NOT here gets a solid convex blocker.
+const STRUCTURAL_KITS := ["wall_4x4", "arcade_4m", "portal_4m", "window_lancet_4m",
+	"ossuary_wall_4m", "balustrade_4m", "buttress", "rose_window", "roof_shed_4m",
+	"vault_bay_4x4", "floor_4x4", "fence_iron_4m", "gate_iron", "cornice_4m"]
+
+static func _is_structural(kit) -> bool:
+	return String(kit) in STRUCTURAL_KITS
 
 static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 	var tag: String = spec.get("tag", "base")
@@ -178,7 +188,10 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 		if String(spec["kit"]) == "stair_grand_4m":
 			_stair_ramp(piece, tag)   # ramp-only: step trimesh would wall off the climb
 		else:
-			KitLib.add_collision(piece, _tag_bit(tag))
+			# architecture (walls, arcades, portals, windows) keeps its exact
+			# hollow shell so you can pass through openings; everything else
+			# is a solid convex blocker so the capsule never wedges inside it
+			KitLib.add_collision(piece, _tag_bit(tag), not _is_structural(spec["kit"]))
 	if spec.get("flames", true) and (tag != "ruin"):
 		KitLib.add_flame_lights(piece)
 	area.attach(piece, tag)

@@ -520,6 +520,61 @@ def watcher_base():
     return [b], {"size": [1.3, 1.3, 0.36], "origin": "bottom-center"}
 
 
+def cobweb():
+    """Corner cobweb: a quarter fan of silk with radial threads. Hangs in a
+    wall corner (ruin dressing). Passable. Origin at the corner."""
+    bm = bmesh.new()
+    import math as _m
+    n = 6
+    R = 1.05
+    corner = bm.verts.new((0, 0, 0))
+    rim = []
+    for i in range(n + 1):
+        a = _m.pi * 0.5 * i / n
+        # web sags: pull the rim inward slightly toward the middle angles
+        sag = 1.0 - 0.18 * _m.sin(_m.pi * i / n)
+        rim.append(bm.verts.new((R * _m.cos(a) * sag, 0, R * _m.sin(a) * sag)))
+    # concentric silk arcs (thin quads between two radii)
+    for band in (0.4, 0.72):
+        prev = None
+        ring = []
+        for i in range(n + 1):
+            a = _m.pi * 0.5 * i / n
+            ring.append(bm.verts.new((R * band * _m.cos(a), 0.002, R * band * _m.sin(a))))
+        for i in range(n):
+            try:
+                bm.faces.new((ring[i], ring[i + 1], corner))
+            except ValueError:
+                pass
+    for i in range(n):
+        try:
+            bm.faces.new((corner, rim[i], rim[i + 1]))
+        except ValueError:
+            pass
+    obj = V.bm_to_object(bm, "cobweb", ("M_shroud",))
+    return [obj], {"size": [1.1, 0.05, 1.1], "origin": "corner"}
+
+
+def hanging_chain(with_hook=True):
+    """A length of iron chain dropping from a vault, ~1.6 m, with an optional
+    ring hook at the bottom. Ambient verticality. Passable."""
+    objs = []
+    bm = bmesh.new()
+    z = 0.0
+    for i in range(9):
+        # alternate link orientation for a real chain read
+        wx = 0.05 if i % 2 else 0.02
+        wy = 0.02 if i % 2 else 0.05
+        V.add_box(bm, (-wx, -wy, z - 0.09), (wx, wy, z))
+        z -= 0.16
+    objs.append(V.bm_to_object(bm, "chain", ("M_iron",)))
+    if with_hook:
+        hook = V.loft_rings("hook", [(0.09, z - 0.02, 8, 0), (0.11, z - 0.1, 8, 0),
+                                     (0.09, z - 0.18, 8, 0)], "M_iron")
+        objs.append(hook)
+    return objs, {"size": [0.2, 0.2, 1.7], "origin": "top-center"}
+
+
 BUILDERS = {
     "vigil_lantern": vigil_lantern,
     "candelabra": candelabra,
@@ -546,4 +601,7 @@ BUILDERS = {
     "sarcophagus": sarcophagus,
     "shroud_dead": shroud_dead,
     "watcher_base": watcher_base,
+    "cobweb": cobweb,
+    "hanging_chain": lambda: hanging_chain(True),
+    "hanging_chain_bare": lambda: hanging_chain(False),
 }

@@ -18,6 +18,18 @@ func _ready() -> void:
 	add_to_group("lanterns")
 	var vis := KitLib.instance("vigil_lantern")
 	add_child(vis)
+	# solid post — you rest at the lantern, you don't walk through it
+	var lbody := StaticBody3D.new()
+	lbody.collision_layer = 1 << (VG.L_WORLD_BASE - 1)
+	lbody.collision_mask = 0
+	var lcs := CollisionShape3D.new()
+	var lcyl := CylinderShape3D.new()
+	lcyl.radius = 0.5
+	lcyl.height = 2.4
+	lcs.shape = lcyl
+	lcs.position.y = 1.2
+	lbody.add_child(lcs)
+	vis.add_child(lbody)
 	_flame = _find_flame(vis)
 	var lights := KitLib.add_flame_lights(vis, 2.6, 7.0)
 	if lights.size() > 0:

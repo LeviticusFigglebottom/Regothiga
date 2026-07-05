@@ -96,6 +96,8 @@ func _option_label(o: Dictionary) -> String:
 	return o.get("label", o.get("id", "?"))
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _closing:
+		return
 	if event.is_action_pressed("interact") or event.is_action_pressed("attack_light"):
 		advance()
 		get_viewport().set_input_as_handled()
@@ -191,10 +193,14 @@ func _flash_line() -> void:
 	text_label.visible = true
 	options_box.visible = false
 
+var _closing := false
+
 func close() -> void:
+	if _closing:
+		return
+	_closing = true
 	if Game.player != null:
-		Game.player.lock_control(false)
-		Game.player.exit_rest()
+		Game.player.exit_dialogue()
 	closed.emit()
 	World.save_game()
 	queue_free()

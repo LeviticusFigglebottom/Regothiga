@@ -299,6 +299,16 @@
    10
   ]
  },
+ "cobweb": {
+  "file": "assets/kit/cobweb.glb",
+  "origin": "corner",
+  "polys": 18,
+  "size": [
+   1.1,
+   0.05,
+   1.1
+  ]
+ },
  "column_4m": {
   "file": "assets/kit/column_4m.glb",
   "origin": "bottom-center",
@@ -431,6 +441,26 @@
    0.5,
    0.1,
    2.3
+  ]
+ },
+ "hanging_chain": {
+  "file": "assets/kit/hanging_chain.glb",
+  "origin": "top-center",
+  "polys": 72,
+  "size": [
+   0.2,
+   0.2,
+   1.7
+  ]
+ },
+ "hanging_chain_bare": {
+  "file": "assets/kit/hanging_chain_bare.glb",
+  "origin": "top-center",
+  "polys": 54,
+  "size": [
+   0.2,
+   0.2,
+   1.7
   ]
  },
  "helm_ward": {

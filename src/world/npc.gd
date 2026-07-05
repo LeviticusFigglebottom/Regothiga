@@ -55,8 +55,7 @@ func _physics_process(dt: float) -> void:
 func _on_talk(player) -> void:
 	if player == null:
 		return
-	player.lock_control(true)
-	player.velocity = Vector3.ZERO
+	player.enter_dialogue()
 	_vis.play("talk", 0.4)
 	var ui := DialogueUI.new(cfg, self)
 	ui.tree_exited.connect(func() -> void:

@@ -251,3 +251,33 @@ tempo enemy the roster lacked) and Bourdon, the Bell-Ox — a yoked,
 bone-masked hulk minibossing the vault where the cracked bell was
 stabled: gore charges, yoke swings, slam shockwaves, and a phase-two
 stampede.
+
+## D-017 · Playtest fixes: dialogue, camera, collision (pass 6)
+
+Three bugs from live play, each a clean root cause:
+
+- **Dialogue "Leave" cycled.** `close()` re-enabled control the SAME frame the
+  interact key was still `just_pressed`, so the player's `_st_move` polled it
+  and re-opened the conversation. Fix: talking now puts the Latecomer in a
+  real `S.TALK` state (during which `try_interact` — which requires `S.MOVE`
+  — cannot fire), and control is restored one frame LATE via a deferred call.
+  A `_closing` guard makes `close()` idempotent.
+- **Camera "snapped," ignored the mouse.** `lock_on` was bound to MIDDLE
+  MOUSE; an accidental middle-click locked onto a target, which snaps the
+  camera and makes `mouse_look` early-return — reading as "broken." Fix:
+  removed MB3 from `lock_on` (Tab + gamepad remain); a hard mouse flick now
+  also breaks any lock. Mouse-look moved to `_input()` (fires before UI, so
+  nothing can eat the motion) and capture engages on the first click (a user
+  gesture — required by browsers for pointer-lock) as well as at spawn.
+- **Player wedged inside props.** `add_collision` only ever built TRIMESH —
+  a thin concave shell the capsule can slip inside and jam. Fix: freestanding
+  props (statues, urns, columns, sarcophagi, organ, wellhead, chimes, votive
+  stands, tombs…) now get a SOLID CONVEX hull; only true architecture with
+  openings you pass through (walls, arcades, portals, windows, ossuary walls)
+  keeps trimesh. Plus a depth-gated `_unwedge` safety net shoves the body out
+  if it ever ends a frame deep inside a collider, and the vigil lantern got a
+  proper post collider. Guarded by `fixes_test` (17 checks).
+
+Charm: cobwebs (ruin corners) and hanging iron chains (both states) added as
+kit pieces and scattered across all four areas, with denser candle/bone/husk
+dressing.

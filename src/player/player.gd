@@ -153,25 +153,54 @@ func _emit_all() -> void:
 
 # --------------------------------------------------------------- input
 ## The camera only receives relative motion reliably while the mouse is
-## captured; Esc frees the cursor, clicking back in recaptures it.
+## captured. Capture engages on the first click (a user gesture — required
+## by browsers for pointer-lock), Esc frees the cursor, clicking back in
+## recaptures it. The recapturing click is swallowed so it doesn't also swing.
 func _grab_mouse(on: bool) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if on else Input.MOUSE_MODE_VISIBLE
+
+func _captured() -> bool:
+	return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
 
 ## Mouse-bound combat actions (LMB swing / RMB block) stay quiet while the
 ## cursor is free, so clicking back into the window doesn't also attack.
 func _mouse_ok() -> bool:
-	return sim_active or Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
+	return sim_active or _captured()
 
-func _unhandled_input(event: InputEvent) -> void:
+## Mouse-look lives in _input (fires before any UI) so no Control can eat the
+## motion. Guarded on capture + control so it never fires during menus/talk.
+func _input(event: InputEvent) -> void:
 	if sim_active:
 		return
+	if event is InputEventMouseMotion:
+		if input_enabled and _captured():
+			cam.mouse_look(event.relative)
+		return
 	if event.is_action_pressed("ui_cancel"):
-		_grab_mouse(Input.mouse_mode != Input.MOUSE_MODE_CAPTURED)
-	elif event is InputEventMouseButton and event.pressed \
-			and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		_grab_mouse(not _captured())
+		get_viewport().set_input_as_handled()
+	elif event is InputEventMouseButton and event.pressed and not _captured():
+		# reclaim the cursor; consume the click so it isn't also an attack
 		_grab_mouse(true)
-	if event is InputEventMouseMotion and input_enabled:
-		cam.mouse_look(event.relative)
+		get_viewport().set_input_as_handled()
+
+# ------------------------------------------------------ dialogue control
+## Talking freezes the Latecomer in a dedicated state so no action (least of
+## all a re-interact) can fire. Control is restored one frame LATE on exit so
+## the same keypress that closed the menu can't reopen it.
+func enter_dialogue() -> void:
+	input_enabled = false
+	velocity = Vector3.ZERO
+	_set_state(S.TALK)
+
+func exit_dialogue() -> void:
+	_finish_dialogue.call_deferred()
+
+func _finish_dialogue() -> void:
+	if state == S.TALK:
+		_set_state(S.MOVE)
+	input_enabled = true
+	vis.back_to_idle()
 
 func _move_input() -> Vector3:
 	if sim_active:
@@ -212,6 +241,7 @@ func _physics_process(dt: float) -> void:
 
 	_regen(dt)
 	move_and_slide()
+	_unwedge(dt)
 
 	var gs := Vector2(velocity.x, velocity.z).length()
 	var lean := Vector2.ZERO
@@ -228,6 +258,39 @@ func _set_state(s: S) -> void:
 	state = s
 	state_t = 0.0
 	state_changed.emit(s)
+
+# Safety net: convex prop colliders already prevent wedging, but if the
+# player ever ends a frame DEEP inside a static body (spawn on a prop, a
+# state-swap materializing geometry around them), push straight out. The
+# depth gate keeps normal wall-resting (shallow contact) from triggering,
+# so this never fights ordinary sliding.
+var _wedge_t := 0.0
+const _WEDGE_DEPTH := 0.12
+func _unwedge(dt: float) -> void:
+	if dead:
+		return
+	# zero-motion probe with recovery-as-collision reports a resting overlap
+	var col := move_and_collide(Vector3.ZERO, true, 0.001, true)
+	if col == null or col.get_depth() <= _WEDGE_DEPTH:
+		_wedge_t = 0.0
+		return
+	_wedge_t += dt
+	if _wedge_t < 0.2:
+		return
+	# resolve it fully this frame: push out along each contact normal
+	for _i in 8:
+		var c := move_and_collide(Vector3.ZERO, true, 0.001, true)
+		if c == null or c.get_depth() <= _WEDGE_DEPTH:
+			break
+		var n := c.get_normal()
+		n.y = 0.0
+		if n.length_squared() < 0.01:
+			n = (global_position - c.get_position()) * Vector3(1, 0, 1)
+		if n.length_squared() < 0.001:
+			n = Vector3(0.3, 0, 0.3)   # truly ambiguous — nudge diagonally
+		global_position += n.normalized() * maxf(c.get_depth(), 0.15)
+	velocity = Vector3.ZERO
+	_wedge_t = 0.0
 
 func _face(dir: Vector3, dt: float, speed := 11.0) -> void:
 	if dir.length_squared() < 0.0001:

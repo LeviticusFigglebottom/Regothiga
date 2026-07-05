@@ -1246,6 +1246,122 @@
     7.2
    ],
    "tag": "base"
+  },
+  {
+   "kit": "hanging_chain",
+   "at": [
+    0,
+    4.4,
+    -12
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "hanging_chain",
+   "at": [
+    -6,
+    4.4,
+    -4
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "hanging_chain",
+   "at": [
+    6,
+    4.4,
+    -4
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "hanging_chain_bare",
+   "at": [
+    0,
+    4.4,
+    -12
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -13.6,
+    3.4,
+    -23.6
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    13.6,
+    3.4,
+    -23.6
+   ],
+   "rot": 135,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    13.6,
+    3.0,
+    7.6
+   ],
+   "rot": 225,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -4.4,
+    0,
+    -30.0
+   ],
+   "rot": 15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -4.4,
+    0,
+    -30.0
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    4.4,
+    0,
+    -30.0
+   ],
+   "rot": 200,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    4.4,
+    0,
+    -30.0
+   ],
+   "rot": 200,
+   "tag": "ruin"
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    5.0,
+    0,
+    -26.4
+   ],
+   "rot": -30,
+   "tag": "base"
   }
  ],
  "lanterns": [

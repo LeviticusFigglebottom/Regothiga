@@ -73,18 +73,24 @@ static func add_flame_lights(piece: Node3D, energy := 1.8, range_m := 5.0,
 			lights.append(l)
 	return lights
 
-## Wrap a piece's meshes in a StaticBody3D with trimesh collision.
-## Collision shapes are cached per (piece, mesh) — cheap to instance many.
+## Wrap a piece's meshes in a StaticBody3D collider.
+## Collision shapes are cached per (piece, mesh, mode) — cheap to instance many.
+##
+## convex=false → trimesh: an exact, hollow shell. Correct for ARCHITECTURE
+##   with holes you must pass through (arcades, portals, windows, walls).
+## convex=true  → convex hull: a SOLID blocker. Correct for freestanding
+##   props (statues, urns, columns, sarcophagi…) — the player capsule can
+##   never wedge inside a concave shell, so nothing traps you.
 static var _shape_cache: Dictionary = {}
 
-static func add_collision(piece: Node3D, layer_bit: int) -> void:
+static func add_collision(piece: Node3D, layer_bit: int, convex := false) -> void:
 	for mi in _mesh_instances(piece):
 		if mi.mesh == null:
 			continue
-		var key := str(piece.get_meta("kit_id", "?")) + "/" + str(mi.name)
+		var key := str(piece.get_meta("kit_id", "?")) + "/" + str(mi.name) + ("/cvx" if convex else "")
 		var shape: Shape3D = _shape_cache.get(key)
 		if shape == null:
-			shape = mi.mesh.create_trimesh_shape()
+			shape = mi.mesh.create_convex_shape() if convex else mi.mesh.create_trimesh_shape()
 			_shape_cache[key] = shape
 		var body := StaticBody3D.new()
 		body.collision_layer = 1 << (layer_bit - 1)

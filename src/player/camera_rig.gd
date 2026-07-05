@@ -42,6 +42,9 @@ func _on_shake(strength: float, time: float) -> void:
 
 func mouse_look(rel: Vector2) -> void:
 	if locked_target != null:
+		# a hard flick breaks the lock so the camera can never feel "stuck"
+		if absf(rel.x) > 60.0:
+			locked_target = null
 		return
 	yaw -= rel.x * sensitivity
 	pitch = clampf(pitch - rel.y * sensitivity, -1.15, 0.55)
