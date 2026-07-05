@@ -432,6 +432,94 @@ def mosaic_medallion():
     return [disc, rim], {"size": [3.6, 3.6, 0.03], "origin": "bottom-center"}
 
 
+def ossuary_wall_4m():
+    """Crypt wall: stone frame with two shelf bands of stacked skulls.
+    4x4 face, same footprint as wall_4x4."""
+    import random as _random
+    rng = _random.Random(5)
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-2, -0.2, 0), (2, 0.2, 4.0))
+    objs.append(V.bm_to_object(bm, "oss_frame", ("M_stone",)))
+    bm = bmesh.new()
+    for band_z in (0.9, 2.1):
+        V.add_box(bm, (-1.9, -0.26, band_z - 0.45), (1.9, -0.14, band_z + 0.45))
+    objs.append(V.bm_to_object(bm, "oss_shelf", ("M_stone_dark",)))
+    bm = bmesh.new()
+    for band_z in (0.9, 2.1):
+        n = 11
+        for i in range(n):
+            x = -1.75 + 3.5 * i / (n - 1) + (rng.random() - 0.5) * 0.06
+            z = band_z + (rng.random() - 0.5) * 0.08
+            got = bmesh.ops.create_icosphere(bm, subdivisions=0, radius=0.14 + rng.random() * 0.03)
+            for v in got["verts"]:
+                v.co = Vector((v.co.x * 0.9 + x, v.co.y * 0.75 - 0.3, v.co.z * 0.8 + z))
+    objs.append(V.bm_to_object(bm, "oss_skulls", ("M_bone",)))
+    return objs, {"size": [4, 0.6, 4], "origin": "bottom-center"}
+
+
+def bone_pile(seed=3):
+    """Drift of long bones and skulls against a wall or corner."""
+    import random as _random
+    rng = _random.Random(seed)
+    bm = bmesh.new()
+    for i in range(9):
+        a = rng.random() * math.pi
+        x, y = (rng.random() - 0.5) * 0.9, (rng.random() - 0.5) * 0.7
+        got = bmesh.ops.create_icosphere(bm, subdivisions=0, radius=0.1 + rng.random() * 0.05)
+        for v in got["verts"]:
+            v.co = Vector((v.co.x + x, v.co.y + y, v.co.z * 0.7 + 0.09 + i * 0.04))
+    for i in range(6):
+        x, y = (rng.random() - 0.5) * 1.0, (rng.random() - 0.5) * 0.8
+        a = rng.random() * math.pi
+        dx, dy = math.cos(a) * 0.3, math.sin(a) * 0.3
+        V.add_box(bm, (x - dx - 0.03, y - dy - 0.03, 0.02 + i * 0.03),
+                  (x + dx + 0.03, y + dy + 0.03, 0.08 + i * 0.03))
+    obj = V.bm_to_object(bm, "bone_pile", ("M_bone",))
+    return [obj], {"size": [1.2, 1.0, 0.6], "origin": "bottom-center"}
+
+
+def sarcophagus():
+    """Stone chest with a gabled lid, ~2.2 m. Solid, climb-proof."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-1.1, -0.45, 0), (1.1, 0.45, 0.72))
+    objs.append(V.bm_to_object(bm, "sarc_body", ("M_stone_trim",)))
+    bm = bmesh.new()
+    a = [bm.verts.new(p) for p in ((-1.16, -0.5, 0.72), (1.16, -0.5, 0.72), (1.16, 0.5, 0.72), (-1.16, 0.5, 0.72))]
+    r0 = bm.verts.new((-1.16, 0.0, 0.98)); r1 = bm.verts.new((1.16, 0.0, 0.98))
+    bm.faces.new((a[0], a[1], r1, r0))
+    bm.faces.new((r0, r1, a[2], a[3]))
+    bm.faces.new((a[0], r0, a[3]))
+    bm.faces.new((a[1], a[2], r1))
+    bm.faces.new(list(reversed(a)))
+    objs.append(V.bm_to_object(bm, "sarc_lid", ("M_stone",)))
+    return objs, {"size": [2.4, 1.0, 1.0], "origin": "bottom-center"}
+
+
+def shroud_dead(seed=8):
+    """A wrapped body at rest on the floor — undercroft set dressing."""
+    import random as _random
+    rng = _random.Random(seed)
+    bm = bmesh.new()
+    L = 1.7
+    for t4 in range(5):
+        t = t4 / 4.0
+        r = 0.16 * (1.0 - 0.55 * abs(t * 2 - 1)) + 0.04
+        got = bmesh.ops.create_icosphere(bm, subdivisions=0, radius=r)
+        for v in got["verts"]:
+            v.co = Vector((v.co.x * 1.6 + (t - 0.5) * L, v.co.y, v.co.z * 0.72 + r * 0.7))
+    obj = V.bm_to_object(bm, "shroud_dead", ("M_shroud",))
+    return [obj], {"size": [1.9, 0.5, 0.35], "origin": "bottom-center"}
+
+
+def watcher_base():
+    """Octagonal rotating plinth for the Watcher statues."""
+    b = V.loft_rings("watcher_base", [(0.62, 0, 8, 0), (0.56, 0.14, 8, 0),
+                                      (0.5, 0.2, 8, 0), (0.52, 0.34, 8, 0)], "M_stone_trim")
+    return [b], {"size": [1.3, 1.3, 0.36], "origin": "bottom-center"}
+
+
 BUILDERS = {
     "vigil_lantern": vigil_lantern,
     "candelabra": candelabra,
@@ -453,4 +541,9 @@ BUILDERS = {
     "votive_stand_lit": lambda: votive_stand_tall(True),
     "votive_stand_cold": lambda: votive_stand_tall(False),
     "mosaic_medallion": mosaic_medallion,
+    "ossuary_wall_4m": ossuary_wall_4m,
+    "bone_pile": bone_pile,
+    "sarcophagus": sarcophagus,
+    "shroud_dead": shroud_dead,
+    "watcher_base": watcher_base,
 }

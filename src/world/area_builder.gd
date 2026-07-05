@@ -102,6 +102,10 @@ static func build(area_id: String) -> Area:
 		var vl := VotiveLock.new()
 		area.attach(vl, spec.get("tag", "glory"))
 		vl.setup(spec)
+	for spec in def.get("watcher_puzzles", []):
+		var wp := WatcherPuzzle.new()
+		area.attach(wp, spec.get("tag", "base"))
+		wp.setup(spec)
 	for spec in def.get("flag_gates", []):
 		var fgate := FlagGate.new()
 		var gtag: String = spec.get("tag", "base")

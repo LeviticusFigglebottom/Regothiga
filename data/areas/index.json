@@ -2,18 +2,25 @@
  "areas": [
   "gray_cloister",
   "basilica_porch",
-  "basilica_nave"
+  "basilica_nave",
+  "ossuary_undercroft"
  ],
  "graph": {
   "gray_cloister": {
-   "east": "basilica_porch"
+   "east": "basilica_porch",
+   "down": "ossuary_undercroft"
   },
   "basilica_porch": {
    "west": "gray_cloister",
    "north": "basilica_nave"
   },
   "basilica_nave": {
-   "south": "basilica_porch"
+   "south": "basilica_porch",
+   "down": "ossuary_undercroft"
+  },
+  "ossuary_undercroft": {
+   "west": "gray_cloister",
+   "east": "basilica_nave"
   }
  },
  "start_area": "gray_cloister"

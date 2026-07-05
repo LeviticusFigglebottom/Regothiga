@@ -69,6 +69,16 @@
    1.25
   ]
  },
+ "bone_pile": {
+  "file": "assets/kit/bone_pile.glb",
+  "origin": "bottom-center",
+  "polys": 216,
+  "size": [
+   1.2,
+   1.0,
+   0.6
+  ]
+ },
  "book_stack": {
   "file": "assets/kit/book_stack.glb",
   "origin": "bottom-center",
@@ -483,6 +493,16 @@
    4.3
   ]
  },
+ "ossuary_wall_4m": {
+  "file": "assets/kit/ossuary_wall_4m.glb",
+  "origin": "bottom-center",
+  "polys": 458,
+  "size": [
+   4,
+   0.6,
+   4
+  ]
+ },
  "pell": {
   "file": "assets/kit/pell.glb",
   "origin": "bottom-center",
@@ -587,6 +607,16 @@
    0.8
   ]
  },
+ "sarcophagus": {
+  "file": "assets/kit/sarcophagus.glb",
+  "origin": "bottom-center",
+  "polys": 11,
+  "size": [
+   2.4,
+   1.0,
+   1.0
+  ]
+ },
  "sconce_torch": {
   "file": "assets/kit/sconce_torch.glb",
   "origin": "wall-mount",
@@ -617,10 +647,31 @@
    0.85
   ]
  },
+ "shroud_dead": {
+  "file": "assets/kit/shroud_dead.glb",
+  "origin": "bottom-center",
+  "polys": 100,
+  "size": [
+   1.9,
+   0.5,
+   0.35
+  ]
+ },
+ "skel_bellox": {
+  "file": "assets/kit/skel_bellox.glb",
+  "origin": "feet",
+  "polys": 779,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
  "skel_chorister": {
   "file": "assets/kit/skel_chorister.glb",
   "origin": "feet",
-  "polys": 749,
+  "polys": 772,
   "size": [
    0.8,
    0.8,
@@ -631,7 +682,7 @@
  "skel_giant": {
   "file": "assets/kit/skel_giant.glb",
   "origin": "feet",
-  "polys": 743,
+  "polys": 766,
   "size": [
    0.8,
    0.8,
@@ -642,7 +693,7 @@
  "skel_hero": {
   "file": "assets/kit/skel_hero.glb",
   "origin": "feet",
-  "polys": 757,
+  "polys": 780,
   "size": [
    0.8,
    0.8,
@@ -653,7 +704,7 @@
  "skel_penitent": {
   "file": "assets/kit/skel_penitent.glb",
   "origin": "feet",
-  "polys": 716,
+  "polys": 739,
   "size": [
    0.8,
    0.8,
@@ -664,7 +715,7 @@
  "skel_precentress": {
   "file": "assets/kit/skel_precentress.glb",
   "origin": "feet",
-  "polys": 797,
+  "polys": 820,
   "size": [
    0.8,
    0.8,
@@ -675,7 +726,18 @@
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",
-  "polys": 756,
+  "polys": 779,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_shroud": {
+  "file": "assets/kit/skel_shroud.glb",
+  "origin": "feet",
+  "polys": 826,
   "size": [
    0.8,
    0.8,
@@ -686,7 +748,7 @@
  "skel_sister": {
   "file": "assets/kit/skel_sister.glb",
   "origin": "feet",
-  "polys": 717,
+  "polys": 740,
   "size": [
    0.8,
    0.8,
@@ -697,7 +759,7 @@
  "skel_ward": {
   "file": "assets/kit/skel_ward.glb",
   "origin": "feet",
-  "polys": 724,
+  "polys": 747,
   "size": [
    0.8,
    0.8,
@@ -854,6 +916,16 @@
    4,
    0.5,
    1.05
+  ]
+ },
+ "watcher_base": {
+  "file": "assets/kit/watcher_base.glb",
+  "origin": "bottom-center",
+  "polys": 26,
+  "size": [
+   1.3,
+   1.3,
+   0.36
   ]
  },
  "wax_husk": {

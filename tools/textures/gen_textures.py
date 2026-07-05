@@ -223,8 +223,27 @@ def make_bronze():
     write_png("T_bronze", posterize(np.clip(img, 0, 1), 7, 0.25))
 
 
+def make_bone():
+    # ossuary stacking: rounded knuckle cells + dark socket pits + dust
+    cells = 14
+    u = np.linspace(0, cells, N, endpoint=False)
+    fx = u[None, :] - np.floor(u[None, :])
+    fy = u[:, None] - np.floor(u[:, None])
+    dome = np.clip(1.0 - ((fx - 0.5) ** 2 + (fy - 0.5) ** 2) * 5.0, 0, 1) ** 0.7
+    ids = (np.floor(u)[None, :] * 31 + np.floor(u)[:, None] * 7)
+    tone = tone_from_ids(ids, 131, 0.14)
+    r = np.random.default_rng(132)
+    sockets = (r.random((cells, cells)) < 0.16)
+    soc = np.kron(sockets, np.ones((N // cells + 1, N // cells + 1)))[:N, :N]
+    soc = soc * (dome > 0.55)
+    img = 0.34 + dome * 0.34 + tone * 0.22
+    img -= soc * 0.34
+    img += (vnoise(9, 133, 3) - 0.5) * 0.1
+    write_png("T_bone", posterize(np.clip(img, 0, 1), 7, 0.3))
+
+
 if __name__ == "__main__":
     make_stone(); make_trim(); make_floor(); make_wood()
     make_roof(); make_cloth(); make_iron(); make_wax()
-    make_mosaic(); make_bronze()
+    make_mosaic(); make_bronze(); make_bone()
     print("[tex] done")

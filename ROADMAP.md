@@ -26,14 +26,14 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 | Painted texture pass | ✅ | 8 procedural painterly maps (masonry/slabs/planks/shingles/weave/iron/wax) triplanar-overlaid on every family |
 | Paired glory/ruin decor | ✅ | votive clusters↔melted, gardens↔withered, censers hung↔fallen, banners↔rags, saints↔kneeling husks, ivy, books |
 | Ambient life | 🟡 | birds+petals in glory, crows+ash in ruin; wants perch points, flock behavior, insects |
-| Characters | ✅ | skeletal pass done: shared 16-bone armature, 5 skinned archetypes, bone-track clips (walk/run/attacks/roll/kneel/death…) built in-engine from the rest pose; weapons/shields/helms ride bones |
+| Characters | ✅ | 17-bone armature (neck), 10 archetypes, blended joint skinning, relaxed rest pose, cubic-eased clips with anticipation/settle; weapons/shields/helms ride bones |
 | Full-loop verification | ✅ | scripted end-to-end playthrough of the §11 loop (fullloop test) |
 
 ## Pass 2+ backlog (concrete)
 
 **World & scale**
 - ~~Basilica interior as full Area C~~ done pass 4 (nave + triforium + Unrung Bell + Precentress).
-- Ossuary Undercroft (Area D) linking Cloister and Basilica underground — first three-way interconnection.
+- ~~Ossuary Undercroft~~ done pass 5 (three-way underground link, Watchers puzzle, Bell-Ox).
 - Skyline pass 2: silhouette LOD ring at 150–400 m, dusk haze layers, birds/bell-echo ambience; per-area skyline compositions.
 - Traversable lower-city streets below the terrace (the stair already lands there).
 - Fast travel between kindled lanterns.
@@ -48,7 +48,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 **Systems**
 - Weight/encumbrance roll tiers; status effects (guttering/waxfire); talismans ("votive seals").
 - Weapon upgrade depth +1..+5 with scaling growth; halberd + censer-flail movesets for the player.
-- ~~ranged Chorister~~ done pass 4; still wanted: glory-echo assassin, bell-ox miniboss.
+- ~~ranged Chorister~~ pass 4; ~~bell-ox miniboss~~ + ~~fast assassin (Shroudbound)~~ pass 5; still wanted: a true glory-echo enemy.
 - Aveline questline (missable, consequence-bearing); ~~the Sexton NPC~~ done pass 4 (dig service).
 
 **Tech debt / audits**

@@ -24,20 +24,24 @@ BONES = {
     "hips":    ((0, 0, 0.96), (0, 0, 1.08), None),
     "spine":   ((0, 0, 1.08), (0, 0, 1.24), "hips"),
     "chest":   ((0, 0, 1.24), (0, 0, 1.44), "spine"),
-    "head":    ((0, 0, 1.47), (0, 0, 1.76), "chest"),
-    "uarm_r":  ((0.225, 0, 1.40), (0.26, 0, 1.14), "chest"),
-    "farm_r":  ((0.26, 0, 1.14), (0.27, 0.02, 0.90), "uarm_r"),
-    "hand_r":  ((0.27, 0.02, 0.90), (0.27, 0.04, 0.78), "farm_r"),
-    "uarm_l":  ((-0.225, 0, 1.40), (-0.26, 0, 1.14), "chest"),
-    "farm_l":  ((-0.26, 0, 1.14), (-0.27, 0.02, 0.90), "uarm_l"),
-    "hand_l":  ((-0.27, 0.02, 0.90), (-0.27, 0.04, 0.78), "farm_l"),
-    "thigh_r": ((0.11, 0, 0.96), (0.115, 0.01, 0.52), "hips"),
-    "shin_r":  ((0.115, 0.01, 0.52), (0.115, -0.01, 0.10), "thigh_r"),
-    "foot_r":  ((0.115, -0.01, 0.10), (0.115, 0.17, 0.03), "shin_r"),
-    "thigh_l": ((-0.11, 0, 0.96), (-0.115, 0.01, 0.52), "hips"),
-    "shin_l":  ((-0.115, 0.01, 0.52), (-0.115, -0.01, 0.10), "thigh_l"),
-    "foot_l":  ((-0.115, -0.01, 0.10), (-0.115, 0.17, 0.03), "shin_l"),
+    "neck":    ((0, 0, 1.44), (0, 0.008, 1.5), "chest"),
+    "head":    ((0, 0.008, 1.5), (0, 0.02, 1.76), "neck"),
+    # arms hang with a relaxed elbow: upper arm drifts a touch back,
+    # forearm returns forward — reads human instead of mannequin
+    "uarm_r":  ((0.225, 0, 1.40), (0.262, -0.025, 1.15), "chest"),
+    "farm_r":  ((0.262, -0.025, 1.15), (0.272, 0.045, 0.91), "uarm_r"),
+    "hand_r":  ((0.272, 0.045, 0.91), (0.272, 0.075, 0.79), "farm_r"),
+    "uarm_l":  ((-0.225, 0, 1.40), (-0.262, -0.025, 1.15), "chest"),
+    "farm_l":  ((-0.262, -0.025, 1.15), (-0.272, 0.045, 0.91), "uarm_l"),
+    "hand_l":  ((-0.272, 0.045, 0.91), (-0.272, 0.075, 0.79), "farm_l"),
+    "thigh_r": ((0.11, 0, 0.96), (0.116, 0.018, 0.52), "hips"),
+    "shin_r":  ((0.116, 0.018, 0.52), (0.116, -0.018, 0.10), "thigh_r"),
+    "foot_r":  ((0.116, -0.018, 0.10), (0.116, 0.16, 0.03), "shin_r"),
+    "thigh_l": ((-0.11, 0, 0.96), (-0.116, 0.018, 0.52), "hips"),
+    "shin_l":  ((-0.116, 0.018, 0.52), (-0.116, -0.018, 0.10), "thigh_l"),
+    "foot_l":  ((-0.116, -0.018, 0.10), (-0.116, 0.16, 0.03), "shin_l"),
 }
+
 
 
 def build_armature():
@@ -141,6 +145,12 @@ class BodyBuilder:
         self.chunks.append((bm, bone, mat))
         return bm
 
+    def joint(self, bone_a, bone_b, mat):
+        """Chunk weighted 50/50 between two bones — smooth hinge skin."""
+        bm = bmesh.new()
+        self.chunks.append((bm, (bone_a, bone_b), mat))
+        return bm
+
     def finalize(self, arm_obj, lumpy=0.0, seed=5):
         rng = random.Random(seed)
         meshes = []
@@ -179,10 +189,13 @@ class BodyBuilder:
             mesh.materials.append(V.material(m))
         obj = bpy.data.objects.new(self.name, mesh)
         bpy.context.collection.objects.link(obj)
-        # vertex groups: rigid per part
+        # vertex groups: rigid per part, halved across joint chunks
         for (start, end, bone) in ranges:
-            vg = obj.vertex_groups.get(bone) or obj.vertex_groups.new(name=bone)
-            vg.add(list(range(start, end)), 1.0, 'REPLACE')
+            names = bone if isinstance(bone, tuple) else (bone,)
+            w = 1.0 / len(names)
+            for nm in names:
+                vg = obj.vertex_groups.get(nm) or obj.vertex_groups.new(name=nm)
+                vg.add(list(range(start, end)), w, 'ADD')
         # bind
         mod = obj.modifiers.new("Armature", 'ARMATURE')
         mod.object = arm_obj
@@ -206,12 +219,14 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
     # shoulders (doll joints)
     for side in ("l", "r"):
         s = 1 if side == "r" else -1
-        bm = b.part(f"uarm_{side}", robe_mat)
+        bm = b.joint("chest", f"uarm_{side}", robe_mat)
         _ball(bm, (s * 0.225, 0, 1.40), 0.075 * g)
+        bm = b.part(f"uarm_{side}", robe_mat)
         h, t = _bone_vec(f"uarm_{side}")
         _tube(bm, h, t, 0.065 * g, 0.055 * g)
-        bm = b.part(f"farm_{side}", robe_mat)
+        bm = b.joint(f"uarm_{side}", f"farm_{side}", robe_mat)
         _ball(bm, tuple(t), 0.055 * g)
+        bm = b.part(f"farm_{side}", robe_mat)
         h2, t2 = _bone_vec(f"farm_{side}")
         _tube(bm, h2, t2, 0.052 * g, 0.062 * g)   # sleeve cuff flare
         bm = b.part(f"hand_{side}", skin_mat)
@@ -219,18 +234,22 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
         _tube(bm, h3, t3, 0.045 * g, 0.035 * g, 7)
     # legs
     for side in ("l", "r"):
-        bm = b.part(f"thigh_{side}", robe_mat)
+        bm = b.joint("hips", f"thigh_{side}", robe_mat)
         h, t = _bone_vec(f"thigh_{side}")
         _ball(bm, tuple(h + Vector((0, 0, -0.01))), 0.085 * g)
+        bm = b.part(f"thigh_{side}", robe_mat)
         _tube(bm, h, t, 0.08 * g, 0.06 * g)
-        bm = b.part(f"shin_{side}", boot_mat)
+        bm = b.joint(f"thigh_{side}", f"shin_{side}", boot_mat)
         _ball(bm, tuple(t), 0.06 * g)
+        bm = b.part(f"shin_{side}", boot_mat)
         h2, t2 = _bone_vec(f"shin_{side}")
         _tube(bm, h2, t2, 0.055 * g, 0.05 * g)
         bm = b.part(f"foot_{side}", boot_mat)
         h3, t3 = _bone_vec(f"foot_{side}")
         _tube(bm, h3 + Vector((0, 0.02, 0)), t3, 0.05 * g, 0.045 * g, 7)
-    # head + face: skin ball with a dark eye-shadow slit for depth
+    # neck + head + face
+    bm = b.joint("chest", "head", skin_mat)
+    _tube(bm, Vector((0, 0, 1.42)), Vector((0, 0.01, 1.52)), 0.055 * g, 0.05 * g, 7)
     bm = b.part("head", skin_mat)
     _ball(bm, (0, 0.02, 1.6), 0.105 * g)
     bm = b.part("head", "M_iron")
@@ -392,3 +411,39 @@ def build(name, out_path):
 
 
 BUILDERS = {}  # exported via gen_assets special-case below
+
+
+def shroud(arm):
+    """Shroudbound: a swift dead thing still wrapped for burial. Bandage
+    bands cross the sealed cowl; it runs low and quick."""
+    b = BodyBuilder("shroud")
+    common_body(b, "M_shroud", "M_shroud", "M_shroud", hood="closed", skirt=True,
+                skirt_len=0.66, girth=0.86)
+    for z0 in (1.0, 1.22, 1.38):
+        bm = b.part("chest" if z0 > 1.1 else "spine", "M_leather")
+        _tube(bm, Vector((0, 0, z0)), Vector((0, 0, z0 + 0.045)), 0.165 * 0.86, 0.165 * 0.86, 9)
+    return b.finalize(arm, lumpy=0.03, seed=97)
+
+
+def bellox(arm):
+    """Bourdon, the Bell-Ox: a yoked hulk crowned with a horned bone mask.
+    Runtime-scaled ~1.7x; drags a cracked bell by its harness."""
+    b = BodyBuilder("bellox")
+    common_body(b, "M_robe_boss", "M_wax", "M_leather", hood=False, skirt=True,
+                skirt_len=0.5, girth=1.5)
+    # bone ox-mask: muzzle + horn tubes
+    bm = b.part("head", "M_bone")
+    V.add_box(bm, (-0.09, 0.08, 1.5), (0.09, 0.24, 1.64))
+    _ball(bm, (0, 0.03, 1.62), 0.13)
+    for s in (1, -1):
+        _tube(bm, Vector((s * 0.1, 0.0, 1.66)), Vector((s * 0.34, 0.1, 1.82)), 0.05, 0.012, 6)
+    # yoke beam across the shoulders + harness ring
+    bm = b.part("chest", "M_wood")
+    V.add_box(bm, (-0.62, -0.1, 1.46), (0.62, 0.06, 1.58))
+    bm = b.part("chest", "M_bronze")
+    _tube(bm, Vector((0, -0.12, 1.3)), Vector((0, -0.12, 1.42)), 0.3, 0.28, 10)
+    return b.finalize(arm, lumpy=0.02, seed=53)
+
+
+ARCHETYPES["skel_shroud"] = shroud
+ARCHETYPES["skel_bellox"] = bellox

@@ -228,3 +228,26 @@ The Basilica opens. Three systems joined the data grammar:
 The audit script grew overlap-based segment matching (half-offset walls no
 longer false-flag) and it caught two real data bugs in the new area before
 any human walked it. That is the audit working as designed.
+
+## D-016 · Natural motion + the Undercroft (pass 5)
+
+**Rig naturalization.** The armature gained a neck (17 bones); the rest
+pose relaxed (upper arm drifts back, forearm returns — a standing human,
+not a mannequin); joint spheres now weight 50/50 across their hinge so
+elbows, knees, shoulders and hips deform smoothly instead of doll-balls.
+Every animation track interpolates CUBIC, idle grew to a 5.6 s loop with
+weight shift and head glances, walk/run gained neck counter-sway and head
+stabilization, attacks gained anticipation and overshoot-settle keys, the
+roll crouches before it commits. Same data tables, same combat timing.
+
+**The Ossuary Undercroft (Area D)** joins the Cloister (sisters' stair)
+and the Nave (sexton's stair) underground — the first three-way link.
+Bone grammar: T_bone painterly map, M_bone/M_shroud families, ossuary
+skull-shelf walls, bone piles, sarcophagi, shrouded dead, and its own
+lantern. The Watchers puzzle (turn the orans statues to face the east
+"owed morning" — quarter-turn interacts, plaque riddle) opens the raised
+reliquary. Two newcomers: the Shroudbound (fast, low-poise lunger — the
+tempo enemy the roster lacked) and Bourdon, the Bell-Ox — a yoked,
+bone-masked hulk minibossing the vault where the cracked bell was
+stabled: gore charges, yoke swings, slam shockwaves, and a phase-two
+stampede.

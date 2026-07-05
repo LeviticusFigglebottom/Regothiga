@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 BLOCKING = {"wall_4x4", "window_lancet_4m", "portal_4m", "fence_iron_4m",
             "arcade_4m", "rubble_m", "rubble_l", "column_4m", "buttress",
-            "balustrade_4m", "stair_grand_4m"}
+            "balustrade_4m", "stair_grand_4m", "ossuary_wall_4m", "sarcophagus"}
 # pieces that block travel but are passable doorways (still "not a fall")
 OPEN_DOOR = {"portal_4m", "arcade_4m"}
 
@@ -78,8 +78,9 @@ def audit(area_id):
         if kit not in BLOCKING:
             continue
         at = spec.get("at", [0, 0, 0])
-        if float(at[1]) > 0.6:
-            continue    # elevated decor (gargoyles etc.) doesn't seal ground level
+        if float(at[1]) > 3.0:
+            continue    # high decor (gargoyles etc.) seals nothing; landing
+                        # walls at raised floors (y<=3) do count
         rot = float(spec.get("rot", 0)) % 360
         tag = spec.get("tag", "base")
         along_x = abs(math.sin(math.radians(rot))) < 0.5   # rot 0/180 -> runs along x
