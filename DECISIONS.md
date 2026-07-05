@@ -281,3 +281,29 @@ Three bugs from live play, each a clean root cause:
 Charm: cobwebs (ruin corners) and hanging iron chains (both states) added as
 kit pieces and scattered across all four areas, with denser candle/bone/husk
 dressing.
+
+## D-018 · The wrapping horizon + enclosed halls (pass 7)
+
+Playtest note: the boss yard read as open-topped with a see-through barrier
+onto empty sky, and the skyline was a sparse ring of floating boxes with
+gaps of void between them. Both broke the Anor-Londo illusion.
+
+- **city_panorama** (new backdrop generator): a continuous 360° city
+  silhouette built as ONE mesh — four concentric bands of rooftops, gables,
+  stepped blocks and spires, height-swelled into "downtown" clusters,
+  receding to ~230 m. It fully wraps the horizon so no viewpoint ever sees a
+  gap of empty sky. Base-tagged, so it burns gold in glory and goes dead
+  blue in ruin — the whole kingdom turns with the world. Placed once per
+  open-air area (Cloister garth, Basilica porch), centered, with a few hero
+  cathedral/tower/arc silhouettes in the mid-ground for depth. The old
+  floating city_cluster boxes are retired.
+- **Roofed halls**: a roof-gap audit (floor cells minus vault_fields minus
+  roof rows minus the intentionally-open garth) found the belfry boss yard
+  and the north garden had no ceiling. Both now carry vault_fields — the
+  boss yard at a grand spring of 4.6 m with a clerestory light band. The
+  central cloister garth and the Basilica terrace stay open by design (a
+  garth and an overlook ARE open-air) — the panorama makes them majestic
+  rather than void.
+- **The shut tower door**: a new door_leaf (banded oak) closes the Basilica
+  portal in the glory layer — "During the Vespers the tower is shut" — so
+  the radiant memory ends at a door, not a barrier onto nothing.

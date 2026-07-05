@@ -575,6 +575,30 @@ def hanging_chain(with_hook=True):
     return objs, {"size": [0.2, 0.2, 1.7], "origin": "top-center"}
 
 
+def door_leaf():
+    """A shut double door of banded oak for a 1.9-wide portal opening. Solid.
+    Origin bottom-center, faces +Y (drops into a portal_4m transform)."""
+    objs = []
+    bm = bmesh.new()
+    for sx in (-1, 1):
+        x0 = 0.02 * sx
+        x1 = sx * 0.92
+        lo, hi = (min(x0, x1), max(x0, x1))
+        V.add_box(bm, (lo, -0.06, 0.02), (hi, 0.06, 2.82))
+    objs.append(V.bm_to_object(bm, "door_oak", ("M_wood",)))
+    bm = bmesh.new()
+    # iron cross-bands + ring handles
+    for z in (0.5, 1.4, 2.3):
+        V.add_box(bm, (-0.9, -0.08, z - 0.05), (0.9, 0.08, z + 0.05))
+    for sx in (-1, 1):
+        V.add_box(bm, (sx * 0.9 - 0.05, -0.08, 0.1), (sx * 0.9 + 0.05, 0.08, 2.75))
+    import math as _m
+    for sx in (-1, 1):
+        ring = V.loft_rings("ring", [(0.02, 0, 8, 0), (0.03, 0.0, 8, 0)], "M_iron")
+    objs.append(V.bm_to_object(bm, "door_bands", ("M_iron",)))
+    return objs, {"size": [1.9, 0.2, 2.85], "origin": "bottom-center"}
+
+
 BUILDERS = {
     "vigil_lantern": vigil_lantern,
     "candelabra": candelabra,
@@ -604,4 +628,5 @@ BUILDERS = {
     "cobweb": cobweb,
     "hanging_chain": lambda: hanging_chain(True),
     "hanging_chain_bare": lambda: hanging_chain(False),
+    "door_leaf": door_leaf,
 }

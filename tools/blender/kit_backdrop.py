@@ -276,7 +276,86 @@ def statue_orans(seed=3):
     return objs, {"size": [1, 1, 2.9], "origin": "bottom-center"}
 
 
+def _pano_building(bm, ang, half, R, depth, h, style, rng):
+    """One inward-facing building prism in a panorama ring, plus a gothic
+    roofline. ang/half in radians; R inner radius; depth radial thickness."""
+    a0, a1 = ang - half, ang + half
+    def pt(r, a, z):
+        return bm.verts.new((r * math.cos(a), r * math.sin(a), z))
+    bi0, bi1 = pt(R, a0, 0.0), pt(R, a1, 0.0)
+    bo0, bo1 = pt(R + depth, a0, 0.0), pt(R + depth, a1, 0.0)
+    ti0, ti1 = pt(R, a0, h), pt(R, a1, h)
+    to0, to1 = pt(R + depth, a0, h), pt(R + depth, a1, h)
+    bm.faces.new((bi0, bi1, ti1, ti0))       # inner face (toward centre = viewer)
+    bm.faces.new((bo1, bo0, to0, to1))       # outer
+    bm.faces.new((bi1, bo1, to1, ti1))       # sides
+    bm.faces.new((bo0, bi0, ti0, to0))
+    bm.faces.new((ti0, ti1, to1, to0))       # flat cap
+    rmid = R + depth * 0.5
+    if style == "spire":
+        apex = pt(rmid, ang, h + h * rng.uniform(0.35, 0.7))
+        for e0, e1 in ((ti0, ti1), (ti1, to1), (to1, to0), (to0, ti0)):
+            bm.faces.new((e0, e1, apex))
+    elif style == "gable":
+        r0 = pt(rmid, a0, h + depth * 0.55)
+        r1 = pt(rmid, a1, h + depth * 0.55)
+        bm.faces.new((ti0, ti1, r1, r0))
+        bm.faces.new((to1, to0, r0, r1))
+        bm.faces.new((ti0, r0, to0))
+        bm.faces.new((ti1, to1, r1))
+    elif style == "step":
+        sh = h * rng.uniform(0.2, 0.45)
+        sa = half * 0.55
+        s0, s1 = ang - sa, ang + sa
+        si0, si1 = pt(R + depth * 0.2, s0, h), pt(R + depth * 0.2, s1, h)
+        so0, so1 = pt(R + depth * 0.8, s0, h), pt(R + depth * 0.8, s1, h)
+        ci0, ci1 = pt(R + depth * 0.2, s0, h + sh), pt(R + depth * 0.2, s1, h + sh)
+        co0, co1 = pt(R + depth * 0.8, s0, h + sh), pt(R + depth * 0.8, s1, h + sh)
+        bm.faces.new((si0, si1, ci1, ci0))
+        bm.faces.new((so1, so0, co0, co1))
+        bm.faces.new((si1, so1, co1, ci1))
+        bm.faces.new((so0, si0, ci0, co0))
+        bm.faces.new((ci0, ci1, co1, co0))
+
+
+def city_panorama(seed=3):
+    """A continuous 360 deg city silhouette — the Anor-Londo horizon. Concentric
+    bands of rooftops, towers and spires receding into haze, built as ONE mesh
+    so no viewpoint ever sees a gap of empty sky at the skyline. Huge (radius
+    to ~230 m); place ONCE per open-air area, centred on it. Origin: centre,
+    ground at z=0."""
+    rng = random.Random(seed)
+    bm = bmesh.new()
+    # (radius, base_h, height_range, depth_range, spire_chance)
+    bands = [
+        (52, 7, (5, 16), (6, 11), 0.30),
+        (88, 11, (9, 26), (8, 15), 0.34),
+        (140, 18, (16, 46), (12, 22), 0.40),
+        (205, 14, (12, 40), (16, 30), 0.28),
+    ]
+    for (R, base_h, hr, dr, spire) in bands:
+        n = max(24, int(R * 0.42))
+        # low-frequency "downtown" swell so some sectors rise into clusters
+        crest_a = rng.uniform(0, math.tau)
+        crest_b = rng.uniform(0, math.tau)
+        a = 0.0
+        while a < math.tau - 0.01:
+            span = (math.tau / n) * rng.uniform(0.7, 1.7)
+            half = span * 0.44
+            swell = 0.5 + 0.5 * (0.6 * math.sin(a * 2 + crest_a) + 0.4 * math.sin(a * 5 + crest_b))
+            h = base_h + rng.uniform(*hr) * (0.45 + 0.9 * swell)
+            depth = rng.uniform(*dr)
+            rr = R + rng.uniform(-R * 0.05, R * 0.08)
+            roll = rng.random()
+            style = "spire" if roll < spire else ("gable" if roll < spire + 0.22 else ("step" if roll < spire + 0.5 else "flat"))
+            _pano_building(bm, a + half, half, rr, depth, h, style, rng)
+            a += span
+    body = V.bm_to_object(bm, "city_panorama", ("M_backdrop",))
+    return [body], {"size": [470, 470, 60], "origin": "center"}
+
+
 BUILDERS = {
+    "city_panorama": city_panorama,
     "spire_tower_a": lambda: spire_tower(11),
     "spire_tower_b": lambda: spire_tower(23),
     "spire_tower_c": lambda: spire_tower(37),

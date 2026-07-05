@@ -19,7 +19,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 | Bellkeeper boss | 🟡 | fog gate, 2 phases, shockwaves, cameo-in-glory; moveset depth + arena drama wanted |
 | NPCs (Aveline, the Sexton) | 🟡 | lore, blessing/flask services, the Sexton digs a paid shortcut; questlines absent |
 | Basilica of Last Light (B+C) | ✅ | porch, terrace, and now the full Nave: triforium gallery, rose window, the Unrung Bell, Precentress boss, Sexton NPC, two puzzles |
-| Skyline / kingdom backdrop | 🟡 | tower/cathedral/arc/cluster ring in both areas; wants parallax layers + per-area composition pass |
+| Skyline / kingdom backdrop | ✅ | wrapping city_panorama (4 depth bands, no sky-gaps) + hero silhouettes; morphs gold↔dead-blue; boss yard roofed, tower door shut in glory |
 | Save/persistence | ✅ | full world+player round-trip verified |
 | HUD/UI | ✅ | bars/prompts/boss bar/death splash/dialogue/rest menus; dialogue leave-cycle fixed; wants gamepad glyphs + menus polish |
 | Audio | 🟡 | fully synthesized pack (bells motif) + larksong/crow ambiences; coherent but synth-grade |
@@ -34,7 +34,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 **World & scale**
 - ~~Basilica interior as full Area C~~ done pass 4 (nave + triforium + Unrung Bell + Precentress).
 - ~~Ossuary Undercroft~~ done pass 5 (three-way underground link, Watchers puzzle, Bell-Ox).
-- Skyline pass 2: silhouette LOD ring at 150–400 m, dusk haze layers, birds/bell-echo ambience; per-area skyline compositions.
+- ~~Skyline pass 2 (wrapping panorama, no gaps, per-state)~~ done pass 7; still wants dusk-haze parallax + bell-echo ambience.
 - Traversable lower-city streets below the terrace (the stair already lands there).
 - Fast travel between kindled lanterns.
 

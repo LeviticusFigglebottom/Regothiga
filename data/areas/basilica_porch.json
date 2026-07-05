@@ -750,113 +750,56 @@
  "no_gutter": true,
  "skyline": [
   {
-   "kit": "cathedral_mass",
+   "kit": "city_panorama",
    "at": [
     0,
-    -0.5,
-    -9.0
+    -1.5,
+    6
+   ]
+  },
+  {
+   "kit": "cathedral_mass",
+   "at": [
+    -64,
+    -2.0,
+    30
    ],
-   "rot": 0,
-   "scale": 1.25
+   "rot": -60
   },
   {
    "kit": "spire_tower_a",
    "at": [
-    -19,
-    -1,
-    -20
+    40,
+    -0.5,
+    34
    ]
   },
   {
    "kit": "spire_tower_b",
    "at": [
-    19,
-    -1,
-    -22
-   ]
-  },
-  {
-   "kit": "buttress_arc",
-   "at": [
-    -13,
-    3,
-    -14
+    -40,
+    -1.0,
+    40
    ],
-   "rot": 55
-  },
-  {
-   "kit": "buttress_arc",
-   "at": [
-    13,
-    3,
-    -14
-   ],
-   "rot": -55
-  },
-  {
-   "kit": "city_cluster_a",
-   "at": [
-    -26,
-    -13,
-    34
-   ],
-   "rot": 30
-  },
-  {
-   "kit": "city_cluster_b",
-   "at": [
-    10,
-    -14,
-    42
-   ],
-   "rot": 300
-  },
-  {
-   "kit": "city_cluster_a",
-   "at": [
-    36,
-    -12,
-    26
-   ],
-   "rot": 160
+   "scale": 1.15
   },
   {
    "kit": "spire_tower_c",
    "at": [
-    -38,
-    -10,
-    30
+    30,
+    -1.0,
+    60
    ],
-   "rot": 75
+   "rot": 200
   },
   {
-   "kit": "spire_tower_a",
+   "kit": "buttress_arc",
    "at": [
-    42,
-    -11,
-    38
+    48,
+    5.5,
+    34
    ],
-   "rot": 260,
-   "scale": 0.85
-  },
-  {
-   "kit": "spire_tower_b",
-   "at": [
-    0,
-    -16,
-    66
-   ],
-   "scale": 1.5
-  },
-  {
-   "kit": "city_cluster_b",
-   "at": [
-    -8,
-    -15,
-    56
-   ],
-   "rot": 200,
-   "scale": 1.4
+   "rot": 60
   }
  ],
  "pickups": [
