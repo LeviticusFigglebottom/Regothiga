@@ -187,16 +187,20 @@ func _st_combat(dt: float) -> void:
 	if not pick.is_empty():
 		_begin_attack(pick)
 		return
-	# reposition: slow strafe + keep spacing
+	# reposition: slow strafe + keep spacing (singers back away instead)
 	if _think_t <= 0.0:
 		_think_t = randf_range(0.8, 1.6)
 		_strafe_dir = -_strafe_dir if randf() < 0.4 else _strafe_dir
 		_blocking = cfg.has("block_arc") and randf() < 0.45
 	var fwd := to.normalized()
 	var side := fwd.cross(Vector3.UP) * _strafe_dir
-	var want := side * 1.1 + fwd * clampf(dist - 2.0, -0.8, 0.7)
-	velocity.x = move_toward(velocity.x, want.x, 6 * dt)
-	velocity.z = move_toward(velocity.z, want.z, 6 * dt)
+	var keep := float(cfg.get("keep_range", 0.0))
+	var closing := clampf(dist - 2.0, -0.8, 0.7)
+	if keep > 0.0:
+		closing = clampf(dist - keep, -1.6, 0.5)
+	var want := side * 1.1 + fwd * closing
+	velocity.x = move_toward(velocity.x, want.x * float(cfg.get("speed", 2.5)) * 0.55, 6 * dt)
+	velocity.z = move_toward(velocity.z, want.z * float(cfg.get("speed", 2.5)) * 0.55, 6 * dt)
 
 func _target_valid() -> bool:
 	if target == null or not is_instance_valid(target) or target.get("dead") == true:
@@ -253,7 +257,10 @@ func _st_attack(dt: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, 14 * dt)
 	if not _atk_done and t >= w:
 		_atk_done = true
-		_open_hitbox()
+		match _atk.get("type", "melee"):
+			"ranged": _fire_projectiles()
+			"summon": _summon()
+			_: _open_hitbox()
 		if _atk.has("shockwave"):
 			_shockwave.call_deferred(float(_atk["shockwave"]))
 	if _atk_done and t >= w + act and hitbox.monitoring:
@@ -269,6 +276,52 @@ func _open_hitbox() -> void:
 	hitbox.position = Vector3(0, float(cfg.get("arm_h", 1.2)) * 0.9, -reach * 0.5 - 0.3)
 	var pk := DamagePacket.new(float(_atk.get("dmg", 10)), float(_atk.get("poise_dmg", 10)), self)
 	hitbox.begin_swing(pk)
+
+## Ranged attacks sing projectiles: count/spread fan, aimed at the player's
+## chest with light lead so strafing matters but walking works.
+func _fire_projectiles() -> void:
+	if not _target_valid():
+		return
+	var from := global_position + Vector3.UP * (float(cfg.get("arm_h", 1.3)) * float(cfg.get("vis_scale", 1.0)))
+	from += -vis.global_transform.basis.z * 0.5
+	var aim: Vector3 = target.global_position + Vector3.UP * 1.0
+	if target is CharacterBody3D:
+		aim += Vector3((target as CharacterBody3D).velocity.x, 0, (target as CharacterBody3D).velocity.z) * 0.22
+	var dir := (aim - from).normalized()
+	var count := int(_atk.get("count", 1))
+	var spread := deg_to_rad(float(_atk.get("spread_deg", 14)))
+	for i in count:
+		var off := 0.0 if count == 1 else lerpf(-spread, spread, float(i) / float(count - 1))
+		var d := dir.rotated(Vector3.UP, off)
+		var pk := DamagePacket.new(float(_atk.get("dmg", 12)), float(_atk.get("poise_dmg", 8)), self)
+		pk.can_be_parried = false
+		Projectile.launch(get_parent(), from, d, float(_atk.get("proj_speed", 9.0)), pk)
+	AudioDirector.sfx_at(cfg.get("sfx_cast", "res://assets/audio/whoosh_l.wav"),
+			global_position, -8.0, 1.4)
+
+## Summons: raise minions around the caster, capped alive.
+var _minions: Array = []
+
+func _summon() -> void:
+	_minions = _minions.filter(func(m): return is_instance_valid(m) and not m.dead)
+	var max_alive := int(_atk.get("max_alive", 2))
+	var want := int(_atk.get("count", 2))
+	var placed := 0
+	for i in want:
+		if _minions.size() >= max_alive:
+			break
+		var e := Enemy.new()
+		e.setup(_atk.get("enemy", "chorister"))
+		get_parent().add_child(e)
+		var a := TAU * float(i) / float(want) + randf() * 0.8
+		e.global_position = global_position + Vector3(cos(a) * 2.6, 0.1, sin(a) * 2.6)
+		e.target = target
+		e._set_state(ES.ALERT)
+		_minions.append(e)
+		placed += 1
+	if placed > 0:
+		Juice.shake(0.3, 0.3)
+		AudioDirector.sfx_at(cfg.get("sfx_alert", ""), global_position, -4.0, 1.3)
 
 func _shockwave(radius: float) -> void:
 	# ring burst on slam attacks (boss): damages if close to ground zero

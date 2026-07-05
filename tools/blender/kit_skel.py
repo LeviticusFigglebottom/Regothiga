@@ -301,12 +301,68 @@ def sister(arm):
     return b.finalize(arm)
 
 
+def sexton(arm):
+    """The Sexton: stout gravedigger of the Basilica. Flat cap, leather
+    apron, sleeves rolled (bare forearms), heavy boots."""
+    b = BodyBuilder("sexton")
+    common_body(b, "M_robe", "M_wax", "M_leather", hood=False, skirt=True,
+                skirt_len=0.26, girth=1.18)
+    # leather apron front
+    bm = b.part("spine", "M_leather")
+    V.add_box(bm, (-0.15, 0.13, 0.72), (0.15, 0.19, 1.3))
+    # flat cap
+    bm = b.part("head", "M_leather")
+    _tube(bm, Vector((0, 0.01, 1.68)), Vector((0, 0.02, 1.735)), 0.135, 0.115, 9)
+    _tube(bm, Vector((0, 0.06, 1.7)), Vector((0, 0.09, 1.71)), 0.06, 0.03, 7)
+    # bare forearms: overwrite sleeves visually with skin-toned wraps
+    for side in ("l", "r"):
+        bm = b.part(f"farm_{side}", "M_wax")
+        h, t = _bone_vec(f"farm_{side}")
+        _tube(bm, h + (t - h) * 0.35, t, 0.055, 0.05, 7)
+    return b.finalize(arm, lumpy=0.012, seed=19)
+
+
+def chorister(arm):
+    """Chorister of the Last Choir: slender, pale, open cowl and a high
+    collar. Ranged singer — the body sways more than it strides."""
+    b = BodyBuilder("chorister")
+    common_body(b, "M_wraith", "M_wax", "M_wraith", hood=True, skirt=True,
+                skirt_len=0.6, girth=0.9)
+    # high choir collar
+    bm = b.part("chest", "M_habit")
+    _tube(bm, Vector((0, 0, 1.4)), Vector((0, -0.01, 1.5)), 0.16, 0.17, 10)
+    # hymnal chained to the belt
+    bm = b.part("hips", "M_leather")
+    V.add_box(bm, (-0.2, -0.14, 0.9), (-0.06, -0.05, 1.02))
+    return b.finalize(arm, seed=43)
+
+
+def precentress(arm):
+    """The Precentress: mistress of the choir. Tall gilt wimple, boss robes,
+    censer chains. Scaled up ~1.3x at runtime."""
+    b = BodyBuilder("precentress")
+    common_body(b, "M_robe_boss", "M_wax", "M_robe_boss", hood=True, skirt=True,
+                skirt_len=0.62, girth=0.98)
+    # tall two-horn wimple crown
+    bm = b.part("head", "M_gold")
+    _tube(bm, Vector((0, 0.0, 1.7)), Vector((0, -0.03, 2.02)), 0.09, 0.015, 8)
+    _tube(bm, Vector((0, 0.0, 1.66)), Vector((0, 0.0, 1.72)), 0.125, 0.1, 8)
+    # censer chains crossing the chest
+    bm = b.part("chest", "M_bronze")
+    _tube(bm, Vector((0.15, -0.1, 1.42)), Vector((-0.13, -0.12, 1.1)), 0.018, 0.018, 5)
+    _tube(bm, Vector((-0.15, -0.1, 1.42)), Vector((0.13, -0.12, 1.1)), 0.018, 0.018, 5)
+    return b.finalize(arm, seed=61)
+
+
 ARCHETYPES = {
     "skel_hero": hero,
     "skel_ward": ward,
     "skel_penitent": penitent,
     "skel_giant": giant,
     "skel_sister": sister,
+    "skel_sexton": sexton,
+    "skel_chorister": chorister,
+    "skel_precentress": precentress,
 }
 
 

@@ -193,8 +193,38 @@ def make_wax():
     img = norm05(blobs * 0.7 + drips * 0.3, 0.5)
     write_png("T_wax", img)
 
+def make_mosaic():
+    # tesserae: 24 cells/2m tile, per-cube tone jitter, sunk grout, a few
+    # missing cubes; concentric band pattern for medallion charm
+    cells = 24
+    u = np.linspace(0, cells, N, endpoint=False)
+    fx = u[None, :] - np.floor(u[None, :])
+    fy = u[:, None] - np.floor(u[:, None])
+    ids = (np.floor(u)[None, :] * 53 + np.floor(u)[:, None] * 17)
+    tone = tone_from_ids(ids, 111, 0.2)
+    r = np.random.default_rng(112)
+    missing = (r.random((cells, cells)) < 0.04)
+    miss = np.kron(missing, np.ones((N // cells + 1, N // cells + 1)))[:N, :N]
+    grout = ((fx < 0.12) | (fx > 0.88) | (fy < 0.12) | (fy > 0.88)).astype(float)
+    cx = (np.linspace(-1, 1, N)[None, :] ** 2 + np.linspace(-1, 1, N)[:, None] ** 2) ** 0.5
+    band = 0.5 + 0.5 * np.sin(cx * np.pi * 6)
+    img = tone * 0.62 + band * 0.16 + 0.11
+    img = img * (1 - 0.5 * blur_wrap(grout, 1)) * (1 - 0.35 * miss)
+    img += (vnoise(10, 113, 2) - 0.5) * 0.08
+    write_png("T_mosaic", posterize(np.clip(img, 0, 1), 8, 0.3))
+
+def make_bronze():
+    # cast bronze: vertical pour streaks, patina mottle, bright rubbed spots
+    streaks = brush(vnoise(14, 121, 3), 90, 14)
+    patina = blur_wrap((vnoise(7, 122, 3) > 0.58).astype(float), 3)
+    rubbed = blur_wrap((vnoise(5, 123, 2) > 0.72).astype(float), 4)
+    img = norm05(streaks, 0.5) - patina * 0.16 + rubbed * 0.18
+    img += (vnoise(28, 124, 2) - 0.5) * 0.07
+    write_png("T_bronze", posterize(np.clip(img, 0, 1), 7, 0.25))
+
 
 if __name__ == "__main__":
     make_stone(); make_trim(); make_floor(); make_wood()
     make_roof(); make_cloth(); make_iron(); make_wax()
+    make_mosaic(); make_bronze()
     print("[tex] done")

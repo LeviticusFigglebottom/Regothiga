@@ -94,6 +94,20 @@ static func build(area_id: String) -> Area:
 		var c := BellkeeperCameo.new()
 		area.attach(c, spec.get("tag", "glory"))
 		_place(c, spec)
+	for spec in def.get("chime_puzzles", []):
+		var ch := ChimePuzzle.new()
+		area.attach(ch, spec.get("tag", "base"))
+		ch.setup(spec)
+	for spec in def.get("votive_locks", []):
+		var vl := VotiveLock.new()
+		area.attach(vl, spec.get("tag", "glory"))
+		vl.setup(spec)
+	for spec in def.get("flag_gates", []):
+		var fgate := FlagGate.new()
+		var gtag: String = spec.get("tag", "base")
+		area.attach(fgate, gtag)
+		_place(fgate, spec)
+		fgate.setup(spec, _tag_bit(gtag))
 	for spec in def.get("portals", []):
 		var pt := AreaPortal.new()
 		pt.to_area = spec.get("to", "")
@@ -141,7 +155,7 @@ static func _tag_bit(tag: String) -> int:
 const PASSABLE_PROPS := ["banner", "banner_torn", "ivy_sheet_a", "ivy_sheet_b",
 	"censer_hanging", "censer_fallen", "sconce_torch", "glass_lancet",
 	"glass_lancet_broken", "candle_cluster", "candle_cluster_dead",
-	"book_stack", "scroll_pile", "rubble_s"]
+	"book_stack", "scroll_pile", "rubble_s", "mosaic_medallion"]
 
 static func _prop_collides(spec: Dictionary) -> bool:
 	if spec.has("collide"):

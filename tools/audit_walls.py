@@ -83,19 +83,20 @@ def audit(area_id):
         rot = float(spec.get("rot", 0)) % 360
         tag = spec.get("tag", "base")
         along_x = abs(math.sin(math.radians(rot))) < 0.5   # rot 0/180 -> runs along x
+        # a piece spans 4m along its line; credit every boundary segment it
+        # overlaps by >=1.9m (pieces may sit half-offset from the seg grid)
         if along_x:
-            seg = ('x', round(at[2]), int((at[0] - 2) // 4 + 1) * 4 if False else int(round(at[0] - 2)))
-            seg = ('x', round(at[2]), int(round(at[0] - 2)))
+            axis_p, fixed_p, lo = 'x', at[2], at[0] - 2.0
         else:
-            seg = ('z', round(at[0]), int(round(at[2] - 2)))
+            axis_p, fixed_p, lo = 'z', at[0], at[2] - 2.0
         for cand in list(segs.keys()):
-            if cand[0] != seg[0]:
+            if cand[0] != axis_p:
                 continue
-            if abs(cand[1] - seg[1]) > 0.55:
+            if abs(cand[1] - fixed_p) > 0.55:
                 continue
-            if abs(cand[2] - seg[2]) > 1.1:
-                continue
-            segs[cand].add(tag if kit not in OPEN_DOOR else "door")
+            overlap = min(lo + 4.0, cand[2] + 4.0) - max(lo, cand[2])
+            if overlap >= 1.9:
+                segs[cand].add(tag if kit not in OPEN_DOOR else "door")
     # blockers
     for b in def_.get("blockers", []):
         mn, mx = b["min"], b["max"]

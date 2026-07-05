@@ -12,13 +12,13 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 | Transformation spectacle | ✅ | expanding wave, per-fragment morph, dissolve edges, env/sun lerp, particle front, swell audio; captured in-game from player POV |
 | Blender→Godot kit pipeline | ✅ | 60 generated pieces, one shader family, headless author→render→verify loop |
 | Player combat core | ✅ | stamina, i-frame rolls, combos, block/parry/riposte, poise, lock-on — 19 checks green |
-| Enemies + encounters | 🟡 | 2 archetypes + boss; deliberate telegraphs; placement-with-intent; wants more variety + ranged |
+| Enemies + encounters | ✅ | 3 archetypes + 2 bosses; ranged chorister (projectiles, keep-away AI), Precentress summons her choir; deliberate telegraphs |
 | Death / Orisons loop | ✅ | drop → one-chance remembrance → replacement rule; 22 checks green |
 | Vigil lanterns + leveling | ✅ | rest menu, kindle/gutter choice when cleared, attribute leveling |
 | The Gray Cloister (Area A) | ✅ | 9 rooms/spaces, both states authored, shortcut gate + 2 state-routes, 13 foes |
 | Bellkeeper boss | 🟡 | fog gate, 2 phases, shockwaves, cameo-in-glory; moveset depth + arena drama wanted |
-| NPC (Sister Aveline) | 🟡 | lore lines, weapon blessing, flask upgrade; questline absent |
-| Basilica of Last Light (B) | 🩶 | porch + sunset terrace + skyline; interior sealed ("next passing") |
+| NPCs (Aveline, the Sexton) | 🟡 | lore, blessing/flask services, the Sexton digs a paid shortcut; questlines absent |
+| Basilica of Last Light (B+C) | ✅ | porch, terrace, and now the full Nave: triforium gallery, rose window, the Unrung Bell, Precentress boss, Sexton NPC, two puzzles |
 | Skyline / kingdom backdrop | 🟡 | tower/cathedral/arc/cluster ring in both areas; wants parallax layers + per-area composition pass |
 | Save/persistence | ✅ | full world+player round-trip verified |
 | HUD/UI | 🟡 | bars/prompts/boss bar/death splash/dialogue/rest menus; anchored layout; wants gamepad glyphs + menus polish |
@@ -32,7 +32,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 ## Pass 2+ backlog (concrete)
 
 **World & scale**
-- Basilica interior as full Area C: rose-window nave, triforium walkway loop, the Unrung Bell arc.
+- ~~Basilica interior as full Area C~~ done pass 4 (nave + triforium + Unrung Bell + Precentress).
 - Ossuary Undercroft (Area D) linking Cloister and Basilica underground — first three-way interconnection.
 - Skyline pass 2: silhouette LOD ring at 150–400 m, dusk haze layers, birds/bell-echo ambience; per-area skyline compositions.
 - Traversable lower-city streets below the terrace (the stair already lands there).
@@ -48,8 +48,8 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 **Systems**
 - Weight/encumbrance roll tiers; status effects (guttering/waxfire); talismans ("votive seals").
 - Weapon upgrade depth +1..+5 with scaling growth; halberd + censer-flail movesets for the player.
-- 3 more enemy types (ranged Chorister, glory-echo assassin, bell-ox miniboss).
-- Aveline questline (missable, consequence-bearing); the Sexton NPC (armor, shortcut-digging).
+- ~~ranged Chorister~~ done pass 4; still wanted: glory-echo assassin, bell-ox miniboss.
+- Aveline questline (missable, consequence-bearing); ~~the Sexton NPC~~ done pass 4 (dig service).
 
 **Tech debt / audits**
 - ~~HUD anchor-based layout~~ done (center/right elements anchored).

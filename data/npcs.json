@@ -1,23 +1,60 @@
 {
-	"aveline": {
-		"name": "Sister Aveline, the Chandler",
-		"short_name": "the Chandler",
-		"body": "char_aveline",
-		"lines_first": [
-			"Another pilgrim? No — later than that. A Latecomer. The wax knows its own hours, and yours ran out elsewhere.",
-			"This is the Gray Cloister, keeper of the western vigil. I dip the candles that hold what's left of us. Six hundred a day, once. Now… you see the garth. Beautiful, isn't it. Try to remember it like this.",
-			"When you kneel at the lantern, child, the seeing ends and the surviving begins. What gutters will not rekindle while the Bellkeeper's grief drowns this quarter. Put him to rest — gently, if your blade knows how.",
-			"Bring me candleglass if you find any in the dark. Windows weep it when they break. I can melt it into an edge like a prayer into an ear."
-		],
-		"lines_repeat": [
-			"Still walking, Latecomer? Good. Wax stands, wax serves.",
-			"The Bellkeeper was kind, before. He held the hours so the rest of us could let them go."
-		],
-		"services": [
-			{ "id": "bless", "type": "upgrade", "orisons": 150,
-			  "label": "Bless the blade — 1 candleglass + 150 orisons" },
-			{ "id": "tallow", "type": "flask_up", "orisons": 300, "once_flag": "bought_tallow",
-			  "label": "Buy the Tallow Heart — deepen the chrism flask — 300 orisons" }
-		]
-	}
+ "aveline": {
+  "name": "Sister Aveline, the Chandler",
+  "short_name": "the Chandler",
+  "body": "char_aveline",
+  "lines_first": [
+   "Another pilgrim? No \u2014 later than that. A Latecomer. The wax knows its own hours, and yours ran out elsewhere.",
+   "This is the Gray Cloister, keeper of the western vigil. I dip the candles that hold what's left of us. Six hundred a day, once. Now\u2026 you see the garth. Beautiful, isn't it. Try to remember it like this.",
+   "When you kneel at the lantern, child, the seeing ends and the surviving begins. What gutters will not rekindle while the Bellkeeper's grief drowns this quarter. Put him to rest \u2014 gently, if your blade knows how.",
+   "Bring me candleglass if you find any in the dark. Windows weep it when they break. I can melt it into an edge like a prayer into an ear."
+  ],
+  "lines_repeat": [
+   "Still walking, Latecomer? Good. Wax stands, wax serves.",
+   "The Bellkeeper was kind, before. He held the hours so the rest of us could let them go."
+  ],
+  "services": [
+   {
+    "id": "bless",
+    "type": "upgrade",
+    "orisons": 150,
+    "label": "Bless the blade \u2014 1 candleglass + 150 orisons"
+   },
+   {
+    "id": "tallow",
+    "type": "flask_up",
+    "orisons": 300,
+    "once_flag": "bought_tallow",
+    "label": "Buy the Tallow Heart \u2014 deepen the chrism flask \u2014 300 orisons"
+   }
+  ],
+  "carry": "candle_cluster"
+ },
+ "sexton": {
+  "name": "Brother Ordo, the Sexton",
+  "short_name": "the Sexton",
+  "body": "skel_sexton",
+  "carry": "maul_sexton",
+  "carry_hand": "r",
+  "lines_first": [
+   "Mind the edge of the grave, Latecomer. I dug it true and I'll not have your boots spoiling the corners.",
+   "Six hundred brothers I put down, one at a time, while the choir sang the count. The singing was worse than the digging. The digging ends.",
+   "The Precentress? Past the screen, under the bell that never spoke. She won't stop for death. Death is an interruption, and she does not brook interruptions.",
+   "The west aisle came down in the ruin-hour. I can clear it \u2014 stone listens to me \u2014 but shovels eat, and mine eats orisons."
+  ],
+  "lines_repeat": [
+   "Still above ground? Habit, or talent?",
+   "When it's your turn, I'll square your corners like the rest. No charge for craft."
+  ],
+  "services": [
+   {
+    "id": "dig",
+    "type": "dig",
+    "orisons": 180,
+    "flag": "sexton_dug",
+    "label": "Have him clear the west aisle \u2014 180 orisons",
+    "done_line": "There. The aisle runs clean in the dark now. Tell the rubble I said stay."
+   }
+  ]
+ }
 }

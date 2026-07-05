@@ -632,6 +632,15 @@
    ],
    "rot": -45,
    "tag": "ruin"
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    0,
+    0.01,
+    -4.6
+   ],
+   "tag": "base"
   }
  ],
  "lanterns": [
@@ -655,6 +664,15 @@
    ],
    "rot": -160,
    "text": "BASILICA OF LAST LIGHT\n\nHere the great bell waits for the thirteenth hour, and the door does not open \u2014 not for grief, not for gold, not yet for you.\n\nBeyond this porch the kingdom goes on: the Ossuary Undercroft, the Larkspire, the Black Gate under its drowned sun. All of it remembered. All of it waiting to be walked.\n\n(The pilgrimage continues in the next passing.)"
+  },
+  {
+   "at": [
+    3.2,
+    0,
+    -5.6
+   ],
+   "rot": -60,
+   "text": "THE VESPER CHIMES\n\nThe door hears only the day rung in its dying order:\n\nthe morning office first \u2014 then the evening we kept \u2014 then the hour that never came."
   }
  ],
  "portals": [
@@ -672,6 +690,23 @@
     -10
    ],
    "prompt": "Return to the Gray Cloister"
+  },
+  {
+   "to": "basilica_nave",
+   "at": [
+    0,
+    0,
+    -7.4
+   ],
+   "rot": 0,
+   "spawn": [
+    0,
+    0.2,
+    5
+   ],
+   "prompt": "Enter the Basilica",
+   "locked_flag": "vesper_chimes",
+   "locked_prompt": "The door waits on the vespers no one rang"
   }
  ],
  "no_gutter": true,
@@ -825,6 +860,48 @@
     0.2
    ],
    "tag": "base"
+  }
+ ],
+ "chime_puzzles": [
+  {
+   "flag": "vesper_chimes",
+   "order": [
+    "prime",
+    "vespers",
+    "thirteenth"
+   ],
+   "chimes": [
+    {
+     "id": "prime",
+     "label": "the Prime chime",
+     "at": [
+      -6,
+      0,
+      3.2
+     ],
+     "rot": 130
+    },
+    {
+     "id": "vespers",
+     "label": "the Vesper chime",
+     "at": [
+      6,
+      0,
+      3.2
+     ],
+     "rot": -130
+    },
+    {
+     "id": "thirteenth",
+     "label": "the Thirteenth chime",
+     "at": [
+      -3.2,
+      0,
+      -5.6
+     ],
+     "rot": 60
+    }
+   ]
   }
  ]
 }

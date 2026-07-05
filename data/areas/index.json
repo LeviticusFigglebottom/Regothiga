@@ -1,8 +1,20 @@
 {
-	"areas": ["gray_cloister", "basilica_porch"],
-	"graph": {
-		"gray_cloister": { "east": "basilica_porch" },
-		"basilica_porch": { "west": "gray_cloister" }
-	},
-	"start_area": "gray_cloister"
+ "areas": [
+  "gray_cloister",
+  "basilica_porch",
+  "basilica_nave"
+ ],
+ "graph": {
+  "gray_cloister": {
+   "east": "basilica_porch"
+  },
+  "basilica_porch": {
+   "west": "gray_cloister",
+   "north": "basilica_nave"
+  },
+  "basilica_nave": {
+   "south": "basilica_porch"
+  }
+ },
+ "start_area": "gray_cloister"
 }

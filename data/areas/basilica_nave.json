@@ -1,0 +1,1568 @@
+{
+ "id": "basilica_nave",
+ "name": "Basilica of Last Light \u2014 Nave",
+ "start": {
+  "pos": [
+   0,
+   0.2,
+   5
+  ],
+  "yaw": 180
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -10,
+    0,
+    -24
+   ],
+   "max": [
+    10,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -14,
+    0,
+    -24
+   ],
+   "max": [
+    -10,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    10,
+    0,
+    -24
+   ],
+   "max": [
+    14,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    0,
+    -32
+   ],
+   "max": [
+    8,
+    0,
+    -24
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -14,
+    4.78,
+    -24
+   ],
+   "max": [
+    -10,
+    4.78,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -10,
+    4.78,
+    4
+   ],
+   "max": [
+    14,
+    4.78,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    10,
+    2.38,
+    -4
+   ],
+   "max": [
+    14,
+    2.38,
+    0
+   ]
+  }
+ ],
+ "vault_fields": [
+  {
+   "min": [
+    -10,
+    0,
+    -24
+   ],
+   "max": [
+    10,
+    0,
+    8
+   ],
+   "spring": 5.4
+  },
+  {
+   "min": [
+    -8,
+    0,
+    -32
+   ],
+   "max": [
+    8,
+    0,
+    -24
+   ],
+   "spring": 5.4
+  },
+  {
+   "min": [
+    10,
+    0,
+    -24
+   ],
+   "max": [
+    14,
+    0,
+    8
+   ],
+   "spring": 3.3
+  },
+  {
+   "min": [
+    -14,
+    0,
+    -24
+   ],
+   "max": [
+    -10,
+    0,
+    8
+   ],
+   "spring": 3.3
+  }
+ ],
+ "rows": [
+  {
+   "kit": "arcade_4m",
+   "from": [
+    10,
+    0,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 8,
+   "rot": -90,
+   "skip": [
+    1,
+    4,
+    7
+   ]
+  },
+  {
+   "kit": "arcade_4m",
+   "from": [
+    -10,
+    0,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 8,
+   "rot": 90,
+   "skip": [
+    1,
+    4,
+    7
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    14,
+    0,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 8,
+   "rot": -90,
+   "skip": [
+    1,
+    3,
+    5,
+    7
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "from": [
+    14,
+    0,
+    -18
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "step": 8.0,
+   "rot": -90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -14,
+    0,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 8,
+   "rot": 90,
+   "skip": [
+    1,
+    3,
+    5,
+    7
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "from": [
+    -14,
+    0,
+    -18
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "step": 8.0,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    0,
+    -30
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    0,
+    -30
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -12,
+    0,
+    -24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    12,
+    0,
+    -24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    0,
+    -24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -4,
+    0,
+    -24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    4,
+    0,
+    -24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    0,
+    -24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    0,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    4,
+    0,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    0,
+    -32
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -9.8,
+    4.78,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 8,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -12,
+    4.78,
+    3.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 7,
+   "rot": 0,
+   "skip": [
+    6
+   ]
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -12,
+    4.78,
+    -23.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    10,
+    4.78,
+    3.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 0
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    -24
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    8
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0,
+    3.6,
+    -31.7
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "bell_great",
+   "at": [
+    0,
+    2.7,
+    -27.6
+   ],
+   "scale": 2.0
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    12,
+    2.36,
+    -4
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    12,
+    4.76,
+    4
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    11,
+    0,
+    -2.2
+   ]
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    13.2,
+    0,
+    -2.2
+   ]
+  },
+  {
+   "kit": "organ_case",
+   "at": [
+    -5.5,
+    0,
+    -30.6
+   ]
+  },
+  {
+   "kit": "altar",
+   "at": [
+    0,
+    0,
+    -30.2
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    0,
+    8
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    0,
+    8
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "collide": false
+  },
+  {
+   "kit": "tomb_slab",
+   "at": [
+    12.4,
+    0,
+    -12.2
+   ],
+   "rot": 8
+  },
+  {
+   "kit": "tomb_slab",
+   "at": [
+    11.6,
+    0,
+    -15.8
+   ],
+   "rot": -80
+  },
+  {
+   "kit": "column_broken",
+   "at": [
+    -11.8,
+    0,
+    -14.5
+   ],
+   "rot": 0.4,
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_m",
+   "at": [
+    4.4,
+    0,
+    -10.5
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_m",
+   "at": [
+    -6.2,
+    0,
+    1.8
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    1.5,
+    0,
+    -18.6
+   ],
+   "tag": "ruin",
+   "collide": false
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    -9.4,
+    0,
+    -7.2
+   ],
+   "tag": "ruin",
+   "collide": false
+  }
+ ],
+ "props": [
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    0,
+    0.01,
+    -28
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    0,
+    0.01,
+    2
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "choir_stall",
+   "at": [
+    -4.5,
+    0,
+    -26.2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "choir_stall",
+   "at": [
+    4.5,
+    0,
+    -26.2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "pew",
+   "at": [
+    -2.2,
+    0,
+    -14
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "pew",
+   "at": [
+    2.2,
+    0,
+    -14
+   ],
+   "rot": -3,
+   "tag": "base"
+  },
+  {
+   "kit": "pew",
+   "at": [
+    -2.2,
+    0,
+    -12.2
+   ],
+   "rot": 4,
+   "tag": "base"
+  },
+  {
+   "kit": "pew",
+   "at": [
+    2.2,
+    0,
+    -12.4
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "pew",
+   "at": [
+    -2.4,
+    0,
+    -10.4
+   ],
+   "rot": -6,
+   "tag": "base"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    13.95,
+    0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    13.95,
+    0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    13.95,
+    0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    13.95,
+    0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    13.95,
+    0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    13.95,
+    0,
+    6
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -13.95,
+    0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -13.95,
+    0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -13.95,
+    0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -13.95,
+    0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -13.95,
+    0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -13.95,
+    0,
+    6
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.6,
+    0,
+    -20
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.6,
+    0,
+    -20
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.6,
+    0,
+    -8
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.6,
+    0,
+    -8
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -3.4,
+    0,
+    -29
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    3.4,
+    0,
+    -29
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -7,
+    0,
+    5
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -7,
+    0,
+    5
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    7,
+    0,
+    5
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    7,
+    0,
+    5
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -9.7,
+    0.4,
+    -16
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    9.7,
+    0.4,
+    -12
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -9.7,
+    0.4,
+    -16
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    9.7,
+    0.4,
+    -12
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "censer_hanging",
+   "at": [
+    0,
+    3.2,
+    -8
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "censer_fallen",
+   "at": [
+    0.4,
+    0,
+    -8.3
+   ],
+   "rot": 40,
+   "tag": "ruin"
+  },
+  {
+   "kit": "censer_hanging",
+   "at": [
+    0,
+    3.2,
+    -18
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "censer_fallen",
+   "at": [
+    -0.3,
+    0,
+    -18.4
+   ],
+   "rot": 200,
+   "tag": "ruin"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -8.7,
+    0,
+    -23
+   ],
+   "rot": 35,
+   "tag": "glory"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    8.7,
+    0,
+    -23
+   ],
+   "rot": -35,
+   "tag": "glory"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -8.7,
+    0,
+    -23
+   ],
+   "rot": 35,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    8.7,
+    0,
+    -23
+   ],
+   "rot": -35,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -2.6,
+    0,
+    -13.2
+   ],
+   "rot": 160,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    3.1,
+    0,
+    -26.5
+   ],
+   "rot": -60,
+   "tag": "ruin"
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    -12,
+    0,
+    -22.6
+   ],
+   "rot": 10,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -0.8,
+    0,
+    -23.2
+   ],
+   "rot": 30,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -0.8,
+    0,
+    -23.2
+   ],
+   "rot": 30,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    7.9,
+    0,
+    -24.6
+   ],
+   "rot": 130,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    7.9,
+    0,
+    -24.6
+   ],
+   "rot": 130,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -6.3,
+    0,
+    6.6
+   ],
+   "rot": 210,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -6.3,
+    0,
+    6.6
+   ],
+   "rot": 210,
+   "tag": "ruin"
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    -12.6,
+    0,
+    -18.7
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "scroll_pile",
+   "at": [
+    -12.1,
+    0,
+    -19.3
+   ],
+   "rot": -50,
+   "tag": "base"
+  },
+  {
+   "kit": "ivy_sheet_a",
+   "at": [
+    -9.75,
+    0,
+    -3.0
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "ivy_sheet_b",
+   "at": [
+    9.75,
+    0,
+    -20.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.4,
+    0,
+    -24.8
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.4,
+    0,
+    7.2
+   ],
+   "tag": "base"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "nave",
+   "name": "Nave Lantern",
+   "at": [
+    6,
+    0,
+    4.6
+   ],
+   "rot": 180
+  }
+ ],
+ "gates": [],
+ "fog_gates": [
+  {
+   "id": "choir",
+   "at": [
+    0,
+    0,
+    -24
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  }
+ ],
+ "spawners": [
+  {
+   "enemy": "chorister",
+   "id": "quire_w",
+   "at": [
+    -6,
+    0.1,
+    -12
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "chorister",
+   "id": "quire_e",
+   "at": [
+    6,
+    0.1,
+    -16
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "chorister",
+   "id": "aisle_e",
+   "at": [
+    12,
+    0.1,
+    -18
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "penitent",
+   "id": "narthex",
+   "at": [
+    8,
+    0.1,
+    4
+   ],
+   "face": -120
+  },
+  {
+   "enemy": "penitent",
+   "id": "vessel",
+   "at": [
+    0,
+    0.1,
+    -2
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "penitent",
+   "id": "aisle_w",
+   "at": [
+    -12,
+    0.1,
+    -10
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "ward",
+   "id": "crossing_ward",
+   "at": [
+    0,
+    0.1,
+    -18
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "precentress",
+   "id": "precentress",
+   "at": [
+    0,
+    0.1,
+    -28
+   ],
+   "face": 0,
+   "dead_once": true,
+   "fog_gate_id": "choir"
+  }
+ ],
+ "npcs": [
+  {
+   "id": "sexton",
+   "at": [
+    12,
+    0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base"
+  }
+ ],
+ "chime_puzzles": [],
+ "votive_locks": [
+  {
+   "flag": "nave_votives",
+   "tag": "glory",
+   "votives": [
+    {
+     "at": [
+      -6,
+      0,
+      -20
+     ]
+    },
+    {
+     "at": [
+      6,
+      0,
+      -20
+     ]
+    },
+    {
+     "at": [
+      0,
+      0,
+      -10
+     ]
+    }
+   ]
+  }
+ ],
+ "flag_gates": [
+  {
+   "flag": "nave_votives",
+   "kit": "fence_iron_4m",
+   "at": [
+    8,
+    4.78,
+    6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "flag": "sexton_dug",
+   "kit": "rubble_l",
+   "at": [
+    -11,
+    0,
+    -4
+   ],
+   "tag": "ruin"
+  },
+  {
+   "flag": "sexton_dug",
+   "kit": "rubble_l",
+   "at": [
+    -13,
+    0,
+    -4.4
+   ],
+   "rot": 70,
+   "tag": "ruin"
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    -1.9,
+    0,
+    6.4
+   ],
+   "rot": -160,
+   "text": "THE BASILICA OF LAST LIGHT\n\nHere the kingdom kept its loudest silence.\n\nWhen the sun stood still at vespers, the choir sang the hours anyway, so the light would have somewhere to stand. Listen: the stone still holds the note."
+  },
+  {
+   "at": [
+    2.4,
+    0,
+    -22.6
+   ],
+   "rot": 140,
+   "text": "THE UNRUNG BELL\n\nCast for the thirteenth hour and never swung.\n\nThe Bellkeeper would not ring it, and the Precentress would not let it rust in peace. It hangs between their two stubbornnesses, full to the lip with one unstruck note."
+  },
+  {
+   "at": [
+    -12.5,
+    0,
+    1.2
+   ],
+   "rot": 90,
+   "text": "THE WEST GALLERY\n\nThe choir walked above the congregation, so their singing would fall like weather.\n\n(The stair is on the eastern side. What the choir left behind is still up there.)"
+  },
+  {
+   "at": [
+    11.2,
+    0,
+    -12.8
+   ],
+   "rot": -110,
+   "text": "THE SEXTON'S BAY\n\nSix hundred brothers, one shovel.\n\nHe buried the choir one by one as the wax took them, and awaits no thanks. Graves before glory; tailings before talk."
+  }
+ ],
+ "pickups": [
+  {
+   "id": "nave_prayers",
+   "at": [
+    -12.6,
+    0,
+    5.4
+   ],
+   "orisons": 90,
+   "tag": "ruin",
+   "label": "Gather wax-sealed prayers"
+  },
+  {
+   "id": "cg_nave",
+   "at": [
+    12.6,
+    0,
+    -21.4
+   ],
+   "item": "candleglass",
+   "count": 2,
+   "tag": "ruin",
+   "label": "Pry up the candleglass"
+  },
+  {
+   "id": "gallery_canticle",
+   "at": [
+    -12,
+    4.78,
+    -16
+   ],
+   "item": "sun_creed_charm",
+   "count": 1,
+   "tag": "glory",
+   "label": "Take the choir's canticle"
+  },
+  {
+   "id": "gallery_prayers",
+   "at": [
+    -12,
+    4.78,
+    -6
+   ],
+   "orisons": 160,
+   "tag": "base",
+   "label": "Gather the gallery offerings"
+  }
+ ],
+ "portals": [
+  {
+   "to": "basilica_porch",
+   "at": [
+    0,
+    0,
+    7.6
+   ],
+   "rot": 180,
+   "spawn": [
+    0,
+    0.2,
+    -5
+   ],
+   "prompt": "Return to the porch"
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    -2.0,
+    0,
+    7.5
+   ],
+   "max": [
+    2.0,
+    3.4,
+    8.5
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -2.0,
+    0,
+    -24.5
+   ],
+   "max": [
+    2.0,
+    3.4,
+    -23.5
+   ],
+   "tag": "glory"
+  }
+ ],
+ "skyline": []
+}

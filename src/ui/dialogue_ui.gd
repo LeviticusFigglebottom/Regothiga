@@ -164,6 +164,23 @@ func _activate(o: Dictionary) -> void:
 				AudioDirector.sfx("res://assets/audio/levelup.wav", -4.0)
 				text_label.text = "Swallow it slowly. It was rendered from a saint's own votive."
 				_flash_line()
+		"dig":
+			var cost3 := int(o.get("orisons", 180))
+			var fl: String = o.get("flag", "sexton_dug")
+			if World.flag(fl):
+				text_label.text = "Dug is dug. Mind the tailings."
+				_flash_line()
+			elif Game.orisons < cost3:
+				text_label.text = "Stone before sympathy: %d orisons buys the shovel's arc." % cost3
+				_flash_line()
+			else:
+				Game.add_orisons(-cost3)
+				World.set_flag(fl)
+				World.save_game()
+				Game.toast.emit("Somewhere below, rubble shifts.")
+				AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -4.0)
+				text_label.text = o.get("done_line", "There. A door where the kingdom said wall.")
+				_flash_line()
 		_:
 			close()
 

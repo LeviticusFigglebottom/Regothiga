@@ -542,6 +542,56 @@ def roof_shed_4m():
     return [roof, fascia], {"size": [4, 4.8, 5.6], "origin": "eave-center"}
 
 
+def rose_window():
+    """Rose window: circular stone tracery wheel with jewel-glass petals.
+    ~3.8 m across; origin at the wheel hub. Place high on a wall face; the
+    glass survives both states — the last light lives in it."""
+    import random as _random
+    rng = _random.Random(77)
+    objs = []
+    R = 1.9
+    n = 28
+    outline = [(R * math.cos(2 * math.pi * i / n), R * math.sin(2 * math.pi * i / n))
+               for i in range(n)]
+    shards = _mosaic(outline, 0.24, rng, (0.0, 0.0), 0.55)
+    objs.append(_glass_from_shards("rose_glass", shards))
+    # stone rim: two concentric sweeps
+    bm = bmesh.new()
+    seg = 24
+    for (r0, r1) in ((R * 1.0, R * 1.14), (0.16, 0.3)):
+        ring0, ring1, ring0b, ring1b = [], [], [], []
+        for i in range(seg):
+            a = 2 * math.pi * i / seg
+            ca, sa = math.cos(a), math.sin(a)
+            ring0.append(bm.verts.new((r0 * ca, -0.12, r0 * sa)))
+            ring1.append(bm.verts.new((r1 * ca, -0.12, r1 * sa)))
+            ring0b.append(bm.verts.new((r0 * ca, 0.12, r0 * sa)))
+            ring1b.append(bm.verts.new((r1 * ca, 0.12, r1 * sa)))
+        for i in range(seg):
+            j = (i + 1) % seg
+            bm.faces.new((ring0[i], ring0[j], ring1[j], ring1[i]))
+            bm.faces.new((ring1b[i], ring1b[j], ring0b[j], ring0b[i]))
+            bm.faces.new((ring1[i], ring1[j], ring1b[j], ring1b[i]))
+            bm.faces.new((ring0b[i], ring0b[j], ring0[j], ring0[i]))
+    # spokes
+    for i in range(12):
+        a = 2 * math.pi * i / 12
+        ca, sa = math.cos(a), math.sin(a)
+        x0, y0 = 0.26 * ca, 0.26 * sa
+        x1, y1 = R * ca, R * sa
+        px, py = -sa * 0.045, ca * 0.045
+        quad = [(x0 + px, y0 + py), (x1 + px, y1 + py), (x1 - px, y1 - py), (x0 - px, y0 - py)]
+        front = [bm.verts.new((qx, -0.09, qy)) for (qx, qy) in quad]
+        backv = [bm.verts.new((qx, 0.09, qy)) for (qx, qy) in quad]
+        bm.faces.new(front)
+        bm.faces.new(list(reversed(backv)))
+        for k in range(4):
+            m = (k + 1) % 4
+            bm.faces.new((front[k], front[m], backv[m], backv[k]))
+    objs.append(V.bm_to_object(bm, "rose_tracery", ("M_stone_trim",)))
+    return objs, {"size": [4.4, 0.3, 4.4], "origin": "hub-center"}
+
+
 BUILDERS = {
     "roof_shed_4m": roof_shed_4m,
     "floor_4x4": floor_4x4,
@@ -554,6 +604,7 @@ BUILDERS = {
     "glass_lancet": glass_lancet,
     "glass_lancet_broken": glass_lancet_broken,
     "portal_4m": portal_4m,
+    "rose_window": rose_window,
     "cornice_4m": cornice_4m,
     "buttress": buttress,
     "column_broken": column_broken,

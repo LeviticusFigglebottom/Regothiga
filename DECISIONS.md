@@ -198,3 +198,33 @@ The split of responsibilities:
 
 `--sandbox=posegrid` renders every clip at its key frames (with `--row=N`
 close-ups) for pose sign-off without launching the game.
+
+## D-015 · Area C, puzzles, and the ranged register (pass 4)
+
+The Basilica opens. Three systems joined the data grammar:
+
+- **Puzzles are flags.** `chime_puzzles` (ordered-interact: ring the Vesper
+  Chimes in the day's dying order — Prime, Vespers, the Thirteenth — the
+  riddle is on a plaque, the wrong note resets the round), `votive_locks`
+  (state puzzle: votive stands only take flame in glory; all lit sets the
+  flag), and `flag_gates` (any kit piece + blocker that sinks when a world
+  flag turns true — iron fences, rubble chokes). Portals already read
+  flags, so the great door, the gallery gate and the Sexton's dug aisle
+  all ride the same mechanism. Flags persist in the save.
+- **Ranged combat.** Attack specs grew `type: ranged | summon` — slow
+  glowing versicles (blockable, never parryable, light target lead,
+  fan/radial counts) and capped minion summons. `keep_range` makes singers
+  back away. The Chorister harasses; the Precentress conducts: triple
+  lament, censer sweep, requiem shockwave, and in her half-breath phase a
+  radial descant and the call that raises her dead choir.
+- **The Nave itself**: aisled vessel with parapeted arcades, a west
+  triforium gallery + bridge reached by twin ramped stairs (votive-locked),
+  rose window over the chancel, the Unrung Bell hung above the boss floor,
+  organ, choir stalls, and the Sexton keeping his bay in both states.
+- **Retro charm**: mosaic medallions (new T_mosaic painterly map) inlaid at
+  the garth lantern, the porch threshold and the nave crossing; all bells
+  and the organ pipes re-skinned in new patina bronze (T_bronze).
+
+The audit script grew overlap-based segment matching (half-offset walls no
+longer false-flag) and it caught two real data bugs in the new area before
+any human walked it. That is the audit working as designed.

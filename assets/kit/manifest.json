@@ -249,6 +249,26 @@
    2.0
   ]
  },
+ "chime_stone": {
+  "file": "assets/kit/chime_stone.glb",
+  "origin": "bottom-center",
+  "polys": 41,
+  "size": [
+   0.5,
+   1.3,
+   2.1
+  ]
+ },
+ "choir_stall": {
+  "file": "assets/kit/choir_stall.glb",
+  "origin": "bottom-center",
+  "polys": 36,
+  "size": [
+   2.4,
+   0.7,
+   1.75
+  ]
+ },
  "city_cluster_a": {
   "file": "assets/kit/city_cluster_a.glb",
   "origin": "bottom-center",
@@ -443,6 +463,26 @@
    1.55
   ]
  },
+ "mosaic_medallion": {
+  "file": "assets/kit/mosaic_medallion.glb",
+  "origin": "bottom-center",
+  "polys": 90,
+  "size": [
+   3.6,
+   3.6,
+   0.03
+  ]
+ },
+ "organ_case": {
+  "file": "assets/kit/organ_case.glb",
+  "origin": "bottom-center",
+  "polys": 174,
+  "size": [
+   2.8,
+   1.0,
+   4.3
+  ]
+ },
  "pell": {
   "file": "assets/kit/pell.glb",
   "origin": "bottom-center",
@@ -507,6 +547,16 @@
    5.6
   ]
  },
+ "rose_window": {
+  "file": "assets/kit/rose_window.glb",
+  "origin": "hub-center",
+  "polys": 894,
+  "size": [
+   4.4,
+   0.3,
+   4.4
+  ]
+ },
  "rubble_l": {
   "file": "assets/kit/rubble_l.glb",
   "origin": "bottom-center",
@@ -567,6 +617,17 @@
    0.85
   ]
  },
+ "skel_chorister": {
+  "file": "assets/kit/skel_chorister.glb",
+  "origin": "feet",
+  "polys": 749,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
  "skel_giant": {
   "file": "assets/kit/skel_giant.glb",
   "origin": "feet",
@@ -593,6 +654,28 @@
   "file": "assets/kit/skel_penitent.glb",
   "origin": "feet",
   "polys": 716,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_precentress": {
+  "file": "assets/kit/skel_precentress.glb",
+  "origin": "feet",
+  "polys": 797,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_sexton": {
+  "file": "assets/kit/skel_sexton.glb",
+  "origin": "feet",
+  "polys": 756,
   "size": [
    0.8,
    0.8,
@@ -731,6 +814,26 @@
    1.3,
    2.1,
    2.8
+  ]
+ },
+ "votive_stand_cold": {
+  "file": "assets/kit/votive_stand_cold.glb",
+  "origin": "bottom-center",
+  "polys": 74,
+  "size": [
+   0.5,
+   0.5,
+   1.6
+  ]
+ },
+ "votive_stand_lit": {
+  "file": "assets/kit/votive_stand_lit.glb",
+  "origin": "bottom-center",
+  "polys": 204,
+  "size": [
+   0.5,
+   0.5,
+   1.6
   ]
  },
  "wall_4x4": {

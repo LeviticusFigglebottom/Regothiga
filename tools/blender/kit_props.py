@@ -346,6 +346,92 @@ def bell_great():
     return [bell, crown], {"size": [1.5, 1.5, 1.85], "origin": "bottom-center"}
 
 
+def organ_case():
+    """Basilica organ: timber case with a rising rank of bronze pipes.
+    ~2.6 m wide. Origin bottom-center, pipes face -Y (Godot +Z... interior)."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-1.3, -0.35, 0.0), (1.3, 0.45, 1.15))
+    V.add_box(bm, (-1.36, -0.3, 1.1), (1.36, 0.5, 1.28))
+    objs.append(V.bm_to_object(bm, "organ_case", ("M_wood",)))
+    n = 9
+    for i in range(n):
+        t = i / (n - 1.0)
+        x = -1.05 + 2.1 * t
+        h = 1.5 + 1.5 * (1.0 - abs(t * 2 - 1)) ** 1.2 + 0.12 * ((i * 7) % 3)
+        r = 0.085 - 0.02 * abs(t * 2 - 1)
+        pipe = V.loft_rings("pipe%d" % i, [(r, 1.2, 8, 0), (r, 1.2 + h, 8, 0),
+                                           (r * 0.8, 1.26 + h, 8, 0)], "M_bronze")
+        pipe.location = (x, -0.12, 0)
+        objs.append(pipe)
+    return objs, {"size": [2.8, 1.0, 4.3], "origin": "bottom-center"}
+
+
+def choir_stall():
+    """High-backed choir stall bench, faces -Y like the pews."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-1.15, -0.24, 0.42), (1.15, 0.12, 0.5))      # seat
+    V.add_box(bm, (-1.15, 0.12, 0.0), (1.15, 0.3, 1.55))        # tall back
+    V.add_box(bm, (-1.15, 0.24, 1.55), (1.15, 0.38, 1.72))      # canopy rail
+    V.add_box(bm, (-1.15, -0.3, 0.0), (-1.02, 0.12, 0.86))      # arms
+    V.add_box(bm, (1.02, -0.3, 0.0), (1.15, 0.12, 0.86))
+    V.add_box(bm, (-1.15, -0.26, 0.16), (1.15, -0.18, 0.2))     # kneeler
+    objs.append(V.bm_to_object(bm, "choir_stall", ("M_wood",)))
+    return objs, {"size": [2.4, 0.7, 1.75], "origin": "bottom-center"}
+
+
+def chime_stone():
+    """Vesper chime: a standing stone gallows with a hanging bronze bar.
+    Interactable puzzle prop. Origin bottom-center."""
+    objs = []
+    post = V.loft_rings("chime_post", [(0.17, 0, 7, 0), (0.13, 0.2, 7, 0),
+                                       (0.11, 1.9, 7, 0), (0.15, 2.05, 7, 0)], "M_stone_trim")
+    objs.append(post)
+    bm = bmesh.new()
+    V.add_box(bm, (-0.05, -0.62, 1.98), (0.05, 0.1, 2.08))
+    objs.append(V.bm_to_object(bm, "chime_arm", ("M_wood",)))
+    bm = bmesh.new()
+    V.add_box(bm, (-0.035, -0.55, 1.06), (0.035, -0.47, 1.96))
+    objs.append(V.bm_to_object(bm, "chime_bar", ("M_bronze",)))
+    bm = bmesh.new()
+    V.add_box(bm, (-0.02, -0.53, 0.98), (0.02, -0.49, 1.06))
+    objs.append(V.bm_to_object(bm, "chime_clapper", ("M_iron",)))
+    return objs, {"size": [0.5, 1.3, 2.1], "origin": "bottom-center"}
+
+
+def votive_stand_tall(lit=True):
+    """Tall iron votive stand with a wax crown; lit variant carries flames."""
+    objs = []
+    objs.append(V.loft_rings("votive_col", [(0.2, 0, 8, 0), (0.06, 0.12, 8, 0),
+                                            (0.05, 1.16, 8, 0), (0.17, 1.24, 8, 0),
+                                            (0.19, 1.3, 8, 0)], "M_iron"))
+    import random as _random
+    rng = _random.Random(9 if lit else 10)
+    for i in range(5):
+        a = 2 * math.pi * i / 5
+        r = 0.11
+        h = 0.14 + 0.1 * rng.random()
+        c = V.loft_rings("cand%d" % i, [(0.035, 1.3, 6, 0), (0.033, 1.3 + h, 6, 0)], "M_wax")
+        c.location = (r * math.cos(a), r * math.sin(a), 0)
+        objs.append(c)
+        if lit:
+            f = _flame("votive_flame%d" % i, 0.024, 0.085)
+            f.location = (r * math.cos(a), r * math.sin(a), 1.33 + h)
+            objs.append(f)
+    return objs, {"size": [0.5, 0.5, 1.6], "origin": "bottom-center"}
+
+
+def mosaic_medallion():
+    """Flat inlaid mosaic roundel, 3.4 m across — floor charm for garths,
+    thresholds and crossings. Passable (no collision policy)."""
+    disc = V.loft_rings("mosaic_disc", [(1.7, 0.0, 22, 0), (1.7, 0.028, 22, 0)], "M_mosaic")
+    rim = V.loft_rings("mosaic_rim", [(1.78, 0.0, 22, 0), (1.78, 0.02, 22, 0),
+                                      (1.7, 0.02, 22, 0), (1.7, 0.0, 22, 0)], "M_stone_trim",
+                       cap_bottom=False, cap_top=False)
+    return [disc, rim], {"size": [3.6, 3.6, 0.03], "origin": "bottom-center"}
+
+
 BUILDERS = {
     "vigil_lantern": vigil_lantern,
     "candelabra": candelabra,
@@ -361,4 +447,10 @@ BUILDERS = {
     "gate_iron": gate_iron,
     "fence_iron_4m": fence_iron_4m,
     "bell_great": bell_great,
+    "organ_case": organ_case,
+    "choir_stall": choir_stall,
+    "chime_stone": chime_stone,
+    "votive_stand_lit": lambda: votive_stand_tall(True),
+    "votive_stand_cold": lambda: votive_stand_tall(False),
+    "mosaic_medallion": mosaic_medallion,
 }

@@ -15,14 +15,16 @@ func _ready() -> void:
 	add_child(_vis)
 	var body_id: String = cfg.get("body", "skel_sister")
 	_vis.build_body(EnemyVisual.BODY_MAP.get(body_id, body_id), 0.8, 0.9)
-	# the Chandler carries a lit taper in her left hand
-	if KitLib.has_piece("candle_cluster"):
-		var m := _vis.mount("hand_l")
+	# carried prop: the Chandler's lit taper, the Sexton's maul…
+	var carry: String = cfg.get("carry", "")
+	if carry != "" and KitLib.has_piece(carry):
+		var m := _vis.mount("hand_%s" % cfg.get("carry_hand", "l"))
 		m.position = Vector3(0, 0.08, 0)
-		var taper := KitLib.instance("candle_cluster")
-		taper.scale = Vector3(0.4, 0.4, 0.4)
-		m.add_child(taper)
-		KitLib.add_flame_lights(taper, 1.2, 3.0)
+		var held := KitLib.instance(carry)
+		if carry == "candle_cluster":
+			held.scale = Vector3(0.4, 0.4, 0.4)
+		m.add_child(held)
+		KitLib.add_flame_lights(held, 1.2, 3.0)
 	# a body: you cannot walk through the Chandler
 	var tag := String(get_meta("state_tag", "glory"))
 	var bit: int = VG.L_WORLD_GLORY if tag == "glory" else (VG.L_WORLD_RUIN if tag == "ruin" else VG.L_WORLD_BASE)
