@@ -1,754 +1,830 @@
 {
-	"id": "basilica_porch",
-	"name": "Basilica of Last Light \u2014 Porch",
-	"start": {
-		"pos": [
-			0,
-			0.2,
-			6
-		],
-		"yaw": 180
-	},
-	"fills": [
-		{
-			"kit": "floor_4x4",
-			"min": [
-				-8,
-				0,
-				-8
-			],
-			"max": [
-				8,
-				0,
-				8
-			]
-		},
-		{
-			"kit": "floor_4x4",
-			"min": [
-				-8,
-				-2.62,
-				12
-			],
-			"max": [
-				8,
-				-2.62,
-				20
-			]
-		}
-	],
-	"vault_fields": [
-		{
-			"min": [
-				-8,
-				0,
-				-8
-			],
-			"max": [
-				8,
-				0,
-				0
-			],
-			"spring": 3.2
-		}
-	],
-	"rows": [
-		{
-			"kit": "wall_4x4",
-			"from": [
-				-6,
-				0,
-				-8
-			],
-			"dir": [
-				1,
-				0,
-				0
-			],
-			"count": 4,
-			"skip": [
-				1,
-				2
-			]
-		},
-		{
-			"kit": "wall_4x4",
-			"from": [
-				-8,
-				0,
-				-6
-			],
-			"dir": [
-				0,
-				0,
-				1
-			],
-			"count": 4,
-			"rot": 90,
-			"skip": []
-		},
-		{
-			"kit": "wall_4x4",
-			"from": [
-				8,
-				0,
-				-6
-			],
-			"dir": [
-				0,
-				0,
-				1
-			],
-			"count": 4,
-			"rot": -90,
-			"skip": [
-				1
-			]
-		},
-		{
-			"kit": "balustrade_4m",
-			"from": [
-				-6,
-				0,
-				8
-			],
-			"dir": [
-				1,
-				0,
-				0
-			],
-			"count": 4,
-			"rot": 0,
-			"skip": [
-				1,
-				2
-			]
-		},
-		{
-			"kit": "balustrade_4m",
-			"from": [
-				-6,
-				-2.4,
-				19.8
-			],
-			"dir": [
-				1,
-				0,
-				0
-			],
-			"count": 4,
-			"rot": 0
-		},
-		{
-			"kit": "balustrade_4m",
-			"from": [
-				-8.2,
-				-2.4,
-				14
-			],
-			"dir": [
-				0,
-				0,
-				1
-			],
-			"count": 2,
-			"rot": 90
-		},
-		{
-			"kit": "balustrade_4m",
-			"from": [
-				8.2,
-				-2.4,
-				14
-			],
-			"dir": [
-				0,
-				0,
-				1
-			],
-			"count": 2,
-			"rot": -90
-		}
-	],
-	"pieces": [
-		{
-			"kit": "portal_4m",
-			"at": [
-				0,
-				0,
-				-8
-			],
-			"scale": [
-				1.6,
-				1.5,
-				1.4
-			]
-		},
-		{
-			"kit": "window_lancet_4m",
-			"at": [
-				-4,
-				0,
-				-8
-			]
-		},
-		{
-			"kit": "window_lancet_4m",
-			"at": [
-				4,
-				0,
-				-8
-			]
-		},
-		{
-			"kit": "portal_4m",
-			"at": [
-				8,
-				0,
-				-2
-			],
-			"rot": -90
-		},
-		{
-			"kit": "buttress",
-			"at": [
-				-6,
-				0,
-				-8.2
-			]
-		},
-		{
-			"kit": "buttress",
-			"at": [
-				6,
-				0,
-				-8.2
-			]
-		},
-		{
-			"kit": "gargoyle",
-			"at": [
-				-6,
-				4.35,
-				-7.8
-			]
-		},
-		{
-			"kit": "gargoyle",
-			"at": [
-				6,
-				4.35,
-				-7.8
-			]
-		},
-		{
-			"kit": "rubble_s",
-			"at": [
-				-5,
-				0,
-				3
-			],
-			"tag": "ruin",
-			"collide": false
-		},
-		{
-			"kit": "stair_grand_4m",
-			"at": [
-				-2,
-				-0.02,
-				8.2
-			],
-			"rot": 180
-		},
-		{
-			"kit": "stair_grand_4m",
-			"at": [
-				2,
-				-0.02,
-				8.2
-			],
-			"rot": 180
-		},
-		{
-			"kit": "urn",
-			"at": [
-				-4.6,
-				0,
-				7.6
-			]
-		},
-		{
-			"kit": "urn",
-			"at": [
-				4.6,
-				0,
-				7.6
-			]
-		}
-	],
-	"props": [
-		{
-			"kit": "glass_lancet",
-			"at": [
-				-4,
-				0,
-				-7.9
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "glass_lancet",
-			"at": [
-				4,
-				0,
-				-7.9
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "glass_lancet_broken",
-			"at": [
-				-4,
-				0,
-				-7.9
-			],
-			"tag": "ruin"
-		},
-		{
-			"kit": "glass_lancet_broken",
-			"at": [
-				4,
-				0,
-				-7.9
-			],
-			"tag": "ruin"
-		},
-		{
-			"kit": "candelabra",
-			"at": [
-				-2.6,
-				0,
-				-6.8
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "candelabra",
-			"at": [
-				2.6,
-				0,
-				-6.8
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "banner",
-			"at": [
-				-7.7,
-				0.4,
-				-4
-			],
-			"rot": 90,
-			"tag": "glory"
-		},
-		{
-			"kit": "banner",
-			"at": [
-				-7.7,
-				0.4,
-				2
-			],
-			"rot": 90,
-			"tag": "glory"
-		},
-		{
-			"kit": "statue_saint",
-			"at": [
-				-6.8,
-				0,
-				-6.8
-			],
-			"rot": 45,
-			"tag": "glory"
-		},
-		{
-			"kit": "statue_saint",
-			"at": [
-				6.8,
-				0,
-				-6.8
-			],
-			"rot": -45,
-			"tag": "glory"
-		},
-		{
-			"kit": "statue_orans",
-			"at": [
-				-6.5,
-				-2.42,
-				13.5
-			],
-			"rot": 45,
-			"tag": "glory"
-		},
-		{
-			"kit": "statue_orans",
-			"at": [
-				6.5,
-				-2.42,
-				13.5
-			],
-			"rot": -45,
-			"tag": "glory"
-		},
-		{
-			"kit": "candelabra",
-			"at": [
-				-4,
-				-2.42,
-				18.5
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "candelabra",
-			"at": [
-				4,
-				-2.42,
-				18.5
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "candle_cluster",
-			"at": [
-				-2.85,
-				0,
-				-7.35
-			],
-			"rot": 60,
-			"tag": "glory"
-		},
-		{
-			"kit": "candle_cluster_dead",
-			"at": [
-				-2.85,
-				0,
-				-7.35
-			],
-			"rot": 60,
-			"tag": "ruin"
-		},
-		{
-			"kit": "candle_cluster",
-			"at": [
-				2.85,
-				0,
-				-7.35
-			],
-			"rot": 60,
-			"tag": "glory"
-		},
-		{
-			"kit": "candle_cluster_dead",
-			"at": [
-				2.85,
-				0,
-				-7.35
-			],
-			"rot": 60,
-			"tag": "ruin"
-		},
-		{
-			"kit": "candle_cluster",
-			"at": [
-				-6.3,
-				0,
-				7.0
-			],
-			"rot": 60,
-			"tag": "glory"
-		},
-		{
-			"kit": "candle_cluster_dead",
-			"at": [
-				-6.3,
-				0,
-				7.0
-			],
-			"rot": 60,
-			"tag": "ruin"
-		},
-		{
-			"kit": "censer_hanging",
-			"at": [
-				-6,
-				3.12,
-				-4
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "censer_fallen",
-			"at": [
-				-6,
-				0,
-				-3.6
-			],
-			"tag": "ruin"
-		},
-		{
-			"kit": "censer_hanging",
-			"at": [
-				6,
-				3.12,
-				-4
-			],
-			"tag": "glory"
-		},
-		{
-			"kit": "censer_fallen",
-			"at": [
-				6,
-				0,
-				-3.6
-			],
-			"tag": "ruin"
-		},
-		{
-			"kit": "garden_bed",
-			"at": [
-				-4.0,
-				-2.42,
-				15.0
-			],
-			"rot": 0,
-			"tag": "glory"
-		},
-		{
-			"kit": "garden_bed_dead",
-			"at": [
-				-4.0,
-				-2.42,
-				15.0
-			],
-			"rot": 0,
-			"tag": "ruin"
-		},
-		{
-			"kit": "garden_bed",
-			"at": [
-				4.0,
-				-2.42,
-				15.0
-			],
-			"rot": 0,
-			"tag": "glory"
-		},
-		{
-			"kit": "garden_bed_dead",
-			"at": [
-				4.0,
-				-2.42,
-				15.0
-			],
-			"rot": 0,
-			"tag": "ruin"
-		},
-		{
-			"kit": "ivy_sheet_a",
-			"at": [
-				-7.75,
-				0,
-				1.0
-			],
-			"rot": 90,
-			"tag": "ruin"
-		},
-		{
-			"kit": "wax_husk",
-			"at": [
-				-6.8,
-				0,
-				-6.8
-			],
-			"rot": 45,
-			"tag": "ruin"
-		},
-		{
-			"kit": "wax_husk",
-			"at": [
-				6.8,
-				0,
-				-6.8
-			],
-			"rot": -45,
-			"tag": "ruin"
-		}
-	],
-	"lanterns": [
-		{
-			"id": "porch",
-			"name": "Porch Lantern",
-			"at": [
-				0,
-				0,
-				2
-			],
-			"rot": 180
-		}
-	],
-	"plaques": [
-		{
-			"at": [
-				1.9,
-				0,
-				-6.4
-			],
-			"rot": -160,
-			"text": "BASILICA OF LAST LIGHT\n\nHere the great bell waits for the thirteenth hour, and the door does not open \u2014 not for grief, not for gold, not yet for you.\n\nBeyond this porch the kingdom goes on: the Ossuary Undercroft, the Larkspire, the Black Gate under its drowned sun. All of it remembered. All of it waiting to be walked.\n\n(The pilgrimage continues in the next passing.)"
-		}
-	],
-	"portals": [
-		{
-			"to": "gray_cloister",
-			"at": [
-				8,
-				0,
-				-2
-			],
-			"rot": -90,
-			"spawn": [
-				25.5,
-				0.2,
-				-10
-			],
-			"prompt": "Return to the Gray Cloister"
-		}
-	],
-	"no_gutter": true,
-	"skyline": [
-		{
-			"kit": "cathedral_mass",
-			"at": [
-				0,
-				-0.5,
-				-9.0
-			],
-			"rot": 0,
-			"scale": 1.25
-		},
-		{
-			"kit": "spire_tower_a",
-			"at": [
-				-19,
-				-1,
-				-20
-			]
-		},
-		{
-			"kit": "spire_tower_b",
-			"at": [
-				19,
-				-1,
-				-22
-			]
-		},
-		{
-			"kit": "buttress_arc",
-			"at": [
-				-13,
-				3,
-				-14
-			],
-			"rot": 55
-		},
-		{
-			"kit": "buttress_arc",
-			"at": [
-				13,
-				3,
-				-14
-			],
-			"rot": -55
-		},
-		{
-			"kit": "city_cluster_a",
-			"at": [
-				-26,
-				-13,
-				34
-			],
-			"rot": 30
-		},
-		{
-			"kit": "city_cluster_b",
-			"at": [
-				10,
-				-14,
-				42
-			],
-			"rot": 300
-		},
-		{
-			"kit": "city_cluster_a",
-			"at": [
-				36,
-				-12,
-				26
-			],
-			"rot": 160
-		},
-		{
-			"kit": "spire_tower_c",
-			"at": [
-				-38,
-				-10,
-				30
-			],
-			"rot": 75
-		},
-		{
-			"kit": "spire_tower_a",
-			"at": [
-				42,
-				-11,
-				38
-			],
-			"rot": 260,
-			"scale": 0.85
-		},
-		{
-			"kit": "spire_tower_b",
-			"at": [
-				0,
-				-16,
-				66
-			],
-			"scale": 1.5
-		},
-		{
-			"kit": "city_cluster_b",
-			"at": [
-				-8,
-				-15,
-				56
-			],
-			"rot": 200,
-			"scale": 1.4
-		}
-	],
-	"pickups": [
-		{
-			"id": "terrace_prayers",
-			"at": [
-				0,
-				-2.4,
-				18.5
-			],
-			"orisons": 120,
-			"tag": "base",
-			"label": "Gather wax-sealed prayers"
-		}
-	]
+ "id": "basilica_porch",
+ "name": "Basilica of Last Light \u2014 Porch",
+ "start": {
+  "pos": [
+   0,
+   0.2,
+   6
+  ],
+  "yaw": 180
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    0,
+    -8
+   ],
+   "max": [
+    8,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    -2.62,
+    8
+   ],
+   "max": [
+    8,
+    -2.62,
+    20
+   ]
+  }
+ ],
+ "vault_fields": [
+  {
+   "min": [
+    -8,
+    0,
+    -8
+   ],
+   "max": [
+    8,
+    0,
+    0
+   ],
+   "spring": 3.2
+  }
+ ],
+ "rows": [
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    0,
+    -8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "skip": [
+    1,
+    2
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    0,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90,
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    0,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90,
+   "skip": [
+    1
+   ]
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -6,
+    0,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0,
+   "skip": [
+    1,
+    2
+   ]
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -6,
+    -2.4,
+    19.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -8.2,
+    -2.4,
+    14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    8.2,
+    -2.4,
+    14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -8.2,
+    -2.4,
+    10
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    8.2,
+    -2.4,
+    10
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    -8
+   ],
+   "scale": [
+    1.6,
+    1.5,
+    1.4
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -4,
+    0,
+    -8
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    4,
+    0,
+    -8
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    8,
+    0,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "buttress",
+   "at": [
+    -6,
+    0,
+    -8.2
+   ]
+  },
+  {
+   "kit": "buttress",
+   "at": [
+    6,
+    0,
+    -8.2
+   ]
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    -6,
+    4.35,
+    -7.8
+   ]
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    6,
+    4.35,
+    -7.8
+   ]
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    -5,
+    0,
+    3
+   ],
+   "tag": "ruin",
+   "collide": false
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -2,
+    -0.02,
+    8.2
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    2,
+    -0.02,
+    8.2
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -4.6,
+    0,
+    7.6
+   ]
+  },
+  {
+   "kit": "urn",
+   "at": [
+    4.6,
+    0,
+    7.6
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    -2.62,
+    8
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    -2.62,
+    8
+   ],
+   "rot": 180
+  }
+ ],
+ "props": [
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -4,
+    0,
+    -7.9
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    4,
+    0,
+    -7.9
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -4,
+    0,
+    -7.9
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    4,
+    0,
+    -7.9
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -2.6,
+    0,
+    -6.8
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    2.6,
+    0,
+    -6.8
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -7.7,
+    0.4,
+    -4
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -7.7,
+    0.4,
+    2
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -6.8,
+    0,
+    -6.8
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    6.8,
+    0,
+    -6.8
+   ],
+   "rot": -45,
+   "tag": "glory"
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    -6.5,
+    -2.42,
+    13.5
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    6.5,
+    -2.42,
+    13.5
+   ],
+   "rot": -45,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -4,
+    -2.42,
+    18.5
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    4,
+    -2.42,
+    18.5
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -2.85,
+    0,
+    -7.35
+   ],
+   "rot": 60,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -2.85,
+    0,
+    -7.35
+   ],
+   "rot": 60,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    2.85,
+    0,
+    -7.35
+   ],
+   "rot": 60,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    2.85,
+    0,
+    -7.35
+   ],
+   "rot": 60,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -6.3,
+    0,
+    7.0
+   ],
+   "rot": 60,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -6.3,
+    0,
+    7.0
+   ],
+   "rot": 60,
+   "tag": "ruin"
+  },
+  {
+   "kit": "censer_hanging",
+   "at": [
+    -6,
+    3.12,
+    -4
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "censer_fallen",
+   "at": [
+    -6,
+    0,
+    -3.6
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "censer_hanging",
+   "at": [
+    6,
+    3.12,
+    -4
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "censer_fallen",
+   "at": [
+    6,
+    0,
+    -3.6
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    -4.0,
+    -2.42,
+    15.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    -4.0,
+    -2.42,
+    15.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    4.0,
+    -2.42,
+    15.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    4.0,
+    -2.42,
+    15.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "ivy_sheet_a",
+   "at": [
+    -7.75,
+    0,
+    1.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -6.8,
+    0,
+    -6.8
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    6.8,
+    0,
+    -6.8
+   ],
+   "rot": -45,
+   "tag": "ruin"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "porch",
+   "name": "Porch Lantern",
+   "at": [
+    0,
+    0,
+    2
+   ],
+   "rot": 180
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    1.9,
+    0,
+    -6.4
+   ],
+   "rot": -160,
+   "text": "BASILICA OF LAST LIGHT\n\nHere the great bell waits for the thirteenth hour, and the door does not open \u2014 not for grief, not for gold, not yet for you.\n\nBeyond this porch the kingdom goes on: the Ossuary Undercroft, the Larkspire, the Black Gate under its drowned sun. All of it remembered. All of it waiting to be walked.\n\n(The pilgrimage continues in the next passing.)"
+  }
+ ],
+ "portals": [
+  {
+   "to": "gray_cloister",
+   "at": [
+    8,
+    0,
+    -2
+   ],
+   "rot": -90,
+   "spawn": [
+    25.5,
+    0.2,
+    -10
+   ],
+   "prompt": "Return to the Gray Cloister"
+  }
+ ],
+ "no_gutter": true,
+ "skyline": [
+  {
+   "kit": "cathedral_mass",
+   "at": [
+    0,
+    -0.5,
+    -9.0
+   ],
+   "rot": 0,
+   "scale": 1.25
+  },
+  {
+   "kit": "spire_tower_a",
+   "at": [
+    -19,
+    -1,
+    -20
+   ]
+  },
+  {
+   "kit": "spire_tower_b",
+   "at": [
+    19,
+    -1,
+    -22
+   ]
+  },
+  {
+   "kit": "buttress_arc",
+   "at": [
+    -13,
+    3,
+    -14
+   ],
+   "rot": 55
+  },
+  {
+   "kit": "buttress_arc",
+   "at": [
+    13,
+    3,
+    -14
+   ],
+   "rot": -55
+  },
+  {
+   "kit": "city_cluster_a",
+   "at": [
+    -26,
+    -13,
+    34
+   ],
+   "rot": 30
+  },
+  {
+   "kit": "city_cluster_b",
+   "at": [
+    10,
+    -14,
+    42
+   ],
+   "rot": 300
+  },
+  {
+   "kit": "city_cluster_a",
+   "at": [
+    36,
+    -12,
+    26
+   ],
+   "rot": 160
+  },
+  {
+   "kit": "spire_tower_c",
+   "at": [
+    -38,
+    -10,
+    30
+   ],
+   "rot": 75
+  },
+  {
+   "kit": "spire_tower_a",
+   "at": [
+    42,
+    -11,
+    38
+   ],
+   "rot": 260,
+   "scale": 0.85
+  },
+  {
+   "kit": "spire_tower_b",
+   "at": [
+    0,
+    -16,
+    66
+   ],
+   "scale": 1.5
+  },
+  {
+   "kit": "city_cluster_b",
+   "at": [
+    -8,
+    -15,
+    56
+   ],
+   "rot": 200,
+   "scale": 1.4
+  }
+ ],
+ "pickups": [
+  {
+   "id": "terrace_prayers",
+   "at": [
+    0,
+    -2.4,
+    18.5
+   ],
+   "orisons": 120,
+   "tag": "base",
+   "label": "Gather wax-sealed prayers"
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    -3.2,
+    0,
+    -8.6
+   ],
+   "max": [
+    3.2,
+    4.2,
+    -7.6
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.6,
+    0,
+    -4.2
+   ],
+   "max": [
+    8.6,
+    3.4,
+    0.2
+   ],
+   "tag": "base"
+  }
+ ]
 }

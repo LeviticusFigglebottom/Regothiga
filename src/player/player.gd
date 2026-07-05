@@ -60,6 +60,9 @@ var _poise_delay := 0.0
 # riposte
 var _riposte_target: Node3D = null
 
+# out-of-bounds failsafe
+var _last_ground := Vector3.ZERO
+
 var vis: PlayerVisual
 var cam: CameraRig
 var hitbox: Hitbox
@@ -133,6 +136,8 @@ func _ready() -> void:
 	stamina = max_stamina
 	Game.register_player(self)
 	_emit_all()
+	if not sim_active:
+		_grab_mouse(true)
 
 func recompute_derived() -> void:
 	var base: Dictionary = T["base"]
@@ -147,8 +152,25 @@ func _emit_all() -> void:
 	flasks_changed.emit(flasks, flask_max)
 
 # --------------------------------------------------------------- input
+## The camera only receives relative motion reliably while the mouse is
+## captured; Esc frees the cursor, clicking back in recaptures it.
+func _grab_mouse(on: bool) -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if on else Input.MOUSE_MODE_VISIBLE
+
+## Mouse-bound combat actions (LMB swing / RMB block) stay quiet while the
+## cursor is free, so clicking back into the window doesn't also attack.
+func _mouse_ok() -> bool:
+	return sim_active or Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
+
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and input_enabled and not sim_active:
+	if sim_active:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		_grab_mouse(Input.mouse_mode != Input.MOUSE_MODE_CAPTURED)
+	elif event is InputEventMouseButton and event.pressed \
+			and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		_grab_mouse(true)
+	if event is InputEventMouseMotion and input_enabled:
 		cam.mouse_look(event.relative)
 
 func _move_input() -> Vector3:
@@ -164,6 +186,15 @@ func _physics_process(dt: float) -> void:
 		velocity.y -= 22.0 * dt
 	else:
 		velocity.y = maxf(velocity.y, -0.5)
+		if state == S.MOVE and global_position.y > -20.0:
+			_last_ground = global_position
+	# failsafe: geometry should make this unreachable, but never fall forever
+	if global_position.y < -25.0 and not dead:
+		global_position = _last_ground + Vector3.UP * 0.6
+		velocity = Vector3.ZERO
+		hp = maxf(hp - max_hp * 0.25, 1.0)
+		health_changed.emit(hp, max_hp)
+		Juice.shake(0.4, 0.25)
 
 	match state:
 		S.MOVE: _st_move(dt)
@@ -187,7 +218,9 @@ func _physics_process(dt: float) -> void:
 	if state == S.MOVE:
 		var lv := vis.global_transform.basis.inverse() * velocity
 		lean = Vector2(lv.x, -lv.z) * 0.12
-	vis.locomotion(dt, gs, lean, is_on_floor())
+	# held poses (kneel at rest, death) must not blend back to idle
+	if state != S.DEAD and state != S.REST and state != S.TALK:
+		vis.locomotion(dt, gs, lean, is_on_floor())
 	if not sim_active:
 		cam.stick_look(Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down"), dt)
 
@@ -259,7 +292,7 @@ func _st_move(dt: float) -> void:
 	if not sim_active:
 		if Input.is_action_just_pressed("dodge"):
 			_try_roll(dir)
-		elif Input.is_action_just_pressed("attack_light"):
+		elif Input.is_action_just_pressed("attack_light") and _mouse_ok():
 			if _pressed("sprint"):
 				try_attack(false)  # sprint attack folded into light for pass 1
 			else:
@@ -268,7 +301,7 @@ func _st_move(dt: float) -> void:
 			try_attack(true)
 		elif Input.is_action_just_pressed("parry"):
 			try_parry()
-		elif Input.is_action_pressed("block"):
+		elif Input.is_action_pressed("block") and _mouse_ok():
 			_enter_block()
 		elif Input.is_action_just_pressed("flask"):
 			try_flask()
@@ -413,7 +446,7 @@ func _st_attack(dt: float) -> void:
 
 	# combo input capture during recovery
 	if not sim_active and t > wind + act:
-		if Input.is_action_just_pressed("attack_light"):
+		if Input.is_action_just_pressed("attack_light") and _mouse_ok():
 			_queued = "light"
 		elif Input.is_action_just_pressed("attack_heavy"):
 			_queued = "heavy"
@@ -494,7 +527,7 @@ func _st_block(dt: float) -> void:
 	elif dir != Vector3.ZERO:
 		_face(dir, dt, 6.0)
 	if not sim_active:
-		if Input.is_action_just_pressed("attack_light"):
+		if Input.is_action_just_pressed("attack_light") and _mouse_ok():
 			try_attack(false)
 		elif Input.is_action_just_pressed("parry"):
 			try_parry()
@@ -691,6 +724,8 @@ func _pressed(action: String) -> bool:
 		match action:
 			"block": return sim_block
 			"sprint": return sim_sprint
+		return false
+	if action == "block" and not _mouse_ok():
 		return false
 	return input_enabled and Input.is_action_pressed(action)
 

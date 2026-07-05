@@ -12,9 +12,12 @@ func _ready() -> void:
 	zone.activated.connect(_on_reclaim)
 	add_child(zone)
 	# visual: a faint kneeling ghost of light + rising motes
-	var ghost := KitLib.instance("char_latecomer")
-	ghost.scale = Vector3(0.9, 0.62, 0.9)   # slumped
+	var ghost := CharVisual.new()
 	add_child(ghost)
+	ghost.build_body("skel_hero")
+	ghost.scale = Vector3(0.95, 0.95, 0.95)
+	ghost.play("kneel", 0.0)
+	ghost.anim.advance(1.2)   # settle straight into the kneel
 	for mi in KitLib._mesh_instances(ghost):
 		mi.set_instance_shader_parameter("death_diss", 0.55)
 	var p := CPUParticles3D.new()

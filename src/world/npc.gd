@@ -6,14 +6,37 @@ extends Node3D
 var npc_id := "aveline"
 var cfg: Dictionary = {}
 
-var _vis: Node3D
+var _vis: CharVisual
 
 func _ready() -> void:
 	cfg = DB.npc(npc_id)
 	cfg["id"] = npc_id
-	_vis = KitLib.instance(cfg.get("body", "char_aveline"))
+	_vis = CharVisual.new()
 	add_child(_vis)
-	KitLib.add_flame_lights(_vis, 1.2, 3.0)
+	var body_id: String = cfg.get("body", "skel_sister")
+	_vis.build_body(EnemyVisual.BODY_MAP.get(body_id, body_id), 0.8, 0.9)
+	# the Chandler carries a lit taper in her left hand
+	if KitLib.has_piece("candle_cluster"):
+		var m := _vis.mount("hand_l")
+		m.position = Vector3(0, 0.08, 0)
+		var taper := KitLib.instance("candle_cluster")
+		taper.scale = Vector3(0.4, 0.4, 0.4)
+		m.add_child(taper)
+		KitLib.add_flame_lights(taper, 1.2, 3.0)
+	# a body: you cannot walk through the Chandler
+	var tag := String(get_meta("state_tag", "glory"))
+	var bit: int = VG.L_WORLD_GLORY if tag == "glory" else (VG.L_WORLD_RUIN if tag == "ruin" else VG.L_WORLD_BASE)
+	var body := StaticBody3D.new()
+	body.collision_layer = 1 << (bit - 1)
+	body.collision_mask = 0
+	var bcs := CollisionShape3D.new()
+	var bcap := CapsuleShape3D.new()
+	bcap.radius = 0.36
+	bcap.height = 1.6
+	bcs.shape = bcap
+	bcs.position.y = 0.85
+	body.add_child(bcs)
+	add_child(body)
 	var zone := Interactable.new()
 	zone.prompt = "Speak with %s" % cfg.get("short_name", cfg.get("name", "?"))
 	zone.setup_zone(1.8, 1.8)
@@ -32,6 +55,10 @@ func _on_talk(player) -> void:
 		return
 	player.lock_control(true)
 	player.velocity = Vector3.ZERO
+	_vis.play("talk", 0.4)
 	var ui := DialogueUI.new(cfg, self)
+	ui.tree_exited.connect(func() -> void:
+		if is_instance_valid(_vis):
+			_vis.back_to_idle(0.4))
 	get_tree().root.add_child(ui)
 	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -8.0)

@@ -567,6 +567,61 @@
    0.85
   ]
  },
+ "skel_giant": {
+  "file": "assets/kit/skel_giant.glb",
+  "origin": "feet",
+  "polys": 743,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_hero": {
+  "file": "assets/kit/skel_hero.glb",
+  "origin": "feet",
+  "polys": 757,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_penitent": {
+  "file": "assets/kit/skel_penitent.glb",
+  "origin": "feet",
+  "polys": 716,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_sister": {
+  "file": "assets/kit/skel_sister.glb",
+  "origin": "feet",
+  "polys": 717,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_ward": {
+  "file": "assets/kit/skel_ward.glb",
+  "origin": "feet",
+  "polys": 724,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
  "spire_tower_a": {
   "file": "assets/kit/spire_tower_a.glb",
   "origin": "bottom-center",

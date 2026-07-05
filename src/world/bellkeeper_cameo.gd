@@ -27,6 +27,7 @@ func _ready() -> void:
 
 func _physics_process(dt: float) -> void:
 	_t += dt
+	_vis.locomotion(dt, 0.0)   # breathe between tolls
 	var p = Game.player
 	var near: bool = p != null and global_position.distance_to(p.global_position) < 7.0
 	if near and not _paused:

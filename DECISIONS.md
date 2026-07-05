@@ -165,3 +165,36 @@ procedural kit instead.
 - **Visual:** `tools/shot.sh` renders deterministic screenshots (fixed camera paths, both states, key beats) via xvfb + lavapipe; iterated on until the Identity Checklist reads true *in the frame*.
 - **Logic:** `tools/sim/` headless tests drive the real game — input-level scripted playthrough of the full pass-1 loop (glory explore → vigil → ruin gauntlet → death/recovery → boss → area B → toggle persistence) plus focused tests (stamina, i-frames, parry, poise, save round-trip, navmesh swap).
 - CI-shaped: everything runs from a clean clone with `godot` + `xvfb-run` only.
+
+## D-014 · Skeletal characters, animated in-engine (pass 3)
+
+Node-rigs are retired. Every person in the kingdom — player, foes, the
+Chandler, the remembrance ghost, the glory cameo — is now a skinned mesh on
+one shared 16-bone humanoid armature (`tools/blender/kit_skel.py`:
+hips/spine/chest/head + 3-bone limbs, doll-joint spheres so bends never
+tear). Five archetypes ship: hero, ward, penitent (sealed wax cone), giant
+(1.55×, drags the great bell), sister.
+
+The split of responsibilities:
+
+- **Blender carries only skeleton + skin.** glTF exports no clips.
+- **Clips are authored in Godot** (`SkelAnim`): per-bone euler deltas in
+  degrees composed onto the imported rest pose at build time. One table
+  set serves every archetype, scaled per-enemy by `anim_amp`/`anim_sway`/
+  `stride` in enemies.json. Every clip keys every bone, so cross-fades
+  never inherit stale limbs and RESET is trivial.
+- **Bone frames were derived, not guessed**: spine bones behave like
+  Node3D (−X bows, +Y turns left); limb bones swing forward +X, elbows
+  flex +X, knees −X, outward is −Z right / +Z left. The mirror-handed
+  label bug (Blender +X had been tagged `_l`) was caught by satchel/shield
+  placement in renders and fixed at the source.
+- **Gear rides bones** via BoneAttachment3D: weapon in `hand_r` (kit blades
+  extend +Y past the fingers — no mount rotation), shield strapped to
+  `farm_l`, helms on `head`. Combat timing still lives in data (D-006);
+  attack clips are time-scaled to weapon windup/active/recover.
+- **Locomotion is measured, not faked**: idle/walk/run cross-fade by ground
+  speed, playback rate = speed/stride so feet don't skate; footfalls fire
+  at half-cycle boundaries.
+
+`--sandbox=posegrid` renders every clip at its key frames (with `--row=N`
+close-ups) for pose sign-off without launching the game.

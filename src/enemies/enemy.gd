@@ -102,6 +102,8 @@ func _physics_process(dt: float) -> void:
 		ES.ATTACK: _st_attack(dt)
 		ES.STAGGER: _st_stagger(dt)
 	move_and_slide()
+	# stride cycles while moving; action clips own the rig during ATTACK/STAGGER
+	vis.locomotion(dt, Vector2(velocity.x, velocity.z).length(), Vector2.ZERO, is_on_floor())
 
 func _set_state(s: ES) -> void:
 	state = s

@@ -22,7 +22,7 @@ static func build(area_id: String) -> Area:
 	for spec in def.get("pieces", []):
 		_piece(area, spec, true)
 	for spec in def.get("props", []):
-		_piece(area, spec, false)
+		_piece(area, spec, _prop_collides(spec))
 	for spec in def.get("skyline", []):
 		var sk: Dictionary = spec.duplicate()
 		sk["flames"] = false
@@ -72,6 +72,7 @@ static func build(area_id: String) -> Area:
 	for spec in def.get("npcs", []):
 		var n := NPC.new()
 		n.npc_id = spec.get("id", "aveline")
+		n.set_meta("state_tag", spec.get("tag", "glory"))
 		area.attach(n, spec.get("tag", "glory"))
 		_place(n, spec)
 	for spec in def.get("plaques", []):
@@ -135,6 +136,18 @@ static func _tag_bit(tag: String) -> int:
 		"ruin": return VG.L_WORLD_RUIN
 	return VG.L_WORLD_BASE
 
+## Solid furniture blocks; cloth, hangings, wall dressing and ankle-high
+## clutter stay passable. Explicit "collide" in the spec always wins.
+const PASSABLE_PROPS := ["banner", "banner_torn", "ivy_sheet_a", "ivy_sheet_b",
+	"censer_hanging", "censer_fallen", "sconce_torch", "glass_lancet",
+	"glass_lancet_broken", "candle_cluster", "candle_cluster_dead",
+	"book_stack", "scroll_pile", "rubble_s"]
+
+static func _prop_collides(spec: Dictionary) -> bool:
+	if spec.has("collide"):
+		return bool(spec["collide"])
+	return not (String(spec.get("kit", "")) in PASSABLE_PROPS)
+
 static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 	var tag: String = spec.get("tag", "base")
 	var mode := 1 if tag == "glory" else (2 if tag == "ruin" else 0)
@@ -144,20 +157,52 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 		var sc = spec["scale"]
 		piece.scale = _v3(sc) if sc is Array else Vector3.ONE * float(sc)
 	if collide and spec.get("collide", true):
-		KitLib.add_collision(piece, _tag_bit(tag))
+		if String(spec["kit"]) == "stair_grand_4m":
+			_stair_ramp(piece, tag)   # ramp-only: step trimesh would wall off the climb
+		else:
+			KitLib.add_collision(piece, _tag_bit(tag))
 	if spec.get("flames", true) and (tag != "ruin"):
 		KitLib.add_flame_lights(piece)
 	area.attach(piece, tag)
 	return piece
+
+## Grand stairs collide as a smooth 31-degree ramp (plus solid flank boxes),
+## never as step trimesh: 0.24 m step faces are walls to move_and_slide, so
+## the climb direction would be impassable. The ramp surface runs from the
+## top edge (local origin) to the floor 0.2 below the stair base, meeting
+## walkable ground flush at both ends.
+static func _stair_ramp(piece: Node3D, tag: String) -> void:
+	var body := StaticBody3D.new()
+	body.collision_layer = 1 << (_tag_bit(tag) - 1)
+	body.collision_mask = 0
+	var cs := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = Vector3(3.9, 0.3, 5.15)
+	cs.shape = box
+	cs.rotation_degrees = Vector3(-30.96, 0, 0)   # rise 2.4 over run 4.0
+	cs.position = Vector3(0, -1.45, -2.12)
+	body.add_child(cs)
+	for sx in [-2.17, 2.17]:
+		var fs := CollisionShape3D.new()
+		var fb := BoxShape3D.new()
+		fb.size = Vector3(0.36, 2.85, 4.4)
+		fs.shape = fb
+		fs.position = Vector3(sx, -1.02, -2.02)
+		body.add_child(fs)
+	piece.add_child(body)
 
 static func _row(area: Area, spec: Dictionary) -> void:
 	var from := _v3(spec.get("from", [0, 0, 0]))
 	var dir := _v3(spec.get("dir", [1, 0, 0]))
 	var count := int(spec.get("count", 1))
 	var step := float(spec.get("step", 4.0))
-	var skip: Array = spec.get("skip", [])
+	# JSON numbers arrive as floats; Array.has() is type-strict, so an int
+	# loop index never matches [1.0] — normalize to ints
+	var skip := {}
+	for s in spec.get("skip", []):
+		skip[int(s)] = true
 	for i in count:
-		if i in skip:
+		if skip.has(i):
 			continue
 		var sub := spec.duplicate()
 		sub["at"] = [from.x + dir.x * step * i, from.y, from.z + dir.z * step * i]

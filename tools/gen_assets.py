@@ -18,6 +18,7 @@ import kit_props  # noqa: E402
 import kit_chars  # noqa: E402
 import kit_backdrop  # noqa: E402
 import kit_decor  # noqa: E402
+import kit_skel  # noqa: E402
 
 OUT = os.path.join(ROOT, "assets", "kit")
 
@@ -57,6 +58,16 @@ def main():
         entry["polys"] = tris
         manifest[name] = entry
         print(f"[kit] {name:24s} {tris:6d} polys -> {path}")
+
+    # skeletal archetypes (armature + skin, no baked clips)
+    for name in kit_skel.ARCHETYPES:
+        if only and name not in only:
+            continue
+        path = os.path.join(OUT, f"{name}.glb")
+        entry = kit_skel.build(name, path)
+        entry["file"] = f"assets/kit/{name}.glb"
+        manifest[name] = entry
+        print(f"[kit] {name:24s} {entry['polys']:6d} polys -> {path} (skeletal)")
 
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=1, sort_keys=True)

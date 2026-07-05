@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpxq0posegrid1"]
+
+[ext_resource type="Script" path="res://src/debug/posegrid.gd" id="1"]
+
+[node name="PoseGrid" type="Node3D"]
+script = ExtResource("1")

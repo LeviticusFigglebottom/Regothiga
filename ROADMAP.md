@@ -26,7 +26,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 | Painted texture pass | ✅ | 8 procedural painterly maps (masonry/slabs/planks/shingles/weave/iron/wax) triplanar-overlaid on every family |
 | Paired glory/ruin decor | ✅ | votive clusters↔melted, gardens↔withered, censers hung↔fallen, banners↔rags, saints↔kneeling husks, ivy, books |
 | Ambient life | 🟡 | birds+petals in glory, crows+ash in ruin; wants perch points, flock behavior, insects |
-| Characters | 🟡 | humanoid silhouette pass done (elbows, pauldrons, proportions); still node-rigs, no skeletal animation |
+| Characters | ✅ | skeletal pass done: shared 16-bone armature, 5 skinned archetypes, bone-track clips (walk/run/attacks/roll/kneel/death…) built in-engine from the rest pose; weapons/shields/helms ride bones |
 | Full-loop verification | ✅ | scripted end-to-end playthrough of the §11 loop (fullloop test) |
 
 ## Pass 2+ backlog (concrete)
@@ -40,7 +40,8 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 
 **Art**
 - Painted-texture pass 2: per-piece UV bakes (Cycles AO/edge-wear) for hero props on top of the triplanar layer; trim sheets for portals.
-- Skeletal characters + animation retarget seam (replaces node-rigs; combat data untouched).
+- ~~Skeletal characters + animation retarget seam~~ done pass 3 (CharVisual + SkelAnim; node-rigs retired; combat data untouched).
+- Animation polish: hand-keyed easing curves, additive hit-reacts, foot IK on stairs.
 - Weathering decals, ivy geometry, richer ruin deltas (collapsed vault bays, flooded walk).
 - Transformation: rooted orbital camera option, debris geyser at wavefront, per-entity poof timing.
 
@@ -52,6 +53,10 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 
 **Tech debt / audits**
 - ~~HUD anchor-based layout~~ done (center/right elements anchored).
+- ~~Mouse capture~~ done pass 3 (captured on spawn, Esc frees, click recaptures; LMB/RMB quiet while the cursor is free).
+- ~~Perimeter audit~~ done pass 3 (`tools/audit_walls.py` rasterizes fills and flags unsealed boundary segments; east-walk hole walled, void arches blocked, porch under-stair sealed; kill-plane failsafe).
+- ~~Decor/NPC collision~~ done pass 3 (solid props collide by kit policy, hangings/clutter stay passable; NPCs have bodies; walls_test guards it).
+- ~~Row `skip` bug~~ done pass 3 (JSON floats vs int `Array.has`; phantom arcades stood in every skipped doorway).
 - Roof piece UV/skirt so walk roofs read from the garth at all angles.
-- Mesh merging per room + occlusion for perf on real GPUs; collision audit automation (nav-vs-collision diff report).
+- Mesh merging per room + occlusion for perf on real GPUs.
 - Gamepad glyphs, remapping, accessibility sliders.
