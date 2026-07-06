@@ -265,12 +265,15 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 	var mn := _v3(spec.get("min", [0, 0, 0]))
 	var mx := _v3(spec.get("max", [4, 0, 4]))
 	var tag: String = spec.get("tag", "base")
-	# spring override lets a grand hall (the garth) sit higher
-	var spring := float(spec.get("spring_top", _WALL_TOP))
+	# the cornice sits a wall-height above THIS field's floor, so a raised room
+	# (the undercroft landings at y=2.4) gets full headroom instead of a ceiling
+	# pressed down to the hall's 4 m. spring_top still overrides absolutely.
+	var wall_top := mn.y + _WALL_TOP
+	var spring := float(spec.get("spring_top", wall_top))
 	# some rooms read better with a plain timber-beamed flat ceiling than groin
 	# vaults; "flat": true opts a field into that (vaults stay for grander halls)
 	if spec.get("flat", false):
-		_flat_ceiling(area, mn, mx, tag, spring)
+		_flat_ceiling(area, mn, mx, tag, wall_top)
 		return
 	var ceil_h := spring + _VAULT_APEX + 0.2
 	# decorative groin vaults, springing from the cornice
@@ -285,12 +288,12 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 			_piece(area, p, false)
 			z += 4.0
 		x += 4.0
-	# watertight lid + clerestory band so no sky shows above the walls
+	# watertight lid + clerestory band so no sky shows above the walls (absolute Y)
 	var mat := MaterialLib.get_mat("M_stone", _state_mode(tag))
-	_roof_box(area, tag, mat, (mn + mx) * 0.5 + Vector3(0, ceil_h + 0.15, 0),
+	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, ceil_h + 0.15, (mn.z + mx.z) * 0.5),
 			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
-	var cy := (_WALL_TOP + ceil_h) * 0.5
-	var ch := maxf(ceil_h - _WALL_TOP, 0.1)
+	var cy := (wall_top + ceil_h) * 0.5
+	var ch := maxf(ceil_h - wall_top, 0.1)
 	# north / south (span x), east / west (span z)
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
@@ -300,12 +303,12 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 ## A flat, sensibly-high coffered ceiling: a stone lid a little above the wall
 ## cornice, crossed by warm timber beams, with a short clerestory band sealing
 ## the gap so no sky shows. Used where groin vaults would feel too busy.
-static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, spring: float) -> void:
-	var lid := spring + 0.85
+static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wall_top: float) -> void:
+	var lid := wall_top + 0.85
 	var mat := MaterialLib.get_mat("M_stone", _state_mode(tag))
 	var wood := MaterialLib.get_mat("M_wood", _state_mode(tag))
-	# the flat lid
-	_roof_box(area, tag, mat, (mn + mx) * 0.5 + Vector3(0, lid + 0.15, 0),
+	# the flat lid (absolute Y)
+	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, lid + 0.15, (mn.z + mx.z) * 0.5),
 			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
 	# timber beams every 4 m across the shorter span, for a coffered read
 	var span_x := mx.x - mn.x
@@ -323,8 +326,8 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, spr
 					Vector3(span_x, 0.26, 0.24))
 			bz += 4.0
 	# clerestory band closing wall-top -> lid on all four sides
-	var cy := (_WALL_TOP + lid) * 0.5
-	var ch := maxf(lid - _WALL_TOP, 0.1)
+	var cy := (wall_top + lid) * 0.5
+	var ch := maxf(lid - wall_top, 0.1)
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
 	_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))

@@ -40,6 +40,31 @@ func _run() -> void:
 	check("gray_cloister" in tos and "basilica_nave" in tos, "stairs rise to both quarters %s" % [tos])
 	check(Game.find_lantern("ossuary") != null, "ossuary lantern kept")
 
+	print("== the grand stair joins the floors flush (no float, no drop-in gap)")
+	player.global_position = Vector3(-21, 2.8, 0)   # on the west landing
+	await ticks(10)
+	check(absf(player.global_position.y - 2.4) < 0.4, "stands on the upper landing (y=%.2f)" % player.global_position.y)
+	player.sim_move = Vector3(1, 0, 0)              # walk east, DOWN the stair
+	await ticks(95)
+	player.sim_move = Vector3.ZERO
+	await ticks(12)
+	check(player.global_position.x > -15.5, "descended into the hall (x=%.2f)" % player.global_position.x)
+	check(absf(player.global_position.y) < 0.45, "met the lower floor flush — no drop (y=%.2f)" % player.global_position.y)
+	var low_y := player.global_position.y
+	player.sim_move = Vector3(-1, 0, 0)             # and climb back up
+	await ticks(120)
+	player.sim_move = Vector3.ZERO
+	await ticks(12)
+	check(player.global_position.y > low_y + 1.6, "climbed back up the stair (y=%.2f)" % player.global_position.y)
+
+	print("== raised landings clear a standing figure (vault springs from THEIR floor)")
+	var space := player.get_world_3d().direct_space_state
+	for probe in [Vector3(22, 2.5, -4), Vector3(-22, 2.5, 0), Vector3(16, 2.5, 6)]:
+		var ray := PhysicsRayQueryParameters3D.create(probe, probe + Vector3.UP * 6.0, VG.M_WORLD_ALL)
+		var hit := space.intersect_ray(ray)
+		var clear: float = (hit["position"].y - probe.y) if not hit.is_empty() else 6.0
+		check(clear > 3.0, "landing at %s clears the ceiling (%.1f m)" % [probe, clear])
+
 	print("== the watchers")
 	var wps: Array = _find(area, WatcherPuzzle)
 	check(wps.size() == 1, "watchers stand")

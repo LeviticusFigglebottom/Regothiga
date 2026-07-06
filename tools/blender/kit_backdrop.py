@@ -199,20 +199,36 @@ def balustrade_4m():
     return objs, {"size": [4, 0.4, 1.1], "origin": "bottom-center"}
 
 
+def _stringer(bm, x, run, rise, w=0.14):
+    """A thin sloped side board running the length of a stair, at plane x.
+    Profile lies in the Y(run)-Z(height) plane; Z is UP, run goes toward +Y."""
+    prof = [(-0.1, 0.15), (run + 0.1, -rise + 0.15), (run + 0.1, -rise - 0.25), (-0.1, -0.25)]
+    fr = [bm.verts.new((x, py, pz)) for (py, pz) in prof]        # (y_run, z_height)
+    bk = [bm.verts.new((x + w, py, pz)) for (py, pz) in prof]
+    bm.faces.new(fr)
+    bm.faces.new(list(reversed(bk)))
+    for i in range(4):
+        j = (i + 1) % 4
+        bm.faces.new((fr[i], fr[j], bk[j], bk[i]))
+
+
 def stair_grand_4m():
-    """Grand stair: 4 m wide run descending 2.4 m over 4 m, solid flanks.
-    Origin: top edge center (walk off the upper floor onto it)."""
+    """Grand stair: 4 m wide, DROPPING 2.4 m over a 4 m run, with side stringers.
+    Z is UP in this kit (like every wall/column): the RISE is on Z, the RUN on Y
+    (toward +Y, which becomes the ramp's -Z in Godot so the visual and the
+    2.4-over-4 collision ramp descend the SAME way). Origin: top front-edge
+    centre; the top tread sits flush with the upper floor, the foot 2.4 m below."""
     bm = bmesh.new()
-    steps = 10
+    steps, run, rise = 12, 4.0, 2.4
+    dy, dz = run / steps, rise / steps
     for i in range(steps):
-        z0 = -2.4 * (i + 1) / steps
-        y0 = 0.4 * i
-        _box(bm, -2, y0, z0, 2, y0 + 0.42, z0 + 2.4 / steps + 0.02)
-    # flanks
-    _box(bm, -2.35, 0, -2.4, -2.0, 4.0, 0.35)
-    _box(bm, 2.0, 0, -2.4, 2.35, 4.0, 0.35)
+        top = -dz * i                       # tread top height (Z), descending
+        # x[-2.1,2.1]  y(run)[dy*i, dy*(i+1)]  z(height)[top-dz, top]
+        _box(bm, -2.1, dy * i - 0.02, top - dz - 0.02, 2.1, dy * (i + 1), top)
+    _stringer(bm, -2.24, run, rise)
+    _stringer(bm, 2.10, run, rise)
     obj = V.bm_to_object(bm, "stair", ("M_stone",))
-    return [obj], {"size": [4.7, 4, 2.8], "origin": "top-center"}
+    return [obj], {"size": [4.68, rise, run], "origin": "top-center"}
 
 
 def urn():
@@ -347,6 +363,7 @@ def city_panorama(seed=3):
     bm = bmesh.new()
     # (radius, base_h, height_range, depth_range, spire_chance)
     bands = [
+        (34, 5, (3, 10), (5, 8), 0.22),    # near band: closer houses fill the gap
         (52, 7, (5, 16), (6, 11), 0.30),
         (88, 11, (9, 26), (8, 15), 0.34),
         (140, 18, (16, 46), (12, 22), 0.40),
@@ -370,7 +387,16 @@ def city_panorama(seed=3):
             _pano_building(bm, a + half, half, rr, depth, h, style, rng)
             a += span
     body = V.bm_to_object(bm, "city_panorama", ("M_backdrop",))
-    return [body], {"size": [470, 470, 60], "origin": "center"}
+    # a broad ground plate so the city stands on something instead of void
+    gbm = bmesh.new()
+    gn, gr = 80, 245
+    gc = gbm.verts.new((0, 0, -0.2))
+    gring = [gbm.verts.new((gr * math.cos(math.tau * i / gn), gr * math.sin(math.tau * i / gn), -0.2))
+             for i in range(gn)]
+    for i in range(gn):
+        gbm.faces.new((gc, gring[i], gring[(i + 1) % gn]))
+    ground = V.bm_to_object(gbm, "city_ground", ("M_backdrop",))
+    return [body, ground], {"size": [490, 490, 60], "origin": "center"}
 
 
 BUILDERS = {

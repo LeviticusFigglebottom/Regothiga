@@ -941,42 +941,6 @@
    "tag": "base"
   },
   {
-   "kit": "hanging_chain",
-   "at": [
-    -9,
-    2.4,
-    0
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "hanging_chain_bare",
-   "at": [
-    -9,
-    2.4,
-    0
-   ],
-   "tag": "ruin"
-  },
-  {
-   "kit": "hanging_chain_bare",
-   "at": [
-    -4,
-    2.4,
-    5
-   ],
-   "tag": "ruin"
-  },
-  {
-   "kit": "hanging_chain_bare",
-   "at": [
-    8,
-    2.4,
-    -3
-   ],
-   "tag": "ruin"
-  },
-  {
    "kit": "cobweb",
    "at": [
     -17.6,

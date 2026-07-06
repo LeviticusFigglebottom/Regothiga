@@ -302,10 +302,10 @@
  "city_panorama": {
   "file": "assets/kit/city_panorama.glb",
   "origin": "center",
-  "polys": 1483,
+  "polys": 1725,
   "size": [
-   470,
-   470,
+   490,
+   490,
    60
   ]
  },
@@ -860,11 +860,11 @@
  "stair_grand_4m": {
   "file": "assets/kit/stair_grand_4m.glb",
   "origin": "top-center",
-  "polys": 72,
+  "polys": 84,
   "size": [
-   4.7,
-   4,
-   2.8
+   4.68,
+   2.4,
+   4.0
   ]
  },
  "statue_orans": {
