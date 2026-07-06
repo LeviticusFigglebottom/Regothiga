@@ -507,6 +507,16 @@
    "rot": 180
   },
   {
+   "kit": "door_leaf",
+   "at": [
+    0,
+    0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
    "kit": "rose_window",
    "at": [
     0,

@@ -302,7 +302,7 @@
  "city_panorama": {
   "file": "assets/kit/city_panorama.glb",
   "origin": "center",
-  "polys": 34042,
+  "polys": 39912,
   "size": [
    520,
    520,
@@ -352,11 +352,11 @@
  "door_leaf": {
   "file": "assets/kit/door_leaf.glb",
   "origin": "bottom-center",
-  "polys": 42,
+  "polys": 48,
   "size": [
-   1.9,
-   0.2,
-   2.85
+   2.0,
+   0.24,
+   3.98
   ]
  },
  "fence_iron_4m": {

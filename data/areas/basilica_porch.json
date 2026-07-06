@@ -279,6 +279,16 @@
    "rot": -90
   },
   {
+   "kit": "door_leaf",
+   "at": [
+    8,
+    0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
    "kit": "buttress",
    "at": [
     -6,

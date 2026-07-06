@@ -606,7 +606,13 @@ def door_leaf():
     for sx in (-1, 1):
         ring = V.loft_rings("ring", [(0.02, 0, 8, 0), (0.03, 0.0, 8, 0)], "M_iron")
     objs.append(V.bm_to_object(bm, "door_bands", ("M_iron",)))
-    return objs, {"size": [1.9, 0.2, 2.85], "origin": "bottom-center"}
+    # stone tympanum backing the pointed arch above the leaves — a portal_4m
+    # opening runs to a ~3.2 m point, so bare doors leave a sliver of sky/city
+    # showing at the tip; this panel seals it (edges buried in the arch jambs)
+    tbm = bmesh.new()
+    V.add_box(tbm, (-1.0, -0.07, 2.66), (1.0, 0.1, 3.98))
+    objs.append(V.bm_to_object(tbm, "door_tympanum", ("M_stone",)))
+    return objs, {"size": [2.0, 0.24, 3.98], "origin": "bottom-center"}
 
 
 BUILDERS = {

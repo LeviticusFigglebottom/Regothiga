@@ -332,10 +332,11 @@ def _placer(ang, R, z0=0.0):
 
 
 def _ground_y(r):
-    """The city stands on a hillside that falls away from the terrace: the
-    ground descends steadily with radius so the vista reads as an overlook into
-    a valley, never a flat plate hanging in the air."""
-    return -0.5 - max(0.0, r - 14.0) * 0.22
+    """The hillside the city stands on: flat under the terrace rim, then falling
+    away and levelling into a valley floor. Buildings root INTO this surface, so
+    the vista is an overlook into a valley — never a plate floating over a void."""
+    d = max(0.0, r - 16.0)
+    return -1.0 - 22.0 * (1.0 - math.exp(-d / 42.0))
 
 
 def _tbox(bm, place, x0, y0, z0, x1, y1, z1):
@@ -505,6 +506,11 @@ def _bld_cathedral(L, D, place, w, h, rng):
 
 def _pano_building(bm, dbm, ang, R, w, h, kind, rng, z0=0.0):
     place = _placer(ang, R, z0)
+    # a foundation sunk to a common floor well below the visible ground, so the
+    # building is rooted into the hillside from every angle — the ground plate
+    # hides the buried part and there is never a gap to see under
+    d = w * 0.82
+    _tbox(bm, place, -w * 0.5, -0.4, -40.0 - z0, w * 0.5, d + 0.4, 0.3)
     {"cathedral": _bld_cathedral, "tower": _bld_tower, "dome": _bld_dome,
      "tiered": _bld_tiered}.get(kind, _bld_hall)(bm, dbm, place, w, h, rng)
 
@@ -522,11 +528,12 @@ def city_panorama(seed=3):
     # frames the view; the grand cathedrals/towers/domes tower in the mid belts
     # behind it so the skyline reads as distant monuments, not a near brick wall.
     bands = [
-        (30, 3, (2, 7), 0.03),      # rooftops on the near slope, just off the terrace
-        (55, 9, (7, 20), 0.16),
-        (90, 18, (16, 46), 0.28),   # grand belt: cathedrals + towers dominate here
-        (140, 26, (24, 64), 0.24),
-        (205, 20, (16, 50), 0.10),
+        (20, 4, (2, 6), 0.05),      # CLOSE ring, distinct buildings just off the balustrade
+        (34, 8, (6, 15), 0.14),
+        (56, 15, (12, 34), 0.26),
+        (88, 22, (18, 48), 0.28),   # grand belt: cathedrals + towers dominate here
+        (135, 26, (22, 60), 0.20),
+        (200, 20, (16, 48), 0.10),
     ]
     for bi, (R, base_h, hr, hero) in enumerate(bands):
         n = max(20, int(R * 0.30))
@@ -559,8 +566,8 @@ def city_panorama(seed=3):
     # the hillside the city stands on: a single continuous surface falling away
     # from the terrace rim so nothing floats and no bare plate is exposed
     gbm = bmesh.new()
-    gn = 72
-    radii = [14, 20, 28, 40, 58, 84, 122, 175, 260]
+    gn = 80
+    radii = [8, 14, 18, 24, 32, 44, 60, 82, 114, 160, 240]
     prev = None
     for gr in radii:
         gy = _ground_y(gr)
