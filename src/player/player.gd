@@ -63,6 +63,10 @@ var _riposte_target: Node3D = null
 # out-of-bounds failsafe
 var _last_ground := Vector3.ZERO
 
+# brief interact lockout (in physics frames) so the key-press that closes a menu
+# can't reopen it — only needs to outlast the closing press's one-frame bleed
+var _interact_suppress := 0
+
 var vis: PlayerVisual
 var cam: CameraRig
 var hitbox: Hitbox
@@ -211,6 +215,8 @@ func _move_input() -> Vector3:
 # --------------------------------------------------------------- physics
 func _physics_process(dt: float) -> void:
 	state_t += dt
+	if _interact_suppress > 0:
+		_interact_suppress -= 1
 	if not is_on_floor():
 		velocity.y -= 22.0 * dt
 	else:
@@ -804,8 +810,14 @@ func nearest_interactable() -> Interactable:
 				best = a
 	return best
 
+## Suppress interaction for a few frames. Menus call this as they close so the
+## same key-press that dismissed them can't immediately re-activate the prop —
+## it only has to outlast that press's one-frame just_pressed bleed.
+func suppress_interact(frames := 3) -> void:
+	_interact_suppress = maxi(_interact_suppress, frames)
+
 func try_interact() -> bool:
-	if state != S.MOVE:
+	if state != S.MOVE or _interact_suppress > 0:
 		return false
 	if _riposte_target != null and try_riposte():
 		return true

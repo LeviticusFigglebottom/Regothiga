@@ -171,4 +171,5 @@ func _do_vigil(choice: String) -> void:
 func close() -> void:
 	if player != null:
 		player.lock_control(false)
+		player.suppress_interact()   # don't let the closing key-press re-open us
 	queue_free()

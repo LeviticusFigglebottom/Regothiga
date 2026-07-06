@@ -267,6 +267,11 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 	var tag: String = spec.get("tag", "base")
 	# spring override lets a grand hall (the garth) sit higher
 	var spring := float(spec.get("spring_top", _WALL_TOP))
+	# some rooms read better with a plain timber-beamed flat ceiling than groin
+	# vaults; "flat": true opts a field into that (vaults stay for grander halls)
+	if spec.get("flat", false):
+		_flat_ceiling(area, mn, mx, tag, spring)
+		return
 	var ceil_h := spring + _VAULT_APEX + 0.2
 	# decorative groin vaults, springing from the cornice
 	var x := mn.x
@@ -287,6 +292,39 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 	var cy := (_WALL_TOP + ceil_h) * 0.5
 	var ch := maxf(ceil_h - _WALL_TOP, 0.1)
 	# north / south (span x), east / west (span z)
+	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+	_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+	_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+
+## A flat, sensibly-high coffered ceiling: a stone lid a little above the wall
+## cornice, crossed by warm timber beams, with a short clerestory band sealing
+## the gap so no sky shows. Used where groin vaults would feel too busy.
+static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, spring: float) -> void:
+	var lid := spring + 0.85
+	var mat := MaterialLib.get_mat("M_stone", _state_mode(tag))
+	var wood := MaterialLib.get_mat("M_wood", _state_mode(tag))
+	# the flat lid
+	_roof_box(area, tag, mat, (mn + mx) * 0.5 + Vector3(0, lid + 0.15, 0),
+			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
+	# timber beams every 4 m across the shorter span, for a coffered read
+	var span_x := mx.x - mn.x
+	var span_z := mx.z - mn.z
+	if span_x <= span_z:
+		var bx := mn.x + 2.0
+		while bx < mx.x - 0.01:
+			_roof_box(area, tag, wood, Vector3(bx, lid - 0.13, (mn.z + mx.z) * 0.5),
+					Vector3(0.24, 0.26, span_z))
+			bx += 4.0
+	else:
+		var bz := mn.z + 2.0
+		while bz < mx.z - 0.01:
+			_roof_box(area, tag, wood, Vector3((mn.x + mx.x) * 0.5, lid - 0.13, bz),
+					Vector3(span_x, 0.26, 0.24))
+			bz += 4.0
+	# clerestory band closing wall-top -> lid on all four sides
+	var cy := (_WALL_TOP + lid) * 0.5
+	var ch := maxf(lid - _WALL_TOP, 0.1)
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
 	_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))

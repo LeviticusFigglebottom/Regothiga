@@ -78,18 +78,19 @@ func _set_layer_collision(layer: Node3D, on: bool) -> void:
 func add_ambient(mn: Vector3, mx: Vector3) -> void:
 	var center := (mn + mx) * 0.5
 	var size := mx - mn
-	var motes := _ambient_emitter(size, Color(1.0, 0.85, 0.55, 0.35), 0.12, Vector3(0.12, 0.05, 0.0), 120)
+	# gold dust motes catching the light — soft alpha, not glowing orbs
+	var motes := _ambient_emitter(size, Color(0.86, 0.74, 0.5, 0.22), 0.12, Vector3(0.12, 0.05, 0.0), 70)
 	motes.position = center + Vector3(0, 2.2, 0)
 	glory_layer.add_child(motes)
-	var ash := _ambient_emitter(size, Color(0.52, 0.56, 0.66, 0.3), 0.15, Vector3(0.25, -0.5, 0.1), 170)
+	var ash := _ambient_emitter(size, Color(0.5, 0.53, 0.6, 0.24), 0.15, Vector3(0.25, -0.5, 0.1), 120)
 	ash.position = center + Vector3(0, 4.0, 0)
 	ruin_layer.add_child(ash)
 	# life: distant birds wheel over glory; petals drift; crows keep the ruin
-	var birds := _ambient_emitter(size * 1.6, Color(0.13, 0.10, 0.09, 0.9), 1.6, Vector3(1.6, 0.06, 0.5), 26)
+	var birds := _ambient_emitter(size * 1.6, Color(0.13, 0.10, 0.09, 0.9), 1.6, Vector3(1.6, 0.06, 0.5), 24)
 	birds.position = center + Vector3(0, 15.0, 0)
 	birds.emission_box_extents.y = 5.0
 	glory_layer.add_child(birds)
-	var petals := _ambient_emitter(size, Color(0.95, 0.83, 0.72, 0.75), 0.5, Vector3(0.3, -0.22, 0.12), 70)
+	var petals := _ambient_emitter(size, Color(0.9, 0.78, 0.76, 0.6), 0.5, Vector3(0.3, -0.22, 0.12), 46)
 	petals.position = center + Vector3(0, 3.4, 0)
 	glory_layer.add_child(petals)
 	var crows := _ambient_emitter(size * 1.3, Color(0.06, 0.05, 0.07, 0.95), 1.3, Vector3(1.1, 0.04, -0.4), 12)
@@ -97,6 +98,8 @@ func add_ambient(mn: Vector3, mx: Vector3) -> void:
 	crows.emission_box_extents.y = 4.0
 	ruin_layer.add_child(crows)
 
+## Soft alpha-blended flecks (motes/ash/petals/birds). Deliberately NOT additive:
+## additive + the environment's bloom turned these into big white orbs.
 func _ambient_emitter(size: Vector3, color: Color, scale_max: float, drift: Vector3, amount: int) -> CPUParticles3D:
 	var p := CPUParticles3D.new()
 	p.amount = amount
@@ -109,14 +112,14 @@ func _ambient_emitter(size: Vector3, color: Color, scale_max: float, drift: Vect
 	p.initial_velocity_min = drift.length() * 0.5
 	p.initial_velocity_max = drift.length() * 1.4
 	p.gravity = Vector3.ZERO
-	p.scale_amount_min = 0.012
-	p.scale_amount_max = 0.028 * (1.0 + scale_max)
+	p.scale_amount_min = 0.01
+	p.scale_amount_max = 0.022 * (1.0 + scale_max)
 	var quad := QuadMesh.new()
-	quad.size = Vector2(0.42, 0.42)
+	quad.size = Vector2(0.34, 0.34)
 	var mat := StandardMaterial3D.new()
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
 	mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
 	var grad := Gradient.new()
 	grad.set_color(0, Color(color, 1.0))

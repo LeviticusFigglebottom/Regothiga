@@ -138,6 +138,16 @@ func _can_see(p: Node3D) -> bool:
 		global_position + Vector3.UP * 1.4, p.global_position + Vector3.UP * 1.0, VG.M_WORLD_ALL)
 	return get_world_3d().direct_space_state.intersect_ray(ray).is_empty()
 
+## Clear line of sight to the current target through world geometry — gates
+## combat so foes never swing or fire through a wall. Cheap (one ray).
+func _los_clear() -> bool:
+	if target == null or not is_instance_valid(target):
+		return false
+	var ray := PhysicsRayQueryParameters3D.create(
+		global_position + Vector3.UP * 1.4, target.global_position + Vector3.UP * 1.0, VG.M_WORLD_ALL)
+	ray.exclude = [self]
+	return get_world_3d().direct_space_state.intersect_ray(ray).is_empty()
+
 func _face(dir: Vector3, dt: float, mult := 1.0) -> void:
 	dir.y = 0
 	if dir.length_squared() < 0.001:
@@ -169,7 +179,7 @@ func _st_approach(dt: float) -> void:
 		target = null
 		_set_state(ES.IDLE)
 		return
-	if dist <= _max_attack_range() * 0.9:
+	if dist <= _max_attack_range() * 0.9 and _los_clear():
 		_set_state(ES.COMBAT)
 		return
 	agent.target_position = target.global_position
@@ -193,6 +203,10 @@ func _st_combat(dt: float) -> void:
 		_cooldowns[k] = maxf(0.0, _cooldowns[k] - dt)
 	_think_t -= dt
 	if dist > _max_attack_range() * 1.25:
+		_set_state(ES.APPROACH)
+		return
+	# a wall came between us — close in instead of swinging through it
+	if not _los_clear():
 		_set_state(ES.APPROACH)
 		return
 	# choose an attack that's off cooldown and in range

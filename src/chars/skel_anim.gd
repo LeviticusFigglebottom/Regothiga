@@ -147,14 +147,19 @@ static func _clips(amp := 1.0, sway := 1.0) -> Dictionary:
 		}},
 
 		# --- defense / reactions ---
-		"block": {"len": 0.6, "bones": {
-			"uarm_l": [[0.0, 0, 0, 0], [0.18, 40, 0, -14], [0.6, 40, 0, -14]],
-			"farm_l": [[0.0, 12, 0, 0], [0.18, 85, 0, 0], [0.6, 85, 0, 0]],
-			"uarm_r": [[0.0, 0, 0, 0], [0.18, 15, 0, -10], [0.6, 15, 0, -10]],
-			"chest": [[0.0, 0, 0, 0], [0.18, -6, -14, 0], [0.6, -6, -14, 0]],
-			"thigh_l": [[0.0, 0, 0, 0], [0.18, 14, 0, 0], [0.6, 14, 0, 0]],
-			"shin_l": [[0.0, 0, 0, 0], [0.18, -10, 0, 0], [0.6, -10, 0, 0]],
-			"thigh_r": [[0.0, 0, 0, 0], [0.18, -8, 0, 0], [0.6, -8, 0, 0]],
+		# Held guard: a LOOPING pose that starts already raised, so the cross-fade
+		# from idle raises the shield and it then holds (with a faint breathing
+		# sway) for as long as block is held — it must never resolve back to a
+		# locomotion clip, or the guard would visibly drop mid-block.
+		"block": {"len": 2.2, "loop": true, "bones": {
+			"uarm_l": [[0.0, 40, 0, -14], [1.1, 41.5, 0, -15], [2.2, 40, 0, -14]],
+			"farm_l": [[0.0, 85, 0, 0], [1.1, 87, 0, 0], [2.2, 85, 0, 0]],
+			"uarm_r": [[0.0, 15, 0, -10], [1.1, 16, 0, -10], [2.2, 15, 0, -10]],
+			"chest": [[0.0, -6, -14, 0], [1.1, -5, -13, 0], [2.2, -6, -14, 0]],
+			"neck": [[0.0, 2, 6, 0], [2.2, 2, 6, 0]],
+			"thigh_l": [[0.0, 14, 0, 0], [2.2, 14, 0, 0]],
+			"shin_l": [[0.0, -10, 0, 0], [2.2, -10, 0, 0]],
+			"thigh_r": [[0.0, -8, 0, 0], [2.2, -8, 0, 0]],
 		}},
 		"parry": {"len": 0.6, "bones": {
 			"uarm_l": [[0.0, 0, 0, 0], [0.1, 55, 0, -25], [0.26, 70, 0, 25], [0.6, 0, 0, 0]],
