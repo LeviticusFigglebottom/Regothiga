@@ -121,9 +121,11 @@ func _ambient_emitter(size: Vector3, color: Color, scale_max: float, drift: Vect
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	mat.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
 	mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	# honour the colour's own alpha at the centre (was forced to 1.0, which made
+	# these read as solid pale orbs) and fade to nothing at the rim
 	var grad := Gradient.new()
-	grad.set_color(0, Color(color, 1.0))
-	grad.set_color(1, Color(color, 0.0))
+	grad.set_color(0, color)
+	grad.set_color(1, Color(color.r, color.g, color.b, 0.0))
 	var gt := GradientTexture2D.new()
 	gt.gradient = grad
 	gt.fill = GradientTexture2D.FILL_RADIAL
