@@ -173,14 +173,43 @@ def _arch_y(pts, x):
     return half[-1][1] if ax < 0.01 else 0.0
 
 
+def _rib_path(bm, path, w=0.11, d=0.16):
+    """A raised rib molding along a path of (x, y, z_height) points, built as
+    a triangular-section tube — perpendicular offset in the horizontal plane
+    plus a drop in height. Robust over arching paths (no swept-frame flip)."""
+    import math as _m
+    sections = []
+    n = len(path)
+    for k in range(n):
+        px, py, pz = path[k]
+        a = path[max(0, k - 1)]
+        b = path[min(n - 1, k + 1)]
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        L = _m.hypot(dx, dy) or 1.0
+        ux, uy = -dy / L, dx / L      # horizontal perpendicular
+        left = bm.verts.new((px + ux * w, py + uy * w, pz))
+        right = bm.verts.new((px - ux * w, py - uy * w, pz))
+        bot = bm.verts.new((px, py, pz - d))
+        sections.append((left, right, bot))
+    for k in range(n - 1):
+        l0, r0, b0 = sections[k]
+        l1, r1, b1 = sections[k + 1]
+        bm.faces.new((l0, l1, b1, b0))
+        bm.faces.new((b0, b1, r1, r0))
+        bm.faces.new((r0, r1, l1, l0))
+    for (l, r, b) in (sections[0], sections[-1]):
+        bm.faces.new((l, r, b))
+
+
 def vault_bay_4x4():
     """Quadripartite-ish rib vault bay over a 4x4 m cell. The web is the
     surface z = spring + min(arch(x), arch(z)); ribs sweep the diagonals and
     edges; a boss caps the crown. Origin: bay center at spring height z=0
     (place at wall spring height)."""
     spring = 0.0
+    flat = 0.62   # gentle vault: keeps the groin read, kills the steep grey flaps
     arch = V.pointed_arch(4.0, 0.55, 16, 0.0)
-    apex = max(p[1] for p in arch)
+    apex = max(p[1] for p in arch) * flat
     grid = 14
     bm = bmesh.new()
     verts = {}
@@ -188,7 +217,7 @@ def vault_bay_4x4():
         for j in range(grid + 1):
             x = (-2 + 4 * i / grid) * 1.012
             z = (-2 + 4 * j / grid) * 1.012
-            h = spring + min(_arch_y(arch, x), _arch_y(arch, z))
+            h = spring + flat * min(_arch_y(arch, x), _arch_y(arch, z))
             verts[(i, j)] = bm.verts.new((x, z, h))
     for i in range(grid):
         for j in range(grid):
@@ -197,27 +226,29 @@ def vault_bay_4x4():
     web = V.bm_to_object(bm, "vault_web", ("M_stone",))
     objs = [web]
 
-    prof = V.chamfer_rect_profile(0.16, 0.22, 0.05)
-    # diagonal ribs
+    ribbm = bmesh.new()
+    # diagonal groin ribs, corner to corner over the crown
     for sgn in (1, -1):
         path = []
-        for k in range(25):
-            t = -2 + 4 * k / 24
-            path.append((t, sgn * t, spring + _arch_y(arch, t) - 0.02))
-        objs.append(V.sweep_profile("rib_diag", path, prof, "M_stone_trim",
-                                    up_hint=Vector((0, 0, 1))))
+        for k in range(21):
+            t = -2 + 4 * k / 20
+            # the diagonal spans sqrt2 longer, so height follows arch(|t|*sqrt2-ish);
+            # sample the web height at this diagonal point
+            hx = flat * _arch_y(arch, t)
+            path.append((t, sgn * t, spring + hx - 0.02))
+        _rib_path(ribbm, path, 0.1, 0.16)
     # transverse/wall ribs at the four edges
     for edge in range(4):
         path = []
-        for k in range(25):
-            t = -2 + 4 * k / 24
-            h = spring + _arch_y(arch, t) - 0.02
+        for k in range(21):
+            t = -2 + 4 * k / 20
+            h = spring + flat * _arch_y(arch, t) - 0.02
             if edge == 0: path.append((t, -2 + 0.08, h))
             elif edge == 1: path.append((t, 2 - 0.08, h))
             elif edge == 2: path.append((-2 + 0.08, t, h))
             else: path.append((2 - 0.08, t, h))
-        objs.append(V.sweep_profile("rib_edge", path, prof, "M_stone_trim",
-                                    up_hint=Vector((0, 0, 1))))
+        _rib_path(ribbm, path, 0.1, 0.16)
+    objs.append(V.bm_to_object(ribbm, "vault_ribs", ("M_stone_trim",)))
     # boss at the crown
     boss = V.loft_rings("boss", [(0.02, apex - 0.3, 8, 0), (0.16, apex - 0.14, 8, 0),
                                  (0.13, apex + 0.02, 8, 0.3)], "M_stone_trim")
@@ -509,6 +540,68 @@ def rubble(size_key):
     return [obj], {"size": [spread * 2, spread * 2, 0.8], "origin": "bottom-center"}
 
 
+def _chunk(bm, cx, cy, cz, sx, sy, sz, rng, jitter=0.32):
+    """One angular masonry block: a box with per-vertex jitter so it reads as a
+    broken stone rather than a crate. Centered at (cx,cy,cz), half-extents s*."""
+    x0, x1, y0, y1, z0, z1 = cx - sx, cx + sx, cy - sy, cy + sy, cz - sz, cz + sz
+    vs = [bm.verts.new((x, y, z)) for x in (x0, x1) for y in (y0, y1) for z in (z0, z1)]
+    for v in vs:
+        v.co.x += rng.uniform(-jitter, jitter) * sx
+        v.co.y += rng.uniform(-jitter, jitter) * sy
+        v.co.z += rng.uniform(-jitter, jitter) * sz
+    for f in [(0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4), (1, 5, 7, 3), (0, 4, 5, 1), (2, 3, 7, 6)]:
+        bm.faces.new([vs[i] for i in f])
+
+
+def rubble_choke_4m():
+    """A collapse that seals a ~3.4 m doorway floor-to-lintel with no see-through
+    gaps: an opaque, jagged stone core flanked by chunky fallen debris piled on
+    BOTH faces so it reads as packed rubble from either approach. Origin bottom-
+    center; width runs across the opening (X), depth through it (Y)."""
+    rng = random.Random(77)
+    half_w = 1.7
+    # opaque core: tall merlons that close the whole pointed opening; the debris
+    # in front hides the top edge, so height only needs to stay above the lintel
+    core = bmesh.new()
+    n = 9
+    for i in range(n):
+        x0 = -half_w + (2 * half_w) * i / n
+        x1 = -half_w + (2 * half_w) * (i + 1) / n
+        h = rng.uniform(2.9, 3.3)
+        V.add_box(core, (x0 - 0.03, -0.32, 0.0), (x1 + 0.03, 0.32, h))
+    core_obj = V.bm_to_object(core, "choke_core", ("M_stone",))
+    # debris: graded talus — big fallen blocks low, tightly-packed chunks climbing
+    # both faces (hugging the core harder the higher they go), plus a spill onto
+    # the floor so it grounds instead of hanging in the arch.
+    deb = bmesh.new()
+    for _ in range(6):                       # big fallen voussoirs at the base
+        side = rng.choice((-1.0, 1.0))
+        _chunk(deb, rng.uniform(-half_w + 0.4, half_w - 0.4), side * rng.uniform(0.3, 0.6),
+               rng.uniform(0.35, 0.8), rng.uniform(0.34, 0.55), rng.uniform(0.3, 0.45),
+               rng.uniform(0.3, 0.5), rng, 0.22)
+    # fill a solid mound envelope: for every chunk, its column caps at a height
+    # that peaks in the middle and tapers to the jambs, and it can sit anywhere
+    # from the floor up to that cap. Nothing is ever placed above its column, so
+    # there are no floating chunks — just a packed pile against the opaque core.
+    for _ in range(130):
+        side = rng.choice((-1.0, 1.0))
+        x = rng.uniform(-half_w + 0.1, half_w - 0.1)
+        cap = 2.35 * (1.0 - (x / half_w) ** 2 * 0.4)   # ~2.35 mid → ~1.5 at jambs
+        cz = cap * (0.06 + 0.94 * rng.random())
+        taper = 1.0 - cz / 3.0               # hug the core tighter up high
+        depth = side * (0.2 + rng.uniform(0.0, 0.34) * taper)
+        s = rng.uniform(0.14, 0.3) * (0.7 + 0.3 * taper)
+        _chunk(deb, x, depth, cz,
+               s * rng.uniform(0.85, 1.4), s * rng.uniform(0.85, 1.3), s * rng.uniform(0.75, 1.15), rng)
+    for _ in range(14):                      # talus spilling out onto the floor
+        side = rng.choice((-1.0, 1.0))
+        _chunk(deb, rng.uniform(-half_w + 0.2, half_w - 0.2),
+               side * rng.uniform(0.55, 1.05), rng.uniform(0.06, 0.32),
+               rng.uniform(0.14, 0.26), rng.uniform(0.14, 0.24), rng.uniform(0.1, 0.2), rng, 0.4)
+    deb_obj = V.bm_to_object(deb, "choke_debris", ("M_stone_dark",))
+    return [core_obj, deb_obj], {"size": [2 * half_w, 2.2, 3.0], "origin": "bottom-center"}
+
+
 def fog_gate_frame():
     """Freestanding boss-arena threshold: two piers + pointed arch with
     chevron-carved archivolt. The fog plane itself is runtime."""
@@ -611,5 +704,6 @@ BUILDERS = {
     "rubble_s": lambda: rubble("s"),
     "rubble_m": lambda: rubble("m"),
     "rubble_l": lambda: rubble("l"),
+    "rubble_choke_4m": rubble_choke_4m,
     "fog_gate_frame": fog_gate_frame,
 }

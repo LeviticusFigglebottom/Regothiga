@@ -627,6 +627,16 @@
    4.4
   ]
  },
+ "rubble_choke_4m": {
+  "file": "assets/kit/rubble_choke_4m.glb",
+  "origin": "bottom-center",
+  "polys": 954,
+  "size": [
+   3.4,
+   2.2,
+   3.0
+  ]
+ },
  "rubble_l": {
   "file": "assets/kit/rubble_l.glb",
   "origin": "bottom-center",
@@ -908,14 +918,14 @@
   ]
  },
  "vault_bay_4x4": {
-  "apex": 2.1908902300206647,
+  "apex": 1.3583519426128121,
   "file": "assets/kit/vault_bay_4x4.glb",
   "origin": "spring-center",
-  "polys": 1378,
+  "polys": 586,
   "size": [
    4,
    4,
-   2.290890230020665
+   1.4583519426128122
   ]
  },
  "vigil_lantern": {
@@ -991,11 +1001,11 @@
  "wellhead": {
   "file": "assets/kit/wellhead.glb",
   "origin": "bottom-center",
-  "polys": 44,
+  "polys": 105,
   "size": [
-   2.6,
-   1.5,
-   2.5
+   2.1,
+   1.0,
+   1.72
   ]
  },
  "window_lancet_4m": {

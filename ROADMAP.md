@@ -21,7 +21,7 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 | Basilica of Last Light (B+C) | ✅ | porch, terrace, and now the full Nave: triforium gallery, rose window, the Unrung Bell, Precentress boss, Sexton NPC, two puzzles |
 | Skyline / kingdom backdrop | ✅ | wrapping city_panorama (4 depth bands, no sky-gaps) + hero silhouettes; morphs gold↔dead-blue; boss yard roofed, tower door shut in glory |
 | Save/persistence | ✅ | full world+player round-trip verified |
-| HUD/UI | ✅ | bars/prompts/boss bar/death splash/dialogue/rest menus; dialogue leave-cycle fixed; wants gamepad glyphs + menus polish |
+| HUD/UI | ✅ | bars/prompts/boss bar/floating enemy health bars (on-hit + lock-on, billboarded)/death splash/dialogue/rest menus; dialogue leave-cycle fixed; middle-mouse lock-on; wants gamepad glyphs + menus polish |
 | Audio | 🟡 | fully synthesized pack (bells motif) + larksong/crow ambiences; coherent but synth-grade |
 | Painted texture pass | ✅ | 8 procedural painterly maps (masonry/slabs/planks/shingles/weave/iron/wax) triplanar-overlaid on every family |
 | Paired glory/ruin decor | ✅ | votive clusters↔melted, gardens↔withered, censers hung↔fallen, banners↔rags, saints↔kneeling husks, ivy, books |
@@ -57,6 +57,6 @@ Legend: ✅ real · 🟡 shallow (works, thin) · 🩶 stub · ⬜ absent
 - ~~Perimeter audit~~ done pass 3 (`tools/audit_walls.py` rasterizes fills and flags unsealed boundary segments; east-walk hole walled, void arches blocked, porch under-stair sealed; kill-plane failsafe).
 - ~~Decor/NPC collision~~ done pass 3 (solid props collide by kit policy, hangings/clutter stay passable; NPCs have bodies; walls_test guards it).
 - ~~Row `skip` bug~~ done pass 3 (JSON floats vs int `Array.has`; phantom arcades stood in every skipped doorway).
-- Roof piece UV/skirt so walk roofs read from the garth at all angles.
+- ~~Roof the garth + walks watertight~~ done pass 8 (decorative groin-vault bays spring from the wall cornice, capped by a stone slab + clerestory band; no eave sky-gaps). Ruin door-chokes rebuilt as a dense masonry mound over an opaque core (no see-through gaps). Still wants per-piece UV skirts on the outer walk roofs.
 - Mesh merging per room + occlusion for perf on real GPUs.
 - Gamepad glyphs, remapping, accessibility sliders.

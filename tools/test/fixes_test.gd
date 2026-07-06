@@ -1,6 +1,6 @@
 extends TestBase
-## Pass-6 regression: dialogue leaves cleanly (no reopen cycle), convex
-## props block without wedging, lock-on is off the mouse and flick-releases.
+## Pass-6/8 regression: dialogue leaves cleanly (no reopen cycle), convex
+## props block without wedging, middle-mouse locks on and a hard flick releases.
 
 var area: Area
 var player: Player
@@ -97,9 +97,9 @@ func _run() -> void:
 	check(probe == null or probe.get_depth() <= 0.13,
 		"player was pushed clear of the column (depth=%.2f)" % (probe.get_depth() if probe else 0.0))
 
-	print("== lock-on: off the mouse, flick releases")
-	check(not InputMap.action_has_event("lock_on", _mb(MOUSE_BUTTON_MIDDLE)),
-		"middle mouse no longer lock-on")
+	print("== lock-on: middle mouse binds it, a hard flick releases")
+	check(InputMap.action_has_event("lock_on", _mb(MOUSE_BUTTON_MIDDLE)),
+		"middle mouse locks on again")
 	player.cam.locked_target = player   # pretend we're locked
 	player.cam.mouse_look(Vector2(120, 0))   # a hard flick
 	check(player.cam.locked_target == null, "a hard mouse flick breaks the lock")

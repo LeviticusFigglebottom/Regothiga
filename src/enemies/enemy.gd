@@ -32,6 +32,7 @@ var agent: NavigationAgent3D
 var hitbox: Hitbox
 var hitbox_shape: CollisionShape3D
 var hurtbox: Hurtbox
+var hpbar: EnemyHealthBar
 
 func setup(enemy_id: String) -> void:
 	id = enemy_id
@@ -88,10 +89,22 @@ func _ready() -> void:
 	vis.add_child(hitbox)
 	hitbox.on_contact = _on_hit_contact
 
+	# floating health bar for regular foes; bosses ride the big HUD bar instead
+	if not cfg.get("is_boss", false):
+		hpbar = EnemyHealthBar.new()
+		hpbar.name = "HPBar"
+		add_child(hpbar)
+		var vs := float(cfg.get("vis_scale", 1.0))
+		hpbar.build(clampf(float(cfg.get("hurt_r", 0.45)) * 2.6, 0.7, 1.7))
+		hpbar.position.y = maxf(float(cfg.get("hurt_h", 1.6)), 1.2) * vs + 0.42
+		hpbar.set_ratio(1.0)
+
 func _physics_process(dt: float) -> void:
 	if dead:
 		return
 	state_t += dt
+	if hpbar != null:
+		hpbar.set_forced(_is_locked_target())
 	if not is_on_floor():
 		velocity.y -= 22.0 * dt
 	match state:
@@ -402,11 +415,20 @@ func is_blocking_toward(from_pos: Vector3) -> bool:
 func on_blocked_hit(_packet: DamagePacket) -> void:
 	AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -6.0)
 
+func _is_locked_target() -> bool:
+	var p := Game.player
+	if p == null or not is_instance_valid(p):
+		return false
+	var rig = p.get("cam")
+	return rig != null and rig.locked_target == self
+
 func take_hit(packet: DamagePacket) -> void:
 	if dead:
 		return
 	hp -= packet.amount
 	poise -= packet.poise_damage
+	if hpbar != null:
+		hpbar.hit(hp / max_hp)
 	# aggro on pain even if unseen
 	if target == null and packet.source != null and packet.source.is_in_group("player"):
 		target = packet.source
@@ -444,6 +466,9 @@ func on_parried(_host) -> void:
 func _die() -> void:
 	dead = true
 	_set_state(ES.DEAD)
+	if hpbar != null:
+		hpbar.set_ratio(0.0)
+		hpbar.dismiss()
 	hitbox.end_swing()
 	hurtbox.set_deferred("monitorable", false)
 	collision_layer = 0

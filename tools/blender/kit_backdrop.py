@@ -222,22 +222,41 @@ def urn():
 
 
 def wellhead():
-    """Octagonal garth well with posts and a little roof."""
+    """Octagonal garth draw-well: a stone rim with a coping ring, a timber
+    windlass on two short posts, an iron crank, and a bucket on a chain over the
+    mouth. Open (no canopy) — the classic cloister-garth centrepiece, and nothing
+    broad enough to read as a flat grey plate from below."""
     objs = []
     objs.append(V.loft_rings("well_wall", [(1.05, 0, 8, 0), (1.05, 0.85, 8, 0), (0.85, 0.85, 8, 0),
                                            (0.85, 0.0, 8, 0)], "M_stone", cap_bottom=False, cap_top=False))
-    for sx in (-0.95, 0.95):
-        p = V.loft_rings("post", [(0.07, 0.8, 6, 0), (0.06, 2.1, 6, 0)], "M_wood")
+    # a chamfered stone coping crowning the rim
+    objs.append(V.loft_rings("well_coping", [(1.12, 0.85, 8, 0), (1.14, 0.9, 8, 0), (1.1, 0.99, 8, 0),
+                                             (0.8, 0.99, 8, 0), (0.8, 0.85, 8, 0)], "M_stone_trim",
+                             cap_bottom=False, cap_top=False))
+    # two short posts + a wooden windlass roller-bar
+    for sx in (-0.9, 0.9):
+        p = V.loft_rings("post", [(0.08, 0.95, 6, 0), (0.07, 1.62, 6, 0)], "M_wood")
         p.location = (sx, 0, 0)
         objs.append(p)
-    bm = bmesh.new()
-    a = bm.verts.new((-1.3, -0.7, 2.05)); b = bm.verts.new((1.3, -0.7, 2.05))
-    c = bm.verts.new((1.3, 0.7, 2.05)); d = bm.verts.new((-1.3, 0.7, 2.05))
-    r1 = bm.verts.new((-1.3, 0, 2.5)); r2 = bm.verts.new((1.3, 0, 2.5))
-    bm.faces.new((a, b, r2, r1)); bm.faces.new((r1, r2, c, d))
-    bm.faces.new((a, r1, d)); bm.faces.new((b, c, r2))
-    objs.append(V.bm_to_object(bm, "well_roof", ("M_roof",)))
-    return objs, {"size": [2.6, 1.5, 2.5], "origin": "bottom-center"}
+    bar = V.box_object("well_bar", [2.0, 0.14, 0.14], "M_wood", origin="center")
+    bar.location = (0, 0, 1.5)
+    objs.append(bar)
+    # an iron crank handle off one post
+    crank = V.box_object("well_crank", [0.34, 0.06, 0.06], "M_iron", origin="center")
+    crank.location = (1.0, -0.24, 1.5)
+    objs.append(crank)
+    handle = V.box_object("well_handle", [0.06, 0.06, 0.24], "M_iron", origin="center")
+    handle.location = (1.15, -0.24, 1.28)
+    objs.append(handle)
+    # chain + bucket hanging over the mouth
+    chain = V.box_object("well_chain", [0.04, 0.04, 0.72], "M_iron", origin="center")
+    chain.location = (0.3, 0, 0.82)
+    objs.append(chain)
+    bucket = V.loft_rings("bucket", [(0.16, 0, 8, 0), (0.19, 0.3, 8, 0)], "M_wood",
+                          cap_bottom=True, cap_top=False)
+    bucket.location = (0.3, 0, 0.52)
+    objs.append(bucket)
+    return objs, {"size": [2.1, 1.0, 1.72], "origin": "bottom-center"}
 
 
 def sconce_torch():

@@ -253,14 +253,22 @@ static func _fill(area: Area, spec: Dictionary) -> void:
 			z += step
 		x += step
 
+## Wall pieces are 4 m tall; a vault bay rises 2.19 m from its springline.
+## Spring the vaults FROM the wall-top cornice so the web meets the walls and
+## the apex sits inside the room, then cap with a watertight slab + a
+## clerestory band closing the gap between wall-top and slab. Result: a fully
+## roofed room, no vault poking above the walls, no sky leaking at the eaves.
+const _WALL_TOP := 4.0
+const _VAULT_APEX := 1.358
+
 static func _vault_field(area: Area, spec: Dictionary) -> void:
-	var sub := spec.duplicate()
-	sub["kit"] = "vault_bay_4x4"
-	sub["min"] = spec["min"]
-	sub["max"] = spec["max"]
 	var mn := _v3(spec.get("min", [0, 0, 0]))
 	var mx := _v3(spec.get("max", [4, 0, 4]))
-	var spring := float(spec.get("spring", 2.7))
+	var tag: String = spec.get("tag", "base")
+	# spring override lets a grand hall (the garth) sit higher
+	var spring := float(spec.get("spring_top", _WALL_TOP))
+	var ceil_h := spring + _VAULT_APEX + 0.2
+	# decorative groin vaults, springing from the cornice
 	var x := mn.x
 	while x < mx.x - 0.01:
 		var z := mn.z
@@ -272,6 +280,30 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 			_piece(area, p, false)
 			z += 4.0
 		x += 4.0
+	# watertight lid + clerestory band so no sky shows above the walls
+	var mat := MaterialLib.get_mat("M_stone", _state_mode(tag))
+	_roof_box(area, tag, mat, (mn + mx) * 0.5 + Vector3(0, ceil_h + 0.15, 0),
+			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
+	var cy := (_WALL_TOP + ceil_h) * 0.5
+	var ch := maxf(ceil_h - _WALL_TOP, 0.1)
+	# north / south (span x), east / west (span z)
+	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+	_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+	_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+
+static func _state_mode(tag: String) -> int:
+	return 1 if tag == "glory" else (2 if tag == "ruin" else 0)
+
+## A solid box of geometry (roof slab / clerestory strip) attached to a layer.
+static func _roof_box(area: Area, tag: String, mat: Material, center: Vector3, size: Vector3) -> void:
+	var mi := MeshInstance3D.new()
+	var bm := BoxMesh.new()
+	bm.size = size
+	mi.mesh = bm
+	mi.material_override = mat
+	mi.position = center
+	area.attach(mi, tag)
 
 ## Invisible impassable volume (collapsed debris etc.) — dress it with props.
 static func _blocker(area: Area, spec: Dictionary) -> void:
