@@ -21,7 +21,13 @@ MOUNTED = {
 ARCH = {"floor_4x4", "wall_4x4", "ossuary_wall_4m", "arcade_4m", "portal_4m",
         "window_lancet_4m", "column_4m", "stair_grand_4m", "fence_iron_4m",
         "column_broken", "door_leaf", "fog_gate_frame", "cornice_4m",
-        "balustrade_4m", "buttress"}   # railings/buttresses ride at height on purpose
+        "balustrade_4m", "buttress"}   # buttresses ride at height on purpose
+# railings sit ON their floor and INSIDE its edge — they must NOT float or overhang.
+# (They stay in ARCH so the wall-hug/overlap checks skip them, but the grounding
+#  check below opts them back in with a tight tolerance. A 0.22 m float or an
+#  x=+-8.2 rail on an x=+-8 floor edge — the exact terrace bug — now trips it.)
+RAILING = {"balustrade_4m"}
+RAIL_TOL = 0.18     # a railing more than this off its floor top is a defect
 
 
 def v3(a):
@@ -42,12 +48,15 @@ def expand_row(r):
     return out
 
 
-def floors_at(fills, x, z):
-    """All floor heights whose tile covers (x,z) — an area can be multi-level."""
+def floors_at(fills, x, z, margin=0.05):
+    """All floor heights whose tile covers (x,z) — an area can be multi-level.
+    `margin` widens the footprint: railings legitimately line a floor's edge
+    (hanging their depth over the drop they guard), so they need a looser reach
+    to find the floor they belong to; grounded decor uses the tight default."""
     ys = []
     for f in fills:
         mn, mx = v3(f["min"]), v3(f["max"])
-        if mn[0] - 0.05 <= x <= mx[0] + 0.05 and mn[2] - 0.05 <= z <= mx[2] + 0.05:
+        if mn[0] - margin <= x <= mx[0] + margin and mn[2] - margin <= z <= mx[2] + margin:
             ys.append(mx[1])
     return ys
 
@@ -129,16 +138,24 @@ def audit(area_id):
     for r in d.get("rows", []):
         placed += expand_row(r)
 
-    # 1) props floating off the floor (grounded decor only)
+    # 1) props floating off the floor (grounded decor + railings). Railings are in
+    #    ARCH (so wall/overlap checks skip them) but opt back IN here: a balustrade
+    #    that floats above its floor, or sits past the floor edge over the drop, is
+    #    exactly the terrace defect and must trip.
     for p in placed:
         kit = p.get("kit", "")
-        if kit in MOUNTED or kit in ARCH:
+        if kit in MOUNTED or (kit in ARCH and kit not in RAILING):
             continue
         at = v3(p["at"])
-        ys = floors_at(fills, at[0], at[2])
+        is_rail = kit in RAILING
+        # railings reach a bit further to find the floor edge they line; vertical
+        # tolerance stays tight so a rail that doesn't SIT on that floor still trips
+        ys = floors_at(fills, at[0], at[2], 0.4 if is_rail else 0.05)
+        tol = RAIL_TOL if is_rail else 0.6
         if not ys:
-            issues.append(f"OFF-FLOOR  {kit} at {p['at']} (over no floor)")
-        elif not any(abs(at[1] - y) <= 0.6 for y in ys):
+            tail = " (railing floats past floor edge, over the drop)" if is_rail else " (over no floor)"
+            issues.append(f"OFF-FLOOR  {kit} at {p['at']}{tail}")
+        elif not any(abs(at[1] - y) <= tol for y in ys):
             # nearest floor the prop could rest on
             near = min(ys, key=lambda y: abs(at[1] - y))
             if near < at[1]:
