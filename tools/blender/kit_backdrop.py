@@ -200,9 +200,10 @@ def balustrade_4m():
 
 
 def _stringer(bm, x, run, rise, w=0.14):
-    """A thin sloped side board running the length of a stair, at plane x.
-    Profile lies in the Y(run)-Z(height) plane; Z is UP, run goes toward +Y."""
-    prof = [(-0.1, 0.15), (run + 0.1, -rise + 0.15), (run + 0.1, -rise - 0.25), (-0.1, -0.25)]
+    """A SOLID closed-string side wall running the length of a stair, at plane x:
+    top follows the step nosings, bottom drops to the lower floor, so you can't
+    see under or beside the stair. Profile in the Y(run)-Z(height) plane; Z up."""
+    prof = [(-0.1, 0.15), (run + 0.1, -rise + 0.15), (run + 0.1, -rise - 0.35), (-0.1, -rise - 0.35)]
     fr = [bm.verts.new((x, py, pz)) for (py, pz) in prof]        # (y_run, z_height)
     bk = [bm.verts.new((x + w, py, pz)) for (py, pz) in prof]
     bm.faces.new(fr)

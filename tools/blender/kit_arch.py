@@ -16,17 +16,27 @@ import vglib as V
 
 def floor_4x4():
     """4x4 m slab floor, per-slab jitter. Origin: center of tile, top at z=0.
-    Slabs sit slightly below z=0 so props at y=0 rest on them cleanly."""
+    A SOLID full-tile base underneath (edge-to-edge at +-2 m) means adjacent
+    tiles butt with no see-through gap and nothing leaks through the grout; the
+    jittered top slabs only carry the paving texture and their outer edges reach
+    the tile boundary so the between-tile seam is a hairline, not a hole."""
     bm = bmesh.new()
     rng = random.Random(11)
+    # solid continuous base — tiles meet flush at +-2, sealing the void below
+    V.add_box(bm, (-2.0, -2.0, -0.24), (2.0, 2.0, -0.05))
     n = 4
     s = 4.0 / n
+    g = 0.012
     for i in range(n):
         for j in range(n):
             x0, y0 = -2 + i * s, -2 + j * s
             drop = rng.uniform(0.008, 0.03)
-            g = 0.015
-            V.add_box(bm, (x0 + g, y0 + g, -0.22), (x0 + s - g, y0 + s - g, -drop))
+            # inset only the INTERNAL edges, so outer edges reach the tile bound
+            xlo = x0 + (g if i > 0 else 0.0)
+            xhi = x0 + s - (g if i < n - 1 else 0.0)
+            ylo = y0 + (g if j > 0 else 0.0)
+            yhi = y0 + s - (g if j < n - 1 else 0.0)
+            V.add_box(bm, (xlo, ylo, -0.06), (xhi, yhi, -drop))
     obj = V.bm_to_object(bm, "floor_4x4", ("M_stone_dark",))
     return [obj], {"size": [4, 0.25, 4], "origin": "top-center"}
 

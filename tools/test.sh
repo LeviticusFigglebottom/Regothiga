@@ -5,6 +5,13 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 FILTER="${1:-}"
 overall=0
+# static geometry audits: perimeter sealing + placement anomalies (no engine)
+if [ -z "$FILTER" ]; then
+  echo "=== audit: perimeter"
+  python3 tools/audit_walls.py || overall=1
+  echo "=== audit: placement anomalies"
+  python3 tools/audit_areas.py || overall=1
+fi
 # refresh imports + global class cache (new class_name scripts)
 timeout 300 godot --headless --path . --import >/dev/null 2>&1
 for scene in tools/test/*_test.tscn; do

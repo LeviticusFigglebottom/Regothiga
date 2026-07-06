@@ -372,7 +372,7 @@
  "floor_4x4": {
   "file": "assets/kit/floor_4x4.glb",
   "origin": "top-center",
-  "polys": 96,
+  "polys": 102,
   "size": [
    4,
    0.25,
