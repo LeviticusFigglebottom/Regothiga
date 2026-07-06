@@ -105,9 +105,19 @@ def brazier(lit=True):
                               V.circle_profile(0.02, 5), "M_iron")
         objs.append(leg)
     if lit:
-        f = _flame("brazier_flame", 0.16, 0.34)
-        f.location = (0, 0, 0.74)
-        objs.append(f)
+        # a heaped mound of glowing embers (warm-emissive stone via the GOTHIC
+        # shader — reliably bright; the flame shader renders dark at this scale)
+        # crowns the bowl, so the brazier always reads as lit coals, not a cone
+        embers = V.loft_rings("brazier_embers", [(0.34, 0.58, 12, 0), (0.33, 0.66, 12, 0),
+                                                 (0.26, 0.76, 12, 0), (0.14, 0.85, 12, 0),
+                                                 (0.04, 0.9, 12, 0)], "M_ember")
+        objs.append(embers)
+        # small candle-scale flames licking up from the coals (these DO glow)
+        for k in range(3):
+            a = k * 2.094 + 0.4
+            ff = _flame("brazier_flame%d" % k, 0.05, 0.2)
+            ff.location = (0.1 * math.cos(a), 0.1 * math.sin(a), 0.88)
+            objs.append(ff)
     else:
         ash = V.loft_rings("ash", [(0.26, 0.72, 10, 0), (0.1, 0.78, 10, 0)], "M_stone_dark")
         objs.append(ash)

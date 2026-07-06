@@ -312,92 +312,270 @@ def statue_orans(seed=3):
     return objs, {"size": [1, 1, 2.9], "origin": "bottom-center"}
 
 
-def _pano_building(bm, ang, half, R, depth, h, style, rng):
-    """One inward-facing building prism in a panorama ring, plus a gothic
-    roofline. ang/half in radians; R inner radius; depth radial thickness."""
-    a0, a1 = ang - half, ang + half
-    def pt(r, a, z):
-        return bm.verts.new((r * math.cos(a), r * math.sin(a), z))
-    bi0, bi1 = pt(R, a0, 0.0), pt(R, a1, 0.0)
-    bo0, bo1 = pt(R + depth, a0, 0.0), pt(R + depth, a1, 0.0)
-    ti0, ti1 = pt(R, a0, h), pt(R, a1, h)
-    to0, to1 = pt(R + depth, a0, h), pt(R + depth, a1, h)
-    bm.faces.new((bi0, bi1, ti1, ti0))       # inner face (toward centre = viewer)
-    bm.faces.new((bo1, bo0, to0, to1))       # outer
-    bm.faces.new((bi1, bo1, to1, ti1))       # sides
-    bm.faces.new((bo0, bi0, ti0, to0))
-    bm.faces.new((ti0, ti1, to1, to0))       # flat cap
-    rmid = R + depth * 0.5
-    if style == "spire":
-        apex = pt(rmid, ang, h + h * rng.uniform(0.35, 0.7))
-        for e0, e1 in ((ti0, ti1), (ti1, to1), (to1, to0), (to0, ti0)):
-            bm.faces.new((e0, e1, apex))
-    elif style == "gable":
-        r0 = pt(rmid, a0, h + depth * 0.55)
-        r1 = pt(rmid, a1, h + depth * 0.55)
-        bm.faces.new((ti0, ti1, r1, r0))
-        bm.faces.new((to1, to0, r0, r1))
-        bm.faces.new((ti0, r0, to0))
-        bm.faces.new((ti1, to1, r1))
-    elif style == "step":
-        sh = h * rng.uniform(0.2, 0.45)
-        sa = half * 0.55
-        s0, s1 = ang - sa, ang + sa
-        si0, si1 = pt(R + depth * 0.2, s0, h), pt(R + depth * 0.2, s1, h)
-        so0, so1 = pt(R + depth * 0.8, s0, h), pt(R + depth * 0.8, s1, h)
-        ci0, ci1 = pt(R + depth * 0.2, s0, h + sh), pt(R + depth * 0.2, s1, h + sh)
-        co0, co1 = pt(R + depth * 0.8, s0, h + sh), pt(R + depth * 0.8, s1, h + sh)
-        bm.faces.new((si0, si1, ci1, ci0))
-        bm.faces.new((so1, so0, co0, co1))
-        bm.faces.new((si1, so1, co1, ci1))
-        bm.faces.new((so0, si0, ci0, co0))
-        bm.faces.new((ci0, ci1, co1, co0))
+# ---------------------------------------------------------------------------
+# Panorama city: distinct Anor-Londo monuments, not brick prisms.
+#
+# Each building is modelled in a LOCAL frame — x tangential, y radial-OUT from
+# the ring (so the front face at y=0 turns toward the viewer at the centre),
+# z up — then emitted through a `place(x,y,z)` closure that rotates it onto its
+# arc. Relief that actually reads at 30-200 m: buttress pilasters stand proud
+# of the wall, window bays sink dark between them, cornices cap each stage.
+# Two meshes: warm stone (bm) and shadowed openings (dbm).
+# ---------------------------------------------------------------------------
+
+def _placer(ang, R, z0=0.0):
+    ca, sa = math.cos(ang), math.sin(ang)
+    def place(x, y, z):                      # local (tangent, radial-out, up)
+        r = R + y
+        return Vector((r * ca - x * sa, r * sa + x * ca, z + z0))
+    return place
+
+
+def _ground_y(r):
+    """The city stands on a hillside that falls away from the terrace: the
+    ground descends steadily with radius so the vista reads as an overlook into
+    a valley, never a flat plate hanging in the air."""
+    return -0.5 - max(0.0, r - 14.0) * 0.22
+
+
+def _tbox(bm, place, x0, y0, z0, x1, y1, z1):
+    c = [(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0),
+         (x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)]
+    v = [bm.verts.new(place(*p)) for p in c]
+    for f in ((0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1),
+              (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)):
+        bm.faces.new([v[i] for i in f])
+
+
+def _tspire(bm, place, cx, cy, z, w, h):
+    a = bm.verts.new(place(cx - w, cy - w, z)); b = bm.verts.new(place(cx + w, cy - w, z))
+    c = bm.verts.new(place(cx + w, cy + w, z)); d = bm.verts.new(place(cx - w, cy + w, z))
+    tip = bm.verts.new(place(cx, cy, z + h))
+    for e0, e1 in ((a, b), (b, c), (c, d), (d, a)):
+        bm.faces.new((e0, e1, tip))
+
+
+def _tpin(bm, place, cx, cy, z, w, h):
+    _tbox(bm, place, cx - w, cy - w, z, cx + w, cy + w, z + h * 0.5)
+    _tspire(bm, place, cx, cy, z + h * 0.5, w * 1.15, h * 0.5)
+
+
+def _tgable(bm, place, x0, x1, y0, y1, z, rise):
+    xm = (x0 + x1) * 0.5
+    a = bm.verts.new(place(x0, y0, z)); b = bm.verts.new(place(x1, y0, z))
+    c = bm.verts.new(place(x1, y1, z)); d = bm.verts.new(place(x0, y1, z))
+    r0 = bm.verts.new(place(xm, y0, z + rise)); r1 = bm.verts.new(place(xm, y1, z + rise))
+    bm.faces.new((a, b, r0)); bm.faces.new((d, r1, c))
+    bm.faces.new((a, r0, r1, d)); bm.faces.new((b, c, r1, r0))
+
+
+def _tdisc(bm, place, cx, cy, cz, r, seg=10):
+    ring = [bm.verts.new(place(cx + r * math.cos(math.tau * i / seg), cy,
+            cz + r * math.sin(math.tau * i / seg))) for i in range(seg)]
+    c = bm.verts.new(place(cx, cy - 0.05, cz))
+    for i in range(seg):
+        bm.faces.new((c, ring[i], ring[(i + 1) % seg]))
+
+
+def _tdome(bm, place, cx, cy, z, r, h, seg=10, rings=4):
+    prev = None
+    for j in range(rings + 1):
+        t = j / rings
+        rr = r * math.cos(t * math.pi / 2)
+        zz = z + h * math.sin(t * math.pi / 2)
+        ring = [bm.verts.new(place(cx + rr * math.cos(math.tau * i / seg), cy + rr * math.sin(math.tau * i / seg), zz))
+                for i in range(seg)]
+        if prev:
+            for i in range(seg):
+                bm.faces.new((prev[i], prev[(i + 1) % seg], ring[(i + 1) % seg], ring[i]))
+        prev = ring
+
+
+def _facade(L, D, place, x0, x1, z0, z1, rng, bays=0, arched=True):
+    """Buttress pilasters (proud, light) framing recessed dark window bays, with
+    a cornice ledge at top — the detail that turns a wall into a cathedral flank."""
+    span = x1 - x0
+    if bays <= 0:
+        bays = max(1, int(round(span / 3.4)))
+    bw = span / bays
+    _tbox(L, place, x0 - 0.3, -0.7, z1 - 0.5, x1 + 0.3, 0.12, z1)        # top cornice
+    if z1 - z0 > 9:                                                       # mid string course
+        zm = (z0 + z1) * 0.5
+        _tbox(L, place, x0 - 0.2, -0.5, zm, x1 + 0.2, 0.08, zm + 0.35)
+    for i in range(bays + 1):                                            # buttress pilasters
+        bx = x0 + i * bw
+        _tbox(L, place, bx - 0.34, -0.65, z0, bx + 0.34, 0.05, z1 - 0.1)
+    for i in range(bays):                                                # dark window bays
+        wx0 = x0 + i * bw + bw * 0.32
+        wx1 = x0 + i * bw + bw * 0.68
+        wz1 = z1 - 0.7
+        wz0 = z0 + (z1 - z0) * 0.14
+        _tbox(D, place, wx0, -0.14, wz0, wx1, 0.03, wz1)
+        if arched:                                                        # lancet head
+            _tspire(D, place, (wx0 + wx1) * 0.5, -0.05, wz1, (wx1 - wx0) * 0.5, (wx1 - wx0) * 0.7)
+
+
+def _bld_hall(L, D, place, w, h, rng):
+    d = w * rng.uniform(0.55, 0.95)
+    _tbox(L, place, -w / 2, 0, 0, w / 2, d, h)
+    _facade(L, D, place, -w / 2, w / 2, 1.0, h - 0.4, rng)
+    if rng.random() < 0.6:
+        _tgable(L, place, -w / 2, w / 2, 0, d, h, w * rng.uniform(0.24, 0.36))
+        if rng.random() < 0.4:
+            _tspire(L, place, 0, d * 0.5, h + w * 0.24, w * 0.06, h * rng.uniform(0.3, 0.5))
+    else:
+        _tbox(L, place, -w / 2 - 0.4, -0.4, h, w / 2 + 0.4, d + 0.4, h + 0.7)   # parapet
+        for sx in (-1, 1):
+            _tpin(L, place, sx * (w / 2 - 0.3), d * 0.5, h + 0.7, w * 0.07, h * 0.28)
+
+
+def _bld_tower(L, D, place, w, h, rng):
+    w = min(w, max(4.0, h * 0.26))
+    d = w
+    z, ww = 0.0, w
+    while z < h * 0.82:
+        th = min(h * 0.34, h - z)
+        _tbox(L, place, -ww / 2, 0, z, ww / 2, d, z + th)
+        _tbox(L, place, -ww / 2 - 0.35, -0.35, z + th, ww / 2 + 0.35, d + 0.1, z + th + 0.45)
+        _facade(L, D, place, -ww * 0.42, ww * 0.42, z + th * 0.25, z + th * 0.9, rng, bays=1)
+        z += th + 0.45
+        ww *= 0.9
+    # belfry openings + crown
+    _tbox(D, place, -ww * 0.3, -0.12, z - h * 0.16, ww * 0.3, 0.03, z - h * 0.03)
+    for sx in (-1, 1):
+        for sy in (0, 1):
+            _tpin(L, place, sx * ww * 0.46, sy * d, z, ww * 0.09, h * 0.16)
+    _tspire(L, place, 0, d * 0.5, z, ww * 0.58, h * rng.uniform(0.42, 0.7))
+
+
+def _bld_tiered(L, D, place, w, h, rng):
+    tiers = rng.randint(2, 3)
+    z, ww, dd = 0.0, w, w * 0.85
+    for t in range(tiers):
+        th = h * (0.5 if t == 0 else 0.34) * (1.0 - t * 0.08)
+        _tbox(L, place, -ww / 2, 0, z, ww / 2, dd, z + th)
+        _facade(L, D, place, -ww / 2, ww / 2, z + th * 0.2, z + th * 0.86, rng, arched=(t == 0))
+        _tbox(L, place, -ww / 2 - 0.35, -0.35, z + th, ww / 2 + 0.35, dd + 0.35, z + th + 0.5)  # cornice
+        for sx in (-1, 1):
+            _tpin(L, place, sx * (ww / 2 - 0.2), dd * 0.5, z + th + 0.5, ww * 0.05, th * 0.35)
+        z += th + 0.5
+        ww *= 0.72
+        dd *= 0.75
+    _tspire(L, place, 0, dd * 0.5, z, ww * 0.4, h * 0.24)
+
+
+def _bld_dome(L, D, place, w, h, rng):
+    d = w * 0.85
+    base = h * 0.55
+    _tbox(L, place, -w / 2, 0, 0, w / 2, d, base)
+    _facade(L, D, place, -w / 2, w / 2, 1.0, base - 0.5, rng)
+    _tbox(L, place, -w / 2 - 0.3, -0.3, base, w / 2 + 0.3, d + 0.3, base + 0.5)
+    r = min(w, d) * 0.34
+    _tdome(L, place, 0, d * 0.5, base + 0.5, r * 1.05, r * 0.35, seg=8, rings=1)     # drum ring base
+    _tbox(L, place, -r, d * 0.5 - r, base + 0.5, r, d * 0.5 + r, base + 0.5 + r * 0.5)  # drum
+    _tdome(L, place, 0, d * 0.5, base + 0.5 + r * 0.5, r, r * rng.uniform(0.9, 1.2))
+    _tspire(L, place, 0, d * 0.5, base + 0.5 + r * 0.5 + r, r * 0.16, r * 0.9)         # lantern finial
+    for sx in (-1, 1):
+        _tpin(L, place, sx * (w / 2 - 0.3), d * 0.5, base + 0.5, w * 0.05, base * 0.3)
+
+
+def _bld_cathedral(L, D, place, w, h, rng):
+    nave_w = w * 0.46
+    d = w * 0.72
+    _tbox(L, place, -nave_w / 2, 0, 0, nave_w / 2, d, h)
+    _tgable(L, place, -nave_w / 2, nave_w / 2, 0, d, h, w * 0.22)
+    _facade(L, D, place, -nave_w / 2, nave_w / 2, 2.0, h - 1.5, rng, bays=3)
+    _tdisc(D, place, 0, -0.12, h * 0.78, w * 0.085)                       # rose window
+    _tbox(D, place, -nave_w * 0.18, -0.14, 1.5, nave_w * 0.18, 0.03, h * 0.5)  # great portal
+    for sx in (-1, 1):                                                    # aisle lean-tos
+        _tbox(L, place, sx * nave_w / 2, 0, 0, sx * (nave_w / 2 + w * 0.13), d, h * 0.55)
+        _facade(L, D, place, min(sx * nave_w / 2, sx * (nave_w / 2 + w * 0.13)),
+                max(sx * nave_w / 2, sx * (nave_w / 2 + w * 0.13)), 1.0, h * 0.5, rng, bays=2, arched=True)
+    for sx in (-1, 1):                                                    # twin west towers
+        tx = sx * (nave_w / 2 + w * 0.2)
+        tw = w * 0.2
+        _tbox(L, place, tx - tw / 2, 0, 0, tx + tw / 2, d * 0.8, h * 1.18)
+        _facade(L, D, place, tx - tw * 0.4, tx + tw * 0.4, h * 0.35, h * 1.1, rng, bays=1)
+        for sy in (0, 1):
+            for sxx in (-1, 1):
+                _tpin(L, place, tx + sxx * tw * 0.42, sy * d * 0.8, h * 1.18, tw * 0.12, h * 0.2)
+        _tspire(L, place, tx, d * 0.4, h * 1.18, tw * 0.5, h * rng.uniform(0.5, 0.75))
+    _tspire(L, place, 0, d * 0.55, h + w * 0.22, w * 0.06, h * 0.4)        # crossing flèche
+
+
+def _pano_building(bm, dbm, ang, R, w, h, kind, rng, z0=0.0):
+    place = _placer(ang, R, z0)
+    {"cathedral": _bld_cathedral, "tower": _bld_tower, "dome": _bld_dome,
+     "tiered": _bld_tiered}.get(kind, _bld_hall)(bm, dbm, place, w, h, rng)
 
 
 def city_panorama(seed=3):
-    """A continuous 360 deg city silhouette — the Anor-Londo horizon. Concentric
-    bands of rooftops, towers and spires receding into haze, built as ONE mesh
-    so no viewpoint ever sees a gap of empty sky at the skyline. Huge (radius
-    to ~230 m); place ONCE per open-air area, centred on it. Origin: centre,
-    ground at z=0."""
+    """The kingdom's horizon: a continuous 360 deg skyline of DISTINCT Anor-Londo
+    monuments — buttressed cathedrals, belfry towers, domed halls and tiered
+    palaces — ringed in concentric bands so no viewpoint sees a gap of sky.
+    Built as two meshes (warm stone + shadowed openings). Huge (radius to
+    ~230 m); place ONCE per open-air area, centred on it. Origin: centre."""
     rng = random.Random(seed)
-    bm = bmesh.new()
-    # (radius, base_h, height_range, depth_range, spire_chance)
+    bm = bmesh.new()       # warm stone masses
+    dbm = bmesh.new()      # shadowed windows / openings
+    # (radius, base_h, height_range, hero_chance) — a LOW near ring of rooftops
+    # frames the view; the grand cathedrals/towers/domes tower in the mid belts
+    # behind it so the skyline reads as distant monuments, not a near brick wall.
     bands = [
-        (34, 5, (3, 10), (5, 8), 0.22),    # near band: closer houses fill the gap
-        (52, 7, (5, 16), (6, 11), 0.30),
-        (88, 11, (9, 26), (8, 15), 0.34),
-        (140, 18, (16, 46), (12, 22), 0.40),
-        (205, 14, (12, 40), (16, 30), 0.28),
+        (30, 3, (2, 7), 0.03),      # rooftops on the near slope, just off the terrace
+        (55, 9, (7, 20), 0.16),
+        (90, 18, (16, 46), 0.28),   # grand belt: cathedrals + towers dominate here
+        (140, 26, (24, 64), 0.24),
+        (205, 20, (16, 50), 0.10),
     ]
-    for (R, base_h, hr, dr, spire) in bands:
-        n = max(24, int(R * 0.42))
-        # low-frequency "downtown" swell so some sectors rise into clusters
-        crest_a = rng.uniform(0, math.tau)
-        crest_b = rng.uniform(0, math.tau)
+    for bi, (R, base_h, hr, hero) in enumerate(bands):
+        n = max(20, int(R * 0.30))
+        crest_a, crest_b = rng.uniform(0, math.tau), rng.uniform(0, math.tau)
         a = 0.0
         while a < math.tau - 0.01:
-            span = (math.tau / n) * rng.uniform(0.7, 1.7)
-            half = span * 0.44
-            swell = 0.5 + 0.5 * (0.6 * math.sin(a * 2 + crest_a) + 0.4 * math.sin(a * 5 + crest_b))
-            h = base_h + rng.uniform(*hr) * (0.45 + 0.9 * swell)
-            depth = rng.uniform(*dr)
-            rr = R + rng.uniform(-R * 0.05, R * 0.08)
+            span = (math.tau / n) * rng.uniform(0.82, 1.35)
+            mid = a + span * 0.5
+            swell = 0.5 + 0.5 * (0.6 * math.sin(mid * 2 + crest_a) + 0.4 * math.sin(mid * 5 + crest_b))
+            h = base_h + rng.uniform(*hr) * (0.35 + 1.15 * swell)
+            w = span * R * rng.uniform(0.80, 0.95)          # arc-width of the plot
+            w = max(6.0, min(w, R * 0.5))
+            rr = R + rng.uniform(-R * 0.04, R * 0.06)
             roll = rng.random()
-            style = "spire" if roll < spire else ("gable" if roll < spire + 0.22 else ("step" if roll < spire + 0.5 else "flat"))
-            _pano_building(bm, a + half, half, rr, depth, h, style, rng)
+            slender = bi >= 2                                # grand belts get monuments
+            if roll < hero or (swell > 0.78 and roll < hero + 0.16 and slender):
+                kind = "cathedral"; h *= 1.2
+            elif roll < hero + (0.28 if slender else 0.14):
+                kind = "tower"; h *= 1.25
+            elif roll < hero + 0.42:
+                kind = "dome"
+            elif roll < hero + 0.58:
+                kind = "tiered"
+            else:
+                kind = "hall"
+            _pano_building(bm, dbm, mid, rr, w, h, kind, rng, _ground_y(rr))
             a += span
     body = V.bm_to_object(bm, "city_panorama", ("M_backdrop",))
-    # a broad ground plate so the city stands on something instead of void
+    dark = V.bm_to_object(dbm, "city_windows", ("M_backdrop_dark",))
+    # the hillside the city stands on: a single continuous surface falling away
+    # from the terrace rim so nothing floats and no bare plate is exposed
     gbm = bmesh.new()
-    gn, gr = 80, 245
-    gc = gbm.verts.new((0, 0, -0.2))
-    gring = [gbm.verts.new((gr * math.cos(math.tau * i / gn), gr * math.sin(math.tau * i / gn), -0.2))
-             for i in range(gn)]
-    for i in range(gn):
-        gbm.faces.new((gc, gring[i], gring[(i + 1) % gn]))
+    gn = 72
+    radii = [14, 20, 28, 40, 58, 84, 122, 175, 260]
+    prev = None
+    for gr in radii:
+        gy = _ground_y(gr)
+        ring = [gbm.verts.new((gr * math.cos(math.tau * i / gn), gr * math.sin(math.tau * i / gn), gy))
+                for i in range(gn)]
+        if prev is None:
+            c = gbm.verts.new((0, 0, _ground_y(0.0)))
+            for i in range(gn):
+                gbm.faces.new((c, ring[i], ring[(i + 1) % gn]))
+        else:
+            for i in range(gn):
+                gbm.faces.new((prev[i], prev[(i + 1) % gn], ring[(i + 1) % gn], ring[i]))
+        prev = ring
     ground = V.bm_to_object(gbm, "city_ground", ("M_backdrop",))
-    return [body, ground], {"size": [490, 490, 60], "origin": "center"}
+    return [body, dark, ground], {"size": [520, 520, 120], "origin": "center"}
 
 
 BUILDERS = {

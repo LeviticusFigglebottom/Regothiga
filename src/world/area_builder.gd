@@ -32,6 +32,8 @@ static func build(area_id: String) -> Area:
 		_vault_field(area, spec)
 	for spec in def.get("blockers", []):
 		_blocker(area, spec)
+	for spec in def.get("boxes", []):
+		_solid_box(area, spec)
 
 	for spec in def.get("lanterns", []):
 		var l := VigilLantern.new()
@@ -345,6 +347,37 @@ static func _roof_box(area: Area, tag: String, mat: Material, center: Vector3, s
 	mi.material_override = mat
 	mi.position = center
 	area.attach(mi, tag)
+
+## A visible solid stone block with a matching collider: stair cheeks, landing
+## skirts, plinths. A modular 4 m wall grid can't tile a 4.68 m stair opening
+## flush, so raised-floor edges leave slivers of exposed drop beside the stairs;
+## a skirt box seals the vertical face. min/max in world space; optional "mat"
+## (defaults to the wall stone) and "tag".
+static func _solid_box(area: Area, spec: Dictionary) -> void:
+	var tag: String = spec.get("tag", "base")
+	var mn := _v3(spec["min"])
+	var mx := _v3(spec["max"])
+	var center := (mn + mx) * 0.5
+	var size := mx - mn
+	var mat := MaterialLib.get_mat(spec.get("mat", "M_stone"), _state_mode(tag))
+	var mi := MeshInstance3D.new()
+	var bm := BoxMesh.new()
+	bm.size = size
+	mi.mesh = bm
+	mi.material_override = mat
+	mi.position = center
+	area.attach(mi, tag)
+	if spec.get("collide", true):
+		var body := StaticBody3D.new()
+		body.collision_layer = 1 << (_tag_bit(tag) - 1)
+		body.collision_mask = 0
+		var cs := CollisionShape3D.new()
+		var cb := BoxShape3D.new()
+		cb.size = size
+		cs.shape = cb
+		body.add_child(cs)
+		body.position = center
+		area.attach(body, tag)
 
 ## Invisible impassable volume (collapsed debris etc.) — dress it with props.
 static func _blocker(area: Area, spec: Dictionary) -> void:

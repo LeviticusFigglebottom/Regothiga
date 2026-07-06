@@ -175,19 +175,28 @@ def garden_bed(alive=True, seed=23):
     return objs + [growth], {"size": [2.2, 1.4, 0.5], "origin": "bottom-center"}
 
 
-def censer_hanging():
-    """Gold censer on a chain from the vault. Glory walks."""
+def censer_hanging(drop=1.5):
+    """Gold thurible on a chain fixed to the vault by an iron ceiling-plate, so
+    it reads as hung from above instead of a chain floating in mid-air. Glory
+    walks. Place the origin (the plate) flush under the ceiling; `drop` sets the
+    chain length so the censer lands at a readable height below it."""
     objs = []
-    for i in range(6):
-        link = V.loft_rings("link", [(0.028, -i * 0.14, 6, 0), (0.02, -i * 0.14 - 0.1, 6, 0)], "M_iron")
+    # ceiling rose / mount plate the chain is bolted to
+    plate = V.loft_rings("mount", [(0.12, 0.04, 8, 0), (0.12, -0.02, 8, 0), (0.03, -0.09, 8, 0)], "M_iron")
+    objs.append(plate)
+    n = max(4, int(drop / 0.14))
+    for i in range(n):
+        z = -0.09 - i * 0.14
+        link = V.loft_rings("link", [(0.028, z, 6, 0), (0.02, z - 0.1, 6, 0)], "M_iron")
         objs.append(link)
-    cens = V.loft_rings("censer", [(0.02, -0.9, 8, 0), (0.09, -1.0, 8, 0), (0.11, -1.12, 8, 0),
-                                   (0.07, -1.22, 8, 0), (0.02, -1.26, 8, 0)], "M_gold")
+    cz = -0.09 - n * 0.14
+    cens = V.loft_rings("censer", [(0.02, cz, 8, 0), (0.09, cz - 0.1, 8, 0), (0.11, cz - 0.22, 8, 0),
+                                   (0.07, cz - 0.32, 8, 0), (0.02, cz - 0.36, 8, 0)], "M_gold")
     objs.append(cens)
     f = _flame("censer_flame", 0.03, 0.08)
-    f.location = (0, 0, -0.92)
+    f.location = (0, 0, cz - 0.02)
     objs.append(f)
-    return objs, {"size": [0.3, 0.3, 1.3], "origin": "hang-point"}
+    return objs, {"size": [0.3, 0.3, drop + 0.6], "origin": "ceiling-mount"}
 
 
 def censer_fallen(seed=29):

@@ -6,7 +6,7 @@ extends Node3D
 
 var world_env: WorldEnvironment
 var sun: DirectionalLight3D
-var sky_mat: ProceduralSkyMaterial
+var sky_mat: ShaderMaterial
 
 var profiles: Dictionary = {}
 
@@ -17,15 +17,16 @@ func _ready() -> void:
 	world_env = WorldEnvironment.new()
 	var e := Environment.new()
 	e.background_mode = Environment.BG_SKY
-	sky_mat = ProceduralSkyMaterial.new()
-	sky_mat.sun_angle_max = 8.0
+	sky_mat = ShaderMaterial.new()
+	sky_mat.shader = preload("res://shaders/stylized_sky.gdshader")
 	var sky := Sky.new()
+	sky.radiance_size = Sky.RADIANCE_SIZE_128
 	sky.sky_material = sky_mat
 	e.sky = sky
 	e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	e.fog_enabled = true
-	e.fog_sky_affect = 0.4
+	e.fog_sky_affect = 0.2
 	e.volumetric_fog_enabled = true
 	e.volumetric_fog_anisotropy = 0.62
 	e.volumetric_fog_length = 80.0
@@ -66,10 +67,17 @@ func blend(t: float) -> void:
 	e.volumetric_fog_albedo = _c(a["vol_albedo"]).lerp(_c(b["vol_albedo"]), t)
 	e.tonemap_exposure = lerpf(a["exposure"], b["exposure"], t)
 	e.glow_intensity = lerpf(a["glow"], b["glow"], t)
-	sky_mat.sky_top_color = _c(a["bg_top"]).lerp(_c(b["bg_top"]), t)
-	sky_mat.sky_horizon_color = _c(a["bg_horizon"]).lerp(_c(b["bg_horizon"]), t)
-	sky_mat.ground_bottom_color = sky_mat.sky_horizon_color.darkened(0.7)
-	sky_mat.ground_horizon_color = sky_mat.sky_horizon_color.darkened(0.35)
+	var top := _c(a["bg_top"]).lerp(_c(b["bg_top"]), t)
+	var horizon := _c(a["bg_horizon"]).lerp(_c(b["bg_horizon"]), t)
+	sky_mat.set_shader_parameter("top_color", top)
+	sky_mat.set_shader_parameter("horizon_color", horizon)
+	sky_mat.set_shader_parameter("sun_color", sc)
+	sky_mat.set_shader_parameter("ground_color", horizon.darkened(0.72))
+	sky_mat.set_shader_parameter("ruin", t)
+	# place the sky's sun disc where the directional light streams from
+	var sb := Basis.from_euler(Vector3(deg_to_rad(lerpf(ra[0], rb[0], t)),
+			deg_to_rad(lerpf(ra[1], rb[1], t)), 0.0))
+	sky_mat.set_shader_parameter("sun_dir", sb.z)
 
 func snap(state: VG.WState) -> void:
 	blend(1.0 if state == VG.WState.RUIN else 0.0)

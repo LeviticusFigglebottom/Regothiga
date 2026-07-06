@@ -22,6 +22,8 @@ shot yard_cameo_glory.png  gray_cloister glory  "14.6,2.4,-2.4,-42,-8,62"
 shot skyline_glory.png     gray_cloister glory  "-6,3.2,6,-52,4,70"
 shot porch_facade.png      basilica_porch glory "0,1.7,4.5,0,4,66"
 shot terrace_sunset.png    basilica_porch glory "-3,1.6,5.2,160,-10,64"
+shot city_overlook_glory.png basilica_porch glory "0,2.3,3,180,7,80"
+shot city_overlook_ruin.png  basilica_porch ruin  "0,2.3,3,180,11,82"
 
 # pass 4: the Basilica Nave
 shot nave_vessel_glory.png   basilica_nave glory  "0,1.8,6.5,0,2,64"

@@ -39,6 +39,8 @@ const FAMILIES := {
 	"M_wood":       {"albedo": Color(0.23, 0.15, 0.09), "rough": 0.85, "rim": 0.25, "moss": 0.3},
 	"M_gold":       {"albedo": Color(0.78, 0.55, 0.18), "rough": 0.35, "rim": 1.1, "moss": 0.0, "crack": 0.0,
 					 "emission": Color(1.0, 0.75, 0.3), "emission_energy": 0.35, "emission_gate": 1},
+	"M_ember":      {"albedo": Color(0.5, 0.14, 0.05), "rough": 0.8, "rim": 0.3, "moss": 0.0, "crack": 0.0,
+					 "emission": Color(1.0, 0.42, 0.12), "emission_energy": 2.6, "emission_gate": 1},
 	"M_wax":        {"albedo": Color(0.85, 0.79, 0.62), "rough": 0.6, "rim": 0.8, "moss": 0.0, "crack": 0.0},
 	"M_cloth":      {"albedo": Color(0.44, 0.07, 0.10), "rough": 0.95, "rim": 0.5, "moss": 0.0, "crack": 0.0},
 	"M_bell":       {"albedo": Color(0.38, 0.27, 0.13), "rough": 0.48, "rim": 0.85, "moss": 0.15, "crack": 0.0},
