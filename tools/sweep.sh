@@ -1,51 +1,37 @@
 #!/usr/bin/env bash
-# Eye-level validation sweep -> docs/sweep/. Aims cameras at junctions, floor
-# seams, stair transitions and roof undersides (where defects hide), not beauty
-# framings. Player eye ~1.6 above a y=0 floor; ~4.0 above a y=2.4 landing.
+# Audit sweep -> docs/sweep/. Aims cameras at the places out-of-map leaks and
+# misalignments hide: room corners, wall/roof seams, raised-floor edges, the
+# terrace lip, and outward views from enclosed rooms (should see the panorama
+# or a sealed wall, never void).
 set -uo pipefail
 cd "$(dirname "$0")/.."
 SD=$(mktemp -d)
 mkdir -p docs/sweep
-shot() { # name area state cam
-  rm -rf "$SD/g"
-  tools/shot.sh "docs/sweep/$1.png" "--area=$2" "--state=$3" \
-    "--save-dir=$SD/g" "--shot-cam=$4" --shot-frames=34 2>&1 | tail -1
-  echo "  -> $1"
-}
+shot() { rm -rf "$SD/g"; tools/shot.sh "docs/sweep/$1.png" "--area=$2" "--state=$3" \
+  "--save-dir=$SD/g" "--shot-cam=$4" --shot-frames=36 2>&1 | tail -1; echo " -> $1"; }
 
-# ---- Ossuary Undercroft (the most-reported area) ----
-shot uc_weststair_down  ossuary_undercroft glory "-19,3.9,0,-90,-24,66"
-shot uc_weststair_up    ossuary_undercroft glory "-13,1.5,0,90,10,70"
-shot uc_eaststair_up    ossuary_undercroft glory "15.5,1.5,-4,-90,12,70"
-shot uc_eaststair_land  ossuary_undercroft glory "23,3.9,-5,90,-8,70"
-shot uc_reliquary_stair ossuary_undercroft glory "11.5,1.5,6,-90,10,68"
-shot uc_floor_seams     ossuary_undercroft glory "-6,1.1,2,-72,-7,62"
-shot uc_hall_glory      ossuary_undercroft glory "3,1.7,0,90,-2,66"
-shot uc_hall_ruin       ossuary_undercroft ruin  "3,1.7,0,90,-2,66"
-shot uc_ceiling         ossuary_undercroft glory "-8,1.6,0,90,34,72"
+# --- Gray Cloister (enclosed, flat roof) ---
+shot cl_garth_corner  gray_cloister glory "2,1.7,2,-45,26,76"
+shot cl_arcade_graze  gray_cloister glory "-7.6,1.7,11,0,1,72"
+shot cl_boss_corner   gray_cloister ruin  "20,1.7,-4,-55,16,76"
+shot cl_north_corner  gray_cloister glory "-2,1.7,-14,-40,14,74"
+shot cl_window_out    gray_cloister glory "-10,1.7,2,90,3,60"
+shot cl_roof_seam     gray_cloister glory "16,1.7,-6,90,40,82"
 
-# ---- Gray Cloister (garth flat roof + junctions) ----
-shot cl_garth_ceiling   gray_cloister glory "0,1.6,0,0,36,72"
-shot cl_garth_glory     gray_cloister glory "-2,1.6,6,-30,2,66"
-shot cl_garth_ruin      gray_cloister ruin  "-2,1.6,6,-30,2,66"
-shot cl_walk_west       gray_cloister glory "-14,1.6,-4,180,0,62"
-shot cl_chapel          gray_cloister glory "2,1.6,10,180,2,62"
-shot cl_chapterhouse    gray_cloister glory "-6,1.6,-14,0,3,62"
-shot cl_boss_yard       gray_cloister ruin  "16,1.7,-6,180,0,64"
-shot cl_skyline         gray_cloister glory "-6,2.6,4,-52,8,72"
+# --- Basilica Nave (enclosed, vaulted, raised gallery floors) ---
+shot nave_apse        basilica_nave glory "0,1.7,-26,0,9,66"
+shot nave_vault_seam  basilica_nave glory "0,1.7,-14,0,44,82"
+shot nave_gallery_edge basilica_nave glory "-9,1.7,-8,-58,22,76"
+shot nave_aisle_graze basilica_nave glory "-12,1.7,6,0,0,72"
 
-# ---- Basilica Nave ----
-shot nave_down_glory    basilica_nave glory "0,1.7,7,0,2,66"
-shot nave_down_ruin     basilica_nave ruin  "0,1.7,7,0,2,66"
-shot nave_ceiling       basilica_nave glory "0,1.7,-4,0,36,74"
-shot nave_gallery       basilica_nave glory "-12,6.2,2,-25,-3,66"
-shot nave_chancel       basilica_nave glory "-2,1.8,-16,0,4,62"
-shot nave_aisle         basilica_nave glory "-9,1.6,4,0,0,60"
+# --- Ossuary Undercroft (multi-level) ---
+shot uc_wland_corner  ossuary_undercroft glory "-20,3.9,0,-110,8,74"
+shot uc_eland_corner  ossuary_undercroft glory "21,3.9,-4,-55,8,74"
+shot uc_vault_seam    ossuary_undercroft glory "-8,1.6,0,90,40,82"
+shot uc_skirt_side    ossuary_undercroft glory "-14,1.5,3.2,92,3,66"
 
-# ---- Basilica Porch (roofed portico vs open terrace, exposure) ----
-shot porch_portico      basilica_porch glory "0,1.7,-3,0,6,66"
-shot porch_terrace      basilica_porch glory "0,1.6,4,180,-3,68"
-shot porch_stairs_down  basilica_porch glory "0,1.4,7,180,-14,66"
-shot porch_terrace_low  basilica_porch glory "0,-1.0,14,180,0,66"
-shot porch_facade       basilica_porch glory "0,1.7,5,0,8,66"
+# --- Basilica Porch (semi-open terrace) ---
+shot porch_side_edge  basilica_porch glory "6,-1,14,-90,-8,76"
+shot porch_far_edge   basilica_porch glory "0,-2,20.5,180,-22,78"
+shot porch_portico_c  basilica_porch glory "-4,1.7,-4,-45,20,74"
 echo "sweep done"

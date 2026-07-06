@@ -240,6 +240,20 @@
    ]
   },
   {
+   "kit": "door_leaf",
+   "at": [
+    0,
+    0,
+    -8
+   ],
+   "scale": [
+    1.6,
+    1.5,
+    1.4
+   ],
+   "tag": "base"
+  },
+  {
    "kit": "window_lancet_4m",
    "at": [
     -4,

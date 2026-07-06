@@ -180,6 +180,21 @@ def audit(area_id):
             issues.append(f"DUPLICATE  {kit} ({tag}) near {p['at']}")
         seen[key] = True
 
+    # 2b) distinct co-present props merged into one another (asset collision)
+    DECAL = {"mosaic_medallion", "rubble_s", "ivy_sheet_a", "ivy_sheet_b",
+             "cobweb", "shroud_dead", "bone_pile"}
+    ground = [p for p in placed if p.get("kit", "") not in ARCH
+              and p.get("kit", "") not in MOUNTED and p.get("kit", "") not in DECAL]
+    for i in range(len(ground)):
+        ka = ground[i].get("kit", ""); ta = ground[i].get("tag", "base"); pa = v3(ground[i]["at"])
+        for j in range(i + 1, len(ground)):
+            kb = ground[j].get("kit", ""); tb = ground[j].get("tag", "base")
+            if ka == kb or opposite_state(ta, tb):     # same-kit -> DUPLICATE owns it
+                continue
+            pb = v3(ground[j]["at"])
+            if math.hypot(pa[0] - pb[0], pa[2] - pb[2]) < 0.5 and abs(pa[1] - pb[1]) < 1.2:
+                issues.append(f"OVERLAP    {ka} ({ta}) into {kb} ({tb}) at {ground[i]['at']}")
+
     # 3) interior holes: floor cells missing where surrounded by floor
     if fills:
         cells = set()
