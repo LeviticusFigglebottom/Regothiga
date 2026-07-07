@@ -8,26 +8,34 @@ extends Node3D
 var flag := "watchers_east"
 var target_deg := -90.0
 var _statues: Array = []   # [{root, statue, deg}]
+var _toast := "The watchers face the morning that is owed them."
 
 func setup(spec: Dictionary) -> void:
 	flag = spec.get("flag", "watchers_east")
 	target_deg = float(spec.get("target", -90))
+	# data-driven station: the Watchers turn statues on plinths, the Black
+	# Gate turns capstan bar-crosses on winch drums — same machinery
+	var base_kit: String = spec.get("base_kit", "watcher_base")
+	var turn_kit: String = spec.get("turn_kit", "statue_orans")
+	var turn_y := float(spec.get("turn_y", 0.34))
+	var verb: String = spec.get("verb", "Turn the watcher")
+	_toast = spec.get("done_toast", _toast)
 	for w in spec.get("watchers", []):
 		var root := Node3D.new()
 		add_child(root)
 		root.position = AreaBuilder._v3(w.get("at", [0, 0, 0]))
-		var base := KitLib.instance("watcher_base")
+		var base := KitLib.instance(base_kit)
 		root.add_child(base)
 		KitLib.add_collision(base, VG.L_WORLD_BASE)
-		var statue := KitLib.instance("statue_orans")
-		statue.position.y = 0.34
+		var statue := KitLib.instance(turn_kit)
+		statue.position.y = turn_y
 		statue.rotation.y = deg_to_rad(float(w.get("rot", 0)))
 		root.add_child(statue)
 		var entry := {"root": root, "statue": statue, "deg": float(w.get("rot", 0))}
 		_statues.append(entry)
 		var idx := _statues.size() - 1
 		var zone := Interactable.new()
-		zone.prompt = "Turn the watcher"
+		zone.prompt = verb
 		zone.setup_zone(1.5, 1.6)
 		zone.activated.connect(func(_p): _turn(idx))
 		root.add_child(zone)
@@ -52,4 +60,4 @@ func _check() -> void:
 	World.set_flag(flag)
 	World.save_game()
 	AudioDirector.sfx("res://assets/audio/remembrance.wav", -2.0, 0.9)
-	Game.toast.emit("The watchers face the morning that is owed them.")
+	Game.toast.emit(_toast)

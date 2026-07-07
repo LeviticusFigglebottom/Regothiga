@@ -6,6 +6,7 @@ extends Node3D
 var flag := ""
 var kit := "fence_iron_4m"
 var open_sfx := "res://assets/audio/swell_kindle.wav"
+var open_dir := "down"          # "down" sinks away; "up" hoists (portcullis)
 
 var _piece: Node3D
 var _body: StaticBody3D
@@ -14,6 +15,7 @@ var _open := false
 func setup(spec: Dictionary, tag_bit: int) -> void:
 	flag = spec.get("flag", "")
 	kit = spec.get("kit", "fence_iron_4m")
+	open_dir = spec.get("open_dir", "down")
 	_piece = KitLib.instance(kit)
 	add_child(_piece)
 	_body = StaticBody3D.new()
@@ -49,6 +51,6 @@ func _animate_open() -> void:
 	AudioDirector.sfx_at(open_sfx, global_position, -4.0, 0.9)
 	Juice.shake(0.2, 0.2)
 	var tw := create_tween()
-	tw.tween_property(_piece, "position:y", -3.2, 1.6) \
+	tw.tween_property(_piece, "position:y", 3.6 if open_dir == "up" else -3.2, 1.6) \
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.tween_callback(func(): _piece.visible = false)

@@ -9,6 +9,19 @@ var sun: DirectionalLight3D
 var sky_mat: ShaderMaterial
 
 var profiles: Dictionary = {}
+## Per-area profile overrides from the area def's "env" block: only the keys
+## given are replaced per state, so an area can redden its sun (the Black
+## Gate's drowned dusk) without re-authoring the whole global profile.
+var overrides: Dictionary = {}
+
+func set_overrides(ov: Dictionary) -> void:
+	overrides = ov
+
+func _profile(state_name: String) -> Dictionary:
+	var p: Dictionary = profiles[state_name].duplicate()
+	for k in overrides.get(state_name, {}):
+		p[k] = overrides[state_name][k]
+	return p
 
 func _ready() -> void:
 	var f := FileAccess.open("res://data/state_profiles.json", FileAccess.READ)
@@ -50,8 +63,8 @@ func _c(v: Array) -> Color:
 
 ## t: 0 = glory, 1 = ruin
 func blend(t: float) -> void:
-	var a: Dictionary = profiles["glory"]
-	var b: Dictionary = profiles["ruin"]
+	var a := _profile("glory")
+	var b := _profile("ruin")
 	var e := world_env.environment
 	var sc := _c(a["sun_color"]).lerp(_c(b["sun_color"]), t)
 	sun.light_color = sc
@@ -83,9 +96,7 @@ func snap(state: VG.WState) -> void:
 	blend(1.0 if state == VG.WState.RUIN else 0.0)
 
 func music_for(state: VG.WState) -> String:
-	var p: Dictionary = profiles[VG.STATE_NAMES[state]]
-	return p.get("music", "")
+	return _profile(VG.STATE_NAMES[state]).get("music", "")
 
 func ambience_for(state: VG.WState) -> String:
-	var p: Dictionary = profiles[VG.STATE_NAMES[state]]
-	return p.get("ambience", "")
+	return _profile(VG.STATE_NAMES[state]).get("ambience", "")

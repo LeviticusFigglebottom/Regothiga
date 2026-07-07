@@ -4,7 +4,8 @@
   "basilica_porch",
   "basilica_nave",
   "ossuary_undercroft",
-  "larkspire"
+  "larkspire",
+  "black_gate"
  ],
  "graph": {
   "gray_cloister": {
@@ -13,7 +14,8 @@
   },
   "basilica_porch": {
    "west": "gray_cloister",
-   "north": "basilica_nave"
+   "north": "basilica_nave",
+   "down": "black_gate"
   },
   "basilica_nave": {
    "south": "basilica_porch",
@@ -26,6 +28,9 @@
   },
   "larkspire": {
    "down": "ossuary_undercroft"
+  },
+  "black_gate": {
+   "up": "basilica_porch"
   }
  },
  "start_area": "gray_cloister"

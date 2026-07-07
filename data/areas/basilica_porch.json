@@ -179,21 +179,6 @@
   {
    "kit": "balustrade_4m",
    "from": [
-    -7.8,
-    -2.62,
-    10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 1,
-   "rot": 90
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
     7.8,
     -2.62,
     10
@@ -392,6 +377,25 @@
     1.0,
     1.4
    ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -8,
+    -2.62,
+    10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    -8,
+    -2.62,
+    10
+   ],
+   "rot": 90,
+   "tag": "base"
   }
  ],
  "props": [
@@ -789,6 +793,22 @@
    "locked_flag": "vesper_chimes",
    "locked_prompt": "The door waits on the vespers no one rang",
    "spawn_yaw": 0
+  },
+  {
+   "to": "black_gate",
+   "at": [
+    -8,
+    -2.62,
+    10
+   ],
+   "rot": 90,
+   "spawn": [
+    0,
+    0.2,
+    21.5
+   ],
+   "spawn_yaw": 0,
+   "prompt": "Descend the pilgrim stair to the Black Gate"
   }
  ],
  "no_gutter": true,
@@ -839,6 +859,19 @@
     8.6,
     3.4,
     0.2
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.6,
+    -2.62,
+    7.8
+   ],
+   "max": [
+    -7.6,
+    1.8,
+    12.2
    ],
    "tag": "base"
   }

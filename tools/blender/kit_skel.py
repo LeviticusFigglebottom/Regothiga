@@ -466,4 +466,23 @@ def echo(arm):
 
 ARCHETYPES["skel_echo"] = echo
 
+
+def herald(arm):
+    """Drowned Herald: the gate's crier, still calling the toll. Deep cowl,
+    bronze horn slung across the chest, heavy tabard over drowned-dark weave."""
+    b = BodyBuilder("herald")
+    common_body(b, "M_robe", "M_wax", "M_robe", hood="closed", skirt=True,
+                skirt_len=0.64, girth=0.95)
+    # tabard front panel
+    bm = b.part("chest", "M_cloth")
+    V.add_box(bm, (-0.16, -0.2, 0.95), (0.16, -0.14, 1.45))
+    # slung bronze horn (a curved tube across the chest)
+    bm = b.part("chest", "M_bronze")
+    _tube(bm, Vector((-0.2, -0.2, 1.05)), Vector((0.14, -0.26, 1.3)), 0.05, 0.09, 8)
+    return b.finalize(arm, seed=173)
+
+
+ARCHETYPES["skel_herald"] = herald
+
+
 ARCHETYPES["skel_bellox"] = bellox

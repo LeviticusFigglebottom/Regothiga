@@ -1,0 +1,1375 @@
+{
+ "id": "black_gate",
+ "name": "The Black Gate",
+ "start": {
+  "pos": [
+   0,
+   0.2,
+   20
+  ],
+  "yaw": 0
+ },
+ "env": {
+  "glory": {
+   "sun_color": [
+    0.92,
+    0.3,
+    0.16
+   ],
+   "sun_energy": 1.15,
+   "sun_rot": [
+    -7,
+    38
+   ],
+   "ambient": [
+    0.3,
+    0.19,
+    0.16
+   ],
+   "fog_color": [
+    0.42,
+    0.2,
+    0.13
+   ],
+   "bg_top": [
+    0.3,
+    0.12,
+    0.13
+   ],
+   "bg_horizon": [
+    0.9,
+    0.38,
+    0.2
+   ]
+  },
+  "ruin": {
+   "sun_color": [
+    0.35,
+    0.4,
+    0.55
+   ],
+   "sun_energy": 0.22,
+   "fog_color": [
+    0.08,
+    0.09,
+    0.14
+   ],
+   "bg_top": [
+    0.05,
+    0.06,
+    0.11
+   ],
+   "bg_horizon": [
+    0.1,
+    0.12,
+    0.19
+   ]
+  }
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -4,
+    0,
+    8
+   ],
+   "max": [
+    4,
+    0,
+    24
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -12,
+    0,
+    -8
+   ],
+   "max": [
+    12,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -12,
+    0,
+    -16
+   ],
+   "max": [
+    12,
+    0,
+    -8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -10,
+    0,
+    -32
+   ],
+   "max": [
+    10,
+    0,
+    -16
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -12,
+    4.8,
+    -12
+   ],
+   "max": [
+    12,
+    4.8,
+    -8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -12,
+    4.8,
+    -16
+   ],
+   "max": [
+    -8,
+    4.8,
+    -12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -4,
+    4.8,
+    -16
+   ],
+   "max": [
+    4,
+    4.8,
+    -12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    8,
+    4.8,
+    -16
+   ],
+   "max": [
+    12,
+    4.8,
+    -12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -12,
+    2.4,
+    -16
+   ],
+   "max": [
+    -8,
+    2.4,
+    -12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    8,
+    2.4,
+    -16
+   ],
+   "max": [
+    12,
+    2.4,
+    -12
+   ]
+  }
+ ],
+ "open_air_regions": [
+  {
+   "min": [
+    -4,
+    0,
+    8
+   ],
+   "max": [
+    4,
+    0,
+    24
+   ]
+  },
+  {
+   "min": [
+    -12,
+    0,
+    -8
+   ],
+   "max": [
+    12,
+    0,
+    8
+   ]
+  },
+  {
+   "min": [
+    -10,
+    0,
+    -32
+   ],
+   "max": [
+    10,
+    0,
+    -16
+   ]
+  },
+  {
+   "min": [
+    -12,
+    4.8,
+    -12
+   ],
+   "max": [
+    12,
+    4.8,
+    -8
+   ]
+  },
+  {
+   "min": [
+    -12,
+    4.8,
+    -16
+   ],
+   "max": [
+    -8,
+    4.8,
+    -12
+   ]
+  },
+  {
+   "min": [
+    -4,
+    4.8,
+    -16
+   ],
+   "max": [
+    4,
+    4.8,
+    -12
+   ]
+  },
+  {
+   "min": [
+    8,
+    4.8,
+    -16
+   ],
+   "max": [
+    12,
+    4.8,
+    -12
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -4,
+    0,
+    10
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    4,
+    0,
+    10
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -2,
+    0,
+    24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180,
+   "skip": [
+    0,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -12,
+    0,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    12,
+    0,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -10,
+    0,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    6,
+    0,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -10,
+    0,
+    -8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0,
+   "skip": [
+    1
+   ],
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    6,
+    0,
+    -8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0,
+   "skip": [
+    0
+   ],
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -12,
+    0,
+    -14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    12,
+    0,
+    -14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -10,
+    0,
+    -16
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    6,
+    0,
+    -16
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -4,
+    0,
+    -14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    4,
+    0,
+    -14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -10,
+    0,
+    -30
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    10,
+    0,
+    -30
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    0,
+    -32
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 5,
+   "rot": 0
+  },
+  {
+   "kit": "battlement_4m",
+   "from": [
+    -10,
+    4.8,
+    -8.3
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 6,
+   "rot": 180
+  },
+  {
+   "kit": "battlement_4m",
+   "from": [
+    -10,
+    4.8,
+    -15.7
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 6,
+   "rot": 0,
+   "skip": [
+    1,
+    4
+   ]
+  },
+  {
+   "kit": "battlement_4m",
+   "from": [
+    -11.7,
+    4.8,
+    -14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90
+  },
+  {
+   "kit": "battlement_4m",
+   "from": [
+    11.7,
+    4.8,
+    -14
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    24
+   ],
+   "scale": [
+    1.5,
+    1.2,
+    1.4
+   ]
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    0,
+    0,
+    24
+   ],
+   "scale": [
+    1.5,
+    1.2,
+    1.4
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -6,
+    0,
+    -8
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    6,
+    0,
+    -8
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    -8
+   ],
+   "scale": [
+    2.0,
+    1.2,
+    1.4
+   ]
+  },
+  {
+   "kit": "gate_black",
+   "at": [
+    0,
+    0,
+    -14.8
+   ]
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -10,
+    2.4,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -4,
+    4.8,
+    -14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    10,
+    2.4,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    4,
+    4.8,
+    -14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -11.2,
+    4.8,
+    -8.8
+   ]
+  },
+  {
+   "kit": "urn",
+   "at": [
+    11.2,
+    4.8,
+    -8.8
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -8,
+    0,
+    -16
+   ],
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    8,
+    0,
+    -16
+   ],
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  }
+ ],
+ "boxes": [
+  {
+   "min": [
+    -4,
+    0,
+    23.75
+   ],
+   "max": [
+    -3,
+    4.8,
+    24.25
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    3,
+    0,
+    23.75
+   ],
+   "max": [
+    4,
+    4.8,
+    24.25
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12,
+    0,
+    -16
+   ],
+   "max": [
+    -8,
+    2.16,
+    -12
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    8,
+    0,
+    -16
+   ],
+   "max": [
+    12,
+    2.16,
+    -12
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -4,
+    0,
+    -15.05
+   ],
+   "max": [
+    -3.9,
+    4.8,
+    -14.55
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    3.9,
+    0,
+    -15.05
+   ],
+   "max": [
+    4,
+    4.8,
+    -14.55
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -6,
+    0,
+    -16.25
+   ],
+   "max": [
+    -4,
+    4.8,
+    -15.75
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    4,
+    0,
+    -16.25
+   ],
+   "max": [
+    6,
+    4.8,
+    -15.75
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    -2.5,
+    0,
+    23.6
+   ],
+   "max": [
+    2.5,
+    4.4,
+    24.6
+   ],
+   "tag": "base"
+  }
+ ],
+ "watcher_puzzles": [
+  {
+   "flag": "black_gate_winched",
+   "target": 0,
+   "base_kit": "capstan_base",
+   "turn_kit": "capstan_bars",
+   "turn_y": 1.0,
+   "verb": "Turn the capstan",
+   "done_toast": "Chains take the strain \u2014 the portcullis climbs.",
+   "watchers": [
+    {
+     "at": [
+      -8,
+      0,
+      -12
+     ],
+     "rot": 90
+    },
+    {
+     "at": [
+      8,
+      0,
+      -12
+     ],
+     "rot": 180
+    }
+   ]
+  }
+ ],
+ "flag_gates": [
+  {
+   "flag": "black_gate_winched",
+   "kit": "portcullis_4m",
+   "open_dir": "up",
+   "at": [
+    -2,
+    0,
+    -9
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "flag": "black_gate_winched",
+   "kit": "portcullis_4m",
+   "open_dir": "up",
+   "at": [
+    2,
+    0,
+    -9
+   ],
+   "rot": 0,
+   "tag": "base"
+  }
+ ],
+ "fog_gates": [
+  {
+   "id": "blackgate",
+   "at": [
+    0,
+    0,
+    -15.4
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  }
+ ],
+ "spawners": [
+  {
+   "enemy": "ward",
+   "id": "gate_ward_street",
+   "at": [
+    2,
+    0,
+    12
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "drowned_herald",
+   "id": "herald_w",
+   "at": [
+    -7,
+    0,
+    0
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "drowned_herald",
+   "id": "herald_e",
+   "at": [
+    7,
+    0,
+    2
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "ward",
+   "id": "gate_ward_tower",
+   "at": [
+    8,
+    0,
+    -10
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "ward",
+   "id": "wall_ward",
+   "at": [
+    0,
+    4.8,
+    -10
+   ],
+   "face": 180
+  },
+  {
+   "enemy": "gilded_echo",
+   "id": "echo_wall",
+   "at": [
+    -6,
+    4.8,
+    -10
+   ],
+   "face": 90,
+   "tag": "glory"
+  },
+  {
+   "enemy": "tollkeeper",
+   "id": "tollkeeper",
+   "at": [
+    0,
+    0,
+    -24
+   ],
+   "face": 180,
+   "dead_once": true,
+   "fog_gate_id": "blackgate"
+  }
+ ],
+ "props": [
+  {
+   "kit": "banner",
+   "at": [
+    -3.7,
+    0.4,
+    12
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    3.7,
+    0.4,
+    16
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -3.7,
+    0.4,
+    12
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -10.5,
+    0,
+    6.5
+   ],
+   "rot": 40,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -10.5,
+    0,
+    6.5
+   ],
+   "rot": 40,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    10.5,
+    0,
+    6.5
+   ],
+   "rot": -40,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    10.5,
+    0,
+    6.5
+   ],
+   "rot": -40,
+   "tag": "ruin"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -10.8,
+    0,
+    -6.8
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    10.8,
+    0,
+    -6.8
+   ],
+   "rot": -45,
+   "tag": "glory"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -10.8,
+    0,
+    -6.8
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    10.8,
+    0,
+    -6.8
+   ],
+   "rot": -45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    5,
+    0,
+    5
+   ],
+   "tag": "ruin",
+   "collide": false
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -3.6,
+    3.0,
+    -8.6
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "ivy_sheet_a",
+   "at": [
+    -11.75,
+    0,
+    2
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "bone_pile",
+   "at": [
+    3,
+    0,
+    -20
+   ],
+   "rot": 30,
+   "tag": "ruin",
+   "collide": false
+  },
+  {
+   "kit": "censer_hanging",
+   "at": [
+    0,
+    4.3,
+    -12
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "censer_fallen",
+   "at": [
+    0.6,
+    0,
+    -12.5
+   ],
+   "tag": "ruin"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "gatewatch",
+   "name": "Gate-Watch Lantern",
+   "at": [
+    -9,
+    0,
+    5
+   ],
+   "rot": -135
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    -2.6,
+    0,
+    21.5
+   ],
+   "rot": 155,
+   "text": "THE BLACK GATE\n\nHere the kingdom ends and the marches begin. The sun set into the sea the day the bell failed, and never finished setting: it hangs there still, drowned and burning.\n\nNone pass but those the Tollkeeper reckons paid."
+  },
+  {
+   "at": [
+    -8.5,
+    0,
+    -10.4
+   ],
+   "rot": 65,
+   "text": "THE WINCH WHEELS\n\nBoth wheels bear one chain. Lay every bar along the gate's pull \u2014 north, as the chain runs \u2014 and the iron will remember its duty."
+  },
+  {
+   "at": [
+    0,
+    0,
+    -29.5
+   ],
+   "rot": 0,
+   "text": "THE MARCHES\n\nBeyond the Black Gate the road runs out of the remembered kingdom entirely.\n\n(The pilgrimage continues in the next passing.)"
+  }
+ ],
+ "pickups": [
+  {
+   "id": "toll_scraps",
+   "at": [
+    -2.8,
+    0,
+    10
+   ],
+   "orisons": 45,
+   "tag": "base",
+   "label": "Gather the spilled toll"
+  },
+  {
+   "id": "watch_wages",
+   "at": [
+    -10,
+    4.8,
+    -10
+   ],
+   "orisons": 95,
+   "tag": "base",
+   "label": "Gather the watch's wages"
+  },
+  {
+   "id": "tollkeepers_due",
+   "at": [
+    4,
+    0,
+    -27
+   ],
+   "orisons": 210,
+   "tag": "base",
+   "label": "Gather the Tollkeeper's due"
+  }
+ ],
+ "portals": [
+  {
+   "to": "basilica_porch",
+   "at": [
+    0,
+    0,
+    24
+   ],
+   "rot": 180,
+   "spawn": [
+    -6.6,
+    -2.4,
+    10
+   ],
+   "spawn_yaw": -90,
+   "prompt": "Climb the pilgrim stair to the Basilica"
+  }
+ ],
+ "skyline": [
+  {
+   "kit": "city_panorama",
+   "at": [
+    0,
+    -3.2,
+    30
+   ]
+  }
+ ],
+ "open_air_cells": [
+  [
+   -6,
+   -14
+  ],
+  [
+   6,
+   -14
+  ]
+ ]
+}

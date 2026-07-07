@@ -15,6 +15,7 @@ static func build(area_id: String) -> Area:
 	area.display_name = def.get("name", area_id)
 	area.set_meta("def", def)
 
+	area.env.set_overrides(def.get("env", {}))
 	for spec in def.get("fills", []):
 		_fill(area, spec)
 	for spec in def.get("rows", []):

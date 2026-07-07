@@ -59,6 +59,16 @@
    2.6
   ]
  },
+ "battlement_4m": {
+  "file": "assets/kit/battlement_4m.glb",
+  "origin": "bottom-center",
+  "polys": 24,
+  "size": [
+   4,
+   0.5,
+   1.5
+  ]
+ },
  "bell_great": {
   "file": "assets/kit/bell_great.glb",
   "origin": "bottom-center",
@@ -177,6 +187,26 @@
    0.55,
    0.55,
    0.42
+  ]
+ },
+ "capstan_bars": {
+  "file": "assets/kit/capstan_bars.glb",
+  "origin": "axle",
+  "polys": 46,
+  "size": [
+   2.4,
+   2.4,
+   0.35
+  ]
+ },
+ "capstan_base": {
+  "file": "assets/kit/capstan_base.glb",
+  "origin": "bottom-center",
+  "polys": 58,
+  "size": [
+   1.6,
+   1.6,
+   1.0
   ]
  },
  "cathedral_mass": {
@@ -463,6 +493,16 @@
    0.8
   ]
  },
+ "gate_black": {
+  "file": "assets/kit/gate_black.glb",
+  "origin": "bottom-center",
+  "polys": 246,
+  "size": [
+   8.6,
+   0.6,
+   6.4
+  ]
+ },
  "gate_iron": {
   "file": "assets/kit/gate_iron.glb",
   "origin": "bottom-center",
@@ -697,6 +737,16 @@
    4
   ]
  },
+ "portcullis_4m": {
+  "file": "assets/kit/portcullis_4m.glb",
+  "origin": "bottom-center",
+  "polys": 120,
+  "size": [
+   4,
+   0.3,
+   3.9
+  ]
+ },
  "roof_shed_4m": {
   "file": "assets/kit/roof_shed_4m.glb",
   "origin": "eave-center",
@@ -851,6 +901,17 @@
   ],
   "skeletal": true
  },
+ "skel_herald": {
+  "file": "assets/kit/skel_herald.glb",
+  "origin": "feet",
+  "polys": 771,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
  "skel_hero": {
   "file": "assets/kit/skel_hero.glb",
   "origin": "feet",
@@ -996,6 +1057,16 @@
    0.32,
    0.05,
    1.15
+  ]
+ },
+ "toll_maul": {
+  "file": "assets/kit/toll_maul.glb",
+  "origin": "grip",
+  "polys": 28,
+  "size": [
+   0.72,
+   0.72,
+   2.9
   ]
  },
  "tomb_slab": {
