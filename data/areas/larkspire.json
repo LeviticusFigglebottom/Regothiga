@@ -1427,54 +1427,54 @@
   {
    "kit": "lark_cage",
    "at": [
-    -3,
+    -5.0,
     4.54,
-    -3
+    -3.0
    ],
    "tag": "glory"
   },
   {
    "kit": "lark_cage_dead",
    "at": [
-    -3,
+    -5.0,
     4.54,
-    -3
+    -3.0
    ],
    "tag": "ruin"
   },
   {
    "kit": "lark_cage",
    "at": [
-    3,
+    3.0,
     9.34,
-    3
+    5.0
    ],
    "tag": "glory"
   },
   {
    "kit": "lark_cage_dead",
    "at": [
-    3,
+    3.0,
     9.34,
-    3
+    5.0
    ],
    "tag": "ruin"
   },
   {
    "kit": "lark_cage",
    "at": [
-    -3,
+    -5.0,
     14.14,
-    3
+    3.0
    ],
    "tag": "glory"
   },
   {
    "kit": "lark_cage_dead",
    "at": [
-    -3,
+    -5.0,
     14.14,
-    3
+    3.0
    ],
    "tag": "ruin"
   },
@@ -1668,6 +1668,62 @@
     4,
     4.8,
     8.25
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8,
+    0.0,
+    0
+   ],
+   "max": [
+    -4,
+    2.16,
+    4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    0,
+    4.8,
+    -8
+   ],
+   "max": [
+    4,
+    6.96,
+    -4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    4,
+    9.6,
+    0
+   ],
+   "max": [
+    8,
+    11.76,
+    4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -4,
+    14.4,
+    4
+   ],
+   "max": [
+    0,
+    16.56,
+    8
    ],
    "mat": "M_stone",
    "tag": "base"
