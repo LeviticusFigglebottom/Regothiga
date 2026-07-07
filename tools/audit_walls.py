@@ -43,13 +43,25 @@ def pieces_of(def_):
 def audit(area_id):
     path = os.path.join(ROOT, "data", "areas", f"{area_id}.json")
     def_ = json.load(open(path))
-    # floor cells (1m)
+    # floor cells (1m); track top height per cell for drop checks
     cells = set()
+    cell_y = {}
     for f in def_.get("fills", []):
         mn, mx = f["min"], f["max"]
         for x in range(int(mn[0]), int(mx[0])):
             for z in range(int(mn[2]), int(mx[2])):
                 cells.add((x, z))
+                cell_y[(x, z)] = max(cell_y.get((x, z), -1e9), float(mn[1]))
+    # walkable low ground (e.g. the peat flats): boxes marked walkable seal any
+    # edge that merely steps down onto them
+    low = {}
+    for b in def_.get("boxes", []):
+        if not b.get("walkable", False):
+            continue
+        mn, mx = b["min"], b["max"]
+        for x in range(int(mn[0]), int(mx[0])):
+            for z in range(int(mn[2]), int(mx[2])):
+                low[(x, z)] = max(low.get((x, z), -1e9), float(mx[1]))
     if not cells:
         print(f"[{area_id}] no floor fills; skipping")
         return []
@@ -109,12 +121,28 @@ def audit(area_id):
             if axis == 'z' and mn[0] - 0.6 <= fixed <= mx[0] + 0.6 and mn[2] <= start + 2 <= mx[2]:
                 segs[cand].add(tag)
 
+    def wading_edge(seg) -> bool:
+        axis, fixed, start = seg
+        for off in (1, 2):
+            for side in (-1, 1):
+                if axis == 'x':
+                    p = (start + off, int(fixed) + (0 if side > 0 else -1))
+                    q = (start + off, int(fixed) - (1 if side > 0 else 0))
+                else:
+                    p = (int(fixed) + (0 if side > 0 else -1), start + off)
+                    q = (int(fixed) - (1 if side > 0 else 0), start + off)
+                if p in low and q in cells and cell_y[q] - low[p] <= 2.6:
+                    return True
+        return False
+
     holes = []
     for seg, cover in sorted(segs.items()):
         if "door" in cover:
             continue   # archway onto... verify it leads to floor on both sides? doors to void ARE holes
         if "base" in cover:
             continue
+        if not cover and wading_edge(seg):
+            continue   # steps down onto walkable low ground (the peat flats)
         if "glory" in cover and "ruin" in cover:
             continue
         state = "BOTH STATES" if not cover else \

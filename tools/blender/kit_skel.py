@@ -485,4 +485,20 @@ def herald(arm):
 ARCHETYPES["skel_herald"] = herald
 
 
+def mire(arm):
+    """Mirebound: the marsh's drowned dead — broad, mud-heavy, dragging a
+    weight of sodden grave-wrappings. Slow, and very hard to put down."""
+    b = BodyBuilder("mire")
+    common_body(b, "M_stone_dark", "M_leather", "M_stone_dark", hood="closed",
+                skirt=True, skirt_len=0.72, girth=1.15)
+    # sodden mantle plastered across the shoulders
+    bm = b.part("chest", "M_leather")
+    _tube(bm, Vector((0, 0, 1.34)), Vector((0, 0, 1.5)), 0.2, 0.24, 9)
+    return b.finalize(arm, lumpy=0.05, seed=211)
+
+
+ARCHETYPES["skel_mire"] = mire
+
+
+
 ARCHETYPES["skel_bellox"] = bellox

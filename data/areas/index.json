@@ -5,7 +5,8 @@
   "basilica_nave",
   "ossuary_undercroft",
   "larkspire",
-  "black_gate"
+  "black_gate",
+  "drowned_marches"
  ],
  "graph": {
   "gray_cloister": {
@@ -30,7 +31,11 @@
    "down": "ossuary_undercroft"
   },
   "black_gate": {
-   "up": "basilica_porch"
+   "up": "basilica_porch",
+   "west": "drowned_marches"
+  },
+  "drowned_marches": {
+   "east": "black_gate"
   }
  },
  "start_area": "gray_cloister"

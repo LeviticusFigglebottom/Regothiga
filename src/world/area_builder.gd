@@ -167,7 +167,7 @@ const PASSABLE_PROPS := ["banner", "banner_torn", "ivy_sheet_a", "ivy_sheet_b",
 	"book_stack", "scroll_pile", "rubble_s", "mosaic_medallion",
 	"cobweb", "hanging_chain", "hanging_chain_bare", "shroud_dead",
 	"lark_cage", "lark_cage_dead", "perch_rail", "perch_rail_bare",
-	"aviary_screen"]
+	"aviary_screen", "reed_clump", "reed_clump_dead"]
 
 static func _prop_collides(spec: Dictionary) -> bool:
 	if spec.has("collide"):

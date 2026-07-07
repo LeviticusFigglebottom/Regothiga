@@ -67,6 +67,8 @@ const FAMILIES := {
 	# panes in ruin (same gate the votive gold uses).
 	"M_citywindow": {"albedo": Color(0.14, 0.10, 0.08), "rough": 0.9, "rim": 0.1, "moss": 0.0, "crack": 0.0,
 					 "emission": Color(1.0, 0.66, 0.28), "emission_energy": 1.7, "emission_gate": 1},
+	# the drowned flats: near-black wet peat with a low-rough sheen
+	"M_marsh":      {"albedo": Color(0.10, 0.13, 0.11), "rough": 0.3, "rim": 0.5, "moss": 1.0, "crack": 0.0},
 	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
 	"M_foliage":    {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.95, "rim": 0.55, "moss": 0.0, "crack": 0.0, "vc": 1},
 }

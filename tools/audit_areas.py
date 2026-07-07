@@ -112,6 +112,12 @@ def opposite_state(a, b):
 def audit(area_id):
     d = json.load(open(f"data/areas/{area_id}.json"))
     fills = d.get("fills", [])
+    # a walkable box's TOP is a floor too (the Marches' peat flats, landing
+    # skirts): fold box tops in as faux fills for grounding/roof checks
+    for b in d.get("boxes", []):
+        if b.get("walkable", False):
+            fills = fills + [{"min": [b["min"][0], b["max"][1], b["min"][2]],
+                              "max": [b["max"][0], b["max"][1], b["max"][2]]}]
     # cells that are intentionally open to the sky (exterior courts, terraces):
     # named explicitly, or covered by an open_air_regions {min,max} box.
     open_air = set(tuple(c) for c in d.get("open_air_cells", []))

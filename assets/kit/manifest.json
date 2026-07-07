@@ -69,6 +69,16 @@
    1.5
   ]
  },
+ "beacon_brazier": {
+  "file": "assets/kit/beacon_brazier.glb",
+  "origin": "bottom-center",
+  "polys": 48,
+  "size": [
+   1.2,
+   1.2,
+   2.0
+  ]
+ },
  "bell_great": {
   "file": "assets/kit/bell_great.glb",
   "origin": "bottom-center",
@@ -643,6 +653,16 @@
    0.03
   ]
  },
+ "oar_glaive": {
+  "file": "assets/kit/oar_glaive.glb",
+  "origin": "grip",
+  "polys": 17,
+  "size": [
+   0.7,
+   0.12,
+   3.6
+  ]
+ },
  "organ_case": {
   "file": "assets/kit/organ_case.glb",
   "origin": "bottom-center",
@@ -745,6 +765,26 @@
    4,
    0.3,
    3.9
+  ]
+ },
+ "reed_clump": {
+  "file": "assets/kit/reed_clump.glb",
+  "origin": "bottom-center",
+  "polys": 59,
+  "size": [
+   1.1,
+   1.1,
+   1.8
+  ]
+ },
+ "reed_clump_dead": {
+  "file": "assets/kit/reed_clump_dead.glb",
+  "origin": "bottom-center",
+  "polys": 7,
+  "size": [
+   1.1,
+   1.1,
+   1.2
   ]
  },
  "roof_shed_4m": {
@@ -916,6 +956,17 @@
   "file": "assets/kit/skel_hero.glb",
   "origin": "feet",
   "polys": 780,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_mire": {
+  "file": "assets/kit/skel_mire.glb",
+  "origin": "feet",
+  "polys": 768,
   "size": [
    0.8,
    0.8,
@@ -1168,6 +1219,16 @@
    0.9,
    0.9,
    1.1
+  ]
+ },
+ "waystone": {
+  "file": "assets/kit/waystone.glb",
+  "origin": "bottom-center",
+  "polys": 16,
+  "size": [
+   0.8,
+   0.4,
+   1.8
   ]
  },
  "wellhead": {

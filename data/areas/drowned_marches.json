@@ -1,0 +1,1145 @@
+{
+ "id": "drowned_marches",
+ "name": "The Drowned Marches",
+ "start": {
+  "pos": [
+   21,
+   0.2,
+   0
+  ],
+  "yaw": 90
+ },
+ "env": {
+  "glory": {
+   "sun_color": [
+    0.95,
+    0.34,
+    0.14
+   ],
+   "sun_energy": 1.05,
+   "sun_rot": [
+    -4,
+    -88
+   ],
+   "ambient": [
+    0.3,
+    0.2,
+    0.18
+   ],
+   "fog_color": [
+    0.5,
+    0.24,
+    0.16
+   ],
+   "bg_top": [
+    0.26,
+    0.13,
+    0.16
+   ],
+   "bg_horizon": [
+    0.98,
+    0.45,
+    0.2
+   ],
+   "fog_density": 0.02
+  },
+  "ruin": {
+   "sun_color": [
+    0.3,
+    0.36,
+    0.5
+   ],
+   "sun_energy": 0.18,
+   "fog_color": [
+    0.07,
+    0.09,
+    0.13
+   ],
+   "bg_top": [
+    0.04,
+    0.05,
+    0.1
+   ],
+   "bg_horizon": [
+    0.09,
+    0.11,
+    0.18
+   ],
+   "fog_density": 0.03
+  }
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    16,
+    0,
+    -4
+   ],
+   "max": [
+    24,
+    0,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -32,
+    0,
+    -4
+   ],
+   "max": [
+    16,
+    0,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    0,
+    -8
+   ],
+   "max": [
+    12,
+    0,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -24,
+    0,
+    4
+   ],
+   "max": [
+    -8,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -32,
+    0,
+    -8
+   ],
+   "max": [
+    -24,
+    0,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -44,
+    0,
+    -8
+   ],
+   "max": [
+    -32,
+    0,
+    8
+   ]
+  }
+ ],
+ "open_air_regions": [
+  {
+   "min": [
+    -52,
+    -2.2,
+    -18
+   ],
+   "max": [
+    28,
+    -2.2,
+    18
+   ]
+  },
+  {
+   "min": [
+    16,
+    0,
+    -4
+   ],
+   "max": [
+    24,
+    0,
+    4
+   ]
+  },
+  {
+   "min": [
+    -32,
+    0,
+    -4
+   ],
+   "max": [
+    16,
+    0,
+    4
+   ]
+  },
+  {
+   "min": [
+    -8,
+    0,
+    -8
+   ],
+   "max": [
+    12,
+    0,
+    -4
+   ]
+  },
+  {
+   "min": [
+    -24,
+    0,
+    4
+   ],
+   "max": [
+    -8,
+    0,
+    8
+   ]
+  },
+  {
+   "min": [
+    -32,
+    0,
+    -8
+   ],
+   "max": [
+    -24,
+    0,
+    -4
+   ]
+  },
+  {
+   "min": [
+    -44,
+    0,
+    -8
+   ],
+   "max": [
+    -32,
+    0,
+    8
+   ]
+  }
+ ],
+ "boxes": [
+  {
+   "min": [
+    -52,
+    -3.0,
+    -18
+   ],
+   "max": [
+    28,
+    -2.2,
+    18
+   ],
+   "mat": "M_marsh",
+   "tag": "base",
+   "walkable": true
+  },
+  {
+   "min": [
+    16,
+    -2.4,
+    -4
+   ],
+   "max": [
+    24,
+    -0.1,
+    4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -32,
+    -2.4,
+    -4
+   ],
+   "max": [
+    16,
+    -0.1,
+    4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8,
+    -2.4,
+    -8
+   ],
+   "max": [
+    12,
+    -0.1,
+    -4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -24,
+    -2.4,
+    4
+   ],
+   "max": [
+    -8,
+    -0.1,
+    8
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -32,
+    -2.4,
+    -8
+   ],
+   "max": [
+    -24,
+    -0.1,
+    -4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -44,
+    -2.4,
+    -8
+   ],
+   "max": [
+    -32,
+    -0.1,
+    8
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -24.25,
+    0,
+    -4
+   ],
+   "max": [
+    -23.75,
+    4.8,
+    -3.2
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -32.4,
+    0,
+    -4
+   ],
+   "max": [
+    -31.6,
+    4.0,
+    -2
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -32.4,
+    0,
+    2
+   ],
+   "max": [
+    -31.6,
+    4.0,
+    4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  }
+ ],
+ "rows": [],
+ "pieces": [
+  {
+   "kit": "wall_4x4",
+   "at": [
+    24,
+    0,
+    -2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    24,
+    0,
+    2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    24,
+    0,
+    0
+   ],
+   "rot": -90,
+   "scale": [
+    1.5,
+    1.2,
+    1.4
+   ]
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    24,
+    0,
+    0
+   ],
+   "rot": -90,
+   "scale": [
+    1.5,
+    1.2,
+    1.4
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    14,
+    -0.02,
+    -4
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -34,
+    -0.02,
+    4
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "column_broken",
+   "at": [
+    -2,
+    0,
+    -6.5
+   ]
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -6,
+    0,
+    -6.5
+   ]
+  },
+  {
+   "kit": "waystone",
+   "at": [
+    -7.2,
+    0,
+    -4.8
+   ]
+  },
+  {
+   "kit": "column_broken",
+   "at": [
+    -42,
+    0,
+    -5
+   ]
+  },
+  {
+   "kit": "column_broken",
+   "at": [
+    -43,
+    0,
+    5.5
+   ]
+  },
+  {
+   "kit": "waystone",
+   "at": [
+    -41.5,
+    0,
+    0.5
+   ]
+  },
+  {
+   "kit": "waystone",
+   "at": [
+    -26,
+    0,
+    2.8
+   ]
+  },
+  {
+   "kit": "waystone",
+   "at": [
+    4,
+    0,
+    2.8
+   ]
+  }
+ ],
+ "watcher_puzzles": [],
+ "chime_puzzles": [
+  {
+   "flag": "marches_beacons",
+   "order": [
+    "dawnward",
+    "midway",
+    "duskward"
+   ],
+   "kit": "beacon_brazier",
+   "verb": "Kindle",
+   "swing": "",
+   "sfx_ring": "res://assets/audio/swell_kindle.wav",
+   "chimes": [
+    {
+     "id": "dawnward",
+     "label": "the dawnward beacon",
+     "at": [
+      10,
+      0,
+      -6
+     ],
+     "rot": 0
+    },
+    {
+     "id": "midway",
+     "label": "the midway beacon",
+     "at": [
+      -10,
+      0,
+      6
+     ],
+     "rot": 0
+    },
+    {
+     "id": "duskward",
+     "label": "the duskward beacon",
+     "at": [
+      -26,
+      0,
+      -6
+     ],
+     "rot": 0
+    }
+   ]
+  }
+ ],
+ "flag_gates": [
+  {
+   "flag": "marches_beacons",
+   "kit": "gate_iron",
+   "open_dir": "down",
+   "at": [
+    -32,
+    0,
+    0
+   ],
+   "rot": 90,
+   "tag": "base",
+   "locked_prompt": "The beacons are cold"
+  }
+ ],
+ "fog_gates": [
+  {
+   "id": "jetty",
+   "at": [
+    -32.9,
+    0,
+    0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  }
+ ],
+ "spawners": [
+  {
+   "enemy": "mirebound",
+   "id": "mire_road",
+   "at": [
+    6,
+    0,
+    1
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "mirebound",
+   "id": "mire_bay_s",
+   "at": [
+    -4,
+    0,
+    -6
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "drowned_herald",
+   "id": "herald_marsh",
+   "at": [
+    -12,
+    0,
+    0
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "mirebound",
+   "id": "mire_bay_n",
+   "at": [
+    -20,
+    0,
+    6
+   ],
+   "face": 180
+  },
+  {
+   "enemy": "shroudbound",
+   "id": "shade_jetty",
+   "at": [
+    -30,
+    0,
+    2
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "gilded_echo",
+   "id": "echo_marsh",
+   "at": [
+    -18,
+    0,
+    5
+   ],
+   "face": -90,
+   "tag": "glory"
+  },
+  {
+   "enemy": "ferryman",
+   "id": "ferryman",
+   "at": [
+    -38,
+    0,
+    0
+   ],
+   "face": -90,
+   "dead_once": true,
+   "fog_gate_id": "jetty"
+  }
+ ],
+ "props": [
+  {
+   "kit": "reed_clump",
+   "at": [
+    -45.1,
+    -2.2,
+    -11.6
+   ],
+   "rot": 328,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -45.1,
+    -2.2,
+    -11.6
+   ],
+   "rot": 112,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -18.5,
+    -2.2,
+    5.5
+   ],
+   "rot": 246,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -18.5,
+    -2.2,
+    5.5
+   ],
+   "rot": 21,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -36.3,
+    -2.2,
+    -11.6
+   ],
+   "rot": 134,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -36.3,
+    -2.2,
+    -11.6
+   ],
+   "rot": 172,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -29.8,
+    -2.2,
+    7.7
+   ],
+   "rot": 150,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -29.8,
+    -2.2,
+    7.7
+   ],
+   "rot": 171,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -35.7,
+    -2.2,
+    7.2
+   ],
+   "rot": 292,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -35.7,
+    -2.2,
+    7.2
+   ],
+   "rot": 202,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    0.4,
+    -2.2,
+    -10.9
+   ],
+   "rot": 246,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    0.4,
+    -2.2,
+    -10.9
+   ],
+   "rot": 331,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -17.1,
+    -2.2,
+    14.9
+   ],
+   "rot": 333,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -17.1,
+    -2.2,
+    14.9
+   ],
+   "rot": 161,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -39.5,
+    -2.2,
+    -14.4
+   ],
+   "rot": 109,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -39.5,
+    -2.2,
+    -14.4
+   ],
+   "rot": 48,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -20.5,
+    -2.2,
+    13.7
+   ],
+   "rot": 156,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -20.5,
+    -2.2,
+    13.7
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -31.3,
+    -2.2,
+    -8.5
+   ],
+   "rot": 286,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -31.3,
+    -2.2,
+    -8.5
+   ],
+   "rot": 319,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    20.8,
+    -2.2,
+    10.2
+   ],
+   "rot": 279,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    20.8,
+    -2.2,
+    10.2
+   ],
+   "rot": 345,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -21.1,
+    -2.2,
+    -8.9
+   ],
+   "rot": 151,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -21.1,
+    -2.2,
+    -8.9
+   ],
+   "rot": 47,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    12.5,
+    -2.2,
+    14.7
+   ],
+   "rot": 88,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    12.5,
+    -2.2,
+    14.7
+   ],
+   "rot": 98,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -43.9,
+    -2.2,
+    7.1
+   ],
+   "rot": 14,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -43.9,
+    -2.2,
+    7.1
+   ],
+   "rot": 307,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    -30.7,
+    -2.2,
+    8.9
+   ],
+   "rot": 191,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    -30.7,
+    -2.2,
+    8.9
+   ],
+   "rot": 356,
+   "tag": "ruin"
+  },
+  {
+   "kit": "reed_clump",
+   "at": [
+    5.1,
+    -2.2,
+    -9.2
+   ],
+   "rot": 48,
+   "tag": "glory"
+  },
+  {
+   "kit": "reed_clump_dead",
+   "at": [
+    5.1,
+    -2.2,
+    -9.2
+   ],
+   "rot": 342,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    17.5,
+    0,
+    3.2
+   ],
+   "rot": 30,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    17.5,
+    0,
+    3.2
+   ],
+   "rot": 30,
+   "tag": "ruin"
+  },
+  {
+   "kit": "bone_pile",
+   "at": [
+    -36,
+    0,
+    -5
+   ],
+   "rot": 70,
+   "tag": "ruin",
+   "collide": false
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    -3,
+    0,
+    -5.2
+   ],
+   "tag": "ruin",
+   "collide": false
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "marches",
+   "name": "Marchward Lantern",
+   "at": [
+    19.5,
+    0,
+    -2.8
+   ],
+   "rot": -45
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    21.5,
+    0,
+    2.6
+   ],
+   "rot": -155,
+   "text": "THE DROWNED MARCHES\n\nThe causeway walked pilgrims out of the kingdom, beacon to beacon, until the water took the road's memory.\n\nKindle them as the day walked: dawnward first, then the midway fire, then duskward \u2014 toward the sun that never finished setting."
+  },
+  {
+   "at": [
+    -40.5,
+    0,
+    -2.4
+   ],
+   "rot": 60,
+   "text": "THE FERRY STONE\n\nHere the road ends and the crossing began. The Ferryman still poles the flats, though nothing waits on the far shore now but the drowned sun.\n\n(The pilgrimage continues in the next passing.)"
+  }
+ ],
+ "pickups": [
+  {
+   "id": "reed_offerings",
+   "at": [
+    -6,
+    0,
+    -7
+   ],
+   "orisons": 55,
+   "tag": "base",
+   "label": "Gather the reed-bound offerings"
+  },
+  {
+   "id": "beacon_tithe",
+   "at": [
+    -26.8,
+    0,
+    -6.8
+   ],
+   "orisons": 105,
+   "tag": "base",
+   "label": "Gather the beacon tithe"
+  },
+  {
+   "id": "ferrymans_fare",
+   "at": [
+    -42,
+    0,
+    2.5
+   ],
+   "orisons": 230,
+   "tag": "base",
+   "label": "Gather the ferryman's fare"
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    23.6,
+    0,
+    -2.5
+   ],
+   "max": [
+    24.6,
+    4.4,
+    2.5
+   ],
+   "tag": "base"
+  }
+ ],
+ "portals": [
+  {
+   "to": "black_gate",
+   "at": [
+    24,
+    0,
+    0
+   ],
+   "rot": -90,
+   "spawn": [
+    -8.6,
+    0.2,
+    -22
+   ],
+   "spawn_yaw": -90,
+   "prompt": "Return through the Black Gate"
+  }
+ ],
+ "skyline": [
+  {
+   "kit": "city_panorama",
+   "at": [
+    90,
+    -4.5,
+    0
+   ]
+  }
+ ]
+}

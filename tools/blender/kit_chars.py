@@ -330,6 +330,23 @@ def crook_great():
     return objs, {"size": [0.9, 0.14, 3.0], "origin": "grip"}
 
 
+
+
+def oar_glaive():
+    """The Ferryman's oar-glaive: a pole arm ending in a broad steel-shod
+    blade — half oar, half executioner's sweep. Origin at grip."""
+    objs = [V.loft_rings("oar_haft", [(0.028, -1.15, 8, 0), (0.032, 1.2, 8, 0)], "M_wood")]
+    bm = bmesh.new()
+    pts = [(-0.04, 0.0, 1.15), (0.24, 0.0, 1.45), (0.3, 0.0, 1.95),
+           (0.16, 0.0, 2.35), (-0.06, 0.0, 2.4)]
+    vs = [bm.verts.new(p) for p in pts]
+    bm.faces.new(vs)
+    import bmesh as _bm
+    _bm.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.03)
+    objs.append(V.bm_to_object(bm, "oar_blade", ("M_steel",)))
+    return objs, {"size": [0.7, 0.12, 3.6], "origin": "grip"}
+
+
 BUILDERS = {
     "char_latecomer": char_latecomer,
     "char_sleeve_l": lambda: char_sleeve("l"),
@@ -339,6 +356,7 @@ BUILDERS = {
     "halberd_ward": halberd_ward,
     "crook_warden": crook_warden,
     "crook_great": crook_great,
+    "oar_glaive": oar_glaive,
     "shield_kite": shield_kite,
     "helm_ward": helm_ward,
     "char_ward": char_ward,

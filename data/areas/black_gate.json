@@ -573,7 +573,10 @@
     1
    ],
    "count": 4,
-   "rot": 90
+   "rot": 90,
+   "skip": [
+    2
+   ]
   },
   {
    "kit": "wall_4x4",
@@ -814,6 +817,25 @@
     1.2,
     1
    ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -10,
+    0,
+    -22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    -10,
+    0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
   }
  ],
  "boxes": [
@@ -941,6 +963,19 @@
     2.5,
     4.4,
     24.6
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -10.6,
+    0,
+    -24.5
+   ],
+   "max": [
+    -9.6,
+    4.4,
+    -19.5
    ],
    "tag": "base"
   }
@@ -1350,6 +1385,22 @@
    ],
    "spawn_yaw": -90,
    "prompt": "Climb the pilgrim stair to the Basilica"
+  },
+  {
+   "to": "drowned_marches",
+   "at": [
+    -10,
+    0,
+    -22
+   ],
+   "rot": 90,
+   "spawn": [
+    21,
+    0.2,
+    0
+   ],
+   "spawn_yaw": 90,
+   "prompt": "Take the postern to the Drowned Marches"
   }
  ],
  "skyline": [
