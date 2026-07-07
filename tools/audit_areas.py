@@ -212,6 +212,48 @@ def audit(area_id):
             if math.hypot(pa[0] - pb[0], pa[2] - pb[2]) < 0.5 and abs(pa[1] - pb[1]) < 1.2:
                 issues.append(f"OVERLAP    {ka} ({ta}) into {kb} ({tb}) at {ground[i]['at']}")
 
+    # 2c) unbacked outdoor terraces: an open-air floor slab is a thin 0.25 m tile;
+    #     if the area offers a LOWER vantage (another fill level below it), the
+    #     slab's underside and the void beneath are visible from there — the exact
+    #     porch-terrace defect. Such fills must be backed by substructure: a
+    #     `boxes` entry (or another fill) directly beneath their footprint.
+    #     (Limit: the LOWEST outdoor slab's own edge-drop is not modelled here —
+    #     that seam is covered by the perimeter audit + photo sweeps.)
+    boxes_below = d.get("boxes", [])
+    def backed(cx, cz, top):
+        for b in boxes_below:
+            mn, mx = v3(b["min"]), v3(b["max"])
+            if mn[0] - 0.05 <= cx <= mx[0] + 0.05 and mn[2] - 0.05 <= cz <= mx[2] + 0.05 \
+               and mx[1] >= top - 0.35 and mn[1] <= top - 2.0:
+                return True
+        for f in fills:
+            mn, mx = v3(f["min"]), v3(f["max"])
+            if mn[0] - 0.05 <= cx <= mx[0] + 0.05 and mn[2] - 0.05 <= cz <= mx[2] + 0.05 \
+               and mx[1] < top - 0.3:      # a room below: underside is its ceiling
+                return True
+        return False
+    tops = sorted({v3(f["min"])[1] for f in fills})
+    if len(tops) > 1:
+        for f in fills:
+            top = v3(f["min"])[1]
+            if top <= tops[0] + 0.3:
+                continue                    # lowest level: no vantage below it
+            mn, mx = v3(f["min"]), v3(f["max"])
+            x = mn[0] + 2.0
+            while x < mx[0] - 0.01:
+                z = mn[2] + 2.0
+                flagged = False
+                while z < mx[2] - 0.01:
+                    if (round(x), round(z)) in open_air and not backed(x, z, top):
+                        issues.append(f"UNBACKED   outdoor floor at y={top} cell ~({round(x)},{round(z)}) "
+                                      f"has void below (visible from the lower level)")
+                        flagged = True
+                        break
+                    z += 4.0
+                if flagged:
+                    break
+                x += 4.0
+
     # 3) interior holes: floor cells missing where surrounded by floor
     if fills:
         cells = set()
