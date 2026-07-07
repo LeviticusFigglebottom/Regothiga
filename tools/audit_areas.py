@@ -42,9 +42,12 @@ def expand_row(r):
     for i in range(n):
         if i in skip:
             continue
+        # carry rot/scale: plane-sensitive checks (WALL-OVERLAP) need them —
+        # dropping rot silently put row-placed windows on the wrong plane
         out.append({"kit": r["kit"], "at": [frm[0] + d[0] * step * i,
                     frm[1] + d[1] * step * i, frm[2] + d[2] * step * i],
-                    "tag": r.get("tag", "base")})
+                    "tag": r.get("tag", "base"), "rot": r.get("rot", 0),
+                    "scale": r.get("scale", [1, 1, 1])})
     return out
 
 
@@ -78,7 +81,7 @@ def cells_of(regions, y_from="min"):
 
 
 def wall_boxes(d):
-    """Every wall/architecture segment as (axis, cx, span_lo, span_hi, y, tag),
+    """Every wall/architecture segment as (axis, cx, span_lo, span_hi, y, tag, kit),
     for clipping tests. axis 'x' spans X (thin in Z), 'z' spans Z (thin in X)."""
     boxes = []
     WALLS = {"wall_4x4", "ossuary_wall_4m", "arcade_4m"}
@@ -88,9 +91,9 @@ def wall_boxes(d):
         x, y, z = v3(at)
         r = ((int(rot) % 180) + 180) % 180
         if r == 90:                      # spans Z
-            boxes.append(("z", x, z - 2, z + 2, y, tag))
+            boxes.append(("z", x, z - 2, z + 2, y, tag, kit))
         else:                            # spans X
-            boxes.append(("x", z, x - 2, x + 2, y, tag))
+            boxes.append(("x", z, x - 2, x + 2, y, tag, kit))
     for p in d.get("pieces", []):
         if "at" in p:
             add(p.get("kit", ""), p["at"], p.get("rot", 0), p.get("tag", "base"))
@@ -138,10 +141,19 @@ def audit(area_id):
     for r in d.get("rows", []):
         placed += expand_row(r)
 
+    # every floor-standing entity list joins the grounding check: a pickup or
+    # lantern authored 0.2 m off the floor floats just as visibly as a statue
+    for key in ("pickups", "lanterns", "npcs", "plaques", "spawners"):
+        for p in d.get(key, []):
+            if "at" in p:
+                placed.append({"kit": "(%s)" % key[:-1], "at": p["at"],
+                               "tag": p.get("tag", "base")})
+
     # 1) props floating off the floor (grounded decor + railings). Railings are in
     #    ARCH (so wall/overlap checks skip them) but opt back IN here: a balustrade
     #    that floats above its floor, or sits past the floor edge over the drop, is
-    #    exactly the terrace defect and must trip.
+    #    exactly the terrace defect and must trip. Grounded decor uses a tight
+    #    0.15 m tolerance: the old 0.6 m waved through statues hovering 0.2 m up.
     for p in placed:
         kit = p.get("kit", "")
         if kit in MOUNTED or (kit in ARCH and kit not in RAILING):
@@ -151,7 +163,7 @@ def audit(area_id):
         # railings reach a bit further to find the floor edge they line; vertical
         # tolerance stays tight so a rail that doesn't SIT on that floor still trips
         ys = floors_at(fills, at[0], at[2], 0.4 if is_rail else 0.05)
-        tol = RAIL_TOL if is_rail else 0.6
+        tol = RAIL_TOL if is_rail else 0.15
         if not ys:
             tail = " (railing floats past floor edge, over the drop)" if is_rail else " (over no floor)"
             issues.append(f"OFF-FLOOR  {kit} at {p['at']}{tail}")
@@ -163,6 +175,45 @@ def audit(area_id):
             else:
                 issues.append(f"SUNK       {kit} at {p['at']} (nearest floor y={near:.1f}, {near-at[1]:.1f} m below)")
 
+    # 1c) structural overlap on a shared wall plane: a wall_4x4 whose 4 m footprint
+    #     overlaps a window/portal panel on the same line buries half the window in
+    #     masonry (the porch's "incomplete stained glass"). Openings are compared
+    #     against every wall segment on their plane.
+    # portal_4m is deliberately absent: a portal dressed flush against a sealing
+    # wall is the intended pattern for area transitions (dark doorway, no void
+    # leak). Windows/gates/arcades are see-through — burying them is always wrong.
+    OPENINGS = {"window_lancet_4m": 4.0, "rose_window": 4.4,
+                "arcade_4m": 4.0, "gate_iron": 4.0}
+    wboxes = wall_boxes(d)
+    for p in placed:
+        kit = p.get("kit", "")
+        if kit not in OPENINGS:
+            continue
+        x, y, z = v3(p["at"])
+        rot = ((int(p.get("rot", 0)) % 180) + 180) % 180
+        sc = p.get("scale", [1, 1, 1])
+        sx = float(sc[0]) if isinstance(sc, list) else float(sc)
+        half = OPENINGS[kit] * sx * 0.5
+        paxis = "z" if rot == 90 else "x"       # matches wall_boxes convention
+        pc = x if paxis == "z" else z           # plane coordinate
+        plo = (z if paxis == "z" else x) - half
+        phi = (z if paxis == "z" else x) + half
+        for (axis, c, lo, hi, wy, wtag, wkit) in wboxes:
+            if axis != paxis or abs(c - pc) > 0.3 or abs(wy - y) > 3.5:
+                continue
+            if opposite_state(p.get("tag", "base"), wtag):
+                continue
+            # an arcade IS a wall segment in wall_boxes — don't match a piece
+            # against its own entry (same kit, identical span). A DIFFERENT kit
+            # with an identical span is a full burial — the worst case, keep it.
+            if wkit == kit and abs(lo - plo) < 0.02 and abs(hi - phi) < 0.02:
+                continue
+            ov = min(hi, phi) - max(lo, plo)
+            if ov > 0.25:
+                issues.append(f"WALL-OVERLAP {kit} at {p['at']} buried {ov:.1f} m deep in a wall "
+                              f"segment [{lo:.0f},{hi:.0f}] on the same plane")
+                break
+
     # 1b) free-standing decor buried inside a wall (embedded/clipping)
     WALL_HUG = {"banner", "banner_torn", "sconce_torch", "candle_cluster", "ivy_sheet_a",
                 "ivy_sheet_b", "candle_cluster_dead", "glass_lancet", "glass_lancet_broken",
@@ -173,7 +224,7 @@ def audit(area_id):
         if kit in ARCH or kit in MOUNTED or kit in WALL_HUG:
             continue
         x, y, z = v3(p["at"]); ptag = p.get("tag", "base")
-        for (axis, c, lo, hi, wy, wtag) in boxes:
+        for (axis, c, lo, hi, wy, wtag, wkit) in boxes:
             if abs(y - wy) > 3.5 or opposite_state(ptag, wtag):
                 continue                   # a ruin prop can sit where a glory wall stood
             if axis == "x":               # wall spans X at z=c
