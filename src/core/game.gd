@@ -109,7 +109,9 @@ func area_state() -> VG.WState:
 var world_root: Node3D = null   # container that owns the current area
 
 ## Cross an AreaPortal: unload the region behind, build the one ahead.
-func travel_to(area_id: String, spawn_pos: Vector3) -> void:
+## spawn_yaw (deg) turns the camera to face into the new room — arriving
+## through a door should never leave you staring back at the wall you left.
+func travel_to(area_id: String, spawn_pos: Vector3, spawn_yaw := 1e9) -> void:
 	if world_root == null or player == null:
 		return
 	player.lock_control(true)
@@ -123,6 +125,8 @@ func travel_to(area_id: String, spawn_pos: Vector3) -> void:
 	StateDirector.snap(next, World.get_area_state(area_id))
 	player.global_position = spawn_pos
 	player.velocity = Vector3.ZERO
+	if abs(spawn_yaw) < 720.0:
+		player.cam.yaw = deg_to_rad(spawn_yaw)
 	refresh_remembrance()
 	snapshot_player()
 	World.save_game()

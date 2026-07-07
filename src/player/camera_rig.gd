@@ -81,11 +81,24 @@ func try_lock(candidates: Array) -> void:
 		var ang := fwd.angle_to(to.normalized())
 		if ang > 1.1:
 			continue
+		if not _has_los(c):
+			continue                      # never lock through a wall
 		var score := d + ang * 6.0
 		if score < best_score:
 			best_score = score
 			best = c
 	locked_target = best
+
+## True when nothing world-solid stands between the camera and the target's
+## chest. Ray runs from the CAMERA (not the player) so a foe peeking past a
+## pillar you can actually see is still lockable.
+func _has_los(c: Node3D) -> bool:
+	var space := get_world_3d().direct_space_state
+	var from := cam.global_position if cam != null else global_position
+	var to := c.global_position + Vector3.UP * 1.1
+	var q := PhysicsRayQueryParameters3D.create(from, to, VG.M_WORLD_ALL)
+	q.exclude = [get_parent()]
+	return space.intersect_ray(q).is_empty()
 
 func _physics_process(dt: float) -> void:
 	if locked_target != null and (not is_instance_valid(locked_target) or locked_target.get("dead") == true):
@@ -95,7 +108,11 @@ func _physics_process(dt: float) -> void:
 		var flat := Vector2(to.x, to.z)
 		var target_yaw := atan2(-flat.x, -flat.y)
 		yaw = lerp_angle(yaw, target_yaw, 1.0 - exp(-8.0 * dt))
-		var target_pitch := clampf(atan2(to.y - 0.4, flat.length()) - 0.28, -0.9, 0.2)
+		# aim at the target's CHEST from a comfortable over-shoulder line: the
+		# old math aimed at its feet with an extra downward bias, which slammed
+		# the camera toward the floor at close range. Distance is floored so a
+		# point-blank foe can't fold the pitch either.
+		var target_pitch := clampf(atan2(to.y + 1.1, maxf(flat.length(), 2.6)) - 0.14, -0.42, 0.22)
 		pitch = lerpf(pitch, target_pitch, 1.0 - exp(-6.0 * dt))
 	rotation.y = yaw
 	pitch_node.rotation.x = pitch

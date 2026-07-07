@@ -210,6 +210,9 @@ func _finish_dialogue() -> void:
 	if state == S.TALK:
 		_set_state(S.MOVE)
 	input_enabled = true
+	# standard reopen prevention: the press that closed the dialogue (or an
+	# eager follow-up tap) must not immediately re-enter it
+	suppress_interact(10)
 	vis.back_to_idle()
 
 func _move_input() -> Vector3:

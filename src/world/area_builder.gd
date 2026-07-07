@@ -118,6 +118,8 @@ static func build(area_id: String) -> Area:
 		var pt := AreaPortal.new()
 		pt.to_area = spec.get("to", "")
 		pt.spawn_pos = _v3(spec.get("spawn", [0, 0, 0]))
+		if spec.has("spawn_yaw"):
+			pt.spawn_yaw = float(spec["spawn_yaw"])
 		pt.prompt = spec.get("prompt", "Pass on")
 		pt.locked_flag = spec.get("locked_flag", "")
 		pt.locked_prompt = spec.get("locked_prompt", "Sealed")

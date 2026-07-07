@@ -66,7 +66,9 @@ func _run() -> void:
 
 	print("== 3. the shortcut, learned in peace")
 	player.global_position = Vector3(10, 0.3, -1.4)
-	await ticks(4)
+	# outlast the dialogue-close interact suppression (10 physics frames) —
+	# a human walking here takes far longer than the guard window
+	await ticks(14)
 	player.try_interact()
 	await ticks(20)
 	check(World.area_flag("gray_cloister", "gate_east_walk"), "east-walk gate unbarred from the far side")

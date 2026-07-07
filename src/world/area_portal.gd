@@ -5,6 +5,7 @@ extends Node3D
 
 var to_area := ""
 var spawn_pos := Vector3.ZERO
+var spawn_yaw := 1e9             # camera yaw (deg) on arrival; unset = keep
 var prompt := "Pass on"
 var locked_flag := ""        # world flag that must be TRUE to pass
 var locked_prompt := "Sealed"
@@ -88,4 +89,4 @@ func _on_use(player) -> void:
 		return
 	if to_area == "" or player == null:
 		return
-	Game.travel_to(to_area, spawn_pos)
+	Game.travel_to(to_area, spawn_pos, spawn_yaw)

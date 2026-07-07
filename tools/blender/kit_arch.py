@@ -593,12 +593,15 @@ def rubble_choke_4m():
     # that peaks in the middle and tapers to the jambs, and it can sit anywhere
     # from the floor up to that cap. Nothing is ever placed above its column, so
     # there are no floating chunks — just a packed pile against the opaque core.
-    for _ in range(130):
+    for _ in range(185):
         side = rng.choice((-1.0, 1.0))
         x = rng.uniform(-half_w + 0.1, half_w - 0.1)
-        cap = 2.35 * (1.0 - (x / half_w) ** 2 * 0.4)   # ~2.35 mid → ~1.5 at jambs
+        # the mound must CREST INTO THE ARCH HEAD: the old ~2.35 cap left a
+        # metre of smooth core exposed above the debris — reading as a built
+        # wall standing behind the rubble instead of a collapse
+        cap = 2.95 * (1.0 - (x / half_w) ** 2 * 0.35)  # ~2.95 mid → ~1.9 at jambs
         cz = cap * (0.06 + 0.94 * rng.random())
-        taper = 1.0 - cz / 3.0               # hug the core tighter up high
+        taper = 1.0 - cz / 3.6               # hug the core tighter up high
         depth = side * (0.2 + rng.uniform(0.0, 0.34) * taper)
         s = rng.uniform(0.14, 0.3) * (0.7 + 0.3 * taper)
         _chunk(deb, x, depth, cz,

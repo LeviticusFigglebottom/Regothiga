@@ -769,7 +769,8 @@
     0.2,
     -10
    ],
-   "prompt": "Return to the Gray Cloister"
+   "prompt": "Return to the Gray Cloister",
+   "spawn_yaw": 90
   },
   {
    "to": "basilica_nave",
@@ -786,7 +787,8 @@
    ],
    "prompt": "Enter the Basilica",
    "locked_flag": "vesper_chimes",
-   "locked_prompt": "The door waits on the vespers no one rang"
+   "locked_prompt": "The door waits on the vespers no one rang",
+   "spawn_yaw": 0
   }
  ],
  "no_gutter": true,

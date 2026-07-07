@@ -255,6 +255,14 @@ func _pick_attack(dist: float) -> Dictionary:
 		return {}
 	return pool[randi() % pool.size()]
 
+## Where each attack clip's CONTACT beat sits (fraction of its 1.0 s length).
+## The clip is played at a speed that lands that beat exactly when the hitbox
+## opens (end of windup) — before this, clips ran at their authored duration
+## while damage followed the data windup, so slow attacks (the Bellkeeper's
+## 1.1-1.5 s slams) visibly struck half a second before the damage arrived.
+const _CONTACT := {"atk_r": 0.56, "atk_thrust": 0.58, "atk_over": 0.58,
+		"atk_back": 0.5, "atk_spin": 0.5, "atk_double": 0.56}
+
 func _begin_attack(a: Dictionary) -> void:
 	_atk = a
 	_atk_done = false
@@ -262,7 +270,10 @@ func _begin_attack(a: Dictionary) -> void:
 	_cooldowns[a["id"]] = float(a.get("cooldown", 2.0))
 	_set_state(ES.ATTACK)
 	var speed_mult := 1.35 if phase >= 2 else 1.0
-	vis.play(a.get("anim", "atk_r"), 0.08, speed_mult)
+	var anim_name: String = a.get("anim", "atk_r")
+	var w := float(a.get("windup", 0.5)) / speed_mult
+	var contact := float(_CONTACT.get(anim_name, 0.56))
+	vis.play(anim_name, 0.08, contact / maxf(w, 0.05))
 	AudioDirector.sfx_at("res://assets/audio/whoosh_h.wav", global_position, -10.0, 0.8)
 
 func _st_attack(dt: float) -> void:

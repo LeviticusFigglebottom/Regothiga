@@ -1264,11 +1264,12 @@
    ],
    "rot": 0,
    "spawn": [
-    0,
+    -2,
     0.2,
-    -17
+    -17.5
    ],
-   "prompt": "Climb the sisters' stair"
+   "prompt": "Climb the sisters' stair",
+   "spawn_yaw": 180
   },
   {
    "to": "basilica_nave",
@@ -1279,11 +1280,12 @@
    ],
    "rot": 0,
    "spawn": [
-    12,
+    12.6,
     0.2,
-    -16
+    -14
    ],
-   "prompt": "Climb the sexton's stair"
+   "prompt": "Climb the sexton's stair",
+   "spawn_yaw": 90
   }
  ],
  "blockers": [
@@ -1315,9 +1317,45 @@
   }
  ],
  "boxes": [
-  { "min": [-18.25, -0.1, 2.25], "max": [-17.85, 2.42, 4.1], "tag": "base" },
-  { "min": [17.85, -0.1, -8.1], "max": [18.25, 2.42, -6.25], "tag": "base" },
-  { "min": [17.85, -0.1, -1.75], "max": [18.25, 2.42, 0.1], "tag": "base" }
+  {
+   "min": [
+    -18.25,
+    -0.1,
+    2.25
+   ],
+   "max": [
+    -17.85,
+    2.42,
+    4.1
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    17.85,
+    -0.1,
+    -8.1
+   ],
+   "max": [
+    18.25,
+    2.42,
+    -6.25
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    17.85,
+    -0.1,
+    -1.75
+   ],
+   "max": [
+    18.25,
+    2.42,
+    0.1
+   ],
+   "tag": "base"
+  }
  ],
  "skyline": []
 }

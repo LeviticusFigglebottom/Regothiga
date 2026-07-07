@@ -209,6 +209,7 @@
    "rot": -90,
    "skip": [
     1,
+    2,
     3,
     5,
     7
@@ -687,6 +688,24 @@
    ],
    "tag": "ruin",
    "collide": false
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    14,
+    0,
+    -14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    14.2,
+    -0.02,
+    -14
+   ],
+   "rot": -90
   }
  ],
  "props": [
@@ -1619,14 +1638,15 @@
     0.2,
     -5
    ],
-   "prompt": "Return to the porch"
+   "prompt": "Return to the porch",
+   "spawn_yaw": 180
   },
   {
    "to": "ossuary_undercroft",
    "at": [
-    12.8,
+    13.5,
     0,
-    -16.4
+    -14
    ],
    "rot": -90,
    "spawn": [
@@ -1634,7 +1654,8 @@
     2.6,
     -4
    ],
-   "prompt": "Take the sexton's stair"
+   "prompt": "Take the sexton's stair",
+   "spawn_yaw": 90
   }
  ],
  "blockers": [
@@ -1665,5 +1686,72 @@
    "tag": "glory"
   }
  ],
- "skyline": []
+ "skyline": [],
+ "boxes": [
+  {
+   "min": [
+    14,
+    -2.9,
+    -16.75
+   ],
+   "max": [
+    18.9,
+    4,
+    -16.45
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    14,
+    -2.9,
+    -11.55
+   ],
+   "max": [
+    18.9,
+    4,
+    -11.25
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    18.6,
+    -2.9,
+    -16.75
+   ],
+   "max": [
+    18.9,
+    4,
+    -11.25
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    14,
+    3.6,
+    -16.45
+   ],
+   "max": [
+    18.9,
+    4,
+    -11.55
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    14,
+    -2.9,
+    -16.45
+   ],
+   "max": [
+    18.9,
+    -2.4,
+    -11.55
+   ],
+   "tag": "base"
+  }
+ ]
 }

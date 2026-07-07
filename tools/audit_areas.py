@@ -332,6 +332,29 @@ def audit(area_id):
     return issues
 
 
+def audit_links(ids):
+    """Cross-area transition check: a portal's spawn must land AT the reciprocal
+    doorway in the target area (within 5 m), never in the middle of the room —
+    walking through a door and materialising at the far wall breaks the fiction
+    that the world is one connected place."""
+    issues = []
+    defs = {aid: json.load(open(f"data/areas/{aid}.json")) for aid in ids}
+    for aid, d in defs.items():
+        for p in d.get("portals", []):
+            to = p.get("to", "")
+            if to not in defs:
+                continue
+            back = [q for q in defs[to].get("portals", []) if q.get("to") == aid]
+            if not back:
+                continue
+            sx, sy, sz = v3(p.get("spawn", [0, 0, 0]))
+            near = min(math.hypot(sx - v3(q["at"])[0], sz - v3(q["at"])[2]) for q in back)
+            if near > 5.0:
+                issues.append(f"FAR-SPAWN  {aid} -> {to}: spawn {p['spawn']} lands "
+                              f"{near:.1f} m from the reciprocal doorway")
+    return issues
+
+
 def main():
     ids = [sys.argv[1]] if len(sys.argv) > 1 else \
         [os.path.basename(p)[:-5] for p in sorted(glob.glob("data/areas/*.json"))
@@ -346,6 +369,13 @@ def main():
             total += len(iss)
         else:
             print(f"[{aid}] clean")
+    if len(ids) > 1:
+        link_issues = audit_links(ids)
+        for s in link_issues:
+            print("   " + s)
+        total += len(link_issues)
+        if not link_issues:
+            print("[transitions] clean")
     sys.exit(1 if total else 0)
 
 

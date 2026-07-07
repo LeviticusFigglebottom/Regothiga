@@ -17,6 +17,22 @@ func _stream(path: String) -> AudioStream:
 		return null
 	return load(path)
 
+## Music/ambience beds must LOOP: the synth tracks are short (~20 s) and WAV
+## imports don't loop by default, so a track played once and the world fell
+## silent. Mutating the (cached) stream resource is idempotent.
+func _make_looping(stream: AudioStream) -> void:
+	if stream is AudioStreamWAV:
+		var w := stream as AudioStreamWAV
+		if w.loop_mode == AudioStreamWAV.LOOP_DISABLED:
+			var bytes_per_frame := 2 if w.format == AudioStreamWAV.FORMAT_16_BITS else 1
+			if w.stereo:
+				bytes_per_frame *= 2
+			w.loop_mode = AudioStreamWAV.LOOP_FORWARD
+			w.loop_begin = 0
+			w.loop_end = w.data.size() / bytes_per_frame
+	elif "loop" in stream:
+		stream.set("loop", true)
+
 ## Crossfade to a music track (by res path); pass "" to fade out.
 func play_music(path: String, fade := 2.0) -> void:
 	if _active_music == path:
@@ -26,6 +42,7 @@ func play_music(path: String, fade := 2.0) -> void:
 	var outgoing := _music_a if incoming == _music_b else _music_b
 	var stream := _stream(path)
 	if stream:
+		_make_looping(stream)
 		incoming.stream = stream
 		incoming.volume_db = -40.0
 		incoming.play()
@@ -40,6 +57,7 @@ func play_ambience(path: String, fade := 2.0) -> void:
 	if stream == null:
 		_ambience.stop()
 		return
+	_make_looping(stream)
 	_ambience.stream = stream
 	_ambience.volume_db = -10.0
 	if not _ambience.playing:

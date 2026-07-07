@@ -27,22 +27,24 @@ var _forced := false         ## kept visible (e.g. while locked-on)
 
 func build(width := 0.9) -> void:
 	_w = width
-	# stacked back-to-front: key-line, trough, ghost, fill. Layers are separated
-	# both in Z and by render_priority so the transparent quads never sort wrong
-	# at range (which would drop the fill or the damage-ghost band).
-	_add_quad(_w + 0.055, _h + 0.055, Color(0.02, 0.015, 0.015, 0.92), -0.03, 0)
-	_add_quad(_w, _h, Color(0.11, 0.06, 0.05, 0.95), 0.0, 1)
+	# stacked back-to-front: gilt hairline, dark frame, trough, ghost, fill.
+	# Draw order comes from render_priority; the Z steps only beat depth-
+	# fighting and are kept TINY — the old 0.09 m spread parallaxed the fill
+	# sideways against its border at any off-axis view.
+	_add_quad(_w + 0.035, _h + 0.035, Color(0.62, 0.5, 0.3, 0.85), -0.004, 0)
+	_add_quad(_w + 0.017, _h + 0.017, Color(0.03, 0.022, 0.02, 0.96), -0.002, 1)
+	_add_quad(_w, _h, Color(0.13, 0.065, 0.05, 0.95), 0.0, 2)
 	_ghost_pivot = Node3D.new()
 	_ghost_pivot.position.x = -_w * 0.5
 	add_child(_ghost_pivot)
-	_ghost = _make_quad(_w, _h * 0.8, Color(0.86, 0.74, 0.5, 0.9), 2)
-	_ghost.position = Vector3(_w * 0.5, 0.0, 0.03)
+	_ghost = _make_quad(_w, _h * 0.94, Color(0.86, 0.74, 0.5, 0.9), 3)
+	_ghost.position = Vector3(_w * 0.5, 0.0, 0.002)
 	_ghost_pivot.add_child(_ghost)
 	_fill_pivot = Node3D.new()
 	_fill_pivot.position.x = -_w * 0.5
 	add_child(_fill_pivot)
-	_fill = _make_quad(_w, _h * 0.8, Color(0.72, 0.16, 0.12, 1.0), 3)
-	_fill.position = Vector3(_w * 0.5, 0.0, 0.06)
+	_fill = _make_quad(_w, _h * 0.94, Color(0.70, 0.14, 0.10, 1.0), 4)
+	_fill.position = Vector3(_w * 0.5, 0.0, 0.004)
 	_fill_pivot.add_child(_fill)
 	_apply_alpha(0.0)
 	visible = false

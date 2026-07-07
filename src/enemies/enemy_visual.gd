@@ -25,9 +25,11 @@ func build(cfg: Dictionary) -> void:
 		mount_weapon_hand()
 		var w := KitLib.instance(cfg["weapon"])
 		if cfg.get("weapon", "") == "bell_great":
-			# crown gripped at the fist, mouth dragging low behind him
-			w.rotation_degrees = Vector3(162, 0, 18)
-			w.position = Vector3(0.18, 0.9, -0.5)
+			# crown gripped at the fist, mouth dragging low BEHIND him — pushed
+			# out past the hip and trailed back so the bronze never passes
+			# through his robe, the mouth kissing the ground at his heel
+			w.rotation_degrees = Vector3(146, -14, 34)
+			w.position = Vector3(0.62, 0.55, -1.25)
 		weapon_mount.add_child(w)
 	if cfg.has("shield"):
 		shield_mount = mount("farm_l")
