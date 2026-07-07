@@ -1,30 +1,45 @@
 class_name ChimePuzzle
 extends Node3D
-## The Vesper Chimes: ring the stones in the remembered order. Each chime
-## is a kit prop + interact zone; the full correct sequence sets a world
-## flag (gates, portals and doors listen for it). A wrong note resets the
-## round with a dissonant clang. Once solved, the chimes ring freely.
+## Ordered-station puzzle: activate the stations in the remembered order and
+## a world flag is set (gates, portals and doors listen for it). A wrong note
+## resets the round with a dissonant clang; once solved, stations play freely.
+## Fully data-authored — the Vesper Chimes ring chime stones ("Ring …"), the
+## Larkspire's Daily Offices open lark cages ("Open …", lark-trill voice):
+##   kit:      station piece            (default "chime_stone")
+##   verb:     interact verb            (default "Ring")
+##   swing:    animated child name      (default "chime_bar"; absent = skip)
+##   sfx_ring / sfx_wrong: voices       (default bell / dissonant clang)
 
 var flag := "vesper_chimes"
-var order: Array = []          # chime ids in required order
+var order: Array = []          # station ids in required order
 var _progress := 0
 var _stones: Dictionary = {}   # id -> visual root
+var _kit := "chime_stone"
+var _verb := "Ring"
+var _swing_name := "chime_bar"
+var _sfx_ring := "res://assets/audio/bell_toll.wav"
+var _sfx_wrong := "res://assets/audio/impact_blocked.wav"
 
 func setup(spec: Dictionary) -> void:
 	flag = spec.get("flag", "vesper_chimes")
 	order.assign(spec.get("order", []))
+	_kit = spec.get("kit", "chime_stone")
+	_verb = spec.get("verb", "Ring")
+	_swing_name = spec.get("swing", "chime_bar")
+	_sfx_ring = spec.get("sfx_ring", _sfx_ring)
+	_sfx_wrong = spec.get("sfx_wrong", _sfx_wrong)
 	for c in spec.get("chimes", []):
 		var id: String = c.get("id", "chime")
 		var root := Node3D.new()
-		root.name = "Chime_" + id
+		root.name = "Station_" + id
 		add_child(root)
 		root.position = AreaBuilder._v3(c.get("at", [0, 0, 0]))
 		root.rotation.y = deg_to_rad(float(c.get("rot", 0)))
-		var piece := KitLib.instance("chime_stone")
+		var piece := KitLib.instance(c.get("kit", _kit))
 		root.add_child(piece)
 		KitLib.add_collision(piece, VG.L_WORLD_BASE)
 		var zone := Interactable.new()
-		zone.prompt = "Ring %s" % c.get("label", id)
+		zone.prompt = "%s %s" % [_verb, c.get("label", id)]
 		zone.setup_zone(1.6, 1.5)
 		zone.activated.connect(func(_p): _ring(id))
 		root.add_child(zone)
@@ -33,8 +48,7 @@ func setup(spec: Dictionary) -> void:
 func _ring(id: String) -> void:
 	var idx := order.find(id)
 	var pitch := 0.8 + 0.25 * maxf(idx, 0.0)
-	AudioDirector.sfx_at("res://assets/audio/bell_toll.wav",
-			_stones[id].global_position, -6.0, pitch)
+	AudioDirector.sfx_at(_sfx_ring, _stones[id].global_position, -6.0, pitch)
 	_swing(_stones[id])
 	if World.flag(flag):
 		return   # already solved; ring for the joy of it
@@ -49,12 +63,11 @@ func _ring(id: String) -> void:
 	else:
 		if _progress > 0:
 			# dissonance: the round collapses
-			AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav",
-					_stones[id].global_position, -2.0, 0.5)
+			AudioDirector.sfx_at(_sfx_wrong, _stones[id].global_position, -2.0, 0.5)
 		_progress = 1 if id == order[0] else 0
 
 func _swing(root: Node3D) -> void:
-	var bar := root.find_child("chime_bar", true, false)
+	var bar := root.find_child(_swing_name, true, false)
 	if bar == null:
 		return
 	var tw := create_tween()

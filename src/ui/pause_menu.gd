@@ -103,7 +103,7 @@ func _ls(size: int, color: Color) -> LabelSettings:
 	ls.shadow_offset = Vector2(1, 2)
 	return ls
 
-func _button(text: String, on_press: Callable) -> Button:
+func _button(text: String, on_press := Callable()) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(0, 52)
@@ -125,7 +125,8 @@ func _button(text: String, on_press: Callable) -> Button:
 	b.add_theme_stylebox_override("hover", hover)
 	b.add_theme_stylebox_override("focus", hover)
 	b.add_theme_stylebox_override("pressed", hover)
-	b.pressed.connect(on_press)
+	if on_press.is_valid():
+		b.pressed.connect(on_press)
 	return b
 
 func _rule() -> Control:
@@ -232,7 +233,7 @@ func _build() -> void:
 	st.add_child(_slider("Breadth of Vision  (field of view)", 55.0, 85.0, 1.0,
 		func(): return settings["fov"],
 		func(v): settings["fov"] = v; _apply_camera()))
-	var fs := _button("Fullscreen: —", Callable())
+	var fs := _button("Fullscreen: —")
 	fs.pressed.connect(func():
 		settings["fullscreen"] = not settings["fullscreen"]
 		_apply_video()

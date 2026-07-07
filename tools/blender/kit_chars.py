@@ -308,6 +308,28 @@ def pell():
     return objs, {"size": [1.0, 0.4, 1.95], "origin": "bottom-center"}
 
 
+
+
+def crook_warden():
+    """Cage-warden's crook: a long haft curling into an iron shepherd's hook —
+    the tool that dragged larks (and worse) back to their cages. Origin grip."""
+    objs = [V.loft_rings("haft", [(0.02, -0.85, 8, 0), (0.024, 1.0, 8, 0)], "M_wood")]
+    pts = [(0, 0, 1.0), (0.02, 0, 1.18), (0.1, 0, 1.3), (0.2, 0, 1.32),
+           (0.27, 0, 1.24), (0.28, 0, 1.12), (0.22, 0, 1.05)]
+    objs.append(V.sweep_profile("hook", pts, V.circle_profile(0.022, 6), "M_iron"))
+    return objs, {"size": [0.5, 0.1, 2.2], "origin": "grip"}
+
+
+def crook_great():
+    """The Larkwarden's great crook: a two-hand cage-hook, gilt at the curl."""
+    objs = [V.loft_rings("haft_g", [(0.03, -1.1, 8, 0), (0.035, 1.35, 8, 0)], "M_wood")]
+    pts = [(0, 0, 1.35), (0.03, 0, 1.6), (0.16, 0, 1.78), (0.34, 0, 1.8),
+           (0.45, 0, 1.68), (0.46, 0, 1.5), (0.36, 0, 1.4)]
+    objs.append(V.sweep_profile("hook_g", pts, V.circle_profile(0.035, 6), "M_gold"))
+    objs.append(V.loft_rings("ferrule", [(0.045, 1.3, 8, 0), (0.04, 1.42, 8, 0)], "M_gold"))
+    return objs, {"size": [0.9, 0.14, 3.0], "origin": "grip"}
+
+
 BUILDERS = {
     "char_latecomer": char_latecomer,
     "char_sleeve_l": lambda: char_sleeve("l"),
@@ -315,6 +337,8 @@ BUILDERS = {
     "sword_cloister": sword_cloister,
     "maul_sexton": maul_sexton,
     "halberd_ward": halberd_ward,
+    "crook_warden": crook_warden,
+    "crook_great": crook_great,
     "shield_kite": shield_kite,
     "helm_ward": helm_ward,
     "char_ward": char_ward,

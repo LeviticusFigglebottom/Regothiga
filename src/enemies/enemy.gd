@@ -333,7 +333,10 @@ func _fire_projectiles() -> void:
 		var d := dir.rotated(Vector3.UP, off)
 		var pk := DamagePacket.new(float(_atk.get("dmg", 12)), float(_atk.get("poise_dmg", 8)), self)
 		pk.can_be_parried = false
-		Projectile.launch(get_parent(), from, d, float(_atk.get("proj_speed", 9.0)), pk)
+		# per-attack tint (the Larkwarden's song-rings burn gold; default choir-blue)
+		var pc = _atk.get("proj_color", null)
+		var tint := Color(0.62, 0.75, 1.0) if pc == null else Color(pc[0], pc[1], pc[2])
+		Projectile.launch(get_parent(), from, d, float(_atk.get("proj_speed", 9.0)), pk, tint)
 	AudioDirector.sfx_at(cfg.get("sfx_cast", "res://assets/audio/whoosh_l.wav"),
 			global_position, -8.0, 1.4)
 

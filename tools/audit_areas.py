@@ -16,6 +16,7 @@ MOUNTED = {
     "buttress", "gargoyle", "chime_stone", "banner", "vault_bay_4x4",
     "city_panorama", "cathedral_mass", "spire_tower_a", "spire_tower_b",
     "spire_tower_c", "buttress_arc", "bell_great",
+    "lark_cage", "lark_cage_dead", "aviary_screen",
 }
 # kits that are architecture (not decor); they define floors/walls, skip float check
 ARCH = {"floor_4x4", "wall_4x4", "ossuary_wall_4m", "arcade_4m", "portal_4m",
@@ -127,8 +128,11 @@ def audit(area_id):
             continue
         rys = roof_cells.get((cx, cz), set())
         for fy in fys:
-            # roofed if a vault springs at or below this floor (its lid is above)
-            if not any(ry <= fy + 0.5 for ry in rys):
+            # roofed if a vault springs at or below this floor (its lid is above),
+            # OR another storey's floor covers the cell overhead (a tower level's
+            # ceiling IS the slab of the storey above)
+            storey_above = any(fy + 2.0 <= oy <= fy + 20.0 for oy in fys)
+            if not storey_above and not any(ry <= fy + 0.5 for ry in rys):
                 issues.append(f"UNROOFED   floor cell ~({cx},{cz}) at y={fy} has no roof (sky leak)")
                 break
 

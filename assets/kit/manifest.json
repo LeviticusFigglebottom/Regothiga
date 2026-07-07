@@ -19,6 +19,16 @@
    4
   ]
  },
+ "aviary_screen": {
+  "file": "assets/kit/aviary_screen.glb",
+  "origin": "bottom-center",
+  "polys": 108,
+  "size": [
+   4,
+   0.12,
+   4
+  ]
+ },
  "balustrade_4m": {
   "file": "assets/kit/balustrade_4m.glb",
   "origin": "bottom-center",
@@ -127,6 +137,16 @@
    22,
    2,
    12
+  ]
+ },
+ "cage_stand": {
+  "file": "assets/kit/cage_stand.glb",
+  "origin": "bottom-center",
+  "polys": 273,
+  "size": [
+   0.7,
+   0.7,
+   2.1
   ]
  },
  "candelabra": {
@@ -349,6 +369,26 @@
    0.3
   ]
  },
+ "crook_great": {
+  "file": "assets/kit/crook_great.glb",
+  "origin": "grip",
+  "polys": 58,
+  "size": [
+   0.9,
+   0.14,
+   3.0
+  ]
+ },
+ "crook_warden": {
+  "file": "assets/kit/crook_warden.glb",
+  "origin": "grip",
+  "polys": 48,
+  "size": [
+   0.5,
+   0.1,
+   2.2
+  ]
+ },
  "door_leaf": {
   "file": "assets/kit/door_leaf.glb",
   "origin": "bottom-center",
@@ -453,6 +493,16 @@
    4
   ]
  },
+ "great_perch": {
+  "file": "assets/kit/great_perch.glb",
+  "origin": "bottom-center",
+  "polys": 54,
+  "size": [
+   2.2,
+   2.2,
+   3.7
+  ]
+ },
  "halberd_ward": {
   "file": "assets/kit/halberd_ward.glb",
   "origin": "grip",
@@ -513,6 +563,26 @@
    3.5
   ]
  },
+ "lark_cage": {
+  "file": "assets/kit/lark_cage.glb",
+  "origin": "ceiling-mount",
+  "polys": 375,
+  "size": [
+   0.55,
+   0.55,
+   2.9000000000000004
+  ]
+ },
+ "lark_cage_dead": {
+  "file": "assets/kit/lark_cage_dead.glb",
+  "origin": "ceiling-mount",
+  "polys": 340,
+  "size": [
+   0.55,
+   0.55,
+   2.9000000000000004
+  ]
+ },
  "maul_sexton": {
   "file": "assets/kit/maul_sexton.glb",
   "origin": "grip",
@@ -571,6 +641,26 @@
    0.3,
    0.3,
    0.65
+  ]
+ },
+ "perch_rail": {
+  "file": "assets/kit/perch_rail.glb",
+  "origin": "bottom-center",
+  "polys": 81,
+  "size": [
+   1.9,
+   0.3,
+   1.45
+  ]
+ },
+ "perch_rail_bare": {
+  "file": "assets/kit/perch_rail_bare.glb",
+  "origin": "bottom-center",
+  "polys": 26,
+  "size": [
+   1.9,
+   0.3,
+   1.45
   ]
  },
  "pew": {
@@ -732,6 +822,17 @@
   "file": "assets/kit/skel_chorister.glb",
   "origin": "feet",
   "polys": 772,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
+ "skel_echo": {
+  "file": "assets/kit/skel_echo.glb",
+  "origin": "feet",
+  "polys": 830,
   "size": [
    0.8,
    0.8,

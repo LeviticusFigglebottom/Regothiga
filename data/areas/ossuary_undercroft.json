@@ -220,7 +220,10 @@
     0,
     0
    ],
-   "count": 5
+   "count": 5,
+   "skip": [
+    2
+   ]
   },
   {
    "kit": "ossuary_wall_4m",
@@ -664,6 +667,23 @@
     2
    ],
    "rot": -90
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -8,
+    0,
+    -10
+   ]
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    -8,
+    0,
+    -10
+   ],
+   "tag": "base"
   }
  ],
  "props": [
@@ -1204,6 +1224,15 @@
    ],
    "rot": 160,
    "text": "THE BELL-OX'S STALL\n\nBourdon hauled the great bells up the tower road, yoke and harness, sixty years.\n\nWhen the carting ended they stabled him down here with the bell that cracked. He would not leave it. He has not left it."
+  },
+  {
+   "at": [
+    -5.6,
+    0,
+    -8.8
+   ],
+   "rot": 25,
+   "text": "Above this stair the dead kept birds.\n\nThe sisters swore the singing reached even here, on good mornings, threading down the tower like light through a well."
   }
  ],
  "pickups": [
@@ -1286,6 +1315,22 @@
    ],
    "prompt": "Climb the sexton's stair",
    "spawn_yaw": 90
+  },
+  {
+   "to": "larkspire",
+   "at": [
+    -8,
+    0,
+    -10
+   ],
+   "rot": 0,
+   "spawn": [
+    0,
+    0.2,
+    5.4
+   ],
+   "spawn_yaw": 0,
+   "prompt": "Climb into the Larkspire"
   }
  ],
  "blockers": [
@@ -1312,6 +1357,19 @@
     24,
     5.8,
     -7.5
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -10,
+    0,
+    -10.6
+   ],
+   "max": [
+    -6,
+    3.6,
+    -9.6
    ],
    "tag": "base"
   }

@@ -18,6 +18,7 @@ import kit_props  # noqa: E402
 import kit_chars  # noqa: E402
 import kit_backdrop  # noqa: E402
 import kit_decor  # noqa: E402
+import kit_lark  # noqa: E402
 import kit_skel  # noqa: E402
 
 OUT = os.path.join(ROOT, "assets", "kit")
@@ -45,6 +46,7 @@ def main():
     builders.update(kit_chars.BUILDERS)
     builders.update(kit_backdrop.BUILDERS)
     builders.update(kit_decor.BUILDERS)
+    builders.update(kit_lark.BUILDERS)
 
     for name, fn in builders.items():
         if only and name not in only:

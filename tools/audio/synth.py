@@ -448,12 +448,30 @@ def gen_misc():
     write("guard_break", x, 0.7)
 
 
+
+
+def gen_lark_trill():
+    """A freed lark's rising trill — the Daily Offices puzzle's reward note."""
+    r = np.random.default_rng(11)
+    t, parts = 0.0, []
+    for i in range(4):
+        c = birdsong(2100 + i * 260 + r.uniform(-80, 80), r.uniform(0.16, 0.28))
+        parts.append((t, c))
+        t += r.uniform(0.06, 0.11)
+    n = int((t + 0.7) * SR)
+    x = np.zeros(n)
+    for (st, c) in parts:
+        i0 = int(st * SR)
+        x[i0:i0 + len(c)] += c
+    write("lark_trill", x, 0.5)
+
+
 ALL = {
     "bell_toll": gen_bell_toll, "rest_chime": gen_rest_chime, "orison": gen_orison_pickup,
     "levelup": gen_levelup, "whooshes": gen_whooshes, "impacts": gen_impacts,
     "flask": gen_flask, "death": gen_death, "swells": gen_swells,
     "theme_glory": gen_theme_glory, "theme_ruin": gen_theme_ruin, "theme_boss": gen_theme_boss,
-    "ambiences": gen_ambiences, "creature": gen_creature, "misc": gen_misc,
+    "ambiences": gen_ambiences, "lark_trill": gen_lark_trill, "creature": gen_creature, "misc": gen_misc,
 }
 
 if __name__ == "__main__":

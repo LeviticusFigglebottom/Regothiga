@@ -1,0 +1,1933 @@
+{
+ "id": "larkspire",
+ "name": "The Larkspire",
+ "start": {
+  "pos": [
+   0,
+   0.2,
+   5
+  ],
+  "yaw": 0
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    0,
+    -8
+   ],
+   "max": [
+    8,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    4.8,
+    -8
+   ],
+   "max": [
+    8,
+    4.8,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    4.8,
+    4
+   ],
+   "max": [
+    8,
+    4.8,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    4.8,
+    0
+   ],
+   "max": [
+    -4,
+    4.8,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    4,
+    4.8,
+    -4
+   ],
+   "max": [
+    8,
+    4.8,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    9.6,
+    -8
+   ],
+   "max": [
+    4,
+    9.6,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    9.6,
+    4
+   ],
+   "max": [
+    8,
+    9.6,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    9.6,
+    -4
+   ],
+   "max": [
+    -4,
+    9.6,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    4,
+    9.6,
+    -4
+   ],
+   "max": [
+    8,
+    9.6,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    14.4,
+    -8
+   ],
+   "max": [
+    8,
+    14.4,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    14.4,
+    4
+   ],
+   "max": [
+    4,
+    14.4,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    14.4,
+    -4
+   ],
+   "max": [
+    -4,
+    14.4,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    4,
+    14.4,
+    -4
+   ],
+   "max": [
+    8,
+    14.4,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    19.2,
+    -8
+   ],
+   "max": [
+    8,
+    19.2,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -4,
+    19.2,
+    4
+   ],
+   "max": [
+    8,
+    19.2,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    2.4,
+    0
+   ],
+   "max": [
+    -4,
+    2.4,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    0,
+    7.2,
+    -8
+   ],
+   "max": [
+    4,
+    7.2,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    4,
+    12.0,
+    0
+   ],
+   "max": [
+    8,
+    12.0,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -4,
+    16.8,
+    4
+   ],
+   "max": [
+    0,
+    16.8,
+    8
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    0.0,
+    -8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    0.0,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": [
+    1,
+    2
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    0.0,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    0.0,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    4.8,
+    -8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    4.8,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    4.8,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    4.8,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": [
+    1,
+    2
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    9.6,
+    -8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": [
+    1,
+    2
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    9.6,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    9.6,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    9.6,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    14.4,
+    -8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    14.4,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    14.4,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": [
+    1,
+    2
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    14.4,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "skip": []
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    4.8,
+    -4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    4.8,
+    4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -4,
+    4.8,
+    2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    4,
+    4.8,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    9.6,
+    -4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    9.6,
+    4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -4,
+    9.6,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    4,
+    9.6,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    14.4,
+    -4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    14.4,
+    4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -4,
+    14.4,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    4,
+    14.4,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -4,
+    2.4,
+    2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    2,
+    7.2,
+    -4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    4,
+    12.0,
+    2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    16.8,
+    4
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -6,
+    19.2,
+    -7.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -6,
+    19.2,
+    7.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 180,
+   "skip": [
+    0
+   ]
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -7.8,
+    19.2,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": 90,
+   "skip": [
+    3
+   ]
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    7.8,
+    19.2,
+    -6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 4,
+   "rot": -90
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -6,
+    2.4,
+    4
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -6,
+    4.8,
+    -4
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    0,
+    7.2,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    8,
+    9.6,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    6,
+    12.0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    6,
+    14.4,
+    8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    0,
+    16.8,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -8,
+    19.2,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    4.8,
+    -2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    4.8,
+    2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -2,
+    9.6,
+    -8
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    2,
+    9.6,
+    -8
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    14.4,
+    -2
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    14.4,
+    2
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    8
+   ],
+   "scale": [
+    1.5,
+    1.2,
+    1.4
+   ]
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    0,
+    0,
+    8
+   ],
+   "scale": [
+    1.5,
+    1.2,
+    1.4
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "great_perch",
+   "at": [
+    2,
+    19.2,
+    -2
+   ],
+   "rot": 20
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.2,
+    19.2,
+    -7.2
+   ]
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.2,
+    19.2,
+    -7.2
+   ]
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.2,
+    19.2,
+    7.2
+   ]
+  }
+ ],
+ "props": [
+  {
+   "kit": "glass_lancet",
+   "at": [
+    7.95,
+    4.8,
+    -2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    7.95,
+    4.8,
+    -2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    7.95,
+    4.8,
+    2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    7.95,
+    4.8,
+    2
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -2,
+    9.6,
+    -7.95
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -2,
+    9.6,
+    -7.95
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    2,
+    9.6,
+    -7.95
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    2,
+    9.6,
+    -7.95
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -7.95,
+    14.4,
+    -2
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -7.95,
+    14.4,
+    -2
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -7.95,
+    14.4,
+    2
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -7.95,
+    14.4,
+    2
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -5.5,
+    0,
+    6.4
+   ],
+   "rot": 30,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -5.5,
+    0,
+    6.4
+   ],
+   "rot": 30,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    5.5,
+    0,
+    6.4
+   ],
+   "rot": -30,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    5.5,
+    0,
+    6.4
+   ],
+   "rot": -30,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -2,
+    0.4,
+    -7.7
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    2,
+    0.4,
+    -7.7
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -2,
+    0.4,
+    -7.7
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "perch_rail",
+   "at": [
+    5,
+    0,
+    -5
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "perch_rail_bare",
+   "at": [
+    5,
+    0,
+    -5
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -7.6,
+    3.0,
+    -7.6
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "bone_pile",
+   "at": [
+    -5,
+    0,
+    -6
+   ],
+   "rot": 10,
+   "tag": "ruin",
+   "collide": false
+  },
+  {
+   "kit": "lark_cage",
+   "at": [
+    -3,
+    4.54,
+    -3
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "lark_cage_dead",
+   "at": [
+    -3,
+    4.54,
+    -3
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "lark_cage",
+   "at": [
+    3,
+    9.34,
+    3
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "lark_cage_dead",
+   "at": [
+    3,
+    9.34,
+    3
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "lark_cage",
+   "at": [
+    -3,
+    14.14,
+    3
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "lark_cage_dead",
+   "at": [
+    -3,
+    14.14,
+    3
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "lark_cage",
+   "at": [
+    2,
+    18.94,
+    -2
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "lark_cage_dead",
+   "at": [
+    2,
+    18.94,
+    -2
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "aviary_screen",
+   "at": [
+    2,
+    4.8,
+    7.8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -6.4,
+    4.8,
+    1.0
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -6.4,
+    4.8,
+    1.0
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "perch_rail",
+   "at": [
+    -6,
+    9.6,
+    -6
+   ],
+   "rot": -45,
+   "tag": "glory"
+  },
+  {
+   "kit": "perch_rail_bare",
+   "at": [
+    -6,
+    9.6,
+    -6
+   ],
+   "rot": -45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    6,
+    9.6,
+    -3
+   ],
+   "rot": 160,
+   "tag": "ruin"
+  },
+  {
+   "kit": "aviary_screen",
+   "at": [
+    -2,
+    14.4,
+    -7.8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "perch_rail",
+   "at": [
+    6.4,
+    14.4,
+    2.5
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "perch_rail_bare",
+   "at": [
+    6.4,
+    14.4,
+    2.5
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    7.6,
+    17.2,
+    -7.6
+   ],
+   "rot": -135,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -5.5,
+    19.2,
+    -5.5
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -5.5,
+    19.2,
+    -5.5
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "bone_pile",
+   "at": [
+    4.6,
+    19.2,
+    4.2
+   ],
+   "rot": 80,
+   "tag": "ruin",
+   "collide": false
+  }
+ ],
+ "vault_fields": [],
+ "open_air_regions": [
+  {
+   "min": [
+    -8,
+    19.2,
+    -8
+   ],
+   "max": [
+    8,
+    19.2,
+    8
+   ]
+  }
+ ],
+ "boxes": [
+  {
+   "min": [
+    -4,
+    0,
+    7.75
+   ],
+   "max": [
+    -3,
+    4.8,
+    8.25
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    3,
+    0,
+    7.75
+   ],
+   "max": [
+    4,
+    4.8,
+    8.25
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  }
+ ],
+ "spawners": [
+  {
+   "enemy": "larkwarden",
+   "id": "larkwarden",
+   "at": [
+    1,
+    19.2,
+    -1
+   ],
+   "face": 180,
+   "dead_once": true,
+   "fog_gate_id": "songloft"
+  },
+  {
+   "enemy": "cage_warden",
+   "id": "warden_s1",
+   "at": [
+    2,
+    4.8,
+    -6
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "cage_warden",
+   "id": "warden_s2",
+   "at": [
+    6,
+    9.6,
+    2
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "shroudbound",
+   "id": "shade_s2",
+   "at": [
+    -6,
+    9.6,
+    3
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "cage_warden",
+   "id": "warden_s3",
+   "at": [
+    -2,
+    14.4,
+    -6
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "chorister",
+   "id": "singer_s3",
+   "at": [
+    6,
+    14.4,
+    -2
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "gilded_echo",
+   "id": "echo_s2",
+   "at": [
+    2,
+    9.6,
+    -6
+   ],
+   "face": 90,
+   "tag": "glory"
+  },
+  {
+   "enemy": "gilded_echo",
+   "id": "echo_s3",
+   "at": [
+    -6,
+    14.4,
+    0
+   ],
+   "face": 0,
+   "tag": "glory"
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    -3.2,
+    0,
+    6.6
+   ],
+   "rot": 145,
+   "text": "THE DAILY OFFICES\n\nDawn wakes the lark. Noon feeds it. Dusk shuts the cage.\n\nKeep the offices as the day was kept \u2014 Matins, then Sext, then Vespers \u2014 and the songloft will open to you."
+  },
+  {
+   "at": [
+    6.6,
+    0,
+    -2.4
+   ],
+   "rot": -100,
+   "text": "THE LARKSPIRE\n\nEvery dawn the cages rose singing to the summit, and the kingdom below set its clocks by the descent.\n\nThe Larkwarden keeps the loft now. Nothing has flown in a long while."
+  }
+ ],
+ "pickups": [
+  {
+   "id": "spire_prayers",
+   "at": [
+    -6.4,
+    4.8,
+    3.2
+   ],
+   "orisons": 60,
+   "tag": "base",
+   "label": "Gather the birdkeepers' prayers"
+  },
+  {
+   "id": "warden_hoard",
+   "at": [
+    5,
+    19.2,
+    2.6
+   ],
+   "orisons": 170,
+   "tag": "base",
+   "label": "Gather the warden's hoard"
+  }
+ ],
+ "portals": [
+  {
+   "to": "ossuary_undercroft",
+   "at": [
+    0,
+    0,
+    8
+   ],
+   "rot": 180,
+   "spawn": [
+    -8,
+    0.2,
+    -8.6
+   ],
+   "spawn_yaw": 180,
+   "prompt": "Descend to the Ossuary"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "songloft_base",
+   "name": "Birdkeeper's Hearth",
+   "at": [
+    3.2,
+    0,
+    4.6
+   ],
+   "rot": -135
+  }
+ ],
+ "fog_gates": [
+  {
+   "id": "songloft",
+   "at": [
+    -6,
+    19.2,
+    4
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  }
+ ],
+ "flag_gates": [
+  {
+   "flag": "daily_offices",
+   "kit": "gate_iron",
+   "at": [
+    -4,
+    16.8,
+    6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "locked_prompt": "The offices are unsung"
+  }
+ ],
+ "chime_puzzles": [
+  {
+   "flag": "daily_offices",
+   "order": [
+    "matins",
+    "sext",
+    "vespers"
+   ],
+   "kit": "cage_stand",
+   "verb": "Open",
+   "swing": "stand_cage",
+   "sfx_ring": "res://assets/audio/lark_trill.wav",
+   "chimes": [
+    {
+     "id": "matins",
+     "label": "the Matins cage",
+     "at": [
+      -6,
+      9.6,
+      0
+     ],
+     "rot": 90
+    },
+    {
+     "id": "sext",
+     "label": "the Sext cage",
+     "at": [
+      6,
+      4.8,
+      0
+     ],
+     "rot": -90
+    },
+    {
+     "id": "vespers",
+     "label": "the Vespers cage",
+     "at": [
+      0,
+      14.4,
+      6.4
+     ],
+     "rot": 0
+    }
+   ]
+  }
+ ],
+ "skyline": [
+  {
+   "kit": "city_panorama",
+   "at": [
+    0,
+    -6.6,
+    0
+   ]
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    -2.5,
+    0,
+    7.6
+   ],
+   "max": [
+    2.5,
+    4.4,
+    8.6
+   ],
+   "tag": "base"
+  }
+ ]
+}

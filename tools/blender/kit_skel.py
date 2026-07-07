@@ -446,4 +446,24 @@ def bellox(arm):
 
 
 ARCHETYPES["skel_shroud"] = shroud
+
+
+def echo(arm):
+    """Gilded Echo: a singer's afterimage that haunts the REMEMBERED world —
+    pale wraith weave under gilt diadem, collar and belt. M_gold's glory-gated
+    emission makes it shimmer exactly where it hunts."""
+    b = BodyBuilder("echo")
+    common_body(b, "M_wraith", "M_wax", "M_wraith", hood=True, skirt=True,
+                skirt_len=0.58, girth=0.84)
+    bm = b.part("head", "M_gold")            # gilt diadem
+    _tube(bm, Vector((0, 0, 1.62)), Vector((0, 0, 1.68)), 0.145, 0.15, 10)
+    bm = b.part("chest", "M_gold")           # high gilt collar
+    _tube(bm, Vector((0, 0, 1.42)), Vector((0, -0.01, 1.5)), 0.15, 0.165, 10)
+    bm = b.part("hips", "M_gold")            # belt
+    _tube(bm, Vector((0, 0, 0.98)), Vector((0, 0, 1.04)), 0.17, 0.17, 10)
+    return b.finalize(arm, seed=131)
+
+
+ARCHETYPES["skel_echo"] = echo
+
 ARCHETYPES["skel_bellox"] = bellox
