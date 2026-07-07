@@ -171,8 +171,16 @@ func _captured() -> bool:
 func _mouse_ok() -> bool:
 	return sim_active or _captured()
 
+## True while a modal owns the keys (vigil rest menu / dialogue) — the pause
+## menu refuses to open over these; they close on their own terms.
+func busy_in_menu() -> bool:
+	return state == S.REST or state == S.TALK
+
 ## Mouse-look lives in _input (fires before any UI) so no Control can eat the
 ## motion. Guarded on capture + control so it never fires during menus/talk.
+## Esc belongs to PauseUI (opening the menu frees the cursor; closing it
+## recaptures) — clicking back into the window still reclaims after any
+## other focus loss.
 func _input(event: InputEvent) -> void:
 	if sim_active:
 		return
@@ -180,10 +188,8 @@ func _input(event: InputEvent) -> void:
 		if input_enabled and _captured():
 			cam.mouse_look(event.relative)
 		return
-	if event.is_action_pressed("ui_cancel"):
-		_grab_mouse(not _captured())
-		get_viewport().set_input_as_handled()
-	elif event is InputEventMouseButton and event.pressed and not _captured():
+	if event is InputEventMouseButton and event.pressed and not _captured() \
+			and not PauseUI.is_open():
 		# reclaim the cursor; consume the click so it isn't also an attack
 		_grab_mouse(true)
 		get_viewport().set_input_as_handled()

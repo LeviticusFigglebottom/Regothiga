@@ -302,11 +302,11 @@
  "city_panorama": {
   "file": "assets/kit/city_panorama.glb",
   "origin": "center",
-  "polys": 39912,
+  "polys": 41459,
   "size": [
-   520,
-   520,
-   120
+   500,
+   500,
+   140
   ]
  },
  "cobweb": {

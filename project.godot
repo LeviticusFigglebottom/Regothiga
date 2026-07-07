@@ -27,6 +27,7 @@ Game="*res://src/core/game.gd"
 StateDirector="*res://src/core/state_director.gd"
 AudioDirector="*res://src/core/audio_director.gd"
 Juice="*res://src/core/juice.gd"
+PauseUI="*res://src/ui/pause_menu.gd"
 Shot="*res://src/debug/shot.gd"
 
 [debug]

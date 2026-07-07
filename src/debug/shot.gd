@@ -18,6 +18,9 @@ var _seq_t := -1.0
 var _seq_i := 0
 
 func _ready() -> void:
+	# the shot harness must keep ticking while the tree is paused (e.g. to
+	# photograph the pause menu itself)
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--shot="):
 			_shot_path = arg.get_slice("=", 1)

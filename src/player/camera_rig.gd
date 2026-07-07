@@ -40,6 +40,15 @@ func _on_shake(strength: float, time: float) -> void:
 	_shake_strength = maxf(_shake_strength, strength)
 	_shake_t = maxf(_shake_t, time)
 
+## Settings-menu seams (PauseUI persists these across runs).
+func set_sensitivity(v: float) -> void:
+	sensitivity = v
+
+func set_base_fov(f: float) -> void:
+	_fov_base = f
+	if cam != null:
+		cam.fov = f
+
 func mouse_look(rel: Vector2) -> void:
 	if locked_target != null:
 		# a hard flick breaks the lock so the camera can never feel "stuck"

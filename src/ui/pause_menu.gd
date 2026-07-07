@@ -1,0 +1,321 @@
+extends CanvasLayer
+## PauseUI — the Esc menu. Pauses the world (music keeps breathing), frees the
+## cursor, and offers: return, settings (audio / mouse / view, persisted to
+## user://settings.cfg), beginning the pilgrimage anew (a TRUE new game: the
+## save is destroyed and the world rebuilt, not a respawn-in-place), and quit.
+## Registered as an autoload; owns the Esc key. RestUI/dialogue keep their own
+## input — the menu refuses to open over them.
+
+const CFG_PATH := "user://settings.cfg"
+const GOLD := Color(0.9, 0.78, 0.55)
+const GOLD_DIM := Color(0.65, 0.56, 0.4)
+const PARCHMENT := Color(0.82, 0.78, 0.68)
+const ASH := Color(0.55, 0.52, 0.46)
+
+var settings := {
+	"master": 1.0, "music": 1.0, "sfx": 1.0, "ambience": 1.0,
+	"sensitivity": 5.0,          # 1..10 -> cam.sensitivity = v * 0.0007
+	"fov": 62.0,
+	"fullscreen": false,
+}
+
+var _dim: ColorRect
+var _panel: Panel
+var _pages := {}                 # name -> VBoxContainer
+var _first_button := {}          # name -> Control to focus
+var _page := "main"
+
+func _ready() -> void:
+	layer = 30
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	# music/ambience keep playing while the tree is paused
+	AudioDirector.process_mode = Node.PROCESS_MODE_ALWAYS
+	_load_settings()
+	_apply_audio()
+	_apply_video()
+	Game.player_registered.connect(func(_p): _apply_camera())
+	_build()
+	visible = false
+	# shot-harness hook: photograph the menu itself
+	if "--shot-menu" in OS.get_cmdline_user_args():
+		var t := get_tree().create_timer(0.5, true, false, true)
+		t.timeout.connect(open)
+
+func is_open() -> bool:
+	return visible
+
+func _can_open() -> bool:
+	if visible or StateDirector.transitioning:
+		return false
+	if Game.player != null and Game.player.busy_in_menu():
+		return false
+	return Game.player != null
+
+func _input(event: InputEvent) -> void:
+	if not event.is_action_pressed("ui_cancel"):
+		return
+	if visible:
+		if _page == "main":
+			close()
+		else:
+			_show_page("main")
+		get_viewport().set_input_as_handled()
+	elif _can_open():
+		open()
+		get_viewport().set_input_as_handled()
+
+func open() -> void:
+	visible = true
+	get_tree().paused = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_show_page("main")
+
+func close() -> void:
+	visible = false
+	get_tree().paused = false
+	if Game.player != null and not Game.player.busy_in_menu():
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+## A true new game: destroy the save, forget the world, rebuild from the
+## first bell. `reload` is a seam for headless tests (reloading the current
+## scene there would re-run the test forever).
+func begin_anew(reload := true) -> void:
+	World.reset()
+	if FileAccess.file_exists(World.save_path()):
+		DirAccess.remove_absolute(World.save_path())
+	Game.set_orisons(0)
+	Game.player = null
+	Game.current_area = null
+	Game.current_area_id = ""
+	visible = false
+	get_tree().paused = false
+	if reload:
+		get_tree().reload_current_scene()
+
+# ------------------------------------------------------------------ UI build
+
+func _ls(size: int, color: Color) -> LabelSettings:
+	var ls := LabelSettings.new()
+	ls.font = load("res://assets/fonts/DejaVuSerif.ttf")
+	ls.font_size = size
+	ls.font_color = color
+	ls.shadow_color = Color(0, 0, 0, 0.6)
+	ls.shadow_offset = Vector2(1, 2)
+	return ls
+
+func _button(text: String, on_press: Callable) -> Button:
+	var b := Button.new()
+	b.text = text
+	b.custom_minimum_size = Vector2(0, 52)
+	b.add_theme_font_override("font", load("res://assets/fonts/DejaVuSerif.ttf"))
+	b.add_theme_font_size_override("font_size", 25)
+	b.add_theme_color_override("font_color", PARCHMENT)
+	b.add_theme_color_override("font_hover_color", GOLD)
+	b.add_theme_color_override("font_focus_color", GOLD)
+	b.add_theme_color_override("font_pressed_color", GOLD)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.085, 0.07, 0.055, 0.9)
+	sb.border_color = Color(0.42, 0.34, 0.22)
+	sb.set_border_width_all(1)
+	sb.content_margin_left = 18
+	var hover := sb.duplicate()
+	hover.bg_color = Color(0.16, 0.12, 0.07, 0.95)
+	hover.border_color = Color(0.85, 0.68, 0.38)
+	b.add_theme_stylebox_override("normal", sb)
+	b.add_theme_stylebox_override("hover", hover)
+	b.add_theme_stylebox_override("focus", hover)
+	b.add_theme_stylebox_override("pressed", hover)
+	b.pressed.connect(on_press)
+	return b
+
+func _rule() -> Control:
+	var r := ColorRect.new()
+	r.color = Color(0.6, 0.5, 0.32, 0.65)
+	r.custom_minimum_size = Vector2(0, 1)
+	return r
+
+func _slider(label: String, minv: float, maxv: float, step: float, get_v: Callable,
+			 set_v: Callable) -> Control:
+	var row := VBoxContainer.new()
+	row.add_theme_constant_override("separation", 2)
+	var top := HBoxContainer.new()
+	var l := Label.new()
+	l.label_settings = _ls(20, PARCHMENT)
+	l.text = label
+	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var val := Label.new()
+	val.label_settings = _ls(20, GOLD_DIM)
+	top.add_child(l)
+	top.add_child(val)
+	row.add_child(top)
+	var s := HSlider.new()
+	s.min_value = minv
+	s.max_value = maxv
+	s.step = step
+	s.value = get_v.call()
+	s.custom_minimum_size = Vector2(0, 24)
+	val.text = _fmt(s.value, step)
+	s.value_changed.connect(func(v):
+		val.text = _fmt(v, step)
+		set_v.call(v)
+		_save_settings())
+	row.add_child(s)
+	return row
+
+func _fmt(v: float, step: float) -> String:
+	return ("%d" % int(v)) if step >= 1.0 else ("%d%%" % int(round(v * 100)))
+
+func _build() -> void:
+	var root := Control.new()
+	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(root)
+	_dim = ColorRect.new()
+	_dim.color = Color(0.01, 0.008, 0.012, 0.62)
+	_dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.add_child(_dim)
+
+	_panel = Panel.new()
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.05, 0.042, 0.036, 0.96)
+	sb.border_color = Color(0.6, 0.5, 0.32)
+	sb.set_border_width_all(2)
+	_panel.add_theme_stylebox_override("panel", sb)
+	_panel.position = Vector2(670, 210)
+	_panel.size = Vector2(580, 660)
+	root.add_child(_panel)
+
+	var title := Label.new()
+	title.label_settings = _ls(44, GOLD)
+	title.text = "VESPERGARD"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.position = Vector2(0, 30)
+	title.size = Vector2(580, 54)
+	_panel.add_child(title)
+	var sub := Label.new()
+	sub.label_settings = _ls(18, ASH)
+	sub.text = "— the vigil is held —"
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.position = Vector2(0, 88)
+	sub.size = Vector2(580, 26)
+	_panel.add_child(sub)
+	var rule := _rule()
+	rule.position = Vector2(48, 128)
+	rule.size = Vector2(484, 1)
+	_panel.add_child(rule)
+
+	# ---- main page
+	var main := _page_box()
+	main.add_child(_button("Return to the World", close))
+	main.add_child(_button("Settings", func(): _show_page("settings")))
+	main.add_child(_button("Begin the Pilgrimage Anew", func(): _show_page("confirm")))
+	main.add_child(_button("Abandon the Kingdom", func(): get_tree().quit()))
+	_pages["main"] = main
+	_first_button["main"] = main.get_child(0)
+
+	# ---- settings page
+	var st := _page_box()
+	st.add_child(_slider("Voice of All Things  (master)", 0.0, 1.0, 0.05,
+		func(): return settings["master"],
+		func(v): settings["master"] = v; _apply_audio()))
+	st.add_child(_slider("The Choir  (music)", 0.0, 1.0, 0.05,
+		func(): return settings["music"],
+		func(v): settings["music"] = v; _apply_audio()))
+	st.add_child(_slider("Steel & Stone  (effects)", 0.0, 1.0, 0.05,
+		func(): return settings["sfx"],
+		func(v): settings["sfx"] = v; _apply_audio()))
+	st.add_child(_slider("The Wind  (ambience)", 0.0, 1.0, 0.05,
+		func(): return settings["ambience"],
+		func(v): settings["ambience"] = v; _apply_audio()))
+	st.add_child(_slider("Gaze Swiftness  (mouse)", 1.0, 10.0, 1.0,
+		func(): return settings["sensitivity"],
+		func(v): settings["sensitivity"] = v; _apply_camera()))
+	st.add_child(_slider("Breadth of Vision  (field of view)", 55.0, 85.0, 1.0,
+		func(): return settings["fov"],
+		func(v): settings["fov"] = v; _apply_camera()))
+	var fs := _button("Fullscreen: —", Callable())
+	fs.pressed.connect(func():
+		settings["fullscreen"] = not settings["fullscreen"]
+		_apply_video()
+		_save_settings()
+		fs.text = "Fullscreen: %s" % ("on" if settings["fullscreen"] else "off"))
+	fs.text = "Fullscreen: %s" % ("on" if settings["fullscreen"] else "off")
+	st.add_child(fs)
+	st.add_child(_button("Return", func(): _show_page("main")))
+	_pages["settings"] = st
+	_first_button["settings"] = fs
+
+	# ---- begin-anew confirmation
+	var cf := _page_box()
+	var warn := Label.new()
+	warn.label_settings = _ls(21, PARCHMENT)
+	warn.text = "The kingdom will forget everything —\nevery vigil kept, every orison gathered,\nevery door opened. The pilgrimage\nbegins again from the first bell."
+	warn.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	warn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	warn.custom_minimum_size = Vector2(0, 150)
+	cf.add_child(warn)
+	cf.add_child(_button("Begin Anew — forget it all", begin_anew))
+	cf.add_child(_button("Not yet", func(): _show_page("main")))
+	_pages["confirm"] = cf
+	_first_button["confirm"] = cf.get_child(2)
+
+	for p in _pages.values():
+		_panel.add_child(p)
+
+func _page_box() -> VBoxContainer:
+	var box := VBoxContainer.new()
+	box.position = Vector2(48, 156)
+	box.size = Vector2(484, 470)
+	box.add_theme_constant_override("separation", 14)
+	box.visible = false
+	return box
+
+func _show_page(name_: String) -> void:
+	_page = name_
+	for k in _pages:
+		_pages[k].visible = (k == name_)
+	var fb: Control = _first_button.get(name_)
+	if fb != null:
+		fb.grab_focus()
+
+# ------------------------------------------------------------- apply / persist
+
+func _bus(name_: String) -> int:
+	return AudioServer.get_bus_index(name_)
+
+func _apply_audio() -> void:
+	for pair in [["Master", "master"], ["Music", "music"], ["SFX", "sfx"], ["Ambience", "ambience"]]:
+		var i := _bus(pair[0])
+		if i < 0:
+			continue
+		var v: float = settings[pair[1]]
+		AudioServer.set_bus_volume_db(i, linear_to_db(maxf(v, 0.001)))
+		AudioServer.set_bus_mute(i, v <= 0.001)
+
+func _apply_camera() -> void:
+	if Game.player == null or not is_instance_valid(Game.player):
+		return
+	var cam = Game.player.cam
+	if cam == null:
+		return
+	cam.set_sensitivity(settings["sensitivity"] * 0.0007)
+	cam.set_base_fov(settings["fov"])
+
+func _apply_video() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	DisplayServer.window_set_mode(
+		DisplayServer.WINDOW_MODE_FULLSCREEN if settings["fullscreen"]
+		else DisplayServer.WINDOW_MODE_WINDOWED)
+
+func _save_settings() -> void:
+	var cfg := ConfigFile.new()
+	for k in settings:
+		cfg.set_value("settings", k, settings[k])
+	cfg.save(CFG_PATH)
+
+func _load_settings() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(CFG_PATH) != OK:
+		return
+	for k in settings:
+		settings[k] = cfg.get_value("settings", k, settings[k])
