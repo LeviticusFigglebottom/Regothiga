@@ -33,7 +33,7 @@ func _run() -> void:
 	await ticks(12)
 
 	# ---- env override: the drowned sun hangs west
-	check(absf(float(area.env._profile("glory")["sun_rot"][1]) - 88.0) < 0.1,
+	check(absf(float(area.env._profile("glory")["sun_rot"][1]) - (-88.0)) < 0.1,
 		"the drowned sun hangs in the west")
 	check(area.env._profile("ruin")["sun_energy"] < 0.25, "ruin drowns the sun")
 

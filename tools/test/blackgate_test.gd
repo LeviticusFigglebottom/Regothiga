@@ -123,9 +123,9 @@ func _run() -> void:
 	# ---- portal pair lands on floor both ways
 	var up: AreaPortal = null
 	for n in area.base.get_children():
-		if n is AreaPortal:
+		if n is AreaPortal and n.to_area == "basilica_porch":
 			up = n
-	check(up != null and up.to_area == "basilica_porch", "the pilgrim stair leads home")
+	check(up != null, "the pilgrim stair leads home")
 	var porch := AreaBuilder.build("basilica_porch")
 	add_child(porch)
 	var down: AreaPortal = null
