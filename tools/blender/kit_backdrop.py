@@ -331,12 +331,31 @@ def _placer(ang, R, z0=0.0):
     return place
 
 
-def _ground_y(r):
-    """The hillside the city stands on: flat under the terrace rim, then falling
-    away and levelling into a valley floor. Buildings root INTO this surface, so
-    the vista is an overlook into a valley — never a plate floating over a void."""
-    d = max(0.0, r - 16.0)
-    return -1.0 - 22.0 * (1.0 - math.exp(-d / 42.0))
+# ---------------------------------------------------------------- terrain
+# The city is TERRACED: flat plateau rings descending the hill, separated by
+# retaining walls — buildings stand on level ground, streets run along each
+# terrace, and the section reads as a built city, not a rubber hillside.
+_PLATEAUS = [(15.0, 31.0, -7.0), (31.0, 49.0, -11.0), (49.0, 71.0, -14.5),
+             (71.0, 101.0, -17.0), (101.0, 132.0, -19.0)]
+_AVE_ANG = -math.pi / 2      # processional avenue: straight out from the terrace
+_AVE_HALF = 4.5              # half-width of the avenue in metres
+
+
+def _terrain(r):
+    if r < _PLATEAUS[0][0]:
+        return _PLATEAUS[0][2]
+    for (r0, r1, z) in _PLATEAUS:
+        if r < r1:
+            return z
+    return -19.0 - min(2.4, (r - 132.0) * 0.02)
+
+
+def _ang_diff(a, b):
+    return abs((a - b + math.pi) % math.tau - math.pi)
+
+
+def _in_avenue(ang, r, pad=1.0):
+    return _ang_diff(ang, _AVE_ANG) * r < _AVE_HALF + pad
 
 
 def _tbox(bm, place, x0, y0, z0, x1, y1, z1):
@@ -504,39 +523,293 @@ def _bld_cathedral(L, D, place, w, h, rng):
     _tspire(L, place, 0, d * 0.55, h + w * 0.22, w * 0.06, h * 0.4)        # crossing flèche
 
 
-def _pano_building(bm, dbm, ang, R, w, h, kind, rng, z0=0.0):
+def _pano_building(bm, dbm, ang, R, w, h, kind, rng, z0=0.0, sink=8.0):
     place = _placer(ang, R, z0)
-    # a foundation sunk to a common floor well below the visible ground, so the
-    # building is rooted into the hillside from every angle — the ground plate
-    # hides the buried part and there is never a gap to see under
+    # a foundation sunk below the plateau so the building roots into its ground
     d = w * 0.82
-    _tbox(bm, place, -w * 0.5, -0.4, -40.0 - z0, w * 0.5, d + 0.4, 0.3)
+    _tbox(bm, place, -w * 0.5, -0.4, -sink, w * 0.5, d + 0.4, 0.3)
     {"cathedral": _bld_cathedral, "tower": _bld_tower, "dome": _bld_dome,
      "tiered": _bld_tiered}.get(kind, _bld_hall)(bm, dbm, place, w, h, rng)
 
 
+# --------------------------------------------------------- city furniture
+
+def _tquad(bm, place, x0, z0, x1, z1, y, flip=False):
+    """Single vertical quad in the local X-Z plane at depth y (a window pane,
+    a door leaf). flip reverses winding so the face looks the other way."""
+    pts = [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)]
+    if flip:
+        pts.reverse()
+    bm.faces.new([bm.verts.new(place(*p)) for p in pts])
+
+
+def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out):
+    """A street-fronting rowhouse: stone body, slate gable roof (ridge running
+    back from the street), arched door, window rows (warm-lit or dark), the odd
+    gilded ridge, finial or chimney. dir_out=+1 builds away from the centre
+    (door faces the centre/street inside it), -1 builds toward the centre."""
+    z0 = _terrain(r)
+    place = _placer(ang, r, z0)
+    w = rng.uniform(3.0, 4.6)
+    dep = rng.uniform(3.6, 5.2) * dir_out
+    h = rng.uniform(0.62, 1.0) * hmax
+    lo, hi = min(0.0, dep), max(0.0, dep)
+    _tbox(L, place, -w / 2, lo, -1.5, w / 2, hi, h)                     # body
+    rise = w * rng.uniform(0.30, 0.40)
+    _tgable(R, place, -w / 2 - 0.15, w / 2 + 0.15, lo - 0.12, hi + 0.12, h, rise)
+    if rng.random() < 0.45:                                             # gilded ridge
+        _tbox(G, place, -0.06, lo - 0.1, h + rise - 0.05, 0.06, hi + 0.1, h + rise + 0.06)
+    if rng.random() < 0.30:                                             # gable finial
+        _tspire(G, place, 0, 0, h + rise, 0.14, 0.9)
+    if rng.random() < 0.35:                                             # chimney
+        cx = rng.uniform(-w * 0.3, w * 0.3)
+        _tbox(L, place, cx - 0.22, (lo + hi) * 0.5 - 0.22, h, cx + 0.22, (lo + hi) * 0.5 + 0.22, h + rise + 0.8)
+    # street face is the y=0 plane; openings sit just proud of it
+    fy = -0.06 * dir_out
+    flip = dir_out < 0
+    dw = 0.55
+    _tquad(D, place, -dw / 2, 0.0, dw / 2, 1.9, fy, flip)               # door
+    _tspire(D, place, 0, fy, 1.9, dw / 2, 0.4)                          # door arch head
+    rows = 1 if h < 4.6 else 2
+    cols = 2 if w < 3.8 else 3
+    for rr_ in range(rows):
+        wz = h * (0.42 if rows == 1 else (0.34 + 0.32 * rr_)) + 0.6
+        for c in range(cols):
+            wx = -w / 2 + (c + 0.5) * w / cols
+            if abs(wx) < dw and wz < 2.6:
+                continue                                                # keep the door clear
+            pane = W if rng.random() < 0.62 else D
+            _tquad(pane, place, wx - 0.26, wz, wx + 0.26, wz + 0.72, fy, flip)
+
+
+def _tlamp(L, G, W, ang, r):
+    """Avenue lamp column: stone post, warm lantern box, gilt finial."""
+    z0 = _terrain(r)
+    place = _placer(ang, r, z0)
+    _tbox(L, place, -0.16, -0.16, 0, 0.16, 0.16, 3.0)
+    _tbox(W, place, -0.30, -0.30, 3.0, 0.30, 0.30, 3.66)
+    _tspire(G, place, 0, 0, 3.66, 0.30, 0.8)
+
+
+def _tcolumn(L, G, ang, r):
+    """Plaza centrepiece: stepped base, tall shaft, gilded saint + halo spike."""
+    z0 = _terrain(r)
+    place = _placer(ang, r, z0)
+    _tbox(L, place, -2.2, -2.2, 0, 2.2, 2.2, 1.0)
+    _tbox(L, place, -1.5, -1.5, 1.0, 1.5, 1.5, 1.9)
+    _tbox(L, place, -0.75, -0.75, 1.9, 0.75, 0.75, 13.5)
+    _tbox(L, place, -1.05, -1.05, 13.5, 1.05, 1.05, 14.2)
+    _tbox(G, place, -0.45, -0.32, 14.2, 0.45, 0.32, 15.6)               # gilded figure
+    _tspire(G, place, 0, 0, 15.6, 0.34, 1.3)
+
+
+def _tobelisk(L, G, ang, r):
+    z0 = _terrain(r)
+    place = _placer(ang, r, z0)
+    _tbox(L, place, -0.65, -0.65, 0, 0.65, 0.65, 1.0)
+    _tbox(L, place, -0.38, -0.38, 1.0, 0.38, 0.38, 5.6)
+    _tspire(G, place, 0, 0, 5.6, 0.38, 1.1)
+
+
+def _twalltower(L, G, ang, r, w=3.4, h=11.0):
+    z0 = _terrain(r)
+    place = _placer(ang, r, z0)
+    _tbox(L, place, -w / 2, -w * 0.45, 0, w / 2, w * 0.45, h)
+    _tbox(L, place, -w / 2 - 0.3, -w * 0.45 - 0.3, h, w / 2 + 0.3, w * 0.45 + 0.3, h + 0.6)
+    _tspire(L, place, 0, 0, h + 0.6, w * 0.52, w * 0.9)
+    _tspire(G, place, 0, 0, h + 0.6 + w * 0.9, 0.12, 1.0)
+
+
+def _arc_strip(bm, r0, r1, z, a0, a1, seg):
+    """Flat annular strip (a street) between radii r0..r1 at height z."""
+    n = max(2, int(seg * (a1 - a0) / math.tau))
+    prev = None
+    for i in range(n + 1):
+        a = a0 + (a1 - a0) * i / n
+        ca, sa = math.cos(a), math.sin(a)
+        pair = (bm.verts.new((r0 * ca, r0 * sa, z)), bm.verts.new((r1 * ca, r1 * sa, z)))
+        if prev:
+            bm.faces.new((prev[0], prev[1], pair[1], pair[0]))
+        prev = pair
+
+
+def _arc_wall(bm, rin, rout, a0, a1, z0, z1, seg):
+    """Thick ring wall between radii, from z0 up to z1 (retaining/city wall)."""
+    n = max(2, int(seg * (a1 - a0) / math.tau))
+    prev = None
+    for i in range(n + 1):
+        a = a0 + (a1 - a0) * i / n
+        ca, sa = math.cos(a), math.sin(a)
+        quad = (bm.verts.new((rin * ca, rin * sa, z0)), bm.verts.new((rout * ca, rout * sa, z0)),
+                bm.verts.new((rout * ca, rout * sa, z1)), bm.verts.new((rin * ca, rin * sa, z1)))
+        if prev:
+            bm.faces.new((prev[0], quad[0], quad[3], prev[3]))          # inner face
+            bm.faces.new((quad[1], prev[1], prev[2], quad[2]))          # outer face
+            bm.faces.new((prev[3], quad[3], quad[2], prev[2]))          # top
+        prev = quad
+
+
 def city_panorama(seed=3):
-    """The kingdom's horizon: a continuous 360 deg skyline of DISTINCT Anor-Londo
-    monuments — buttressed cathedrals, belfry towers, domed halls and tiered
-    palaces — ringed in concentric bands so no viewpoint sees a gap of sky.
-    Built as two meshes (warm stone + shadowed openings). Huge (radius to
-    ~230 m); place ONCE per open-air area, centred on it. Origin: centre."""
+    """Vespergard-below: the gilded pilgrim city under the Basilica rock.
+
+    A LOGICAL city, viewable from above: flat terraced plateaus descending the
+    hill behind stone retaining walls; a ring street on every terrace lined with
+    slate-roofed rowhouses (doors, lit windows, chimneys); radial lanes; one
+    grand processional avenue running from the Basilica stair to the far gate,
+    stepped at every terrace edge and lit by gilt lamp columns; a plaza with a
+    gilded saint's column; cathedrals, domes and belfries as mid-ground
+    landmarks; a crenellated city wall with gate towers; and beyond it the far
+    spire-skyline on the horizon. Gold ridges/finials glint in glory; windows
+    are lamplit in glory and dead-dark in ruin. Origin: centre; no collision."""
     rng = random.Random(seed)
-    bm = bmesh.new()       # warm stone masses
-    dbm = bmesh.new()      # shadowed windows / openings
-    # (radius, base_h, height_range, hero_chance) — a LOW near ring of rooftops
-    # frames the view; the grand cathedrals/towers/domes tower in the mid belts
-    # behind it so the skyline reads as distant monuments, not a near brick wall.
-    bands = [
-        (20, 4, (2, 6), 0.05),      # CLOSE ring, distinct buildings just off the balustrade
-        (34, 8, (6, 15), 0.14),
-        (56, 15, (12, 34), 0.26),
-        (88, 22, (18, 48), 0.28),   # grand belt: cathedrals + towers dominate here
-        (135, 26, (22, 60), 0.20),
-        (200, 20, (16, 48), 0.10),
+    L = bmesh.new()        # warm stone masses
+    D = bmesh.new()        # shadowed openings / dark panes
+    T = bmesh.new()        # pale street/plaza paving + parapets
+    R = bmesh.new()        # slate roofs
+    G = bmesh.new()        # gilding
+    W = bmesh.new()        # lamplit windows
+    SEG = 120
+
+    # ---- terraced ground (duplicated radii make clean vertical steps)
+    radii = [8.0, 12.0, 15.0, 20.0, 26.0, 30.99, 31.01, 37.0, 43.0, 48.99, 49.01,
+             56.0, 63.0, 70.99, 71.01, 80.0, 90.0, 100.99, 101.01, 112.0, 124.0,
+             131.99, 132.01, 150.0, 175.0, 205.0, 245.0]
+    prev = None
+    for gr in radii:
+        gz = _terrain(gr)
+        ring = [L.verts.new((gr * math.cos(math.tau * i / SEG), gr * math.sin(math.tau * i / SEG), gz))
+                for i in range(SEG)]
+        if prev is None:
+            c = L.verts.new((0, 0, _terrain(0.0)))
+            for i in range(SEG):
+                L.faces.new((c, ring[i], ring[(i + 1) % SEG]))
+        else:
+            for i in range(SEG):
+                L.faces.new((prev[i], prev[(i + 1) % SEG], ring[(i + 1) % SEG], ring[i]))
+        prev = ring
+
+    # ---- retaining walls + parapets at each terrace edge (breached at the avenue)
+    bounds = [(31.0, -11.0, -7.0), (49.0, -14.5, -11.0), (71.0, -17.0, -14.5),
+              (101.0, -19.0, -17.0)]
+    for (rb, zlo, zhi) in bounds:
+        gap = (_AVE_HALF + 1.2) / rb
+        a0 = _AVE_ANG + gap
+        a1 = _AVE_ANG - gap + math.tau
+        _arc_wall(L, rb - 0.7, rb + 0.7, a0, a1, zlo - 1.5, zhi + 0.15, SEG)
+        _arc_wall(T, rb - 0.85, rb - 0.45, a0, a1, zhi + 0.15, zhi + 1.05, SEG)  # parapet
+        # avenue stair: broad treads dropping zhi -> zlo across the breach
+        n = 8
+        drop = zhi - zlo
+        for i in range(n):
+            pl = _placer(_AVE_ANG, rb - 1.6 + i * 0.62, 0.0)
+            _tbox(L, pl, -_AVE_HALF, 0, zlo - 1.0, _AVE_HALF, 0.68, zhi - drop * i / n + 0.02)
+
+    # ---- streets: ring street per plateau, radial lanes, the grand avenue
+    RADIALS = [_AVE_ANG + k * math.tau / 10 for k in range(1, 10)]
+    for (r0, r1, z) in _PLATEAUS:
+        rs = r0 + 5.0
+        _arc_strip(T, rs - 1.7, rs + 1.7, z + 0.05, 0, math.tau, SEG)
+        for a in RADIALS:
+            pl = _placer(a, (r0 + r1) * 0.5, 0.0)
+            half = (r1 - r0) * 0.5
+            _tbox(T, pl, -1.2, -half + 1.0, z + 0.045, 1.2, half - 1.0, z + 0.095)
+    for (r0, r1, z) in _PLATEAUS:                                        # avenue slab
+        pl = _placer(_AVE_ANG, (r0 + r1) * 0.5, 0.0)
+        half = (r1 - r0) * 0.5
+        _tbox(T, pl, -_AVE_HALF, -half, z + 0.06, _AVE_HALF, half, z + 0.12)
+    # avenue lamp columns, both sides, every terrace
+    for (r0, r1, z) in _PLATEAUS:
+        rr_ = r0 + 4.0
+        while rr_ < r1 - 2.5:
+            for s in (-1, 1):
+                _tlamp(L, G, W, _AVE_ANG + s * (_AVE_HALF + 1.0) / rr_, rr_)
+            rr_ += 9.0
+
+    # ---- plaza on the third terrace: paving disc, saint's column, obelisks
+    PZ_R, PZ_RAD = 60.0, 13.0
+    pz_c = (PZ_R * math.cos(_AVE_ANG), PZ_R * math.sin(_AVE_ANG))
+    pz_z = _terrain(PZ_R)
+    ring = [T.verts.new((pz_c[0] + PZ_RAD * math.cos(math.tau * i / 28),
+                         pz_c[1] + PZ_RAD * math.sin(math.tau * i / 28), pz_z + 0.1)) for i in range(28)]
+    cvert = T.verts.new((pz_c[0], pz_c[1], pz_z + 0.1))
+    for i in range(28):
+        T.faces.new((cvert, ring[i], ring[(i + 1) % 28]))
+    _tcolumn(L, G, _AVE_ANG, PZ_R)
+    for (da, dr) in ((-0.155, -3.2), (0.155, -3.2), (-0.155, 3.2), (0.155, 3.2)):
+        _tobelisk(L, G, _AVE_ANG + da, PZ_R + (PZ_RAD - 3.0) * (1 if dr > 0 else -1))
+
+    # ---- monuments: cathedrals / domes / belfries at readable distances
+    MONUMENTS = [
+        (_AVE_ANG - 0.40, 63.0, "cathedral", 24.0, 26.0),
+        (_AVE_ANG + 0.42, 65.0, "dome", 18.0, 20.0),
+        (_AVE_ANG + 0.10, 117.0, "tower", 9.0, 30.0),
+        (_AVE_ANG - 1.15, 40.0, "cathedral", 12.0, 12.0),
+        (_AVE_ANG + 1.15, 41.0, "dome", 11.0, 11.0),
+        (_AVE_ANG - 1.55, 60.0, "dome", 16.0, 18.0),
+        (_AVE_ANG + 1.70, 62.0, "cathedral", 20.0, 22.0),
+        (_AVE_ANG + 2.60, 90.0, "tower", 10.0, 34.0),
+        (_AVE_ANG - 2.60, 86.0, "tiered", 18.0, 26.0),
+        (_AVE_ANG + math.pi, 88.0, "cathedral", 22.0, 24.0),
     ]
-    for bi, (R, base_h, hr, hero) in enumerate(bands):
-        n = max(20, int(R * 0.30))
+    for (ma, mr, mk, mw, mh) in MONUMENTS:
+        _pano_building(L, D, ma, mr, mw, mh, mk, rng, _terrain(mr))
+        pl = _placer(ma, mr, _terrain(mr))
+        if mk == "dome":                                                # gilded cap + finial
+            rr_ = min(mw, mw * 0.85) * 0.34
+            base = mh * 0.55 + 0.5 + rr_ * 0.5
+            _tdome(G, pl, 0, mw * 0.85 * 0.5, base + rr_ * 0.72, rr_ * 0.55, rr_ * 0.42, seg=8, rings=2)
+        elif mk == "cathedral":
+            _tspire(G, pl, 0, mw * 0.72 * 0.55, mh + mw * 0.22 + mh * 0.4, mw * 0.02, mh * 0.12)
+        elif mk == "tower":
+            _tspire(G, pl, 0, min(mw, max(4.0, mh * 0.26)) * 0.5, mh * 0.82 + mh * 0.55, 0.2, mh * 0.14)
+
+    # ---- rowhouse districts: two rows along each ring street
+    def house_ring(r_row, dir_out, hmax, gap_extra=0.0):
+        circ = math.tau * r_row
+        n = int(circ / (4.6 + gap_extra))
+        for i in range(n):
+            a = math.tau * (i + 0.5) / n
+            if _in_avenue(a, r_row, pad=3.0):
+                continue
+            if any(_ang_diff(a, ra) * r_row < 2.6 for ra in RADIALS):
+                continue                                                # radial lanes stay open
+            px, py = r_row * math.cos(a), r_row * math.sin(a)
+            if math.hypot(px - pz_c[0], py - pz_c[1]) < PZ_RAD + 3.5:
+                continue                                                # plaza stays open
+            if any(_ang_diff(a, ma) * r_row < mw * 0.75 + 2.0 and abs(r_row - mr) < mw
+                   for (ma, mr, mk, mw, mh) in MONUMENTS):
+                continue                                                # monument precincts
+            _thouse(L, D, W, R, G, a, r_row, rng, hmax, dir_out)
+    for (r0, r1, z), hmax, sparse in zip(_PLATEAUS, (4.6, 6.0, 6.6, 7.2, 6.0), (0.0, 0.0, 0.4, 1.6, 2.6)):
+        rs = r0 + 5.0
+        house_ring(rs - 2.1, -1, hmax, sparse)                          # inner row fronts outward
+        house_ring(rs + 2.1, +1, hmax, sparse)                          # outer row fronts inward
+
+    # ---- the city wall: crenellated ring, drum towers, the great gate
+    WR = 128.0
+    wz = _terrain(WR)
+    gap = 6.4 / WR
+    _arc_wall(L, WR - 1.1, WR + 1.1, _AVE_ANG + gap, _AVE_ANG - gap + math.tau, wz - 2.0, wz + 7.0, SEG)
+    _arc_wall(T, WR - 1.25, WR - 0.85, _AVE_ANG + gap, _AVE_ANG - gap + math.tau, wz + 7.0, wz + 7.8, SEG)
+    nm = 64                                                             # merlons
+    for i in range(nm):
+        a = _AVE_ANG + gap + (math.tau - 2 * gap) * (i + 0.5) / nm
+        pl = _placer(a, WR, wz)
+        _tbox(L, pl, -0.7, -1.15, 7.0, 0.7, -0.75, 8.1)
+    for k in range(22):                                                 # drum towers
+        a = _AVE_ANG + gap * 2.2 + (math.tau - gap * 4.4) * (k + 0.5) / 22
+        _twalltower(L, G, a, WR)
+    for s in (-1, 1):                                                   # gate towers + arch
+        _twalltower(L, G, _AVE_ANG + s * (gap + 2.6 / WR), WR, w=5.0, h=16.0)
+    pl = _placer(_AVE_ANG, WR, wz)
+    _tbox(L, pl, -_AVE_HALF - 1.4, -1.2, 10.0, _AVE_HALF + 1.4, 1.2, 13.0)   # gate lintel span
+    _tquad(D, pl, -3.0, 0.0, 3.0, 10.0, -1.3)                                # the dark gate mouth
+    _tspire(G, pl, 0, 0, 13.0, 0.9, 2.6)                                     # gilded crest
+
+    # ---- beyond the wall: the far spire-skyline on the horizon
+    for (Rb, base_h, hr, hero) in ((152.0, 18.0, (14.0, 42.0), 0.20),
+                                   (205.0, 14.0, (12.0, 36.0), 0.10)):
+        n = max(20, int(Rb * 0.30))
         crest_a, crest_b = rng.uniform(0, math.tau), rng.uniform(0, math.tau)
         a = 0.0
         while a < math.tau - 0.01:
@@ -544,14 +817,12 @@ def city_panorama(seed=3):
             mid = a + span * 0.5
             swell = 0.5 + 0.5 * (0.6 * math.sin(mid * 2 + crest_a) + 0.4 * math.sin(mid * 5 + crest_b))
             h = base_h + rng.uniform(*hr) * (0.35 + 1.15 * swell)
-            w = span * R * rng.uniform(0.80, 0.95)          # arc-width of the plot
-            w = max(6.0, min(w, R * 0.5))
-            rr = R + rng.uniform(-R * 0.04, R * 0.06)
+            w = max(6.0, min(span * Rb * rng.uniform(0.80, 0.95), Rb * 0.5))
+            rr_ = Rb + rng.uniform(-Rb * 0.04, Rb * 0.06)
             roll = rng.random()
-            slender = bi >= 2                                # grand belts get monuments
-            if roll < hero or (swell > 0.78 and roll < hero + 0.16 and slender):
+            if roll < hero:
                 kind = "cathedral"; h *= 1.2
-            elif roll < hero + (0.28 if slender else 0.14):
+            elif roll < hero + 0.28:
                 kind = "tower"; h *= 1.25
             elif roll < hero + 0.42:
                 kind = "dome"
@@ -559,30 +830,16 @@ def city_panorama(seed=3):
                 kind = "tiered"
             else:
                 kind = "hall"
-            _pano_building(bm, dbm, mid, rr, w, h, kind, rng, _ground_y(rr))
+            _pano_building(L, D, mid, rr_, w, h, kind, rng, _terrain(rr_), sink=10.0)
             a += span
-    body = V.bm_to_object(bm, "city_panorama", ("M_backdrop",))
-    dark = V.bm_to_object(dbm, "city_windows", ("M_backdrop_dark",))
-    # the hillside the city stands on: a single continuous surface falling away
-    # from the terrace rim so nothing floats and no bare plate is exposed
-    gbm = bmesh.new()
-    gn = 80
-    radii = [8, 14, 18, 24, 32, 44, 60, 82, 114, 160, 240]
-    prev = None
-    for gr in radii:
-        gy = _ground_y(gr)
-        ring = [gbm.verts.new((gr * math.cos(math.tau * i / gn), gr * math.sin(math.tau * i / gn), gy))
-                for i in range(gn)]
-        if prev is None:
-            c = gbm.verts.new((0, 0, _ground_y(0.0)))
-            for i in range(gn):
-                gbm.faces.new((c, ring[i], ring[(i + 1) % gn]))
-        else:
-            for i in range(gn):
-                gbm.faces.new((prev[i], prev[(i + 1) % gn], ring[(i + 1) % gn], ring[i]))
-        prev = ring
-    ground = V.bm_to_object(gbm, "city_ground", ("M_backdrop",))
-    return [body, dark, ground], {"size": [520, 520, 120], "origin": "center"}
+
+    objs = [V.bm_to_object(L, "city_panorama", ("M_backdrop",)),
+            V.bm_to_object(D, "city_openings", ("M_backdrop_dark",)),
+            V.bm_to_object(T, "city_paving", ("M_stone_trim",)),
+            V.bm_to_object(R, "city_roofs", ("M_roof",)),
+            V.bm_to_object(G, "city_gilding", ("M_gild",)),
+            V.bm_to_object(W, "city_lamplight", ("M_citywindow",))]
+    return objs, {"size": [500, 500, 140], "origin": "center"}
 
 
 BUILDERS = {

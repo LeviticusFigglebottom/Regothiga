@@ -58,6 +58,15 @@ const FAMILIES := {
 	"M_roof":       {"albedo": Color(0.33, 0.34, 0.40), "rough": 0.9, "rim": 0.55, "moss": 0.6, "crack": 0.0},
 	"M_backdrop":   {"albedo": Color(0.72, 0.60, 0.47), "rough": 1.0, "rim": 0.15, "moss": 0.0, "crack": 0.0, "wear": 0.15},
 	"M_backdrop_dark": {"albedo": Color(0.16, 0.12, 0.10), "rough": 1.0, "rim": 0.0, "moss": 0.0, "crack": 0.0},
+	# city gilding: gold ridges/finials/domes on the panorama. Faint glory-gated
+	# glow so the kingdom reads gilded at dusk; in ruin the gate kills it and the
+	# cold grade tarnishes the albedo.
+	"M_gild":       {"albedo": Color(0.82, 0.60, 0.22), "rough": 0.38, "rim": 1.0, "moss": 0.0, "crack": 0.0,
+					 "emission": Color(1.0, 0.78, 0.32), "emission_energy": 0.22, "emission_gate": 1},
+	# lit dwelling windows across the city — warm lamplight in glory, dead dark
+	# panes in ruin (same gate the votive gold uses).
+	"M_citywindow": {"albedo": Color(0.14, 0.10, 0.08), "rough": 0.9, "rim": 0.1, "moss": 0.0, "crack": 0.0,
+					 "emission": Color(1.0, 0.66, 0.28), "emission_energy": 1.7, "emission_gate": 1},
 	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
 	"M_foliage":    {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.95, "rim": 0.55, "moss": 0.0, "crack": 0.0, "vc": 1},
 }

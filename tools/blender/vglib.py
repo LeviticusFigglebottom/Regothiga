@@ -47,6 +47,8 @@ MATERIAL_COLORS = {
     "M_flame":      (1.00, 0.75, 0.30, 1.0),
     "M_bell":       (0.35, 0.28, 0.16, 1.0),
     "M_ember":      (0.90, 0.35, 0.12, 1.0),
+    "M_gild":       (0.82, 0.60, 0.22, 1.0),
+    "M_citywindow": (0.95, 0.62, 0.25, 1.0),
 }
 
 def material(name: str):
