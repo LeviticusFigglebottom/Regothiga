@@ -204,11 +204,14 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 	area.attach(piece, tag)
 	return piece
 
-## Grand stairs collide as a smooth 31-degree ramp (plus solid flank boxes),
-## never as step trimesh: 0.24 m step faces are walls to move_and_slide, so
-## the climb direction would be impassable. The ramp surface runs from the
-## top edge (local origin) to the floor 0.2 below the stair base, meeting
-## walkable ground flush at both ends.
+## Grand stairs collide as a smooth 31-degree ramp, never as step trimesh:
+## 0.24 m step faces are walls to move_and_slide, so the climb direction
+## would be impassable. The ramp surface runs from the top edge (local
+## origin) to the floor 0.2 below the stair base, meeting walkable ground
+## flush at both ends. The sides carry RAKED parapet colliders that follow
+## the slope and match the kit's visible parapets — the old full-height
+## level boxes were invisible walls beside every open flight, and left the
+## upper half of open flights unguarded.
 static func _stair_ramp(piece: Node3D, tag: String) -> void:
 	var body := StaticBody3D.new()
 	body.collision_layer = 1 << (_tag_bit(tag) - 1)
@@ -223,9 +226,12 @@ static func _stair_ramp(piece: Node3D, tag: String) -> void:
 	for sx in [-2.17, 2.17]:
 		var fs := CollisionShape3D.new()
 		var fb := BoxShape3D.new()
-		fb.size = Vector3(0.36, 2.85, 4.4)
+		fb.size = Vector3(0.36, 1.5, 5.15)
 		fs.shape = fb
-		fs.position = Vector3(sx, -1.02, -2.02)
+		fs.rotation_degrees = Vector3(-30.96, 0, 0)
+		# ramp center lifted along the ramp normal so the parapet top rides
+		# ~1.05 m above the treads the whole way down
+		fs.position = Vector3(sx, -0.70, -2.57)
 		body.add_child(fs)
 	piece.add_child(body)
 
@@ -277,6 +283,11 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 	# pressed down to the hall's 4 m. spring_top still overrides absolutely.
 	var wall_top := mn.y + _WALL_TOP
 	var spring := float(spec.get("spring_top", wall_top))
+	# "band_from" lifts the clerestory band's lower edge (absolute Y). Raised
+	# rooms open onto these halls through doorways at the field edge; a band
+	# starting at the 4 m wall-top crossed those doorways at head height. Any
+	# strip left open below band_from must be sealed per-edge with boxes.
+	var band_from := float(spec.get("band_from", wall_top))
 	# some rooms read better with a plain timber-beamed flat ceiling than groin
 	# vaults; "flat": true opts a field into that (vaults stay for grander halls)
 	if spec.get("flat", false):
@@ -299,8 +310,8 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 	var mat := MaterialLib.get_mat("M_stone", _state_mode(tag))
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, ceil_h + 0.15, (mn.z + mx.z) * 0.5),
 			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
-	var cy := (wall_top + ceil_h) * 0.5
-	var ch := maxf(ceil_h - wall_top, 0.1)
+	var cy := (band_from + ceil_h) * 0.5
+	var ch := maxf(ceil_h - band_from, 0.1)
 	# north / south (span x), east / west (span z)
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))

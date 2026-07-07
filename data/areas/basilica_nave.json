@@ -113,7 +113,9 @@
     10,
     0,
     8
-   ]
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0
   },
   {
    "min": [
@@ -125,7 +127,9 @@
     8,
     0,
     -24
-   ]
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0
   },
   {
    "min": [
@@ -137,7 +141,9 @@
     14,
     0,
     8
-   ]
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0
   },
   {
    "min": [
@@ -149,7 +155,9 @@
     -10,
     0,
     8
-   ]
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0
   }
  ],
  "rows": [
@@ -487,6 +495,116 @@
    ],
    "count": 1,
    "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    14,
+    4,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 8,
+   "rot": -90,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -14,
+    4,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 8,
+   "rot": 90,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    4,
+    8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 5,
+   "rot": 180,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -12,
+    4,
+    -24
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 7,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    4,
+    -30
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    4,
+    -30
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    4,
+    -32
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "collide": false
   }
  ],
  "pieces": [
@@ -559,6 +677,11 @@
     11,
     0,
     -2.2
+   ],
+   "scale": [
+    1,
+    0.59,
+    1
    ]
   },
   {
@@ -567,6 +690,11 @@
     13.2,
     0,
     -2.2
+   ],
+   "scale": [
+    1,
+    0.59,
+    1
    ]
   },
   {
@@ -706,6 +834,25 @@
     -14
    ],
    "rot": -90
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    18.42,
+    -2.42,
+    -14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    18.42,
+    -2.42,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
   }
  ],
  "props": [
@@ -1466,11 +1613,11 @@
   {
    "id": "sexton",
    "at": [
-    12,
+    12.4,
     0,
-    -14
+    -17.2
    ],
-   "rot": -90,
+   "rot": -25,
    "tag": "base"
   }
  ],
@@ -1568,11 +1715,11 @@
   },
   {
    "at": [
-    11.2,
+    11.3,
     0,
-    -12.8
+    -16.4
    ],
-   "rot": -110,
+   "rot": -60,
    "text": "THE SEXTON'S BAY\n\nSix hundred brothers, one shovel.\n\nHe buried the choir one by one as the wax took them, and awaits no thanks. Graves before glory; tailings before talk."
   }
  ],
@@ -1644,18 +1791,18 @@
   {
    "to": "ossuary_undercroft",
    "at": [
-    13.5,
-    0,
+    17.9,
+    -2.42,
     -14
    ],
    "rot": -90,
    "spawn": [
-    21,
+    20,
     2.6,
-    -4
+    -5.4
    ],
    "prompt": "Take the sexton's stair",
-   "spawn_yaw": 90
+   "spawn_yaw": 180
   }
  ],
  "blockers": [

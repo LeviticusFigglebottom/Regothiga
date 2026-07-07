@@ -345,15 +345,26 @@ def fence_iron_4m():
 
 
 def bell_great():
-    """The Bellkeeper's cracked great bell — also the tower bell. ~1.6 m tall."""
+    """The Bellkeeper's cracked great bell — also the tower bell. ~1.6 m tall.
+    The loft rolls under the lip and climbs back up to the crown as a true
+    inner wall, so the shell reads CLOSED from every angle (the old open loft
+    showed through itself and read as a hollow tent from below). A clapper
+    hangs into the mouth for anyone who peers under the lip."""
     n = 12
-    rings = [(0.10, 1.62, n, 0), (0.16, 1.55, n, 0), (0.30, 1.45, n, 0),
+    rings = [(0.02, 1.61, n, 0), (0.10, 1.62, n, 0), (0.16, 1.55, n, 0), (0.30, 1.45, n, 0),
              (0.44, 1.2, n, 0), (0.52, 0.9, n, 0), (0.56, 0.55, n, 0),
              (0.62, 0.28, n, 0), (0.72, 0.10, n, 0), (0.74, 0.0, n, 0),
-             (0.70, 0.02, n, 0), (0.55, 0.24, n, 0)]  # rolled lip + inner return
-    bell = V.loft_rings("bell_great", rings, "M_bell", cap_bottom=False, cap_top=True)
+             # rolled lip turns under, then the inner wall climbs home
+             (0.68, 0.03, n, 0), (0.55, 0.24, n, 0), (0.49, 0.55, n, 0),
+             (0.42, 0.9, n, 0), (0.32, 1.15, n, 0), (0.13, 1.38, n, 0),
+             (0.02, 1.40, n, 0)]
+    bell = V.loft_rings("bell_great", rings, "M_bell", cap_bottom=True, cap_top=True)
+    clapper = V.loft_rings("clapper", [(0.035, 1.38, 8, 0), (0.05, 0.42, 8, 0),
+                                       (0.115, 0.30, 8, 0), (0.12, 0.12, 8, 0),
+                                       (0.03, 0.05, 8, 0)], "M_iron",
+                           cap_bottom=True, cap_top=True)
     crown = V.loft_rings("crown", [(0.05, 1.6, 6, 0), (0.08, 1.74, 6, 0), (0.03, 1.82, 6, 0)], "M_bell")
-    return [bell, crown], {"size": [1.5, 1.5, 1.85], "origin": "bottom-center"}
+    return [bell, clapper, crown], {"size": [1.5, 1.5, 1.85], "origin": "bottom-center"}
 
 
 def organ_case():

@@ -15,6 +15,7 @@ var _seal: StaticBody3D
 var _engaged := false
 
 func _ready() -> void:
+	add_to_group(VG.GROUP_RESPAWN_ON_REST)
 	add_child(KitLib.instance("fog_gate_frame"))
 	_plane = MeshInstance3D.new()
 	var quad := QuadMesh.new()
@@ -73,6 +74,22 @@ func _engage_boss() -> void:
 func _on_boss_dead(_e) -> void:
 	Game.on_boss_slain(area_id)
 	dissolve()
+
+## The veil re-forms with its warden. Dying mid-fight used to leave the gate
+## sealed and mute (its zone disabled, its died-signal bound to a freed boss),
+## so the arena could never be re-entered. Respawn runs with the enemy
+## respawns on death/rest: unless the warden is slain for good, re-arm.
+func respawn() -> void:
+	if boss_spawner != null and boss_spawner.dead_once \
+			and World.area_flag(area_id, boss_spawner.spawn_flag):
+		return   # the warden rests forever; the veil stays down
+	_engaged = false
+	_zone.enabled = true
+	_seal.collision_layer = 1 << (VG.L_WORLD_RUIN - 1)
+	_plane.transparency = 0.0
+	_plane.show()
+	for hud in get_tree().get_nodes_in_group("hud"):
+		hud.hide_boss()
 
 func dissolve() -> void:
 	_seal.collision_layer = 0

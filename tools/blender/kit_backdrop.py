@@ -199,18 +199,25 @@ def balustrade_4m():
     return objs, {"size": [4, 0.4, 1.1], "origin": "bottom-center"}
 
 
-def _stringer(bm, x, run, rise, w=0.14):
-    """A SOLID closed-string side wall running the length of a stair, at plane x:
-    top follows the step nosings, bottom drops to the lower floor, so you can't
-    see under or beside the stair. Profile in the Y(run)-Z(height) plane; Z up."""
-    prof = [(-0.1, 0.15), (run + 0.1, -rise + 0.15), (run + 0.1, -rise - 0.35), (-0.1, -rise - 0.35)]
-    fr = [bm.verts.new((x, py, pz)) for (py, pz) in prof]        # (y_run, z_height)
-    bk = [bm.verts.new((x + w, py, pz)) for (py, pz) in prof]
-    bm.faces.new(fr)
-    bm.faces.new(list(reversed(bk)))
-    for i in range(4):
-        j = (i + 1) % 4
-        bm.faces.new((fr[i], fr[j], bk[j], bk[i]))
+def _stringer(bm, x, run, rise, w=0.14, guard=1.02):
+    """A SOLID raked parapet wall running the length of a stair, at plane x:
+    the top rides `guard` above the step nosings (a real stair rail you can
+    see AND lean on — matching the raked collision), the bottom drops to the
+    lower floor so you can't see under or beside the stair. A slightly wider
+    coping caps the rake. Profile in the Y(run)-Z(height) plane; Z up."""
+    def prism(prof, x0, x1):
+        fr = [bm.verts.new((x0, py, pz)) for (py, pz) in prof]   # (y_run, z_height)
+        bk = [bm.verts.new((x1, py, pz)) for (py, pz) in prof]
+        bm.faces.new(fr)
+        bm.faces.new(list(reversed(bk)))
+        for i in range(len(prof)):
+            j = (i + 1) % len(prof)
+            bm.faces.new((fr[i], fr[j], bk[j], bk[i]))
+    prism([(-0.1, guard), (run + 0.1, -rise + guard),
+           (run + 0.1, -rise - 0.35), (-0.1, -rise - 0.35)], x, x + w)
+    # coping cap, a touch proud on both faces
+    prism([(-0.1, guard + 0.09), (run + 0.1, -rise + guard + 0.09),
+           (run + 0.1, -rise + guard - 0.03), (-0.1, guard - 0.03)], x - 0.03, x + w + 0.03)
 
 
 def stair_grand_4m():

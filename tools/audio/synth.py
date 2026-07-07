@@ -137,6 +137,27 @@ def norm(x, peak=0.9):
     return x / m * peak
 
 
+def place(buf, x, at, gain=1.0):
+    """Mix x into buf starting at `at` seconds (clipped to buf)."""
+    s = int(at * SR)
+    if s >= len(buf) or s < 0:
+        return
+    seg = x[:len(buf) - s]
+    buf[s:s + len(seg)] += seg * gain
+
+
+def loopify(x, tail=6.0):
+    """Bake a seamless whole-track loop: the last `tail` seconds are folded
+    into the head with an equal-power crossfade and cut off, so the final
+    sample runs straight on into the first when the stream loops."""
+    n_t = int(tail * SR)
+    body = x[:-n_t].copy()
+    tl = x[-n_t:]
+    t = np.linspace(0, 1, n_t)
+    body[:n_t] = body[:n_t] * np.sqrt(t) + tl * np.sqrt(1 - t)
+    return body
+
+
 def write(name, x, peak=0.9):
     os.makedirs(OUT, exist_ok=True)
     data = (norm(x, peak) * 32767).astype(np.int16)
@@ -261,80 +282,182 @@ def gen_swells():
     out[s:min(s + len(toll), n)] += toll[:max(n - s, 0)] * 1.1
     write("swell_gutter", out, 0.82)
 
+## ------------------------------------------------------------------ themes
+## The three underscores are COMPLETE pieces now, not vamps: each runs
+## through named sections (statement, development, recession) and then the
+## whole track loops seamlessly via loopify() — the last bars are composed
+## to hand back to the first. D dorian is the kingdom's mode; the ruin
+## flattens it, the boss hammers it.
+
+# a small chord book (frequencies) used by both day-themes
+_CH = {
+    "Dm":  (146.8, 220.0, 293.7, 349.2),          # D3 A3 D4 F4
+    "F":   (174.6, 261.6, 349.2, 440.0),          # F3 C4 F4 A4
+    "C":   (130.8, 196.0, 329.6, 392.0),          # C3 G3 E4 G4
+    "G":   (196.0, 246.9, 293.7, 392.0),          # G3 B3 D4 G4
+    "Am":  (220.0, 261.6, 329.6, 440.0),          # A3 C4 E4 A4
+    "Bb":  (233.1, 293.7, 349.2, 466.2),          # Bb3 D4 F4 Bb4
+}
+
+
+def _chorale(x, at, chords, phrase=9.0, gain=0.42, breath=0.22, top_gain=0.5):
+    """Lay a chord progression as overlapping choir phrases from `at`."""
+    for k, name in enumerate(chords):
+        fs = _CH[name]
+        for i, f in enumerate(fs):
+            g = gain * (0.9 if i == 0 else (0.66 if i < 3 else top_gain))
+            place(x, choir_note(f, phrase * 1.25, breath=breath) * g, at + k * phrase)
+
+
 def gen_theme_glory():
-    dur = 28.0
-    n = int(dur * SR)
+    """The Kept Hours — four sections, ~2:15, loops whole.
+    A matins: the organ ground wakes, lone voices. B the choir walks above:
+    full chorale. C gilded: an organ chorale melody over the choir, larks far
+    off. D vespers: the voices recede to the pedal and the hour is struck —
+    which is where matins begins again."""
+    dur, tail = 136.0, 6.0
+    n = int((dur + tail) * SR)
     x = np.zeros(n)
-    # organ ground: D2-A2 drone, warm
-    x += organ_note(73.4, dur, 0.30)
-    x += organ_note(110, dur, 0.16)
-    # choir phrase (D dorian): D4 F4 E4 A3 | each 7 s crossfaded
-    seq = [(293.7, 0), (349.2, 7), (329.6, 14), (220.0, 21)]
-    for f, at in seq:
-        c = choir_note(f, 8.4) * 0.5
-        s = int(at * SR)
-        x[s:min(s + len(c), n)] += c[:max(n - s, 0)]
-    # high shimmer thirds, quiet
-    for f, at in [(587.3, 3.5), (698.5, 10.5), (659.3, 17.5), (440.0, 24.5)]:
-        c = choir_note(f, 5.5, breath=0.15) * 0.16
-        s = int(at * SR)
-        x[s:min(s + len(c), n)] += c[:max(n - s, 0)]
-    # distant hour-bell twice
-    for at, f in [(6.0, 587), (20.0, 440)]:
-        b = bell(f, 3.0, 0.35) * 0.14
-        s = int(at * SR)
-        x[s:min(s + len(b), n)] += b[:max(n - s, 0)]
-    write("theme_glory", lowpass_fft(x, 5200), 0.6)
+    # the ground: warm organ pedal (D2+A2) breathing the whole way through,
+    # and soft air so silence is never digital-black
+    t = t_axis(dur + tail)
+    breathe = 0.8 + 0.2 * np.sin(2 * np.pi * t / 27.0)
+    x += organ_note(73.4, dur + tail, 0.26) * breathe
+    x += organ_note(110.0, dur + tail, 0.13) * breathe
+    x += wind(dur + tail, 700, 0.22, seed=21) * 0.10
+
+    # A — matins (0..34): lone voices find the mode; the hour-bell far off
+    place(x, bell(587.3, 4.0, 0.3) * 0.10, 5.0)
+    place(x, choir_note(293.7, 11.0, breath=0.3) * 0.34, 10.0)
+    place(x, choir_note(440.0, 9.0, breath=0.28) * 0.22, 19.0)
+    place(x, choir_note(349.2, 10.0, breath=0.3) * 0.30, 26.0)
+
+    # B — the choir walks above (34..70): the day's full chorale
+    _chorale(x, 34.0, ["Dm", "F", "C", "Am"], phrase=9.0)
+    place(x, choir_note(587.3, 7.0, breath=0.14) * 0.13, 41.0)   # descant thirds
+    place(x, choir_note(523.3, 7.0, breath=0.14) * 0.12, 59.0)
+    place(x, bell(440.0, 3.0, 0.3) * 0.10, 68.0)
+
+    # C — gilded (70..106): organ chorale melody over Dm-G-Bb-Dm, larks far
+    _chorale(x, 70.0, ["Dm", "G", "Bb", "Dm"], phrase=9.0, gain=0.34)
+    melody = [(293.7, 0.0), (349.2, 2.2), (392.0, 4.4), (440.0, 6.6),
+              (523.3, 9.0), (440.0, 11.2), (392.0, 13.4), (349.2, 15.6),
+              (329.6, 18.0), (392.0, 20.2), (349.2, 22.4), (329.6, 24.6),
+              (293.7, 27.0)]
+    for f, at in melody:
+        place(x, organ_note(f, 2.6, 0.20), 70.5 + at)
+    r2 = np.random.default_rng(52)
+    for at in (78.0, 93.0):
+        for k in range(2):
+            place(x, birdsong(r2.uniform(2100, 2900), 0.35) * 0.030, at + k * 0.5)
+    place(x, bell(587.3, 3.5, 0.3) * 0.11, 96.0)
+
+    # D — vespers recede (106..136+): thin to the pedal; the hour strikes
+    place(x, choir_note(220.0, 12.0, breath=0.32) * 0.26, 106.0)
+    place(x, choir_note(293.7, 14.0, breath=0.3) * 0.30, 116.0)
+    place(x, bell(293.7, 5.0, 0.5) * 0.16, 114.0)
+    place(x, bell(587.3, 4.0, 0.3) * 0.09, 124.0)
+    write("theme_glory", loopify(lowpass_fft(x, 5200), tail), 0.62)
+
 
 def gen_theme_ruin():
-    dur = 30.0
-    n = int(dur * SR)
-    t = t_axis(dur)
+    """The Unkept Hours — four sections, ~2:15, loops whole.
+    A the hollow: beating sub-drones and cold wind. B the sour wisps: Eb
+    leaning on the D that is no longer sung. C the procession: low organ
+    clusters walking under creaks. D emptying: one last toll, then only the
+    drones — which is the hollow again."""
+    dur, tail = 136.0, 6.0
+    n = int((dur + tail) * SR)
+    t = t_axis(dur + tail)
     x = np.zeros(n)
-    # detuned low drones
-    x += np.sin(2 * np.pi * 36.7 * t) * 0.5
-    x += np.sin(2 * np.pi * 37.1 * t + 1.0) * 0.4
-    x += np.sin(2 * np.pi * 73.4 * t + 0.5) * 0.22
-    slow = 0.5 + 0.5 * np.sin(2 * np.pi * t / dur * 2 + 1.0)
-    x *= 0.55 + 0.45 * slow
-    # dissonant wisp: Eb over D, comes and goes
-    wisp = choir_note(311.1, 9.0, vib=2.2, breath=0.5) * 0.12
-    s = int(9.0 * SR)
-    x[s:min(s + len(wisp), n)] += wisp[:max(n - s, 0)]
-    # cold wind bed
-    x += wind(dur, 300, 0.5, seed=11) * 0.30
-    # funeral toll at 4 and 22 s
-    for at in (4.0, 22.0):
-        b = bell(65.4, 5.0, 0.9, dark=0.8) * 0.3
-        s = int(at * SR)
-        x[s:min(s + len(b), n)] += b[:max(n - s, 0)]
-    write("theme_ruin", lowpass_fft(x, 3600), 0.62)
+    # beating sub pair + weak octave, breathing very slowly; cold wind bed
+    sub = (np.sin(2 * np.pi * 36.7 * t) * 0.48
+           + np.sin(2 * np.pi * 37.1 * t + 1.0) * 0.38
+           + np.sin(2 * np.pi * 73.4 * t + 0.5) * 0.20)
+    x += sub * (0.62 + 0.38 * np.sin(2 * np.pi * t / 31.0 + 1.2))
+    x += wind(dur + tail, 280, 0.55, seed=11) * 0.34
+
+    # A — the hollow (0..34): one far, dark toll
+    place(x, bell(65.4, 6.0, 0.8, dark=0.8) * 0.24, 18.0)
+
+    # B — sour wisps (34..70): Eb (and its shadow) over the absent D
+    place(x, choir_note(311.1, 11.0, vib=2.2, breath=0.5) * 0.13, 36.0)
+    place(x, choir_note(466.2, 9.0, vib=2.0, breath=0.55) * 0.08, 48.0)
+    place(x, choir_note(311.1, 12.0, vib=2.4, breath=0.5) * 0.12, 58.0)
+    for at in (40.0, 62.0):
+        place(x, bell(65.4, 5.0, 0.9, dark=0.8) * 0.28, at)
+
+    # C — the procession (70..106): low organ clusters lean D->Eb and back,
+    # timbers complain, a crow far off
+    place(x, organ_note(73.4, 15.0, 0.13), 70.0)
+    place(x, organ_note(77.8, 15.0, 0.11), 78.0)
+    place(x, organ_note(73.4, 15.0, 0.12), 90.0)
+    for at in (74.0, 93.0):
+        t2 = t_axis(1.4)
+        creak_f = np.linspace(90, 58, len(t2))
+        creak = np.sin(2 * np.pi * np.cumsum(creak_f) / SR) * env_ad(len(t2), 0.35, 0.35) * 0.15
+        place(x, creak, at)
+    place(x, crow_caw(0.45) * 0.07, 84.0)
+    place(x, bell(49.0, 6.0, 0.8, dark=0.9) * 0.2, 100.0)
+
+    # D — emptying (106..136+): the last toll and its faint answer
+    place(x, choir_note(311.1, 10.0, vib=2.0, breath=0.6) * 0.09, 108.0)
+    place(x, bell(65.4, 6.0, 1.0, dark=0.8) * 0.30, 114.0)
+    place(x, bell(98.0, 4.0, 0.5, dark=0.7) * 0.12, 126.0)
+    write("theme_ruin", loopify(lowpass_fft(x, 3400), tail), 0.62)
+
 
 def gen_theme_boss():
-    dur = 24.0
-    n = int(dur * SR)
-    t = t_axis(dur)
+    """The Thirteenth Hour — two escalations over a war-drum grid, ~1:32,
+    loops whole. A: drums, low D pulse, the cracked bell answering, choir
+    cluster stabs. B: the ostinato joins, drums double, a high lament rides
+    over — then two bars of drums alone hand the loop back to A."""
+    bar = 3.64                       # four beats at ~132 BPM
+    bars = 26
+    dur, tail = bar * bars, 3.64
+    n = int((dur + tail) * SR)
+    t = t_axis(dur + tail)
     x = np.zeros(n)
-    # war-drum pattern every 1.5 s with pickup
+
     beat = t_axis(0.5)
-    drum_f = 68 * np.exp(-beat * 12)
+    drum_f = 66 * np.exp(-beat * 12)
     drum = np.sin(2 * np.pi * np.cumsum(drum_f) / SR) * env_ad(len(beat), 0.002, 0.16)
-    for i in range(int(dur / 1.5)):
-        s = int(i * 1.5 * SR)
-        x[s:s + len(drum)] += drum * (1.0 if i % 2 == 0 else 0.7)
-        s2 = s + int(0.375 * SR)
-        if s2 + len(drum) < n:
-            x[s2:s2 + len(drum)] += drum * 0.4
-    # driving low pulse + minor smear
-    x += np.sin(2 * np.pi * 49 * t) * 0.28 * (0.6 + 0.4 * np.sin(2 * np.pi * t / 3.0))
-    smear = choir_note(196, 10, vib=1.8, breath=0.4) * 0.2
-    x[int(6 * SR):int(6 * SR) + len(smear)] += smear[:max(n - int(6 * SR), 0)]
-    # the cracked bell answers every 6 s, sour (flattened)
-    for i in range(4):
-        b = bell(103, 3.2, 1.1, dark=0.5) * 0.34
-        s = int((3.0 + i * 6.0) * SR)
-        x[s:min(s + len(b), n)] += b[:max(n - s, 0)]
-    write("theme_boss", lowpass_fft(x, 4200), 0.7)
+    tick = lowpass_fft(np.random.default_rng(61).normal(0, 1, int(0.12 * SR)), 1800) * env_ad(int(0.12 * SR), 0.001, 0.03)
+
+    half = bars // 2
+    for b in range(bars + 1):        # +1 bar runs into the fold
+        s = b * bar
+        heavy = b >= half
+        place(x, drum, s, 1.0)
+        place(x, drum, s + 0.455, 0.38)
+        place(x, drum, s + 1.818, 0.8)
+        place(x, drum, s + 2.727, 0.62 if not heavy else 0.85)
+        if heavy:                    # doubled ghosts drive the second half
+            place(x, tick, s + 0.909, 0.5)
+            place(x, tick, s + 2.273, 0.5)
+            place(x, tick, s + 3.18, 0.55)
+    # low D pulse with a slow snarl
+    x += np.sin(2 * np.pi * 49.0 * t) * 0.24 * (0.62 + 0.38 * np.sin(2 * np.pi * t / 5.6))
+
+    # the cracked bell answers on the bar, sour and flattened
+    for b in range(0, bars - 2, 4):
+        f = 103.0 if (b // 4) % 2 == 0 else 97.0
+        place(x, bell(f, 3.4, 1.1, dark=0.5) * 0.30, b * bar + 1.818)
+    # choir cluster stabs (D + Eb + A) every 8 bars
+    for b in range(0, bars - 2, 8):
+        for f, g in [(293.7, 0.16), (311.1, 0.12), (220.0, 0.12)]:
+            place(x, choir_note(f, 3.2, vib=3.0, breath=0.4) * g, b * bar + 0.2)
+
+    # B half: organ ostinato (D-F-E-C#) + high lament, stopping short of the
+    # final two bars so the loop lands on drums alone, straight back into A
+    ost = [(146.8, 0.0), (174.6, 0.909), (164.8, 1.818), (138.6, 2.727)]
+    for b in range(half, bars - 2):
+        for f, off in ost:
+            place(x, organ_note(f, 0.8, 0.16), b * bar + off)
+    for f, at in [(587.3, half * bar + 2.0), (523.3, half * bar + 16.0), (440.0, half * bar + 30.0)]:
+        place(x, choir_note(f, 9.0, vib=3.4, breath=0.3) * 0.11, at)
+    # the last two bars strip back to drums so the loop lands clean on A
+    write("theme_boss", loopify(lowpass_fft(x, 4400), tail), 0.7)
 
 def birdsong(f0, dur=0.5, warble=28.0):
     """Tiny larksong motif: chirp with pitch warble and quick decay."""
@@ -355,43 +478,33 @@ def crow_caw(dur=0.42):
 
 
 def gen_ambiences():
-    dur = 22.0
-    # glory: soft warm air, faint chimes, larks in the garth
-    g = wind(dur, 600, 0.25, seed=21) * 0.5
-    n = len(g)
-    for at, f in [(5.0, 1174), (13.0, 880), (18.5, 1318)]:
-        b = bell(f, 1.6, 0.25) * 0.05
-        s = int(at * SR)
-        g[s:min(s + len(b), n)] += b[:max(n - s, 0)]
+    """Long ambience beds (~42 s heard length), looped whole like the themes
+    so their event patterns don't telegraph a short cycle."""
+    dur, tail = 42.0, 4.0
+    # glory: soft warm air, faint chimes, larks about the garth
+    g = wind(dur + tail, 600, 0.25, seed=21) * 0.5
+    for at, f in [(5.0, 1174), (15.5, 880), (24.0, 1318), (33.5, 987)]:
+        place(g, bell(f, 1.6, 0.25) * 0.05, at)
     r2 = np.random.default_rng(33)
-    for at in (2.2, 7.6, 11.4, 16.0, 19.8):
+    for at in (2.2, 7.6, 12.4, 18.0, 22.8, 28.3, 34.0, 38.6):
         for k in range(r2.integers(2, 4)):
-            c = birdsong(r2.uniform(1900, 3200), r2.uniform(0.22, 0.5)) * 0.055
-            s = int((at + k * 0.35 + r2.uniform(0, 0.1)) * SR)
-            if s + len(c) < n:
-                g[s:s + len(c)] += c
-    write("amb_glory", g, 0.4)
-    # ruin: hollow wind, deep resonances, drips
-    r = wind(dur, 260, 0.6, seed=22) * 0.8
-    for at in (6.0, 15.5):
+            place(g, birdsong(r2.uniform(1900, 3200), r2.uniform(0.22, 0.5)) * 0.055,
+                  at + k * 0.35 + r2.uniform(0, 0.1))
+    write("amb_glory", loopify(g, tail), 0.4)
+    # ruin: hollow wind, timber groans, drips, carrion birds
+    r = wind(dur + tail, 260, 0.6, seed=22) * 0.8
+    for at in (6.0, 17.5, 29.0, 38.5):
         t2 = t_axis(1.2)
         creak_f = np.linspace(90, 60, len(t2))
-        creak = np.sin(2 * np.pi * np.cumsum(creak_f) / SR) * env_ad(len(t2), 0.3, 0.3) * 0.16
-        s = int(at * SR)
-        r[s:s + len(creak)] += creak
-    for at in (3.2, 9.7, 18.3):
+        place(r, np.sin(2 * np.pi * np.cumsum(creak_f) / SR) * env_ad(len(t2), 0.3, 0.3) * 0.16, at)
+    for at in (3.2, 9.7, 15.1, 21.4, 27.8, 33.2, 40.1):
         t3 = t_axis(0.09)
-        drip = np.sin(2 * np.pi * 2900 * t3) * env_ad(len(t3), 0.002, 0.02) * 0.12
-        s = int(at * SR)
-        r[s:s + len(drip)] += drip
+        place(r, np.sin(2 * np.pi * 2900 * t3) * env_ad(len(t3), 0.002, 0.02) * 0.12, at)
     r4 = np.random.default_rng(44)
-    for at in (5.4, 12.8, 19.6):
+    for at in (5.4, 13.8, 25.6, 35.2):
         for k in range(r4.integers(1, 3)):
-            c = crow_caw(r4.uniform(0.3, 0.5)) * 0.11
-            s = int((at + k * 0.5) * SR)
-            if s + len(c) < len(r):
-                r[s:s + len(c)] += c
-    write("amb_ruin", r, 0.45)
+            place(r, crow_caw(r4.uniform(0.3, 0.5)) * 0.11, at + k * 0.5)
+    write("amb_ruin", loopify(r, tail), 0.45)
 
 def gen_creature():
     # penitent moan: wobbling formant

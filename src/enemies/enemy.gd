@@ -27,6 +27,14 @@ var _strafe_dir := 1.0
 var _blocking := false
 var phase := 1
 
+# corner recovery: pursuing into a wall wedge used to pin bosses in place —
+# wanting to move but making no ground. Track real progress; when wedged,
+# steer along the most open probed direction for a beat, then resume.
+var _prev_pos := Vector3.ZERO
+var _stuck_t := 0.0
+var _rec_t := 0.0
+var _rec_dir := Vector3.ZERO
+
 var vis: EnemyVisual
 var agent: NavigationAgent3D
 var hitbox: Hitbox
@@ -115,8 +123,53 @@ func _physics_process(dt: float) -> void:
 		ES.ATTACK: _st_attack(dt)
 		ES.STAGGER: _st_stagger(dt)
 	move_and_slide()
+	_track_progress(dt)
 	# stride cycles while moving; action clips own the rig during ATTACK/STAGGER
 	vis.locomotion(dt, Vector2(velocity.x, velocity.z).length(), Vector2.ZERO, is_on_floor())
+
+## Wedge detection: wanting speed but gaining no ground for ~a second means a
+## corner or prop has us. Probe eight directions and commit to the most open
+## one (biased toward the target) for a short burst.
+func _track_progress(dt: float) -> void:
+	if state == ES.APPROACH or state == ES.COMBAT:
+		var gained := Vector2(global_position.x - _prev_pos.x, global_position.z - _prev_pos.z).length() / maxf(dt, 1e-4)
+		var wanted := Vector2(velocity.x, velocity.z).length()
+		if wanted > 0.7 and gained < 0.3:
+			_stuck_t += dt
+		else:
+			_stuck_t = maxf(0.0, _stuck_t - 2.0 * dt)
+		if _stuck_t > 0.9:
+			_stuck_t = 0.0
+			_begin_recover()
+	else:
+		_stuck_t = 0.0
+	_prev_pos = global_position
+
+func _begin_recover() -> void:
+	if target == null or not is_instance_valid(target):
+		return
+	var to_target := (target.global_position - global_position).normalized()
+	var space := get_world_3d().direct_space_state
+	var best := Vector3.ZERO
+	var best_score := -1e9
+	for i in 8:
+		var d := Vector3.FORWARD.rotated(Vector3.UP, TAU * float(i) / 8.0)
+		var ray := PhysicsRayQueryParameters3D.create(
+			global_position + Vector3.UP * 0.9,
+			global_position + Vector3.UP * 0.9 + d * 3.0, VG.M_WORLD_ALL)
+		ray.exclude = [self]
+		var hit := space.intersect_ray(ray)
+		var clearance := 3.0
+		if not hit.is_empty():
+			clearance = ((hit["position"] as Vector3) - global_position).length()
+		var score := clearance + to_target.dot(d) * 0.8
+		if score > best_score:
+			best_score = score
+			best = d
+	if best != Vector3.ZERO:
+		_rec_dir = best
+		_rec_t = 0.65
+		_strafe_dir = -_strafe_dir
 
 func _set_state(s: ES) -> void:
 	state = s
@@ -182,9 +235,15 @@ func _st_approach(dt: float) -> void:
 	if dist <= _max_attack_range() * 0.9 and _los_clear():
 		_set_state(ES.COMBAT)
 		return
-	agent.target_position = target.global_position
-	var next := agent.get_next_path_position()
-	var dir := (next - global_position)
+	var dir: Vector3
+	if _rec_t > 0.0:
+		# recovery burst: sidestep out of the wedge before re-pathing
+		_rec_t -= dt
+		dir = _rec_dir
+	else:
+		agent.target_position = target.global_position
+		var next := agent.get_next_path_position()
+		dir = (next - global_position)
 	dir.y = 0
 	dir = dir.normalized()
 	var sp := float(cfg.get("speed", 2.5))
@@ -226,6 +285,10 @@ func _st_combat(dt: float) -> void:
 	if keep > 0.0:
 		closing = clampf(dist - keep, -1.6, 0.5)
 	var want := side * 1.1 + fwd * closing
+	if _rec_t > 0.0:
+		# strafing pinned us against a wall — burst along the open lane instead
+		_rec_t -= dt
+		want = _rec_dir * 1.4
 	velocity.x = move_toward(velocity.x, want.x * float(cfg.get("speed", 2.5)) * 0.55, 6 * dt)
 	velocity.z = move_toward(velocity.z, want.z * float(cfg.get("speed", 2.5)) * 0.55, 6 * dt)
 

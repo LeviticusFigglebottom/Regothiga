@@ -55,6 +55,31 @@ func _run() -> void:
 		await ticks(10)
 	check(player.hp < hp0, "the bell lands (hp %.0f -> %.0f after %d ticks)" % [hp0, player.hp, waited])
 
+	print("== death mid-fight re-arms the pale (the arena can be re-entered)")
+	var old_id := boss.get_instance_id()
+	player.take_hit(DamagePacket.new(99999, 0, boss))
+	var wd := 0
+	while wd < 600 and (player.dead or fog.boss_spawner.current == null
+			or not is_instance_valid(fog.boss_spawner.current)
+			or fog.boss_spawner.current.get_instance_id() == old_id):
+		wd += 10
+		await ticks(10)
+	check(not player.dead, "the Latecomer stands again at the vigil")
+	check(String(AudioDirector._active_music).ends_with("theme_ruin.wav"),
+		"the boss theme yields back to the world's")
+	boss = fog.boss_spawner.current
+	check(boss != null and boss.get_instance_id() != old_id and not boss.dead,
+		"the warden is restored whole")
+	check(not fog._engaged and fog._zone.enabled, "the pale stands ready to be parted again")
+	check(fog._seal.collision_layer != 0, "and still bars simply walking through")
+	player.global_position = Vector3(11.6, 0.3, -6.0)
+	await ticks(6)
+	it = player.nearest_interactable()
+	check(it != null and it.prompt == "Part the pale", "the pale offers passage anew")
+	it.activate(player)
+	await ticks(80)
+	check(boss.target == player, "the warden wakes a second time")
+
 	print("== phase two at half grief")
 	boss.take_hit(DamagePacket.new(boss.max_hp * 0.5, 0, player))
 	await ticks(5)

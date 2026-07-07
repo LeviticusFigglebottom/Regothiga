@@ -47,6 +47,10 @@ func respawn_player() -> void:
 	get_tree().call_group(VG.GROUP_RESPAWN_ON_REST, "respawn")
 	player.revive_at(pos)
 	refresh_remembrance()
+	# dying mid-boss-fight left the boss theme looping forever; the world
+	# music belongs to the area's state again (no-op if already playing)
+	if current_area != null:
+		AudioDirector.play_music(current_area.env.music_for(World.get_area_state(current_area_id)), 2.5)
 	player_respawned.emit()
 
 ## A warden has been put to rest: the area opens for free kindling.

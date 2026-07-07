@@ -10,20 +10,12 @@ var _paused := false
 func _ready() -> void:
 	_vis = EnemyVisual.new()
 	add_child(_vis)
-	_vis.build(DB.enemy("bellkeeper"))
-	# bell frame beside him: two posts + beam + the great bell
-	var bm_l := KitLib.instance("column_4m")
-	bm_l.scale = Vector3(0.5, 0.62, 0.5)
-	bm_l.position = Vector3(-1.6, 0, -1.8)
-	add_child(bm_l)
-	var bm_r := KitLib.instance("column_4m")
-	bm_r.scale = Vector3(0.5, 0.62, 0.5)
-	bm_r.position = Vector3(1.6, 0, -1.8)
-	add_child(bm_r)
-	var bell := KitLib.instance("bell_great")
-	bell.position = Vector3(0, 1.35, -1.8)
-	bell.scale = Vector3(1.2, 1.2, 1.2)
-	add_child(bell)
+	# Alive, he is only a man ringing the hours — no dragged war-bell, no
+	# propped-up bell frame. (Both used to read as a hollow shell dumped on
+	# the floor beside him.) The ruin boss keeps the dragging bell.
+	var cfg: Dictionary = DB.enemy("bellkeeper").duplicate()
+	cfg.erase("weapon")
+	_vis.build(cfg)
 
 func _physics_process(dt: float) -> void:
 	_t += dt
