@@ -233,12 +233,15 @@ static func _stair_ramp(piece: Node3D, tag: String, kit := "stair_grand_4m") -> 
 	for sx in flanks:
 		var fs := CollisionShape3D.new()
 		var fb := BoxShape3D.new()
-		fb.size = Vector3(0.36, 1.5, 5.15)
+		fb.size = Vector3(0.36, 1.5, 4.5)
 		fs.shape = fb
 		fs.rotation_degrees = Vector3(-30.96, 0, 0)
 		# ramp center lifted along the ramp normal so the parapet top rides
-		# ~1.05 m above the treads the whole way down
-		fs.position = Vector3(sx, -0.70, -2.57)
+		# ~1.05 m above the treads the whole way down. The tilted box's z
+		# footprint must END at the stringer foot (local z -4.7): the old
+		# 5.15-long box projected 0.46 m past it — an invisible wall on the
+		# floor in front of every open flight.
+		fs.position = Vector3(sx, -0.57, -2.35)
 		body.add_child(fs)
 	piece.add_child(body)
 

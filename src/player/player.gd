@@ -36,10 +36,12 @@ var input_enabled := true
 var _recap_cd := 0.0
 ## pointer-compat look: some machines (remote play, VMs, absolute-injected
 ## mice) never deliver RELATIVE motion to a captured window — m0 forever.
-## Fallback: confine+hide the cursor, read its position offset from centre
-## each frame, warp it back. Auto-engages after 2.5 s of captured silence.
+## Fallback: confine+hide the cursor, track its frame-to-frame movement in
+## window pixels, warp it home only when it nears the rim. Auto-engages
+## after 2.5 s of captured silence.
 var look_compat := false
 var _cap_dead_t := 0.0
+var _cmp_last := Vector2(-1, -1)   # last cursor pos, WINDOW px; x<0 = resync
 var _mo_n := 0           # motion events this window
 var motion_rate := 0     # published events/second for the HUD diagnostics
 var _mo_t := 0.0
@@ -267,14 +269,26 @@ func _physics_process(dt: float) -> void:
 		if _cap_dead_t > 2.5:
 			look_compat = true
 			_grab_mouse(true)
-	# compat look: offset from centre is the look delta; warp back each frame
-	if look_compat and play_owns and _captured():
-		var vp := get_viewport()
-		var cpt := vp.get_visible_rect().size * 0.5
-		var dmm := vp.get_mouse_position() - cpt
-		if dmm.length() > 0.5:
+	# compat look: frame-to-frame cursor movement is the look delta, all in
+	# WINDOW pixels. Viewport coords are content-scaled and disagree with
+	# warp_mouse's client pixels on a stretched/maximized window — mixing
+	# the two spaces injected a phantom offset every frame (constant pitch
+	# push + erratic yaw). The cursor roams an inner region and is only
+	# warped home from the rim; after a warp we resync instead of trusting
+	# it landed, since remote layers can apply warps a frame late.
+	if look_compat and play_owns and _captured() and get_window().has_focus():
+		var win := get_window()
+		var c := Vector2(win.size) * 0.5
+		var m := Vector2(DisplayServer.mouse_get_position() - win.position)
+		var dmm := m - _cmp_last
+		if _cmp_last.x >= 0.0 and dmm != Vector2.ZERO:
 			cam.mouse_look(dmm)
-			Input.warp_mouse(cpt)
+		_cmp_last = m
+		if absf(m.x - c.x) > c.x * 0.5 or absf(m.y - c.y) > c.y * 0.5:
+			Input.warp_mouse(c)
+			_cmp_last = Vector2(-1, -1)
+	else:
+		_cmp_last = Vector2(-1, -1)
 	if _interact_suppress > 0:
 		_interact_suppress -= 1
 	if not is_on_floor():
