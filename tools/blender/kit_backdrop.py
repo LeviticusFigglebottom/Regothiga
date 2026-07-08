@@ -405,12 +405,19 @@ def _tpin(bm, place, cx, cy, z, w, h):
 
 
 def _tgable(bm, place, x0, x1, y0, y1, z, rise):
+    """Gable roof as TRUE two-sided geometry: every slope/end face is emitted
+    with both windings, so the roof reads whole from any angle under normal
+    backface culling — with correct front-face normals, lighting and shadows
+    (a cull-off shader made the lit sides read as flat white)."""
     xm = (x0 + x1) * 0.5
-    a = bm.verts.new(place(x0, y0, z)); b = bm.verts.new(place(x1, y0, z))
-    c = bm.verts.new(place(x1, y1, z)); d = bm.verts.new(place(x0, y1, z))
-    r0 = bm.verts.new(place(xm, y0, z + rise)); r1 = bm.verts.new(place(xm, y1, z + rise))
-    bm.faces.new((a, b, r0)); bm.faces.new((d, r1, c))
-    bm.faces.new((a, r0, r1, d)); bm.faces.new((b, c, r1, r0))
+    pts = ((x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z),
+           (xm, y0, z + rise), (xm, y1, z + rise))
+    A, B, C, D, R0, R1 = range(6)
+    for f in ((A, B, R0), (D, R1, C), (A, R0, R1, D), (B, C, R1, R0)):
+        for wind in (f, tuple(reversed(f))):
+            # fresh verts per face: bmesh refuses twin faces on shared verts,
+            # and the flat-shaded look doesn't want welded normals anyway
+            bm.faces.new(tuple(bm.verts.new(place(*pts[i])) for i in wind))
 
 
 def _tdisc(bm, place, cx, cy, cz, r, seg=10):

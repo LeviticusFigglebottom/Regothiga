@@ -224,6 +224,13 @@ func _move_input() -> Vector3:
 # --------------------------------------------------------------- physics
 func _physics_process(dt: float) -> void:
 	state_t += dt
+	# capture watchdog: whenever the focused window should own the cursor and
+	# doesn't — first frame after boot, alt-tab return, an OS quirk dropping
+	# the grab — take it back. Menus and dialogue keep the cursor free.
+	if not sim_active and not dead and input_enabled and not _captured() \
+			and not PauseUI.is_open() and state != S.REST and state != S.TALK \
+			and get_window().has_focus():
+		_grab_mouse(true)
 	if _interact_suppress > 0:
 		_interact_suppress -= 1
 	if not is_on_floor():

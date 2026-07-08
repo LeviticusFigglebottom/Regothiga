@@ -6,8 +6,10 @@ class_name MaterialLib
 const GOTHIC := preload("res://shaders/gothic.gdshader")
 const GOTHIC_DS := preload("res://shaders/gothic_ds.gdshader")
 ## Thin-shell families rendered double-sided (backface normal flipped in the
-## shader): roof planes must read from above/behind instead of vanishing.
-const DOUBLE_SIDED := {"M_roof": true}
+## shader). Empty on purpose: cull-off shading washed out lit roof slopes
+## (wrong shadow bias on what were backfaces) — the gable kits emit true
+## two-sided GEOMETRY instead, which lights and shadows correctly.
+const DOUBLE_SIDED := {}
 
 const TEXTURES := {
 	"M_stone":      ["T_stone", 0.5, 0.62],
@@ -59,7 +61,9 @@ const FAMILIES := {
 	"M_robe_boss":  {"albedo": Color(0.24, 0.19, 0.26), "rough": 0.95, "rim": 1.1, "moss": 0.0, "crack": 0.0},
 	"M_habit":      {"albedo": Color(0.55, 0.51, 0.44), "rough": 0.95, "rim": 0.45, "moss": 0.0, "crack": 0.0},
 	"M_leather":    {"albedo": Color(0.30, 0.20, 0.12), "rough": 0.8, "rim": 0.35, "moss": 0.0, "crack": 0.0},
-	"M_roof":       {"albedo": Color(0.33, 0.34, 0.40), "rough": 0.9, "rim": 0.55, "moss": 0.6, "crack": 0.0},
+	# deep slate: lit slopes must stay dark enough to sit INTO the dusk grade
+	# (the old 0.33-0.40 albedo read as flat white once lit sides became visible)
+	"M_roof":       {"albedo": Color(0.19, 0.20, 0.25), "rough": 0.95, "rim": 0.3, "moss": 0.6, "crack": 0.0},
 	"M_backdrop":   {"albedo": Color(0.72, 0.60, 0.47), "rough": 1.0, "rim": 0.15, "moss": 0.0, "crack": 0.0, "wear": 0.15},
 	"M_backdrop_dark": {"albedo": Color(0.16, 0.12, 0.10), "rough": 1.0, "rim": 0.0, "moss": 0.0, "crack": 0.0},
 	# city gilding: gold ridges/finials/domes on the panorama. Faint glory-gated
