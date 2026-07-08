@@ -52,10 +52,38 @@ func _ready() -> void:
 	panel.add_child(options_box)
 
 	name_label.text = npc_cfg.get("name", "???")
-	var first := not World.flag("met_" + npc_cfg.get("id", "npc"))
-	World.set_flag("met_" + npc_cfg.get("id", "npc"))
-	_lines = npc_cfg.get("lines_first" if first else "lines_repeat", [])
+	var nid: String = npc_cfg.get("id", "npc")
+	var first := not World.flag("met_" + nid)
+	World.set_flag("met_" + nid)
+	# chaptered speakers tell their tale one audience at a time; when the last
+	# chapter has been told they may leave a parting gift, then fall to repeats
+	var chapters: Array = npc_cfg.get("chapters", [])
+	if chapters.size() > 0:
+		var ci := int(World.flag_val("chapter_" + nid, 0))
+		if ci < chapters.size():
+			_lines = chapters[ci]
+			World.set_flag("chapter_" + nid, ci + 1)
+			if ci == chapters.size() - 1:
+				_grant_gift(npc_cfg.get("gift", {}))
+		else:
+			_lines = npc_cfg.get("lines_repeat", [])
+	else:
+		_lines = npc_cfg.get("lines_first" if first else "lines_repeat", [])
 	_show_line()
+
+## One-time parting gift once a chaptered tale is exhausted.
+func _grant_gift(g: Dictionary) -> void:
+	if g.is_empty() or Game.player == null:
+		return
+	var flag: String = g.get("flag", "gift_" + npc_cfg.get("id", "npc"))
+	if World.flag(flag):
+		return
+	World.set_flag(flag)
+	var item: String = g.get("item", "candleglass")
+	var count := int(g.get("count", 1))
+	Game.player.inventory[item] = int(Game.player.inventory.get(item, 0)) + count
+	Game.toast.emit(g.get("toast", "Received %s x%d" % [item, count]))
+	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -6.0)
 
 func _ls(size: int, color: Color) -> LabelSettings:
 	var ls := LabelSettings.new()

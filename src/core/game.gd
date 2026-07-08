@@ -139,6 +139,12 @@ func travel_to(area_id: String, spawn_pos: Vector3, spawn_yaw := 1e9) -> void:
 
 signal vigil_kept(lantern)
 
+## Sanctuary quarters (no warden to put down) may turn their memory freely:
+## the area def opts in with "free_kindle": true. Everywhere else, the toggle
+## is earned by clearing the warden (D-009).
+func toggle_free(aid: String) -> bool:
+	return World.is_cleared(aid) or bool(DB.area_def(aid).get("free_kindle", false))
+
 ## The rest ceremony: kneel, heal, respawn the dead, and turn the world.
 ## D-009 rules: uncleared+glory -> gutter (committed); uncleared+ruin -> rest
 ## only; cleared -> free choice (RestUI passes "toggle" or "rest_only").
@@ -155,7 +161,7 @@ func vigil_flow(lantern: VigilLantern, p, choice := "auto") -> void:
 		"rest_only":
 			target = cur
 		_:
-			if World.is_cleared(aid):
+			if toggle_free(aid):
 				target = VG.WState.GLORY if cur == VG.WState.RUIN else VG.WState.RUIN
 			elif cur == VG.WState.GLORY:
 				target = VG.WState.RUIN

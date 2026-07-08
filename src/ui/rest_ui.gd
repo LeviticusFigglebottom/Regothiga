@@ -70,7 +70,7 @@ func _enter_main() -> void:
 	var cur := World.get_area_state(aid)
 	if _stub_lantern():
 		_options.append({"id": "rest", "label": "Keep vigil  (rest — the memory here is thin)"})
-	elif World.is_cleared(aid):
+	elif Game.toggle_free(aid):
 		_options.append({"id": "rest", "label": "Keep vigil  (rest)"})
 		_options.append({"id": "toggle", "label": "Turn the memory — " +
 			("kindle the glory" if cur == VG.WState.RUIN else "let it gutter")})
@@ -80,7 +80,7 @@ func _enter_main() -> void:
 		_options.append({"id": "rest", "label": "Keep vigil  (rest)"})
 	_options.append({"id": "level", "label": "Grow by prayer  (%d orisons held)" % Game.orisons})
 	_options.append({"id": "leave", "label": "Rise"})
-	info_label.text = "The lantern holds this quarter's memory." if not World.is_cleared(aid) \
+	info_label.text = "The lantern holds this quarter's memory." if not Game.toggle_free(aid) \
 		else "The warden rests. Keep or quench the memory as you please."
 	_opt_i = 0
 	_render()
@@ -134,7 +134,7 @@ func choose(idx: int) -> void:
 	if id == "leave":
 		close()
 	elif id == "rest":
-		_do_vigil("rest_only" if (World.is_cleared(_aid()) or _stub_lantern()) else "auto")
+		_do_vigil("rest_only" if (Game.toggle_free(_aid()) or _stub_lantern()) else "auto")
 	elif id == "toggle":
 		_do_vigil("toggle")
 	elif id == "level":
