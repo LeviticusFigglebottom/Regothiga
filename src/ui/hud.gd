@@ -267,7 +267,11 @@ func _process(dt: float) -> void:
 		var st := "ruin" if Game.area_state() == VG.WState.RUIN else "glory"
 		var p := cam.global_position
 		var r := cam.global_rotation_degrees
-		var cap := "cap" if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else "free"
+		var cap := "free"
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			cap = "cap"
+		elif Input.mouse_mode == Input.MOUSE_MODE_CONFINED_HIDDEN:
+			cap = "cfn"
 		var lock := ""
 		if Game.player != null and Game.player.cam != null \
 				and Game.player.cam.locked_target != null:

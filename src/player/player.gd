@@ -34,6 +34,12 @@ var state_t := 0.0
 var dead := false
 var input_enabled := true
 var _recap_cd := 0.0
+## pointer-compat look: some machines (remote play, VMs, absolute-injected
+## mice) never deliver RELATIVE motion to a captured window — m0 forever.
+## Fallback: confine+hide the cursor, read its position offset from centre
+## each frame, warp it back. Auto-engages after 2.5 s of captured silence.
+var look_compat := false
+var _cap_dead_t := 0.0
 var _mo_n := 0           # motion events this window
 var motion_rate := 0     # published events/second for the HUD diagnostics
 var _mo_t := 0.0
@@ -144,6 +150,7 @@ func _ready() -> void:
 	stamina = max_stamina
 	Game.register_player(self)
 	_emit_all()
+	look_compat = bool(PauseUI.settings.get("look_compat", false))
 	if not sim_active:
 		_grab_mouse(true)
 
@@ -165,10 +172,15 @@ func _emit_all() -> void:
 ## by browsers for pointer-lock), Esc frees the cursor, clicking back in
 ## recaptures it. The recapturing click is swallowed so it doesn't also swing.
 func _grab_mouse(on: bool) -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if on else Input.MOUSE_MODE_VISIBLE
+	if not on:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN if look_compat \
+				else Input.MOUSE_MODE_CAPTURED
 
 func _captured() -> bool:
-	return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
+	return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED \
+			or Input.mouse_mode == Input.MOUSE_MODE_CONFINED_HIDDEN
 
 ## Mouse-bound combat actions (LMB swing / RMB block) stay quiet while the
 ## cursor is free, so clicking back into the window doesn't also attack.
@@ -193,7 +205,7 @@ func _input(event: InputEvent) -> void:
 		# look works from relative motion even if the OS refuses the capture
 		# grab (remote desktop, overlays): degraded but never dead. Menus and
 		# dialogue still own the cursor.
-		if input_enabled and (_captured() or (not PauseUI.is_open()
+		if input_enabled and not look_compat and (_captured() or (not PauseUI.is_open()
 				and state != S.REST and state != S.TALK)):
 			cam.mouse_look(event.relative)
 		return
@@ -243,11 +255,26 @@ func _physics_process(dt: float) -> void:
 		_mo_n = 0
 		_mo_t = 0.0
 	_recap_cd = maxf(0.0, _recap_cd - dt)
-	if not sim_active and not dead and input_enabled and not _captured() \
-			and not PauseUI.is_open() and state != S.REST and state != S.TALK \
-			and get_window().has_focus() and _recap_cd == 0.0:
+	var play_owns := not sim_active and not dead and input_enabled \
+			and not PauseUI.is_open() and state != S.REST and state != S.TALK
+	if play_owns and not _captured() and get_window().has_focus() and _recap_cd == 0.0:
 		_grab_mouse(true)
 		_recap_cd = 0.5
+	# raw relative motion starved while captured -> engage pointer-compat look
+	if play_owns and not look_compat and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED \
+			and get_window().has_focus():
+		_cap_dead_t = 0.0 if (_mo_n > 0 or motion_rate > 0) else _cap_dead_t + dt
+		if _cap_dead_t > 2.5:
+			look_compat = true
+			_grab_mouse(true)
+	# compat look: offset from centre is the look delta; warp back each frame
+	if look_compat and play_owns and _captured():
+		var vp := get_viewport()
+		var cpt := vp.get_visible_rect().size * 0.5
+		var dmm := vp.get_mouse_position() - cpt
+		if dmm.length() > 0.5:
+			cam.mouse_look(dmm)
+			Input.warp_mouse(cpt)
 	if _interact_suppress > 0:
 		_interact_suppress -= 1
 	if not is_on_floor():

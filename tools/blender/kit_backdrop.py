@@ -513,7 +513,7 @@ def _bld_dome(L, D, RB, place, w, h, rng):
     _facade(L, D, place, -w / 2, w / 2, 1.0, base - 0.5, rng)
     _tbox(L, place, -w / 2 - 0.3, -0.3, base, w / 2 + 0.3, d + 0.3, base + 0.5)
     r = min(w, d) * 0.34
-    _tdome(L, place, 0, d * 0.5, base + 0.5, r * 1.05, r * 0.35, seg=8, rings=1)     # drum ring base
+    _tdome(RB, place, 0, d * 0.5, base + 0.5, r * 1.05, r * 0.35, seg=8, rings=1)    # drum ring base (slate, matches shell)
     _tbox(L, place, -r, d * 0.5 - r, base + 0.5, r, d * 0.5 + r, base + 0.5 + r * 0.5)  # drum
     _tdome(RB, place, 0, d * 0.5, base + 0.5 + r * 0.5, r, r * rng.uniform(0.9, 1.2))
     _tspire(L, place, 0, d * 0.5, base + 0.5 + r * 0.5 + r, r * 0.16, r * 0.9)         # lantern finial
@@ -808,10 +808,11 @@ def city_panorama(seed=3):
     for (ma, mr, mk, mw, mh) in MONUMENTS:
         _pano_building(L, D, R, ma, mr, mw, mh, mk, rng, _terrain(mr))
         pl = _placer(ma, mr, _terrain(mr))
-        if mk == "dome":                                                # gilded cap + finial
+        if mk == "dome":                                                # slate cap, gilt finial only
             rr_ = min(mw, mw * 0.85) * 0.34
             base = mh * 0.55 + 0.5 + rr_ * 0.5
-            _tdome(G, pl, 0, mw * 0.85 * 0.5, base + rr_ * 0.72, rr_ * 0.55, rr_ * 0.42, seg=8, rings=2)
+            _tdome(R, pl, 0, mw * 0.85 * 0.5, base + rr_ * 0.72, rr_ * 0.55, rr_ * 0.42, seg=8, rings=2)
+            _tspire(G, pl, 0, mw * 0.85 * 0.5, base + rr_ * 0.72 + rr_ * 0.42, rr_ * 0.09, rr_ * 0.55)
         elif mk == "cathedral":
             _tspire(G, pl, 0, mw * 0.72 * 0.55, mh + mw * 0.22 + mh * 0.4, mw * 0.02, mh * 0.12)
         elif mk == "tower":

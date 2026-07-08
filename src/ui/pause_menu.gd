@@ -74,7 +74,9 @@ func close() -> void:
 	visible = false
 	get_tree().paused = false
 	if Game.player != null and not Game.player.busy_in_menu():
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN \
+				if (Game.player != null and Game.player.look_compat) \
+				else Input.MOUSE_MODE_CAPTURED
 
 ## A true new game: destroy the save, forget the world, rebuild from the
 ## first bell. `reload` is a seam for headless tests (reloading the current
