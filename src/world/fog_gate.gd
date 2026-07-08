@@ -91,6 +91,14 @@ func respawn() -> void:
 	for hud in get_tree().get_nodes_in_group("hud"):
 		hud.hide_boss()
 
+## The warden already rests (a prior session or an earlier visit): the veil
+## must not re-form when the area is rebuilt. Cheap, instant, no tween.
+func snap_cleared() -> void:
+	_engaged = true
+	_zone.enabled = false
+	_seal.collision_layer = 0
+	_plane.hide()
+
 func dissolve() -> void:
 	_seal.collision_layer = 0
 	_zone.enabled = false

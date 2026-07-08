@@ -179,6 +179,26 @@
    2.1
   ]
  },
+ "canal_vault_8m": {
+  "file": "assets/kit/canal_vault_8m.glb",
+  "origin": "bottom-center",
+  "polys": 48,
+  "size": [
+   8,
+   40,
+   25.2
+  ]
+ },
+ "canal_vault_8m_win": {
+  "file": "assets/kit/canal_vault_8m_win.glb",
+  "origin": "bottom-center",
+  "polys": 154,
+  "size": [
+   8,
+   40,
+   25.2
+  ]
+ },
  "candelabra": {
   "file": "assets/kit/candelabra.glb",
   "origin": "bottom-center",

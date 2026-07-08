@@ -489,6 +489,62 @@
    ],
    "mat": "M_backdrop_dark",
    "tag": "base"
+  },
+  {
+   "min": [
+    -32.4,
+    -2.3,
+    4
+   ],
+   "max": [
+    -31.6,
+    21.8,
+    20
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -32.4,
+    -2.3,
+    -20
+   ],
+   "max": [
+    -31.6,
+    21.8,
+    -4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    27.6,
+    -2.3,
+    -20
+   ],
+   "max": [
+    28.6,
+    21.8,
+    20
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -32.4,
+    4.8,
+    -4
+   ],
+   "max": [
+    -31.6,
+    21.8,
+    4
+   ],
+   "mat": "M_stone",
+   "tag": "base"
   }
  ],
  "rows": [],
@@ -651,6 +707,96 @@
    ],
    "rot": 90,
    "tag": "glory"
+  },
+  {
+   "kit": "canal_vault_8m",
+   "at": [
+    -48,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m_win",
+   "at": [
+    -40,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m",
+   "at": [
+    -32,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m",
+   "at": [
+    -24,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m",
+   "at": [
+    -16,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m_win",
+   "at": [
+    -8,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m",
+   "at": [
+    0,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m",
+   "at": [
+    8,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m_win",
+   "at": [
+    16,
+    0,
+    0
+   ],
+   "collide": false
+  },
+  {
+   "kit": "canal_vault_8m",
+   "at": [
+    24,
+    0,
+    0
+   ],
+   "collide": false
   }
  ],
  "watcher_puzzles": [],

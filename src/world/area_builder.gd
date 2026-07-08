@@ -72,6 +72,11 @@ static func build(area_id: String) -> Area:
 		for s in _all_spawners(area):
 			if String(s.get_meta("fog_gate_id", "")) == f.gate_id:
 				f.boss_spawner = s
+		# a slain warden stays slain: rebuilt areas must not re-arm the veil
+		if World.is_cleared(area_id) or (f.boss_spawner != null
+				and f.boss_spawner.dead_once
+				and World.area_flag(area_id, f.boss_spawner.spawn_flag)):
+			f.snap_cleared()
 	for spec in def.get("npcs", []):
 		var n := NPC.new()
 		n.npc_id = spec.get("id", "aveline")

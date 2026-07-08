@@ -329,6 +329,45 @@ def gate_iron():
     return objs, {"size": [2.4, 0.1, 2.35], "origin": "bottom-center"}
 
 
+def canal_vault(win: bool):
+    """One 8 m segment of the great canal vault over the Drowned Marches: a
+    semicircular barrel roof (r=20, sprung at z=2) with skirts running below
+    the waterline. Faces point INWARD (it is only ever seen from inside).
+    The window variant opens a barred 4 m light in both flanks."""
+    R, CY, L, SEG = 20.0, 2.0, 8.0, 14
+    prof = [(-20.0, -3.2), (-20.0, CY)]
+    for i in range(1, SEG):
+        a = math.pi * i / SEG
+        prof.append((-R * math.cos(a), CY + R * math.sin(a)))
+    prof += [(20.0, CY), (20.0, -3.2)]
+    xs = (-4.0, -2.0, 2.0, 4.0)
+    bm = bmesh.new()
+    grid = [[bm.verts.new((x, py, pz)) for (py, pz) in prof] for x in xs]
+    for c in range(len(xs) - 1):
+        mid_col = c == 1
+        for i in range(len(prof) - 1):
+            (y0, z0), (y1, z1) = prof[i], prof[i + 1]
+            zm = (z0 + z1) * 0.5
+            flank = abs((y0 + y1) * 0.5) > 17.0
+            if win and mid_col and flank and 3.2 <= zm <= 6.8:
+                continue   # the barred light
+            a, b = grid[c][i], grid[c][i + 1]
+            d, e = grid[c + 1][i], grid[c + 1][i + 1]
+            bm.faces.new((a, b, e, d))
+    objs = [V.bm_to_object(bm, "canal_vault", ("M_stone_dark",))]
+    if win:
+        bb = bmesh.new()
+        for sgn in (-1, 1):
+            for k in range(7):
+                bx = -1.8 + 0.6 * k
+                V.add_box(bb, (bx - 0.04, sgn * 19.05 - 0.04, 3.1),
+                          (bx + 0.04, sgn * 19.05 + 0.04, 6.9))
+            V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 2.9), (2.1, sgn * 19.0 + 0.05, 3.2))
+            V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 6.8), (2.1, sgn * 19.0 + 0.05, 7.1))
+        objs.append(V.bm_to_object(bb, "vault_bars", ("M_iron",)))
+    return objs, {"size": [8, 40, 25.2], "origin": "bottom-center"}
+
+
 def anvil():
     """Reliquary smith's anvil: forged block with a squared horn, set on an
     oak stump so the working face lands at a smith's hip."""
@@ -654,6 +693,8 @@ BUILDERS = {
     "tomb_slab": tomb_slab,
     "gate_iron": gate_iron,
     "anvil": anvil,
+    "canal_vault_8m": lambda: canal_vault(False),
+    "canal_vault_8m_win": lambda: canal_vault(True),
     "fence_iron_4m": fence_iron_4m,
     "bell_great": bell_great,
     "organ_case": organ_case,
