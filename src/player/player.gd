@@ -34,6 +34,9 @@ var state_t := 0.0
 var dead := false
 var input_enabled := true
 var _recap_cd := 0.0
+var _mo_n := 0           # motion events this window
+var motion_rate := 0     # published events/second for the HUD diagnostics
+var _mo_t := 0.0
 
 # roll / iframes
 var _iframe_from := 0.0
@@ -186,6 +189,7 @@ func _input(event: InputEvent) -> void:
 	if sim_active:
 		return
 	if event is InputEventMouseMotion:
+		_mo_n += 1
 		# look works from relative motion even if the OS refuses the capture
 		# grab (remote desktop, overlays): degraded but never dead. Menus and
 		# dialogue still own the cursor.
@@ -233,6 +237,11 @@ func _physics_process(dt: float) -> void:
 	# doesn't — first frame after boot, alt-tab return, an OS quirk dropping
 	# the grab — take it back. Interval-gated: on machines where capture is
 	# refused outright, per-frame attempts would warp the pointer every frame.
+	_mo_t += dt
+	if _mo_t >= 1.0:
+		motion_rate = _mo_n
+		_mo_n = 0
+		_mo_t = 0.0
 	_recap_cd = maxf(0.0, _recap_cd - dt)
 	if not sim_active and not dead and input_enabled and not _captured() \
 			and not PauseUI.is_open() and state != S.REST and state != S.TALK \

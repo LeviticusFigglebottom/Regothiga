@@ -272,9 +272,12 @@ func _process(dt: float) -> void:
 		if Game.player != null and Game.player.cam != null \
 				and Game.player.cam.locked_target != null:
 			lock = " lock"
-		pose_label.text = "%s %s  %.1f,%.1f,%.1f,%.1f,%.1f,%.0f  s%.1f %s%s" % [
-			Game.current_area_id, st, p.x, p.y, p.z, r.y, r.x, cam.fov,
-			float(PauseUI.settings.get("sensitivity", 5.0)), cap, lock]
+		var mo := 0
+		if Game.player != null:
+			mo = Game.player.motion_rate
+		pose_label.text = "%s | %s %s  %.1f,%.1f,%.1f,%.1f,%.1f,%.0f  s%.1f %s m%d%s" % [
+			VG.BUILD, Game.current_area_id, st, p.x, p.y, p.z, r.y, r.x, cam.fov,
+			float(PauseUI.settings.get("sensitivity", 5.0)), cap, mo, lock]
 	elif pose_label != null:
 		pose_label.text = ""
 	# bar smoothing: fill snaps, ghost bleeds down slowly
