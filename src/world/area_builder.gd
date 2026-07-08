@@ -178,7 +178,8 @@ static func _prop_collides(spec: Dictionary) -> bool:
 ## trimesh collision. Anything NOT here gets a solid convex blocker.
 const STRUCTURAL_KITS := ["wall_4x4", "arcade_4m", "portal_4m", "window_lancet_4m",
 	"ossuary_wall_4m", "balustrade_4m", "buttress", "rose_window", "roof_shed_4m",
-	"vault_bay_4x4", "floor_4x4", "fence_iron_4m", "gate_iron", "cornice_4m"]
+	"vault_bay_4x4", "floor_4x4", "fence_iron_4m", "gate_iron", "cornice_4m",
+	"gate_black"]   # trimesh keeps the walkable breach between the leaves
 
 static func _is_structural(kit) -> bool:
 	return String(kit) in STRUCTURAL_KITS
@@ -192,8 +193,8 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 		var sc = spec["scale"]
 		piece.scale = _v3(sc) if sc is Array else Vector3.ONE * float(sc)
 	if collide and spec.get("collide", true):
-		if String(spec["kit"]) == "stair_grand_4m":
-			_stair_ramp(piece, tag)   # ramp-only: step trimesh would wall off the climb
+		if String(spec["kit"]).begins_with("stair_grand_4m"):
+			_stair_ramp(piece, tag, String(spec["kit"]))   # ramp-only: step trimesh would wall off the climb
 		else:
 			# architecture (walls, arcades, portals, windows) keeps its exact
 			# hollow shell so you can pass through openings; everything else
@@ -212,7 +213,7 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 ## the slope and match the kit's visible parapets — the old full-height
 ## level boxes were invisible walls beside every open flight, and left the
 ## upper half of open flights unguarded.
-static func _stair_ramp(piece: Node3D, tag: String) -> void:
+static func _stair_ramp(piece: Node3D, tag: String, kit := "stair_grand_4m") -> void:
 	var body := StaticBody3D.new()
 	body.collision_layer = 1 << (_tag_bit(tag) - 1)
 	body.collision_mask = 0
@@ -223,7 +224,13 @@ static func _stair_ramp(piece: Node3D, tag: String) -> void:
 	cs.rotation_degrees = Vector3(-30.96, 0, 0)   # rise 2.4 over run 4.0
 	cs.position = Vector3(0, -1.45, -2.12)
 	body.add_child(cs)
-	for sx in [-2.17, 2.17]:
+	# parapet flanks mirror the kit variant: _l keeps only x<0, _r only x>0
+	var flanks: Array = [-2.17, 2.17]
+	if kit.ends_with("_l"):
+		flanks = [-2.17]
+	elif kit.ends_with("_r"):
+		flanks = [2.17]
+	for sx in flanks:
 		var fs := CollisionShape3D.new()
 		var fb := BoxShape3D.new()
 		fb.size = Vector3(0.36, 1.5, 5.15)

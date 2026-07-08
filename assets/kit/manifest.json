@@ -202,7 +202,7 @@
  "capstan_bars": {
   "file": "assets/kit/capstan_bars.glb",
   "origin": "axle",
-  "polys": 46,
+  "polys": 52,
   "size": [
    2.4,
    2.4,
@@ -212,10 +212,10 @@
  "capstan_base": {
   "file": "assets/kit/capstan_base.glb",
   "origin": "bottom-center",
-  "polys": 58,
+  "polys": 70,
   "size": [
    1.6,
-   1.6,
+   3.0,
    1.0
   ]
  },
@@ -516,7 +516,7 @@
  "gate_black": {
   "file": "assets/kit/gate_black.glb",
   "origin": "bottom-center",
-  "polys": 246,
+  "polys": 258,
   "size": [
    8.6,
    0.6,
@@ -1125,6 +1125,26 @@
   "file": "assets/kit/stair_grand_4m.glb",
   "origin": "top-center",
   "polys": 96,
+  "size": [
+   4.68,
+   2.4,
+   4.0
+  ]
+ },
+ "stair_grand_4m_l": {
+  "file": "assets/kit/stair_grand_4m_l.glb",
+  "origin": "top-center",
+  "polys": 84,
+  "size": [
+   4.68,
+   2.4,
+   4.0
+  ]
+ },
+ "stair_grand_4m_r": {
+  "file": "assets/kit/stair_grand_4m_r.glb",
+  "origin": "top-center",
+  "polys": 84,
   "size": [
    4.68,
    2.4,

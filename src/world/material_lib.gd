@@ -4,6 +4,10 @@ class_name MaterialLib
 ## ruin-only) so layer-exclusive meshes dissolve correctly during the wave.
 
 const GOTHIC := preload("res://shaders/gothic.gdshader")
+const GOTHIC_DS := preload("res://shaders/gothic_ds.gdshader")
+## Thin-shell families rendered double-sided (backface normal flipped in the
+## shader): roof planes must read from above/behind instead of vanishing.
+const DOUBLE_SIDED := {"M_roof": true}
 
 const TEXTURES := {
 	"M_stone":      ["T_stone", 0.5, 0.62],
@@ -87,7 +91,7 @@ static func get_mat(family: String, state_mode := 0) -> Material:
 		mat.shader = FLAME
 		mat.set_shader_parameter("state_mode", state_mode)
 	else:
-		mat.shader = GOTHIC
+		mat.shader = GOTHIC_DS if DOUBLE_SIDED.has(family) else GOTHIC
 		var f: Dictionary = FAMILIES.get(family, FAMILIES["M_stone"])
 		mat.set_shader_parameter("albedo", f["albedo"])
 		mat.set_shader_parameter("roughness_v", f.get("rough", 0.9))

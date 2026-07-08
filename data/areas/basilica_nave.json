@@ -901,6 +901,51 @@
    ],
    "rot": 90,
    "collide": false
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    10.22,
+    2.38,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -13.2,
+    4.78,
+    -22.6
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -10.8,
+    4.78,
+    -22.6
+   ],
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -13.2,
+    4.78,
+    -22.6
+   ],
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -10.8,
+    4.78,
+    -22.6
+   ],
+   "tag": "ruin"
   }
  ],
  "props": [
@@ -1628,9 +1673,9 @@
    "enemy": "chorister",
    "id": "aisle_e",
    "at": [
-    12,
+    9,
     0.1,
-    -18
+    -23
    ],
    "face": 0
   },
@@ -1696,7 +1741,7 @@
     -17.2
    ],
    "rot": -25,
-   "tag": "base"
+   "tag": "glory"
   }
  ],
  "chime_puzzles": [],
@@ -1799,6 +1844,15 @@
    ],
    "rot": -60,
    "text": "THE SEXTON'S BAY\n\nSix hundred brothers, one shovel.\n\nHe buried the choir one by one as the wax took them, and awaits no thanks. Graves before glory; tailings before talk."
+  },
+  {
+   "at": [
+    -13.6,
+    4.78,
+    -20
+   ],
+   "rot": 90,
+   "text": "THE VOTIVE GALLERY\n\nWhat the parish paid in wax and gold was carried up and left above the vessel, where the sexton's iron kept it.\n\nThe hours keep it now."
   }
  ],
  "pickups": [
@@ -1847,6 +1901,17 @@
    "orisons": 160,
    "tag": "base",
    "label": "Gather the gallery offerings"
+  },
+  {
+   "id": "gallery_votives",
+   "at": [
+    -12,
+    4.8,
+    -21.5
+   ],
+   "orisons": 400,
+   "label": "Gather the votive offerings",
+   "tag": "base"
   }
  ],
  "portals": [
@@ -2111,6 +2176,84 @@
    "mat": "M_stone_trim",
    "tag": "base",
    "collide": false
+  },
+  {
+   "min": [
+    10,
+    0,
+    -4
+   ],
+   "max": [
+    14,
+    2.16,
+    0
+   ],
+   "mat": "M_stone"
+  },
+  {
+   "min": [
+    10,
+    0,
+    0
+   ],
+   "max": [
+    14,
+    2.3,
+    1.5
+   ],
+   "mat": "M_stone"
+  },
+  {
+   "min": [
+    10,
+    0,
+    1.5
+   ],
+   "max": [
+    14,
+    3.1,
+    2.9
+   ],
+   "mat": "M_stone"
+  },
+  {
+   "min": [
+    10,
+    0,
+    2.9
+   ],
+   "max": [
+    14,
+    3.95,
+    4
+   ],
+   "mat": "M_stone"
+  },
+  {
+   "min": [
+    10,
+    0,
+    -4.9
+   ],
+   "max": [
+    14,
+    1.6,
+    -4
+   ],
+   "mat": "M_stone"
+  },
+  {
+   "min": [
+    10,
+    0,
+    -6.6
+   ],
+   "max": [
+    14,
+    0.75,
+    -4.9
+   ],
+   "mat": "M_stone"
   }
  ]
 }

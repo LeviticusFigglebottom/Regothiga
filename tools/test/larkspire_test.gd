@@ -37,7 +37,7 @@ func _run() -> void:
 		[Vector3(2, 7.2, -6), 7.2, "second landing"],
 		[Vector3(6, 9.6, -2), 9.6, "story 2 (arrival)"],
 		[Vector3(6, 12.0, 2), 12.0, "third landing"],
-		[Vector3(3, 14.4, 6.5), 14.4, "story 3 (arrival)"],
+		[Vector3(-2.5, 14.4, 6.5), 14.4, "story 3 (arrival)"],
 		[Vector3(-2, 16.8, 6), 16.8, "final landing"],
 		[Vector3(-6, 19.2, 3), 19.2, "summit stairhead arrival"],
 		[Vector3(0, 19.2, 0), 19.2, "summit deck"],

@@ -36,7 +36,10 @@ def gate_black():
     hangs in that breach. 8 m wide, 6 m tall. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
-    for s, x0, x1 in ((-1, -3.9, -0.12), (1, 0.12, 3.9)):
+    # the breach between the leaves is a real 1.5 m opening — wide enough to
+    # walk once the portcullis is winched (the ruin veil hangs in it; in glory
+    # it is the way through). Leaf edges bevel back so it reads pushed-ajar.
+    for s, x0, x1 in ((-1, -3.9, -0.75), (1, 0.75, 3.9)):
         V.add_box(bm, (x0, -0.14, 0.0), (x1, 0.14, 5.6))
         # iron bands
         for z in (0.9, 2.4, 3.9):
@@ -46,6 +49,9 @@ def gate_black():
             for xi in range(4):
                 sx = x0 + 0.5 + xi * (abs(x1 - x0) - 1.0) / 3.0
                 V.add_box(bm, (sx - 0.05, -0.24, 0.5 + zi * 1.3), (sx + 0.05, -0.14, 0.6 + zi * 1.3))
+        # angled reveal on the breach edge (the leaf stands pushed inward)
+        ex = -0.75 if s < 0 else 0.75
+        V.add_box(bm, (ex - 0.08, 0.14, 0.0), (ex + 0.08, 0.5, 5.6))
     objs.append(V.bm_to_object(bm, "gate_leaves", ("M_iron",)))
     lin = bmesh.new()
     V.add_box(lin, (-4.3, -0.3, 5.6), (4.3, 0.3, 6.4))
@@ -68,7 +74,16 @@ def capstan_base():
         ring = V.loft_rings("cap_chain", [(0.46, z, 10, 0), (0.46, z + 0.09, 10, 0)], "M_iron",
                             cap_bottom=False, cap_top=False)
         objs.append(ring)
-    return objs, {"size": [1.6, 1.6, 1.0], "origin": "bottom-center"}
+    # the chain-LEAD: a taut run leaving the drum toward the gate it pulls
+    # (local -Y = Godot +Z). The puzzle reads by laying the gilded bar of
+    # capstan_bars along this lead — a fixed pointer the player can see.
+    lead = bmesh.new()
+    V.add_box(lead, (-0.06, -1.5, 0.30), (0.06, -0.42, 0.40))
+    objs.append(V.bm_to_object(lead, "cap_lead", ("M_iron",)))
+    guide = bmesh.new()
+    V.add_box(guide, (-0.16, -1.5, 0.0), (0.16, -1.16, 0.5))
+    objs.append(V.bm_to_object(guide, "cap_guide", ("M_stone_dark",)))
+    return objs, {"size": [1.6, 3.0, 1.0], "origin": "bottom-center"}
 
 
 def capstan_bars():
@@ -78,9 +93,17 @@ def capstan_bars():
     bm = bmesh.new()
     V.add_box(bm, (-1.15, -0.07, 0.0), (1.15, 0.07, 0.14))
     V.add_box(bm, (-0.07, -1.15, 0.0), (0.07, 1.15, 0.14))
-    for (x, y) in ((1.15, 0), (-1.15, 0), (0, 1.15), (0, -1.15)):   # worn grip knobs
+    for (x, y) in ((1.15, 0), (-1.15, 0), (0, 1.15)):               # worn grip knobs
         V.add_box(bm, (x - 0.11, y - 0.11, -0.03), (x + 0.11, y + 0.11, 0.17))
     objs.append(V.bm_to_object(bm, "cap_bars", ("M_wood",)))
+    # ONE bar is the chain-bar: gilt-capped and ridged (local -Y = Godot +Z at
+    # rot 0). The cross is otherwise 90-degree symmetric, so without this the
+    # capstan's bearing is unreadable — lay the gilded bar on the base's
+    # chain-lead and the wheel is set.
+    gild = bmesh.new()
+    V.add_box(gild, (-0.13, -1.34, -0.05), (0.13, -1.02, 0.19))
+    V.add_box(gild, (-0.05, -1.02, 0.14), (0.05, -0.2, 0.21))
+    objs.append(V.bm_to_object(gild, "cap_goldbar", ("M_gold",)))
     hub = V.loft_rings("cap_hub", [(0.16, -0.05, 8, 0), (0.14, 0.3, 8, 0)], "M_iron")
     objs.append(hub)
     return objs, {"size": [2.4, 2.4, 0.35], "origin": "axle"}

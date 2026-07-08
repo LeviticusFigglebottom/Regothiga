@@ -33,6 +33,7 @@ const ST_W := 340.0
 
 var lore_root: Control
 var lore_text: Label
+var pose_label: Label
 
 func _ready() -> void:
 	layer = 10
@@ -133,6 +134,22 @@ func _build() -> void:
 	orisons_label.offset_bottom = -55
 	orisons_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	orisons_label.text = "0 orisons"
+
+	# the surveyor's line: area, state and the live camera pose in exactly the
+	# form tools/shot.sh --shot-cam takes, so any player screenshot can be
+	# replayed 1:1 headlessly (dim, small, out of the composition's way)
+	pose_label = Label.new()
+	pose_label.label_settings = _font(SERIF_B, 13, Color(0.75, 0.72, 0.62, 0.55))
+	pose_label.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	pose_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	pose_label.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	pose_label.offset_left = -560
+	pose_label.offset_top = -34
+	pose_label.offset_right = -10
+	pose_label.offset_bottom = -10
+	pose_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	pose_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(pose_label)
 	root.add_child(orisons_label)
 
 	prompt_label = Label.new()
@@ -244,6 +261,16 @@ func _build() -> void:
 	splash.add_child(splash_label)
 
 func _process(dt: float) -> void:
+	# the surveyor's line follows the live camera every frame
+	var cam := get_viewport().get_camera_3d()
+	if cam != null and Game.current_area_id != "":
+		var st := "ruin" if Game.area_state() == VG.WState.RUIN else "glory"
+		var p := cam.global_position
+		var r := cam.global_rotation_degrees
+		pose_label.text = "%s %s  %.1f,%.1f,%.1f,%.1f,%.1f,%.0f" % [
+			Game.current_area_id, st, p.x, p.y, p.z, r.y, r.x, cam.fov]
+	elif pose_label != null:
+		pose_label.text = ""
 	# bar smoothing: fill snaps, ghost bleeds down slowly
 	hp_fill.size.x = (HP_W - 4) * _hp_ratio
 	_ghost_ratio = maxf(_hp_ratio, _ghost_ratio - dt * 0.25)

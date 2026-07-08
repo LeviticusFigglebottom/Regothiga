@@ -220,12 +220,15 @@ def _stringer(bm, x, run, rise, w=0.14, guard=1.02):
            (run + 0.1, -rise + guard - 0.03), (-0.1, guard - 0.03)], x - 0.03, x + w + 0.03)
 
 
-def stair_grand_4m():
+def _stair_grand(sides="both"):
     """Grand stair: 4 m wide, DROPPING 2.4 m over a 4 m run, with side stringers.
     Z is UP in this kit (like every wall/column): the RISE is on Z, the RUN on Y
     (toward +Y, which becomes the ramp's -Z in Godot so the visual and the
     2.4-over-4 collision ramp descend the SAME way). Origin: top front-edge
-    centre; the top tread sits flush with the upper floor, the foot 2.4 m below."""
+    centre; the top tread sits flush with the upper floor, the foot 2.4 m below.
+    sides: "both"/"l"/"r" — which parapet stringers to build. Twin flights laid
+    side by side use _r + _l so the shared middle stays an open water-line
+    instead of a double blade of coping."""
     bm = bmesh.new()
     steps, run, rise = 12, 4.0, 2.4
     dy, dz = run / steps, rise / steps
@@ -233,10 +236,24 @@ def stair_grand_4m():
         top = -dz * i                       # tread top height (Z), descending
         # x[-2.1,2.1]  y(run)[dy*i, dy*(i+1)]  z(height)[top-dz, top]
         _box(bm, -2.1, dy * i - 0.02, top - dz - 0.02, 2.1, dy * (i + 1), top)
-    _stringer(bm, -2.24, run, rise)
-    _stringer(bm, 2.10, run, rise)
+    if sides in ("both", "l"):
+        _stringer(bm, -2.24, run, rise)
+    if sides in ("both", "r"):
+        _stringer(bm, 2.10, run, rise)
     obj = V.bm_to_object(bm, "stair", ("M_stone",))
     return [obj], {"size": [4.68, rise, run], "origin": "top-center"}
+
+
+def stair_grand_4m():
+    return _stair_grand("both")
+
+
+def stair_grand_4m_l():
+    return _stair_grand("l")
+
+
+def stair_grand_4m_r():
+    return _stair_grand("r")
 
 
 def urn():
@@ -884,6 +901,8 @@ BUILDERS = {
     "city_cluster_b": lambda: city_cluster(14),
     "balustrade_4m": balustrade_4m,
     "stair_grand_4m": stair_grand_4m,
+    "stair_grand_4m_l": stair_grand_4m_l,
+    "stair_grand_4m_r": stair_grand_4m_r,
     "urn": urn,
     "wellhead": wellhead,
     "sconce_torch": sconce_torch,

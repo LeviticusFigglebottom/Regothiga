@@ -43,7 +43,9 @@ func _run() -> void:
 	# ---- floors: street, plaza, both battlement halves, courtyard
 	for wp in [[Vector3(0, 0, 16), 0.0, "approach street"],
 			[Vector3(0, 0, 0), 0.0, "gate plaza"],
-			[Vector3(-10, 2.4, -14), 2.4, "west stair landing"],
+			[Vector3(-10, 2.5, -3), 2.4, "west plaza flight (mid-seam)"],
+			[Vector3(-7, 0, -12), 0.0, "west winch room"],
+			[Vector3(-10, 4.8, -10), 4.8, "west stairhead deck"],
 			[Vector3(0, 4.8, -10), 4.8, "battlement deck"],
 			[Vector3(0, 0, -24), 0.0, "boss courtyard"]]:
 		var y := _floor_under(wp[0], area)
@@ -100,6 +102,9 @@ func _run() -> void:
 	boss.take_hit(DamagePacket.new(99999, 0, player))
 	await ticks(30)
 	check(boss.dead and World.is_cleared("black_gate"), "felling him clears the Black Gate")
+	await ticks(10)
+	check(not _blocked(Vector3(0, 1.2, -13.6), Vector3(0, 1.2, -16.4), area),
+		"the breach in the Black Gate is walkable once the toll is settled")
 
 	# ---- the herald tolls the dead
 	var herald_cfg: Dictionary = DB.enemy("drowned_herald")
@@ -138,7 +143,7 @@ func _run() -> void:
 		check(absf(by - 0.0) < 0.35, "descending lands on the gate road (y=%.2f)" % by)
 	if up != null:
 		var py := _floor_under(up.spawn_pos, porch)
-		check(absf(py - (-2.62)) < 0.35, "climbing home lands on the terrace (y=%.2f)" % py)
+		check(absf(py - (-5.02)) < 0.35, "climbing home lands at the pilgrim stair foot (y=%.2f)" % py)
 
 	for kit in ["portcullis_4m", "gate_black", "capstan_base", "capstan_bars",
 			"battlement_4m", "toll_maul"]:

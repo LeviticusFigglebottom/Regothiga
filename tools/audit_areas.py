@@ -21,6 +21,7 @@ MOUNTED = {
 # kits that are architecture (not decor); they define floors/walls, skip float check
 ARCH = {"floor_4x4", "wall_4x4", "ossuary_wall_4m", "arcade_4m", "portal_4m",
         "window_lancet_4m", "column_4m", "stair_grand_4m", "fence_iron_4m",
+        "stair_grand_4m_l", "stair_grand_4m_r",   # one-parapet variants
         "column_broken", "door_leaf", "fog_gate_frame", "cornice_4m",
         "balustrade_4m", "buttress"}   # buttresses ride at height on purpose
 # railings sit ON their floor and INSIDE its edge — they must NOT float or overhang.

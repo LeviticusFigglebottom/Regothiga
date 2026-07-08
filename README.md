@@ -44,6 +44,24 @@ xvfb-run -a -s "-screen 0 1920x1080x24" godot --path . --rendering-driver vulkan
 
 Gamepad: standard soulslike layout (RB/RT light/heavy, LB block, LT parry, B roll/sprint, X flask, A interact, RS click lock-on).
 
+## Packaging a standalone build (send it to a friend)
+
+The game exports to a single self-contained executable — the player does NOT
+need Godot. One-time setup: install the 4.7 export templates
+(`godot --headless --install-export-templates`, or Editor > Manage Export
+Templates). Then:
+
+```sh
+tools/export.sh            # Linux + Windows executables into build/
+tools/export.sh Windows    # just one platform
+```
+
+`export_presets.cfg` ships in the repo (Linux + Windows Desktop, embedded
+.pck). The exported binary is functionally identical to running from the
+editor: all content is data-driven from `data/` and pre-baked assets — no
+editor-only dependencies, no dev tools included (`tools/`, docs and pipeline
+scripts are excluded from the pack). Saves go to the platform `user://` dir.
+
 ## Rebuilding generated content (optional)
 
 All assets (models, textures, audio) are generated and committed; you only need these to *regenerate*:
