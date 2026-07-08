@@ -518,6 +518,15 @@
     0,
     2.8
    ]
+  },
+  {
+   "kit": "ferry_skiff",
+   "at": [
+    -46.5,
+    -2.32,
+    -2.5
+   ],
+   "rot": 155
   }
  ],
  "watcher_puzzles": [],
@@ -1130,6 +1139,24 @@
    ],
    "spawn_yaw": -90,
    "prompt": "Return through the Black Gate"
+  },
+  {
+   "to": "vigils_end",
+   "at": [
+    -42.5,
+    0,
+    0
+   ],
+   "rot": 90,
+   "spawn": [
+    23,
+    0.2,
+    0
+   ],
+   "spawn_yaw": 90,
+   "prompt": "Take the ferry to the far shore",
+   "locked_flag": "cleared:drowned_marches",
+   "locked_prompt": "The Ferryman poles these flats still"
   }
  ],
  "skyline": [

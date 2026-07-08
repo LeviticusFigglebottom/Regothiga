@@ -6,7 +6,8 @@
   "ossuary_undercroft",
   "larkspire",
   "black_gate",
-  "drowned_marches"
+  "drowned_marches",
+  "vigils_end"
  ],
  "graph": {
   "gray_cloister": {
@@ -35,7 +36,11 @@
    "west": "drowned_marches"
   },
   "drowned_marches": {
-   "east": "black_gate"
+   "east": "black_gate",
+   "west": "vigils_end"
+  },
+  "vigils_end": {
+   "east": "drowned_marches"
   }
  },
  "start_area": "gray_cloister"

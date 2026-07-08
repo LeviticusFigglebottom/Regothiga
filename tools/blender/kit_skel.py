@@ -502,3 +502,22 @@ ARCHETYPES["skel_mire"] = mire
 
 
 ARCHETYPES["skel_bellox"] = bellox
+
+
+def wretch(arm):
+    """Lantern Wretch: a pilgrim who reached the Last Shore and kept walking
+    the shallows — gaunt, salt-bleached weave, a little dead lantern chained
+    at the hip that only the remembered world can light."""
+    b = BodyBuilder("wretch")
+    common_body(b, "M_wraith", "M_wax", "M_robe", hood="closed", skirt=True,
+                skirt_len=0.6, girth=0.78)
+    # the hip lantern: iron box + ember core, slung on a short chain
+    bm = b.part("hips", "M_iron")
+    V.add_box(bm, (0.16, -0.05, 0.78), (0.28, 0.05, 0.94))
+    V.add_box(bm, (0.2, -0.015, 0.94), (0.24, 0.015, 1.05))
+    bm = b.part("hips", "M_ember")
+    V.add_box(bm, (0.185, -0.03, 0.81), (0.255, 0.03, 0.9))
+    return b.finalize(arm, seed=307)
+
+
+ARCHETYPES["skel_wretch"] = wretch

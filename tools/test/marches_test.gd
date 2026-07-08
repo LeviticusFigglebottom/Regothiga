@@ -104,9 +104,9 @@ func _run() -> void:
 	# ---- postern pair lands on floor both ways
 	var back: AreaPortal = null
 	for n in area.base.get_children():
-		if n is AreaPortal:
+		if n is AreaPortal and n.to_area == "black_gate":
 			back = n
-	check(back != null and back.to_area == "black_gate", "the way back is the postern")
+	check(back != null, "the way back is the postern")
 	var gate := AreaBuilder.build("black_gate")
 	add_child(gate)
 	var out: AreaPortal = null

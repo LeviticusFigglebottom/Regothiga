@@ -449,6 +449,16 @@
    2.1
   ]
  },
+ "ferry_skiff": {
+  "file": "assets/kit/ferry_skiff.glb",
+  "origin": "bottom-center",
+  "polys": 24,
+  "size": [
+   3.4,
+   1.3,
+   0.8
+  ]
+ },
  "floor_4x4": {
   "file": "assets/kit/floor_4x4.glb",
   "origin": "top-center",
@@ -563,6 +573,16 @@
    2.3
   ]
  },
+ "half_arch_sunk": {
+  "file": "assets/kit/half_arch_sunk.glb",
+  "origin": "bottom-center",
+  "polys": 96,
+  "size": [
+   3.4,
+   1.0,
+   4.8
+  ]
+ },
  "hanging_chain": {
   "file": "assets/kit/hanging_chain.glb",
   "origin": "top-center",
@@ -611,6 +631,16 @@
    3.4,
    0.15,
    3.5
+  ]
+ },
+ "lantern_crook": {
+  "file": "assets/kit/lantern_crook.glb",
+  "origin": "grip",
+  "polys": 95,
+  "size": [
+   0.5,
+   0.25,
+   2.4
   ]
  },
  "lark_cage": {
@@ -887,6 +917,16 @@
    0.85
   ]
  },
+ "shrine_aedicule": {
+  "file": "assets/kit/shrine_aedicule.glb",
+  "origin": "bottom-center",
+  "polys": 184,
+  "size": [
+   3.0,
+   3.0,
+   4.5
+  ]
+ },
  "shroud_dead": {
   "file": "assets/kit/shroud_dead.glb",
   "origin": "bottom-center",
@@ -1040,6 +1080,17 @@
   ],
   "skeletal": true
  },
+ "skel_wretch": {
+  "file": "assets/kit/skel_wretch.glb",
+  "origin": "feet",
+  "polys": 757,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
  "spire_tower_a": {
   "file": "assets/kit/spire_tower_a.glb",
   "origin": "bottom-center",
@@ -1149,6 +1200,16 @@
    4,
    4,
    1.4583519426128122
+  ]
+ },
+ "vigil_brazier": {
+  "file": "assets/kit/vigil_brazier.glb",
+  "origin": "bottom-center",
+  "polys": 69,
+  "size": [
+   1.3,
+   1.3,
+   1.5
   ]
  },
  "vigil_lantern": {

@@ -50,4 +50,8 @@ shot undercroft_hall_glory.png ossuary_undercroft glory "0,1.6,8,40,-4,62"
 shot undercroft_hall_ruin.png  ossuary_undercroft ruin  "0,1.6,8,40,-4,62"
 shot undercroft_watchers.png   ossuary_undercroft glory "5.5,1.7,10.5,25,-4,62"
 shot undercroft_bellox.png     ossuary_undercroft ruin  "4,1.9,-2.5,25,-6,62"
+# pass Q: Vigil's End
+shot vigils_arrival.png      vigils_end glory "24,1.7,1,-95,2,72"
+shot vigils_shrine.png       vigils_end glory "-13,1.8,2,80,10,70"
+shot vigils_crown_ruin.png   vigils_end ruin  "-19.5,3.9,-5,-35,-6,70"
 echo "gallery done"

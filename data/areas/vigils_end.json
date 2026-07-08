@@ -1,0 +1,1008 @@
+{
+ "id": "vigils_end",
+ "name": "Vigil's End \u2014 the Last Shore",
+ "start": {
+  "pos": [
+   22,
+   0.2,
+   0
+  ],
+  "yaw": 90
+ },
+ "env": {
+  "glory": {
+   "sun_rot": [
+    -8,
+    -96
+   ],
+   "sun_color": [
+    1.0,
+    0.8,
+    0.5
+   ],
+   "sun_energy": 1.05,
+   "fog_density": 0.011,
+   "fog_color": [
+    0.55,
+    0.36,
+    0.22
+   ]
+  },
+  "ruin": {
+   "sun_rot": [
+    -6,
+    -96
+   ],
+   "sun_energy": 0.14,
+   "fog_density": 0.015,
+   "fog_color": [
+    0.09,
+    0.11,
+    0.18
+   ]
+  }
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    18,
+    0,
+    -4
+   ],
+   "max": [
+    26,
+    0,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -6,
+    0,
+    -4
+   ],
+   "max": [
+    18,
+    0,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -18,
+    0,
+    -8
+   ],
+   "max": [
+    -6,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -30,
+    2.4,
+    -10
+   ],
+   "max": [
+    -18,
+    2.4,
+    10
+   ]
+  }
+ ],
+ "open_air_regions": [
+  {
+   "min": [
+    18,
+    0,
+    -4
+   ],
+   "max": [
+    26,
+    0,
+    4
+   ]
+  },
+  {
+   "min": [
+    -6,
+    0,
+    -4
+   ],
+   "max": [
+    18,
+    0,
+    4
+   ]
+  },
+  {
+   "min": [
+    -18,
+    0,
+    -8
+   ],
+   "max": [
+    -6,
+    0,
+    8
+   ]
+  },
+  {
+   "min": [
+    -30,
+    2.4,
+    -10
+   ],
+   "max": [
+    -18,
+    2.4,
+    10
+   ]
+  },
+  {
+   "min": [
+    -52,
+    -2.6,
+    -22
+   ],
+   "max": [
+    30,
+    -2.6,
+    22
+   ]
+  }
+ ],
+ "boxes": [
+  {
+   "min": [
+    -52,
+    -3.0,
+    -22
+   ],
+   "max": [
+    30,
+    -2.6,
+    22
+   ],
+   "mat": "M_marsh",
+   "walkable": true
+  },
+  {
+   "min": [
+    17.9,
+    -2.7,
+    -4.1
+   ],
+   "max": [
+    26.1,
+    0.02,
+    -3.7
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    17.9,
+    -2.7,
+    3.7
+   ],
+   "max": [
+    26.1,
+    0.02,
+    4.1
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    25.7,
+    -2.7,
+    -4.1
+   ],
+   "max": [
+    26.1,
+    0.02,
+    4.1
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -6.1,
+    -2.7,
+    -4.1
+   ],
+   "max": [
+    18.1,
+    0.02,
+    -3.7
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -6.1,
+    -2.7,
+    3.7
+   ],
+   "max": [
+    18.1,
+    0.02,
+    4.1
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -18.1,
+    -2.7,
+    -8.1
+   ],
+   "max": [
+    -5.9,
+    0.02,
+    -7.7
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -18.1,
+    -2.7,
+    7.7
+   ],
+   "max": [
+    -5.9,
+    0.02,
+    8.1
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -5.9,
+    -2.7,
+    -8.1
+   ],
+   "max": [
+    -5.5,
+    0.02,
+    -3.9
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -5.9,
+    -2.7,
+    3.9
+   ],
+   "max": [
+    -5.5,
+    0.02,
+    8.1
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -30.2,
+    -2.7,
+    -10.2
+   ],
+   "max": [
+    -17.8,
+    2.42,
+    10.2
+   ],
+   "mat": "M_stone_dark"
+  },
+  {
+   "min": [
+    -18.25,
+    -0.1,
+    -2.05
+   ],
+   "max": [
+    -17.85,
+    2.42,
+    -1.6
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -18.25,
+    -0.1,
+    1.6
+   ],
+   "max": [
+    -17.85,
+    2.42,
+    2.05
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.4,
+    -2.7,
+    -5.8
+   ],
+   "max": [
+    8.6,
+    0.0,
+    -4.6
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base",
+   "walkable": true
+  },
+  {
+   "min": [
+    1.4,
+    -2.7,
+    4.8
+   ],
+   "max": [
+    2.6,
+    0.0,
+    6.0
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base",
+   "walkable": true
+  },
+  {
+   "min": [
+    -18.2,
+    2.35,
+    8.0
+   ],
+   "max": [
+    -17.55,
+    4.2,
+    10.25
+   ],
+   "tag": "base"
+  }
+ ],
+ "rows": [
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -28,
+    2.4,
+    -9.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 3,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -28,
+    2.4,
+    9.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 3,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -29.8,
+    2.4,
+    -8
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 5,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -17.8,
+    2.4,
+    -8
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -17.8,
+    2.4,
+    6
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  },
+  {
+   "kit": "reed_clump",
+   "from": [
+    16,
+    -2.6,
+    -6.5
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "count": 5,
+   "step": 5.6,
+   "tag": "glory",
+   "collide": false
+  },
+  {
+   "kit": "reed_clump_dead",
+   "from": [
+    16,
+    -2.6,
+    -6.5
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "count": 5,
+   "step": 5.6,
+   "tag": "ruin",
+   "collide": false
+  },
+  {
+   "kit": "reed_clump",
+   "from": [
+    14,
+    -2.6,
+    6.5
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "count": 5,
+   "step": 6.2,
+   "tag": "glory",
+   "collide": false
+  },
+  {
+   "kit": "reed_clump_dead",
+   "from": [
+    14,
+    -2.6,
+    6.5
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "count": 5,
+   "step": 6.2,
+   "tag": "ruin",
+   "collide": false
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -18,
+    2.38,
+    0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "shrine_aedicule",
+   "at": [
+    -25,
+    2.4,
+    0
+   ]
+  },
+  {
+   "kit": "half_arch_sunk",
+   "at": [
+    8,
+    -0.02,
+    -5.2
+   ],
+   "rot": 12
+  },
+  {
+   "kit": "half_arch_sunk",
+   "at": [
+    2,
+    -0.02,
+    5.4
+   ],
+   "rot": 196
+  },
+  {
+   "kit": "half_arch_sunk",
+   "at": [
+    -4,
+    -2.55,
+    -6.8
+   ],
+   "rot": -18
+  },
+  {
+   "kit": "ferry_skiff",
+   "at": [
+    24,
+    -2.72,
+    6.2
+   ],
+   "rot": -25
+  },
+  {
+   "kit": "waystone",
+   "at": [
+    13,
+    0,
+    -3.1
+   ],
+   "rot": 20
+  },
+  {
+   "kit": "waystone",
+   "at": [
+    -1,
+    0,
+    3.2
+   ],
+   "rot": -70
+  },
+  {
+   "kit": "waystone",
+   "at": [
+    -14,
+    0,
+    -6.6
+   ],
+   "rot": 130
+  }
+ ],
+ "props": [
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -23.5,
+    2.4,
+    1.8
+   ],
+   "rot": 40,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -23.5,
+    2.4,
+    1.8
+   ],
+   "rot": 40,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    20.4,
+    0,
+    3.0
+   ],
+   "rot": 210,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    20.4,
+    0,
+    3.0
+   ],
+   "rot": 210,
+   "tag": "ruin"
+  },
+  {
+   "kit": "bone_pile",
+   "at": [
+    -8.6,
+    0,
+    5.8
+   ],
+   "rot": 75,
+   "tag": "base"
+  },
+  {
+   "kit": "shroud_dead",
+   "at": [
+    -11.5,
+    0,
+    -5.4
+   ],
+   "rot": 160,
+   "tag": "base"
+  },
+  {
+   "kit": "shroud_dead",
+   "at": [
+    5.5,
+    0,
+    2.6
+   ],
+   "rot": -40,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -20.6,
+    2.4,
+    -6.2
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -15.2,
+    0,
+    4.4
+   ],
+   "rot": 250,
+   "tag": "ruin"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -28.6,
+    2.4,
+    -8.8
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    18.8,
+    0,
+    -3.4
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -17.7,
+    2.8,
+    4.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -24.4,
+    3.9,
+    9.4
+   ],
+   "rot": 210,
+   "tag": "ruin"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "lastshore",
+   "name": "Last Shore Lantern",
+   "at": [
+    21,
+    0,
+    3.2
+   ],
+   "rot": -120
+  }
+ ],
+ "gates": [],
+ "fog_gates": [
+  {
+   "id": "firstlight",
+   "at": [
+    -19.4,
+    2.4,
+    0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  }
+ ],
+ "chime_puzzles": [
+  {
+   "flag": "vigil_watchfires",
+   "order": [
+    "dusk",
+    "midnight",
+    "dawn"
+   ],
+   "kit": "vigil_brazier",
+   "verb": "Rekindle",
+   "swing": "stand_cage",
+   "sfx_ring": "res://assets/audio/swell_kindle.wav",
+   "chimes": [
+    {
+     "id": "dusk",
+     "label": "the dusk watch",
+     "at": [
+      12,
+      0,
+      2.6
+     ],
+     "rot": -90
+    },
+    {
+     "id": "midnight",
+     "label": "the midnight watch",
+     "at": [
+      0,
+      0,
+      -2.8
+     ],
+     "rot": 90
+    },
+    {
+     "id": "dawn",
+     "label": "the dawn watch",
+     "at": [
+      -12,
+      0,
+      5.6
+     ],
+     "rot": 180
+    }
+   ]
+  }
+ ],
+ "watcher_puzzles": [],
+ "votive_locks": [],
+ "flag_gates": [
+  {
+   "flag": "vigil_watchfires",
+   "kit": "gate_iron",
+   "at": [
+    -17.5,
+    2.4,
+    0
+   ],
+   "rot": 90,
+   "tag": "base",
+   "locked_prompt": "The watchfires are cold"
+  }
+ ],
+ "spawners": [
+  {
+   "enemy": "vigilant_husk",
+   "id": "husk_gate",
+   "at": [
+    -10,
+    0.1,
+    1
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "vigilant_husk",
+   "id": "husk_court",
+   "at": [
+    -15,
+    0.1,
+    -4
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "lantern_wretch",
+   "id": "wretch_way",
+   "at": [
+    6,
+    0.1,
+    -2
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "lantern_wretch",
+   "id": "wretch_shal",
+   "at": [
+    -2,
+    -2.5,
+    9.5
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "mirebound",
+   "id": "shore_mire",
+   "at": [
+    10,
+    -2.5,
+    -9
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "gilded_echo",
+   "id": "echo_way",
+   "at": [
+    1,
+    0.1,
+    1
+   ],
+   "face": -90,
+   "tag": "glory"
+  },
+  {
+   "enemy": "first_vigilant",
+   "id": "first_vigilant",
+   "at": [
+    -25.5,
+    2.5,
+    4.5
+   ],
+   "face": -125,
+   "dead_once": true,
+   "fog_gate_id": "firstlight"
+  }
+ ],
+ "npcs": [],
+ "plaques": [
+  {
+   "at": [
+    20.2,
+    0,
+    -3.3
+   ],
+   "rot": -35,
+   "text": "THE LAST SHORE\n\nHere the road out of the kingdom runs out of world.\n\nPilgrims came this far carrying one flame apiece. The wise gave theirs to the watchfires. The rest are still out in the shallows, holding them."
+  },
+  {
+   "at": [
+    -19.0,
+    2.4,
+    3.4
+   ],
+   "rot": 115,
+   "text": "THE FIRST LIGHT\n\nBefore the basilica, before the bells, there was one lantern on one rock, and a man who swore to keep it.\n\nEverything the kingdom remembers began as his shift. Nobody ever relieved him."
+  }
+ ],
+ "pickups": [
+  {
+   "id": "shore_prayers",
+   "at": [
+    14.5,
+    0,
+    3.2
+   ],
+   "orisons": 80,
+   "tag": "ruin",
+   "label": "Gather salt-sealed prayers"
+  },
+  {
+   "id": "shal_glass",
+   "at": [
+    4,
+    -2.6,
+    8.6
+   ],
+   "item": "candleglass",
+   "count": 2,
+   "tag": "ruin",
+   "label": "Pry up the candleglass"
+  },
+  {
+   "id": "first_charm",
+   "at": [
+    -27.6,
+    2.4,
+    5.4
+   ],
+   "item": "sun_creed_charm",
+   "count": 1,
+   "tag": "base",
+   "label": "Take the first creed"
+  },
+  {
+   "id": "vigil_hoard",
+   "at": [
+    -27.2,
+    2.4,
+    -5.0
+   ],
+   "orisons": 240,
+   "tag": "base",
+   "label": "Gather the watch-wages"
+  }
+ ],
+ "portals": [
+  {
+   "to": "drowned_marches",
+   "at": [
+    25.4,
+    0,
+    0
+   ],
+   "rot": -90,
+   "spawn": [
+    -37.5,
+    0.2,
+    0
+   ],
+   "spawn_yaw": -90,
+   "prompt": "Take the ferry back"
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    -18.3,
+    2.4,
+    8.0
+   ],
+   "max": [
+    -17.6,
+    4.0,
+    10.2
+   ],
+   "tag": "base"
+  }
+ ],
+ "skyline": [
+  {
+   "kit": "city_panorama",
+   "at": [
+    116,
+    -4.5,
+    0
+   ]
+  }
+ ],
+ "vault_fields": []
+}
