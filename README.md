@@ -47,7 +47,14 @@ Gamepad: standard soulslike layout (RB/RT light/heavy, LB block, LT parry, B rol
 ## Packaging a standalone build (send it to a friend)
 
 The game exports to a single self-contained executable — the player does NOT
-need Godot. One-time setup: install the 4.7 export templates
+need Godot.
+
+**Zero-setup route:** GitHub Actions builds both platforms on every push
+(`.github/workflows/export.yml`). Open the repo's **Actions** tab, pick the
+latest "Export game builds" run, and download `vespergard-windows` /
+`vespergard-linux` from its Artifacts. That file alone is the game.
+
+**Local route:** install Godot 4.7 plus the export templates
 (`godot --headless --install-export-templates`, or Editor > Manage Export
 Templates). Then:
 

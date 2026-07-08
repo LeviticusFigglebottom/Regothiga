@@ -20,3 +20,6 @@ docs/sweep/
 docs/diag/
 docs/diag2/
 docs/verify/
+
+# documentation images are not game resources (docs/.gdignore keeps Godot out)
+docs/**/*.import
