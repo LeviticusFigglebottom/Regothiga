@@ -457,12 +457,12 @@ def _facade(L, D, place, x0, x1, z0, z1, rng, bays=0, arched=True):
             _tspire(D, place, (wx0 + wx1) * 0.5, -0.05, wz1, (wx1 - wx0) * 0.5, (wx1 - wx0) * 0.7)
 
 
-def _bld_hall(L, D, place, w, h, rng):
+def _bld_hall(L, D, RB, place, w, h, rng):
     d = w * rng.uniform(0.55, 0.95)
     _tbox(L, place, -w / 2, 0, 0, w / 2, d, h)
     _facade(L, D, place, -w / 2, w / 2, 1.0, h - 0.4, rng)
     if rng.random() < 0.6:
-        _tgable(L, place, -w / 2, w / 2, 0, d, h, w * rng.uniform(0.24, 0.36))
+        _tgable(RB, place, -w / 2, w / 2, 0, d, h, w * rng.uniform(0.24, 0.36))
         if rng.random() < 0.4:
             _tspire(L, place, 0, d * 0.5, h + w * 0.24, w * 0.06, h * rng.uniform(0.3, 0.5))
     else:
@@ -471,7 +471,7 @@ def _bld_hall(L, D, place, w, h, rng):
             _tpin(L, place, sx * (w / 2 - 0.3), d * 0.5, h + 0.7, w * 0.07, h * 0.28)
 
 
-def _bld_tower(L, D, place, w, h, rng):
+def _bld_tower(L, D, RB, place, w, h, rng):
     w = min(w, max(4.0, h * 0.26))
     d = w
     z, ww = 0.0, w
@@ -490,7 +490,7 @@ def _bld_tower(L, D, place, w, h, rng):
     _tspire(L, place, 0, d * 0.5, z, ww * 0.58, h * rng.uniform(0.42, 0.7))
 
 
-def _bld_tiered(L, D, place, w, h, rng):
+def _bld_tiered(L, D, RB, place, w, h, rng):
     tiers = rng.randint(2, 3)
     z, ww, dd = 0.0, w, w * 0.85
     for t in range(tiers):
@@ -506,7 +506,7 @@ def _bld_tiered(L, D, place, w, h, rng):
     _tspire(L, place, 0, dd * 0.5, z, ww * 0.4, h * 0.24)
 
 
-def _bld_dome(L, D, place, w, h, rng):
+def _bld_dome(L, D, RB, place, w, h, rng):
     d = w * 0.85
     base = h * 0.55
     _tbox(L, place, -w / 2, 0, 0, w / 2, d, base)
@@ -515,17 +515,17 @@ def _bld_dome(L, D, place, w, h, rng):
     r = min(w, d) * 0.34
     _tdome(L, place, 0, d * 0.5, base + 0.5, r * 1.05, r * 0.35, seg=8, rings=1)     # drum ring base
     _tbox(L, place, -r, d * 0.5 - r, base + 0.5, r, d * 0.5 + r, base + 0.5 + r * 0.5)  # drum
-    _tdome(L, place, 0, d * 0.5, base + 0.5 + r * 0.5, r, r * rng.uniform(0.9, 1.2))
+    _tdome(RB, place, 0, d * 0.5, base + 0.5 + r * 0.5, r, r * rng.uniform(0.9, 1.2))
     _tspire(L, place, 0, d * 0.5, base + 0.5 + r * 0.5 + r, r * 0.16, r * 0.9)         # lantern finial
     for sx in (-1, 1):
         _tpin(L, place, sx * (w / 2 - 0.3), d * 0.5, base + 0.5, w * 0.05, base * 0.3)
 
 
-def _bld_cathedral(L, D, place, w, h, rng):
+def _bld_cathedral(L, D, RB, place, w, h, rng):
     nave_w = w * 0.46
     d = w * 0.72
     _tbox(L, place, -nave_w / 2, 0, 0, nave_w / 2, d, h)
-    _tgable(L, place, -nave_w / 2, nave_w / 2, 0, d, h, w * 0.22)
+    _tgable(RB, place, -nave_w / 2, nave_w / 2, 0, d, h, w * 0.22)
     _facade(L, D, place, -nave_w / 2, nave_w / 2, 2.0, h - 1.5, rng, bays=3)
     _tdisc(D, place, 0, -0.12, h * 0.78, w * 0.085)                       # rose window
     _tbox(D, place, -nave_w * 0.18, -0.14, 1.5, nave_w * 0.18, 0.03, h * 0.5)  # great portal
@@ -545,13 +545,13 @@ def _bld_cathedral(L, D, place, w, h, rng):
     _tspire(L, place, 0, d * 0.55, h + w * 0.22, w * 0.06, h * 0.4)        # crossing flèche
 
 
-def _pano_building(bm, dbm, ang, R, w, h, kind, rng, z0=0.0, sink=8.0):
+def _pano_building(bm, dbm, rbm, ang, R, w, h, kind, rng, z0=0.0, sink=8.0):
     place = _placer(ang, R, z0)
     # a foundation sunk below the plateau so the building roots into its ground
     d = w * 0.82
     _tbox(bm, place, -w * 0.5, -0.4, -sink, w * 0.5, d + 0.4, 0.3)
     {"cathedral": _bld_cathedral, "tower": _bld_tower, "dome": _bld_dome,
-     "tiered": _bld_tiered}.get(kind, _bld_hall)(bm, dbm, place, w, h, rng)
+     "tiered": _bld_tiered}.get(kind, _bld_hall)(bm, dbm, rbm, place, w, h, rng)
 
 
 # --------------------------------------------------------- city furniture
@@ -582,8 +582,8 @@ def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out, detail=False):
     _tbox(L, place, -w / 2, lo, -1.5, w / 2, hi, h)                     # body
     rise = w * rng.uniform(0.30, 0.40)
     _tgable(R, place, -w / 2 - 0.15, w / 2 + 0.15, lo - 0.12, hi + 0.12, h, rise)
-    if rng.random() < 0.45:                                             # gilded ridge
-        _tbox(G, place, -0.06, lo - 0.1, h + rise - 0.05, 0.06, hi + 0.1, h + rise + 0.06)
+    if rng.random() < 0.45:                                             # slate ridge cap
+        _tbox(R, place, -0.06, lo - 0.1, h + rise - 0.05, 0.06, hi + 0.1, h + rise + 0.06)
     if rng.random() < 0.30:                                             # gable finial
         _tspire(G, place, 0, 0, h + rise, 0.14, 0.9)
     chim = rng.random() < (0.6 if detail else 0.35)
@@ -731,8 +731,15 @@ def city_panorama(seed=3):
             for i in range(SEG):
                 E.faces.new((c, ring[i], ring[(i + 1) % SEG]))
         else:
+            # the ring bands were wound FACING DOWN since pass J — the valley
+            # floor was invisible from above and the sky showed through it
+            # ("see-through floor"). Wound up now, plus a down face so the
+            # underside never opens from low angles either.
             for i in range(SEG):
-                E.faces.new((prev[i], prev[(i + 1) % SEG], ring[(i + 1) % SEG], ring[i]))
+                E.faces.new((prev[i], ring[i], ring[(i + 1) % SEG], prev[(i + 1) % SEG]))
+                dn = [E.verts.new(v.co) for v in
+                      (prev[i], prev[(i + 1) % SEG], ring[(i + 1) % SEG], ring[i])]
+                E.faces.new(dn)
         prev = ring
 
     # ---- retaining walls + parapets at each terrace edge (breached at the avenue)
@@ -799,7 +806,7 @@ def city_panorama(seed=3):
         (_AVE_ANG + math.pi, 88.0, "cathedral", 22.0, 24.0),
     ]
     for (ma, mr, mk, mw, mh) in MONUMENTS:
-        _pano_building(L, D, ma, mr, mw, mh, mk, rng, _terrain(mr))
+        _pano_building(L, D, R, ma, mr, mw, mh, mk, rng, _terrain(mr))
         pl = _placer(ma, mr, _terrain(mr))
         if mk == "dome":                                                # gilded cap + finial
             rr_ = min(mw, mw * 0.85) * 0.34
@@ -877,7 +884,7 @@ def city_panorama(seed=3):
                 kind = "tiered"
             else:
                 kind = "hall"
-            _pano_building(L, D, mid, rr_, w, h, kind, rng, _terrain(rr_), sink=10.0)
+            _pano_building(L, D, R, mid, rr_, w, h, kind, rng, _terrain(rr_), sink=10.0)
             a += span
 
     objs = [V.bm_to_object(L, "city_panorama", ("M_backdrop",)),

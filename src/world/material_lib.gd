@@ -31,7 +31,7 @@ const TEXTURES := {
 	"M_habit":      ["T_cloth", 1.8, 0.45],
 	"M_wraith":     ["T_cloth", 1.6, 0.3],
 	"M_backdrop":   ["T_stone", 0.16, 0.5],
-	"M_terrain":    ["T_stone", 0.18, 0.4],
+	"M_terrain":    ["T_stone", 0.45, 0.55],
 	"M_steel":      ["T_iron", 1.4, 0.35],
 }
 const GLASS := preload("res://shaders/glass.gdshader")
@@ -80,7 +80,7 @@ const FAMILIES := {
 	"M_marsh":      {"albedo": Color(0.10, 0.13, 0.11), "rough": 0.3, "rim": 0.5, "moss": 1.0, "crack": 0.0},
 	# the valley floor between the panorama's terraces: dark packed earth, so
 	# exposed ground reads as ground — not as a bright hole in the map
-	"M_terrain":    {"albedo": Color(0.34, 0.27, 0.19), "rough": 1.0, "rim": 0.1, "moss": 0.4, "crack": 0.0},
+	"M_terrain":    {"albedo": Color(0.15, 0.12, 0.09), "rough": 1.0, "rim": 0.05, "moss": 0.45, "crack": 0.0},
 	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
 	"M_foliage":    {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.95, "rim": 0.55, "moss": 0.0, "crack": 0.0, "vc": 1},
 }
