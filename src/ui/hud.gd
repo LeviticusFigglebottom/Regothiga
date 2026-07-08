@@ -267,8 +267,14 @@ func _process(dt: float) -> void:
 		var st := "ruin" if Game.area_state() == VG.WState.RUIN else "glory"
 		var p := cam.global_position
 		var r := cam.global_rotation_degrees
-		pose_label.text = "%s %s  %.1f,%.1f,%.1f,%.1f,%.1f,%.0f" % [
-			Game.current_area_id, st, p.x, p.y, p.z, r.y, r.x, cam.fov]
+		var cap := "cap" if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else "free"
+		var lock := ""
+		if Game.player != null and Game.player.cam != null \
+				and Game.player.cam.locked_target != null:
+			lock = " lock"
+		pose_label.text = "%s %s  %.1f,%.1f,%.1f,%.1f,%.1f,%.0f  s%.1f %s%s" % [
+			Game.current_area_id, st, p.x, p.y, p.z, r.y, r.x, cam.fov,
+			float(PauseUI.settings.get("sensitivity", 5.0)), cap, lock]
 	elif pose_label != null:
 		pose_label.text = ""
 	# bar smoothing: fill snaps, ghost bleeds down slowly

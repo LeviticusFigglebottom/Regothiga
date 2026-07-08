@@ -92,17 +92,12 @@ def cathedral_mass(seed=5):
     _box(bm, -nave_w / 2, 0, 0, nave_w / 2, nave_l, nave_h)
     _box(bm, -nave_w / 2 - 4, 0, 0, nave_w / 2 + 4, nave_l, aisle_h)
     # gable roof on nave
-    for y0 in (0.0,):
-        a = bm.verts.new((-nave_w / 2, 0, nave_h))
-        b = bm.verts.new((nave_w / 2, 0, nave_h))
-        c = bm.verts.new((nave_w / 2, nave_l, nave_h))
-        d = bm.verts.new((-nave_w / 2, nave_l, nave_h))
-        r1 = bm.verts.new((0, 0, nave_h + 3.4))
-        r2 = bm.verts.new((0, nave_l, nave_h + 3.4))
-        bm.faces.new((a, b, r1))
-        bm.faces.new((c, d, r2))
-        bm.faces.new((a, r1, r2, d))
-        bm.faces.new((b, c, r2, r1))
+    pts = ((-nave_w / 2, 0, nave_h), (nave_w / 2, 0, nave_h),
+           (nave_w / 2, nave_l, nave_h), (-nave_w / 2, nave_l, nave_h),
+           (0, 0, nave_h + 3.4), (0, nave_l, nave_h + 3.4))
+    for f in ((0, 1, 4), (2, 3, 5), (0, 4, 5, 3), (1, 2, 5, 4)):
+        for wind in (f, tuple(reversed(f))):   # two-sided: whole from any angle
+            bm.faces.new(tuple(bm.verts.new(pts[i]) for i in wind))
     # buttress fins along the aisles
     for i in range(6):
         y = 6 + i * 6.5
@@ -161,16 +156,12 @@ def city_cluster(seed=9):
         cx = rng.uniform(-7, 7)
         cy = rng.uniform(-7, 7)
         _box(bm, cx - w, cy - d, 1.2, cx + w, cy + d, 1.2 + h)
-        a = bm.verts.new((cx - w, cy - d, 1.2 + h))
-        b = bm.verts.new((cx + w, cy - d, 1.2 + h))
-        c = bm.verts.new((cx + w, cy + d, 1.2 + h))
-        dd = bm.verts.new((cx - w, cy + d, 1.2 + h))
-        r1 = bm.verts.new((cx, cy - d, 1.2 + h + w * 0.8))
-        r2 = bm.verts.new((cx, cy + d, 1.2 + h + w * 0.8))
-        bm.faces.new((a, b, r1))
-        bm.faces.new((c, dd, r2))
-        bm.faces.new((a, r1, r2, dd))
-        bm.faces.new((b, c, r2, r1))
+        gp = ((cx - w, cy - d, 1.2 + h), (cx + w, cy - d, 1.2 + h),
+              (cx + w, cy + d, 1.2 + h), (cx - w, cy + d, 1.2 + h),
+              (cx, cy - d, 1.2 + h + w * 0.8), (cx, cy + d, 1.2 + h + w * 0.8))
+        for f in ((0, 1, 4), (2, 3, 5), (0, 4, 5, 3), (1, 2, 5, 4)):
+            for wind in (f, tuple(reversed(f))):   # two-sided
+                bm.faces.new(tuple(bm.verts.new(gp[i]) for i in wind))
         if rng.random() < 0.4:
             _spire(bm, cx, cy, 1.2 + h + w * 0.8, 0.5, rng.uniform(2, 4))
     obj = V.bm_to_object(bm, "city", ("M_backdrop",))
@@ -718,6 +709,7 @@ def city_panorama(seed=3):
     are lamplit in glory and dead-dark in ruin. Origin: centre; no collision."""
     rng = random.Random(seed)
     L = bmesh.new()        # warm stone masses
+    E = bmesh.new()        # valley terrain (dark packed earth, own family)
     D = bmesh.new()        # shadowed openings / dark panes
     T = bmesh.new()        # pale street/plaza paving + parapets
     R = bmesh.new()        # slate roofs
@@ -732,15 +724,15 @@ def city_panorama(seed=3):
     prev = None
     for gr in radii:
         gz = _terrain(gr)
-        ring = [L.verts.new((gr * math.cos(math.tau * i / SEG), gr * math.sin(math.tau * i / SEG), gz))
+        ring = [E.verts.new((gr * math.cos(math.tau * i / SEG), gr * math.sin(math.tau * i / SEG), gz))
                 for i in range(SEG)]
         if prev is None:
-            c = L.verts.new((0, 0, _terrain(0.0)))
+            c = E.verts.new((0, 0, _terrain(0.0)))
             for i in range(SEG):
-                L.faces.new((c, ring[i], ring[(i + 1) % SEG]))
+                E.faces.new((c, ring[i], ring[(i + 1) % SEG]))
         else:
             for i in range(SEG):
-                L.faces.new((prev[i], prev[(i + 1) % SEG], ring[(i + 1) % SEG], ring[i]))
+                E.faces.new((prev[i], prev[(i + 1) % SEG], ring[(i + 1) % SEG], ring[i]))
         prev = ring
 
     # ---- retaining walls + parapets at each terrace edge (breached at the avenue)
@@ -757,7 +749,7 @@ def city_panorama(seed=3):
         drop = zhi - zlo
         for i in range(n):
             pl = _placer(_AVE_ANG, rb - 1.6 + i * 0.62, 0.0)
-            _tbox(L, pl, -_AVE_HALF, 0, zlo - 1.0, _AVE_HALF, 0.68, zhi - drop * i / n + 0.02)
+            _tbox(T, pl, -_AVE_HALF, 0, zlo - 1.0, _AVE_HALF, 0.68, zhi - drop * i / n + 0.02)
 
     # ---- streets: ring street per plateau, radial lanes, the grand avenue
     RADIALS = [_AVE_ANG + k * math.tau / 10 for k in range(1, 10)]
@@ -889,6 +881,7 @@ def city_panorama(seed=3):
             a += span
 
     objs = [V.bm_to_object(L, "city_panorama", ("M_backdrop",)),
+            V.bm_to_object(E, "city_terrain", ("M_terrain",)),
             V.bm_to_object(D, "city_openings", ("M_backdrop_dark",)),
             V.bm_to_object(T, "city_paving", ("M_stone_trim",)),
             V.bm_to_object(R, "city_roofs", ("M_roof",)),

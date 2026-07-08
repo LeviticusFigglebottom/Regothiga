@@ -33,6 +33,7 @@ var state: S = S.MOVE
 var state_t := 0.0
 var dead := false
 var input_enabled := true
+var _recap_cd := 0.0
 
 # roll / iframes
 var _iframe_from := 0.0
@@ -185,7 +186,11 @@ func _input(event: InputEvent) -> void:
 	if sim_active:
 		return
 	if event is InputEventMouseMotion:
-		if input_enabled and _captured():
+		# look works from relative motion even if the OS refuses the capture
+		# grab (remote desktop, overlays): degraded but never dead. Menus and
+		# dialogue still own the cursor.
+		if input_enabled and (_captured() or (not PauseUI.is_open()
+				and state != S.REST and state != S.TALK)):
 			cam.mouse_look(event.relative)
 		return
 	if event is InputEventMouseButton and event.pressed and not _captured() \
@@ -226,11 +231,14 @@ func _physics_process(dt: float) -> void:
 	state_t += dt
 	# capture watchdog: whenever the focused window should own the cursor and
 	# doesn't — first frame after boot, alt-tab return, an OS quirk dropping
-	# the grab — take it back. Menus and dialogue keep the cursor free.
+	# the grab — take it back. Interval-gated: on machines where capture is
+	# refused outright, per-frame attempts would warp the pointer every frame.
+	_recap_cd = maxf(0.0, _recap_cd - dt)
 	if not sim_active and not dead and input_enabled and not _captured() \
 			and not PauseUI.is_open() and state != S.REST and state != S.TALK \
-			and get_window().has_focus():
+			and get_window().has_focus() and _recap_cd == 0.0:
 		_grab_mouse(true)
+		_recap_cd = 0.5
 	if _interact_suppress > 0:
 		_interact_suppress -= 1
 	if not is_on_floor():

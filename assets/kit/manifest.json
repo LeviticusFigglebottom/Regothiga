@@ -222,7 +222,7 @@
  "cathedral_mass": {
   "file": "assets/kit/cathedral_mass.glb",
   "origin": "west-front",
-  "polys": 119,
+  "polys": 123,
   "size": [
    30,
    46.0,
@@ -342,7 +342,7 @@
  "city_cluster_a": {
   "file": "assets/kit/city_cluster_a.glb",
   "origin": "bottom-center",
-  "polys": 108,
+  "polys": 144,
   "size": [
    18,
    18,
@@ -352,7 +352,7 @@
  "city_cluster_b": {
   "file": "assets/kit/city_cluster_b.glb",
   "origin": "bottom-center",
-  "polys": 82,
+  "polys": 106,
   "size": [
    18,
    18,

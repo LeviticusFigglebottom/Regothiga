@@ -320,3 +320,7 @@ func _load_settings() -> void:
 		return
 	for k in settings:
 		settings[k] = cfg.get_value("settings", k, settings[k])
+	# sanitize: a stale/corrupt cfg (old slider scales, hand edits) must never
+	# zero the camera — a sensitivity of 0 reads as "mouse look is dead"
+	settings["sensitivity"] = clampf(float(settings["sensitivity"]), 1.0, 10.0)
+	settings["fov"] = clampf(float(settings.get("fov", 75.0)), 50.0, 110.0)

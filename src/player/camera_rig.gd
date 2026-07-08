@@ -56,6 +56,8 @@ func set_base_fov(f: float) -> void:
 		cam.fov = f
 
 func mouse_look(rel: Vector2) -> void:
+	if locked_target != null and (not is_instance_valid(locked_target) or locked_target.get("dead") == true):
+		locked_target = null
 	if locked_target != null:
 		# a hard flick breaks the lock so the camera can never feel "stuck"
 		if absf(rel.x) > 60.0:

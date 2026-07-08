@@ -31,6 +31,7 @@ const TEXTURES := {
 	"M_habit":      ["T_cloth", 1.8, 0.45],
 	"M_wraith":     ["T_cloth", 1.6, 0.3],
 	"M_backdrop":   ["T_stone", 0.16, 0.5],
+	"M_terrain":    ["T_stone", 0.18, 0.4],
 	"M_steel":      ["T_iron", 1.4, 0.35],
 }
 const GLASS := preload("res://shaders/glass.gdshader")
@@ -63,7 +64,7 @@ const FAMILIES := {
 	"M_leather":    {"albedo": Color(0.30, 0.20, 0.12), "rough": 0.8, "rim": 0.35, "moss": 0.0, "crack": 0.0},
 	# deep slate: lit slopes must stay dark enough to sit INTO the dusk grade
 	# (the old 0.33-0.40 albedo read as flat white once lit sides became visible)
-	"M_roof":       {"albedo": Color(0.19, 0.20, 0.25), "rough": 0.95, "rim": 0.3, "moss": 0.6, "crack": 0.0},
+	"M_roof":       {"albedo": Color(0.14, 0.13, 0.14), "rough": 0.95, "rim": 0.25, "moss": 0.5, "crack": 0.0},
 	"M_backdrop":   {"albedo": Color(0.72, 0.60, 0.47), "rough": 1.0, "rim": 0.15, "moss": 0.0, "crack": 0.0, "wear": 0.15},
 	"M_backdrop_dark": {"albedo": Color(0.16, 0.12, 0.10), "rough": 1.0, "rim": 0.0, "moss": 0.0, "crack": 0.0},
 	# city gilding: gold ridges/finials/domes on the panorama. Faint glory-gated
@@ -77,6 +78,9 @@ const FAMILIES := {
 					 "emission": Color(1.0, 0.66, 0.28), "emission_energy": 1.7, "emission_gate": 1},
 	# the drowned flats: near-black wet peat with a low-rough sheen
 	"M_marsh":      {"albedo": Color(0.10, 0.13, 0.11), "rough": 0.3, "rim": 0.5, "moss": 1.0, "crack": 0.0},
+	# the valley floor between the panorama's terraces: dark packed earth, so
+	# exposed ground reads as ground — not as a bright hole in the map
+	"M_terrain":    {"albedo": Color(0.34, 0.27, 0.19), "rough": 1.0, "rim": 0.1, "moss": 0.4, "crack": 0.0},
 	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
 	"M_foliage":    {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.95, "rim": 0.55, "moss": 0.0, "crack": 0.0, "vc": 1},
 }
