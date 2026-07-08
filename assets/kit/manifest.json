@@ -9,6 +9,16 @@
    1.35
   ]
  },
+ "anvil": {
+  "file": "assets/kit/anvil.glb",
+  "origin": "bottom-center",
+  "polys": 24,
+  "size": [
+   0.8,
+   0.4,
+   0.72
+  ]
+ },
  "arcade_4m": {
   "file": "assets/kit/arcade_4m.glb",
   "origin": "bottom-center",

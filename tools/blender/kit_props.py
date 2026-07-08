@@ -329,6 +329,20 @@ def gate_iron():
     return objs, {"size": [2.4, 0.1, 2.35], "origin": "bottom-center"}
 
 
+def anvil():
+    """Reliquary smith's anvil: forged block with a squared horn, set on an
+    oak stump so the working face lands at a smith's hip."""
+    bm = bmesh.new()
+    V.add_box(bm, (-0.22, -0.2, 0.0), (0.22, 0.2, 0.45))
+    stump = V.bm_to_object(bm, "stump", ("M_wood",))
+    bm2 = bmesh.new()
+    V.add_box(bm2, (-0.16, -0.13, 0.45), (0.2, 0.13, 0.55))    # waist
+    V.add_box(bm2, (-0.2, -0.16, 0.55), (0.28, 0.16, 0.72))    # body + face
+    V.add_box(bm2, (-0.4, -0.06, 0.6), (-0.2, 0.06, 0.72))     # horn
+    iron = V.bm_to_object(bm2, "anvil_iron", ("M_steel",))
+    return [stump, iron], {"size": [0.8, 0.4, 0.72], "origin": "bottom-center"}
+
+
 def fence_iron_4m():
     bm = bmesh.new()
     V.add_box(bm, (-2, -0.03, 0.0), (2, 0.03, 0.08))
@@ -639,6 +653,7 @@ BUILDERS = {
     "plaque": plaque,
     "tomb_slab": tomb_slab,
     "gate_iron": gate_iron,
+    "anvil": anvil,
     "fence_iron_4m": fence_iron_4m,
     "bell_great": bell_great,
     "organ_case": organ_case,

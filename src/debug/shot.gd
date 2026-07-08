@@ -37,6 +37,8 @@ func _ready() -> void:
 		elif arg.begins_with("--shot-seq="):
 			for part in arg.get_slice("=", 1).split(","):
 				_seq.append(float(part))
+		elif arg == "--shot-seq-now":
+			_seq_t = 0.0   # sequence clock runs from boot (filming the intro)
 	if _shot_path != "" and _frames_left < 0:
 		_frames_left = 30
 

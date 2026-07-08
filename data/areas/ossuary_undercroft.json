@@ -1083,6 +1083,25 @@
    ],
    "rot": 150,
    "tag": "ruin"
+  },
+  {
+   "kit": "anvil",
+   "at": [
+    -5.4,
+    0,
+    7.6
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -7.8,
+    0,
+    9.0
+   ],
+   "tag": "base"
   }
  ],
  "lanterns": [
@@ -1174,7 +1193,18 @@
    "fog_gate_id": "vault"
   }
  ],
- "npcs": [],
+ "npcs": [
+  {
+   "id": "ferrier",
+   "at": [
+    -6.5,
+    0,
+    8.4
+   ],
+   "rot": 0,
+   "tag": "base"
+  }
+ ],
  "watcher_puzzles": [
   {
    "flag": "watchers_east",

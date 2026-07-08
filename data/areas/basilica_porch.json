@@ -1101,5 +1101,27 @@
    ],
    "mat": "M_stone"
   }
+ ],
+ "npcs": [
+  {
+   "id": "knight_morrow",
+   "at": [
+    -3.4,
+    0,
+    6.9
+   ],
+   "rot": 190,
+   "tag": "glory"
+  },
+  {
+   "id": "knight_crest",
+   "at": [
+    -3.4,
+    0,
+    6.9
+   ],
+   "rot": 155,
+   "tag": "ruin"
+  }
  ]
 }

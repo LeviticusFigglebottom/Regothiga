@@ -36,6 +36,7 @@ const TEXTURES := {
 }
 const GLASS := preload("res://shaders/glass.gdshader")
 const FLAME := preload("res://shaders/flame.gdshader")
+const WATER := preload("res://shaders/water.gdshader")
 
 ## family -> {albedo, rough, rim, extras...}
 const FAMILIES := {
@@ -94,6 +95,9 @@ static func get_mat(family: String, state_mode := 0) -> Material:
 	var mat := ShaderMaterial.new()
 	if family == "M_glass":
 		mat.shader = GLASS
+		mat.set_shader_parameter("state_mode", state_mode)
+	elif family == "M_water":
+		mat.shader = WATER
 		mat.set_shader_parameter("state_mode", state_mode)
 	elif family == "M_flame":
 		mat.shader = FLAME

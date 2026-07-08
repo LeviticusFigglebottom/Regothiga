@@ -403,6 +403,92 @@
    ],
    "mat": "M_stone",
    "tag": "base"
+  },
+  {
+   "min": [
+    -52,
+    -2.26,
+    -18
+   ],
+   "max": [
+    28,
+    -2.16,
+    18
+   ],
+   "mat": "M_water",
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "min": [
+    -124,
+    -2.8,
+    -30
+   ],
+   "max": [
+    -52,
+    -2.16,
+    30
+   ],
+   "mat": "M_water",
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "min": [
+    -52,
+    -2.05,
+    -19.2
+   ],
+   "max": [
+    28,
+    -1.55,
+    -18
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -52,
+    -2.05,
+    18
+   ],
+   "max": [
+    28,
+    -1.55,
+    19.2
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -124,
+    -2.8,
+    -34
+   ],
+   "max": [
+    -52,
+    -0.7,
+    -30
+   ],
+   "mat": "M_backdrop_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -124,
+    -2.8,
+    30
+   ],
+   "max": [
+    -52,
+    -0.7,
+    34
+   ],
+   "mat": "M_backdrop_dark",
+   "tag": "base"
   }
  ],
  "rows": [],

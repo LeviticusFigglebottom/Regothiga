@@ -132,13 +132,15 @@ func _activate(o: Dictionary) -> void:
 			var cost := int(o.get("orisons", 150))
 			var have_glass := int(p.inventory.get("candleglass", 0))
 			if p.weapon_level >= 5:
-				text_label.text = "The blade holds all the light it can carry."
+				text_label.text = o.get("line_max", "The blade holds all the light it can carry.")
 				_flash_line()
 			elif have_glass < 1:
-				text_label.text = "Bring me candleglass from the ruin, Latecomer. The dark grinds it out of the windows."
+				text_label.text = o.get("line_no_glass",
+					"Bring me candleglass from the ruin, Latecomer. The dark grinds it out of the windows.")
 				_flash_line()
 			elif Game.orisons < cost:
-				text_label.text = "Prayers first. %d orisons, or the wax stays cold." % cost
+				text_label.text = String(o.get("line_no_orisons",
+					"Prayers first. %d orisons, or the wax stays cold.")) % cost
 				_flash_line()
 			else:
 				p.inventory["candleglass"] = have_glass - 1
@@ -146,7 +148,8 @@ func _activate(o: Dictionary) -> void:
 				p.weapon_level += 1
 				Game.toast.emit("The blade drinks the light. %s +%d" % [p.weapon_data().get("name", "Weapon"), p.weapon_level])
 				AudioDirector.sfx("res://assets/audio/levelup.wav", -4.0)
-				text_label.text = "There. It remembers being a relic now. Try not to die somewhere I can't retrieve it."
+				text_label.text = o.get("line_done",
+					"There. It remembers being a relic now. Try not to die somewhere I can't retrieve it.")
 				_flash_line()
 		"flask_up":
 			var cost2 := int(o.get("orisons", 300))

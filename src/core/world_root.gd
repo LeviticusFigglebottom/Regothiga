@@ -9,10 +9,21 @@ func _ready() -> void:
 	var area_id := "gray_cloister"
 	if not fresh and World.last_vigil.get("area", "") != "":
 		area_id = World.last_vigil["area"]
+	var harnessed := false
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--area="):
 			area_id = arg.get_slice("=", 1)
 			fresh = true
+			harnessed = true
+
+	# a fresh pilgrimage opens with the rite: story cards over the kingdom,
+	# ending on the vigil-wave rolling across the porch city
+	var intro: IntroDirector = null
+	if fresh and not harnessed and Shot.forced_state == "" \
+			and not DisplayServer.get_name().contains("headless"):
+		intro = IntroDirector.new()
+		add_child(intro)
+		await intro.finished
 
 	var area := AreaBuilder.build(area_id)
 	add_child(area)
@@ -39,5 +50,7 @@ func _ready() -> void:
 
 	add_child(HUD.new())
 	Game.refresh_remembrance()
+	if intro != null:
+		intro.reveal_and_free()
 	if fresh:
 		Game.toast.emit(area.display_name)
