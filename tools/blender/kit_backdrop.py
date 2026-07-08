@@ -550,11 +550,14 @@ def _tquad(bm, place, x0, z0, x1, z1, y, flip=False):
     bm.faces.new([bm.verts.new(place(*p)) for p in pts])
 
 
-def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out):
+def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out, detail=False):
     """A street-fronting rowhouse: stone body, slate gable roof (ridge running
     back from the street), arched door, window rows (warm-lit or dark), the odd
     gilded ridge, finial or chimney. dir_out=+1 builds away from the centre
-    (door faces the centre/street inside it), -1 builds toward the centre."""
+    (door faces the centre/street inside it), -1 builds toward the centre.
+    detail=True (the rings nearest the Basilica porch, read at close range)
+    adds real facade work: eaves, corner quoins, window sills/lintels, a
+    string course, door surround + threshold, jettied uppers, chimney pots."""
     z0 = _terrain(r)
     place = _placer(ang, r, z0)
     w = rng.uniform(3.0, 4.6)
@@ -568,17 +571,33 @@ def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out):
         _tbox(G, place, -0.06, lo - 0.1, h + rise - 0.05, 0.06, hi + 0.1, h + rise + 0.06)
     if rng.random() < 0.30:                                             # gable finial
         _tspire(G, place, 0, 0, h + rise, 0.14, 0.9)
-    if rng.random() < 0.35:                                             # chimney
+    chim = rng.random() < (0.6 if detail else 0.35)
+    if chim:                                                            # chimney (+pot up close)
         cx = rng.uniform(-w * 0.3, w * 0.3)
-        _tbox(L, place, cx - 0.22, (lo + hi) * 0.5 - 0.22, h, cx + 0.22, (lo + hi) * 0.5 + 0.22, h + rise + 0.8)
+        cy = (lo + hi) * 0.5
+        _tbox(L, place, cx - 0.22, cy - 0.22, h, cx + 0.22, cy + 0.22, h + rise + 0.8)
+        if detail:
+            _tbox(D, place, cx - 0.1, cy - 0.1, h + rise + 0.8, cx + 0.1, cy + 0.1, h + rise + 1.15)
     # street face is the y=0 plane; openings sit just proud of it
     fy = -0.06 * dir_out
     flip = dir_out < 0
+    # proud facade trim spans from the face out toward the street
+    ty0, ty1 = min(-0.2 * dir_out, -0.02 * dir_out), max(-0.2 * dir_out, -0.02 * dir_out)
     dw = 0.55
     _tquad(D, place, -dw / 2, 0.0, dw / 2, 1.9, fy, flip)               # door
     _tspire(D, place, 0, fy, 1.9, dw / 2, 0.4)                          # door arch head
+    if detail:
+        _tbox(L, place, -dw / 2 - 0.14, ty0, 0.0, -dw / 2, ty1, 2.05)   # door jambs
+        _tbox(L, place, dw / 2, ty0, 0.0, dw / 2 + 0.14, ty1, 2.05)
+        _tbox(L, place, -dw / 2 - 0.2, ty0, 2.05, dw / 2 + 0.2, ty1, 2.3)   # lintel
+        _tbox(L, place, -dw / 2 - 0.2, ty0 * 2.2, -0.12, dw / 2 + 0.2, 0, 0.06)  # threshold step
+        _tbox(L, place, -w / 2 - 0.05, lo - 0.05, h - 0.28, w / 2 + 0.05, hi + 0.05, h - 0.06)  # eaves fascia
+        for qx in (-w / 2, w / 2):                                      # corner quoins
+            _tbox(L, place, qx - 0.09, ty0, 0.0, qx + 0.09, ty1, h - 0.3)
     rows = 1 if h < 4.6 else 2
-    cols = 2 if w < 3.8 else 3
+    cols = (3 if w < 3.8 else 4) if detail else (2 if w < 3.8 else 3)
+    if detail and rows == 2:                                            # string course between floors
+        _tbox(L, place, -w / 2 - 0.06, ty0, h * 0.5, w / 2 + 0.06, ty1, h * 0.5 + 0.14)
     for rr_ in range(rows):
         wz = h * (0.42 if rows == 1 else (0.34 + 0.32 * rr_)) + 0.6
         for c in range(cols):
@@ -587,6 +606,11 @@ def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out):
                 continue                                                # keep the door clear
             pane = W if rng.random() < 0.62 else D
             _tquad(pane, place, wx - 0.26, wz, wx + 0.26, wz + 0.72, fy, flip)
+            if detail:                                                  # sill + lintel + arched head
+                _tbox(L, place, wx - 0.34, ty0, wz - 0.1, wx + 0.34, ty1, wz)
+                _tbox(L, place, wx - 0.3, ty0, wz + 0.72, wx + 0.3, ty1, wz + 0.82)
+                if rr_ == rows - 1 and rng.random() < 0.5:
+                    _tspire(pane, place, wx, fy, wz + 0.72, 0.26, 0.2)
 
 
 def _tlamp(L, G, W, ang, r):
@@ -786,7 +810,7 @@ def city_panorama(seed=3):
             if any(_ang_diff(a, ma) * r_row < mw * 0.75 + 2.0 and abs(r_row - mr) < mw
                    for (ma, mr, mk, mw, mh) in MONUMENTS):
                 continue                                                # monument precincts
-            _thouse(L, D, W, R, G, a, r_row, rng, hmax, dir_out)
+            _thouse(L, D, W, R, G, a, r_row, rng, hmax, dir_out, detail=(r_row < 45.0))
     for (r0, r1, z), hmax, sparse in zip(_PLATEAUS, (4.6, 6.0, 6.6, 7.2, 6.0), (0.0, 0.0, 0.4, 1.6, 2.6)):
         rs = r0 + 5.0
         house_ring(rs - 2.1, -1, hmax, sparse)                          # inner row fronts outward

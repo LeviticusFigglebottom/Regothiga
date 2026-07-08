@@ -21,7 +21,13 @@ func _ready() -> void:
 	pitch_node = Node3D.new(); pitch_node.name = "Pitch"; add_child(pitch_node)
 	spring = SpringArm3D.new()
 	spring.spring_length = float(DB.tuning("camera/distance", 3.6))
-	spring.margin = 0.25
+	# Sweep a sphere, not a ray: the camera rides 0.35 m off the arm's axis
+	# (over-the-shoulder), so a bare ray let that offset poke through walls
+	# and reveal the exterior. The sphere envelope contains the offset camera.
+	spring.margin = 0.05
+	var swept := SphereShape3D.new()
+	swept.radius = 0.45
+	spring.shape = swept
 	spring.collision_mask = VG.M_WORLD_ALL
 	pitch_node.add_child(spring)
 	cam = Camera3D.new()

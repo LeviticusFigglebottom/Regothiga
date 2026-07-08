@@ -158,6 +158,21 @@ def loopify(x, tail=6.0):
     return body
 
 
+def fade_ends(x, head=4.5, tail=8.0, hold=1.2):
+    """A piece that ENDS and BEGINS: fade in from silence over `head`, fade
+    out to true silence over `tail` with a `hold` of near-silence at the very
+    end. Looping such a track reads as the music finishing and, after a
+    breath, starting again — no vamp seam to notice."""
+    y = x.copy()
+    n_h = int(head * SR)
+    y[:n_h] *= np.sqrt(np.linspace(0, 1, n_h))
+    n_t = int(tail * SR)
+    n_hold = int(hold * SR)
+    y[-(n_t + n_hold):-n_hold] *= np.sqrt(np.linspace(1, 0, n_t))
+    y[-n_hold:] = 0.0
+    return y
+
+
 def write(name, x, peak=0.9):
     os.makedirs(OUT, exist_ok=True)
     data = (norm(x, peak) * 32767).astype(np.int16)
@@ -352,12 +367,14 @@ def gen_theme_glory():
             place(x, birdsong(r2.uniform(2100, 2900), 0.35) * 0.030, at + k * 0.5)
     place(x, bell(587.3, 3.5, 0.3) * 0.11, 96.0)
 
-    # D — vespers recede (106..136+): thin to the pedal; the hour strikes
+    # D — vespers recede (106..136+): thin to the pedal; the hour strikes,
+    # and the whole piece settles and ENDS on the same D it woke on
     place(x, choir_note(220.0, 12.0, breath=0.32) * 0.26, 106.0)
     place(x, choir_note(293.7, 14.0, breath=0.3) * 0.30, 116.0)
     place(x, bell(293.7, 5.0, 0.5) * 0.16, 114.0)
     place(x, bell(587.3, 4.0, 0.3) * 0.09, 124.0)
-    write("theme_glory", loopify(lowpass_fft(x, 5200), tail), 0.62)
+    place(x, bell(146.8, 6.0, 0.55) * 0.14, 130.0)   # the low D lays it to rest
+    write("theme_glory", fade_ends(lowpass_fft(x, 5200), 4.5, 9.0), 0.62)
 
 
 def gen_theme_ruin():
@@ -400,11 +417,12 @@ def gen_theme_ruin():
     place(x, crow_caw(0.45) * 0.07, 84.0)
     place(x, bell(49.0, 6.0, 0.8, dark=0.9) * 0.2, 100.0)
 
-    # D — emptying (106..136+): the last toll and its faint answer
+    # D — emptying (106..136+): the last toll and its faint answer, then the
+    # drones sink back into the silence they rose from
     place(x, choir_note(311.1, 10.0, vib=2.0, breath=0.6) * 0.09, 108.0)
     place(x, bell(65.4, 6.0, 1.0, dark=0.8) * 0.30, 114.0)
     place(x, bell(98.0, 4.0, 0.5, dark=0.7) * 0.12, 126.0)
-    write("theme_ruin", loopify(lowpass_fft(x, 3400), tail), 0.62)
+    write("theme_ruin", fade_ends(lowpass_fft(x, 3400), 5.0, 10.0), 0.62)
 
 
 def gen_theme_boss():

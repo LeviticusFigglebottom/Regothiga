@@ -174,6 +174,8 @@ func _begin_recover() -> void:
 func _set_state(s: ES) -> void:
 	state = s
 	state_t = 0.0
+	if s == ES.COMBAT:
+		_tgt_smooth = Vector3.ZERO   # re-seed the delayed tracker on entry
 
 func _player() -> Node3D:
 	return Game.player
@@ -251,12 +253,22 @@ func _st_approach(dt: float) -> void:
 	velocity.z = move_toward(velocity.z, dir.z * sp, 10 * dt * sp)
 	_face(dir, dt)
 
+## In combat, facing and strafing chase a SMOOTHED target position (~0.45 s
+## behind the real one) so circling a foe actually gains angle — the old
+## instant tracking made walking around anyone impractical. Range checks and
+## attack picks still use the true distance; windup tracking stays live.
+var _tgt_smooth := Vector3.ZERO
+
 func _st_combat(dt: float) -> void:
 	if not _target_valid():
 		return
-	var to := target.global_position - global_position
-	var dist := to.length()
-	_face(to, dt, 1.4)
+	var real_to := target.global_position - global_position
+	var dist := real_to.length()
+	if _tgt_smooth == Vector3.ZERO:
+		_tgt_smooth = target.global_position
+	_tgt_smooth = _tgt_smooth.lerp(target.global_position, 1.0 - exp(-2.2 * dt))
+	var to := _tgt_smooth - global_position
+	_face(to, dt, 0.8)
 	# tick cooldowns
 	for k in _cooldowns:
 		_cooldowns[k] = maxf(0.0, _cooldowns[k] - dt)

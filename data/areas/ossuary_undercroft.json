@@ -1105,9 +1105,9 @@
    "enemy": "shroudbound",
    "id": "hall_1",
    "at": [
-    -12,
+    -6,
     0.1,
-    2
+    -4
    ],
    "face": -90
   },
@@ -1135,7 +1135,7 @@
    "enemy": "penitent",
    "id": "hall_pen",
    "at": [
-    -9,
+    -2,
     0.1,
     7
    ],

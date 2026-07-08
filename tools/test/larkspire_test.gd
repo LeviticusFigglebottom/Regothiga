@@ -37,7 +37,7 @@ func _run() -> void:
 		[Vector3(2, 7.2, -6), 7.2, "second landing"],
 		[Vector3(6, 9.6, -2), 9.6, "story 2 (arrival)"],
 		[Vector3(6, 12.0, 2), 12.0, "third landing"],
-		[Vector3(2, 14.4, 6), 14.4, "story 3 (arrival)"],
+		[Vector3(3, 14.4, 6.5), 14.4, "story 3 (arrival)"],
 		[Vector3(-2, 16.8, 6), 16.8, "final landing"],
 		[Vector3(-6, 19.2, 3), 19.2, "summit stairhead arrival"],
 		[Vector3(0, 19.2, 0), 19.2, "summit deck"],
@@ -46,15 +46,17 @@ func _run() -> void:
 		var y := _floor_under(wp[0], area)
 		check(absf(y - float(wp[1])) < 0.35, "floor under %s (y=%.2f)" % [wp[2], y])
 
-	# ---- walk a flight for real: base -> first landing
-	player.global_position = Vector3(-6, 0.3, 7)
+	# ---- walk a flight for real: from the open floor by the hearth, WEST up
+	# the relocated first flight onto the landing (the old flight descended
+	# into the south wall — a player could never reach its foot)
+	player.global_position = Vector3(1.5, 0.3, 2)
 	await ticks(5)
-	player.sim_move = Vector3(0, 0, -1)
+	player.sim_move = Vector3(-1, 0, 0)
 	await ticks(150)
 	player.sim_move = Vector3.ZERO
 	await ticks(10)
-	check(player.global_position.y > 2.1 and player.global_position.z < 4.5,
-		"walked up the first flight (y=%.2f z=%.2f)" % [player.global_position.y, player.global_position.z])
+	check(player.global_position.y > 2.1 and player.global_position.x < -3.5,
+		"walked up the first flight (y=%.2f x=%.2f)" % [player.global_position.y, player.global_position.x])
 
 	# ---- Daily Offices: wrong order resets, right order sets the flag
 	var puzzle: ChimePuzzle = null
