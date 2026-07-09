@@ -9,13 +9,14 @@ const GOLD := Color(0.9, 0.78, 0.55)
 const PARCHMENT := Color(0.82, 0.78, 0.68)
 const ASH := Color(0.55, 0.52, 0.46)
 
-const ROLL_SPEED := 36.0          # px/s — end-of-a-long-film slow
+const ROLL_SPEED := 90.0          # px/s — stately, not glacial
 const FACE_STOP := 0.30           # the face's center rests at this height
 
 var _reel: Control
 var _face: TextureRect
 var _zoom_face: TextureRect
 var _audio: AudioStreamPlayer
+var _music: AudioStreamPlayer
 var _phase := "roll"              # roll -> zoom -> bless -> finale -> done
 var _vp := Vector2(1920, 1080)
 
@@ -70,6 +71,12 @@ func _ready() -> void:
 	_audio.bus = "Music"
 	_audio.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(_audio)
+	_music = AudioStreamPlayer.new()
+	_music.bus = "Music"
+	_music.process_mode = Node.PROCESS_MODE_ALWAYS
+	_music.stream = load("res://assets/audio/ui/credits_epic.wav")
+	add_child(_music)
+	_music.play()
 
 func _line(text: String, size: int, color: Color, y: float) -> float:
 	var l := Label.new()
@@ -97,6 +104,7 @@ func _process(delta: float) -> void:
 
 func _begin_zoom() -> void:
 	_phase = "zoom"
+	_music.stop()          # the epic cuts dead right before the lunge
 	_zoom_face.visible = true
 	_zoom_face.scale = Vector2(0.21, 0.21)
 	_reel.visible = false
@@ -134,4 +142,5 @@ func close() -> void:
 		return
 	_phase = "done"
 	_audio.stop()
+	_music.stop()
 	queue_free()

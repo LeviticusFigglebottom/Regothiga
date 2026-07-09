@@ -279,7 +279,7 @@ def main():
 
     # ---------------- east quarter (the wharf end; the FLAME stone)
     house(30, -14, 36, -8, 0, 2,
-          {"S": ["pw", "wp"], "N": ["wp", "pw"], "E": ["pw", "ww"], "W": ["dp", "ww"]},
+          {"S": ["pw", "wp"], "N": ["wp", "pw"], "E": ["pw", "ww"], "W": ["pd", "ww"]},
           stairwells=[(30, -14, "x")], roof_rot=0, chimney=(35, -9.4))
     house(30, 0, 36, 6, 0, 1,
           {"S": ["wp"], "N": ["pw"], "E": ["wp"], "W": ["dp"]},
@@ -413,9 +413,9 @@ def main():
     B.append({"min": [-60, 14.35, -45.95], "max": [60, 15.15, -45.45],
               "mat": "M_stone_trim", "tag": "base", "gen": True})
     # the clocktower over the entrance, dial stopped at nine
-    P.append({"kit": "clock_tower", "at": [0, 14.4, -46.4], "rot": 180})
-    P.append({"kit": "gargoyle", "at": [-1.9, 24.1, -44.9], "rot": 135})
-    P.append({"kit": "gargoyle", "at": [1.9, 24.1, -44.9], "rot": -135})
+    P.append({"kit": "clock_tower", "at": [0, 14.4, -47.45], "rot": 180})
+    P.append({"kit": "gargoyle", "at": [-1.9, 24.1, -45.6], "rot": 135})
+    P.append({"kit": "gargoyle", "at": [1.9, 24.1, -45.6], "rot": -135})
     # a bare dark vestibule so the opened door frames night, not sky
     B.append({"min": [-2.3, 4.5, -48.1], "max": [2.3, 4.8, -45.8],
               "mat": "M_stone_dark", "tag": "base", "gen": True})

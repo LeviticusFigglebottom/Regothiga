@@ -86,17 +86,22 @@ func _run() -> void:
 			player.global_position.y, player.global_position.z])
 	check(player.global_position.z < -10.4 and player.global_position.y < 1.0,
 		"the lane door admits the Latecomer (z=%.2f)" % player.global_position.z)
-	player.global_position = Vector3(-15.5, 0.3, -14.5)
+	# from the ROOM, not teleported into the channel: over the foot splay
+	player.global_position = Vector3(-15.2, 0.3, -12.2)
 	player.velocity = Vector3.ZERO
 	await ticks(5)
-	player.sim_move = Vector3(1, 0, 0)
-	await ticks(75)
+	player.sim_move = Vector3(-0.5, 0, -1)
+	await ticks(30)
+	player.sim_move = Vector3(0.3, 0, -1)
+	await ticks(12)
+	player.sim_move = Vector3(1, 0, -0.15)
+	await ticks(95)
 	player.sim_move = Vector3.ZERO
 	await ticks(8)
 	print("    [leg] H2 stair -> %.2f %.2f %.2f" % [player.global_position.x,
 			player.global_position.y, player.global_position.z])
 	check(player.global_position.y > 2.6,
-		"the house stair reaches the upper room (y=%.2f x=%.2f)" % [player.global_position.y, player.global_position.x])
+		"the house stair reaches the upper room from the room floor (y=%.2f x=%.2f)" % [player.global_position.y, player.global_position.x])
 	# out the upper door onto the balcony over the lane
 	player.global_position = Vector3(-14.5, 3.3, -11.5)
 	player.velocity = Vector3.ZERO

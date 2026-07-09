@@ -282,6 +282,19 @@ static func _wood_ramp(piece: Node3D, tag: String) -> void:
 	cs.rotation_degrees = Vector3(42.2, 0, 0)   # rise 3.0 over run 3.31
 	cs.position = Vector3(0, 1.35, -1.655)
 	body.add_child(cs)
+	# foot apron: every house flight's foot sits against a wall, so the
+	# real approach is over its open (+X) side. Like the main ramp (whose
+	# low edge runs 0.2 below the floor so the foot has no exposed lip),
+	# this compound-tilted plane meets the floor along a buried diagonal:
+	# step on anywhere beside the foot, and walking up-flight drifts you
+	# onto the ramp proper.
+	var sk := CollisionShape3D.new()
+	var skb := BoxShape3D.new()
+	skb.size = Vector3(1.7, 0.24, 1.2)
+	sk.shape = skb
+	sk.rotation_degrees = Vector3(0, 0, -40)
+	sk.position = Vector3(1.2, 0.38, -0.6)
+	body.add_child(sk)
 	piece.add_child(body)
 
 static func _row(area: Area, spec: Dictionary) -> void:

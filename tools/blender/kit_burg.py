@@ -207,6 +207,11 @@ def stair_wood_3m():
         # each tread drops solid to the floor: an open-riser flight reads
         # as floating from below, and the player called it out
         V.add_box(bm, (-0.7, y0, 0.0), (0.7, y0 + run + 0.04, (i + 1) * rise))
+    # foot winder on the open (+X) side: three side-steps turning into the
+    # flight, the visible answer to the rolled entry bands in the collider
+    V.add_box(bm, (1.3, 0.0, 0.0), (1.75, 1.5, 0.2))
+    V.add_box(bm, (0.95, 0.0, 0.0), (1.3, 1.5, 0.45))
+    V.add_box(bm, (0.7, 0.0, 0.0), (0.95, 1.5, 0.72))
     objs.append(V.bm_to_object(bm, "treads", ("M_wood",)))
     bm = bmesh.new()
     for sx in (-0.7, 0.66):

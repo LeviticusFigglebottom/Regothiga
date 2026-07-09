@@ -1373,7 +1373,7 @@
  "stair_wood_3m": {
   "file": "assets/kit/stair_wood_3m.glb",
   "origin": "foot-center",
-  "polys": 84,
+  "polys": 102,
   "rise": 3.0,
   "size": [
    1.4,

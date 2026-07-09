@@ -186,8 +186,8 @@ func _build() -> void:
 	sb.border_color = Color(0.6, 0.5, 0.32)
 	sb.set_border_width_all(2)
 	_panel.add_theme_stylebox_override("panel", sb)
-	_panel.position = Vector2(670, 210)
-	_panel.size = Vector2(580, 660)
+	_panel.position = Vector2(670, 125)
+	_panel.size = Vector2(580, 830)
 	root.add_child(_panel)
 
 	var title := Label.new()
@@ -271,7 +271,7 @@ func _build() -> void:
 func _page_box() -> VBoxContainer:
 	var box := VBoxContainer.new()
 	box.position = Vector2(48, 156)
-	box.size = Vector2(484, 470)
+	box.size = Vector2(484, 640)
 	box.add_theme_constant_override("separation", 14)
 	box.visible = false
 	return box
