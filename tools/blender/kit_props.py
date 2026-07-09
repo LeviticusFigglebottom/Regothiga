@@ -356,16 +356,61 @@ def canal_vault(win: bool):
             bm.faces.new((a, b, e, d))
     objs = [V.bm_to_object(bm, "canal_vault", ("M_stone_dark",))]
     if win:
+        # the aperture runs from the springing (z=2.0) up to the first arc
+        # chord (~z 6.45): the grate must cover the WHOLE opening, sill to
+        # crown — a short grate leaves a bare gap under the bars
         bb = bmesh.new()
         for sgn in (-1, 1):
             for k in range(7):
                 bx = -1.8 + 0.6 * k
-                V.add_box(bb, (bx - 0.04, sgn * 19.05 - 0.04, 3.1),
+                V.add_box(bb, (bx - 0.04, sgn * 19.05 - 0.04, 2.0),
                           (bx + 0.04, sgn * 19.05 + 0.04, 6.9))
-            V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 2.9), (2.1, sgn * 19.0 + 0.05, 3.2))
+            V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 1.85), (2.1, sgn * 19.0 + 0.05, 2.15))
+            V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 4.35), (2.1, sgn * 19.0 + 0.05, 4.6))
             V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 6.8), (2.1, sgn * 19.0 + 0.05, 7.1))
         objs.append(V.bm_to_object(bb, "vault_bars", ("M_iron",)))
     return objs, {"size": [8, 40, 25.2], "origin": "bottom-center"}
+
+
+def ferry_boat():
+    """A working mini ferry for the waterworks passage: raked bow, planked
+    deck, bulwarks, an aft rail, a steering sweep and a caged bow lantern.
+    Bow points +X. Origin bottom-center; deck top at z=0.40."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-2.1, -0.85, 0.08), (1.7, 0.85, 0.34))            # bottom
+    V.add_box(bm, (-2.1, -0.85, 0.34), (-1.95, 0.85, 0.82))          # transom
+    V.add_box(bm, (-2.1, -0.85, 0.34), (1.7, -0.7, 0.78))            # port bulwark
+    V.add_box(bm, (-2.1, 0.7, 0.34), (1.7, 0.85, 0.78))              # starboard bulwark
+    V.add_box(bm, (1.7, -0.62, 0.12), (2.15, 0.62, 0.74))            # bow rake step 1
+    V.add_box(bm, (2.15, -0.34, 0.18), (2.52, 0.34, 0.68))           # bow rake step 2
+    objs.append(V.bm_to_object(bm, "ferry_hull", ("M_wood",)))
+    bm = bmesh.new()
+    x = -1.92
+    while x < 1.6:                                                    # deck planking
+        V.add_box(bm, (x, -0.68, 0.34), (x + 0.31, 0.68, 0.40))
+        x += 0.36
+    V.add_box(bm, (1.7, -0.5, 0.32), (2.12, 0.5, 0.40))              # bow step
+    objs.append(V.bm_to_object(bm, "ferry_deck", ("M_wood",)))
+    bm = bmesh.new()
+    for py in (-0.72, 0.72):                                          # aft posts
+        V.add_box(bm, (-1.99, py - 0.05, 0.78), (-1.89, py + 0.05, 1.44))
+    V.add_box(bm, (-1.98, -0.74, 1.32), (-1.9, 0.74, 1.42))          # aft rail
+    V.add_box(bm, (1.82, -0.05, 0.68), (1.92, 0.05, 1.5))            # lantern post
+    V.add_box(bm, (1.74, -0.13, 1.5), (2.0, 0.13, 1.58))             # lantern base
+    V.add_box(bm, (1.72, -0.15, 1.86), (2.02, 0.15, 1.94))           # lantern cap
+    for py in (-0.11, 0.11):                                          # cage bars
+        V.add_box(bm, (1.75, py - 0.015, 1.58), (1.78, py + 0.015, 1.86))
+        V.add_box(bm, (1.96, py - 0.015, 1.58), (1.99, py + 0.015, 1.86))
+    objs.append(V.bm_to_object(bm, "ferry_iron", ("M_iron",)))
+    bm = bmesh.new()
+    V.add_box(bm, (1.79, -0.08, 1.6), (1.95, 0.08, 1.82))            # the flame
+    objs.append(V.bm_to_object(bm, "ferry_flame", ("M_ember",)))
+    bm = bmesh.new()
+    V.add_box(bm, (-2.78, 0.30, 0.30), (-2.05, 0.42, 0.44))          # sweep blade
+    V.add_box(bm, (-2.1, 0.30, 0.44), (-1.5, 0.38, 0.92))            # sweep loom
+    objs.append(V.bm_to_object(bm, "ferry_sweep", ("M_wood",)))
+    return objs, {"size": [5.3, 1.7, 1.94], "origin": "bottom-center"}
 
 
 def anvil():
@@ -695,6 +740,7 @@ BUILDERS = {
     "anvil": anvil,
     "canal_vault_8m": lambda: canal_vault(False),
     "canal_vault_8m_win": lambda: canal_vault(True),
+    "ferry_boat": ferry_boat,
     "fence_iron_4m": fence_iron_4m,
     "bell_great": bell_great,
     "organ_case": organ_case,

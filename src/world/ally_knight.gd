@@ -73,6 +73,10 @@ func _ready() -> void:
 
 	Game.player_forgotten.connect(fade_out)
 	Game.area_cleared.connect(_on_cleared)
+	# a phantom passes the pale: the fog seals bar flesh, not him
+	for g in get_tree().get_nodes_in_group(VG.GROUP_RESPAWN_ON_REST):
+		if g is FogGate and g._seal != null:
+			add_collision_exception_with(g._seal)
 
 func _on_cleared(_aid: String) -> void:
 	fade_out()
@@ -142,11 +146,15 @@ func _physics_process(dt: float) -> void:
 	else:
 		velocity.y = maxf(velocity.y, -0.5)
 
+	# he keeps to the Latecomer's side first; the hunt only holds while
+	# they walk together
+	var far_from_player := Game.player != null and is_instance_valid(Game.player) \
+			and global_position.distance_to(Game.player.global_position) > 14.0
 	var goal := global_position
 	var stop := 1.9
-	if target != null and is_instance_valid(target):
+	if target != null and is_instance_valid(target) and not far_from_player:
 		goal = target.global_position
-	elif Game.player != null:
+	elif Game.player != null and is_instance_valid(Game.player):
 		goal = Game.player.global_position
 		stop = 3.2
 	var flat := goal - global_position
@@ -165,7 +173,7 @@ func _physics_process(dt: float) -> void:
 	move_and_slide()
 	vis.locomotion(dt, Vector2(velocity.x, velocity.z).length())
 
-	if _busy or target == null or not is_instance_valid(target):
+	if _busy or far_from_player or target == null or not is_instance_valid(target):
 		return
 	var d := global_position.distance_to(target.global_position)
 	if d <= 2.3 and _atk_cd <= 0.0:

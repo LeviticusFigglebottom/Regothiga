@@ -7,9 +7,9 @@ render_mode specular_schlick_ggx, cull_back;
 uniform int state_mode = 0;              // pipeline compat (base layer: unused)
 uniform vec4 deep_color : source_color = vec4(0.045, 0.075, 0.085, 1.0);
 uniform vec4 shallow_color : source_color = vec4(0.13, 0.185, 0.175, 1.0);
-uniform float ripple_scale = 0.9;
-uniform float ripple_speed = 0.05;
-uniform float ripple_height = 0.55;
+uniform float ripple_scale = 1.25;
+uniform float ripple_speed = 0.055;
+uniform float ripple_height = 1.05;
 uniform float flow_x = 1.0;              // dominant drift direction (world x)
 
 varying vec3 wpos;
@@ -32,8 +32,9 @@ float vnoise2(vec2 p) {
 }
 
 float ripple(vec2 p, float t) {
-	float n = vnoise2(p + vec2(t * flow_x, t * 0.35)) * 0.65;
-	n += vnoise2(p * 2.7 - vec2(t * 1.6 * flow_x, -t * 0.7)) * 0.35;
+	float n = vnoise2(p + vec2(t * flow_x, t * 0.35)) * 0.55;
+	n += vnoise2(p * 2.7 - vec2(t * 1.6 * flow_x, -t * 0.7)) * 0.3;
+	n += vnoise2(p * 6.3 + vec2(t * 2.3 * flow_x, t * 1.1)) * 0.15;   // chop
 	return n;
 }
 
@@ -54,13 +55,14 @@ void fragment() {
 
 	float fres = pow(1.0 - clamp(dot(normalize(-VERTEX), NORMAL), 0.0, 1.0), 3.0);
 	vec3 col = mix(shallow_color.rgb, deep_color.rgb, clamp(0.35 + fres * 0.65, 0.0, 1.0));
-	// faint moving sheen bands so still shots read as water too
-	float sheen = smoothstep(0.55, 0.92, h0);
-	col += vec3(0.10, 0.11, 0.10) * sheen * (0.4 + fres);
+	// crest sheen: tight bands riding the ripple tops so lamplight breaks
+	// into moving glints instead of a flat smear
+	float sheen = smoothstep(0.66, 0.9, h0);
+	col += vec3(0.11, 0.12, 0.11) * sheen * (0.4 + fres);
 	ALBEDO = col;
 	// a whisper of self-light so night water still glints as water
-	EMISSION = vec3(0.05, 0.065, 0.075) * (sheen * 0.5 + fres * 0.5) * 0.6;
-	ROUGHNESS = 0.08 + 0.14 * h0;
-	SPECULAR = 0.55;
+	EMISSION = vec3(0.05, 0.065, 0.075) * (sheen * 0.6 + fres * 0.5) * 0.6;
+	ROUGHNESS = 0.035 + 0.16 * h0;
+	SPECULAR = 0.62;
 	METALLIC = 0.0;
 }

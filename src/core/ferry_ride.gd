@@ -1,23 +1,21 @@
 class_name FerryRide
 extends Node3D
-## The waterworks passage: the Ferryman's skiff poles down the great canal —
-## out through the tunnel mouth of the Drowned Marches, then in along the
-## outskirts water to the commoners' landing. Any input skips.
+## The waterworks passage: the ferry poles the length of the great canal
+## vault under the Drowned Marches — past the barred lights, up to the
+## jetty gate — and the dark takes the rest of the way to the outskirts
+## landing. Rides entirely inside the tunnel. Any input skips.
 
 signal finished
 
-## Each beat stages an area and glides the skiff from -> to; the camera
-## rides at a fixed offset, watching the bow. Beat one runs the south
-## channel beside the marches causeway — past the jetty, under the vault,
-## and out the tunnel mouth onto the open west reach; beat two pulls in
-## along the outskirts water toward the commoners' landing.
+## One beat: stage the area, glide the ferry from -> to down the south
+## channel; the camera rides at a fixed offset inside the vault, watching
+## the bow. Numbers live inside the channel band (z -18..-4) and stop well
+## short of the west bulkhead, so neither hull nor camera ever crosses a
+## wall.
 var beats := [
 	{"area": "drowned_marches", "state": VG.WState.RUIN,
-	 "from": Vector3(-10, -2.3, -11), "to": Vector3(-72, -2.3, -11),
-	 "cam": Vector3(4.2, 2.6, -3.6), "dur": 12.0},
-	{"area": "old_outskirts", "state": VG.WState.RUIN,
-	 "from": Vector3(1.8, -2.3, 27.5), "to": Vector3(1.8, -2.3, 18.8),
-	 "cam": Vector3(4.5, 3.6, 4.6), "dur": 7.0},
+	 "from": Vector3(22, -2.3, -11), "to": Vector3(-24, -2.3, -11),
+	 "cam": Vector3(4.2, 2.6, -3.6), "dur": 14.0},
 ]
 
 var _cam: Camera3D
@@ -64,22 +62,28 @@ func _stage(beat: Dictionary) -> void:
 	_strip_spawners(_area)
 	add_child(_area)
 	StateDirector.snap(_area, beat["state"])
-	_skiff = KitLib.instance("ferry_skiff")
+	_skiff = KitLib.instance("ferry_boat")
 	add_child(_skiff)
 	_skiff.position = beat["from"]
-	# the ferryman's lantern still burns at the bow; it is what reads in the dark
+	# the Latecomer rides amidships, facing the bow (+X in boat space)
+	var rider := PlayerVisual.new()
+	_skiff.add_child(rider)
+	rider.build()
+	rider.position = Vector3(0.1, 0.40, 0)
+	rider.rotation.y = -PI * 0.5
+	# the bow lantern is what reads in the tunnel dark
 	var lamp := OmniLight3D.new()
 	lamp.light_color = Color(1.0, 0.82, 0.5)
-	lamp.light_energy = 1.6
-	lamp.omni_range = 7.0
+	lamp.light_energy = 1.8
+	lamp.omni_range = 8.0
 	lamp.omni_attenuation = 1.4
 	lamp.shadow_enabled = false
-	lamp.position = Vector3(0, 1.5, -0.6)
+	lamp.position = Vector3(1.87, 1.78, 0)
 	_skiff.add_child(lamp)
 
-## The staged quarters are scenery for the passage, not live ground: no
-## foe should stand in the shot. Freed before the area enters the tree,
-## so the spawners never ready and nothing is ever spawned.
+## The staged quarter is scenery for the passage, not live ground: no foe
+## should stand in the shot. Freed before the area enters the tree, so the
+## spawners never ready and nothing is ever spawned.
 func _strip_spawners(root: Node) -> void:
 	var stack: Array[Node] = [root]
 	var doomed: Array[Node] = []
@@ -104,7 +108,7 @@ func _run() -> void:
 		var to: Vector3 = beat["to"]
 		var off: Vector3 = beat["cam"]
 		var travel := to - from
-		_skiff.rotation.y = atan2(-travel.x, -travel.z)
+		_skiff.rotation.y = atan2(-travel.z, travel.x)   # bow (+X) into the run
 		_cam.look_at_from_position(from + off, from + Vector3(0, 0.8, 0))
 		await _fade(0.0, 0.8)
 		var dur: float = beat["dur"]
@@ -116,7 +120,7 @@ func _run() -> void:
 			var pos := from.lerp(to, ke)
 			pos.y += sin(t * 1.4) * 0.05   # the water carries it
 			_skiff.position = pos
-			_cam.look_at_from_position(pos + off, pos + Vector3(0, 1.0, 0) + travel.normalized() * 9.0)
+			_cam.look_at_from_position(pos + off, pos + Vector3(0, 1.0, 0) + travel.normalized() * 7.0)
 			await get_tree().process_frame
 		await _fade(1.0, 0.8)
 	_done = true
