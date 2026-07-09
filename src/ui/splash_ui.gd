@@ -8,8 +8,8 @@ extends CanvasLayer
 signal finished
 
 const FADE_IN := 3.4
-const TOTAL := 5.6
 
+var _total := 5.6   # stretched to the declamation's length once loaded
 var _t := 0.0
 var _done := false
 var _img: TextureRect
@@ -41,11 +41,13 @@ func _ready() -> void:
 		_voice.volume_db = 2.0
 		add_child(_voice)
 		_voice.play()
+		# the card holds for the whole performance, to its final note
+		_total = maxf(_total, float(_voice.stream.get_length()) + 0.5)
 
 func _process(dt: float) -> void:
 	_t += dt
 	_img.modulate.a = clampf(_t / FADE_IN, 0.0, 1.0)
-	if _t >= TOTAL:
+	if _t >= _total:
 		_finish()
 
 func _input(event: InputEvent) -> void:
