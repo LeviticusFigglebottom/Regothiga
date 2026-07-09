@@ -17,10 +17,13 @@ MOUNTED = {
     "city_panorama", "cathedral_mass", "spire_tower_a", "spire_tower_b",
     "spire_tower_c", "buttress_arc", "bell_great",
     "lark_cage", "lark_cage_dead", "aviary_screen",
+    "chimney_stack", "balcony_3m",   # ride roofs and upper wall faces
 }
 # kits that are architecture (not decor); they define floors/walls, skip float check
 ARCH = {"floor_4x4", "wall_4x4", "ossuary_wall_4m", "arcade_4m", "portal_4m",
         "window_lancet_4m", "column_4m", "stair_grand_4m", "fence_iron_4m",
+        "burg_wall_3m", "burg_wall_3m_door", "burg_wall_3m_win", "burg_floor_3m",
+        "roof_gable_7m", "stair_wood_3m",   # town shells stack by design
         "stair_grand_4m_l", "stair_grand_4m_r",   # one-parapet variants
         "column_broken", "door_leaf", "fog_gate_frame", "cornice_4m",
         "canal_vault_8m", "canal_vault_8m_win",   # 40 m shells span everything

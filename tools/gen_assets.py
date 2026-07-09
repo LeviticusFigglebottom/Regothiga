@@ -17,6 +17,7 @@ import kit_arch  # noqa: E402
 import kit_props  # noqa: E402
 import kit_chars  # noqa: E402
 import kit_backdrop  # noqa: E402
+import kit_burg  # noqa: E402
 import kit_decor  # noqa: E402
 import kit_lark  # noqa: E402
 import kit_gate  # noqa: E402
@@ -48,6 +49,7 @@ def main():
     builders.update(kit_props.BUILDERS)
     builders.update(kit_chars.BUILDERS)
     builders.update(kit_backdrop.BUILDERS)
+    builders.update(kit_burg.BUILDERS)
     builders.update(kit_decor.BUILDERS)
     builders.update(kit_lark.BUILDERS)
     builders.update(kit_gate.BUILDERS)

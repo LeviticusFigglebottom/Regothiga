@@ -194,7 +194,9 @@ static func _prop_collides(spec: Dictionary) -> bool:
 const STRUCTURAL_KITS := ["wall_4x4", "arcade_4m", "portal_4m", "window_lancet_4m",
 	"ossuary_wall_4m", "balustrade_4m", "buttress", "rose_window", "roof_shed_4m",
 	"vault_bay_4x4", "floor_4x4", "fence_iron_4m", "gate_iron", "cornice_4m",
-	"gate_black"]   # trimesh keeps the walkable breach between the leaves
+	"gate_black",   # trimesh keeps the walkable breach between the leaves
+	"burg_wall_3m", "burg_wall_3m_door", "burg_wall_3m_win", "burg_floor_3m",
+	"roof_gable_7m", "balcony_3m"]   # town shells: doorways and decks stay hollow
 
 static func _is_structural(kit) -> bool:
 	return String(kit) in STRUCTURAL_KITS
@@ -210,6 +212,8 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 	if collide and spec.get("collide", true):
 		if String(spec["kit"]).begins_with("stair_grand_4m"):
 			_stair_ramp(piece, tag, String(spec["kit"]))   # ramp-only: step trimesh would wall off the climb
+		elif String(spec["kit"]) == "stair_wood_3m":
+			_wood_ramp(piece, tag)   # same rule at house scale
 		else:
 			# architecture (walls, arcades, portals, windows) keeps its exact
 			# hollow shell so you can pass through openings; everything else
@@ -258,6 +262,21 @@ static func _stair_ramp(piece: Node3D, tag: String, kit := "stair_grand_4m") -> 
 		# floor in front of every open flight.
 		fs.position = Vector3(sx, -0.57, -2.35)
 		body.add_child(fs)
+	piece.add_child(body)
+
+## The steep house stair (foot at origin, climbing local -Z, rise 3.0 over
+## a 3.31 run): same ramp-not-treads rule as the grand stair, house-sized.
+static func _wood_ramp(piece: Node3D, tag: String) -> void:
+	var body := StaticBody3D.new()
+	body.collision_layer = 1 << (_tag_bit(tag) - 1)
+	body.collision_mask = 0
+	var cs := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = Vector3(1.36, 0.3, 4.6)
+	cs.shape = box
+	cs.rotation_degrees = Vector3(42.2, 0, 0)   # rise 3.0 over run 3.31
+	cs.position = Vector3(0, 1.35, -1.655)
+	body.add_child(cs)
 	piece.add_child(body)
 
 static func _row(area: Area, spec: Dictionary) -> void:

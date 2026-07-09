@@ -39,6 +39,16 @@
    4
   ]
  },
+ "balcony_3m": {
+  "file": "assets/kit/balcony_3m.glb",
+  "origin": "wall-face-deck",
+  "polys": 84,
+  "size": [
+   3,
+   1.25,
+   2.1
+  ]
+ },
  "balustrade_4m": {
   "file": "assets/kit/balustrade_4m.glb",
   "origin": "bottom-center",
@@ -67,6 +77,16 @@
    1.1,
    0.3,
    2.6
+  ]
+ },
+ "barrel": {
+  "file": "assets/kit/barrel.glb",
+  "origin": "bottom-center",
+  "polys": 66,
+  "size": [
+   0.7,
+   0.7,
+   0.9
   ]
  },
  "battlement_4m": {
@@ -158,6 +178,55 @@
    0.8,
    1.1
   ]
+ },
+ "burg_floor_3m": {
+  "file": "assets/kit/burg_floor_3m.glb",
+  "origin": "bottom-center",
+  "polys": 66,
+  "size": [
+   3,
+   3,
+   0.34
+  ]
+ },
+ "burg_wall_3m": {
+  "file": "assets/kit/burg_wall_3m.glb",
+  "opening": null,
+  "origin": "bottom-center",
+  "polys": 48,
+  "size": [
+   3,
+   0.24,
+   3
+  ],
+  "variant": "plain"
+ },
+ "burg_wall_3m_door": {
+  "file": "assets/kit/burg_wall_3m_door.glb",
+  "opening": [
+   1.2,
+   2.25
+  ],
+  "origin": "bottom-center",
+  "polys": 78,
+  "size": [
+   3,
+   0.24,
+   3
+  ],
+  "variant": "door"
+ },
+ "burg_wall_3m_win": {
+  "file": "assets/kit/burg_wall_3m_win.glb",
+  "opening": null,
+  "origin": "bottom-center",
+  "polys": 96,
+  "size": [
+   3,
+   0.24,
+   3
+  ],
+  "variant": "win"
  },
  "buttress": {
   "file": "assets/kit/buttress.glb",
@@ -369,6 +438,16 @@
    2.1
   ]
  },
+ "chimney_stack": {
+  "file": "assets/kit/chimney_stack.glb",
+  "origin": "bottom-center",
+  "polys": 18,
+  "size": [
+   0.8,
+   0.8,
+   2.4
+  ]
+ },
  "choir_stall": {
   "file": "assets/kit/choir_stall.glb",
   "origin": "bottom-center",
@@ -447,6 +526,16 @@
    4,
    0.3,
    0.3
+  ]
+ },
+ "crate_stack": {
+  "file": "assets/kit/crate_stack.glb",
+  "origin": "bottom-center",
+  "polys": 36,
+  "size": [
+   1.0,
+   1.0,
+   1.45
   ]
  },
  "crook_great": {
@@ -641,6 +730,16 @@
    3.4,
    1.0,
    4.8
+  ]
+ },
+ "hand_cart": {
+  "file": "assets/kit/hand_cart.glb",
+  "origin": "bottom-center",
+  "polys": 58,
+  "size": [
+   1.4,
+   3.0,
+   0.95
   ]
  },
  "hanging_chain": {
@@ -875,6 +974,16 @@
    1.1,
    1.1,
    1.2
+  ]
+ },
+ "roof_gable_7m": {
+  "file": "assets/kit/roof_gable_7m.glb",
+  "origin": "eave-center",
+  "polys": 52,
+  "size": [
+   7.1,
+   7.16,
+   2.62
   ]
  },
  "roof_shed_4m": {
@@ -1219,6 +1328,17 @@
    4.68,
    2.4,
    4.0
+  ]
+ },
+ "stair_wood_3m": {
+  "file": "assets/kit/stair_wood_3m.glb",
+  "origin": "foot-center",
+  "polys": 84,
+  "rise": 3.0,
+  "size": [
+   1.4,
+   3.31,
+   3.1
   ]
  },
  "statue_orans": {

@@ -156,6 +156,78 @@
    ],
    "mat": "M_backdrop_dark",
    "tag": "base"
+  },
+  {
+   "min": [
+    -26,
+    0,
+    -34
+   ],
+   "max": [
+    26,
+    2.4,
+    -18
+   ],
+   "mat": "M_stone",
+   "tag": "base",
+   "walkable": true
+  },
+  {
+   "min": [
+    -26,
+    0,
+    -46
+   ],
+   "max": [
+    26,
+    4.8,
+    -34
+   ],
+   "mat": "M_stone",
+   "tag": "base",
+   "walkable": true
+  },
+  {
+   "min": [
+    -60,
+    0,
+    -50
+   ],
+   "max": [
+    60,
+    1.1,
+    -49.6
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -60,
+    0,
+    -50
+   ],
+   "max": [
+    -59.6,
+    1.1,
+    12
+   ],
+   "mat": "M_stone",
+   "tag": "base"
+  },
+  {
+   "min": [
+    59.6,
+    0,
+    -50
+   ],
+   "max": [
+    60,
+    1.1,
+    12
+   ],
+   "mat": "M_stone",
+   "tag": "base"
   }
  ],
  "open_air_regions": [
@@ -193,6 +265,186 @@
     60,
     -2.45,
     34
+   ]
+  },
+  {
+   "min": [
+    -26,
+    2.4,
+    -34
+   ],
+   "max": [
+    26,
+    2.4,
+    -18
+   ]
+  },
+  {
+   "min": [
+    -26,
+    4.8,
+    -46
+   ],
+   "max": [
+    26,
+    4.8,
+    -34
+   ]
+  },
+  {
+   "min": [
+    -16,
+    3,
+    -13
+   ],
+   "max": [
+    -10,
+    3,
+    -10
+   ]
+  },
+  {
+   "min": [
+    -13,
+    3,
+    -16
+   ],
+   "max": [
+    -10,
+    3,
+    -13
+   ]
+  },
+  {
+   "min": [
+    -6,
+    3,
+    -15
+   ],
+   "max": [
+    0,
+    3,
+    -12
+   ]
+  },
+  {
+   "min": [
+    -3,
+    3,
+    -18
+   ],
+   "max": [
+    0,
+    3,
+    -15
+   ]
+  },
+  {
+   "min": [
+    -6,
+    6,
+    -18
+   ],
+   "max": [
+    0,
+    6,
+    -15
+   ]
+  },
+  {
+   "min": [
+    -3,
+    6,
+    -15
+   ],
+   "max": [
+    0,
+    6,
+    -12
+   ]
+  },
+  {
+   "min": [
+    2,
+    3,
+    -18
+   ],
+   "max": [
+    8,
+    3,
+    -12
+   ]
+  },
+  {
+   "min": [
+    -20,
+    5.4,
+    -29
+   ],
+   "max": [
+    -14,
+    5.4,
+    -26
+   ]
+  },
+  {
+   "min": [
+    -17,
+    5.4,
+    -32
+   ],
+   "max": [
+    -14,
+    5.4,
+    -29
+   ]
+  },
+  {
+   "min": [
+    8,
+    5.4,
+    -32
+   ],
+   "max": [
+    17,
+    5.4,
+    -26
+   ]
+  },
+  {
+   "min": [
+    12,
+    19.2,
+    -44
+   ],
+   "max": [
+    16,
+    19.2,
+    -40
+   ]
+  },
+  {
+   "min": [
+    -18,
+    7.8,
+    -41
+   ],
+   "max": [
+    -12,
+    7.8,
+    -38
+   ]
+  },
+  {
+   "min": [
+    -15,
+    7.8,
+    -44
+   ],
+   "max": [
+    -12,
+    7.8,
+    -41
    ]
   }
  ],
@@ -255,8 +507,8 @@
    "kit": "city_panorama",
    "at": [
     0,
-    -4.5,
-    -320
+    -16,
+    -18
    ]
   }
  ],
@@ -269,6 +521,1693 @@
     16.5
    ],
    "rot": 205
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    10,
+    2.42,
+    -18
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    -10,
+    4.82,
+    -34
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    13.5,
+    0,
+    5
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    16.5,
+    0,
+    5
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    13.5,
+    0,
+    -4
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    16.5,
+    0,
+    -4
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    18,
+    0,
+    -2.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    18,
+    0,
+    0.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    18,
+    0,
+    3.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    12,
+    0,
+    -2.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    12,
+    0,
+    0.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    12,
+    0,
+    3.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    15.0,
+    3,
+    0.5
+   ],
+   "rot": 90,
+   "scale": [
+    1.429,
+    1,
+    1.0
+   ]
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -14.5,
+    0,
+    -10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    -11.5,
+    0,
+    -10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -14.5,
+    0,
+    -16
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -11.5,
+    0,
+    -16
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -10,
+    0,
+    -14.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -10,
+    0,
+    -11.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -16,
+    0,
+    -14.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -16,
+    0,
+    -11.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    -14.5,
+    3,
+    -10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -11.5,
+    3,
+    -10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -14.5,
+    3,
+    -16
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -11.5,
+    3,
+    -16
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -10,
+    3,
+    -14.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -10,
+    3,
+    -11.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -16,
+    3,
+    -14.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -16,
+    3,
+    -11.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "stair_wood_3m",
+   "at": [
+    -16.31,
+    0.02,
+    -14.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    -13.0,
+    6,
+    -13.0
+   ],
+   "rot": 0,
+   "scale": [
+    1.0,
+    1,
+    1.0
+   ]
+  },
+  {
+   "kit": "chimney_stack",
+   "at": [
+    -11,
+    6.9,
+    -15
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "balcony_3m",
+   "at": [
+    -14.5,
+    3,
+    -9.85
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    -4.5,
+    0,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -1.5,
+    0,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -4.5,
+    0,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -1.5,
+    0,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    0,
+    0,
+    -16.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    0,
+    0,
+    -13.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -6,
+    0,
+    -16.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -6,
+    0,
+    -13.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -4.5,
+    3,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -1.5,
+    3,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -4.5,
+    3,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -1.5,
+    3,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    0,
+    3,
+    -16.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    0,
+    3,
+    -13.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -6,
+    3,
+    -16.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -6,
+    3,
+    -13.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -4.5,
+    6,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -1.5,
+    6,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -4.5,
+    6,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -1.5,
+    6,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    0,
+    6,
+    -16.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    0,
+    6,
+    -13.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -6,
+    6,
+    -16.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -6,
+    6,
+    -13.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "stair_wood_3m",
+   "at": [
+    -6.31,
+    0.02,
+    -16.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "stair_wood_3m",
+   "at": [
+    -4.5,
+    3.02,
+    -11.69
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    -3.0,
+    9,
+    -15.0
+   ],
+   "rot": 90,
+   "scale": [
+    1.0,
+    1,
+    1.0
+   ]
+  },
+  {
+   "kit": "chimney_stack",
+   "at": [
+    -1.2,
+    9.9,
+    -13
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    3.5,
+    0,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    6.5,
+    0,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    3.5,
+    0,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    6.5,
+    0,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    8,
+    0,
+    -16.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    8,
+    0,
+    -13.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    2,
+    0,
+    -16.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    2,
+    0,
+    -13.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    3.5,
+    3,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    6.5,
+    3,
+    -12
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    3.5,
+    3,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    6.5,
+    3,
+    -18
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    8,
+    3,
+    -16.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    8,
+    3,
+    -13.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    2,
+    3,
+    -16.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    2,
+    3,
+    -13.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    5.0,
+    6,
+    -15.0
+   ],
+   "rot": 90,
+   "scale": [
+    1.0,
+    1,
+    1.0
+   ]
+  },
+  {
+   "kit": "chimney_stack",
+   "at": [
+    6.4,
+    6.9,
+    -13.2
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    -18.5,
+    2.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -15.5,
+    2.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -18.5,
+    2.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -15.5,
+    2.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -14,
+    2.4,
+    -30.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -14,
+    2.4,
+    -27.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -20,
+    2.4,
+    -30.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -20,
+    2.4,
+    -27.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    -18.5,
+    5.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -15.5,
+    5.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -18.5,
+    5.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -15.5,
+    5.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -14,
+    5.4,
+    -30.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -14,
+    5.4,
+    -27.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -20,
+    5.4,
+    -30.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -20,
+    5.4,
+    -27.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "stair_wood_3m",
+   "at": [
+    -20.31,
+    2.42,
+    -30.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    -17.0,
+    8.4,
+    -29.0
+   ],
+   "rot": 0,
+   "scale": [
+    1.0,
+    1,
+    1.0
+   ]
+  },
+  {
+   "kit": "chimney_stack",
+   "at": [
+    -15.2,
+    9.3,
+    -31
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "balcony_3m",
+   "at": [
+    -18.5,
+    5.4,
+    -25.85
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -0.5,
+    2.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    2.5,
+    2.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -0.5,
+    2.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    2.5,
+    2.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    4,
+    2.4,
+    -30.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    4,
+    2.4,
+    -27.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -2,
+    2.4,
+    -30.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -2,
+    2.4,
+    -27.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    1.0,
+    5.4,
+    -29.0
+   ],
+   "rot": 0,
+   "scale": [
+    1.0,
+    1,
+    1.0
+   ]
+  },
+  {
+   "kit": "chimney_stack",
+   "at": [
+    2.8,
+    6.300000000000001,
+    -31
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    9.5,
+    2.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    12.5,
+    2.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    15.5,
+    2.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    9.5,
+    2.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    12.5,
+    2.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    15.5,
+    2.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    17,
+    2.4,
+    -30.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    17,
+    2.4,
+    -27.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    8,
+    2.4,
+    -30.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    8,
+    2.4,
+    -27.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    9.5,
+    5.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    12.5,
+    5.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    15.5,
+    5.4,
+    -26
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    9.5,
+    5.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    12.5,
+    5.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    15.5,
+    5.4,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    17,
+    5.4,
+    -30.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    17,
+    5.4,
+    -27.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    8,
+    5.4,
+    -30.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    8,
+    5.4,
+    -27.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    12.5,
+    8.4,
+    -29.0
+   ],
+   "rot": 90,
+   "scale": [
+    1.0,
+    1,
+    1.429
+   ]
+  },
+  {
+   "kit": "chimney_stack",
+   "at": [
+    15.4,
+    9.3,
+    -27.2
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    4.8,
+    -45
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -2,
+    4.8,
+    -45
+   ],
+   "rot": 0,
+   "scale": [
+    1.2,
+    1.35,
+    1.2
+   ]
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    -2,
+    4.8,
+    -45
+   ],
+   "rot": 0,
+   "scale": [
+    1.2,
+    1.35,
+    1.2
+   ],
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.8,
+    -45
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    9.6,
+    -45
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    9.6,
+    -45
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    9.6,
+    -45
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    -2,
+    11.6,
+    -44.55
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "buttress",
+   "at": [
+    -6.2,
+    4.8,
+    -44.75
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "buttress",
+   "at": [
+    2.2,
+    4.8,
+    -44.75
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    4.8,
+    -42
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.8,
+    -42
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.8,
+    -44
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.8,
+    -40
+   ],
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    9.6,
+    -42
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    9.6,
+    -42
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    9.6,
+    -44
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    9.6,
+    -40
+   ],
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    14.4,
+    -42
+   ],
+   "rot": 90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    14.4,
+    -42
+   ],
+   "rot": -90,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    14.4,
+    -44
+   ],
+   "rot": 0,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    14.4,
+    -40
+   ],
+   "rot": 180,
+   "scale": [
+    1,
+    1.2,
+    1
+   ]
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    12.2,
+    14.4,
+    -44.2
+   ],
+   "rot": 45
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    15.8,
+    14.4,
+    -39.8
+   ],
+   "rot": -135
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -12,
+    4.8,
+    -42.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_door",
+   "at": [
+    -12,
+    4.8,
+    -39.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -16.5,
+    4.8,
+    -44
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -13.5,
+    4.8,
+    -44
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -16.5,
+    4.8,
+    -38
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -13.5,
+    4.8,
+    -38
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -18,
+    4.8,
+    -42.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -18,
+    4.8,
+    -39.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -12,
+    7.8,
+    -42.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -12,
+    7.8,
+    -39.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -16.5,
+    7.8,
+    -44
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -13.5,
+    7.8,
+    -44
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -16.5,
+    7.8,
+    -38
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m_win",
+   "at": [
+    -13.5,
+    7.8,
+    -38
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -18,
+    7.8,
+    -42.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "burg_wall_3m",
+   "at": [
+    -18,
+    7.8,
+    -39.5
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "stair_wood_3m",
+   "at": [
+    -18.31,
+    4.819999999999999,
+    -42.5
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "roof_gable_7m",
+   "at": [
+    -15.0,
+    10.8,
+    -41.0
+   ],
+   "rot": 0,
+   "scale": [
+    1.0,
+    1,
+    1.0
+   ]
+  },
+  {
+   "kit": "chimney_stack",
+   "at": [
+    -13.2,
+    11.700000000000001,
+    -43
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wellhead",
+   "at": [
+    0,
+    4.8,
+    -40
+   ],
+   "rot": 15
   }
  ],
  "portals": [
@@ -287,6 +2226,797 @@
    ],
    "spawn_yaw": -90,
    "prompt": "Pole back up the canal"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "outskirts_quay",
+   "name": "Quaylantern",
+   "at": [
+    7,
+    0,
+    7.5
+   ],
+   "rot": -45
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    -4.6,
+    0,
+    9.2
+   ],
+   "rot": 160,
+   "text": "THE OLD OUTSKIRTS\n\nBefore the kingdom banked its light, it lived here \u2014 rope and wax, fish and prayer, six families to a stair.\n\nThe city moved up the hill and the hill kept the houses. Mind the balconies; the timbers remember rain."
+  },
+  {
+   "at": [
+    4.5,
+    4.8,
+    -37.4
+   ],
+   "rot": -155,
+   "text": "THE PARISH OF THE FIRST WICK\n\nHere the first vigil candle was dipped, long before the basilica raised its rock.\n\nThe parish door is sealed until someone remembers the words. Nobody remembers the words."
+  }
+ ],
+ "fills": [
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -16,
+    3,
+    -13
+   ],
+   "max": [
+    -10,
+    3,
+    -10
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -13,
+    3,
+    -16
+   ],
+   "max": [
+    -10,
+    3,
+    -13
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -6,
+    3,
+    -15
+   ],
+   "max": [
+    0,
+    3,
+    -12
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -3,
+    3,
+    -18
+   ],
+   "max": [
+    0,
+    3,
+    -15
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -6,
+    6,
+    -18
+   ],
+   "max": [
+    0,
+    6,
+    -15
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -3,
+    6,
+    -15
+   ],
+   "max": [
+    0,
+    6,
+    -12
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    2,
+    3,
+    -18
+   ],
+   "max": [
+    8,
+    3,
+    -12
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -20,
+    5.4,
+    -29
+   ],
+   "max": [
+    -14,
+    5.4,
+    -26
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -17,
+    5.4,
+    -32
+   ],
+   "max": [
+    -14,
+    5.4,
+    -29
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    8,
+    5.4,
+    -32
+   ],
+   "max": [
+    17,
+    5.4,
+    -26
+   ],
+   "step": 3
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    12,
+    19.2,
+    -44
+   ],
+   "max": [
+    16,
+    19.2,
+    -40
+   ]
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -18,
+    7.8,
+    -41
+   ],
+   "max": [
+    -12,
+    7.8,
+    -38
+   ],
+   "step": 3
+  },
+  {
+   "kit": "burg_floor_3m",
+   "min": [
+    -15,
+    7.8,
+    -44
+   ],
+   "max": [
+    -12,
+    7.8,
+    -41
+   ],
+   "step": 3
+  }
+ ],
+ "rows": [
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -22,
+    2.4,
+    -17.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 8,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    14,
+    2.4,
+    -17.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 3,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -4,
+    4.8,
+    -33.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 7,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -24,
+    4.8,
+    -33.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 3,
+   "rot": 180
+  },
+  {
+   "kit": "fence_iron_4m",
+   "from": [
+    14,
+    19.2,
+    -43.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 0
+  },
+  {
+   "kit": "fence_iron_4m",
+   "from": [
+    14,
+    19.2,
+    -40.2
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 180
+  },
+  {
+   "kit": "fence_iron_4m",
+   "from": [
+    12.2,
+    19.2,
+    -42
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": 90
+  },
+  {
+   "kit": "fence_iron_4m",
+   "from": [
+    15.8,
+    19.2,
+    -42
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  }
+ ],
+ "props": [
+  {
+   "kit": "crate_stack",
+   "at": [
+    16.6,
+    0,
+    3.2
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    16.9,
+    0,
+    1.4
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    13.2,
+    0,
+    -2.6
+   ],
+   "rot": 40,
+   "tag": "base"
+  },
+  {
+   "kit": "hand_cart",
+   "at": [
+    14.8,
+    0,
+    -1.2
+   ],
+   "rot": -75,
+   "tag": "base"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -12.2,
+    0,
+    -14.6
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -12.2,
+    0,
+    -14.6
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -10.6,
+    0,
+    -14.9
+   ],
+   "rot": 10,
+   "tag": "base"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -5.6,
+    6.4,
+    -17.6
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "hand_cart",
+   "at": [
+    4,
+    0,
+    -9.4
+   ],
+   "rot": 100,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    7.2,
+    0,
+    -10.6
+   ],
+   "rot": 55,
+   "tag": "base"
+  },
+  {
+   "kit": "bone_pile",
+   "at": [
+    2.2,
+    0,
+    -7.6
+   ],
+   "rot": 30,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -19.4,
+    2.4,
+    -30.8
+   ],
+   "rot": -25,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -19.4,
+    2.4,
+    -30.8
+   ],
+   "rot": -25,
+   "tag": "ruin"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -0.8,
+    2.4,
+    -30.9
+   ],
+   "rot": 65,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    1.6,
+    2.4,
+    -30.2
+   ],
+   "rot": 200,
+   "tag": "ruin"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    6.2,
+    2.4,
+    -24.4
+   ],
+   "rot": -30,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    10,
+    2.8,
+    -25.9
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    10,
+    2.8,
+    -25.9
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "hand_cart",
+   "at": [
+    5.4,
+    4.8,
+    -37.6
+   ],
+   "rot": -120,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    7,
+    4.8,
+    -39
+   ],
+   "rot": 10,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    6.4,
+    4.8,
+    -40.6
+   ],
+   "rot": 80,
+   "tag": "base"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -6.8,
+    4.8,
+    -39.4
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -6.8,
+    4.8,
+    -39.4
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    13.8,
+    8.4,
+    -43.8
+   ],
+   "rot": -45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -2,
+    0.4,
+    9.7
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -2,
+    0.4,
+    9.7
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -9.4,
+    0,
+    9.2
+   ],
+   "rot": 25,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    -11,
+    0,
+    8.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  }
+ ],
+ "spawners": [
+  {
+   "enemy": "lantern_wretch",
+   "id": "ware_wretch",
+   "at": [
+    15,
+    0,
+    2
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "penitent",
+   "id": "lane_p1",
+   "at": [
+    -6,
+    0,
+    -8
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "penitent",
+   "id": "lane_p2",
+   "at": [
+    6,
+    0,
+    -7
+   ],
+   "face": -90
+  },
+  {
+   "enemy": "penitent",
+   "id": "plaza_p1",
+   "at": [
+    -10,
+    0,
+    2
+   ],
+   "face": 0
+  },
+  {
+   "enemy": "penitent",
+   "id": "rope_p1",
+   "at": [
+    -4,
+    2.4,
+    -23
+   ],
+   "face": 90
+  },
+  {
+   "enemy": "lantern_wretch",
+   "id": "rope_wretch",
+   "at": [
+    10,
+    2.4,
+    -22
+   ],
+   "face": 180
+  },
+  {
+   "enemy": "vigilant_husk",
+   "id": "square_husk",
+   "at": [
+    1,
+    4.8,
+    -37
+   ],
+   "face": 180
+  },
+  {
+   "enemy": "penitent",
+   "id": "square_p1",
+   "at": [
+    -8,
+    4.8,
+    -36
+   ],
+   "face": 90
+  }
+ ],
+ "pickups": [
+  {
+   "id": "ware_tithe",
+   "at": [
+    16.8,
+    0,
+    -2.2
+   ],
+   "orisons": 70,
+   "tag": "base",
+   "label": "Gather the wharfinger's tithe"
+  },
+  {
+   "id": "roper_savings",
+   "at": [
+    -11,
+    3,
+    -14.5
+   ],
+   "orisons": 95,
+   "tag": "base",
+   "label": "Gather the roper's savings"
+  },
+  {
+   "id": "steeple_cache",
+   "at": [
+    -2,
+    6,
+    -13.5
+   ],
+   "orisons": 140,
+   "tag": "base",
+   "label": "Gather the steeplejack's cache"
+  },
+  {
+   "id": "quay_alms",
+   "at": [
+    -14,
+    0,
+    7
+   ],
+   "orisons": 45,
+   "tag": "base",
+   "label": "Gather the quay alms"
+  },
+  {
+   "id": "ropewalk_purse",
+   "at": [
+    -15.4,
+    5.4,
+    -30.6
+   ],
+   "orisons": 110,
+   "tag": "base",
+   "label": "Gather the ropewalk purse"
+  },
+  {
+   "id": "cottage_candle",
+   "at": [
+    2.6,
+    2.4,
+    -30.6
+   ],
+   "orisons": 60,
+   "tag": "base",
+   "label": "Gather the cold hearth's coins"
+  },
+  {
+   "id": "parish_alms",
+   "at": [
+    -13.4,
+    7.8,
+    -42.6
+   ],
+   "orisons": 130,
+   "tag": "base",
+   "label": "Gather the parish alms"
+  },
+  {
+   "id": "square_hoard",
+   "at": [
+    2.8,
+    4.8,
+    -43.2
+   ],
+   "orisons": 160,
+   "tag": "base",
+   "label": "Gather the sexton-square hoard"
   }
  ]
 }
