@@ -58,14 +58,14 @@
 		"carry": "maul_sexton",
 		"carry_hand": "r",
 		"lines_first": [
-			"Mind the sparks, Latecomer. Bone burns quicker than you'd credit, and I keep my forge among six hundred brittle brothers.",
-			"Osric. I shod horses topside, before the guttering. Now I temper relics \u2014 the saints left good iron in their bones, and somebody ought to keep it sharp.",
-			"The Chandler sends her candleglass down the long stair and I fold it into edges. Wax remembers prayers; glass remembers LIGHT. A blade can carry both.",
-			"Work's honest down here. The dead don't haggle."
+			"Mind the sparks. Bone catches fast, and I keep six hundred dry brothers stacked round this forge. Burn them twice and even I'll not forgive it.",
+			"Osric. Shod horses once, up where the sun still bothered. Now I beat edges out of saints \u2014 the iron in a holy man's bones is the only honest thing he leaves behind.",
+			"The Chandler sends her glass down the long stair. I fold it into the steel, over and over, till the blade forgets it was ever aught but hungry. Prayer won't save you. A good edge might.",
+			"Down here the work's honest. The dead don't haggle, don't thank you, don't leave. Suits me."
 		],
 		"lines_repeat": [
-			"Back again? Good. Idle iron rusts. Idle hands, worse.",
-			"Swing it till it sings wrong, then bring it home to me."
+			"Back. Good. Iron left idle rusts. A man left idle rots slower \u2014 but he rots.",
+			"Swing it till it rings dull, then drag it back down here. Everything comes back down here, in the end."
 		],
 		"services": [
 			{
@@ -73,10 +73,10 @@
 				"type": "upgrade",
 				"orisons": 150,
 				"label": "Temper the blade \u2014 1 candleglass + 150 orisons",
-				"line_max": "That edge holds all the light I can beat into it. The rest is your arm.",
-				"line_no_glass": "No candleglass, no temper. The ruin grinds it out of broken windows \u2014 go shake some loose.",
-				"line_no_orisons": "Prayers first, Latecomer. %d orisons, or the forge stays banked.",
-				"line_done": "There. Hear it hum? That's the saints approving. Or the glass. Same thing, down here."
+				"line_max": "That edge holds all the light I can beat into it. Ask more and you insult us both.",
+				"line_no_glass": "No glass, no temper. The ruin coughs it out of dead windows \u2014 go pick through the dark for it.",
+				"line_no_orisons": "Prayers first. %d orisons, or the forge stays cold and so do I.",
+				"line_done": "There. Hungrier now. Don't lose it somewhere I can't climb down to fetch it back."
 			},
 			{
 				"id": "buy_spear",
@@ -84,8 +84,8 @@
 				"item": "marsh_spear",
 				"orisons": 350,
 				"label": "Buy the Fen-Ward Spear \u2014 350 orisons",
-				"line_done": "Long iron for long odds. Keep the point between you and the dark, and both hands on the ash.",
-				"line_have": "You carry my spear already. Mind the ceilings."
+				"line_done": "Long iron for long odds. Both hands on the haft, the point between you and whatever's next.",
+				"line_have": "You've got my spear. Mind the low stone \u2014 reach is no use with the shaft snapped."
 			},
 			{
 				"id": "buy_bow",
@@ -93,8 +93,8 @@
 				"item": "lark_bow",
 				"orisons": 400,
 				"label": "Buy the Larkbow \u2014 400 orisons",
-				"line_done": "The birdkeepers' recurve. Draw slow, loose quick \u2014 and buy arrows, it eats them.",
-				"line_have": "One bow is all I'll spare. String it kindly."
+				"line_done": "The birdkeepers' recurve. Draw slow, loose quick, and feed it \u2014 a hungry bow that eats what you can't spare.",
+				"line_have": "One bow's all I'll part with. String it kind, or it'll spite you."
 			},
 			{
 				"id": "buy_greatsword",
@@ -102,8 +102,8 @@
 				"item": "pilgrim_greatsword",
 				"orisons": 500,
 				"label": "Buy the Pilgrim's Greatsword \u2014 500 orisons",
-				"line_done": "Two hands, Latecomer, and your whole back besides. The saints lend weight to the committed.",
-				"line_have": "You have the great blade. What you want now is the nerve to swing it."
+				"line_done": "Two hands and your whole back besides. Slow iron. Make the first swing count \u2014 there's rarely a second.",
+				"line_have": "You've the great blade. Nerve's not something I can forge you."
 			},
 			{
 				"id": "buy_arrows",
@@ -112,7 +112,7 @@
 				"count": 12,
 				"orisons": 60,
 				"label": "Buy lark-fletched arrows (12) \u2014 60 orisons",
-				"line_done": "Twelve shafts, fletched from the spire's own larks. Loose them like you mean it; I'll cut more."
+				"line_done": "Twelve shafts, cut from the spire's own larks. Loose them like they matter. I'll cut more when they don't come back."
 			}
 		]
 	},
