@@ -68,7 +68,7 @@ func _engage_boss() -> void:
 		boss.target = Game.player
 		boss._set_state(Enemy.ES.ALERT)
 		AudioDirector.sfx_at(boss.cfg.get("sfx_alert", ""), boss.global_position, 2.0)
-		AudioDirector.play_music("res://assets/audio/theme_boss.wav", 1.5)
+		AudioDirector.boss_theme(boss.id, 1.5)
 		for hud in get_tree().get_nodes_in_group("hud"):
 			hud.show_boss(boss)
 		boss.died.connect(_on_boss_dead)

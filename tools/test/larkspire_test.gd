@@ -55,17 +55,46 @@ func _run() -> void:
 	player.global_position = Vector3(-6, 0.3, 2)
 	await ticks(5)
 	player.sim_move = Vector3(0, 0, -1)
-	await ticks(150)
+	await ticks(96)
 	player.sim_move = Vector3.ZERO
 	await ticks(5)
 	check(player.global_position.y > 2.1 and player.global_position.z < -3.5,
 		"walked up the west flight (y=%.2f z=%.2f)" % [player.global_position.y, player.global_position.z])
 	player.sim_move = Vector3(1, 0, 0)
-	await ticks(190)
+	await ticks(200)
 	player.sim_move = Vector3.ZERO
 	await ticks(10)
 	check(player.global_position.y > 4.5 and player.global_position.x > 3.5,
 		"walked up the north flight to ring 1 (y=%.2f x=%.2f)" % [player.global_position.y, player.global_position.x])
+
+	# ---- walk to each birdcage platform from its ring arrival, for real
+	var legs := [
+		[Vector3(6, 5.1, -4.55), [[Vector3(-1, 0, 0), 155], [Vector3(0, 0, 1), 30],
+			[Vector3(1, 0, 0), 65]],
+			Vector3(-1.5, 4.8, -2), "matins platform walk"],
+		[Vector3(-6, 9.9, 4.55), [[Vector3(1, 0, 0), 88], [Vector3(1, 0, 0.5), 42],
+			[Vector3(1, 0, 0), 45], [Vector3(0, 0, -1), 158], [Vector3(-1, 0, 0), 62],
+			[Vector3(0, 0, 1), 55]],
+			Vector3(2, 9.6, -1.5), "sext platform walk"],
+		[Vector3(6, 14.7, -4.55), [[Vector3(-1, 0, 0), 155], [Vector3(0, 0, 1), 145],
+			[Vector3(1, 0, 0), 110], [Vector3(0, 0, -1), 60]],
+			Vector3(2, 14.4, 1.6), "vespers platform walk"],
+	]
+	for leg in legs:
+		player.global_position = leg[0] + Vector3.UP * 0.3
+		player.velocity = Vector3.ZERO
+		await ticks(5)
+		for seg in leg[1]:
+			player.sim_move = seg[0]
+			await ticks(seg[1])
+			print("    [leg] %s seg -> %.2f %.2f %.2f" % [leg[3], player.global_position.x,
+					player.global_position.y, player.global_position.z])
+		player.sim_move = Vector3.ZERO
+		await ticks(8)
+		var goal: Vector3 = leg[2]
+		var d: float = player.global_position.distance_to(goal)
+		check(d < 2.6 and absf(player.global_position.y - goal.y) < 0.6,
+			"%s reaches the cage (d=%.2f y=%.2f)" % [leg[3], d, player.global_position.y])
 
 	# ---- the office gate seals the last flight while the offices are unsung
 	player.global_position = Vector3(5, 17.0, 6)
@@ -76,6 +105,31 @@ func _run() -> void:
 	await ticks(5)
 	check(player.global_position.x > 0.5,
 		"the unsung gate holds the landing (x=%.2f)" % player.global_position.x)
+
+	# ---- once the offices are sung, the same walk crests the summit
+	World.set_flag("daily_offices", true)
+	var area2 := AreaBuilder.build("larkspire")
+	add_child(area2)
+	StateDirector.snap(area2, VG.WState.RUIN)
+	area.queue_free()
+	await ticks(10)
+	player.global_position = Vector3(5, 17.0, 6)
+	player.velocity = Vector3.ZERO
+	await ticks(5)
+	player.sim_move = Vector3(-1, 0, 0)
+	await ticks(160)
+	player.sim_move = Vector3.ZERO
+	await ticks(8)
+	check(player.global_position.y > 18.9 and player.global_position.x < -3.5,
+		"the sung gate opens the last flight to the summit (y=%.2f x=%.2f)"
+		% [player.global_position.y, player.global_position.x])
+	World.set_flag("daily_offices", false)
+	area2.queue_free()
+	area = AreaBuilder.build("larkspire")
+	add_child(area)
+	Game.register_area(area, "larkspire")
+	StateDirector.snap(area, VG.WState.RUIN)
+	await ticks(10)
 
 	# ---- Daily Offices: wrong order resets, right order sets the flag
 	var puzzle: ChimePuzzle = null

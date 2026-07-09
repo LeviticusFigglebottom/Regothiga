@@ -48,9 +48,9 @@ func respawn_player() -> void:
 	player.revive_at(pos)
 	refresh_remembrance()
 	# dying mid-boss-fight left the boss theme looping forever; the world
-	# music belongs to the area's state again (no-op if already playing)
+	# music (and the ducked ambience) belongs to the area's state again
 	if current_area != null:
-		AudioDirector.play_music(current_area.env.music_for(World.get_area_state(current_area_id)), 2.5)
+		AudioDirector.end_boss_theme(current_area.env.music_for(World.get_area_state(current_area_id)), 2.5)
 	player_respawned.emit()
 
 ## A warden has been put to rest: the area opens for free kindling.
@@ -58,6 +58,7 @@ func on_boss_slain(area_id: String) -> void:
 	World.set_cleared(area_id)
 	World.save_game()
 	AudioDirector.play_music("", 2.0)
+	AudioDirector.duck_ambience(false)
 	toast.emit("The warden rests. The memory is yours to keep or quench.")
 	area_cleared.emit(area_id)
 	await get_tree().create_timer(2.0, false).timeout

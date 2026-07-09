@@ -52,6 +52,38 @@ func play_music(path: String, fade := 2.0) -> void:
 		t.tween_property(outgoing, "volume_db", -40.0, fade)
 		t.tween_callback(outgoing.stop)
 
+# ------------------------------------------------------ boss battle themes
+## One theme per warden (assets/audio/boss/<enemy_id>.mp3), falling back to
+## the shared boss track. While one plays, the ambience bed ducks to silence
+## so the orchestra owns the air; combat feedback on the SFX bus stays. The
+## theme ends (and the world's own sound returns) when the warden rests or
+## the Latecomer falls.
+var _amb_base := 0.0
+var _amb_ducked := false
+
+func boss_theme(enemy_id: String, fade := 1.5) -> void:
+	var path := "res://assets/audio/boss/%s.mp3" % enemy_id
+	if not ResourceLoader.exists(path):
+		path = "res://assets/audio/theme_boss.wav"
+	duck_ambience(true)
+	play_music(path, fade)
+
+func end_boss_theme(area_music: String, fade := 2.5) -> void:
+	duck_ambience(false)
+	play_music(area_music, fade)
+
+func duck_ambience(on: bool) -> void:
+	var idx := AudioServer.get_bus_index("Ambience")
+	if idx < 0 or on == _amb_ducked:
+		return
+	if on:
+		_amb_base = AudioServer.get_bus_volume_db(idx)
+	_amb_ducked = on
+	var target := -60.0 if on else _amb_base
+	var tw := create_tween()
+	tw.tween_method(func(v: float) -> void: AudioServer.set_bus_volume_db(idx, v),
+			AudioServer.get_bus_volume_db(idx), target, 0.9)
+
 func play_ambience(path: String, fade := 2.0) -> void:
 	var stream := _stream(path)
 	if stream == null:
