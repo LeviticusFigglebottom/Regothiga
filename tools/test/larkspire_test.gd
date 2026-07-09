@@ -29,34 +29,53 @@ func _run() -> void:
 	player.global_position = Vector3(0, 0.3, 5)
 	await ticks(12)
 
-	# ---- the climb: every waypoint of the spiral has solid floor at its height
+	# ---- the climb: every waypoint of the square spiral has solid floor
 	var route := [
 		[Vector3(0, 0, 5), 0.0, "base hall"],
-		[Vector3(-6, 2.4, 2), 2.4, "first landing"],
-		[Vector3(-6, 4.8, -6), 4.8, "story 1 (arrival)"],
-		[Vector3(2, 7.2, -6), 7.2, "second landing"],
-		[Vector3(6, 9.6, -2), 9.6, "story 2 (arrival)"],
-		[Vector3(6, 12.0, 2), 12.0, "third landing"],
-		[Vector3(-2.5, 14.4, 6.5), 14.4, "story 3 (arrival)"],
-		[Vector3(-2, 16.8, 6), 16.8, "final landing"],
-		[Vector3(-6, 19.2, 3), 19.2, "summit stairhead arrival"],
-		[Vector3(0, 19.2, 0), 19.2, "summit deck"],
+		[Vector3(-6, 2.4, -6), 2.4, "NW landing"],
+		[Vector3(6, 4.8, -6), 4.8, "ring 1 arrival (NE)"],
+		[Vector3(-2, 4.8, -2), 4.8, "matins platform"],
+		[Vector3(5, 7.2, 6), 7.2, "SE landing"],
+		[Vector3(-6, 9.6, 6), 9.6, "ring 2 arrival (SW)"],
+		[Vector3(2, 9.6, -2), 9.6, "sext platform"],
+		[Vector3(-6, 12.0, -6), 12.0, "NW landing high"],
+		[Vector3(6, 14.4, -6), 14.4, "ring 3 arrival (NE)"],
+		[Vector3(2, 14.4, 2), 14.4, "vespers platform"],
+		[Vector3(5, 16.8, 6), 16.8, "office-gate landing"],
+		[Vector3(-6, 19.2, 6), 19.2, "summit arrival (SW)"],
+		[Vector3(0, 19.2, 2), 19.2, "the gated overlook"],
+		[Vector3(0, 19.2, -4), 19.2, "the Larkwarden's arena"],
 	]
 	for wp in route:
 		var y := _floor_under(wp[0], area)
 		check(absf(y - float(wp[1])) < 0.35, "floor under %s (y=%.2f)" % [wp[2], y])
 
-	# ---- walk a flight for real: from the open floor by the hearth, WEST up
-	# the relocated first flight onto the landing (the old flight descended
-	# into the south wall — a player could never reach its foot)
-	player.global_position = Vector3(1.5, 0.3, 2)
+	# ---- walk the first full level for real: north up the west flight,
+	# across the NW landing, east up the north flight onto ring 1
+	player.global_position = Vector3(-6, 0.3, 2)
 	await ticks(5)
-	player.sim_move = Vector3(-1, 0, 0)
+	player.sim_move = Vector3(0, 0, -1)
 	await ticks(150)
 	player.sim_move = Vector3.ZERO
+	await ticks(5)
+	check(player.global_position.y > 2.1 and player.global_position.z < -3.5,
+		"walked up the west flight (y=%.2f z=%.2f)" % [player.global_position.y, player.global_position.z])
+	player.sim_move = Vector3(1, 0, 0)
+	await ticks(190)
+	player.sim_move = Vector3.ZERO
 	await ticks(10)
-	check(player.global_position.y > 2.1 and player.global_position.x < -3.5,
-		"walked up the first flight (y=%.2f x=%.2f)" % [player.global_position.y, player.global_position.x])
+	check(player.global_position.y > 4.5 and player.global_position.x > 3.5,
+		"walked up the north flight to ring 1 (y=%.2f x=%.2f)" % [player.global_position.y, player.global_position.x])
+
+	# ---- the office gate seals the last flight while the offices are unsung
+	player.global_position = Vector3(5, 17.0, 6)
+	await ticks(5)
+	player.sim_move = Vector3(-1, 0, 0)
+	await ticks(110)
+	player.sim_move = Vector3.ZERO
+	await ticks(5)
+	check(player.global_position.x > 0.5,
+		"the unsung gate holds the landing (x=%.2f)" % player.global_position.x)
 
 	# ---- Daily Offices: wrong order resets, right order sets the flag
 	var puzzle: ChimePuzzle = null
@@ -85,7 +104,7 @@ func _run() -> void:
 	check(boss.cfg.get("is_boss", false), "he carries a boss bar")
 	await ticks(60)
 	var bp: Vector3 = boss.global_position
-	check(bp.distance_to(Vector3(1, 19.2, -1)) < 2.5 and bp.y > 18.5,
+	check(bp.distance_to(Vector3(0, 19.2, -4)) < 2.5 and bp.y > 18.5,
 		"he STANDS at his mark after a second (at %.1f,%.1f,%.1f)" % [bp.x, bp.y, bp.z])
 	fog._engage_boss()
 	await ticks(3)
