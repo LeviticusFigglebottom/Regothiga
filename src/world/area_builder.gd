@@ -96,6 +96,11 @@ static func build(area_id: String) -> Area:
 		p.text = spec.get("text", "…")
 		area.attach(p, spec.get("tag", "base"))
 		_place(p, spec)
+	for spec in def.get("word_stones", []):
+		var ws := WordStone.new()
+		ws.setup(spec)
+		area.attach(ws, spec.get("tag", "base"))
+		_place(ws, spec)
 	for spec in def.get("pickups", []):
 		var k := Pickup.new()
 		k.pickup_id = spec.get("id", "pickup")

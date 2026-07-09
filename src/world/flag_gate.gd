@@ -18,7 +18,12 @@ func setup(spec: Dictionary, tag_bit: int) -> void:
 	or_cleared = spec.get("or_cleared", "")
 	kit = spec.get("kit", "fence_iron_4m")
 	open_dir = spec.get("open_dir", "down")
+	var sc := Vector3.ONE
+	var sa: Array = spec.get("scale", [])
+	if sa.size() == 3:
+		sc = Vector3(float(sa[0]), float(sa[1]), float(sa[2]))
 	_piece = KitLib.instance(kit)
+	_piece.scale = sc
 	add_child(_piece)
 	_body = StaticBody3D.new()
 	_body.collision_layer = 1 << (tag_bit - 1)
@@ -26,9 +31,10 @@ func setup(spec: Dictionary, tag_bit: int) -> void:
 	var cs := CollisionShape3D.new()
 	var box := BoxShape3D.new()
 	var sz: Array = KitLib.manifest().get(kit, {}).get("size", [4, 0.4, 3])
-	box.size = Vector3(float(sz[0]), float(sz[2]), maxf(float(sz[1]), 0.4))
+	box.size = Vector3(float(sz[0]) * sc.x, float(sz[2]) * sc.y,
+			maxf(float(sz[1]) * sc.z, 0.4))
 	cs.shape = box
-	cs.position.y = float(sz[2]) * 0.5
+	cs.position.y = float(sz[2]) * sc.y * 0.5
 	_body.add_child(cs)
 	add_child(_body)
 

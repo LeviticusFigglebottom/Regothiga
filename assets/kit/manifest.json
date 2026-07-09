@@ -216,6 +216,26 @@
   ],
   "variant": "door"
  },
+ "burg_wall_3m_ruin_a": {
+  "file": "assets/kit/burg_wall_3m_ruin_a.glb",
+  "origin": "bottom-center",
+  "polys": 30,
+  "size": [
+   3,
+   0.24,
+   1.25
+  ]
+ },
+ "burg_wall_3m_ruin_b": {
+  "file": "assets/kit/burg_wall_3m_ruin_b.glb",
+  "origin": "bottom-center",
+  "polys": 48,
+  "size": [
+   3,
+   0.24,
+   2.6
+  ]
+ },
  "burg_wall_3m_win": {
   "file": "assets/kit/burg_wall_3m_win.glb",
   "opening": null,
@@ -486,6 +506,16 @@
    500,
    500,
    140
+  ]
+ },
+ "clock_tower": {
+  "file": "assets/kit/clock_tower.glb",
+  "origin": "bottom-center",
+  "polys": 162,
+  "size": [
+   4,
+   4,
+   14.4
   ]
  },
  "cobweb": {
@@ -869,6 +899,16 @@
   "size": [
    4,
    0.6,
+   4
+  ]
+ },
+ "parish_window_4m": {
+  "file": "assets/kit/parish_window_4m.glb",
+  "origin": "bottom-center",
+  "polys": 90,
+  "size": [
+   4,
+   0.5,
    4
   ]
  },
@@ -1526,6 +1566,16 @@
    4,
    0.6,
    4
+  ]
+ },
+ "word_stone": {
+  "file": "assets/kit/word_stone.glb",
+  "origin": "bottom-center",
+  "polys": 40,
+  "size": [
+   0.6,
+   0.45,
+   1.05
   ]
  }
 }

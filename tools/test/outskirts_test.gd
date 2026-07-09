@@ -42,6 +42,13 @@ func _run() -> void:
 		[Vector3(0, 4.8, -40), 4.8, "the parish square"],
 		[Vector3(-15, 4.8, -41), 4.8, "H8 ground room"],
 		[Vector3(-13.4, 7.8, -42.6), 7.8, "H8 upper room"],
+		[Vector3(-22.5, 3, -12), 3.0, "the corner house upstairs"],
+		[Vector3(-32, 6, -11.5), 6.0, "the chandler-row gable room"],
+		[Vector3(34.5, 3, -12.5), 3.0, "the wharf-row upper room"],
+		[Vector3(-49, 0, -25), 0.0, "the chapel ruin floor"],
+		[Vector3(-22, 7.8, -40), 7.8, "the square-west upper room"],
+		[Vector3(12.5, 7.8, -39.5), 7.8, "the vestry-house upper room"],
+		[Vector3(37, 0, -40), 0.0, "the back-row shell"],
 	]
 	for wp in route:
 		var y := _floor_under(wp[0], area)
@@ -57,7 +64,7 @@ func _run() -> void:
 	await ticks(5)
 	check(player.global_position.y > 2.2 and player.global_position.z < -18.5,
 		"the lower stair gains Ropewalk Row (y=%.2f z=%.2f)" % [player.global_position.y, player.global_position.z])
-	player.global_position = Vector3(-10, 2.7, -28)
+	player.global_position = Vector3(-12, 2.7, -28)
 	player.velocity = Vector3.ZERO
 	await ticks(5)
 	player.sim_move = Vector3(0, 0, -1)
@@ -123,6 +130,49 @@ func _run() -> void:
 			player.global_position.y, player.global_position.z])
 	check(player.global_position.y > 5.6, "H3 second flight tops out (y=%.2f)" % player.global_position.y)
 
+	# ---- H5 and H8: the terrace houses' stairs climb for real
+	player.global_position = Vector3(-19, 2.7, -30.5)
+	player.velocity = Vector3.ZERO
+	await ticks(5)
+	player.sim_move = Vector3(1, 0, 0)
+	await ticks(75)
+	player.sim_move = Vector3.ZERO
+	await ticks(8)
+	print("    [leg] H5 stair -> %.2f %.2f %.2f" % [player.global_position.x,
+			player.global_position.y, player.global_position.z])
+	check(player.global_position.y > 5.0,
+		"H5's stair reaches its upper room (y=%.2f)" % player.global_position.y)
+	player.global_position = Vector3(-17, 5.1, -42.5)
+	player.velocity = Vector3.ZERO
+	await ticks(5)
+	player.sim_move = Vector3(1, 0, 0)
+	await ticks(75)
+	player.sim_move = Vector3.ZERO
+	await ticks(8)
+	print("    [leg] H8 stair -> %.2f %.2f %.2f" % [player.global_position.x,
+			player.global_position.y, player.global_position.z])
+	check(player.global_position.y > 7.4,
+		"H8's stair reaches its upper room (y=%.2f)" % player.global_position.y)
+
+	# ---- the three graven words unbar the parish door
+	var gate: FlagGate = null
+	for n in area.base.get_children():
+		if n is FlagGate:
+			gate = n
+	check(gate != null and gate.flag == "parish_words", "the parish door waits on the words")
+	check(gate != null and not gate._unlocked(), "the door starts barred")
+	var stones: Array = []
+	for n in area.base.get_children():
+		if n is WordStone:
+			stones.append(n)
+	check(stones.size() == 3, "three word-stones stand in the town (%d)" % stones.size())
+	for s in stones:
+		s._on_read(null)
+	check(World.flag("word_wax") and World.flag("word_wick") and World.flag("word_flame"),
+		"wax, wick and flame are all spoken")
+	check(World.flag("parish_words"), "the three words unbar the parish")
+	check(gate != null and gate._unlocked(), "the parish door stands open")
+
 	# ---- wiring: lantern, portal pair, panorama on every horizon
 	var lanterns := get_tree().get_nodes_in_group("lanterns")
 	check(lanterns.size() >= 1, "the Quaylantern stands")
@@ -162,7 +212,8 @@ func _run() -> void:
 	# ---- new kits resolve
 	for kit in ["burg_wall_3m", "burg_wall_3m_door", "burg_wall_3m_win", "burg_floor_3m",
 			"roof_gable_7m", "chimney_stack", "balcony_3m", "stair_wood_3m",
-			"barrel", "crate_stack", "hand_cart"]:
+			"barrel", "crate_stack", "hand_cart", "burg_wall_3m_ruin_a",
+			"burg_wall_3m_ruin_b", "parish_window_4m", "clock_tower", "word_stone"]:
 		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
 
 	finish()
