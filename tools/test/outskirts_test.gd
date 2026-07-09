@@ -55,7 +55,7 @@ func _run() -> void:
 		check(absf(y - float(wp[1])) < 0.4, "floor under %s (y=%.2f)" % [wp[2], y])
 
 	# ---- the terrace stairs climb for real
-	player.global_position = Vector3(10, 0.3, -12)
+	player.global_position = Vector3(11, 0.3, -12)
 	player.velocity = Vector3.ZERO
 	await ticks(5)
 	player.sim_move = Vector3(0, 0, -1)
@@ -64,7 +64,7 @@ func _run() -> void:
 	await ticks(5)
 	check(player.global_position.y > 2.2 and player.global_position.z < -18.5,
 		"the lower stair gains Ropewalk Row (y=%.2f z=%.2f)" % [player.global_position.y, player.global_position.z])
-	player.global_position = Vector3(-12, 2.7, -28)
+	player.global_position = Vector3(-11, 2.7, -28)
 	player.velocity = Vector3.ZERO
 	await ticks(5)
 	player.sim_move = Vector3(0, 0, -1)

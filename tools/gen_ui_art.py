@@ -92,6 +92,16 @@ def icon_arrows():
     return img
 
 
+def icon_torch():
+    img = _canvas()
+    d = ImageDraw.Draw(img)
+    d.polygon([(29, 26), (35, 26), (37, 56), (27, 56)], fill=(88, 62, 34, 255), outline=GOLD)
+    d.rectangle([26, 20, 38, 28], fill=(120, 86, 44, 255), outline=GOLD)
+    d.polygon([(32, 4), (41, 16), (36, 15), (38, 24), (26, 24), (28, 15), (23, 16)],
+              fill=(244, 168, 54, 255), outline=(255, 214, 120, 255))
+    return img
+
+
 def icon_relic():
     img = _canvas()
     d = ImageDraw.Draw(img)
@@ -219,6 +229,7 @@ def main():
     _finish(icon_bow(), "bow")
     _finish(icon_flask(), "flask")
     _finish(icon_arrows(), "arrows")
+    _finish(icon_torch(), "torch")
     _finish(icon_relic(), "relic")
     splash()
 

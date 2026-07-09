@@ -6,6 +6,9 @@ extends CanvasLayer
 
 var player: Node
 var _scroll: ScrollContainer
+var _bind: Array = []          # bindable item ids, in list order
+var _bind_heads: Array = []    # their name labels, for the highlight
+var _sel := 0
 
 static func open_for(p) -> void:
 	if p == null or not p.get_tree().get_nodes_in_group("inventory_ui").is_empty():
@@ -72,10 +75,15 @@ func _ready() -> void:
 				name += "   — in hand"
 			if int(player.weapon_level) > 0:
 				name += "  (+%d)" % int(player.weapon_level)
-			_row(list, _icon_for(id), name, "", w.get("desc", ""))
-	_row(list, "res://assets/ui/icons/flask.png", "Chrism Flask",
+			var hl := _row(list, _icon_for(id), name, "", w.get("desc", ""))
+			_bind.append(id)
+			_bind_heads.append(hl)
+	var fl := _row(list, "res://assets/ui/icons/flask.png", "Chrism Flask",
 			"✕%d / %d" % [player.flasks, player.flask_max],
 			DB.item("chrism_flask").get("desc", ""))
+	_bind.append("flask")
+	_bind_heads.append(fl)
+	_mark_selected()
 
 	_section(list, "RELICS & GOODS")
 	var any := false
@@ -97,7 +105,7 @@ func _ready() -> void:
 
 	var hint := Label.new()
 	hint.label_settings = _ls(17, Color(0.6, 0.55, 0.45))
-	hint.text = "Tab — close      1-5 — the girdle      the Reliquary Smith sells arms"
+	hint.text = "Tab — close      W/S — choose      1-5 — set the chosen arm in that hand-slot"
 	hint.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	hint.offset_left = 30
@@ -120,7 +128,7 @@ func _section(list: VBoxContainer, text: String) -> void:
 	l.text = text
 	list.add_child(l)
 
-func _row(list: VBoxContainer, icon_path: String, name: String, count: String, desc: String) -> void:
+func _row(list: VBoxContainer, icon_path: String, name: String, count: String, desc: String) -> Label:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 14)
 	list.add_child(row)
@@ -144,6 +152,7 @@ func _row(list: VBoxContainer, icon_path: String, name: String, count: String, d
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size = Vector2(800, 0)
 	col.add_child(body)
+	return head
 
 func _ls(size: int, color: Color, font := "res://assets/fonts/DejaVuSerif.ttf") -> LabelSettings:
 	var ls := LabelSettings.new()
@@ -157,9 +166,26 @@ func _input(event: InputEvent) -> void:
 		close()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("move_forward"):
+		_sel = maxi(_sel - 1, 0)
+		_mark_selected()
 		_scroll.scroll_vertical -= 60
 	elif event.is_action_pressed("move_back"):
+		_sel = mini(_sel + 1, _bind.size() - 1)
+		_mark_selected()
 		_scroll.scroll_vertical += 60
+	else:
+		for i in 5:
+			if event.is_action_pressed("hotbar_%d" % (i + 1)) and _sel < _bind.size():
+				player.set_hotbar_slot(i, _bind[_sel])
+				Game.toast.emit("%s rides in slot %d." % [String(_bind[_sel]).capitalize(), i + 1])
+				AudioDirector.sfx("res://assets/audio/ui_tick.wav", -8.0)
+				get_viewport().set_input_as_handled()
+				return
+
+func _mark_selected() -> void:
+	for i in _bind_heads.size():
+		var l: Label = _bind_heads[i]
+		l.label_settings.font_color = Color(0.95, 0.8, 0.45) if i == _sel else Color(0.92, 0.88, 0.78)
 
 func close() -> void:
 	if player != null and is_instance_valid(player):

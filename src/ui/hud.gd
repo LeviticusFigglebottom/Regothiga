@@ -45,6 +45,7 @@ const SLOT_ICON := {
 	"lark_bow": "res://assets/ui/icons/bow.png",
 	"pilgrim_greatsword": "res://assets/ui/icons/greatsword.png",
 	"flask": "res://assets/ui/icons/flask.png",
+	"torch": "res://assets/ui/icons/torch.png",
 }
 
 func _ready() -> void:
@@ -69,6 +70,7 @@ func _bind_player(p) -> void:
 	p.flasks_changed.connect(_on_flasks)
 	p.weapon_changed.connect(func(_id): _refresh_hotbar())
 	p.inventory_changed.connect(_refresh_hotbar)
+	p.hotbar_changed.connect(_refresh_hotbar)
 	_on_hp(p.hp, p.max_hp)
 	_on_stamina(p.stamina, p.max_stamina)
 	_on_flasks(p.flasks, p.flask_max)
@@ -401,11 +403,13 @@ func _refresh_hotbar() -> void:
 		return
 	for i in _slots.size():
 		var slot: Dictionary = _slots[i]
-		var id: String = p.HOTBAR[i]
+		var id: String = String(p.hotbar[i])
 		var icon_path: String = SLOT_ICON.get(id, "")
+		var tex: Texture2D = null
 		if icon_path != "" and ResourceLoader.exists(icon_path):
-			(slot["icon"] as TextureRect).texture = load(icon_path)
-		var owned: bool = id == "flask" or p.owns_weapon(id)
+			tex = load(icon_path)
+		(slot["icon"] as TextureRect).texture = tex
+		var owned: bool = id != "" and (id == "flask" or p.owns_weapon(id))
 		var selected: bool = id == p.weapon_id
 		(slot["icon"] as TextureRect).modulate.a = 0.95 if owned else 0.22
 		var sb: StyleBoxFlat = slot["style"]

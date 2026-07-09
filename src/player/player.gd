@@ -11,6 +11,7 @@ signal died
 signal state_changed(s: int)
 signal hit_landed(target, result: String)
 signal weapon_changed(id: String)
+signal hotbar_changed
 signal inventory_changed
 
 enum S { MOVE, ROLL, BACKSTEP, ATTACK, BLOCK, PARRY, RIPOSTE, FLASK, STAGGER, REST, TALK, DEAD }
@@ -73,7 +74,7 @@ var _bow_drawing := false
 var _bow_t := 0.0
 
 ## The girdle, slots 1-5: three blades, the bow, and the chrism flask.
-const HOTBAR: Array[String] = ["cloistersword", "marsh_spear", "lark_bow", "pilgrim_greatsword", "flask"]
+var hotbar: Array = ["cloistersword", "torch", "", "", "flask"]
 
 # regen bookkeeping
 var _stam_delay := 0.0
@@ -361,6 +362,8 @@ func _physics_process(dt: float) -> void:
 		cam.stick_look(Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down"), dt)
 
 func _set_state(s: S) -> void:
+	if s == S.MOVE:
+		apply_carry_pose()
 	state = s
 	state_t = 0.0
 	if s != S.MOVE:
@@ -465,7 +468,7 @@ func _st_move(dt: float) -> void:
 		_face(dir, dt)
 
 	if not sim_active:
-		for hi in HOTBAR.size():
+		for hi in hotbar.size():
 			if Input.is_action_just_pressed("hotbar_%d" % (hi + 1)):
 				_hotbar_use(hi)
 				break
@@ -549,14 +552,29 @@ func is_invulnerable() -> bool:
 
 # --- arms & the girdle -------------------------------------------------------
 func owns_weapon(id: String) -> bool:
-	return id == "cloistersword" or int(inventory.get(id, 0)) > 0
+	return id in ["cloistersword", "torch"] or int(inventory.get(id, 0)) > 0
 
 func _hotbar_use(i: int) -> void:
-	var slot: String = HOTBAR[i]
+	var slot: String = String(hotbar[i])
+	if slot == "":
+		return
 	if slot == "flask":
 		try_flask()
 	else:
 		equip_weapon(slot)
+
+## Bind an item into a hand-slot (from the satchel). A weapon lives in one
+## slot only; binding it again just moves it.
+func set_hotbar_slot(i: int, id: String) -> void:
+	if i < 0 or i >= hotbar.size():
+		return
+	if id != "flask" and DB.weapon(id).is_empty():
+		return
+	for k in hotbar.size():
+		if String(hotbar[k]) == id:
+			hotbar[k] = ""
+	hotbar[i] = id
+	hotbar_changed.emit()
 
 func equip_weapon(id: String) -> void:
 	if dead or id == weapon_id or DB.weapon(id).is_empty():
@@ -578,12 +596,44 @@ func equip_weapon(id: String) -> void:
 	weapon_changed.emit(id)
 	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -12.0)
 
+## How each arm rides the fist at rest. The spear is carried tip-skyward
+## (relaxed arms ran it through the floor), the greatsword shoulders, the
+## bow stands upright. Attacks zero the mount so strikes lead true.
+const CARRY_POSE := {
+	"marsh_spear": Vector3(180, 0, 0),
+	"pilgrim_greatsword": Vector3(-40, 0, 0),
+	"lark_bow": Vector3(0, 0, 90),
+}
+var _torch_light: OmniLight3D = null
+
 func _refresh_weapon_visual() -> void:
 	var w := weapon_data()
 	vis.apply_loadout(w.get("kit", "sword_cloister"), not bool(w.get("two_handed", false)))
+	apply_carry_pose()
+	if _torch_light != null:
+		_torch_light.queue_free()
+		_torch_light = null
+	if weapon_id == "torch":
+		_torch_light = OmniLight3D.new()
+		_torch_light.light_color = Color(1.0, 0.72, 0.38)
+		_torch_light.omni_range = 8.0
+		_torch_light.light_energy = 1.8
+		_torch_light.position = Vector3(0, 0.8, 0)
+		vis.weapon_mount.add_child(_torch_light)
+
+func apply_carry_pose() -> void:
+	if vis.weapon_mount != null:
+		vis.weapon_mount.rotation_degrees = CARRY_POSE.get(weapon_id, Vector3.ZERO)
 
 func give_item(item: String, count := 1) -> void:
 	inventory[item] = int(inventory.get(item, 0)) + count
+	# a newly won arm seats itself in the first open hand-slot
+	if not DB.weapon(item).is_empty() and not hotbar.has(item):
+		for i in hotbar.size():
+			if String(hotbar[i]) == "":
+				hotbar[i] = item
+				hotbar_changed.emit()
+				break
 	inventory_changed.emit()
 
 # --- the Larkbow -------------------------------------------------------------
@@ -608,6 +658,8 @@ func _bow_move_input(dt: float) -> void:
 func _bow_release() -> void:
 	_bow_drawing = false
 	vis.back_to_idle(0.2)
+	if _bow_t < 0.45:
+		return          # string never came to the cheek — no loose, no arrow
 	if int(inventory.get("arrows", 0)) < 1 or stamina < 1.0 or dead:
 		return
 	var w := weapon_data()
@@ -677,6 +729,8 @@ func _begin_attack(m: Dictionary, heavy: bool) -> void:
 	_atk_hit_open = false
 	_queued = ""
 	_blocking = false
+	if vis.weapon_mount != null:
+		vis.weapon_mount.rotation_degrees = Vector3.ZERO
 	_set_state(S.ATTACK)
 	# face lock target or input dir instantly-ish
 	var dir := _desired_dir()
@@ -1032,7 +1086,7 @@ func to_save() -> Dictionary:
 	return {
 		"attributes": attributes, "level": level, "flask_max": flask_max,
 		"weapon": weapon_id, "weapon_level": weapon_level,
-		"inventory": inventory,
+		"inventory": inventory, "hotbar": hotbar,
 		"pos": [global_position.x, global_position.y, global_position.z],
 	}
 
@@ -1046,6 +1100,9 @@ func from_save(d: Dictionary) -> void:
 	weapon_id = d.get("weapon", "cloistersword")
 	weapon_level = int(d.get("weapon_level", 0))
 	inventory = d.get("inventory", {})
+	var hb: Array = d.get("hotbar", [])
+	if hb.size() == 5:
+		hotbar = hb
 	recompute_derived()
 	heal_full()
 	_refresh_weapon_visual()

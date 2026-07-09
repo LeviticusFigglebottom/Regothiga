@@ -408,6 +408,23 @@ def word_stone():
     return objs, {"size": [0.6, 0.45, 1.05], "origin": "bottom-center"}
 
 
+def torch_held():
+    """A hand torch: shaft up +Z from the grip origin (engine: blade +Y),
+    iron collar, waxed head, a fat flame knot."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-0.03, -0.03, 0.0), (0.03, 0.03, 0.6))
+    objs.append(V.bm_to_object(bm, "shaft", ("M_wood",)))
+    bm = bmesh.new()
+    V.add_box(bm, (-0.05, -0.05, 0.52), (0.05, 0.05, 0.6))
+    objs.append(V.bm_to_object(bm, "collar", ("M_iron",)))
+    head = V.loft_rings("head", [(0.05, 0.6, 8, 0), (0.075, 0.72, 8, 0), (0.05, 0.8, 8, 0)], "M_wax")
+    objs.append(head)
+    flame = V.loft_rings("flame", [(0.02, 0.78, 8, 0), (0.075, 0.88, 8, 0), (0.01, 1.02, 8, 0)], "M_gold")
+    objs.append(flame)
+    return objs, {"size": [0.16, 0.16, 1.02], "origin": "grip-center"}
+
+
 BUILDERS = {
     "burg_wall_3m": burg_wall_3m,
     "burg_wall_3m_door": burg_wall_3m_door,
@@ -425,4 +442,5 @@ BUILDERS = {
     "barrel": barrel,
     "crate_stack": crate_stack,
     "hand_cart": hand_cart,
+    "torch_held": torch_held,
 }

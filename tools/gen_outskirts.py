@@ -154,22 +154,25 @@ def main():
 
     # switchback grand stairs between the terraces; the rim rails sit ON the
     # slab (0.2 inside the edge — a fence past the lip floats over the drop)
-    P.append({"kit": "stair_grand_4m", "at": [10, 2.42, -18], "rot": 180})
-    P.append({"kit": "stair_grand_4m", "at": [-12, 4.82, -34], "rot": 180})
+    P.append({"kit": "stair_grand_4m", "at": [11, 2.42, -18], "rot": 180})
+    P.append({"kit": "stair_grand_4m", "at": [-11, 4.82, -34], "rot": 180})
     ROWS.extend([
         {"kit": "balustrade_4m", "from": [-24, 2.4, -18.2], "dir": [1, 0, 0], "count": 8, "rot": 180},
-        {"kit": "balustrade_4m", "from": [14, 2.4, -18.2], "dir": [1, 0, 0], "count": 3, "rot": 180},
+        {"kit": "balustrade_4m", "from": [16, 2.4, -18.2], "dir": [1, 0, 0], "count": 3, "rot": 180},
         {"kit": "balustrade_4m", "from": [-24, 4.8, -34.2], "dir": [1, 0, 0], "count": 3, "rot": 180},
-        {"kit": "balustrade_4m", "from": [-8, 4.8, -34.2], "dir": [1, 0, 0], "count": 9, "rot": 180},
-        # side rails where the terraces break off over the aprons
-        {"kit": "balustrade_4m", "from": [-25.8, 2.4, -32], "dir": [0, 0, 1], "count": 4, "rot": 90},
-        {"kit": "balustrade_4m", "from": [25.8, 2.4, -32], "dir": [0, 0, 1], "count": 4, "rot": -90},
-        {"kit": "balustrade_4m", "from": [-25.8, 4.8, -44], "dir": [0, 0, 1], "count": 3, "rot": 90},
+        {"kit": "balustrade_4m", "from": [-6, 4.8, -34.2], "dir": [1, 0, 0], "count": 8, "rot": 180},
+        # side rails only along the OPEN terrace edges (houses hold the rest)
+        {"kit": "balustrade_4m", "from": [-25.8, 2.4, -24], "dir": [0, 0, 1], "count": 2, "rot": 90},
+        {"kit": "balustrade_4m", "from": [25.8, 2.4, -24], "dir": [0, 0, 1], "count": 2, "rot": -90},
+        {"kit": "balustrade_4m", "from": [-25.8, 4.8, -36], "dir": [0, 0, 1], "count": 1, "rot": 90},
         {"kit": "balustrade_4m", "from": [25.8, 4.8, -44], "dir": [0, 0, 1], "count": 3, "rot": -90},
     ])
-    # stone posts plugging the 2 m rail gaps the 4 m panels leave
-    for xa in (6, 24):
-        B.append({"min": [xa, 2.4, -18.4], "max": [xa + 2, 3.35, -18.05],
+    # stone posts plugging the rail gaps the 4 m panels leave beside stairs
+    for xa, xb in ((6, 9), (13, 14), (24, 26)):
+        B.append({"min": [xa, 2.4, -18.4], "max": [xb, 3.35, -18.05],
+                  "mat": "M_stone", "tag": "base", "gen": True})
+    for xa, xb in ((-14, -13), (-9, -8), (24, 26)):
+        B.append({"min": [xa, 4.8, -34.4], "max": [xb, 5.75, -34.05],
                   "mat": "M_stone", "tag": "base", "gen": True})
 
     # ---------------- lower town (y0): plaza, Fisher Lane, north row

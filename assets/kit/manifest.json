@@ -1431,6 +1431,16 @@
    0.75
   ]
  },
+ "torch_held": {
+  "file": "assets/kit/torch_held.glb",
+  "origin": "grip-center",
+  "polys": 48,
+  "size": [
+   0.16,
+   0.16,
+   1.02
+  ]
+ },
  "urn": {
   "file": "assets/kit/urn.glb",
   "origin": "bottom-center",
