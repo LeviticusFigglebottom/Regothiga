@@ -41,6 +41,7 @@ var _recap_cd := 0.0
 ## after 2.5 s of captured silence.
 var look_compat := false
 var _cap_dead_t := 0.0
+var _dead_last_mp := Vector2i(-1000001, -1000001)   # starvation-probe cursor sample
 var _cmp_last := Vector2(-1, -1)   # last cursor pos, WINDOW px; x<0 = resync
 var _mo_n := 0           # motion events this window
 var motion_rate := 0     # published events/second for the HUD diagnostics
@@ -263,13 +264,27 @@ func _physics_process(dt: float) -> void:
 	if play_owns and not _captured() and get_window().has_focus() and _recap_cd == 0.0:
 		_grab_mouse(true)
 		_recap_cd = 0.5
-	# raw relative motion starved while captured -> engage pointer-compat look
+	# pointer-compat auto-engage keys on the REMOTE-DESKTOP signature: the
+	# cursor POSITION drifts while relative motion is starved (injected
+	# absolute moves bypass the capture grab). An untouched mouse produces
+	# neither, so normal play can idle forever without tripping this —
+	# the old idle-timer version flipped compat on for anyone who stood
+	# still 2.5 s and then their look went through the warp loop for the
+	# rest of the session.
 	if play_owns and not look_compat and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED \
 			and get_window().has_focus():
-		_cap_dead_t = 0.0 if (_mo_n > 0 or motion_rate > 0) else _cap_dead_t + dt
-		if _cap_dead_t > 2.5:
+		var mp := DisplayServer.mouse_get_position()
+		var pos_moved := _dead_last_mp.x > -1000000 and mp != _dead_last_mp
+		_dead_last_mp = mp
+		if _mo_n > 0 or motion_rate > 0:
+			_cap_dead_t = 0.0
+		elif pos_moved:
+			_cap_dead_t += dt
+		if _cap_dead_t > 1.2:
 			look_compat = true
 			_grab_mouse(true)
+	else:
+		_dead_last_mp = Vector2i(-1000001, -1000001)
 	# compat look: frame-to-frame cursor movement is the look delta, all in
 	# WINDOW pixels. Viewport coords are content-scaled and disagree with
 	# warp_mouse's client pixels on a stretched/maximized window — mixing
@@ -517,7 +532,7 @@ func _attack_damage(mult: float) -> float:
 	var s: float = 1.0 + attributes["strength"] * float(scal.get("strength", 0.0)) * 0.02 \
 			+ attributes["grace"] * float(scal.get("grace", 0.0)) * 0.02
 	var up := 1.0 + 0.14 * weapon_level
-	return float(w.get("damage", 10)) * s * up * mult
+	return float(w.get("damage", 10)) * s * up * mult * Game.dmg_out_mult()
 
 func try_attack(heavy: bool) -> bool:
 	if dead:
@@ -690,7 +705,7 @@ func is_blocking_toward(from_pos: Vector3) -> bool:
 func on_blocked_hit(packet: DamagePacket) -> void:
 	var stab_cost: float = packet.amount * 0.85
 	_spend(stab_cost)
-	hp = maxf(hp - packet.amount * 0.14, 1.0)
+	hp = maxf(hp - packet.amount * 0.14 * Game.dmg_in_mult(), 1.0)
 	health_changed.emit(hp, max_hp)
 	Juice.shake(0.18, 0.12)
 	if stamina <= 0.0:
@@ -796,7 +811,7 @@ func _st_flask(dt: float) -> void:
 func take_hit(packet: DamagePacket) -> void:
 	if dead:
 		return
-	hp = maxf(hp - packet.amount, 0.0)
+	hp = maxf(hp - packet.amount * Game.dmg_in_mult(), 0.0)
 	health_changed.emit(hp, max_hp)
 	poise -= packet.poise_damage
 	_poise_delay = 2.0

@@ -142,6 +142,26 @@ signal vigil_kept(lantern)
 ## Sanctuary quarters (no warden to put down) may turn their memory freely:
 ## the area def opts in with "free_kindle": true. Everywhere else, the toggle
 ## is earned by clearing the warden (D-009).
+## The weight of the dark, chosen when a pilgrimage begins.
+## kindled: deal 1.25x, take 0.75x | vigil: as remembered | guttered:
+## deal 0.75x, take 1.25x. Persisted in World.flags with the save.
+const DIFF := {
+	"kindled": {"out": 1.25, "in": 0.75},
+	"vigil": {"out": 1.0, "in": 1.0},
+	"guttered": {"out": 0.75, "in": 1.25},
+}
+var difficulty := "vigil"
+
+func set_difficulty(id: String) -> void:
+	difficulty = id if DIFF.has(id) else "vigil"
+	World.set_flag("difficulty", difficulty)
+
+func dmg_out_mult() -> float:
+	return DIFF[difficulty]["out"]
+
+func dmg_in_mult() -> float:
+	return DIFF[difficulty]["in"]
+
 func toggle_free(aid: String) -> bool:
 	return World.is_cleared(aid) or bool(DB.area_def(aid).get("free_kindle", false))
 

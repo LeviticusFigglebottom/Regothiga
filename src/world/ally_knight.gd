@@ -20,6 +20,8 @@ var _retarget := 0.0
 var _busy := false
 var _fading := false
 var _light: OmniLight3D
+var _apart_t := 0.0     # time spent cut off from the Latecomer
+var _blink_cd := 0.0
 
 func _ready() -> void:
 	add_to_group("allies")
@@ -73,10 +75,6 @@ func _ready() -> void:
 
 	Game.player_forgotten.connect(fade_out)
 	Game.area_cleared.connect(_on_cleared)
-	# a phantom passes the pale: the fog seals bar flesh, not him
-	for g in get_tree().get_nodes_in_group(VG.GROUP_RESPAWN_ON_REST):
-		if g is FogGate and g._seal != null:
-			add_collision_exception_with(g._seal)
 
 func _on_cleared(_aid: String) -> void:
 	fade_out()
@@ -118,13 +116,15 @@ func _fade_step(v: float) -> void:
 		_light.light_energy = 1.2 * (1.0 - v)
 
 func _nearest_foe() -> Node3D:
+	# sight-checked: he does not hare off after foes behind walls or past
+	# a pale he has no business crossing before the Latecomer does
 	var best: Node3D = null
 	var bd := 28.0
 	for e in get_tree().get_nodes_in_group(VG.GROUP_ENEMIES):
 		if e == null or not is_instance_valid(e) or e.get("dead"):
 			continue
 		var d: float = global_position.distance_to(e.global_position)
-		if d < bd:
+		if d < bd and _los_to(e):
 			bd = d
 			best = e
 	return best
@@ -134,10 +134,30 @@ func _los_to(n: Node3D) -> bool:
 			n.global_position + Vector3.UP * 1.0, VG.M_WORLD_ALL)
 	return get_world_3d().direct_space_state.intersect_ray(q).is_empty()
 
+## A phantom is bound to his summoner, not to the ground: when walls, a
+## pale, or plain distance cut him off, he steps through the dark to the
+## Latecomer's side. This is how he follows through fog gates — when the
+## player parts the veil, he appears within it a breath later.
+func _blink_check(dt: float) -> void:
+	_blink_cd -= dt
+	var p = Game.player
+	if p == null or not is_instance_valid(p) or _blink_cd > 0.0:
+		return
+	var d := global_position.distance_to(p.global_position)
+	var walled := d > 8.0 and not _los_to(p)
+	_apart_t = _apart_t + dt if walled else 0.0
+	if d > 22.0 or _apart_t > 3.0:
+		global_position = p.global_position + p.vis.global_transform.basis.z * 1.4 + Vector3.UP * 0.15
+		velocity = Vector3.ZERO
+		_apart_t = 0.0
+		_blink_cd = 1.5
+		AudioDirector.sfx_at("res://assets/audio/fog_enter.wav", global_position, -10.0, 1.5)
+
 func _physics_process(dt: float) -> void:
 	_atk_cd -= dt
 	_bolt_cd -= dt
 	_retarget -= dt
+	_blink_check(dt)
 	if _retarget <= 0.0:
 		_retarget = 0.5
 		target = _nearest_foe()

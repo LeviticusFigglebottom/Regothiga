@@ -16,11 +16,18 @@ func _ready() -> void:
 			fresh = true
 			harnessed = true
 
-	# a fresh pilgrimage opens with the rite: story cards over the kingdom,
-	# ending on the vigil-wave rolling across the porch city
+	Game.set_difficulty(str(World.flag_val("difficulty", "vigil")))
+
+	# a fresh pilgrimage weighs the dark first, then opens with the rite:
+	# story cards over the kingdom, ending on the vigil-wave rolling across
+	# the porch city
 	var intro: IntroDirector = null
 	if fresh and not harnessed and Shot.forced_state == "" \
 			and not DisplayServer.get_name().contains("headless"):
+		var sel := DifficultyUI.new()
+		add_child(sel)
+		var picked: String = await sel.chosen
+		Game.set_difficulty(picked)
 		intro = IntroDirector.new()
 		add_child(intro)
 		await intro.finished

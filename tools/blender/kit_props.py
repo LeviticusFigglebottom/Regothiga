@@ -369,6 +369,16 @@ def canal_vault(win: bool):
             V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 4.35), (2.1, sgn * 19.0 + 0.05, 4.6))
             V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 6.8), (2.1, sgn * 19.0 + 0.05, 7.1))
         objs.append(V.bm_to_object(bb, "vault_bars", ("M_iron",)))
+        # dressed stone reveal: closes the slit between the sloped vault
+        # face and the vertical grate plane, so the ironwork sits flush
+        rv = bmesh.new()
+        for sgn in (-1, 1):
+            lo, hi = min(sgn * 18.9, sgn * 20.2), max(sgn * 18.9, sgn * 20.2)
+            V.add_box(rv, (-2.15, lo, 1.85), (2.15, hi, 2.2))     # sill
+            V.add_box(rv, (-2.15, lo, 6.3), (2.15, hi, 6.75))    # head
+            V.add_box(rv, (-2.15, lo, 1.85), (-1.85, hi, 6.75))  # jamb
+            V.add_box(rv, (1.85, lo, 1.85), (2.15, hi, 6.75))    # jamb
+        objs.append(V.bm_to_object(rv, "vault_reveal", ("M_stone_dark",)))
     return objs, {"size": [8, 40, 25.2], "origin": "bottom-center"}
 
 

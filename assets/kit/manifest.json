@@ -192,7 +192,7 @@
  "canal_vault_8m_win": {
   "file": "assets/kit/canal_vault_8m_win.glb",
   "origin": "bottom-center",
-  "polys": 166,
+  "polys": 214,
   "size": [
    8,
    40,
@@ -840,7 +840,7 @@
  "reed_clump": {
   "file": "assets/kit/reed_clump.glb",
   "origin": "bottom-center",
-  "polys": 59,
+  "polys": 70,
   "size": [
    1.1,
    1.1,
@@ -850,7 +850,7 @@
  "reed_clump_dead": {
   "file": "assets/kit/reed_clump_dead.glb",
   "origin": "bottom-center",
-  "polys": 7,
+  "polys": 14,
   "size": [
    1.1,
    1.1,

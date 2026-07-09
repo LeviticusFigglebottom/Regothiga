@@ -9,11 +9,18 @@ import vglib as V
 
 
 def _blade(bm, x, y, h, lean_x, lean_y, w=0.03):
-    """One reed blade: a thin tapering triangle leaning off vertical."""
+    """One reed blade: a thin tapering triangle leaning off vertical.
+    Emitted in BOTH windings (fresh verts — bmesh refuses twin faces on
+    shared ones) so the stem reads from every bank; one-sided blades left
+    the seed heads floating when seen from the culled side."""
     a = bm.verts.new((x - w, y, 0.0))
     b = bm.verts.new((x + w, y, 0.0))
     tip = bm.verts.new((x + lean_x, y + lean_y, h))
     bm.faces.new((a, b, tip))
+    a2 = bm.verts.new((x - w, y, 0.0))
+    b2 = bm.verts.new((x + w, y, 0.0))
+    tip2 = bm.verts.new((x + lean_x, y + lean_y, h))
+    bm.faces.new((tip2, b2, a2))
 
 
 def reed_clump(seed=5):
