@@ -1411,7 +1411,7 @@
    "prompt": "Return through the Black Gate"
   },
   {
-   "to": "vigils_end",
+   "to": "old_outskirts",
    "at": [
     -42.5,
     0,
@@ -1419,14 +1419,19 @@
    ],
    "rot": 90,
    "spawn": [
-    23,
+    0,
     0.2,
-    0
+    10
    ],
-   "spawn_yaw": 90,
-   "prompt": "Take the ferry to the far shore",
+   "spawn_yaw": 0,
+   "prompt": "Take the ferry down the canal",
    "locked_flag": "cleared:drowned_marches",
-   "locked_prompt": "The Ferryman poles these flats still"
+   "locked_prompt": "The passage is owed: the Ferryman's rest, the Larkwarden's Plume, the Precentress's Seal",
+   "requires_items": [
+    "lark_plume",
+    "choir_seal"
+   ],
+   "cutscene": "ferry"
   }
  ],
  "skyline": [

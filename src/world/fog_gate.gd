@@ -13,6 +13,7 @@ var _plane: MeshInstance3D
 var _zone: Interactable
 var _seal: StaticBody3D
 var _engaged := false
+var _snap_when_ready := false
 
 func _ready() -> void:
 	add_to_group(VG.GROUP_RESPAWN_ON_REST)
@@ -42,6 +43,8 @@ func _ready() -> void:
 	_zone.setup_zone(1.4, 2.0, Vector3(0, 0, 1.2))
 	_zone.activated.connect(_on_enter)
 	add_child(_zone)
+	if _snap_when_ready:
+		snap_cleared()
 
 func _on_enter(player) -> void:
 	if _engaged or player == null:
@@ -93,7 +96,12 @@ func respawn() -> void:
 
 ## The warden already rests (a prior session or an earlier visit): the veil
 ## must not re-form when the area is rebuilt. Cheap, instant, no tween.
+## The builder calls this on a detached tree, before _ready has made the
+## parts — remember the order and apply it when they exist.
 func snap_cleared() -> void:
+	if _zone == null:
+		_snap_when_ready = true
+		return
 	_engaged = true
 	_zone.enabled = false
 	_seal.collision_layer = 0

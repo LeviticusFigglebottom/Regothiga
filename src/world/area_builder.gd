@@ -77,6 +77,14 @@ static func build(area_id: String) -> Area:
 				and f.boss_spawner.dead_once
 				and World.area_flag(area_id, f.boss_spawner.spawn_flag)):
 			f.snap_cleared()
+		else:
+			# a standing warden gets a summoning sign before the veil (ruin)
+			var glyph := SummonGlyph.new()
+			glyph.fog_gate = f
+			glyph.area_id = area_id
+			area.attach(glyph, "ruin")
+			var fwd := Vector3(0, 0, 1).rotated(Vector3.UP, deg_to_rad(float(spec.get("rot", 0))))
+			glyph.position = _v3(spec.get("at", [0, 0, 0])) + fwd * 3.4 + Vector3(0, 0.02, 0)
 	for spec in def.get("npcs", []):
 		var n := NPC.new()
 		n.npc_id = spec.get("id", "aveline")
@@ -129,6 +137,8 @@ static func build(area_id: String) -> Area:
 		pt.prompt = spec.get("prompt", "Pass on")
 		pt.locked_flag = spec.get("locked_flag", "")
 		pt.locked_prompt = spec.get("locked_prompt", "Sealed")
+		pt.requires_items = spec.get("requires_items", [])
+		pt.cutscene = spec.get("cutscene", "")
 		area.attach(pt, spec.get("tag", "base"))
 		_place(pt, spec)
 

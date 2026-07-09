@@ -1,0 +1,292 @@
+{
+ "id": "old_outskirts",
+ "name": "The Old Outskirts",
+ "free_kindle": true,
+ "start": {
+  "pos": [
+   0,
+   0.2,
+   8
+  ],
+  "yaw": 0
+ },
+ "env": {
+  "glory": {
+   "sun_color": [
+    0.9,
+    0.55,
+    0.3
+   ],
+   "sun_energy": 0.8,
+   "sun_rot": [
+    -10,
+    -60
+   ],
+   "ambient": [
+    0.3,
+    0.24,
+    0.2
+   ],
+   "fog_color": [
+    0.45,
+    0.3,
+    0.2
+   ],
+   "bg_top": [
+    0.3,
+    0.2,
+    0.18
+   ],
+   "bg_horizon": [
+    0.85,
+    0.5,
+    0.28
+   ],
+   "fog_density": 0.012
+  },
+  "ruin": {
+   "sun_color": [
+    0.3,
+    0.34,
+    0.46
+   ],
+   "sun_energy": 0.16,
+   "fog_color": [
+    0.06,
+    0.075,
+    0.1
+   ],
+   "bg_top": [
+    0.035,
+    0.045,
+    0.08
+   ],
+   "bg_horizon": [
+    0.08,
+    0.1,
+    0.15
+   ],
+   "fog_density": 0.014
+  }
+ },
+ "boxes": [
+  {
+   "min": [
+    -60,
+    -40.0,
+    -50
+   ],
+   "max": [
+    60,
+    0,
+    12
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base",
+   "walkable": true
+  },
+  {
+   "min": [
+    -60,
+    -2.5,
+    12
+   ],
+   "max": [
+    60,
+    0,
+    13
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -60,
+    0,
+    12.7
+   ],
+   "max": [
+    60,
+    0.35,
+    13.05
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -60,
+    -3.0,
+    13
+   ],
+   "max": [
+    60,
+    -2.45,
+    34
+   ],
+   "mat": "M_marsh",
+   "tag": "base",
+   "walkable": true
+  },
+  {
+   "min": [
+    -60,
+    -2.4,
+    13
+   ],
+   "max": [
+    60,
+    -2.16,
+    34
+   ],
+   "mat": "M_water",
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "min": [
+    -60,
+    -2.4,
+    34
+   ],
+   "max": [
+    60,
+    2.5,
+    35
+   ],
+   "mat": "M_backdrop_dark",
+   "tag": "base"
+  }
+ ],
+ "open_air_regions": [
+  {
+   "min": [
+    -60,
+    0,
+    -50
+   ],
+   "max": [
+    60,
+    0,
+    12
+   ]
+  },
+  {
+   "min": [
+    -60,
+    0,
+    12.7
+   ],
+   "max": [
+    60,
+    0.35,
+    13.05
+   ]
+  },
+  {
+   "min": [
+    -60,
+    -2.45,
+    13
+   ],
+   "max": [
+    60,
+    -2.45,
+    34
+   ]
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    -60.5,
+    0,
+    -50.5
+   ],
+   "max": [
+    60.5,
+    6,
+    -49.5
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -60.5,
+    0,
+    -50
+   ],
+   "max": [
+    -59.5,
+    6,
+    35
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    59.5,
+    0,
+    -50
+   ],
+   "max": [
+    60.5,
+    6,
+    35
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -60.5,
+    0.3,
+    12.8
+   ],
+   "max": [
+    60.5,
+    3,
+    13.2
+   ],
+   "tag": "base"
+  }
+ ],
+ "skyline": [
+  {
+   "kit": "city_panorama",
+   "at": [
+    0,
+    -4.5,
+    -320
+   ]
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "ferry_skiff",
+   "at": [
+    1.8,
+    -2.32,
+    16.5
+   ],
+   "rot": 205
+  }
+ ],
+ "portals": [
+  {
+   "to": "drowned_marches",
+   "at": [
+    0,
+    0,
+    11.6
+   ],
+   "rot": 180,
+   "spawn": [
+    -38,
+    0.2,
+    0
+   ],
+   "spawn_yaw": -90,
+   "prompt": "Pole back up the canal"
+  }
+ ]
+}

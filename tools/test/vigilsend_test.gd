@@ -104,7 +104,8 @@ func _run() -> void:
 	var hk: Dictionary = DB.enemy("vigilant_husk")
 	check(hk.get("weapon", "") == "lantern_crook", "the Vigilant Husk carries the crook")
 
-	# ---- ferry pair: locked from the marches until the Ferryman rests
+	# ---- ferry: the marches canal now runs to the Old Outskirts, owed the
+	# Ferryman's rest AND the relics of the other wardens (plume + seal)
 	var back: AreaPortal = null
 	for n in area.base.get_children():
 		if n is AreaPortal and n.to_area == "drowned_marches":
@@ -114,15 +115,20 @@ func _run() -> void:
 	add_child(marsh)
 	var out: AreaPortal = null
 	for n in marsh.base.get_children():
-		if n is AreaPortal and n.to_area == "vigils_end":
+		if n is AreaPortal and n.to_area == "old_outskirts":
 			out = n
-	check(out != null, "the marches offer the far shore")
+	check(out != null, "the marches offer the canal down to the outskirts")
 	if out != null:
 		check(out.locked_flag == "cleared:drowned_marches", "the ferry needs the Ferryman at rest")
-		check(out._unlocked() == false or World.is_cleared("drowned_marches"),
-			"and stays shut before that")
-		var vy := _floor_under(out.spawn_pos, area)
-		check(absf(vy - 0.0) < 0.35, "crossing lands on the jetty (y=%.2f)" % vy)
+		check("lark_plume" in out.requires_items and "choir_seal" in out.requires_items,
+			"and the relics of the spire and basilica wardens")
+		check(out.cutscene == "ferry", "the crossing rides the waterworks")
+		check(out._unlocked() == false, "and stays shut before all of it")
+		var outs := AreaBuilder.build("old_outskirts")
+		add_child(outs)
+		var vy := _floor_under(out.spawn_pos, outs)
+		check(absf(vy - 0.0) < 0.35, "crossing lands on the outskirts quay (y=%.2f)" % vy)
+		outs.queue_free()
 	if back != null:
 		var my := _floor_under(back.spawn_pos, marsh)
 		check(absf(my - 0.0) < 0.35, "returning lands on the marches jetty (y=%.2f)" % my)

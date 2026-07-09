@@ -129,6 +129,7 @@ func _ready() -> void:
 	hitbox = Hitbox.new()
 	hitbox.name = "Hitbox"
 	hitbox.exclude = self
+	hitbox.friendly_team = "player"   # a summoned comrade is never struck
 	hitbox_shape = CollisionShape3D.new()
 	hitbox_shape.shape = BoxShape3D.new()
 	hitbox.add_child(hitbox_shape)

@@ -409,7 +409,11 @@
    }
   ],
   "sfx_alert": "res://assets/audio/bellkeeper_roar.wav",
-  "sfx_cast": "res://assets/audio/whoosh_h.wav"
+  "sfx_cast": "res://assets/audio/whoosh_h.wav",
+  "drop_item": {
+   "id": "choir_seal",
+   "label": "the Precentress's Seal"
+  }
  },
  "shroudbound": {
   "name": "Shroudbound",
@@ -821,7 +825,11 @@
    }
   ],
   "sfx_alert": "res://assets/audio/bellkeeper_roar.wav",
-  "sfx_cast": "res://assets/audio/lark_trill.wav"
+  "sfx_cast": "res://assets/audio/lark_trill.wav",
+  "drop_item": {
+   "id": "lark_plume",
+   "label": "the Larkwarden's Plume"
+  }
  },
  "drowned_herald": {
   "name": "Drowned Herald",

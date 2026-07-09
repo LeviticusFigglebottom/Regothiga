@@ -7,6 +7,7 @@ var packet: DamagePacket
 var _struck: Array[Node] = []
 var on_contact: Callable = Callable()   # func(hurtbox, result)
 var exclude: Node = null                # wielder root — never self-hit
+var friendly_team := ""                 # hurtboxes of this team are never struck
 
 func _init() -> void:
 	collision_layer = 0
@@ -35,6 +36,8 @@ func _on_area(a: Area3D) -> void:
 		return
 	# no friendly fire
 	if exclude != null and exclude.is_in_group(VG.GROUP_ENEMIES) and host.is_in_group(VG.GROUP_ENEMIES):
+		return
+	if friendly_team != "" and (a as Hurtbox).team == friendly_team:
 		return
 	_struck.append(host)
 	var result: String = (a as Hurtbox).receive(packet)

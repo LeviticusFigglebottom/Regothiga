@@ -9,6 +9,8 @@ var spawn_yaw := 1e9             # camera yaw (deg) on arrival; unset = keep
 var prompt := "Pass on"
 var locked_flag := ""        # world flag that must be TRUE to pass
 var locked_prompt := "Sealed"
+var requires_items: Array = []   # item ids the Latecomer must carry to pass
+var cutscene := ""               # "ferry": ride the canals before arriving
 
 var _zone: Interactable
 var _marker: OmniLight3D
@@ -63,15 +65,19 @@ static func _radial_tex() -> GradientTexture2D:
 	return gt
 
 func _unlocked() -> bool:
-	if locked_flag == "":
-		return true
-	if locked_flag.begins_with("cleared:"):
-		return World.is_cleared(locked_flag.get_slice(":", 1))
-	return World.flag(locked_flag)
+	if locked_flag != "":
+		var ok := World.is_cleared(locked_flag.get_slice(":", 1)) \
+				if locked_flag.begins_with("cleared:") else World.flag(locked_flag)
+		if not ok:
+			return false
+	for it in requires_items:
+		if Game.player == null or int(Game.player.inventory.get(it, 0)) < 1:
+			return false
+	return true
 
 func _physics_process(dt: float) -> void:
 	var open := _unlocked()
-	if locked_flag != "":
+	if locked_flag != "" or not requires_items.is_empty():
 		_zone.prompt = prompt if open else locked_prompt
 	# breathe the marker; warm gold when open, cold and dim when sealed
 	_pulse += dt
@@ -89,4 +95,17 @@ func _on_use(player) -> void:
 		return
 	if to_area == "" or player == null:
 		return
+	if cutscene == "ferry":
+		_ferry_ride.call_deferred()
+		return
 	Game.travel_to(to_area, spawn_pos, spawn_yaw)
+
+## The waterworks passage: ride the canal down to the destination, then arrive.
+func _ferry_ride() -> void:
+	if Game.player != null:
+		Game.player.lock_control(true)
+	var ride := FerryRide.new()
+	get_tree().root.add_child(ride)
+	await ride.finished
+	Game.travel_to(to_area, spawn_pos, spawn_yaw)
+	ride.reveal_and_free()

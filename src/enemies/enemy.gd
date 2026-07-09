@@ -91,6 +91,7 @@ func _ready() -> void:
 
 	hitbox = Hitbox.new()
 	hitbox.exclude = self
+	hitbox.friendly_team = "enemy"
 	hitbox_shape = CollisionShape3D.new()
 	hitbox_shape.shape = BoxShape3D.new()
 	hitbox.add_child(hitbox_shape)
@@ -215,8 +216,21 @@ func _st_idle(dt: float) -> void:
 	velocity.x = move_toward(velocity.x, 0, 8 * dt)
 	velocity.z = move_toward(velocity.z, 0, 8 * dt)
 	var p := _player()
-	if p != null and not p.get("dead") and _can_see(p):
-		target = p
+	var pick: Node3D = null
+	var best := 1e9
+	var cands: Array = []
+	if p != null and not p.get("dead"):
+		cands.append(p)
+	cands.append_array(get_tree().get_nodes_in_group("allies"))
+	for c in cands:
+		if c == null or not is_instance_valid(c) or c.get("dead"):
+			continue
+		var dd: float = global_position.distance_to(c.global_position)
+		if dd < best:
+			best = dd
+			pick = c
+	if pick != null and _can_see(pick):
+		target = pick
 		_set_state(ES.ALERT)
 		if cfg.has("sfx_alert"):
 			AudioDirector.sfx_at(cfg["sfx_alert"], global_position, -2.0, randf_range(0.9, 1.1))
@@ -578,6 +592,11 @@ func _die() -> void:
 	vis.play("death", 0.06)
 	Game.add_orisons(int(cfg.get("orisons", 10)))
 	AudioDirector.sfx_at("res://assets/audio/impact_flesh.wav", global_position, -2.0, 0.7)
+	if cfg.has("drop_item") and Game.player != null:
+		var di: Dictionary = cfg["drop_item"]
+		var iid: String = di.get("id", "relic")
+		Game.player.inventory[iid] = int(Game.player.inventory.get(iid, 0)) + 1
+		Game.toast.emit("Claimed %s." % di.get("label", iid))
 	died.emit(self)
 	_fade_out.call_deferred()
 
