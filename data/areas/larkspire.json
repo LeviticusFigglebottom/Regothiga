@@ -1123,9 +1123,39 @@
   {
    "kit": "balustrade_4m",
    "from": [
-    -2,
-    19.2,
-    3.8
+    -5.8,
+    2.4,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -4.2,
+    2.4,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    2,
+    4.8,
+    -5.8
    ],
    "dir": [
     1,
@@ -1138,9 +1168,24 @@
   {
    "kit": "balustrade_4m",
    "from": [
-    0.2,
-    19.2,
-    6
+    5.8,
+    7.2,
+    2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    4.2,
+    7.2,
+    2
    ],
    "dir": [
     0,
@@ -1149,6 +1194,126 @@
    ],
    "count": 1,
    "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    9.6,
+    5.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 180
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    9.6,
+    4.2
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -5.8,
+    12.0,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -4.2,
+    12.0,
+    -2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    2,
+    14.4,
+    -5.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 0
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    5.8,
+    16.8,
+    2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": -90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    4.2,
+    16.8,
+    2
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 1,
+   "rot": 90
+  },
+  {
+   "kit": "balustrade_4m",
+   "from": [
+    -2,
+    19.2,
+    5.8
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 1,
+   "rot": 180
   }
  ],
  "pieces": [
@@ -1297,76 +1462,116 @@
    ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
-    -6,
+    -7,
     2.38,
     -4
    ],
-   "rot": 180
+   "rot": 180,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
     4,
     4.78,
-    -6
+    -7
    ],
-   "rot": 90
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
-    6,
+    7,
     7.18,
     4
    ],
-   "rot": 0
+   "rot": 0,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
     -4,
     9.58,
-    6
+    7
    ],
-   "rot": -90
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
-    -6,
+    -7,
     11.98,
     -4
    ],
-   "rot": 180
+   "rot": 180,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
     4,
     14.38,
-    -6
+    -7
    ],
-   "rot": 90
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
-    6,
+    7,
     16.78,
     4
    ],
-   "rot": 0
+   "rot": 0,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   },
   {
-   "kit": "stair_grand_4m",
+   "kit": "stair_grand_4m_l",
    "at": [
     -4,
     19.18,
-    6
+    7
    ],
-   "rot": -90
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
   }
  ],
  "props": [
@@ -2252,81 +2457,249 @@
   },
   {
    "min": [
-    -8,
-    0,
+    -6,
+    2.05,
     -4
    ],
    "max": [
     -4,
-    0.7,
-    -1.7
+    2.35,
+    0
    ],
-   "mat": "M_stone"
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
   },
   {
    "min": [
-    1.7,
     0,
-    -8
+    4.45,
+    -6
    ],
    "max": [
     4,
-    3.1,
+    4.75,
     -4
    ],
-   "mat": "M_stone"
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
   },
   {
    "min": [
     4,
-    4.8,
-    1.7
+    6.85,
+    0
    ],
    "max": [
-    8,
-    5.5,
+    6,
+    7.15,
     4
    ],
-   "mat": "M_stone"
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
   },
   {
    "min": [
-    -8,
-    9.6,
+    -4,
+    9.25,
+    4
+   ],
+   "max": [
+    0,
+    9.55,
+    6
+   ],
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    -6,
+    11.65,
     -4
    ],
    "max": [
     -4,
-    10.3,
-    -1.7
+    11.95,
+    0
    ],
-   "mat": "M_stone"
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
   },
   {
    "min": [
-    1.7,
-    9.6,
-    -8
+    0,
+    14.05,
+    -6
    ],
    "max": [
     4,
-    12.7,
+    14.35,
     -4
    ],
-   "mat": "M_stone"
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
   },
   {
    "min": [
     4,
-    14.4,
-    1.7
+    16.45,
+    0
    ],
    "max": [
-    8,
-    15.1,
+    6,
+    16.75,
     4
    ],
-   "mat": "M_stone"
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    -4,
+    18.85,
+    4
+   ],
+   "max": [
+    0,
+    19.15,
+    6
+   ],
+   "mat": "M_stone",
+   "walkable": true,
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    -6,
+    2.35,
+    -0.15
+   ],
+   "max": [
+    -4,
+    3.35,
+    0
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    4,
+    7.15,
+    0
+   ],
+   "max": [
+    6,
+    8.15,
+    0.15
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    -6,
+    11.95,
+    -0.15
+   ],
+   "max": [
+    -4,
+    12.95,
+    0
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    4,
+    16.75,
+    0
+   ],
+   "max": [
+    6,
+    17.75,
+    0.15
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    0,
+    2.35,
+    -6
+   ],
+   "max": [
+    0.15,
+    3.35,
+    -4
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    -0.15,
+    7.15,
+    4
+   ],
+   "max": [
+    0,
+    8.15,
+    6
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    0,
+    11.95,
+    -6
+   ],
+   "max": [
+    0.15,
+    12.95,
+    -4
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    -0.25,
+    16.75,
+    4
+   ],
+   "max": [
+    -0.1,
+    17.75,
+    6
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
+  },
+  {
+   "min": [
+    0.05,
+    19.15,
+    6
+   ],
+   "max": [
+    0.2,
+    20.15,
+    8
+   ],
+   "mat": "M_stone",
+   "tag": "gallery"
   }
  ],
  "spawners": [

@@ -42,6 +42,9 @@ func _run() -> void:
 		[Vector3(6, 14.4, -6), 14.4, "ring 3 arrival (NE)"],
 		[Vector3(2, 14.4, 2), 14.4, "vespers platform"],
 		[Vector3(5, 16.8, 6), 16.8, "office-gate landing"],
+		[Vector3(-5, 2.4, -2), 2.4, "first gallery walk"],
+		[Vector3(5, 7.2, 2), 7.2, "hall-overlook gallery"],
+		[Vector3(-2, 9.6, 5), 9.6, "sext-ring gallery"],
 		[Vector3(-6, 19.2, 6), 19.2, "summit arrival (SW)"],
 		[Vector3(0, 19.2, 2), 19.2, "the gated overlook"],
 		[Vector3(0, 19.2, -4), 19.2, "the Larkwarden's arena"],
@@ -52,16 +55,16 @@ func _run() -> void:
 
 	# ---- walk the first full level for real: north up the west flight,
 	# across the NW landing, east up the north flight onto ring 1
-	player.global_position = Vector3(-6, 0.3, 2)
+	player.global_position = Vector3(-7, 0.3, 2)
 	await ticks(5)
 	player.sim_move = Vector3(0, 0, -1)
-	await ticks(96)
+	await ticks(150)
 	player.sim_move = Vector3.ZERO
 	await ticks(5)
 	check(player.global_position.y > 2.1 and player.global_position.z < -3.5,
 		"walked up the west flight (y=%.2f z=%.2f)" % [player.global_position.y, player.global_position.z])
 	player.sim_move = Vector3(1, 0, 0)
-	await ticks(200)
+	await ticks(230)
 	player.sim_move = Vector3.ZERO
 	await ticks(10)
 	check(player.global_position.y > 4.5 and player.global_position.x > 3.5,
@@ -97,7 +100,7 @@ func _run() -> void:
 			"%s reaches the cage (d=%.2f y=%.2f)" % [leg[3], d, player.global_position.y])
 
 	# ---- the office gate seals the last flight while the offices are unsung
-	player.global_position = Vector3(5, 17.0, 6)
+	player.global_position = Vector3(5, 17.0, 6.8)
 	await ticks(5)
 	player.sim_move = Vector3(-1, 0, 0)
 	await ticks(110)
@@ -113,11 +116,11 @@ func _run() -> void:
 	StateDirector.snap(area2, VG.WState.RUIN)
 	area.queue_free()
 	await ticks(10)
-	player.global_position = Vector3(5, 17.0, 6)
+	player.global_position = Vector3(5, 17.0, 6.8)
 	player.velocity = Vector3.ZERO
 	await ticks(5)
 	player.sim_move = Vector3(-1, 0, 0)
-	await ticks(160)
+	await ticks(210)
 	player.sim_move = Vector3.ZERO
 	await ticks(8)
 	check(player.global_position.y > 18.9 and player.global_position.x < -3.5,
