@@ -1,30 +1,42 @@
 {
-	"candleglass": {
-		"name": "Candleglass",
-		"desc": "A shard of window fused with votive wax. In ruin the glass weeps out of the frames; in glory it never fell. Hold it to the light and a saint's sleeve is still in it."
-	},
-	"sun_creed_charm": {
-		"name": "Sun-Creed Charm",
-		"desc": "A pilgrim's token: the sun half-sunk behind the Black Gate. The creed ran 'wake, watch, wait'. Three words for a kingdom that managed two of them."
-	},
-	"tallow_heart": {
-		"name": "Tallow Heart",
-		"desc": "Rendered from a saint's own votive. It does not beat; it keeps."
-	},
-	"arrows": {
-		"name": "Lark-fletched Arrows",
-		"desc": "Ash shafts fletched with lark feathers, meant for retrieving cage-birds. They retrieve other things now. Loosed from the Larkbow; carried in the quiver, not the hand."
-	},
-	"lark_plume": {
-		"name": "Lark Plume",
-		"desc": "A tail feather of the last summit lark, still warm as a struck bell. The Ferryman honors it as fare \u2014 proof the spire was climbed while it still sang."
-	},
-	"choir_seal": {
-		"name": "Choir Seal",
-		"desc": "The Precentress's leaden signet, stamped with the unsung hour. It weights a palm like a held breath. The Ferryman honors it as fare."
-	},
-	"chrism_flask": {
-		"name": "Chrism Flask",
-		"desc": "Wax-stoppered draughts of votive oil. Kneeling at a vigil lantern refills it; the saints do not ask where the light went."
-	}
+ "candleglass": {
+  "name": "Candleglass",
+  "desc": "A shard of window fused with votive wax. In ruin the glass weeps out of the frames; in glory it never fell. Hold it to the light and a saint's sleeve is still in it."
+ },
+ "sun_creed_charm": {
+  "name": "Sun-Creed Charm",
+  "desc": "A pilgrim's token: the sun half-sunk behind the Black Gate. The creed ran 'wake, watch, wait'. Three words for a kingdom that managed two of them."
+ },
+ "tallow_heart": {
+  "name": "Tallow Heart",
+  "desc": "Rendered from a saint's own votive. It does not beat; it keeps."
+ },
+ "arrows": {
+  "name": "Lark-fletched Arrows",
+  "desc": "Ash shafts fletched with lark feathers, meant for retrieving cage-birds. They retrieve other things now. Loosed from the Larkbow; carried in the quiver, not the hand."
+ },
+ "lark_plume": {
+  "name": "Lark Plume",
+  "desc": "A tail feather of the last summit lark, still warm as a struck bell. The Ferryman honors it as fare \u2014 proof the spire was climbed while it still sang."
+ },
+ "choir_seal": {
+  "name": "Choir Seal",
+  "desc": "The Precentress's leaden signet, stamped with the unsung hour. It weights a palm like a held breath. The Ferryman honors it as fare."
+ },
+ "chrism_flask": {
+  "name": "Chrism Flask",
+  "desc": "Wax-stoppered draughts of votive oil. Kneeling at a vigil lantern refills it; the saints do not ask where the light went."
+ },
+ "mend": {
+  "name": "Mend the Wick",
+  "desc": "The first prayer every chandler learns: press the warm wax back into the wound and ask the flame to hold."
+ },
+ "radiant_blast": {
+  "name": "Radiant Blast",
+  "desc": "A thrown coal of remembered daylight. It goes where grief is aimed."
+ },
+ "radiant_burst": {
+  "name": "Radiant Burst",
+  "desc": "The whole candle at once. Everything near the vigil learns what it was to stand in the kingdom's noon."
+ }
 }

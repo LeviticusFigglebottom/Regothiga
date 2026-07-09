@@ -453,6 +453,12 @@ def main():
     PR.append({"kit": "barrel", "at": [-9.4, 0, 9.2], "rot": 25, "tag": "base"})
     PR.append({"kit": "crate_stack", "at": [-11, 0, 8.6], "rot": -20, "tag": "base"})
 
+    # the parish door is a true threshold now: the vestibule leads inside
+    d["portals"] = [pp for pp in d.get("portals", []) if pp.get("to") != "wick_cathedral"]
+    d["portals"].append({"to": "wick_cathedral", "at": [0, 4.8, -47.0], "rot": 0,
+                         "spawn": [0, 0.2, 0.2], "spawn_yaw": 0,
+                         "prompt": "Enter the Parish of the First Wick"})
+
     # ---------------- the city on every horizon
     d["skyline"] = [{"kit": "city_panorama", "at": [0, -16, -18]}]
 

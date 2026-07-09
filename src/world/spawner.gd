@@ -20,7 +20,11 @@ func respawn() -> void:
 		return
 	if current != null and is_instance_valid(current):
 		current.queue_free()
-	current = Enemy.new()
+	var ecfg: Dictionary = DB.table("enemies").get(enemy_id, {})
+	if ecfg.has("class"):
+		current = load(ecfg["class"]).new()
+	else:
+		current = Enemy.new()
 	current.setup(enemy_id)
 	add_child(current)
 	current.global_position = global_position

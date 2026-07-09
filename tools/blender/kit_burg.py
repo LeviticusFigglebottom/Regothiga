@@ -408,6 +408,43 @@ def word_stone():
     return objs, {"size": [0.6, 0.45, 1.05], "origin": "bottom-center"}
 
 
+def pew_3m():
+    """A parish pew: seat, high back, kneeler rail. Origin bottom-center;
+    the back is on +Y (engine: rot 0 seats the faithful facing north)."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-1.5, -0.05, 0.40), (1.5, 0.28, 0.50))      # seat
+    V.add_box(bm, (-1.5, 0.26, 0.50), (1.5, 0.34, 1.02))       # back
+    V.add_box(bm, (-1.5, -0.42, 0.0), (1.5, -0.30, 0.10))      # kneeler
+    for sx in (-1.44, 1.44):                                   # end panels
+        V.add_box(bm, (sx - 0.05, -0.10, 0.0), (sx + 0.05, 0.34, 0.92))
+    objs.append(V.bm_to_object(bm, "pew", ("M_wood",)))
+    return objs, {"size": [3, 0.9, 1.02], "origin": "bottom-center"}
+
+
+def altar_wick():
+    """The First Wick's altar: stone mensa under a wax-white cloth, gilt
+    reliquary, two fat vigil candles. Origin bottom-center."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-1.2, -0.5, 0.0), (1.2, 0.5, 0.95))
+    objs.append(V.bm_to_object(bm, "mensa", ("M_stone_trim",)))
+    bm = bmesh.new()
+    V.add_box(bm, (-1.26, -0.56, 0.95), (1.26, 0.56, 1.06))
+    objs.append(V.bm_to_object(bm, "cloth", ("M_wax",)))
+    bm = bmesh.new()
+    V.add_box(bm, (-0.28, -0.2, 1.06), (0.28, 0.2, 1.5))
+    objs.append(V.bm_to_object(bm, "reliquary", ("M_gold",)))
+    for sx in (-0.85, 0.85):
+        c = V.loft_rings("candle", [(0.09, 1.06, 8, 0), (0.08, 1.62, 8, 0)], "M_wax")
+        c.location = (sx, 0.0, 0.0)
+        objs.append(c)
+        f = V.loft_rings("flame", [(0.01, 1.62, 6, 0), (0.05, 1.72, 6, 0), (0.005, 1.84, 6, 0)], "M_gold")
+        f.location = (sx, 0.0, 0.0)
+        objs.append(f)
+    return objs, {"size": [2.52, 1.12, 1.84], "origin": "bottom-center"}
+
+
 def torch_held():
     """A hand torch: shaft up +Z from the grip origin (engine: blade +Y),
     iron collar, waxed head, a fat flame knot."""
@@ -443,4 +480,6 @@ BUILDERS = {
     "crate_stack": crate_stack,
     "hand_cart": hand_cart,
     "torch_held": torch_held,
+    "pew_3m": pew_3m,
+    "altar_wick": altar_wick,
 }

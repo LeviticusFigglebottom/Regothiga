@@ -8,6 +8,8 @@ const SERIF := "res://assets/fonts/DejaVuSerif.ttf"
 const SERIF_B := "res://assets/fonts/DejaVuSerif-Bold.ttf"
 
 var hp_fill: ColorRect
+var mana_panel: Control
+var mana_fill: ColorRect
 var hp_ghost: ColorRect
 var st_fill: ColorRect
 var hp_panel: Control
@@ -67,12 +69,14 @@ func _ready() -> void:
 func _bind_player(p) -> void:
 	p.health_changed.connect(_on_hp)
 	p.stamina_changed.connect(_on_stamina)
+	p.mana_changed.connect(_on_mana)
 	p.flasks_changed.connect(_on_flasks)
 	p.weapon_changed.connect(func(_id): _refresh_hotbar())
 	p.inventory_changed.connect(_refresh_hotbar)
 	p.hotbar_changed.connect(_refresh_hotbar)
 	_on_hp(p.hp, p.max_hp)
 	_on_stamina(p.stamina, p.max_stamina)
+	_on_mana(p.mana, p.max_mana)
 	_on_flasks(p.flasks, p.flask_max)
 	_on_orisons(Game.orisons)
 	_refresh_hotbar()
@@ -129,6 +133,12 @@ func _build() -> void:
 	st_panel = r2[0]; st_fill = r2[1]
 	st_fill.color = Color(0.35, 0.5, 0.25)
 	(r2[2] as ColorRect).color = Color(0, 0, 0, 0)
+	# the wick-bar: mana, kindled only once a rite is learned
+	var r3 := _bar(root, 66, ST_W * 0.8, 10, Color(0.08, 0.065, 0.03, 0.88))
+	mana_panel = r3[0]; mana_fill = r3[1]
+	mana_fill.color = Color(0.92, 0.74, 0.3)
+	(r3[2] as ColorRect).color = Color(0, 0, 0, 0)
+	mana_panel.visible = false
 
 	flask_label = Label.new()
 	flask_label.label_settings = _font(SERIF_B, 26, Color(0.92, 0.86, 0.72))
@@ -427,6 +437,11 @@ func _refresh_hotbar() -> void:
 	arrows_chip.visible = bow_up
 	if bow_up:
 		arrows_chip.text = "Arrows ✕%d" % int(p.inventory.get("arrows", 0))
+
+func _on_mana(v: float, mx: float) -> void:
+	mana_panel.visible = mx > 0.0
+	if mx > 0.0:
+		mana_fill.size.x = maxf((mana_panel.size.x - 4.0) * v / mx, 0.0)
 
 func _on_orisons(n: int) -> void:
 	orisons_label.text = "%d orisons" % n

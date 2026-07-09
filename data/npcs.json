@@ -1,180 +1,251 @@
 {
-	"aveline": {
-		"name": "Sister Aveline, the Chandler",
-		"short_name": "the Chandler",
-		"body": "char_aveline",
-		"lines_first": [
-			"Another pilgrim? No \u2014 later than that. A Latecomer. The wax knows its own hours, and yours ran out elsewhere.",
-			"This is the Gray Cloister, keeper of the western vigil. I dip the candles that hold what's left of us. Six hundred a day, once. Now\u2026 you see the garth. Beautiful, isn't it. Try to remember it like this.",
-			"When you kneel at the lantern, child, the seeing ends and the surviving begins. What gutters will not rekindle while the Bellkeeper's grief drowns this quarter. Put him to rest \u2014 gently, if your blade knows how.",
-			"If you find candleglass in the dark, carry it to Osric \u2014 the Reliquary Smith, down among the bones below the basilica. He folds light into edges now. Me, I keep to wax and hours."
-		],
-		"lines_repeat": [
-			"Still walking, Latecomer? Good. Wax stands, wax serves.",
-			"The Bellkeeper was kind, before. He held the hours so the rest of us could let them go."
-		],
-		"services": [
-			{
-				"id": "tallow",
-				"type": "flask_up",
-				"orisons": 300,
-				"once_flag": "bought_tallow",
-				"label": "Buy the Tallow Heart \u2014 deepen the chrism flask \u2014 300 orisons"
-			}
-		],
-		"carry": "candle_cluster"
-	},
-	"sexton": {
-		"name": "Brother Ordo, the Sexton",
-		"short_name": "the Sexton",
-		"body": "skel_sexton",
-		"carry": "maul_sexton",
-		"carry_hand": "r",
-		"lines_first": [
-			"Mind the edge of the grave, Latecomer. I dug it true and I'll not have your boots spoiling the corners.",
-			"Six hundred brothers I put down, one at a time, while the choir sang the count. The singing was worse than the digging. The digging ends.",
-			"The Precentress? Past the screen, under the bell that never spoke. She won't stop for death. Death is an interruption, and she does not brook interruptions.",
-			"The west aisle came down in the ruin-hour. I can clear it \u2014 stone listens to me \u2014 but shovels eat, and mine eats orisons."
-		],
-		"lines_repeat": [
-			"Still above ground? Habit, or talent?",
-			"When it's your turn, I'll square your corners like the rest. No charge for craft."
-		],
-		"services": [
-			{
-				"id": "dig",
-				"type": "dig",
-				"orisons": 180,
-				"flag": "sexton_dug",
-				"label": "Have him clear the west aisle \u2014 180 orisons",
-				"done_line": "There. The aisle runs clean in the dark now. Tell the rubble I said stay."
-			}
-		]
-	},
-	"ferrier": {
-		"name": "Osric, the Reliquary Smith",
-		"short_name": "the Smith",
-		"body": "skel_sexton",
-		"carry": "maul_sexton",
-		"carry_hand": "r",
-		"lines_first": [
-			"Mind the sparks. Bone catches fast, and I keep six hundred dry brothers stacked round this forge. Burn them twice and even I'll not forgive it.",
-			"Osric. Shod horses once, up where the sun still bothered. Now I beat edges out of saints \u2014 the iron in a holy man's bones is the only honest thing he leaves behind.",
-			"The Chandler sends her glass down the long stair. I fold it into the steel, over and over, till the blade forgets it was ever aught but hungry. Prayer won't save you. A good edge might.",
-			"Down here the work's honest. The dead don't haggle, don't thank you, don't leave. Suits me."
-		],
-		"lines_repeat": [
-			"Back. Good. Iron left idle rusts. A man left idle rots slower \u2014 but he rots.",
-			"Swing it till it rings dull, then drag it back down here. Everything comes back down here, in the end."
-		],
-		"services": [
-			{
-				"id": "temper",
-				"type": "upgrade",
-				"orisons": 150,
-				"label": "Temper the blade \u2014 1 candleglass + 150 orisons",
-				"line_max": "That edge holds all the light I can beat into it. Ask more and you insult us both.",
-				"line_no_glass": "No glass, no temper. The ruin coughs it out of dead windows \u2014 go pick through the dark for it.",
-				"line_no_orisons": "Prayers first. %d orisons, or the forge stays cold and so do I.",
-				"line_done": "There. Hungrier now. Don't lose it somewhere I can't climb down to fetch it back."
-			},
-			{
-				"id": "buy_spear",
-				"type": "buy",
-				"item": "marsh_spear",
-				"orisons": 350,
-				"label": "Buy the Fen-Ward Spear \u2014 350 orisons",
-				"line_done": "Long iron for long odds. Both hands on the haft, the point between you and whatever's next.",
-				"line_have": "You've got my spear. Mind the low stone \u2014 reach is no use with the shaft snapped."
-			},
-			{
-				"id": "buy_bow",
-				"type": "buy",
-				"item": "lark_bow",
-				"orisons": 400,
-				"label": "Buy the Larkbow \u2014 400 orisons",
-				"line_done": "The birdkeepers' recurve. Draw slow, loose quick, and feed it \u2014 a hungry bow that eats what you can't spare.",
-				"line_have": "One bow's all I'll part with. String it kind, or it'll spite you."
-			},
-			{
-				"id": "buy_greatsword",
-				"type": "buy",
-				"item": "pilgrim_greatsword",
-				"orisons": 500,
-				"label": "Buy the Pilgrim's Greatsword \u2014 500 orisons",
-				"line_done": "Two hands and your whole back besides. Slow iron. Make the first swing count \u2014 there's rarely a second.",
-				"line_have": "You've the great blade. Nerve's not something I can forge you."
-			},
-			{
-				"id": "buy_arrows",
-				"type": "buy",
-				"item": "arrows",
-				"count": 12,
-				"orisons": 60,
-				"label": "Buy lark-fletched arrows (12) \u2014 60 orisons",
-				"line_done": "Twelve shafts, cut from the spire's own larks. Loose them like they matter. I'll cut more when they don't come back."
-			}
-		]
-	},
-	"knight_morrow": {
-		"name": "Ser Adalric of the Morrow",
-		"short_name": "Ser Adalric",
-		"body": "char_ward",
-		"carry": "sword_cloister",
-		"carry_hand": "r",
-		"lines_first": [
-			"Well met, pilgrim! Ser Adalric \u2014 knight, votary, and incorrigible admirer of that view. Stand a moment. Look at her shine.",
-			"I came to keep a vigil of my own \u2014 a light that is MINE to tend. Grand ambition for a wandering knight, I grant. But reach for the light, friend, or the dark will reach for you first. Ha!",
-			"The kingdom turns on its memory like a coin \u2014 radiant, ruined, radiant again. Whichever face falls, hold to this: the Light was real. I have SEEN it. That makes us practically comrades.",
-			"If our roads cross again in some dim hour, call my name. Two lights burn back the dark better than one."
-		],
-		"lines_repeat": [
-			"Still walking! Splendid. The Light favors stubborn feet.",
-			"Magnificent, isn't she? I never tire of this terrace."
-		],
-		"face_flip": true
-	},
-	"knight_crest": {
-		"name": "Ser Adalric, the Guttered",
-		"short_name": "Ser Adalric",
-		"body": "char_ward",
-		"chapters": [
-			[
-				"\u2026Oh. Another one still moving. Forgive me if I don't bow \u2014 the view is gone, and my reasons went with it.",
-				"You want the history? Fine. Sit in the cold with me. Vespergard was the kingdom that BANKED light. Every candle on every sill was a deposit against the dark, and the great basilica was the vault.",
-				"The people prayed at dusk \u2014 vespers, they called the hour \u2014 and the prayers cooled into orisons. Little coins of soul. They paid their tithes in them, bought their bread with them, owed their lords in them.",
-				"A whole economy of devotion. And like every economy, it assumed tomorrow would keep the books."
-			],
-			[
-				"Back for the second lesson? The guttering, then.",
-				"Nobody sacked us. No army, no dragon, no flood worth the name. The bells simply rang an hour no one had written, and the sun\u2026 declined to be reminded of us.",
-				"Forgetting is quieter than fire. Streets misplaced their names. The wax went cold in the moulds. Whole quarters slipped out of the world's memory like a debt written off.",
-				"The priests called it a test. The priests are wax husks now, still kneeling. Some test."
-			],
-			[
-				"You keep coming back. Habit? Or hope? I forget which one kills slower.",
-				"The vigil lanterns are the last ledgers. Each one holds its quarter's memory of the radiant years \u2014 kneel, and it lends you the past. Rise, and the interest comes due. The ruin always collects.",
-				"The wardens \u2014 the Bellkeeper, the Precentress, all those grieving giants \u2014 they aren't jailers. They're mourners who won't close the coffin. Put them to rest and their quarters remember how to choose.",
-				"That's your work, Latecomer, if you insist on having work. Grief-keeping. Corpse-tending. Bookkeeping for a bankrupt sun."
-			],
-			[
-				"The last chapter is the shortest. I came here to keep a vigil of my own. A light that was MINE. I said that once already, didn't I. It stays true.",
-				"I carried candleglass a hundred leagues for it \u2014 glass that remembers LIGHT, the smiths fold it into edges. I was going to cut my flame out of the dark and stand watch over it forever.",
-				"There is no flame with my name on it. There never was. The kingdom promised one to every fool who could carry a sword, and the kingdom no longer remembers promising anything.",
-				"Here \u2014 take the glass. Give it to Osric under the basilica. Let it be an edge instead of a vigil. One of us should get something out of the carrying."
-			]
-		],
-		"gift": {
-			"item": "candleglass",
-			"count": 1,
-			"flag": "gift_knight_crest",
-			"toast": "Ser Adalric gives up his candleglass \u2014 a vigil that will never be, folded into your keeping."
-		},
-		"lines_repeat": [
-			"Still here. Both of us. Imagine that.",
-			"If you find a light that stays lit \u2014 don't tell me. Kindness, of a sort.",
-			"The glass is yours now. Don't waste it on hope. Temper something."
-		],
-		"face_flip": true
-	}
+ "aveline": {
+  "name": "Sister Aveline, the Chandler",
+  "short_name": "the Chandler",
+  "body": "char_aveline",
+  "lines_first": [
+   "Another pilgrim? No \u2014 later than that. A Latecomer. The wax knows its own hours, and yours ran out elsewhere.",
+   "This is the Gray Cloister, keeper of the western vigil. I dip the candles that hold what's left of us. Six hundred a day, once. Now\u2026 you see the garth. Beautiful, isn't it. Try to remember it like this.",
+   "When you kneel at the lantern, child, the seeing ends and the surviving begins. What gutters will not rekindle while the Bellkeeper's grief drowns this quarter. Put him to rest \u2014 gently, if your blade knows how.",
+   "If you find candleglass in the dark, carry it to Osric \u2014 the Reliquary Smith, down among the bones below the basilica. He folds light into edges now. Me, I keep to wax and hours."
+  ],
+  "lines_repeat": [
+   "Still walking, Latecomer? Good. Wax stands, wax serves.",
+   "The Bellkeeper was kind, before. He held the hours so the rest of us could let them go."
+  ],
+  "services": [
+   {
+    "id": "tallow",
+    "type": "flask_up",
+    "orisons": 300,
+    "once_flag": "bought_tallow",
+    "label": "Buy the Tallow Heart \u2014 deepen the chrism flask \u2014 300 orisons"
+   }
+  ],
+  "carry": "candle_cluster"
+ },
+ "sexton": {
+  "name": "Brother Ordo, the Sexton",
+  "short_name": "the Sexton",
+  "body": "skel_sexton",
+  "carry": "maul_sexton",
+  "carry_hand": "r",
+  "lines_first": [
+   "Mind the edge of the grave, Latecomer. I dug it true and I'll not have your boots spoiling the corners.",
+   "Six hundred brothers I put down, one at a time, while the choir sang the count. The singing was worse than the digging. The digging ends.",
+   "The Precentress? Past the screen, under the bell that never spoke. She won't stop for death. Death is an interruption, and she does not brook interruptions.",
+   "The west aisle came down in the ruin-hour. I can clear it \u2014 stone listens to me \u2014 but shovels eat, and mine eats orisons."
+  ],
+  "lines_repeat": [
+   "Still above ground? Habit, or talent?",
+   "When it's your turn, I'll square your corners like the rest. No charge for craft."
+  ],
+  "services": [
+   {
+    "id": "dig",
+    "type": "dig",
+    "orisons": 180,
+    "flag": "sexton_dug",
+    "label": "Have him clear the west aisle \u2014 180 orisons",
+    "done_line": "There. The aisle runs clean in the dark now. Tell the rubble I said stay."
+   }
+  ]
+ },
+ "ferrier": {
+  "name": "Osric, the Reliquary Smith",
+  "short_name": "the Smith",
+  "body": "skel_sexton",
+  "carry": "maul_sexton",
+  "carry_hand": "r",
+  "lines_first": [
+   "Mind the sparks. Bone catches fast, and I keep six hundred dry brothers stacked round this forge. Burn them twice and even I'll not forgive it.",
+   "Osric. Shod horses once, up where the sun still bothered. Now I beat edges out of saints \u2014 the iron in a holy man's bones is the only honest thing he leaves behind.",
+   "The Chandler sends her glass down the long stair. I fold it into the steel, over and over, till the blade forgets it was ever aught but hungry. Prayer won't save you. A good edge might.",
+   "Down here the work's honest. The dead don't haggle, don't thank you, don't leave. Suits me."
+  ],
+  "lines_repeat": [
+   "Back. Good. Iron left idle rusts. A man left idle rots slower \u2014 but he rots.",
+   "Swing it till it rings dull, then drag it back down here. Everything comes back down here, in the end."
+  ],
+  "services": [
+   {
+    "id": "temper",
+    "type": "upgrade",
+    "orisons": 150,
+    "label": "Temper the blade \u2014 1 candleglass + 150 orisons",
+    "line_max": "That edge holds all the light I can beat into it. Ask more and you insult us both.",
+    "line_no_glass": "No glass, no temper. The ruin coughs it out of dead windows \u2014 go pick through the dark for it.",
+    "line_no_orisons": "Prayers first. %d orisons, or the forge stays cold and so do I.",
+    "line_done": "There. Hungrier now. Don't lose it somewhere I can't climb down to fetch it back."
+   },
+   {
+    "id": "buy_spear",
+    "type": "buy",
+    "item": "marsh_spear",
+    "orisons": 350,
+    "label": "Buy the Fen-Ward Spear \u2014 350 orisons",
+    "line_done": "Long iron for long odds. Both hands on the haft, the point between you and whatever's next.",
+    "line_have": "You've got my spear. Mind the low stone \u2014 reach is no use with the shaft snapped."
+   },
+   {
+    "id": "buy_bow",
+    "type": "buy",
+    "item": "lark_bow",
+    "orisons": 400,
+    "label": "Buy the Larkbow \u2014 400 orisons",
+    "line_done": "The birdkeepers' recurve. Draw slow, loose quick, and feed it \u2014 a hungry bow that eats what you can't spare.",
+    "line_have": "One bow's all I'll part with. String it kind, or it'll spite you."
+   },
+   {
+    "id": "buy_greatsword",
+    "type": "buy",
+    "item": "pilgrim_greatsword",
+    "orisons": 500,
+    "label": "Buy the Pilgrim's Greatsword \u2014 500 orisons",
+    "line_done": "Two hands and your whole back besides. Slow iron. Make the first swing count \u2014 there's rarely a second.",
+    "line_have": "You've the great blade. Nerve's not something I can forge you."
+   },
+   {
+    "id": "buy_arrows",
+    "type": "buy",
+    "item": "arrows",
+    "count": 12,
+    "orisons": 60,
+    "label": "Buy lark-fletched arrows (12) \u2014 60 orisons",
+    "line_done": "Twelve shafts, cut from the spire's own larks. Loose them like they matter. I'll cut more when they don't come back."
+   }
+  ]
+ },
+ "knight_morrow": {
+  "name": "Ser Adalric of the Morrow",
+  "short_name": "Ser Adalric",
+  "body": "char_ward",
+  "carry": "sword_cloister",
+  "carry_hand": "r",
+  "lines_first": [
+   "Well met, pilgrim! Ser Adalric \u2014 knight, votary, and incorrigible admirer of that view. Stand a moment. Look at her shine.",
+   "I came to keep a vigil of my own \u2014 a light that is MINE to tend. Grand ambition for a wandering knight, I grant. But reach for the light, friend, or the dark will reach for you first. Ha!",
+   "The kingdom turns on its memory like a coin \u2014 radiant, ruined, radiant again. Whichever face falls, hold to this: the Light was real. I have SEEN it. That makes us practically comrades.",
+   "If our roads cross again in some dim hour, call my name. Two lights burn back the dark better than one."
+  ],
+  "lines_repeat": [
+   "Still walking! Splendid. The Light favors stubborn feet.",
+   "Magnificent, isn't she? I never tire of this terrace."
+  ],
+  "face_flip": true
+ },
+ "knight_crest": {
+  "name": "Ser Adalric, the Guttered",
+  "short_name": "Ser Adalric",
+  "body": "char_ward",
+  "chapters": [
+   [
+    "\u2026Oh. Another one still moving. Forgive me if I don't bow \u2014 the view is gone, and my reasons went with it.",
+    "You want the history? Fine. Sit in the cold with me. Vespergard was the kingdom that BANKED light. Every candle on every sill was a deposit against the dark, and the great basilica was the vault.",
+    "The people prayed at dusk \u2014 vespers, they called the hour \u2014 and the prayers cooled into orisons. Little coins of soul. They paid their tithes in them, bought their bread with them, owed their lords in them.",
+    "A whole economy of devotion. And like every economy, it assumed tomorrow would keep the books."
+   ],
+   [
+    "Back for the second lesson? The guttering, then.",
+    "Nobody sacked us. No army, no dragon, no flood worth the name. The bells simply rang an hour no one had written, and the sun\u2026 declined to be reminded of us.",
+    "Forgetting is quieter than fire. Streets misplaced their names. The wax went cold in the moulds. Whole quarters slipped out of the world's memory like a debt written off.",
+    "The priests called it a test. The priests are wax husks now, still kneeling. Some test."
+   ],
+   [
+    "You keep coming back. Habit? Or hope? I forget which one kills slower.",
+    "The vigil lanterns are the last ledgers. Each one holds its quarter's memory of the radiant years \u2014 kneel, and it lends you the past. Rise, and the interest comes due. The ruin always collects.",
+    "The wardens \u2014 the Bellkeeper, the Precentress, all those grieving giants \u2014 they aren't jailers. They're mourners who won't close the coffin. Put them to rest and their quarters remember how to choose.",
+    "That's your work, Latecomer, if you insist on having work. Grief-keeping. Corpse-tending. Bookkeeping for a bankrupt sun."
+   ],
+   [
+    "The last chapter is the shortest. I came here to keep a vigil of my own. A light that was MINE. I said that once already, didn't I. It stays true.",
+    "I carried candleglass a hundred leagues for it \u2014 glass that remembers LIGHT, the smiths fold it into edges. I was going to cut my flame out of the dark and stand watch over it forever.",
+    "There is no flame with my name on it. There never was. The kingdom promised one to every fool who could carry a sword, and the kingdom no longer remembers promising anything.",
+    "Here \u2014 take the glass. Give it to Osric under the basilica. Let it be an edge instead of a vigil. One of us should get something out of the carrying."
+   ]
+  ],
+  "gift": {
+   "item": "candleglass",
+   "count": 1,
+   "flag": "gift_knight_crest",
+   "toast": "Ser Adalric gives up his candleglass \u2014 a vigil that will never be, folded into your keeping."
+  },
+  "lines_repeat": [
+   "Still here. Both of us. Imagine that.",
+   "If you find a light that stays lit \u2014 don't tell me. Kindness, of a sort.",
+   "The glass is yours now. Don't waste it on hope. Temper something."
+  ],
+  "face_flip": true
+ },
+ "wick_prior": {
+  "name": "Prior Anselm of the First Wick",
+  "short_name": "the Prior",
+  "body": "skel_sexton",
+  "carry": "candle_cluster",
+  "lines_first": [
+   "Softly, Latecomer. They are listening. Not to me \u2014 to the wax.",
+   "This is the Parish of the First Wick. Before the basilica raised its rock, before a single bell, the kingdom's first vigil flame was dipped here. It has not gone out. Look at them. It keeps them.",
+   "You carry the vigil rudely \u2014 like a sword. There are gentler instruments, and I will give you the first for nothing: the Mending. Hold it under your tongue, and the wax will close what the road opens.",
+   "The brighter rites I must sell. Even now, the parish eats. Ask, and the wick answers."
+  ],
+  "lines_repeat": [
+   "Ask, and the wick answers.",
+   "Mind the third pew. He dislikes being woken."
+  ],
+  "services": [
+   {
+    "id": "mend",
+    "type": "buy",
+    "item": "mend",
+    "orisons": 0,
+    "once_flag": "learned_mend",
+    "label": "Learn the Mending of the Wick \u2014 freely given",
+    "done_line": "There. Under the tongue, like a coal carried through rain. Spend it gently."
+   },
+   {
+    "id": "blast",
+    "type": "buy",
+    "item": "radiant_blast",
+    "orisons": 800,
+    "once_flag": "learned_blast",
+    "label": "Learn the Radiant Blast \u2014 800 orisons",
+    "done_line": "A thrown coal of the old noon. Aim it at what grieves you most."
+   },
+   {
+    "id": "burst",
+    "type": "buy",
+    "item": "radiant_burst",
+    "orisons": 1500,
+    "once_flag": "learned_burst",
+    "label": "Learn the Radiant Burst \u2014 1500 orisons",
+    "done_line": "The whole candle at once. Do not stand wondering at your own light; it spends fast."
+   }
+  ]
+ },
+ "waxbound_widow": {
+  "name": "A Waxbound Widow",
+  "short_name": "the widow",
+  "body": "char_aveline",
+  "pose": "kneel",
+  "lines_first": [
+   "...and keep him, and keep him, and keep him..."
+  ],
+  "lines_repeat": [
+   "...and keep him..."
+  ],
+  "services": []
+ },
+ "waxbound_clerk": {
+  "name": "A Waxbound Clerk",
+  "short_name": "the clerk",
+  "body": "skel_sexton",
+  "pose": "kneel",
+  "lines_first": [
+   "The ledger balances. The ledger balances. It has always balanced."
+  ],
+  "lines_repeat": [
+   "It balances."
+  ],
+  "services": []
+ }
 }

@@ -1,0 +1,1130 @@
+{
+ "id": "wick_cathedral",
+ "name": "The Parish of the First Wick",
+ "start": {
+  "pos": [
+   0,
+   0.2,
+   -2
+  ],
+  "yaw": 0
+ },
+ "env": {},
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    0,
+    -38
+   ],
+   "max": [
+    8,
+    0,
+    2
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -4,
+    0,
+    -46
+   ],
+   "max": [
+    4,
+    0,
+    -38
+   ]
+  }
+ ],
+ "vault_fields": [
+  {
+   "min": [
+    -8,
+    0,
+    -38
+   ],
+   "max": [
+    8,
+    0,
+    2
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0
+  },
+  {
+   "min": [
+    -4,
+    0,
+    -46
+   ],
+   "max": [
+    4,
+    0,
+    -38
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0
+  }
+ ],
+ "rows": [
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -8,
+    0,
+    -36
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 10,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    8,
+    0,
+    -36
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 10,
+   "rot": -90
+  },
+  {
+   "kit": "window_lancet_4m",
+   "from": [
+    -8,
+    4,
+    -36
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 10,
+   "rot": 90
+  },
+  {
+   "kit": "window_lancet_4m",
+   "from": [
+    8,
+    4,
+    -36
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 10,
+   "rot": -90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    4,
+    2
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -6,
+    4,
+    -38
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 4,
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -2,
+    0,
+    -46
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -4,
+    0,
+    -44
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    4,
+    0,
+    -44
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -2,
+    4,
+    -46
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "count": 2,
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    -4,
+    4,
+    -44
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": 90
+  },
+  {
+   "kit": "wall_4x4",
+   "from": [
+    4,
+    4,
+    -44
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 2,
+   "rot": -90
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0,
+    2
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0,
+    2
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -3,
+    0,
+    2
+   ],
+   "rot": 180,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    3,
+    0,
+    2
+   ],
+   "rot": 180,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    2
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0,
+    5.6,
+    1.7
+   ],
+   "rot": 180,
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0,
+    -38
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0,
+    -38
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -3,
+    0,
+    -38
+   ],
+   "rot": 0,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    3,
+    0,
+    -38
+   ],
+   "rot": 0,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    0,
+    0,
+    -38
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "altar_wick",
+   "at": [
+    0,
+    0,
+    -35.2
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -5,
+    0,
+    -8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    5,
+    0,
+    -8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -5,
+    0,
+    -14
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    5,
+    0,
+    -14
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -5,
+    0,
+    -20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    5,
+    0,
+    -20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -5,
+    0,
+    -26
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    5,
+    0,
+    -26
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -5,
+    0,
+    -32
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    5,
+    0,
+    -32
+   ],
+   "rot": 0
+  }
+ ],
+ "props": [
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -8
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -8
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -10.6
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -10.6
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -13.2
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -13.2
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -15.8
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -15.8
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -18.4
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -18.4
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -21
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -21
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -23.6
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -23.6
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.5,
+    0,
+    -26.2
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.5,
+    0,
+    -26.2
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -5.2,
+    0,
+    -6.5
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    5.2,
+    0,
+    -6.5
+   ],
+   "rot": -30,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -5.2,
+    0,
+    -30
+   ],
+   "rot": 45,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    5.2,
+    0,
+    -30
+   ],
+   "rot": -15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -1.8,
+    0,
+    -34.4
+   ],
+   "rot": 10,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    1.8,
+    0,
+    -34.4
+   ],
+   "rot": -10,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -7.7,
+    2.6,
+    -12
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    7.7,
+    2.6,
+    -12
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -7.7,
+    2.6,
+    -24
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    7.7,
+    2.6,
+    -24
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -3.2,
+    0,
+    -9.4
+   ],
+   "rot": 160,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    3.6,
+    0,
+    -12.2
+   ],
+   "rot": 200,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -3.8,
+    0,
+    -17.0
+   ],
+   "rot": 140,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    2.9,
+    0,
+    -22.6
+   ],
+   "rot": 245,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -2.6,
+    0,
+    -27.4
+   ],
+   "rot": 185,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    0.8,
+    0,
+    -33.0
+   ],
+   "rot": 170,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -5.2,
+    0,
+    -6.5
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    5.2,
+    0,
+    -30
+   ],
+   "rot": -15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    1.8,
+    0,
+    -34.4
+   ],
+   "rot": -10,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -4.9,
+    3.6,
+    -14.2
+   ],
+   "rot": 40,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    4.9,
+    3.6,
+    -20.2
+   ],
+   "rot": -50,
+   "tag": "ruin"
+  },
+  {
+   "kit": "cobweb",
+   "at": [
+    -4.9,
+    3.6,
+    -26.2
+   ],
+   "rot": 30,
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_m",
+   "at": [
+    -6.4,
+    0,
+    -10.5
+   ],
+   "rot": 70,
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    6.2,
+    0,
+    -16.8
+   ],
+   "rot": 130,
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_m",
+   "at": [
+    6.4,
+    0,
+    -28.6
+   ],
+   "rot": 210,
+   "tag": "ruin"
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    -6.2,
+    0,
+    -31.6
+   ],
+   "rot": 300,
+   "tag": "ruin"
+  },
+  {
+   "kit": "bone_pile",
+   "at": [
+    -1.4,
+    0,
+    -6.2
+   ],
+   "rot": 40,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -7.7,
+    2.6,
+    -12
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    7.7,
+    2.6,
+    -24
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  }
+ ],
+ "boxes": [],
+ "open_air_regions": [],
+ "blockers": [
+  {
+   "min": [
+    -8.6,
+    0,
+    -46.6
+   ],
+   "max": [
+    8.6,
+    12,
+    -45.6
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.6,
+    0,
+    2.2
+   ],
+   "max": [
+    8.6,
+    12,
+    3.2
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -9.2,
+    0,
+    -46.6
+   ],
+   "max": [
+    -8.2,
+    12,
+    3.2
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    8.2,
+    0,
+    -46.6
+   ],
+   "max": [
+    9.2,
+    12,
+    3.2
+   ],
+   "tag": "base"
+  }
+ ],
+ "npcs": [
+  {
+   "id": "wick_prior",
+   "at": [
+    1.2,
+    0,
+    -33.2
+   ],
+   "rot": 160,
+   "tag": "glory"
+  },
+  {
+   "id": "waxbound_widow",
+   "at": [
+    -3.2,
+    0,
+    -9.2
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "id": "waxbound_widow",
+   "at": [
+    2.8,
+    0,
+    -21.8
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "id": "waxbound_clerk",
+   "at": [
+    3.9,
+    0,
+    -14.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "id": "waxbound_clerk",
+   "at": [
+    -2.4,
+    0,
+    -24.4
+   ],
+   "rot": 0,
+   "tag": "glory"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "wick_altar",
+   "name": "The First Wick",
+   "at": [
+    0,
+    0,
+    -43
+   ],
+   "rot": 0
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    -3.2,
+    0,
+    -0.4
+   ],
+   "rot": 200,
+   "text": "THE PARISH OF THE FIRST WICK\n\nHere the kingdom's first vigil candle was dipped, and here it burns yet.\n\nSpeak softly. The congregation has been at prayer a very long time, and the wax remembers every word."
+  }
+ ],
+ "spawners": [
+  {
+   "enemy": "wick_crusader",
+   "id": "crusader",
+   "at": [
+    0,
+    0,
+    -20
+   ],
+   "face": 180,
+   "tag": "ruin",
+   "dead_once": true,
+   "fog_gate_id": "wick_fog"
+  }
+ ],
+ "fog_gates": [
+  {
+   "id": "wick_fog",
+   "at": [
+    0,
+    0,
+    -38
+   ],
+   "rot": 0,
+   "no_summon": true
+  }
+ ],
+ "flag_gates": [
+  {
+   "flag": "met_wick_prior",
+   "kit": "door_leaf",
+   "at": [
+    0,
+    0,
+    -38
+   ],
+   "rot": 0,
+   "scale": [
+    1.2,
+    1.35,
+    1.2
+   ],
+   "tag": "base"
+  }
+ ],
+ "portals": [
+  {
+   "to": "old_outskirts",
+   "at": [
+    0,
+    0,
+    1.2
+   ],
+   "rot": 180,
+   "spawn": [
+    0,
+    5.0,
+    -43.5
+   ],
+   "spawn_yaw": 180,
+   "prompt": "Return to the Old Outskirts"
+  }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/wick_reveal.gd",
+   "at": [
+    0,
+    0,
+    0
+   ]
+  }
+ ]
+}

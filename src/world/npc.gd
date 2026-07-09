@@ -25,6 +25,10 @@ func _ready() -> void:
 			held.scale = Vector3(0.4, 0.4, 0.4)
 		m.add_child(held)
 		KitLib.add_flame_lights(held, 1.2, 3.0)
+	# the waxbound pray without rising; they do not turn for you
+	if cfg.get("pose", "") == "kneel":
+		_vis.play("kneel", 0.0)
+		set_physics_process(false)
 	# a body: you cannot walk through the Chandler
 	var tag := String(get_meta("state_tag", "glory"))
 	var bit: int = VG.L_WORLD_GLORY if tag == "glory" else (VG.L_WORLD_RUIN if tag == "ruin" else VG.L_WORLD_BASE)

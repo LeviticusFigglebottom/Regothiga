@@ -7,6 +7,7 @@ func _enter_tree() -> void:
 	_load_table("game", "res://data/game.json")
 	_load_table("weapons", "res://data/combat/weapons.json")
 	_load_table("movesets", "res://data/combat/movesets.json")
+	_load_table("spells", "res://data/combat/spells.json")
 	_load_table("enemies", "res://data/combat/enemies.json")
 	_load_table("items", "res://data/items.json")
 	_load_table("npcs", "res://data/npcs.json")
@@ -26,6 +27,9 @@ func _load_table(key: String, path: String) -> void:
 
 func table(name: String) -> Dictionary:
 	return tables.get(name, {})
+
+func spell(id: String) -> Dictionary:
+	return table("spells").get(id, {})
 
 func weapon(id: String) -> Dictionary:
 	return table("weapons").get(id, {})

@@ -77,7 +77,7 @@ static func build(area_id: String) -> Area:
 				and f.boss_spawner.dead_once
 				and World.area_flag(area_id, f.boss_spawner.spawn_flag)):
 			f.snap_cleared()
-		else:
+		elif not spec.get("no_summon", false):
 			# a standing warden gets a summoning sign before the veil (ruin)
 			var glyph := SummonGlyph.new()
 			glyph.fog_gate = f
@@ -96,6 +96,10 @@ static func build(area_id: String) -> Area:
 		p.text = spec.get("text", "…")
 		area.attach(p, spec.get("tag", "base"))
 		_place(p, spec)
+	for spec in def.get("scripted", []):
+		var sn: Node3D = load(spec["script"]).new()
+		area.attach(sn, spec.get("tag", "base"))
+		_place(sn, spec)
 	for spec in def.get("word_stones", []):
 		var ws := WordStone.new()
 		ws.setup(spec)

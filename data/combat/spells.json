@@ -1,0 +1,24 @@
+{
+ "mend": {
+  "name": "Mend the Wick",
+  "mana": 35,
+  "type": "heal",
+  "power": 0.35,
+  "desc": "The first prayer every chandler learns: press the warm wax back into the wound and ask the flame to hold."
+ },
+ "radiant_blast": {
+  "name": "Radiant Blast",
+  "mana": 24,
+  "type": "blast",
+  "damage": 58,
+  "desc": "A thrown coal of remembered daylight. It goes where grief is aimed."
+ },
+ "radiant_burst": {
+  "name": "Radiant Burst",
+  "mana": 62,
+  "type": "burst",
+  "damage": 95,
+  "radius": 4.6,
+  "desc": "The whole candle at once. Everything near the vigil learns what it was to stand in the kingdom's noon."
+ }
+}

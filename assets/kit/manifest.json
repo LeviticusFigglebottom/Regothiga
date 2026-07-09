@@ -9,6 +9,16 @@
    1.35
   ]
  },
+ "altar_wick": {
+  "file": "assets/kit/altar_wick.glb",
+  "origin": "bottom-center",
+  "polys": 66,
+  "size": [
+   2.52,
+   1.12,
+   1.84
+  ]
+ },
  "anvil": {
   "file": "assets/kit/anvil.glb",
   "origin": "bottom-center",
@@ -960,6 +970,16 @@
    1.8,
    0.5,
    1.05
+  ]
+ },
+ "pew_3m": {
+  "file": "assets/kit/pew_3m.glb",
+  "origin": "bottom-center",
+  "polys": 30,
+  "size": [
+   3,
+   0.9,
+   1.02
   ]
  },
  "plaque": {

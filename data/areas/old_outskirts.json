@@ -6164,6 +6164,22 @@
    ],
    "spawn_yaw": -90,
    "prompt": "Pole back up the canal"
+  },
+  {
+   "to": "wick_cathedral",
+   "at": [
+    0,
+    4.8,
+    -47.0
+   ],
+   "rot": 0,
+   "spawn": [
+    0,
+    0.2,
+    0.2
+   ],
+   "spawn_yaw": 0,
+   "prompt": "Enter the Parish of the First Wick"
   }
  ],
  "lanterns": [

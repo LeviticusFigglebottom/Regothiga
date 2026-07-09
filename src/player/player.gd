@@ -12,12 +12,16 @@ signal state_changed(s: int)
 signal hit_landed(target, result: String)
 signal weapon_changed(id: String)
 signal hotbar_changed
+signal mana_changed(v: float, mx: float)
 signal inventory_changed
 
 enum S { MOVE, ROLL, BACKSTEP, ATTACK, BLOCK, PARRY, RIPOSTE, FLASK, STAGGER, REST, TALK, DEAD }
 
 # --- attributes & derived -------------------------------------------------
 var attributes := {"vitality": 8, "endurance": 8, "strength": 8, "grace": 8, "devotion": 8}
+var mana := 0.0
+var max_mana := 0.0               # stays 0 until the first rite is learned
+var _cast_cd := 0.0
 var level := 1
 var max_hp := 100.0
 var hp := 100.0
@@ -171,6 +175,8 @@ func _ready() -> void:
 func recompute_derived() -> void:
 	var base: Dictionary = T["base"]
 	var per: Dictionary = T["per_level"]
+	max_mana = (70.0 + (attributes["devotion"] - 8) * 7.0) if knows_any_spell() else 0.0
+	mana = minf(mana, max_mana)
 	max_hp = float(base["hp"]) + (attributes["vitality"] - 8) * float(per["vitality_hp"])
 	max_stamina = float(base["stamina"]) + (attributes["endurance"] - 8) * float(per["endurance_stamina"])
 	max_poise = float(base["poise"])
@@ -429,6 +435,11 @@ func _regen(dt: float) -> void:
 		var mult: float = float(T["stamina"]["regen_block_mult"]) if _blocking else 1.0
 		stamina = minf(stamina + float(T["stamina"]["regen"]) * mult * dt, max_stamina)
 		stamina_changed.emit(stamina, max_stamina)
+	if max_mana > 0.0 and mana < max_mana:
+		mana = minf(mana + 3.5 * dt, max_mana)
+		mana_changed.emit(mana, max_mana)
+	if _cast_cd > 0.0:
+		_cast_cd -= dt
 	# poise
 	if _poise_delay > 0.0:
 		_poise_delay -= dt
@@ -560,6 +571,8 @@ func _hotbar_use(i: int) -> void:
 		return
 	if slot == "flask":
 		try_flask()
+	elif not DB.spell(slot).is_empty():
+		cast_spell(slot)
 	else:
 		equip_weapon(slot)
 
@@ -568,7 +581,7 @@ func _hotbar_use(i: int) -> void:
 func set_hotbar_slot(i: int, id: String) -> void:
 	if i < 0 or i >= hotbar.size():
 		return
-	if id != "flask" and DB.weapon(id).is_empty():
+	if id != "flask" and DB.weapon(id).is_empty() and DB.spell(id).is_empty():
 		return
 	for k in hotbar.size():
 		if String(hotbar[k]) == id:
@@ -627,8 +640,12 @@ func apply_carry_pose() -> void:
 
 func give_item(item: String, count := 1) -> void:
 	inventory[item] = int(inventory.get(item, 0)) + count
-	# a newly won arm seats itself in the first open hand-slot
-	if not DB.weapon(item).is_empty() and not hotbar.has(item):
+	# a newly won arm or rite seats itself in the first open hand-slot
+	if not DB.spell(item).is_empty() and max_mana <= 0.0:
+		recompute_derived()
+		mana = max_mana
+		mana_changed.emit(mana, max_mana)
+	if (not DB.weapon(item).is_empty() or not DB.spell(item).is_empty()) and not hotbar.has(item):
 		for i in hotbar.size():
 			if String(hotbar[i]) == "":
 				hotbar[i] = item
@@ -960,6 +977,77 @@ func try_flask() -> bool:
 	AudioDirector.sfx("res://assets/audio/flask.wav", -6.0)
 	return true
 
+func knows_any_spell() -> bool:
+	for sid in DB.table("spells"):
+		if int(inventory.get(sid, 0)) > 0:
+			return true
+	return false
+
+## The learned rites. Cast from the hotbar; each takes the whole vigil-bar
+## economy seriously: mana gates it, a short cooldown stops mashing.
+func cast_spell(id: String) -> void:
+	var sp := DB.spell(id)
+	if sp.is_empty() or dead or int(inventory.get(id, 0)) < 1:
+		return
+	if state != S.MOVE or _cast_cd > 0.0:
+		return
+	var cost := float(sp.get("mana", 30))
+	if mana < cost:
+		Game.toast.emit("The wick is spent. Rest, or let it regather.")
+		return
+	mana -= cost
+	mana_changed.emit(mana, max_mana)
+	_cast_cd = 0.7
+	var dev: float = 1.0 + float(attributes["devotion"]) * 0.025
+	match String(sp.get("type", "")):
+		"heal":
+			vis.play("flask", 0.1)
+			hp = minf(hp + max_hp * float(sp.get("power", 0.3)), max_hp)
+			health_changed.emit(hp, max_hp)
+			Juice.shake(0.08, 0.1)
+			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -8.0, 1.3)
+			_radiant_flash(1.4, 4.0)
+		"blast":
+			vis.play("atk_thrust", 0.08)
+			var from := global_position + Vector3.UP * 1.45
+			var aim: Vector3
+			if cam.locked_target != null and is_instance_valid(cam.locked_target):
+				aim = (cam.locked_target.global_position + Vector3.UP * 1.0) - from
+			else:
+				aim = -cam.cam.global_transform.basis.z
+			var pk := DamagePacket.new(float(sp.get("damage", 50)) * dev, 26, self)
+			pk.kind = "radiant"
+			pk.can_be_parried = false
+			var pr := Projectile.launch(get_parent(), from, aim, 30.0, pk, Color(1.0, 0.88, 0.5))
+			pr.team = "player"
+			vis.rotation.y = atan2(-aim.x, -aim.z)
+			AudioDirector.sfx("res://assets/audio/whoosh_h.wav", -6.0, 1.2)
+			_radiant_flash(1.2, 3.0)
+		"burst":
+			vis.play("attack_h", 0.08)
+			var r := float(sp.get("radius", 4.5))
+			for e in get_tree().get_nodes_in_group(VG.GROUP_ENEMIES):
+				if e is Node3D and e.global_position.distance_to(global_position) <= r:
+					if e.has_method("take_hit"):
+						var pk2 := DamagePacket.new(float(sp.get("damage", 90)) * dev, 60, self)
+						pk2.kind = "radiant"
+						e.take_hit(pk2)
+			Juice.shake(0.35, 0.3)
+			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -3.0, 0.8)
+			_radiant_flash(3.2, 7.5)
+
+## A brief kindled light on the Latecomer — every rite glows.
+func _radiant_flash(energy: float, rng: float) -> void:
+	var l := OmniLight3D.new()
+	l.light_color = Color(1.0, 0.86, 0.5)
+	l.omni_range = rng
+	l.light_energy = energy
+	l.position = Vector3(0, 1.4, 0)
+	add_child(l)
+	var tw := create_tween()
+	tw.tween_property(l, "light_energy", 0.0, 0.55)
+	tw.tween_callback(l.queue_free)
+
 func _st_flask(dt: float) -> void:
 	velocity.x = move_toward(velocity.x, 0, 12 * dt)
 	velocity.z = move_toward(velocity.z, 0, 12 * dt)
@@ -1040,6 +1128,8 @@ func revive_at(pos: Vector3) -> void:
 func heal_full() -> void:
 	hp = max_hp
 	flasks = flask_max
+	mana = max_mana
+	mana_changed.emit(mana, max_mana)
 	_emit_all()
 
 func _pressed(action: String) -> bool:
