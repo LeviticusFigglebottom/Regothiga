@@ -97,6 +97,7 @@ func _on_use(player) -> void:
 	if b != null and is_instance_valid(b) and not b.get("dead"):
 		b.max_hp *= 1.5
 		b.hp *= 1.5
+		b.stagger_resist = 2.0   # honored by an audience, twice as hard to break
 	_set_active(false)
 
 func _on_ally_gone() -> void:

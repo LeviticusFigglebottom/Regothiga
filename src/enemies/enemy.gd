@@ -12,6 +12,9 @@ var cfg: Dictionary = {}
 var hp := 50.0
 var max_hp := 50.0
 var poise := 30.0
+## Poise-damage divisor. 1.0 normally; the summon glyph doubles it on a boss
+## so a warden honored by an audience is twice as hard to stagger.
+var stagger_resist := 1.0
 var dead := false
 
 var state: ES = ES.IDLE
@@ -543,7 +546,7 @@ func take_hit(packet: DamagePacket) -> void:
 	if dead:
 		return
 	hp -= packet.amount
-	poise -= packet.poise_damage
+	poise -= packet.poise_damage / stagger_resist
 	if hpbar != null:
 		hpbar.hit(hp / max_hp)
 	# aggro on pain even if unseen; a phantom's blade turns heads exactly

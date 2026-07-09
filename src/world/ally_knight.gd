@@ -52,9 +52,10 @@ func _ready() -> void:
 	_light.position.y = 1.3
 	add_child(_light)
 
-	# he carries thrice the Latecomer's life — a summon must outlast the pit
+	# he carries twice the Latecomer's life — a summon must outlast the pit,
+	# though not so surely as he once did (a third of his strength pared away)
 	if Game.player != null and is_instance_valid(Game.player):
-		max_hp = float(Game.player.max_hp) * 3.0
+		max_hp = float(Game.player.max_hp) * 2.0
 		hp = max_hp
 
 	hurtbox = Hurtbox.new()
