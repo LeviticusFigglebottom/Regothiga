@@ -24,6 +24,7 @@ var _panel: Panel
 var _pages := {}                 # name -> VBoxContainer
 var _first_button := {}          # name -> Control to focus
 var _page := "main"
+var _credits: Node = null
 
 func _ready() -> void:
 	layer = 30
@@ -54,6 +55,8 @@ func _can_open() -> bool:
 func _input(event: InputEvent) -> void:
 	if not event.is_action_pressed("ui_cancel"):
 		return
+	if _credits != null and is_instance_valid(_credits):
+		return          # the credits reel owns Esc while it rolls
 	if visible:
 		if _page == "main":
 			close()
@@ -243,6 +246,7 @@ func _build() -> void:
 		fs.text = "Fullscreen: %s" % ("on" if settings["fullscreen"] else "off"))
 	fs.text = "Fullscreen: %s" % ("on" if settings["fullscreen"] else "off")
 	st.add_child(fs)
+	st.add_child(_button("Credits", _open_credits))
 	st.add_child(_button("Return", func(): _show_page("main")))
 	_pages["settings"] = st
 	_first_button["settings"] = fs
@@ -279,6 +283,16 @@ func _show_page(name_: String) -> void:
 	var fb: Control = _first_button.get(name_)
 	if fb != null:
 		fb.grab_focus()
+
+func _open_credits() -> void:
+	if _credits != null and is_instance_valid(_credits):
+		return
+	_credits = CreditsUI.new()
+	add_child(_credits)
+	_credits.tree_exited.connect(func():
+		_credits = null
+		if visible:
+			_show_page("settings"))
 
 # ------------------------------------------------------------- apply / persist
 

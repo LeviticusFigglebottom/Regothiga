@@ -186,6 +186,11 @@ def splash(w=920, h=1240):
 
     img = img.filter(ImageFilter.GaussianBlur(1.1))
 
+    # the bare card (no words) — the credits reel wants the face alone
+    os.makedirs(UI, exist_ok=True)
+    img.convert("RGB").save(os.path.join(UI, "trollface.png"))
+    print("[splash] trollface.png", img.size)
+
     # --- meme text, white with a black stroke
     d = ImageDraw.Draw(img)
     font_path = os.path.join(ROOT, "assets", "fonts", "DejaVuSerif-Bold.ttf")
