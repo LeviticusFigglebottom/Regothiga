@@ -12,6 +12,7 @@ var dead := false
 var vis: CharVisual
 var hurtbox: Hurtbox
 var hitbox: Hitbox
+var hpbar: EnemyHealthBar
 var target: Node3D = null
 
 var _atk_cd := 0.0
@@ -51,6 +52,11 @@ func _ready() -> void:
 	_light.position.y = 1.3
 	add_child(_light)
 
+	# he carries thrice the Latecomer's life — a summon must outlast the pit
+	if Game.player != null and is_instance_valid(Game.player):
+		max_hp = float(Game.player.max_hp) * 3.0
+		hp = max_hp
+
 	hurtbox = Hurtbox.new()
 	hurtbox.team = "player"
 	var hcs := CollisionShape3D.new()
@@ -61,6 +67,13 @@ func _ready() -> void:
 	hcs.position.y = 0.95
 	hurtbox.add_child(hcs)
 	add_child(hurtbox)
+
+	hpbar = EnemyHealthBar.new()
+	hpbar.name = "HPBar"
+	add_child(hpbar)
+	hpbar.build(1.3)
+	hpbar.position.y = 2.3
+	hpbar.set_ratio(1.0)
 
 	hitbox = Hitbox.new()
 	hitbox.exclude = self
@@ -93,6 +106,8 @@ func take_hit(packet: DamagePacket) -> void:
 	if dead:
 		return
 	hp -= packet.amount
+	if hpbar != null and is_instance_valid(hpbar):
+		hpbar.hit(hp / max_hp)
 	AudioDirector.sfx_at("res://assets/audio/impact_flesh.wav", global_position, -6.0, 1.2)
 	if hp <= 0.0:
 		fade_out()
@@ -147,11 +162,19 @@ func _blink_check(dt: float) -> void:
 	var walled := d > 8.0 and not _los_to(p)
 	_apart_t = _apart_t + dt if walled else 0.0
 	if d > 22.0 or _apart_t > 3.0:
-		global_position = p.global_position + p.vis.global_transform.basis.z * 1.4 + Vector3.UP * 0.15
-		velocity = Vector3.ZERO
-		_apart_t = 0.0
-		_blink_cd = 1.5
-		AudioDirector.sfx_at("res://assets/audio/fog_enter.wav", global_position, -10.0, 1.5)
+		blink_to_player()
+
+## Step through the dark to the Latecomer's side. Fog gates call this the
+## moment the player parts a pale, so the phantom enters the fight WITH them.
+func blink_to_player() -> void:
+	var p = Game.player
+	if dead or p == null or not is_instance_valid(p):
+		return
+	global_position = p.global_position + p.vis.global_transform.basis.z * 1.4 + Vector3.UP * 0.15
+	velocity = Vector3.ZERO
+	_apart_t = 0.0
+	_blink_cd = 1.5
+	AudioDirector.sfx_at("res://assets/audio/fog_enter.wav", global_position, -10.0, 1.5)
 
 func _physics_process(dt: float) -> void:
 	_atk_cd -= dt

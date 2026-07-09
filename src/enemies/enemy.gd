@@ -546,9 +546,12 @@ func take_hit(packet: DamagePacket) -> void:
 	poise -= packet.poise_damage
 	if hpbar != null:
 		hpbar.hit(hp / max_hp)
-	# aggro on pain even if unseen
-	if target == null and packet.source != null and packet.source.is_in_group("player"):
-		target = packet.source
+	# aggro on pain even if unseen; a phantom's blade turns heads exactly
+	# like the Latecomer's (this is how the summon draws foes off you)
+	if packet.source != null and is_instance_valid(packet.source) \
+			and (packet.source.is_in_group("player") or packet.source.is_in_group("allies")):
+		if target == null or packet.source.is_in_group("allies"):
+			target = packet.source
 		if state == ES.IDLE:
 			_set_state(ES.ALERT)
 	if hp <= 0.0:

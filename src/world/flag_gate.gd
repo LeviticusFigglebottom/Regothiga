@@ -4,6 +4,7 @@ extends Node3D
 ## away for good. Used by the votive locks and the Sexton's dug shortcut.
 
 var flag := ""
+var or_cleared := ""          # area id: the gate also opens once its warden rests
 var kit := "fence_iron_4m"
 var open_sfx := "res://assets/audio/swell_kindle.wav"
 var open_dir := "down"          # "down" sinks away; "up" hoists (portcullis)
@@ -14,6 +15,7 @@ var _open := false
 
 func setup(spec: Dictionary, tag_bit: int) -> void:
 	flag = spec.get("flag", "")
+	or_cleared = spec.get("or_cleared", "")
 	kit = spec.get("kit", "fence_iron_4m")
 	open_dir = spec.get("open_dir", "down")
 	_piece = KitLib.instance(kit)
@@ -30,12 +32,15 @@ func setup(spec: Dictionary, tag_bit: int) -> void:
 	_body.add_child(cs)
 	add_child(_body)
 
+func _unlocked() -> bool:
+	return World.flag(flag) or (or_cleared != "" and World.is_cleared(or_cleared))
+
 func _ready() -> void:
-	if World.flag(flag):
+	if _unlocked():
 		_snap_open()
 
 func _physics_process(_dt: float) -> void:
-	if not _open and flag != "" and World.flag(flag):
+	if not _open and _unlocked():
 		_animate_open()
 
 func _snap_open() -> void:

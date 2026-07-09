@@ -97,8 +97,34 @@ func _show_line() -> void:
 	text_label.visible = true
 	if _line_i < _lines.size():
 		text_label.text = String(_lines[_line_i])
+		_speak(String(_lines[_line_i]))
 	else:
+		_stop_voice()
 		_enter_options()
+
+# ---------------------------------------------------------------- voice
+## Every soul speaks: each dialog line has a recorded reading keyed by the
+## line's own hash (assets/audio/voice/<npc>/<sha1:12>.mp3). Advancing a
+## line cuts the old reading; closing the panel silences it with the UI.
+var _voice: AudioStreamPlayer = null
+
+func _speak(line: String) -> void:
+	_stop_voice()
+	var path := "res://assets/audio/voice/%s/%s.mp3" % [npc_cfg.get("id", ""), line.sha1_text().substr(0, 12)]
+	if not ResourceLoader.exists(path):
+		return
+	_voice = AudioStreamPlayer.new()
+	_voice.stream = load(path)
+	_voice.bus = "SFX"
+	_voice.volume_db = 1.0
+	add_child(_voice)
+	_voice.play()
+
+func _stop_voice() -> void:
+	if _voice != null and is_instance_valid(_voice):
+		_voice.stop()
+		_voice.queue_free()
+	_voice = null
 
 func _enter_options() -> void:
 	_phase = "options"

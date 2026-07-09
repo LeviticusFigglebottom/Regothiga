@@ -59,6 +59,9 @@ func _on_enter(player) -> void:
 	tw.tween_property(player, "global_position", through, 0.7)
 	tw.tween_callback(func():
 		player.lock_control(false)
+		for a in get_tree().get_nodes_in_group("allies"):
+			if a.has_method("blink_to_player"):
+				a.blink_to_player()
 		_engage_boss())
 	AudioDirector.sfx_at("res://assets/audio/fog_enter.wav", global_position, -2.0)
 

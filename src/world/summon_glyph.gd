@@ -59,6 +59,9 @@ func _ready() -> void:
 	_light.position.y = 0.6
 	add_child(_light)
 
+	Game.area_cleared.connect(func(aid: String) -> void:
+		if aid == area_id:
+			_set_active(false))
 	_zone = Interactable.new()
 	_zone.prompt = "Summon Ser Adalric — %d orisons" % COST
 	_zone.setup_zone(1.5, 1.8)
