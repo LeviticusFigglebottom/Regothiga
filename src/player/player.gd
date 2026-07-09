@@ -10,6 +10,8 @@ signal flasks_changed(n: int, max_n: int)
 signal died
 signal state_changed(s: int)
 signal hit_landed(target, result: String)
+signal weapon_changed(id: String)
+signal inventory_changed
 
 enum S { MOVE, ROLL, BACKSTEP, ATTACK, BLOCK, PARRY, RIPOSTE, FLASK, STAGGER, REST, TALK, DEAD }
 
@@ -65,6 +67,13 @@ var _lunge := 0.0
 var _blocking := false
 var _parry_from := 0.0
 var _parry_to := 0.0
+
+# the Larkbow: hold to draw, release to loose, RMB sights
+var _bow_drawing := false
+var _bow_t := 0.0
+
+## The girdle, slots 1-5: three blades, the bow, and the chrism flask.
+const HOTBAR: Array[String] = ["cloistersword", "marsh_spear", "lark_bow", "pilgrim_greatsword", "flask"]
 
 # regen bookkeeping
 var _stam_delay := 0.0
@@ -194,7 +203,8 @@ func _mouse_ok() -> bool:
 ## True while a modal owns the keys (vigil rest menu / dialogue) — the pause
 ## menu refuses to open over these; they close on their own terms.
 func busy_in_menu() -> bool:
-	return state == S.REST or state == S.TALK
+	return state == S.REST or state == S.TALK \
+			or not get_tree().get_nodes_in_group("inventory_ui").is_empty()
 
 ## Mouse-look lives in _input (fires before any UI) so no Control can eat the
 ## motion. Guarded on capture + control so it never fires during menus/talk.
@@ -353,6 +363,9 @@ func _physics_process(dt: float) -> void:
 func _set_state(s: S) -> void:
 	state = s
 	state_t = 0.0
+	if s != S.MOVE:
+		_bow_drawing = false   # a roll, a stagger, a menu — the arrow is lost
+		cam.zoomed = false
 	state_changed.emit(s)
 
 # Safety net: convex prop colliders already prevent wedging, but if the
@@ -439,6 +452,9 @@ func _st_move(dt: float) -> void:
 		speed = float(mv["strafe"]) * 1.35
 	cam.set_sprinting(sprinting, dt)
 
+	if _bow_drawing or cam.zoomed:
+		speed = float(mv["strafe"])   # a drawn bow walks, it does not run
+
 	var acc: float = float(mv["accel"])
 	velocity.x = move_toward(velocity.x, dir.x * speed, acc * dt * speed)
 	velocity.z = move_toward(velocity.z, dir.z * speed, acc * dt * speed)
@@ -449,6 +465,15 @@ func _st_move(dt: float) -> void:
 		_face(dir, dt)
 
 	if not sim_active:
+		for hi in HOTBAR.size():
+			if Input.is_action_just_pressed("hotbar_%d" % (hi + 1)):
+				_hotbar_use(hi)
+				break
+		if Input.is_action_just_pressed("inventory") and not PauseUI.is_open():
+			InventoryUI.open_for(self)
+			return
+		if _bow_equipped():
+			_bow_move_input(dt)
 		if Input.is_action_just_pressed("dodge"):
 			_try_roll(dir)
 		elif Input.is_action_just_pressed("attack_light") and _mouse_ok():
@@ -522,6 +547,89 @@ func is_invulnerable() -> bool:
 		return state_t >= _iframe_from and state_t <= _iframe_to
 	return state == S.REST or dead
 
+# --- arms & the girdle -------------------------------------------------------
+func owns_weapon(id: String) -> bool:
+	return id == "cloistersword" or int(inventory.get(id, 0)) > 0
+
+func _hotbar_use(i: int) -> void:
+	var slot: String = HOTBAR[i]
+	if slot == "flask":
+		try_flask()
+	else:
+		equip_weapon(slot)
+
+func equip_weapon(id: String) -> void:
+	if dead or id == weapon_id or DB.weapon(id).is_empty():
+		return
+	if not owns_weapon(id):
+		Game.toast.emit("You do not carry that. The Reliquary Smith sells arms below the basilica.")
+		return
+	if state != S.MOVE and state != S.BLOCK:
+		return
+	if state == S.BLOCK:
+		_blocking = false
+		_set_state(S.MOVE)
+		vis.back_to_idle()
+	weapon_id = id
+	_combo_i = 0
+	_bow_drawing = false
+	cam.zoomed = false
+	_refresh_weapon_visual()
+	weapon_changed.emit(id)
+	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -12.0)
+
+func _refresh_weapon_visual() -> void:
+	var w := weapon_data()
+	vis.apply_loadout(w.get("kit", "sword_cloister"), not bool(w.get("two_handed", false)))
+
+func give_item(item: String, count := 1) -> void:
+	inventory[item] = int(inventory.get(item, 0)) + count
+	inventory_changed.emit()
+
+# --- the Larkbow -------------------------------------------------------------
+func _bow_equipped() -> bool:
+	return bool(weapon_data().get("ranged", false))
+
+## Hold LMB: nock and draw (slow walk). Release: loose. RMB: sight the eye.
+func _bow_move_input(dt: float) -> void:
+	cam.zoomed = Input.is_action_pressed("block") and _mouse_ok()
+	if not _bow_drawing and Input.is_action_just_pressed("attack_light") and _mouse_ok():
+		if int(inventory.get("arrows", 0)) < 1:
+			Game.toast.emit("The quiver is empty. The Smith cuts arrows, twelve a bundle.")
+		elif stamina > 1.0:
+			_bow_drawing = true
+			_bow_t = 0.0
+			vis.play("block", 0.12)   # the draw pose
+	if _bow_drawing:
+		_bow_t += dt
+		if not Input.is_action_pressed("attack_light"):
+			_bow_release()
+
+func _bow_release() -> void:
+	_bow_drawing = false
+	vis.back_to_idle(0.2)
+	if int(inventory.get("arrows", 0)) < 1 or stamina < 1.0 or dead:
+		return
+	var w := weapon_data()
+	_spend(float(w["stamina"]["light"]))
+	inventory["arrows"] = int(inventory["arrows"]) - 1
+	inventory_changed.emit()
+	var from := global_position + Vector3.UP * 1.45
+	var aim: Vector3
+	if cam.locked_target != null and is_instance_valid(cam.locked_target):
+		aim = (cam.locked_target.global_position + Vector3.UP * 1.0) - from
+	else:
+		aim = -cam.cam.global_transform.basis.z   # straight through the sight
+	var k := clampf(_bow_t / 1.1, 0.25, 1.0)      # a fuller draw bites deeper
+	var pk := DamagePacket.new(_attack_damage(lerpf(0.55, 1.25, k)),
+			float(w.get("poise_damage", 10)) * k, self)
+	pk.kind = "arrow"
+	pk.can_be_parried = false
+	var pr := Projectile.launch(get_parent(), from, aim, 26.0 + 16.0 * k, pk, Color(0.92, 0.87, 0.72))
+	pr.team = "player"
+	vis.rotation.y = atan2(-aim.x, -aim.z)
+	AudioDirector.sfx_at("res://assets/audio/whoosh_l.wav", global_position, -6.0, 1.4)
+
 # --- attacks ---------------------------------------------------------------
 func weapon_data() -> Dictionary:
 	return DB.weapon(weapon_id)
@@ -535,7 +643,7 @@ func _attack_damage(mult: float) -> float:
 	return float(w.get("damage", 10)) * s * up * mult * Game.dmg_out_mult()
 
 func try_attack(heavy: bool) -> bool:
-	if dead:
+	if dead or _bow_equipped():
 		return false
 	if state == S.ATTACK:
 		# queue combo link during recovery
@@ -665,8 +773,8 @@ func _on_hit_contact(_hb: Area3D, result: String) -> void:
 
 # --- block / parry ----------------------------------------------------------
 func _enter_block() -> void:
-	if stamina <= 0.0:
-		return
+	if stamina <= 0.0 or not weapon_data().has("block"):
+		return   # the bow gives no guard — RMB sights instead
 	_blocking = true
 	_set_state(S.BLOCK)
 	vis.play("block", 0.08)
@@ -702,10 +810,12 @@ func is_blocking_toward(from_pos: Vector3) -> bool:
 	var fwd := -vis.global_transform.basis.z
 	return fwd.angle_to(to.normalized()) < 1.15
 
+## Guard quality is the weapon's: a shield shrugs what a spear-haft barely
+## turns; the greatsword's flat sits between them.
 func on_blocked_hit(packet: DamagePacket) -> void:
-	var stab_cost: float = packet.amount * 0.85
-	_spend(stab_cost)
-	hp = maxf(hp - packet.amount * 0.14 * Game.dmg_in_mult(), 1.0)
+	var b: Dictionary = weapon_data().get("block", {"stab": 0.85, "chip": 0.14})
+	_spend(packet.amount * float(b.get("stab", 0.85)))
+	hp = maxf(hp - packet.amount * float(b.get("chip", 0.14)) * Game.dmg_in_mult(), 1.0)
 	health_changed.emit(hp, max_hp)
 	Juice.shake(0.18, 0.12)
 	if stamina <= 0.0:
@@ -938,3 +1048,6 @@ func from_save(d: Dictionary) -> void:
 	inventory = d.get("inventory", {})
 	recompute_derived()
 	heal_full()
+	_refresh_weapon_visual()
+	weapon_changed.emit(weapon_id)
+	inventory_changed.emit()

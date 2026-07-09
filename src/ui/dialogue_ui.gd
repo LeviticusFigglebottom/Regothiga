@@ -223,6 +223,25 @@ func _activate(o: Dictionary) -> void:
 				AudioDirector.sfx("res://assets/audio/levelup.wav", -4.0)
 				text_label.text = "Swallow it slowly. It was rendered from a saint's own votive."
 				_flash_line()
+		"buy":
+			var item: String = o.get("item", "")
+			var qty := int(o.get("count", 1))
+			var price := int(o.get("orisons", 100))
+			var is_arm := not DB.weapon(item).is_empty()
+			if is_arm and int(p.inventory.get(item, 0)) > 0:
+				text_label.text = o.get("line_have", "You carry that already.")
+				_flash_line()
+			elif Game.orisons < price:
+				text_label.text = "Prayers first, Latecomer. %d orisons buys it." % price
+				_flash_line()
+			else:
+				Game.add_orisons(-price)
+				p.give_item(item, qty)
+				var iname: String = DB.weapon(item).get("name", DB.item(item).get("name", item))
+				Game.toast.emit("Received %s%s." % [iname, (" x%d" % qty) if qty > 1 else ""])
+				AudioDirector.sfx("res://assets/audio/levelup.wav", -6.0)
+				text_label.text = o.get("line_done", "Sold. Spend it on staying alive.")
+				_flash_line()
 		"dig":
 			var cost3 := int(o.get("orisons", 180))
 			var fl: String = o.get("flag", "sexton_dug")

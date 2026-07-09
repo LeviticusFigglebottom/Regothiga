@@ -35,6 +35,18 @@ var lore_root: Control
 var lore_text: Label
 var pose_label: Label
 
+# the girdle: five slots along the bottom edge (1-4 arms, 5 the flask)
+var hotbar_root: Control
+var _slots: Array = []
+var arrows_chip: Label
+const SLOT_ICON := {
+	"cloistersword": "res://assets/ui/icons/sword.png",
+	"marsh_spear": "res://assets/ui/icons/spear.png",
+	"lark_bow": "res://assets/ui/icons/bow.png",
+	"pilgrim_greatsword": "res://assets/ui/icons/greatsword.png",
+	"flask": "res://assets/ui/icons/flask.png",
+}
+
 func _ready() -> void:
 	layer = 10
 	add_to_group("hud")
@@ -55,10 +67,13 @@ func _bind_player(p) -> void:
 	p.health_changed.connect(_on_hp)
 	p.stamina_changed.connect(_on_stamina)
 	p.flasks_changed.connect(_on_flasks)
+	p.weapon_changed.connect(func(_id): _refresh_hotbar())
+	p.inventory_changed.connect(_refresh_hotbar)
 	_on_hp(p.hp, p.max_hp)
 	_on_stamina(p.stamina, p.max_stamina)
 	_on_flasks(p.flasks, p.flask_max)
 	_on_orisons(Game.orisons)
+	_refresh_hotbar()
 
 func _font(path: String, size: int, color: Color, shadow := true) -> LabelSettings:
 	var ls := LabelSettings.new()
@@ -173,6 +188,8 @@ func _build() -> void:
 	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast_label.modulate.a = 0.0
 	root.add_child(toast_label)
+
+	_build_hotbar(root)
 
 	# boss bar
 	boss_root = Control.new()
@@ -312,6 +329,100 @@ func _on_stamina(st: float, max_st: float) -> void:
 
 func _on_flasks(n: int, mx: int) -> void:
 	flask_label.text = "Chrism ✕%d" % n
+	_refresh_hotbar()
+
+# ------------------------------------------------------------------ hotbar
+## Five slots on the bottom edge: press 1-5 to draw that arm (5 drinks).
+func _build_hotbar(root: Control) -> void:
+	hotbar_root = Control.new()
+	hotbar_root.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	hotbar_root.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	hotbar_root.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	hotbar_root.offset_left = -170
+	hotbar_root.offset_right = 170
+	hotbar_root.offset_top = -86
+	hotbar_root.offset_bottom = -22
+	hotbar_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(hotbar_root)
+	_slots.clear()
+	for i in 5:
+		var panel := Panel.new()
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.05, 0.045, 0.04, 0.85)
+		sb.border_color = Color(0.45, 0.38, 0.26, 0.8)
+		sb.set_border_width_all(1)
+		sb.set_corner_radius_all(3)
+		panel.add_theme_stylebox_override("panel", sb)
+		panel.position = Vector2(i * 70, 4)
+		panel.size = Vector2(60, 60)
+		panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		hotbar_root.add_child(panel)
+		var icon := TextureRect.new()
+		icon.position = Vector2(6, 6)
+		icon.size = Vector2(48, 48)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_SCALE
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		panel.add_child(icon)
+		var num := Label.new()
+		num.label_settings = _font(SERIF_B, 13, Color(0.75, 0.66, 0.5))
+		num.position = Vector2(4, 0)
+		num.text = str(i + 1)
+		panel.add_child(num)
+		var count := Label.new()
+		count.label_settings = _font(SERIF_B, 15, Color(0.95, 0.88, 0.7))
+		count.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		count.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		count.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		count.offset_left = -34
+		count.offset_top = -22
+		count.offset_right = -4
+		count.offset_bottom = -2
+		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		count.text = ""
+		panel.add_child(count)
+		_slots.append({"panel": panel, "style": sb, "icon": icon, "count": count})
+	arrows_chip = Label.new()
+	arrows_chip.label_settings = _font(SERIF_B, 20, Color(0.92, 0.87, 0.72))
+	arrows_chip.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	arrows_chip.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	arrows_chip.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	arrows_chip.offset_left = -170
+	arrows_chip.offset_right = 170
+	arrows_chip.offset_top = -116
+	arrows_chip.offset_bottom = -90
+	arrows_chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	arrows_chip.visible = false
+	root.add_child(arrows_chip)
+
+func _refresh_hotbar() -> void:
+	var p = Game.player
+	if p == null or not is_instance_valid(p) or _slots.is_empty():
+		return
+	for i in _slots.size():
+		var slot: Dictionary = _slots[i]
+		var id: String = p.HOTBAR[i]
+		var icon_path: String = SLOT_ICON.get(id, "")
+		if icon_path != "" and ResourceLoader.exists(icon_path):
+			(slot["icon"] as TextureRect).texture = load(icon_path)
+		var owned: bool = id == "flask" or p.owns_weapon(id)
+		var selected: bool = id == p.weapon_id
+		(slot["icon"] as TextureRect).modulate.a = 0.95 if owned else 0.22
+		var sb: StyleBoxFlat = slot["style"]
+		sb.border_color = Color(0.95, 0.8, 0.45, 0.95) if selected else Color(0.45, 0.38, 0.26, 0.8)
+		sb.set_border_width_all(2 if selected else 1)
+		sb.bg_color = Color(0.09, 0.075, 0.05, 0.9) if selected else Color(0.05, 0.045, 0.04, 0.85)
+		var c: Label = slot["count"]
+		if id == "flask":
+			c.text = str(p.flasks)
+		elif id == "lark_bow" and owned:
+			c.text = str(int(p.inventory.get("arrows", 0)))
+		else:
+			c.text = ""
+	var bow_up: bool = p.weapon_id == "lark_bow"
+	arrows_chip.visible = bow_up
+	if bow_up:
+		arrows_chip.text = "Arrows ✕%d" % int(p.inventory.get("arrows", 0))
 
 func _on_orisons(n: int) -> void:
 	orisons_label.text = "%d orisons" % n

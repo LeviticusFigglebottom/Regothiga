@@ -347,6 +347,87 @@ def oar_glaive():
     return objs, {"size": [0.7, 0.12, 3.6], "origin": "grip"}
 
 
+def spear_fen():
+    """Fen-Ward Spear: marsh patrol pike. Origin at grip, point +Z. Two-handed
+    reach weapon — a long ash shaft, iron collar, and a leaf-shaped head."""
+    objs = []
+    objs.append(V.loft_rings("shaft", [(0.02, -0.6, 8, 0), (0.023, 1.72, 8, 0)], "M_wood"))
+    objs.append(V.loft_rings("collar", [(0.03, 1.66, 8, 0), (0.026, 1.78, 8, 0)], "M_iron"))
+    objs.append(V.loft_rings("butt", [(0.03, -0.66, 8, 0), (0.022, -0.58, 8, 0)], "M_iron"))
+    bm = bmesh.new()
+    # leaf head: flat diamond profile swelling then tapering to the point
+    t = 0.007
+    rings = ((0.016, 1.78), (0.052, 1.94), (0.03, 2.1))
+    prev = None
+    for (w, z) in rings:
+        q = [bm.verts.new(p) for p in ((-w, -t, z), (w, -t, z), (w, t, z), (-w, t, z))]
+        if prev is None:
+            bm.faces.new(list(reversed(q)))
+        else:
+            for i in range(4):
+                bm.faces.new((prev[i], prev[(i + 1) % 4], q[(i + 1) % 4], q[i]))
+        prev = q
+    tip = bm.verts.new((0, 0, 2.3))
+    for i in range(4):
+        bm.faces.new((prev[i], prev[(i + 1) % 4], tip))
+    objs.append(V.bm_to_object(bm, "leaf", ("M_steel",)))
+    return objs, {"size": [0.11, 0.05, 2.96], "origin": "grip"}
+
+
+def greatsword_pilgrim():
+    """Pilgrim's Greatsword: a slab of tempered relic-iron carried on the long
+    road. Origin at grip, blade +Z. Slow, heavy, devout."""
+    objs = []
+    bm = bmesh.new()
+    w0, w1, t = 0.075, 0.048, 0.013
+    L = 1.52
+    a = [bm.verts.new(p) for p in ((-w0, -t, 0.2), (w0, -t, 0.2), (w0, t, 0.2), (-w0, t, 0.2))]
+    b = [bm.verts.new(p) for p in ((-w1, -t * 0.7, L * 0.88), (w1, -t * 0.7, L * 0.88),
+                                   (w1, t * 0.7, L * 0.88), (-w1, t * 0.7, L * 0.88))]
+    for i in range(4):
+        bm.faces.new((a[i], a[(i + 1) % 4], b[(i + 1) % 4], b[i]))
+    bm.faces.new(list(reversed(a)))
+    tip = bm.verts.new((0, 0, L))
+    for i in range(4):
+        bm.faces.new((b[i], b[(i + 1) % 4], tip))
+    objs.append(V.bm_to_object(bm, "blade", ("M_steel",)))
+    bm2 = bmesh.new()
+    V.add_box(bm2, (-0.26, -0.02, 0.13), (0.26, 0.02, 0.19))      # wide cross
+    V.add_box(bm2, (-0.035, -0.022, 0.19), (0.035, 0.022, 0.34))  # ricasso block
+    objs.append(V.bm_to_object(bm2, "cross", ("M_iron",)))
+    objs.append(V.loft_rings("sun_disc", [(0.012, 0.155, 10, 0), (0.05, 0.16, 10, 0),
+                                          (0.012, 0.165, 10, 0)], "M_gold"))
+    objs.append(V.loft_rings("grip", [(0.021, -0.26, 8, 0), (0.024, 0.12, 8, 0)], "M_leather"))
+    objs.append(V.loft_rings("pommel", [(0.014, -0.33, 8, 0), (0.046, -0.3, 8, 0),
+                                        (0.014, -0.26, 8, 0)], "M_iron"))
+    return objs, {"size": [0.52, 0.05, 1.86], "origin": "grip"}
+
+
+def bow_lark():
+    """Larkbow: a birdkeeper's recurve of pale ash. Origin at grip; the stave
+    runs +/-Z past the fist, limbs bellying +Y, string on the archer's side."""
+    objs = []
+    path = []
+    n = 14
+    for i in range(n + 1):
+        k = i / float(n) * 2.0 - 1.0          # -1 .. 1 along the stave
+        z = k * 0.78
+        y = 0.17 * (1.0 - k * k)
+        if abs(k) > 0.82:                      # recurved tips flick back
+            y += 0.05 * (abs(k) - 0.82) / 0.18
+        path.append((0.0, y, z))
+    prof = V.chamfer_rect_profile(0.021, 0.03, 0.006)
+    objs.append(V.sweep_profile("stave", path, prof, "M_wood", up_hint=Vector((1, 0, 0))))
+    bm = bmesh.new()
+    ty = path[0][1] - 0.005
+    V.add_box(bm, (-0.0035, ty - 0.0035, -0.775), (0.0035, ty + 0.0035, 0.775))
+    objs.append(V.bm_to_object(bm, "string", ("M_bone",)))
+    objs.append(V.loft_rings("wrap", [(0.028, -0.09, 8, 0), (0.03, 0.09, 8, 0)], "M_leather"))
+    for sgn in (-1, 1):
+        objs.append(V.loft_rings("nock", [(0.012, sgn * 0.76, 6, 0), (0.008, sgn * 0.8, 6, 0)], "M_bone"))
+    return objs, {"size": [0.08, 0.4, 1.62], "origin": "grip"}
+
+
 BUILDERS = {
     "char_latecomer": char_latecomer,
     "char_sleeve_l": lambda: char_sleeve("l"),
@@ -354,6 +435,9 @@ BUILDERS = {
     "sword_cloister": sword_cloister,
     "maul_sexton": maul_sexton,
     "halberd_ward": halberd_ward,
+    "spear_fen": spear_fen,
+    "greatsword_pilgrim": greatsword_pilgrim,
+    "bow_lark": bow_lark,
     "crook_warden": crook_warden,
     "crook_great": crook_great,
     "oar_glaive": oar_glaive,

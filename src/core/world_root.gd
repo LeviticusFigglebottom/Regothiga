@@ -18,12 +18,19 @@ func _ready() -> void:
 
 	Game.set_difficulty(str(World.flag_val("difficulty", "vigil")))
 
+	# the house card first, on every startup — new pilgrimage or load-in
+	var interactive := not harnessed and Shot.forced_state == "" \
+			and not DisplayServer.get_name().contains("headless")
+	if interactive:
+		var splash := SplashUI.new()
+		add_child(splash)
+		await splash.finished
+
 	# a fresh pilgrimage weighs the dark first, then opens with the rite:
 	# story cards over the kingdom, ending on the vigil-wave rolling across
 	# the porch city
 	var intro: IntroDirector = null
-	if fresh and not harnessed and Shot.forced_state == "" \
-			and not DisplayServer.get_name().contains("headless"):
+	if fresh and interactive:
 		var sel := DifficultyUI.new()
 		add_child(sel)
 		var picked: String = await sel.chosen

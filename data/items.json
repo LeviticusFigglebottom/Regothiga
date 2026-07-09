@@ -10,5 +10,21 @@
 	"tallow_heart": {
 		"name": "Tallow Heart",
 		"desc": "Rendered from a saint's own votive. It does not beat; it keeps."
+	},
+	"arrows": {
+		"name": "Lark-fletched Arrows",
+		"desc": "Ash shafts fletched with lark feathers, meant for retrieving cage-birds. They retrieve other things now. Loosed from the Larkbow; carried in the quiver, not the hand."
+	},
+	"lark_plume": {
+		"name": "Lark Plume",
+		"desc": "A tail feather of the last summit lark, still warm as a struck bell. The Ferryman honors it as fare \u2014 proof the spire was climbed while it still sang."
+	},
+	"choir_seal": {
+		"name": "Choir Seal",
+		"desc": "The Precentress's leaden signet, stamped with the unsung hour. It weights a palm like a held breath. The Ferryman honors it as fare."
+	},
+	"chrism_flask": {
+		"name": "Chrism Flask",
+		"desc": "Wax-stoppered draughts of votive oil. Kneeling at a vigil lantern refills it; the saints do not ask where the light went."
 	}
 }

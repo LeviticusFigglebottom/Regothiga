@@ -135,9 +135,12 @@ func _physics_process(dt: float) -> void:
 			cam.v_offset = 0.0
 			_shake_strength = 0.0
 
+## Bow sight: RMB narrows the eye while the Larkbow is in hand.
+var zoomed := false
+
 func set_sprinting(on: bool, dt: float) -> void:
-	var target := _fov_base + (6.0 if on else 0.0)
-	cam.fov = lerpf(cam.fov, target, 1.0 - exp(-6.0 * dt))
+	var target := _fov_base + (6.0 if on else 0.0) - (26.0 if zoomed else 0.0)
+	cam.fov = lerpf(cam.fov, target, 1.0 - exp(-(9.0 if zoomed else 6.0) * dt))
 
 ## Camera-relative movement basis on the ground plane.
 func move_basis() -> Basis:

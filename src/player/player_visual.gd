@@ -17,3 +17,10 @@ func build(weapon_kit := "sword_cloister") -> void:
 	shield_mount.position = Vector3(-0.06, 0.16, 0.0)
 	shield_mount.rotation_degrees = Vector3(0, 90, 0)   # face out from the forearm
 	shield_mount.add_child(KitLib.instance("shield_kite"))
+
+## Swap the drawn arms: right-hand weapon kit, and the kite shield only rides
+## the forearm while a one-handed blade leaves that arm free for it.
+func apply_loadout(weapon_kit: String, with_shield: bool) -> void:
+	set_weapon(weapon_kit)
+	if shield_mount != null:
+		shield_mount.visible = with_shield

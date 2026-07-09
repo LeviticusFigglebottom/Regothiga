@@ -129,6 +129,16 @@
    0.35
   ]
  },
+ "bow_lark": {
+  "file": "assets/kit/bow_lark.glb",
+  "origin": "grip",
+  "polys": 146,
+  "size": [
+   0.08,
+   0.4,
+   1.62
+  ]
+ },
  "brazier_cold": {
   "file": "assets/kit/brazier_cold.glb",
   "origin": "bottom-center",
@@ -601,6 +611,16 @@
    2.2,
    2.2,
    3.7
+  ]
+ },
+ "greatsword_pilgrim": {
+  "file": "assets/kit/greatsword_pilgrim.glb",
+  "origin": "grip",
+  "polys": 71,
+  "size": [
+   0.52,
+   0.05,
+   1.86
   ]
  },
  "halberd_ward": {
@@ -1130,6 +1150,16 @@
    1.9
   ],
   "skeletal": true
+ },
+ "spear_fen": {
+  "file": "assets/kit/spear_fen.glb",
+  "origin": "grip",
+  "polys": 43,
+  "size": [
+   0.11,
+   0.05,
+   2.96
+  ]
  },
  "spire_tower_a": {
   "file": "assets/kit/spire_tower_a.glb",
