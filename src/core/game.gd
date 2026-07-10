@@ -24,6 +24,11 @@ var arena_locked := false
 func _ready() -> void:
 	player_registered.connect(func(p): p.died.connect(_on_player_died))
 
+func _process(dt: float) -> void:
+	# the vigil clock: hours walked, shown on the title's slot ledger
+	if player != null and is_instance_valid(player) and not get_tree().paused:
+		World.play_s += dt
+
 func _on_player_died() -> void:
 	if _death_flow_running:
 		return

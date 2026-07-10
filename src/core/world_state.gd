@@ -67,8 +67,49 @@ func remembrance_pos() -> Vector3:
 
 # ---------------- persistence ----------------
 
+## Three vigils may be kept at once. Each slot file carries a small meta
+## ledger (level, quarter, difficulty, hours walked) for the title's picker.
+const SLOTS := 3
+var active_slot := 1
+var play_s := 0.0   # real seconds walked this playthrough (Game accumulates)
+
 func save_path() -> String:
-	return _save_dir.path_join("vigil.json")
+	return _save_dir.path_join("slot_%d.json" % active_slot)
+
+## The single-file era becomes slot 1.
+func migrate_legacy_save() -> void:
+	var legacy := _save_dir.path_join("vigil.json")
+	var s1 := _save_dir.path_join("slot_1.json")
+	if FileAccess.file_exists(legacy) and not FileAccess.file_exists(s1):
+		DirAccess.rename_absolute(legacy, s1)
+
+func any_slot() -> bool:
+	for i in range(1, SLOTS + 1):
+		if FileAccess.file_exists(_save_dir.path_join("slot_%d.json" % i)):
+			return true
+	return false
+
+## null for an empty slot, else {slot, level, area, difficulty, play_s}.
+func slot_summary(i: int):
+	var path := _save_dir.path_join("slot_%d.json" % i)
+	if not FileAccess.file_exists(path):
+		return null
+	var parsed = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
+	if not (parsed is Dictionary):
+		return null
+	var m: Dictionary = parsed.get("meta", {})
+	return {
+		"slot": i,
+		"level": int(m.get("level", parsed.get("player", {}).get("level", 1))),
+		"area": String(m.get("area", parsed.get("last_vigil", {}).get("area", ""))),
+		"difficulty": String(m.get("difficulty", parsed.get("flags", {}).get("difficulty", "vigil"))),
+		"play_s": float(m.get("play_s", 0.0)),
+	}
+
+func delete_slot(i: int) -> void:
+	var path := _save_dir.path_join("slot_%d.json" % i)
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(path)
 
 func save_game() -> void:
 	DirAccess.make_dir_recursive_absolute(_save_dir)
@@ -79,6 +120,14 @@ func save_game() -> void:
 		"remembrance": remembrance,
 		"last_vigil": last_vigil,
 		"player": player_data,
+		"play_s": play_s,
+		"meta": {
+			"level": int(player_data.get("level", 1)),
+			"area": last_vigil.get("area", ""),
+			"difficulty": str(flag_val("difficulty", "vigil")),
+			"saved_at": Time.get_unix_time_from_system(),
+			"play_s": play_s,
+		},
 	}
 	var f := FileAccess.open(save_path(), FileAccess.WRITE)
 	f.store_string(JSON.stringify(data, "\t"))
@@ -103,9 +152,11 @@ func load_game() -> bool:
 		remembrance["amount"] = int(remembrance.get("amount", 0))
 	last_vigil = parsed.get("last_vigil", {"area": "", "lantern": ""})
 	player_data = parsed.get("player", {})
+	play_s = float(parsed.get("play_s", 0.0))
 	return true
 
 func reset() -> void:
+	play_s = 0.0
 	areas = {}
 	flags = {}
 	remembrance = null

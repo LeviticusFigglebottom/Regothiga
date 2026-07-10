@@ -737,7 +737,7 @@ func equip_weapon(id: String) -> void:
 ## (relaxed arms ran it through the floor), the greatsword shoulders, the
 ## bow stands upright. Attacks zero the mount so strikes lead true.
 const CARRY_POSE := {
-	"torch": Vector3(180, 0, 0),
+	"torch": Vector3(155, 0, 0),   # upright, a hair of forward cant (180 leaned back)
 	"marsh_spear": Vector3(180, 0, 0),
 	"pilgrim_greatsword": Vector3(-40, 0, 0),
 	"lark_bow": Vector3(0, 0, 90),

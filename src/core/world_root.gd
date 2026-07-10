@@ -7,54 +7,78 @@ const TITLE := preload("res://src/ui/title_screen.gd")
 
 func _ready() -> void:
 	Game.world_root = self
-	var fresh := not World.load_game()
-
+	World.migrate_legacy_save()
+	var fresh := true
 	var area_id := "gray_cloister"
-	if not fresh and World.last_vigil.get("area", "") != "":
-		area_id = World.last_vigil["area"]
 	var harnessed := false
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--area="):
 			area_id = arg.get_slice("=", 1)
-			fresh = true
 			harnessed = true
 
-	Game.set_difficulty(str(World.flag_val("difficulty", "vigil")))
-
-	# the house card first, on every startup — new pilgrimage or load-in
 	var interactive := not harnessed and Shot.forced_state == "" \
 			and not DisplayServer.get_name().contains("headless")
+
+	# harness/headless runs keep the old single-load behaviour (slot 1)
+	if not interactive:
+		if not harnessed:
+			fresh = not World.load_game()
+			if not fresh and World.last_vigil.get("area", "") != "":
+				area_id = World.last_vigil["area"]
+		Game.set_difficulty(str(World.flag_val("difficulty", "vigil")))
+
+	# the house card first, on every startup — new pilgrimage or load-in
 	if interactive:
 		var splash := SplashUI.new()
 		add_child(splash)
 		await splash.finished
 
-	# the title stands between the house card and the kingdom: a first
-	# launch weighs the dark first (difficulty), every launch then rests at
-	# the title while the camera drifts the quarters; a fresh journey opens
-	# with the rite (story cards ending on the vigil-wave over the porch)
+	# the title stands between the house card and the kingdom. A first
+	# launch (no vigil kept anywhere) weighs the dark before it; otherwise
+	# the weighing waits inside New Journey — and Esc there, or Back on the
+	# slot ledger, returns to the title with nothing forgotten. Only a
+	# confirmed weighing wipes the chosen slot.
 	var intro: IntroDirector = null
 	if interactive:
-		if fresh:
+		var preweighed := not World.any_slot()
+		if preweighed:
 			var sel := DifficultyUI.new()
 			add_child(sel)
 			Game.set_difficulty(await sel.chosen)
-		var title := TITLE.new()
-		title.has_save = not fresh
-		add_child(title)
-		var pick: String = await title.done
-		title.queue_free()
-		if pick == "new" and not fresh:
-			# a true new journey: forget the world, weigh the dark anew
-			World.reset()
-			if FileAccess.file_exists(World.save_path()):
-				DirAccess.remove_absolute(World.save_path())
-			Game.set_orisons(0)
-			fresh = true
-			area_id = "gray_cloister"
-			var sel2 := DifficultyUI.new()
-			add_child(sel2)
-			Game.set_difficulty(await sel2.chosen)
+		var picked := false
+		while not picked:
+			var title := TITLE.new()
+			title.has_save = World.any_slot()
+			add_child(title)
+			var pick = await title.done   # [choice, slot]
+			title.queue_free()
+			var choice: String = pick[0]
+			var slot: int = pick[1]
+			if choice == "resume":
+				World.active_slot = slot
+				if World.load_game():
+					fresh = false
+					if World.last_vigil.get("area", "") != "":
+						area_id = World.last_vigil["area"]
+					Game.set_difficulty(str(World.flag_val("difficulty", "vigil")))
+				picked = true
+			else:
+				var diff := str(World.flag_val("difficulty", "vigil"))
+				if not preweighed:
+					var sel2 := DifficultyUI.new()
+					sel2.cancellable = true
+					add_child(sel2)
+					diff = await sel2.chosen
+					if diff == "":
+						continue   # Esc: back to the title, nothing forgotten
+				World.active_slot = slot
+				World.reset()
+				World.delete_slot(slot)
+				Game.set_orisons(0)
+				Game.set_difficulty(diff)
+				fresh = true
+				area_id = "gray_cloister"
+				picked = true
 		if fresh:
 			intro = IntroDirector.new()
 			add_child(intro)

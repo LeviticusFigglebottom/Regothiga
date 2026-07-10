@@ -10,12 +10,12 @@ var _phase := "main"    # main | level
 
 ## What each prayer actually buys — shown beside the stat at the vigil.
 const STAT_HINTS := {
-	"vigor": "+12 hp",
-	"endurance": "+6 stamina, quicker breath",
-	"strength": "heavier sword & greatsword blows",
-	"dexterity": "keener bow & spear",
-	"grace": "+7 wick, faster kindling",
-	"devotion": "brighter rites, harm and mending alike",
+	"vigor": "+12 max health",
+	"endurance": "+6 max stamina, faster stamina recovery",
+	"strength": "more sword & greatsword damage",
+	"dexterity": "more bow & spear damage",
+	"grace": "+7 max mana, faster mana recovery (spells)",
+	"devotion": "stronger spells — damage and healing",
 }
 var _opt_i := 0
 var _options: Array = []
@@ -46,8 +46,11 @@ func _ready() -> void:
 	sb.border_color = Color(0.6, 0.5, 0.32)
 	sb.set_border_width_all(1)
 	panel.add_theme_stylebox_override("panel", sb)
-	panel.position = Vector2(660, 330)
-	panel.size = Vector2(600, 420)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.offset_left = -385
+	panel.offset_right = 385
+	panel.offset_top = -210
+	panel.offset_bottom = 210
 	root.add_child(panel)
 	title_label = Label.new()
 	title_label.label_settings = _ls(28, Color(0.9, 0.78, 0.55))
@@ -56,12 +59,12 @@ func _ready() -> void:
 	panel.add_child(title_label)
 	list_box = VBoxContainer.new()
 	list_box.position = Vector2(28, 74)
-	list_box.size = Vector2(540, 260)
+	list_box.size = Vector2(710, 260)
 	panel.add_child(list_box)
 	info_label = Label.new()
 	info_label.label_settings = _ls(20, Color(0.65, 0.6, 0.5))
 	info_label.position = Vector2(28, 360)
-	info_label.size = Vector2(540, 50)
+	info_label.size = Vector2(710, 50)
 	info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(info_label)
 	_enter_main()

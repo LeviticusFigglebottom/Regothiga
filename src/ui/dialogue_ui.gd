@@ -33,8 +33,11 @@ func _ready() -> void:
 	sb.border_color = Color(0.6, 0.5, 0.32)
 	sb.set_border_width_all(1)
 	panel.add_theme_stylebox_override("panel", sb)
-	panel.position = Vector2(360, 770)
-	panel.size = Vector2(1200, 240)
+	panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	panel.offset_left = -600
+	panel.offset_right = 600
+	panel.offset_top = -310
+	panel.offset_bottom = -70
 	root.add_child(panel)
 	name_label = Label.new()
 	name_label.label_settings = _ls(26, Color(0.9, 0.78, 0.55))

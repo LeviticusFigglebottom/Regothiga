@@ -6,6 +6,10 @@ extends CanvasLayer
 
 signal chosen(id: String)
 
+## From the title's New Journey, Esc backs out (emits ""): nothing is
+## forgotten until the weight is actually chosen.
+var cancellable := false
+
 var _options := [
 	{"id": "kindled", "label": "The Kindled Path",
 	 "desc": "The dark bites softer. Your hand lands harder (deal 1.25x, take 0.75x)."},
@@ -38,8 +42,11 @@ func _ready() -> void:
 	sb.border_color = Color(0.6, 0.5, 0.32)
 	sb.set_border_width_all(1)
 	panel.add_theme_stylebox_override("panel", sb)
-	panel.position = Vector2(610, 300)
-	panel.size = Vector2(700, 480)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.offset_left = -350
+	panel.offset_right = 350
+	panel.offset_top = -240
+	panel.offset_bottom = 240
 	add_child(panel)
 	var title := Label.new()
 	title.label_settings = _ls(30, Color(0.9, 0.78, 0.55))
@@ -84,6 +91,11 @@ func _render() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _done:
+		return
+	if cancellable and event.is_action_pressed("ui_cancel"):
+		_done = true
+		chosen.emit("")
+		queue_free()
 		return
 	if event.is_action_pressed("move_forward"):
 		_opt_i = max(0, _opt_i - 1)

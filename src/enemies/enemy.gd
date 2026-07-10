@@ -599,6 +599,9 @@ func _ring_vfx(radius: float) -> void:
 func _on_hit_contact(_hb: Area3D, result: String) -> void:
 	if result == "hit":
 		Juice.shake(0.28, 0.2)
+		if blade_hitbox != null:   # steel that lands cleaves; claws keep the thud
+			AudioDirector.sfx_at("res://assets/audio/slash.wav", global_position, -6.0,
+					randf_range(0.86, 0.98))
 	elif result == "parried" and state != ES.STAGGER:
 		# on_parried already bought the full riposte breath for foes who take
 		# it; this shorter flinch is only for those who shrugged the parry —

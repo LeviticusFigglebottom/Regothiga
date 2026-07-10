@@ -245,14 +245,16 @@ def gen_impacts():
     crack = lowpass_fft(rng.normal(0, 1, len(t)), 2400) * env_ad(len(t), 0.001, 0.025) * 0.8
     write("impact_flesh", thud * 1.2 + crack, 0.8)
 
-    # the SLASH: a cut that lands — fast bright shear over a short wet body,
-    # keener and shorter than the swing's air-cut
-    n = int(0.2 * SR)
-    shear = bandpass_sweep(rng.normal(0, 1, n), 5600, 2100, 0.5) * env_ad(n, 0.001, 0.05)
-    wet = lowpass_fft(rng.normal(0, 1, n), 620) * env_ad(n, 0.002, 0.055) * 0.9
-    tf = 150 * np.exp(-np.arange(n) / SR * 11)
-    body = np.sin(2 * np.pi * np.cumsum(tf) / SR) * env_ad(n, 0.001, 0.05) * 0.7
-    write("slash", np.tanh((shear * 1.25 + wet + body) * 2.0), 0.78)
+    # the SLASH: a landed CLEAVE — a long bright steel shear with a quick
+    # metallic sing and only a whisper of wet underneath. No punch.
+    n = int(0.3 * SR)
+    t = np.arange(n) / SR
+    shear = bandpass_sweep(rng.normal(0, 1, n), 6800, 1900, 0.62) * env_ad(n, 0.001, 0.10)
+    sing = np.zeros(n)
+    for f0, a in [(2350, 1.0), (3620, 0.55), (5240, 0.34)]:
+        sing += a * np.sin(2 * np.pi * f0 * t * (1.0 + 0.012 * t)) * np.exp(-t / 0.05)
+    wet = lowpass_fft(rng.normal(0, 1, n), 540) * env_ad(n, 0.002, 0.04) * 0.45
+    write("slash", np.tanh((shear * 1.5 + sing * 0.5 + wet) * 1.9), 0.76)
 
     t = t_axis(0.42)
     x = np.zeros_like(t)

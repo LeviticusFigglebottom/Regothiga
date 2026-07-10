@@ -327,7 +327,11 @@ func _process(dt: float) -> void:
 	# interact prompt
 	if Game.player != null and not Game.player.dead:
 		var it = Game.player.nearest_interactable()
-		prompt_label.text = "[E]  %s" % it.prompt if it != null else ""
+		# a menu owns the screen: the world's prompts wait outside it
+		if it == null or Game.player.busy_in_menu() or PauseUI.is_open():
+			prompt_label.text = ""
+		else:
+			prompt_label.text = "[E]  %s" % it.prompt
 	# boss bar track
 	if _boss != null and is_instance_valid(_boss) and boss_root.visible:
 		boss_fill.size.x = 996.0 * clampf(_boss.hp / _boss.max_hp, 0.0, 1.0)
