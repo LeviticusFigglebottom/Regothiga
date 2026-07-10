@@ -41,6 +41,9 @@ var pose_label: Label
 var hotbar_root: Control
 var _slots: Array = []
 var arrows_chip: Label
+var rite_panel: Panel
+var rite_icon: TextureRect
+var rite_cost: Label
 const SLOT_ICON := {
 	"cloistersword": "res://assets/ui/icons/sword.png",
 	"marsh_spear": "res://assets/ui/icons/spear.png",
@@ -73,6 +76,7 @@ func _bind_player(p) -> void:
 	p.flasks_changed.connect(_on_flasks)
 	p.weapon_changed.connect(func(_id): _refresh_hotbar())
 	p.inventory_changed.connect(_refresh_hotbar)
+	p.attune_changed.connect(func(_id): _refresh_rite())
 	p.hotbar_changed.connect(_refresh_hotbar)
 	_on_hp(p.hp, p.max_hp)
 	_on_stamina(p.stamina, p.max_stamina)
@@ -406,6 +410,57 @@ func _build_hotbar(root: Control) -> void:
 	arrows_chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	arrows_chip.visible = false
 	root.add_child(arrows_chip)
+	# the attuned rite: a gilt slot to the LEFT of the girdle, marked C
+	rite_panel = Panel.new()
+	rite_panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	rite_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	rite_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	rite_panel.offset_left = -250
+	rite_panel.offset_right = -190
+	rite_panel.offset_top = -84
+	rite_panel.offset_bottom = -24
+	var rsb := StyleBoxFlat.new()
+	rsb.bg_color = Color(0.1, 0.085, 0.045, 0.9)
+	rsb.border_color = Color(0.9, 0.75, 0.4, 0.9)
+	rsb.set_border_width_all(1)
+	rsb.set_corner_radius_all(3)
+	rite_panel.add_theme_stylebox_override("panel", rsb)
+	rite_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(rite_panel)
+	rite_icon = TextureRect.new()
+	rite_icon.position = Vector2(6, 6)
+	rite_icon.size = Vector2(48, 48)
+	rite_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rite_icon.stretch_mode = TextureRect.STRETCH_SCALE
+	rite_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rite_panel.add_child(rite_icon)
+	var rkey := Label.new()
+	rkey.label_settings = _font(SERIF_B, 13, Color(0.95, 0.82, 0.45))
+	rkey.position = Vector2(4, 0)
+	rkey.text = "C"
+	rite_panel.add_child(rkey)
+	rite_cost = Label.new()
+	rite_cost.label_settings = _font(SERIF_B, 14, Color(0.92, 0.82, 0.5))
+	rite_cost.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	rite_cost.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	rite_cost.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	rite_cost.offset_left = -34
+	rite_cost.offset_top = -22
+	rite_cost.offset_right = -4
+	rite_cost.offset_bottom = -2
+	rite_cost.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	rite_panel.add_child(rite_cost)
+	_refresh_rite()
+
+func _refresh_rite() -> void:
+	var p = Game.player
+	if p == null or not is_instance_valid(p) or rite_panel == null:
+		return
+	var sid: String = p.attuned_spell
+	rite_panel.visible = sid != "" and not DB.spell(sid).is_empty()
+	if rite_panel.visible:
+		rite_icon.texture = load("res://assets/ui/icons/relic.png")
+		rite_cost.text = str(int(DB.spell(sid).get("mana", 0)))
 
 func _refresh_hotbar() -> void:
 	var p = Game.player
@@ -442,6 +497,10 @@ func _on_mana(v: float, mx: float) -> void:
 	mana_panel.visible = mx > 0.0
 	if mx > 0.0:
 		mana_fill.size.x = maxf((mana_panel.size.x - 4.0) * v / mx, 0.0)
+	var p = Game.player
+	if rite_cost != null and p != null and is_instance_valid(p) and p.attuned_spell != "":
+		var cost := float(DB.spell(p.attuned_spell).get("mana", 0))
+		rite_cost.label_settings.font_color = Color(0.92, 0.82, 0.5) if v >= cost else Color(0.7, 0.35, 0.3)
 
 func _on_orisons(n: int) -> void:
 	orisons_label.text = "%d orisons" % n

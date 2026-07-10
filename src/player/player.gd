@@ -13,6 +13,7 @@ signal hit_landed(target, result: String)
 signal weapon_changed(id: String)
 signal hotbar_changed
 signal mana_changed(v: float, mx: float)
+signal attune_changed(id: String)
 signal inventory_changed
 
 enum S { MOVE, ROLL, BACKSTEP, ATTACK, BLOCK, PARRY, RIPOSTE, FLASK, STAGGER, REST, TALK, DEAD }
@@ -79,6 +80,7 @@ var _bow_t := 0.0
 
 ## The girdle, slots 1-5: three blades, the bow, and the chrism flask.
 var hotbar: Array = ["cloistersword", "torch", "", "", "flask"]
+var attuned_spell := ""    # the rite bound to C, chosen in the Rites tab
 
 # regen bookkeeping
 var _stam_delay := 0.0
@@ -486,6 +488,8 @@ func _st_move(dt: float) -> void:
 		if Input.is_action_just_pressed("inventory") and not PauseUI.is_open():
 			InventoryUI.open_for(self)
 			return
+		if Input.is_action_just_pressed("cast_spell") and attuned_spell != "":
+			cast_spell(attuned_spell)
 		if _bow_equipped():
 			_bow_move_input(dt)
 		if Input.is_action_just_pressed("dodge"):
@@ -581,7 +585,7 @@ func _hotbar_use(i: int) -> void:
 func set_hotbar_slot(i: int, id: String) -> void:
 	if i < 0 or i >= hotbar.size():
 		return
-	if id != "flask" and DB.weapon(id).is_empty() and DB.spell(id).is_empty():
+	if id != "flask" and DB.weapon(id).is_empty():
 		return
 	for k in hotbar.size():
 		if String(hotbar[k]) == id:
@@ -640,18 +644,30 @@ func apply_carry_pose() -> void:
 
 func give_item(item: String, count := 1) -> void:
 	inventory[item] = int(inventory.get(item, 0)) + count
-	# a newly won arm or rite seats itself in the first open hand-slot
-	if not DB.spell(item).is_empty() and max_mana <= 0.0:
-		recompute_derived()
-		mana = max_mana
-		mana_changed.emit(mana, max_mana)
-	if (not DB.weapon(item).is_empty() or not DB.spell(item).is_empty()) and not hotbar.has(item):
+	if not DB.spell(item).is_empty():
+		# the first rite learned wakes the wick-bar and attunes itself to C;
+		# the rest wait in the Rites tab to be chosen
+		if max_mana <= 0.0:
+			recompute_derived()
+			mana = max_mana
+			mana_changed.emit(mana, max_mana)
+		if attuned_spell == "":
+			attune_spell(item)
+	elif not DB.weapon(item).is_empty() and not hotbar.has(item):
+		# a newly won arm seats itself in the first open hand-slot
 		for i in hotbar.size():
 			if String(hotbar[i]) == "":
 				hotbar[i] = item
 				hotbar_changed.emit()
 				break
 	inventory_changed.emit()
+
+## Bind a known rite to C (chosen in the Rites tab).
+func attune_spell(id: String) -> void:
+	if DB.spell(id).is_empty() or int(inventory.get(id, 0)) < 1:
+		return
+	attuned_spell = id
+	attune_changed.emit(id)
 
 # --- the Larkbow -------------------------------------------------------------
 func _bow_equipped() -> bool:
@@ -1176,7 +1192,7 @@ func to_save() -> Dictionary:
 	return {
 		"attributes": attributes, "level": level, "flask_max": flask_max,
 		"weapon": weapon_id, "weapon_level": weapon_level,
-		"inventory": inventory, "hotbar": hotbar,
+		"inventory": inventory, "hotbar": hotbar, "attuned_spell": attuned_spell,
 		"pos": [global_position.x, global_position.y, global_position.z],
 	}
 
@@ -1193,6 +1209,7 @@ func from_save(d: Dictionary) -> void:
 	var hb: Array = d.get("hotbar", [])
 	if hb.size() == 5:
 		hotbar = hb
+	attuned_spell = d.get("attuned_spell", "")
 	recompute_derived()
 	heal_full()
 	_refresh_weapon_visual()
