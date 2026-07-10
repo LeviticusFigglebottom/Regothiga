@@ -94,6 +94,18 @@ func _run() -> void:
 	await ticks(40)
 	check(dummy.hp < dhp0 - 50.0, "riposte lands critical damage (-%.0f)" % (dhp0 - dummy.hp))
 
+	print("== winded: an empty bar costs a beat")
+	await ticks(60)
+	player.stamina = 4.0
+	player._spend(4.0)
+	check(player._winded > 0.0, "spending to zero winds him")
+	player.stamina = player.max_stamina
+	check(not player._chain_attack(false), "no chain attacking while winded, whatever the bar says")
+	await ticks(36)
+	check(player._chain_attack(false), "half a beat later the blade answers")
+	await ticks(80)
+	player.velocity = Vector3.ZERO
+
 	print("== flask heals")
 	player.hp = 40.0
 	var fl0 := player.flasks

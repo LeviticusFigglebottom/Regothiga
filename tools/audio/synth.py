@@ -214,13 +214,26 @@ def gen_levelup():
         x[s:s + len(b)] += b[:len(x) - s] * 0.8
     write("levelup", x, 0.62)
 
+def _swoosh(dur, f_hi, f_lo, body_cut, peak_at=0.45, edge=0.6):
+    """A blade cutting air: a bright edge band sweeping down through a broad
+    low body, with an S-curve build-peak-release so it reads as a SWING, not
+    a burst. Light saturation rounds it."""
+    n = int(dur * SR)
+    t = np.arange(n) / n
+    arc = np.clip(np.sin(np.pi * np.clip((t / peak_at) * 0.5, 0, 0.5)) * (t < peak_at)
+                  + np.cos(np.pi * 0.5 * np.clip((t - peak_at) / (1 - peak_at), 0, 1)) * (t >= peak_at), 0, 1) ** 1.3
+    hi = bandpass_sweep(rng.normal(0, 1, n), f_hi, f_lo, 0.55) * edge
+    lo = lowpass_fft(rng.normal(0, 1, n), body_cut)
+    x = (hi + lo * 0.8) * arc
+    return np.tanh(x * 2.2)
+
+
 def gen_whooshes():
-    n = int(0.34 * SR)
-    x = bandpass_sweep(rng.normal(0, 1, n), 2600, 500, 0.8) * env_ad(n, 0.02, 0.1)
-    write("whoosh_l", x, 0.55)
-    n = int(0.5 * SR)
-    x = bandpass_sweep(rng.normal(0, 1, n), 1800, 260, 0.9) * env_ad(n, 0.05, 0.16)
-    write("whoosh_h", x, 0.65)
+    # the raise/draw of a light and a heavy arm
+    write("whoosh_l", _swoosh(0.30, 3400, 900, 1100, 0.42, 0.75), 0.55)
+    write("whoosh_h", _swoosh(0.48, 2300, 380, 700, 0.5, 0.6), 0.65)
+    # the CUT itself, played as the hitbox opens — short, keen, airy
+    write("swing", _swoosh(0.26, 4200, 1300, 1500, 0.38, 0.9), 0.6)
     n = int(0.3 * SR)
     x = lowpass_fft(rng.normal(0, 1, n), 900) * env_ad(n, 0.03, 0.09)
     write("roll", x, 0.4)
@@ -239,11 +252,27 @@ def gen_impacts():
     thud2 = np.sin(2 * np.pi * 90 * t) * env_ad(len(t), 0.001, 0.05)
     write("impact_blocked", x + thud2, 0.7)
 
-    t = t_axis(0.8)
+    # shield ding: a strike click into an inharmonic steel ring — bright,
+    # quick, unmistakably metal-on-metal
+    t = t_axis(0.5)
     x = np.zeros_like(t)
-    for f0, a in [(1180, 1.0), (1770, 0.7), (2650, 0.5), (3980, 0.3)]:
-        x += a * np.sin(2 * np.pi * f0 * t + 0.3) * np.exp(-t / 0.16)
-    write("parry", x * env_ad(len(t), 0.001, 0.3), 0.7)
+    for ratio, a, tau in [(1.0, 1.0, 0.16), (2.32, 0.62, 0.11), (3.01, 0.45, 0.085),
+                          (4.27, 0.3, 0.06), (6.13, 0.18, 0.045)]:
+        f = 1480.0 * ratio
+        x += a * np.sin(2 * np.pi * f * t + rng.uniform(0, 6.28)) * np.exp(-t / tau)
+    click = highpass_fft(rng.normal(0, 1, len(t)), 2400) * env_ad(len(t), 0.001, 0.012) * 1.2
+    write("shield_ding", x + click, 0.66)
+
+    # parry: a hard crack, then a rising shimmer that hangs — the reward bell
+    t = t_axis(1.1)
+    x = np.zeros_like(t)
+    for f0, a, tau in [(1180, 1.0, 0.22), (1770, 0.72, 0.2), (2650, 0.55, 0.17),
+                       (3980, 0.36, 0.14), (5340, 0.2, 0.11)]:
+        f = f0 * (1.0 + 0.02 * np.minimum(t / 0.25, 1.0))    # partials lift a hair
+        x += a * np.sin(2 * np.pi * np.cumsum(f) / SR + rng.uniform(0, 6.28)) * np.exp(-t / tau)
+    crack = highpass_fft(rng.normal(0, 1, len(t)), 1800) * env_ad(len(t), 0.001, 0.02) * 1.6
+    sparkle = bandpass_sweep(rng.normal(0, 1, len(t)), 5200, 8200, 0.5) * np.exp(-t / 0.28) * 0.3
+    write("parry", x + crack + sparkle, 0.74)
 
 def gen_flask():
     t = t_axis(1.2)

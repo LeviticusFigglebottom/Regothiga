@@ -31,6 +31,7 @@ func build(cfg: Dictionary) -> void:
 			w.rotation_degrees = Vector3(146, -14, 34)
 			w.position = Vector3(0.62, 0.55, -1.25)
 		weapon_mount.add_child(w)
+		add_trail()   # armed foes cut visible arcs too
 	if cfg.has("shield"):
 		shield_mount = mount("farm_l")
 		shield_mount.position = Vector3(-0.06, 0.16, 0.0)

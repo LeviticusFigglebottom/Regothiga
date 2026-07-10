@@ -99,6 +99,8 @@ func take_hit(packet: DamagePacket) -> void:
 			packet.amount *= 0.25
 			packet.poise_damage *= 0.35
 			AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -4.0, 1.0)
+			AudioDirector.sfx_at("res://assets/audio/shield_ding.wav", global_position, -5.0,
+					randf_range(0.95, 1.1))
 	_hits_recent += 1.0
 	if _hits_recent >= 3.0 and _retreat_t <= 0.0:
 		_retreat_t = 1.5

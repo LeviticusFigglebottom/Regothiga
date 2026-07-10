@@ -394,9 +394,16 @@ func _st_attack(dt: float) -> void:
 		match _atk.get("type", "melee"):
 			"ranged": _fire_projectiles()
 			"summon": _summon()
-			_: _open_hitbox()
+			_:
+				_open_hitbox()
+				if vis.trail != null:
+					vis.trail.visible = true
+				AudioDirector.sfx_at("res://assets/audio/swing.wav", global_position, -11.0,
+						randf_range(0.88, 1.04))
 		if _atk.has("shockwave"):
 			_shockwave.call_deferred(float(_atk["shockwave"]))
+	if vis.trail != null and _atk_done and t >= w + act:
+		vis.trail.visible = false
 	if _atk_done and t >= w + act and hitbox.monitoring:
 		hitbox.end_swing()
 	if t >= w + act + rec:
@@ -538,6 +545,8 @@ func is_blocking_toward(from_pos: Vector3) -> bool:
 
 func on_blocked_hit(_packet: DamagePacket) -> void:
 	AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -6.0)
+	AudioDirector.sfx_at("res://assets/audio/shield_ding.wav", global_position, -6.0,
+			randf_range(0.92, 1.1))
 
 func _is_locked_target() -> bool:
 	var p := Game.player
@@ -588,7 +597,7 @@ func on_parried(_host) -> void:
 	var p := _player()
 	if p != null and p.has_method("on_parry_success"):
 		p.on_parry_success(self)
-	_stagger(1.8)
+	_stagger(2.6)   # a parry buys a long breath: the riposte window
 
 func _die() -> void:
 	dead = true

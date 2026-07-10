@@ -28,6 +28,7 @@ var max_hp := 100.0
 var hp := 100.0
 var max_stamina := 80.0
 var stamina := 80.0
+var _winded := 0.0      # spent to zero: a beat of winded before attacking
 var max_poise := 30.0
 var poise := 30.0
 var flask_max := 3
@@ -432,9 +433,12 @@ func _desired_dir() -> Vector3:
 func _spend(amount: float) -> void:
 	stamina = maxf(stamina - amount, 0.0)
 	_stam_delay = float(T["stamina"]["regen_delay"])
+	if stamina <= 0.0:
+		_winded = 0.5   # the empty bar costs a beat before the next swing
 	stamina_changed.emit(stamina, max_stamina)
 
 func _regen(dt: float) -> void:
+	_winded = maxf(_winded - dt, 0.0)
 	# stamina
 	if _stam_delay > 0.0:
 		_stam_delay -= dt
@@ -698,7 +702,7 @@ func _bow_release() -> void:
 	vis.back_to_idle(0.2)
 	if _bow_t < 0.45:
 		return          # string never came to the cheek — no loose, no arrow
-	if int(inventory.get("arrows", 0)) < 1 or stamina < 1.0 or dead:
+	if int(inventory.get("arrows", 0)) < 1 or stamina < 1.0 or _winded > 0.0 or dead:
 		return
 	var w := weapon_data()
 	_spend(float(w["stamina"]["light"]))
@@ -747,7 +751,7 @@ func try_attack(heavy: bool) -> bool:
 func _chain_attack(heavy: bool) -> bool:
 	var w := weapon_data()
 	var cost: float = float(w["stamina"]["heavy" if heavy else "light"])
-	if stamina < 1.0:
+	if stamina < 1.0 or _winded > 0.0:
 		return false
 	var ms := DB.moveset(w.get("moveset", "longsword"))
 	var m: Dictionary
@@ -799,6 +803,8 @@ func _st_attack(dt: float) -> void:
 		_atk_hit_open = true
 		_open_hitbox(_atk)
 		vis.trail.visible = true
+		AudioDirector.sfx_at("res://assets/audio/swing.wav", global_position, -9.0,
+				randf_range(0.94, 1.1) * (0.85 if _atk_is_heavy else 1.0))
 	if _atk_hit_open and t >= wind + act and hitbox.monitoring:
 		hitbox.end_swing()
 		vis.trail.visible = false
@@ -860,6 +866,8 @@ func _on_hit_contact(_hb: Area3D, result: String) -> void:
 		"blocked":
 			Juice.hitstop(0.05)
 			AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -4.0)
+			AudioDirector.sfx_at("res://assets/audio/shield_ding.wav", global_position, -5.0,
+					randf_range(0.95, 1.12))
 		"parried":
 			pass  # on_parried() handles our stagger
 
@@ -972,7 +980,7 @@ func try_riposte() -> bool:
 func _do_riposte_damage(target: Node3D) -> void:
 	await get_tree().create_timer(0.34, false).timeout
 	if is_instance_valid(target) and state == S.RIPOSTE:
-		var pk := DamagePacket.new(_attack_damage(2.6), 999.0, self)
+		var pk := DamagePacket.new(_attack_damage(3.25), 999.0, self)
 		pk.can_be_blocked = false
 		pk.can_be_parried = false
 		pk.is_riposte = true
