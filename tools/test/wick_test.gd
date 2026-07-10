@@ -148,7 +148,7 @@ func _run() -> void:
 	check(pick.get("phase2_only", false) == true, "phase 2 swings only the two-handed arsenal (picked %s)" % pick.get("id", "none"))
 	check(String(boss.vis.loco_override.get("walk", "")) == "twohand_walk", "he carries the golden blade in both hands")
 	check(float(boss.cfg["attacks"][0]["dmg"]) > first_dmg, "his golden blade bites deeper")
-	await ticks(330)
+	await ticks(460)
 	check(area.glory_layer.visible, "the light sweeps, and the church remembers itself around the duel")
 	var npc_hidden := true
 	for n in area.glory_layer.get_children():

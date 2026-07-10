@@ -18,6 +18,7 @@ var _bar_t: ColorRect = null
 var _bar_b: ColorRect = null
 var _boss_ref: Node3D = null
 var _voice: AudioStreamPlayer3D = null
+var _walk_tw: Tween = null
 var _skipped := false
 
 func _physics_process(_dt: float) -> void:
@@ -68,13 +69,16 @@ func _cutscene(p) -> void:
 	boss.set_physics_process(false)
 	_cine_begin(boss)
 	boss.vis.play("walk", 0.2, 1.05)
+	# he speaks AS he comes — the address carries him down the nave, and the
+	# walk ends while the words still hang
 	var tw := create_tween()
+	tw.tween_interval(0.5)
+	tw.tween_callback(func(): _speak(boss, fog, p))
 	tw.tween_property(boss, "global_position", Vector3(0, 0.1, -19.0), 6.5)
 	tw.tween_callback(func():
 		if is_instance_valid(boss):
 			boss.vis.play("idle", 0.3))
-	tw.tween_interval(0.9)
-	tw.tween_callback(func(): _speak(boss, fog, p))
+	_walk_tw = tw
 
 ## The rig: a camera that keeps station 5 m down-nave of him at chest height,
 ## framed over black bars; a hint in the corner; a dip from black on entry.
@@ -177,6 +181,9 @@ func finish(fog, p) -> void:
 		return
 	_finished = true
 	_running = false
+	if _walk_tw != null and _walk_tw.is_valid():
+		_walk_tw.kill()   # ending mid-walk must not leave the tween dragging him
+	_walk_tw = null
 	var b := _boss_ref
 	_boss_ref = null
 	_close_sub()

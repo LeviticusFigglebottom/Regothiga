@@ -170,7 +170,7 @@ func _rite_cutscene() -> void:
 		Juice.shake(0.5, 0.5))
 	tw.tween_interval(2.6)      # ...and the drive holds, trembling
 	tw.tween_callback(_kindle_dark)
-	tw.tween_interval(0.9)
+	tw.tween_interval(2.0)      # the wax drains crown to boot; the blade comes out golden
 	tw.tween_callback(_rite_end)
 	_rite_tw = tw
 
@@ -240,7 +240,7 @@ func _turn_blade() -> void:
 	if vis.weapon_mount == null:
 		return
 	var tw := create_tween()
-	tw.tween_property(vis.weapon_mount, "rotation_degrees", Vector3(-100, 0, 0), 0.45) \
+	tw.tween_property(vis.weapon_mount, "rotation_degrees", Vector3(-170, 0, 0), 0.45) \
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 ## The turn itself — stats, black armour, gold blade, the two-handed style.
@@ -269,19 +269,59 @@ func _kindle_dark() -> void:
 	await get_tree().physics_frame
 	if dead or not is_instance_valid(vis):
 		return
-	# the wax leaves him: armour returns to the Latecomer's own — exactly
-	# the player's black, no invented tint — and only the blade takes the
-	# gold, burning in either state, carried in both hands now
-	_restore_body()
-	for mi in _body_meshes():
-		mi.layers &= ~GOLD_BIT
-	if vis.weapon_mount != null:
-		vis.weapon_mount.rotation_degrees = Vector3.ZERO   # the blade comes back to hand
-	_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 1.6)
+	# the wax leaves him FLOWING, not snapping: the gold drains crown to
+	# boot, one piece at a time (a body-scale vigil wave, gilt motes rising
+	# off each piece as it goes dark), and only once the armour is the
+	# Latecomer's own does he draw the blade back out of himself — golden.
+	_kindle_cascade()
 	vis.loco_override = {"idle": "twohand_idle", "walk": "twohand_walk", "run": "twohand_walk"}
-	vis.play("twohand_idle", 0.5)
 	Juice.shake(0.6, 0.5)
 	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, 0.0, 0.9)
+
+func _kindle_cascade() -> void:
+	var meshes := _body_meshes()
+	meshes.sort_custom(func(a, b) -> bool:
+		return (a as MeshInstance3D).get_aabb().get_center().y > (b as MeshInstance3D).get_aabb().get_center().y)
+	var step: float = 1.25 / maxf(float(meshes.size()), 1.0)
+	for i in meshes.size():
+		var mi: MeshInstance3D = meshes[i]
+		get_tree().create_timer(0.15 + step * i, false).timeout.connect(func() -> void:
+			if not is_instance_valid(mi) or mi.mesh == null:
+				return
+			for si in mi.mesh.get_surface_count():
+				var key := "%d:%d" % [mi.get_instance_id(), si]
+				if _orig.has(key):
+					mi.set_surface_override_material(si, _orig[key])
+			mi.layers &= ~GOLD_BIT
+			_gilt_motes(mi.global_transform * mi.get_aabb().get_center()))
+	get_tree().create_timer(0.15 + 1.25 + 0.25, false).timeout.connect(func() -> void:
+		if dead or not is_instance_valid(vis):
+			return
+		if vis.weapon_mount != null:
+			vis.weapon_mount.rotation_degrees = Vector3.ZERO   # drawn back out of himself
+		_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 1.6)
+		vis.play("twohand_idle", 0.5)
+		AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, -6.0, 1.3))
+
+## A small breath of gold leaving a piece of armour as it goes dark.
+func _gilt_motes(at: Vector3) -> void:
+	var p := CPUParticles3D.new()
+	p.amount = 10
+	p.lifetime = 0.7
+	p.one_shot = true
+	p.explosiveness = 0.9
+	p.direction = Vector3.UP
+	p.spread = 40.0
+	p.initial_velocity_min = 0.6
+	p.initial_velocity_max = 1.4
+	p.gravity = Vector3(0, 0.8, 0)
+	p.scale_amount_min = 0.02
+	p.scale_amount_max = 0.05
+	p.color = Color(1.0, 0.83, 0.45)
+	get_parent().add_child(p)
+	p.global_position = at
+	p.emitting = true
+	get_tree().create_timer(1.2, false).timeout.connect(p.queue_free)
 
 ## Insurance against the same renderer bug on his death: the private lights
 ## sleep before the corpse's layers ever churn.
