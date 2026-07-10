@@ -21,7 +21,7 @@ const STOPS := [
 	{"id": "larkspire", "from": Vector3(4.5, 2.4, 6.0), "to": Vector3(1.0, 2.6, 3.0), "look": Vector3(0, 3.0, -6)},
 	{"id": "black_gate", "from": Vector3(-2.0, 2.8, 24.0), "to": Vector3(3.0, 2.2, 16.0), "look": Vector3(0, 2.0, -4)},
 	{"id": "old_outskirts", "from": Vector3(-6.0, 4.0, 14.0), "to": Vector3(3.0, 2.4, 6.0), "look": Vector3(0, 1.4, -6)},
-	{"id": "drowned_marches", "from": Vector3(22.0, 2.2, 1.5), "to": Vector3(14.0, 2.0, 1.5), "look": Vector3(2, 1.0, 0)},
+	{"id": "drowned_marches", "from": Vector3(24.0, 3.4, 8.5), "to": Vector3(10.0, 2.8, 6.5), "look": Vector3(-4, 1.6, 0)},
 	{"id": "ossuary_undercroft", "from": Vector3(-21.5, 2.8, 0.0), "to": Vector3(-17.0, 3.6, -2.0), "look": Vector3(-12, 2.0, 0)},
 	{"id": "vigils_end", "from": Vector3(27.0, 3.4, -6.0), "to": Vector3(17.0, 2.0, 2.0), "look": Vector3(10, 1.0, 0)},
 ]
@@ -192,7 +192,7 @@ func _swap_stop() -> void:
 	if _done:
 		return
 	if _area != null and is_instance_valid(_area):
-		_area.queue_free()
+		VG.free_gently(_area)   # the wick stop carries a cull-masked key rig
 		_area = null
 	if _deck.is_empty():
 		_deck = STOPS.duplicate()
@@ -305,6 +305,6 @@ func _finish(choice: String, slot: int) -> void:
 	tw.tween_property(_veil, "color:a", 1.0, 0.7)
 	tw.tween_callback(func():
 		if _area != null and is_instance_valid(_area):
-			_area.queue_free()
+			VG.free_gently(_area)
 			_area = null
 		done.emit(choice, slot))

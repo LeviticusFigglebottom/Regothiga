@@ -116,6 +116,20 @@ func _enter_level() -> void:
 	_opt_i = 0
 	_render()
 
+## The panel wears its contents: measured from the rows, never clipping a
+## long line and never swimming around a short menu.
+func _fit_panel() -> void:
+	var need := list_box.get_combined_minimum_size()
+	var half_w: float = (maxf(need.x, 520.0) + 88.0) * 0.5
+	var h: float = 74.0 + need.y + 118.0
+	panel.offset_left = -half_w
+	panel.offset_right = half_w
+	panel.offset_top = -h * 0.5
+	panel.offset_bottom = h * 0.5
+	list_box.size = Vector2(half_w * 2.0 - 56.0, need.y)
+	info_label.position = Vector2(28, 74.0 + need.y + 22.0)
+	info_label.size = Vector2(half_w * 2.0 - 56.0, 64)
+
 func _render() -> void:
 	for c in list_box.get_children():
 		c.queue_free()
@@ -125,6 +139,7 @@ func _render() -> void:
 		l.label_settings = _ls(23, Color(0.98, 0.88, 0.6) if sel else Color(0.7, 0.66, 0.58))
 		l.text = ("»  " if sel else "    ") + _options[i]["label"]
 		list_box.add_child(l)
+	_fit_panel()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("move_forward"):

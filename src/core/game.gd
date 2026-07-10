@@ -138,7 +138,7 @@ func travel_to(area_id: String, spawn_pos: Vector3, spawn_yaw := 1e9) -> void:
 	world_root.add_child(next)
 	register_area(next, area_id)
 	if old != null:
-		old.queue_free()
+		VG.free_gently(old)
 	# entering an unvisited area finds it in glory (D-009)
 	StateDirector.snap(next, World.get_area_state(area_id))
 	player.global_position = spawn_pos

@@ -86,7 +86,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _stage(beat: Dictionary) -> void:
 	if _area != null:
-		_area.queue_free()
+		VG.free_gently(_area)
 	_area = AreaBuilder.build(beat["area"])
 	add_child(_area)
 	if not _orig.has(beat["area"]):

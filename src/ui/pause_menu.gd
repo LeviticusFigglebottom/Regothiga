@@ -96,6 +96,7 @@ func close() -> void:
 ## first bell. `reload` is a seam for headless tests (reloading the current
 ## scene there would re-run the test forever).
 func begin_anew(reload := true) -> void:
+	Game.arena_locked = false
 	World.reset()
 	if FileAccess.file_exists(World.save_path()):
 		DirAccess.remove_absolute(World.save_path())
@@ -106,6 +107,9 @@ func begin_anew(reload := true) -> void:
 	visible = false
 	get_tree().paused = false
 	if reload:
+		# the dying scene may carry gilded key rigs; dark first, then reload
+		VG.quench_lights(get_tree().current_scene)
+		await get_tree().process_frame
 		get_tree().reload_current_scene()
 
 # ------------------------------------------------------------------ UI build
@@ -197,8 +201,9 @@ func _build() -> void:
 	sb.border_color = Color(0.6, 0.5, 0.32)
 	sb.set_border_width_all(2)
 	_panel.add_theme_stylebox_override("panel", sb)
-	_panel.position = Vector2(670, 125)
-	_panel.size = Vector2(580, 830)
+	_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_panel.offset_left = -290
+	_panel.offset_right = 290
 	root.add_child(_panel)
 
 	var title := Label.new()
@@ -291,6 +296,10 @@ func _show_page(name_: String) -> void:
 	_page = name_
 	for k in _pages:
 		_pages[k].visible = (k == name_)
+	# the sheet wears its page: header + contents + a hem, no dead vellum
+	var h: float = 156.0 + _pages[name_].get_combined_minimum_size().y + 46.0
+	_panel.offset_top = -h * 0.5
+	_panel.offset_bottom = h * 0.5
 	var fb: Control = _first_button.get(name_)
 	if fb != null:
 		fb.grab_focus()
