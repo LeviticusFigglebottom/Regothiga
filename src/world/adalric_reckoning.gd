@@ -8,10 +8,10 @@ extends Node3D
 
 const LINES := [
 	"What have you done... Latecomer. What have you done?",
-	"Do you feel it? The world is setting — like wax slipping off the flame. There was no ruin before this hour. Understand me: there never was. Only the kingdom, poured soul by soul into its wicks against the long dark — and a seeming of ash laid over the hoard, to turn away thieves.",
-	"And one flame stood watch over it all. The last of the Thirteen, sworn to ring the hour and call every soul home. You knew that oath. You SWORE it, before the wax took your memory — as it takes them all. He remembered you, Latecomer. And you cut him down.",
-	"So the seeming is spent, and this is the only kingdom now. Every soul of it sealed in the tallow, and no keeper left to wake them. I called the ash honest and the shine a memory... backwards. All of it, backwards. I have grieved my whole life over a painted dark.",
-	"One road remains. The temple at the city's heart — the final flame the Thirteen were to kindle together, each with their own soul. One soul, freely given, may yet be enough. Go. Walk the pilgrim way, and give back the morning you took. The light itself will make you a road.",
+	"You were one of them. The THIRTEENTH. Twelve keepers rang their hours and waited on the last bell — yours. It never came. The dark found you on the road, Latecomer. It hollowed you out, and it turned your eyes, and the hour's own bellman forgot his name in the wax.",
+	"So understand what you have walked through. The kingdom never fell. There was no ruin — not before tonight. The guttered streets, the monstrous wardens — the dark painted all of it over your eyes. They were keepers. Faithful. The living. And your blade fell on every one of them.",
+	"And now the last Immortal is cold by your hand — and for the first time, truly, the dark has fallen on Vespergard. Not a vision. Not a seeming. Every soul the wax was keeping is sealed in it now, and there is no keeper left alive to call the morning.",
+	"One hope remains, and heaven forgive the shape of it: you. The thirteenth bell — the one soul the dark could not quite finish. The temple stands at the city's heart, and the final flame waits on a soul freely given. Go, Latecomer. Ring your hour at last. The light itself will make you a road.",
 ]
 const VOICE_FMT := "res://assets/audio/voice/adalric_reck_%02d.mp3"
 
@@ -41,6 +41,8 @@ func _physics_process(dt: float) -> void:
 		return
 	stage_now()
 
+var _hidden_props: Array = []
+
 func stage_now() -> void:
 	if _staged:
 		return
@@ -48,6 +50,15 @@ func stage_now() -> void:
 	_player = Game.player
 	_player.lock_control(true)
 	_player.velocity = Vector3.ZERO
+	# the terrace wellhead sits on his walk line: it stands aside for the
+	# scene and returns when the frame is handed back
+	var area = Game.current_area
+	if area != null and is_instance_valid(area):
+		for n in area.base.get_children():
+			if n is Node3D and String(n.get_meta("kit_id", "")) == "wellhead" \
+					and (n as Node3D).global_position.distance_to(_player.global_position) < 16.0:
+				(n as Node3D).visible = false
+				_hidden_props.append(n)
 	# he comes up the terrace from the town side, sword lowered
 	_knight = CharVisual.new()
 	add_child(_knight)
@@ -202,6 +213,10 @@ func _end() -> void:
 
 func _cine_end() -> void:
 	set_process(false)
+	for n in _hidden_props:
+		if is_instance_valid(n):
+			(n as Node3D).visible = true
+	_hidden_props.clear()
 	if _layer != null and is_instance_valid(_layer):
 		var l := _layer
 		var b := _black

@@ -131,7 +131,13 @@ func _stop_voice() -> void:
 
 func _enter_options() -> void:
 	_phase = "options"
-	_options = npc_cfg.get("services", []).duplicate()
+	_options = []
+	for o in npc_cfg.get("services", []):
+		# a once-bought service (a learned rite, the one tallow heart) is
+		# done: it leaves the menu instead of tempting a second purchase
+		if o.has("once_flag") and World.flag(String(o["once_flag"])):
+			continue
+		_options.append(o)
 	_options.append({"id": "leave", "label": "Leave"})
 	text_label.visible = false
 	options_box.visible = true
@@ -231,7 +237,11 @@ func _activate(o: Dictionary) -> void:
 			var qty := int(o.get("count", 1))
 			var price := int(o.get("orisons", 100))
 			var is_arm := not DB.weapon(item).is_empty()
-			if is_arm and int(p.inventory.get(item, 0)) > 0:
+			var is_rite := not DB.spell(item).is_empty()
+			if o.has("once_flag") and World.flag(String(o["once_flag"])):
+				text_label.text = o.get("line_have", "That is already yours.")
+				_flash_line()
+			elif (is_arm or is_rite) and int(p.inventory.get(item, 0)) > 0:
 				text_label.text = o.get("line_have", "You carry that already.")
 				_flash_line()
 			elif Game.orisons < price:
@@ -240,6 +250,8 @@ func _activate(o: Dictionary) -> void:
 			else:
 				Game.add_orisons(-price)
 				p.give_item(item, qty)
+				if o.has("once_flag"):
+					World.set_flag(String(o["once_flag"]))
 				var iname: String = DB.weapon(item).get("name", DB.item(item).get("name", item))
 				Game.toast.emit("Received %s%s." % [iname, (" x%d" % qty) if qty > 1 else ""])
 				AudioDirector.sfx("res://assets/audio/levelup.wav", -6.0)

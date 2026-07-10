@@ -484,10 +484,14 @@ func _set_state(s: S) -> void:
 		apply_carry_pose()
 	if state == S.FLASK and s != S.FLASK:
 		_show_flask(false)   # a stagger or a death mid-drink drops the gourd
+		if vis.shield_mount != null:
+			vis.shield_mount.visible = not bool(weapon_data().get("two_handed", false))
 	state = s
 	state_t = 0.0
 	if s != S.MOVE:
-		_bow_drawing = false   # a roll, a stagger, a menu — the arrow is lost
+		if _bow_drawing:
+			_nock_arrow(false)   # a roll, a stagger, a menu — the arrow is lost
+		_bow_drawing = false
 		cam.zoomed = false
 	state_changed.emit(s)
 
@@ -740,7 +744,6 @@ const CARRY_POSE := {
 	"torch": Vector3(155, 0, 0),   # upright, a hair of forward cant (180 leaned back)
 	"marsh_spear": Vector3(180, 0, 0),
 	"pilgrim_greatsword": Vector3(-40, 0, 0),
-	"lark_bow": Vector3(0, 0, 90),
 }
 var _torch_light: OmniLight3D = null
 
@@ -803,14 +806,31 @@ func _bow_move_input(dt: float) -> void:
 		elif stamina > 1.0:
 			_bow_drawing = true
 			_bow_t = 0.0
-			vis.play("block", 0.12)   # the draw pose
+			vis.play("bow_draw", 0.1)
+			_nock_arrow(true)
 	if _bow_drawing:
 		_bow_t += dt
 		if not Input.is_action_pressed("attack_light"):
 			_bow_release()
 
+## The nocked shaft rides the bow while the string is drawn.
+var _nock: Node3D = null
+
+func _nock_arrow(on: bool) -> void:
+	if _nock != null and is_instance_valid(_nock):
+		_nock.queue_free()
+	_nock = null
+	if on and vis.bow_mount != null:
+		_nock = Projectile.make_arrow()
+		vis.bow_mount.add_child(_nock)
+		# bow mount: +Y along the (vertical) bow; the shaft lies across it,
+		# pointing where the archer faces
+		_nock.position = Vector3(0, 0.52, 0)
+		_nock.rotation_degrees = Vector3(-90, 0, 0)
+
 func _bow_release() -> void:
 	_bow_drawing = false
+	_nock_arrow(false)
 	vis.back_to_idle(0.2)
 	if _bow_t < 0.45:
 		return          # string never came to the cheek — no loose, no arrow
@@ -831,7 +851,7 @@ func _bow_release() -> void:
 			float(w.get("poise_damage", 10)) * k, self)
 	pk.kind = "arrow"
 	pk.can_be_parried = false
-	var pr := Projectile.launch(get_parent(), from, aim, 26.0 + 16.0 * k, pk, Color(0.92, 0.87, 0.72))
+	var pr := Projectile.launch_arrow(get_parent(), from, aim, 26.0 + 16.0 * k, pk)
 	pr.team = "player"
 	vis.rotation.y = atan2(-aim.x, -aim.z)
 	AudioDirector.sfx_at("res://assets/audio/whoosh_l.wav", global_position, -6.0, 1.4)
@@ -1124,6 +1144,8 @@ func try_flask() -> bool:
 	_set_state(S.FLASK)
 	vis.play("flask", 0.08)
 	_show_flask(true)
+	if vis.shield_mount != null:
+		vis.shield_mount.visible = false   # the gourd arm carries no shield
 	AudioDirector.sfx("res://assets/audio/flask.wav", -6.0)
 	return true
 
@@ -1192,6 +1214,53 @@ func cast_spell(id: String) -> void:
 			Juice.shake(0.35, 0.3)
 			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -3.0, 0.8)
 			_radiant_flash(3.2, 7.5)
+			_burst_nova(r)
+
+## The Burst made visible: a golden ring racing out along the stones to the
+## rite's true radius, motes thrown outward, a breath of scorch-light.
+func _burst_nova(radius: float) -> void:
+	var ring := MeshInstance3D.new()
+	var tm := TorusMesh.new()
+	tm.inner_radius = 0.86
+	tm.outer_radius = 1.0
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mat.albedo_color = Color(1.0, 0.85, 0.5, 0.85)
+	tm.material = mat
+	ring.mesh = tm
+	ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	get_parent().add_child(ring)
+	ring.global_position = global_position + Vector3(0, 0.12, 0)
+	ring.scale = Vector3.ONE * 0.4
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(ring, "scale", Vector3(radius, 0.9, radius), 0.5) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(mat, "albedo_color:a", 0.0, 0.55)
+	get_tree().create_timer(0.8, false).timeout.connect(ring.queue_free)
+	var p := CPUParticles3D.new()
+	p.amount = 90
+	p.lifetime = 0.7
+	p.one_shot = true
+	p.explosiveness = 1.0
+	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_RING
+	p.emission_ring_axis = Vector3.UP
+	p.emission_ring_radius = 0.9
+	p.emission_ring_inner_radius = 0.5
+	p.emission_ring_height = 0.1
+	p.direction = Vector3.UP
+	p.spread = 55.0
+	p.initial_velocity_min = radius * 1.1
+	p.initial_velocity_max = radius * 1.9
+	p.gravity = Vector3(0, -3.5, 0)
+	p.scale_amount_min = 0.03
+	p.scale_amount_max = 0.09
+	p.color = Color(1.0, 0.86, 0.5)
+	get_parent().add_child(p)
+	p.global_position = global_position + Vector3.UP * 0.5
+	p.emitting = true
+	get_tree().create_timer(1.4, false).timeout.connect(p.queue_free)
 
 ## A brief kindled light on the Latecomer — every rite glows.
 func _radiant_flash(energy: float, rng: float) -> void:
@@ -1226,7 +1295,7 @@ func _show_flask(on: bool) -> void:
 		if _flask_mount == null and KitLib.has_piece("chrism_flask"):
 			_flask_mount = vis.mount("hand_l")
 			_flask_mount.position = Vector3(0, 0.07, 0.02)
-			_flask_mount.rotation_degrees = Vector3(-104, 0, 0)
+			_flask_mount.rotation_degrees = Vector3(104, 0, 0)
 			_flask_mount.add_child(KitLib.instance("chrism_flask"))
 	elif _flask_mount != null:
 		var att := _flask_mount.get_parent()   # the BoneAttachment3D

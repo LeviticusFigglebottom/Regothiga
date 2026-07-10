@@ -19,6 +19,65 @@ static func launch(parent: Node, from: Vector3, dir: Vector3, speed: float,
 	p._dress(color)
 	return p
 
+## A loosed shaft: same flight and rules, but it LOOKS like an arrow —
+## wood, steel and fletching along the line of flight, no glowing orb.
+static func launch_arrow(parent: Node, from: Vector3, dir: Vector3, speed: float,
+		pk: DamagePacket) -> Projectile:
+	var p := Projectile.new()
+	p.packet = pk
+	p.velocity = dir.normalized() * speed
+	parent.add_child(p)
+	p.global_position = from
+	var d := dir.normalized()
+	var up := Vector3.UP if absf(d.dot(Vector3.UP)) < 0.98 else Vector3.RIGHT
+	p.global_transform.basis = Basis.looking_at(d, up)
+	p.add_child(make_arrow())
+	return p
+
+## The arrow model, -Z forward from the nock: ash shaft, steel head, a
+## lark-feather hint at the tail. Shared by the nocked visual and the shot.
+static func make_arrow() -> Node3D:
+	var root := Node3D.new()
+	var shaft := MeshInstance3D.new()
+	var cm := CylinderMesh.new()
+	cm.top_radius = 0.011
+	cm.bottom_radius = 0.011
+	cm.height = 0.56
+	var wood := StandardMaterial3D.new()
+	wood.albedo_color = Color(0.42, 0.33, 0.22)
+	cm.material = wood
+	shaft.mesh = cm
+	shaft.rotation_degrees = Vector3(90, 0, 0)   # cylinder Y -> -Z flight line
+	shaft.position = Vector3(0, 0, -0.06)
+	root.add_child(shaft)
+	var head := MeshInstance3D.new()
+	var hm := CylinderMesh.new()
+	hm.top_radius = 0.0
+	hm.bottom_radius = 0.026
+	hm.height = 0.07
+	var steel := StandardMaterial3D.new()
+	steel.albedo_color = Color(0.6, 0.62, 0.66)
+	steel.metallic = 0.7
+	steel.roughness = 0.35
+	hm.material = steel
+	head.mesh = hm
+	head.rotation_degrees = Vector3(-90, 0, 0)
+	head.position = Vector3(0, 0, -0.37)
+	root.add_child(head)
+	var fletch := MeshInstance3D.new()
+	var fm := BoxMesh.new()
+	fm.size = Vector3(0.004, 0.05, 0.09)
+	var feather := StandardMaterial3D.new()
+	feather.albedo_color = Color(0.75, 0.7, 0.58)
+	fm.material = feather
+	fletch.mesh = fm
+	fletch.position = Vector3(0, 0, 0.2)
+	root.add_child(fletch)
+	var fletch2 := fletch.duplicate()
+	fletch2.rotation_degrees = Vector3(0, 0, 90)
+	root.add_child(fletch2)
+	return root
+
 func _init() -> void:
 	collision_layer = 0
 	collision_mask = 1 << (VG.L_HURTBOX - 1)
