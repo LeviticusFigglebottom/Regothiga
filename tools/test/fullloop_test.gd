@@ -120,7 +120,7 @@ func _run() -> void:
 	check(Game.orisons >= 90, "the orisons return (%d)" % Game.orisons)
 
 	print("== 7. grow by prayer at the lantern")
-	var vit0: int = player.attributes["vitality"]
+	var vit0: int = player.attributes["vigor"]
 	var ui := RestUI.new(lantern, player)
 	get_tree().root.add_child(ui)
 	await ticks(2)
@@ -130,10 +130,10 @@ func _run() -> void:
 			li = i
 	ui.choose(li)
 	await ticks(2)
-	ui.choose(0)   # vitality
+	ui.choose(0)   # vigor
 	await ticks(2)
 	ui.close()
-	check(player.attributes["vitality"] == vit0 + 1, "vitality grown by prayer")
+	check(player.attributes["vigor"] == vit0 + 1, "vigor grown by prayer")
 	check(player.level == 2, "level 2")
 
 	print("== 8. the warden behind the pale")

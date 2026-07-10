@@ -7,6 +7,16 @@ var lantern: VigilLantern
 var player
 
 var _phase := "main"    # main | level
+
+## What each prayer actually buys — shown beside the stat at the vigil.
+const STAT_HINTS := {
+	"vigor": "+12 hp",
+	"endurance": "+6 stamina, quicker breath",
+	"strength": "heavier sword & greatsword blows",
+	"dexterity": "keener bow & spear",
+	"grace": "+7 wick, faster kindling",
+	"devotion": "brighter rites, harm and mending alike",
+}
 var _opt_i := 0
 var _options: Array = []
 var panel: Panel
@@ -95,8 +105,9 @@ func _enter_level() -> void:
 	_options = []
 	var cost := _level_cost()
 	for stat in DB.tuning("levels/stats", []):
-		_options.append({"id": "stat:" + stat, "label": "%s  %d  →  %d      (%d orisons)" %
-			[stat.capitalize(), player.attributes[stat], player.attributes[stat] + 1, cost]})
+		_options.append({"id": "stat:" + stat, "label": "%s  %d  →  %d   ·  %s      (%d orisons)" %
+			[stat.capitalize(), player.attributes[stat], player.attributes[stat] + 1,
+			STAT_HINTS.get(stat, ""), cost]})
 	_options.append({"id": "back", "label": "Back"})
 	info_label.text = "Level %d.  Each prayer costs %d orisons.  You hold %d." % [player.level, cost, Game.orisons]
 	_opt_i = 0

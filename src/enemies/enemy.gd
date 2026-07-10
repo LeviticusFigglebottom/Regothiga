@@ -379,7 +379,6 @@ func _begin_attack(a: Dictionary) -> void:
 	var w := float(a.get("windup", 0.5)) / speed_mult
 	var contact := float(_CONTACT.get(anim_name, 0.56))
 	vis.play(anim_name, 0.08, contact / maxf(w, 0.05))
-	AudioDirector.sfx_at("res://assets/audio/whoosh_h.wav", global_position, -10.0, 0.8)
 
 func _st_attack(dt: float) -> void:
 	_sync_blade()   # the blade box wears the weapon's frame through the swing

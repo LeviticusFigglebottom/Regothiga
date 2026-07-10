@@ -19,7 +19,10 @@ signal inventory_changed
 enum S { MOVE, ROLL, BACKSTEP, ATTACK, BLOCK, PARRY, RIPOSTE, FLASK, STAGGER, REST, TALK, DEAD }
 
 # --- attributes & derived -------------------------------------------------
-var attributes := {"vitality": 8, "endurance": 8, "strength": 8, "grace": 8, "devotion": 8}
+## Every prayer does something: vigor holds life, endurance the breath
+## (cap AND recovery), strength the sword and greatsword, dexterity the bow
+## and spear, grace the wick (cap AND kindling), devotion the rites.
+var attributes := {"vigor": 8, "endurance": 8, "strength": 8, "dexterity": 8, "grace": 8, "devotion": 8}
 var mana := 0.0
 var max_mana := 0.0               # stays 0 until the first rite is learned
 var _cast_cd := 0.0
@@ -281,9 +284,9 @@ func _gilt_motes(at: Vector3) -> void:
 func recompute_derived() -> void:
 	var base: Dictionary = T["base"]
 	var per: Dictionary = T["per_level"]
-	max_mana = (70.0 + (attributes["devotion"] - 8) * 7.0) if knows_any_spell() else 0.0
+	max_mana = (70.0 + (attributes["grace"] - 8) * 7.0) if knows_any_spell() else 0.0
 	mana = minf(mana, max_mana)
-	max_hp = float(base["hp"]) + (attributes["vitality"] - 8) * float(per["vitality_hp"])
+	max_hp = float(base["hp"]) + (attributes["vigor"] - 8) * float(per["vigor_hp"])
 	max_stamina = float(base["stamina"]) + (attributes["endurance"] - 8) * float(per["endurance_stamina"])
 	max_poise = float(base["poise"])
 
@@ -542,6 +545,7 @@ func _spend(amount: float) -> void:
 
 func _regen(dt: float) -> void:
 	_winded = maxf(_winded - dt, 0.0)
+	_no_atk_toast = maxf(_no_atk_toast - dt, 0.0)
 	_riposte_t = maxf(_riposte_t - dt, 0.0)
 	if _riposte_t <= 0.0:
 		_riposte_target = null
@@ -550,10 +554,11 @@ func _regen(dt: float) -> void:
 		_stam_delay -= dt
 	elif stamina < max_stamina and state != S.ROLL and state != S.ATTACK and state != S.RIPOSTE:
 		var mult: float = float(T["stamina"]["regen_block_mult"]) if _blocking else 1.0
+		mult *= 1.0 + (attributes["endurance"] - 8) * 0.02   # endurance quickens the breath
 		stamina = minf(stamina + float(T["stamina"]["regen"]) * mult * dt, max_stamina)
 		stamina_changed.emit(stamina, max_stamina)
 	if max_mana > 0.0 and mana < max_mana:
-		mana = minf(mana + 3.5 * dt, max_mana)
+		mana = minf(mana + (3.5 + (attributes["grace"] - 8) * 0.45) * dt, max_mana)
 		mana_changed.emit(mana, max_mana)
 	if _cast_cd > 0.0:
 		_cast_cd -= dt
@@ -732,6 +737,7 @@ func equip_weapon(id: String) -> void:
 ## (relaxed arms ran it through the floor), the greatsword shoulders, the
 ## bow stands upright. Attacks zero the mount so strikes lead true.
 const CARRY_POSE := {
+	"torch": Vector3(180, 0, 0),
 	"marsh_spear": Vector3(180, 0, 0),
 	"pilgrim_greatsword": Vector3(-40, 0, 0),
 	"lark_bow": Vector3(0, 0, 90),
@@ -838,12 +844,19 @@ func _attack_damage(mult: float) -> float:
 	var w := weapon_data()
 	var scal: Dictionary = w.get("scaling", {})
 	var s: float = 1.0 + attributes["strength"] * float(scal.get("strength", 0.0)) * 0.02 \
-			+ attributes["grace"] * float(scal.get("grace", 0.0)) * 0.02
+			+ attributes["dexterity"] * float(scal.get("dexterity", 0.0)) * 0.02
 	var up := 1.0 + 0.14 * weapon_level
 	return float(w.get("damage", 10)) * s * up * mult * Game.dmg_out_mult()
 
+var _no_atk_toast := 0.0
+
 func try_attack(heavy: bool) -> bool:
 	if dead or _bow_equipped():
+		return false
+	if weapon_data().get("no_attack", false):
+		if _no_atk_toast <= 0.0:
+			_no_atk_toast = 2.5
+			Game.toast.emit("The torch is for the dark, not the duel.")
 		return false
 	if state == S.ATTACK:
 		# queue combo link during recovery
@@ -856,6 +869,8 @@ func try_attack(heavy: bool) -> bool:
 ## Starts a swing regardless of current attack state (combo links use this).
 func _chain_attack(heavy: bool) -> bool:
 	var w := weapon_data()
+	if w.get("no_attack", false):
+		return false
 	var cost: float = float(w["stamina"]["heavy" if heavy else "light"])
 	if stamina < 1.0 or _winded > 0.0:
 		return false
@@ -888,8 +903,6 @@ func _begin_attack(m: Dictionary, heavy: bool) -> void:
 		vis.rotation.y = atan2(-dir.x, -dir.z)
 	_lunge = float(m.get("lunge", 2.0))
 	vis.play(m.get("anim", "attack_l1"), 0.05)
-	AudioDirector.sfx_at("res://assets/audio/whoosh_h.wav" if heavy else "res://assets/audio/whoosh_l.wav",
-			global_position, -8.0, randf_range(0.92, 1.08))
 
 func _st_attack(dt: float) -> void:
 	var wind := float(_atk["windup"])
@@ -968,7 +981,7 @@ func _on_hit_contact(_hb: Area3D, result: String) -> void:
 		"hit":
 			Juice.hitstop(0.09 if _atk_is_heavy else 0.06)
 			Juice.shake(0.35 if _atk_is_heavy else 0.2, 0.18)
-			AudioDirector.sfx_at("res://assets/audio/impact_flesh.wav", global_position, -4.0, randf_range(0.9, 1.1))
+			AudioDirector.sfx_at("res://assets/audio/slash.wav", global_position, -4.0, randf_range(0.9, 1.1))
 		"blocked":
 			Juice.hitstop(0.05)
 			AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -4.0)
@@ -1349,8 +1362,11 @@ func to_save() -> Dictionary:
 func from_save(d: Dictionary) -> void:
 	if d.is_empty():
 		return
+	var sa: Dictionary = d.get("attributes", {})
+	if sa.has("vitality") and not sa.has("vigor"):
+		sa["vigor"] = sa["vitality"]   # older saves named it vitality
 	for k in attributes:
-		attributes[k] = int(d.get("attributes", {}).get(k, attributes[k]))
+		attributes[k] = int(sa.get(k, attributes[k]))
 	level = int(d.get("level", 1))
 	flask_max = int(d.get("flask_max", 3))
 	weapon_id = d.get("weapon", "cloistersword")

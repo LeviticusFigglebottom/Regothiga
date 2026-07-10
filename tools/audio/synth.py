@@ -245,6 +245,15 @@ def gen_impacts():
     crack = lowpass_fft(rng.normal(0, 1, len(t)), 2400) * env_ad(len(t), 0.001, 0.025) * 0.8
     write("impact_flesh", thud * 1.2 + crack, 0.8)
 
+    # the SLASH: a cut that lands — fast bright shear over a short wet body,
+    # keener and shorter than the swing's air-cut
+    n = int(0.2 * SR)
+    shear = bandpass_sweep(rng.normal(0, 1, n), 5600, 2100, 0.5) * env_ad(n, 0.001, 0.05)
+    wet = lowpass_fft(rng.normal(0, 1, n), 620) * env_ad(n, 0.002, 0.055) * 0.9
+    tf = 150 * np.exp(-np.arange(n) / SR * 11)
+    body = np.sin(2 * np.pi * np.cumsum(tf) / SR) * env_ad(n, 0.001, 0.05) * 0.7
+    write("slash", np.tanh((shear * 1.25 + wet + body) * 2.0), 0.78)
+
     t = t_axis(0.42)
     x = np.zeros_like(t)
     for f0, a in [(760, 1.0), (1290, 0.6), (2140, 0.42), (3200, 0.2)]:
