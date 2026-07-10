@@ -113,20 +113,53 @@ func _kindle() -> void:
 	for a in cfg.get("attacks", []):
 		a["dmg"] = float(a["dmg"]) * 1.35
 	WickReveal.radiance(Game.current_area)
-	# the wax leaves him: armor to the Latecomer's black (no glow), blade
-	# to a golden light that burns in either state
-	_paint_body(Color(0.11, 0.10, 0.12), Color.BLACK, 0.0)
-	_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 2.4)
+	# the wax leaves him: armour returns to the Latecomer's own — exactly
+	# the player's black, no invented tint — and only the blade takes the
+	# gold, burning in either state
+	_restore_body()
+	_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 1.6)
 	Juice.shake(0.8, 0.7)
 	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, 2.0, 0.75)
 
-## He arrives radiant: gold armor that GLOWS on its own (emission, so it
-## reads bright even in the black of the ruined nave), a pale bright blade.
+## He arrives as the kingdom kept him: gleaming burnished gold — a low
+## emissive lift so the metal catches the eye in the ruined dark, NOT a
+## beacon — while his sword stays the Latecomer's own, untouched.
 func _radiant() -> void:
-	# a lit gold that still reads its plates — bright enough to glow in the
-	# ruined dark, not so hot it burns to a featureless blob
-	_paint_body(Color(1.0, 0.88, 0.58), Color(1.0, 0.78, 0.4), 0.85)
-	_paint_weapon(Color(0.92, 0.94, 1.0), Color(0.72, 0.8, 0.98), 0.45)
+	_cache_originals()
+	_paint_body(Color(1.0, 0.8, 0.36), Color(1.0, 0.72, 0.3), 0.28)
+	_restore_weapon()
+
+## Snapshot each body/blade surface's real material once, so phase changes
+## can hand the player's exact armour and sword straight back.
+var _orig: Dictionary = {}          # "iid:surf" -> Material
+
+func _cache_originals() -> void:
+	if not _orig.is_empty() or vis.body == null:
+		return
+	for n in vis.body.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh == null:
+			continue
+		for i in mi.mesh.get_surface_count():
+			_orig["%d:%d" % [mi.get_instance_id(), i]] = mi.get_active_material(i)
+
+func _restore_body() -> void:
+	_restore_scope(vis.body)
+
+func _restore_weapon() -> void:
+	_restore_scope(vis.weapon_mount)
+
+func _restore_scope(root: Node) -> void:
+	if root == null:
+		return
+	for n in root.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh == null:
+			continue
+		for i in mi.mesh.get_surface_count():
+			var key := "%d:%d" % [mi.get_instance_id(), i]
+			if _orig.has(key):
+				mi.set_surface_override_material(i, _orig[key])
 
 ## Repaint every mesh under the body (its blade too, being bone-parented);
 ## the weapon repaint runs after so the blade always wins its own colour.
