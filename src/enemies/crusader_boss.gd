@@ -18,6 +18,8 @@ var _phase2 := false
 func _ready() -> void:
 	super()
 	cfg = cfg.duplicate(true)   # phase 2 rewrites his damage; never the table's
+	# he arrives as the kingdom kept him: radiant, not yet yours
+	_tint.call_deferred(Color(1.0, 0.84, 0.5), Color(0.78, 0.8, 0.88))
 
 func _physics_process(dt: float) -> void:
 	_iframes = maxf(_iframes - dt, 0.0)

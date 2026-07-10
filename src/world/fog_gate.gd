@@ -13,6 +13,7 @@ var _plane: MeshInstance3D
 var _zone: Interactable
 var _seal: StaticBody3D
 var _engaged := false
+var intercept: Node = null   # a scripted reveal may stage the first engagement
 var _snap_when_ready := false
 
 func _ready() -> void:
@@ -51,6 +52,10 @@ func _on_enter(player) -> void:
 		return
 	_engaged = true
 	_zone.enabled = false
+	# a scripted reveal may stage the first engagement the moment the
+	# pale is parted; the step-through still carries the player in
+	var staged: bool = intercept != null and is_instance_valid(intercept) \
+			and intercept.has_method("on_parted") and intercept.on_parted(self, player)
 	# step through the veil
 	var through: Vector3 = global_position - global_transform.basis.z * 2.2
 	through.y = player.global_position.y
@@ -58,6 +63,8 @@ func _on_enter(player) -> void:
 	player.lock_control(true)
 	tw.tween_property(player, "global_position", through, 0.7)
 	tw.tween_callback(func():
+		if staged:
+			return
 		player.lock_control(false)
 		for a in get_tree().get_nodes_in_group("allies"):
 			if a.has_method("blink_to_player"):

@@ -11,23 +11,23 @@ var _ran := false
 var _sub: CanvasLayer
 
 func _physics_process(_dt: float) -> void:
-	if _ran or StateDirector.transitioning:
-		return
-	if Game.current_area_id != "wick_cathedral" or Game.current_area == null:
-		return
-	if int(Game.current_area.get("_applied")) != VG.WState.RUIN:
-		return
-	if World.area_flag("wick_cathedral", "met_crusader"):
-		_ran = true
-		return
-	var p = Game.player
-	if p == null or not is_instance_valid(p):
-		return
-	if p.global_position.z < -36.5:      # still in the lantern room
-		return
+	# claim the veil once it exists (fog gates build after scripted nodes)
+	var area = get_parent().get_parent() if get_parent() != null else null
+	if area is Area:
+		for n in (area as Area).ruin_layer.get_children():
+			if n is FogGate and (n as FogGate).intercept == null:
+				(n as FogGate).intercept = self
+	set_physics_process(false)
+
+## Called by the fog gate when the pale is parted. Returns true when the
+## reveal stages the engagement itself (first meeting only).
+func on_parted(_fog: FogGate, p) -> bool:
+	if _ran or World.area_flag("wick_cathedral", "met_crusader"):
+		return false
 	_ran = true
 	World.set_area_flag("wick_cathedral", "met_crusader")
 	_cutscene.call_deferred(p)
+	return true
 
 func _cutscene(p) -> void:
 	var area = Game.current_area

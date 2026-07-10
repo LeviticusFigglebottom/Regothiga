@@ -27,7 +27,7 @@ func _ready() -> void:
 		KitLib.add_flame_lights(held, 1.2, 3.0)
 	# the waxbound pray without rising; they do not turn for you
 	if cfg.get("pose", "") == "kneel":
-		_vis.play("kneel", 0.0)
+		_vis.play("pray", 0.0)
 		set_physics_process(false)
 	# a body: you cannot walk through the Chandler
 	var tag := String(get_meta("state_tag", "glory"))

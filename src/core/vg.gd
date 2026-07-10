@@ -1,7 +1,7 @@
 class_name VG
 
 ## Build tag shown in the HUD pose line — proves WHICH code a screenshot ran
-const BUILD := "U23"
+const BUILD := "U24"
 ## Global constants and enums for Vespergard.
 
 enum WState { GLORY, RUIN }

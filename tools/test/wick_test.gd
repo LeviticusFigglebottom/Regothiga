@@ -100,9 +100,14 @@ func _run() -> void:
 			glyphs += 1
 	check(glyphs == 0, "no summoning sign — this duel admits no phantom")
 	StateDirector.snap(area, VG.WState.RUIN)
-	player.global_position = Vector3(0, 0.3, -24)
-	await ticks(30)
-	check(World.area_flag("wick_cathedral", "met_crusader"), "stepping into the ruined nave stages his entrance")
+	player.global_position = Vector3(0, 0.3, -39.5)
+	await ticks(10)
+	check(fog.intercept != null, "the reveal owns the veil's first parting")
+	fog._on_enter(player)
+	await ticks(60)
+	check(player.global_position.z > -37.5,
+		"parting the pale steps INTO the nave (z=%.2f)" % player.global_position.z)
+	check(World.area_flag("wick_cathedral", "met_crusader"), "the first parting stages his entrance")
 	var boss = fog.boss_spawner.current
 	check(boss != null and boss.cfg.get("name", "") == "The Immortalized", "the Immortalized answers")
 	await ticks(90)
