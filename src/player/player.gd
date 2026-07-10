@@ -92,6 +92,12 @@ var _poise_delay := 0.0
 var _riposte_target: Node3D = null
 var _riposte_t := 0.0
 
+# the keeper's light, passed on: once the Immortalized falls, the oath finds
+# its last living holder and the Latecomer's armour goes to gold for good
+var _radiant := false
+var _gold_rig: Node3D = null
+const GOLD_BIT := 1 << 19   # the private key-light channel the gilded wear
+
 # out-of-bounds failsafe
 var _last_ground := Vector3.ZERO
 
@@ -176,6 +182,101 @@ func _ready() -> void:
 	look_compat = bool(PauseUI.settings.get("look_compat", false))
 	if not sim_active:
 		_grab_mouse(true)
+	# a gilded Latecomer stays gilded: reapply the passed light on rebuild
+	if World.flag("latecomer_radiant"):
+		become_radiant.call_deferred(false)
+
+## The keeper's light passes to the last living oath-holder: the armour goes
+## to the kingdom's own gold, boot to crown (a body-scale kindling, gilt
+## motes rising off each piece), lit by a private key-rig culled to the
+## gilded channel so the metal reads in the dark without torching the floor.
+## The blade and shield stay the Latecomer's own. Renderer discipline as
+## with the boss: lights are added once and never freed mid-scene.
+func become_radiant(cascade := true) -> void:
+	if _radiant or vis == null or vis.body == null:
+		return
+	_radiant = true
+	World.set_flag("latecomer_radiant")
+	var meshes: Array = []
+	for n in vis.body.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh == null:
+			continue
+		if vis.weapon_mount != null and vis.weapon_mount.is_ancestor_of(mi):
+			continue
+		if vis.shield_mount != null and vis.shield_mount.is_ancestor_of(mi):
+			continue
+		if _flask_mount != null and is_instance_valid(_flask_mount) \
+				and _flask_mount.is_ancestor_of(mi):
+			continue
+		meshes.append(mi)
+	var gold := MaterialLib.get_mat("M_gold", 0)
+	if not cascade:
+		for mi in meshes:
+			_gild_mesh(mi, gold, false)
+		_light_gold()
+		return
+	# the light climbs: lowest pieces first, a breath apart
+	meshes.sort_custom(func(a, b) -> bool:
+		return (a as MeshInstance3D).get_aabb().get_center().y < (b as MeshInstance3D).get_aabb().get_center().y)
+	var step: float = 1.1 / maxf(float(meshes.size()), 1.0)
+	for i in meshes.size():
+		var mi: MeshInstance3D = meshes[i]
+		get_tree().create_timer(0.1 + step * i, false).timeout.connect(func() -> void:
+			if is_instance_valid(mi):
+				_gild_mesh(mi, gold, true))
+	get_tree().create_timer(0.1 + 1.1 + 0.2, false).timeout.connect(func() -> void:
+		if not dead:
+			_light_gold()
+			AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, -4.0, 1.2))
+
+func _gild_mesh(mi: MeshInstance3D, gold: Material, motes: bool) -> void:
+	if mi.mesh == null:
+		return
+	for si in mi.mesh.get_surface_count():
+		mi.set_surface_override_material(si, gold)
+	mi.layers |= GOLD_BIT
+	if motes:
+		_gilt_motes(mi.global_transform * mi.get_aabb().get_center())
+
+func _light_gold() -> void:
+	if _gold_rig != null:
+		return
+	_gold_rig = Node3D.new()
+	add_child(_gold_rig)
+	var key := OmniLight3D.new()
+	key.light_color = Color(1.0, 0.93, 0.68)
+	key.light_energy = 2.6
+	key.omni_range = 4.6
+	key.light_cull_mask = GOLD_BIT
+	key.position = Vector3(0.9, 2.4, 1.4)
+	_gold_rig.add_child(key)
+	var fill := OmniLight3D.new()
+	fill.light_color = Color(0.9, 0.82, 0.66)
+	fill.light_energy = 1.2
+	fill.omni_range = 4.2
+	fill.light_cull_mask = GOLD_BIT
+	fill.position = Vector3(-1.1, 1.6, -1.2)
+	_gold_rig.add_child(fill)
+
+func _gilt_motes(at: Vector3) -> void:
+	var p := CPUParticles3D.new()
+	p.amount = 10
+	p.lifetime = 0.7
+	p.one_shot = true
+	p.explosiveness = 0.9
+	p.direction = Vector3.UP
+	p.spread = 40.0
+	p.initial_velocity_min = 0.6
+	p.initial_velocity_max = 1.4
+	p.gravity = Vector3(0, 0.8, 0)
+	p.scale_amount_min = 0.02
+	p.scale_amount_max = 0.05
+	p.color = Color(1.0, 0.83, 0.45)
+	get_parent().add_child(p)
+	p.global_position = at
+	p.emitting = true
+	get_tree().create_timer(1.2, false).timeout.connect(p.queue_free)
 
 func recompute_derived() -> void:
 	var base: Dictionary = T["base"]

@@ -292,3 +292,48 @@ static func radiance(area) -> void:
 	for n in area.ruin_layer.get_children():
 		if n is Node3D and not (n is Spawner or n is FogGate or n is Enemy or n is SummonGlyph):
 			(n as Node3D).visible = false
+
+## The reverse sweep, for the moment he falls: his light goes out of the
+## parish the same way it swept in — a wavefront from the corpse, ash-blue,
+## the remembered dusk draining back to the guttered dark. When it has
+## passed, the ruin is not a seeming anymore. It is the room.
+static func gutter_wave(area, origin: Vector3) -> void:
+	if area == null or not is_instance_valid(area):
+		return
+	StateDirector._set_g("vg_wave_origin", origin)
+	StateDirector._set_g("vg_wave_band", 4.5)
+	StateDirector._set_g("vg_wave_dir", 1.0)   # toward ruin
+	StateDirector._set_g("vg_wave_color", Vector3(StateDirector.ASHBLUE.r, StateDirector.ASHBLUE.g, StateDirector.ASHBLUE.b))
+	StateDirector._set_g("vg_wave_r", 0.0)
+	StateDirector._spawn_wave_particles(area, origin, 3.6, 60.0, true)
+	AudioDirector.sfx("res://assets/audio/swell_gutter.wav", 0.0)
+	AudioDirector.sfx_at("res://assets/audio/bell_toll.wav", origin, 2.0, 0.8)
+	Juice.shake(0.25, 1.0)
+	var t := 0.0
+	while t < 3.6:
+		if not is_instance_valid(area):
+			return
+		t += area.get_process_delta_time()
+		var k: float = ease(clampf(t / 3.6, 0.0, 1.0), 0.65)
+		StateDirector._set_g("vg_wave_r", k * 60.0)
+		area.env.blend(k)   # the remembered dusk yields back to the dark
+		await area.get_tree().process_frame
+	StateDirector._set_g("vg_state_blend", 1.0)   # materials read ruin now
+	StateDirector._set_g("vg_wave_r", -1000.0)
+	gutter(area)
+
+## Undo the cosmetic radiance wholesale: every per-node hide is restored so
+## the layers read whole again, then the ruin dressing owns the room. The
+## recorded world state was RUIN throughout, so no collision changes.
+static func gutter(area) -> void:
+	if area == null:
+		return
+	for n in area.glory_layer.get_children():
+		if n is Node3D:
+			(n as Node3D).visible = true
+	for n in area.ruin_layer.get_children():
+		if n is Node3D:
+			(n as Node3D).visible = true
+	area.env.snap(VG.WState.RUIN)
+	area.glory_layer.visible = false
+	area.ruin_layer.visible = true

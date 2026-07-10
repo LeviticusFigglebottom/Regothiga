@@ -1051,7 +1051,7 @@
     -0.4
    ],
    "rot": 200,
-   "text": "THE PARISH OF THE FIRST WICK\n\nHere the kingdom's first vigil candle was dipped, and here it burns yet.\n\nSpeak softly. The congregation has been at prayer a very long time, and the wax remembers every word."
+   "text": "THE PARISH OF THE FIRST WICK\n\nHere the kingdom's first vigil candle was dipped, and here it burns yet.\n\nSpeak softly. The congregation has not left \u2014 they were poured in, every soul its own wick, kept against the hour. The wax remembers every word, and the keeper counts his flock."
   }
  ],
  "spawners": [
@@ -1078,7 +1078,21 @@
     -38
    ],
    "rot": 180,
-   "no_summon": true
+   "no_summon": true,
+   "seals": [
+    {
+     "at": [
+      0,
+      0,
+      0.9
+     ],
+     "rot": 180,
+     "size": [
+      4.4,
+      4.2
+     ]
+    }
+   ]
   }
  ],
  "flag_gates": [

@@ -12,6 +12,7 @@ var _frames_left := -1
 var _quit_after := -1
 var _cam_spec := ""
 var forced_state := ""   # read by boot/world setup
+var forced_flags: Array = []   # world flags applied before the area builds
 var _vigil_frame := -1
 var _seq: Array = []      # seconds after the vigil trigger
 var _seq_t := -1.0
@@ -30,6 +31,11 @@ func _ready() -> void:
 			_cam_spec = arg.get_slice("=", 1)
 		elif arg.begins_with("--state="):
 			forced_state = arg.get_slice("=", 1)
+		elif arg.begins_with("--flag="):
+			# applied by world_root right before the area builds, so
+			# flag-conditional geometry sees them (load_game would wipe
+			# anything set this early)
+			forced_flags.append(arg.get_slice("=", 1))
 		elif arg.begins_with("--quit-after="):
 			_quit_after = int(arg.get_slice("=", 1))
 		elif arg.begins_with("--vigil-frame="):

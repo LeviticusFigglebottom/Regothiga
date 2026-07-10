@@ -6211,7 +6211,7 @@
     -37.4
    ],
    "rot": -155,
-   "text": "THE PARISH OF THE FIRST WICK\n\nHere the first vigil candle was dipped, long before the basilica raised its rock.\n\nThe door is sealed until someone speaks the three graven words. One cooled with the chandlers' wax. One wound up the steeplejack's stair. One never left the burnt wharf-house hearth."
+   "text": "THE PARISH OF THE FIRST WICK\n\nHere the first vigil candle was dipped, long before the basilica raised its rock \u2014 the first soul to be kept, poured warm into the wax to wait for morning.\n\nThe door is sealed until someone speaks the three graven words. One cooled with the chandlers' wax. One wound up the steeplejack's stair. One never left the burnt wharf-house hearth."
   }
  ],
  "fills": [
@@ -7555,6 +7555,16 @@
    ],
    "sets": "parish_words",
    "tag": "base"
+  }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/adalric_reckoning.gd",
+   "at": [
+    0,
+    4.8,
+    -41.0
+   ]
   }
  ]
 }

@@ -125,6 +125,12 @@ func _run() -> void:
 	reveal.finish(fog, player)
 	await ticks(5)
 	check(boss.target == player, "the address ends and the duel begins")
+	check(Game.arena_locked, "the duel bars the doors")
+	var aux_up := false
+	for w in fog._aux_walls:
+		if (w as StaticBody3D).collision_layer != 0:
+			aux_up = true
+	check(aux_up, "a pale seal stands across the narthex at your back")
 
 	# ---- his edge is the hitbox: the volume rides the sword, so a blade
 	# short of you is no hit at all
@@ -205,6 +211,15 @@ func _run() -> void:
 	await ticks(30)
 	check(boss.dead, "the Immortalized can be laid down")
 	check(World.is_cleared("wick_cathedral"), "his fall clears the parish")
+	check(not Game.arena_locked, "his fall opens the doors again")
+
+	# ---- the light passes: the radiance drains back out of the parish (the
+	# seeming hardens into the room) and the oath finds its last holder
+	await ticks(400)
+	check(not area.glory_layer.visible, "the remembered light drains out with him")
+	check(area.ruin_layer.visible, "what remains is the true kingdom")
+	check(World.flag("latecomer_radiant"), "the keeper's light passes to the Latecomer")
+	check(player._radiant, "the Latecomer's armour kindles gold")
 
 	# ---- portals land on floor both ways
 	var down: AreaPortal = null
@@ -222,7 +237,40 @@ func _run() -> void:
 	if into != null:
 		var ly := _floor_under(into.spawn_pos, area)
 		check(absf(ly) < 0.35, "entering lands on the nave floor (y=%.2f)" % ly)
+
+	# ---- Ser Adalric is waiting on the terrace with the truth
+	var reck = null
+	for n in o.base.get_children():
+		if n.get_script() != null and String(n.get_script().resource_path).ends_with("adalric_reckoning.gd"):
+			reck = n
+	check(reck != null, "the reckoning waits outside the parish door")
+	player.global_position = Vector3(0, 5.0, -43.5)
+	await ticks(20)
+	check(reck._staged, "he comes to meet you over the keeper's body")
+	var guard := 0
+	while not World.flag("reckoning_heard") and guard < 3000:
+		guard += 15
+		await ticks(15)
+		reck.advance()
+	check(World.flag("reckoning_heard"), "the reckoning is heard: what have you done")
+	player.lock_control(false)   # the scene's own unlock dies with the area below
 	o.queue_free()
+
+	# ---- and the heard reckoning opens the road of light at the porch
+	var porch := AreaBuilder.build("basilica_porch")
+	add_child(porch)
+	await ticks(5)
+	var bridge = null
+	var center_rails := 0
+	for n in porch.base.get_children():
+		if n.get_script() != null and String(n.get_script().resource_path).ends_with("light_bridge.gd"):
+			bridge = n
+		if n is Node3D and String(n.get_meta("kit_id", "")) == "balustrade_4m" \
+				and absf((n as Node3D).position.z - 19.8) < 0.1 and absf((n as Node3D).position.x) < 3.0:
+			center_rails += 1
+	check(bridge != null, "the light makes its road off the porch")
+	check(center_rails == 0, "the center railing has given way to it")
+	porch.queue_free()
 
 	for kit in ["pew_3m", "altar_wick"]:
 		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)

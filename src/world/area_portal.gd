@@ -90,6 +90,9 @@ func _physics_process(dt: float) -> void:
 		_disc.material_override.albedo_color = base * breathe
 
 func _on_use(player) -> void:
+	if Game.arena_locked:
+		Game.toast.emit("The pale holds. The duel is not done.")
+		return
 	if not _unlocked():
 		Game.toast.emit(locked_prompt + ".")
 		return

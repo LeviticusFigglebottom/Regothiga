@@ -345,6 +345,23 @@ func _die() -> void:
 			if l is Light3D:
 				(l as Light3D).visible = false
 	super()
+	_light_passes.call_deferred()
+
+## The moment he falls, the truth arrives: the radiance he was holding over
+## the parish drains back out of it — the ash-blue wave from his corpse, the
+## seeming hardening into the room — and the light itself does not die. It
+## crosses to the last living holder of the oath: the Latecomer's armour
+## kindles gold as the church around them both goes dark for good.
+func _light_passes() -> void:
+	await get_tree().create_timer(1.4, false).timeout
+	var area = Game.current_area
+	if area == null or not is_instance_valid(area):
+		return
+	WickReveal.gutter_wave(area, global_position)   # coroutine; sweeps on its own
+	await get_tree().create_timer(0.9, false).timeout
+	var p = Game.player
+	if p != null and is_instance_valid(p) and p.has_method("become_radiant"):
+		p.become_radiant()
 
 ## The rite's own camera rig, in the house cinematic grammar: letterbox
 ## bars, a dip from black, a three-quarter frame that follows him to the

@@ -39,6 +39,8 @@ func _ready() -> void:
 		add_child(intro)
 		await intro.finished
 
+	for f in Shot.forced_flags:
+		World.set_flag(String(f))   # shot harness: flag-conditional geometry
 	var area := AreaBuilder.build(area_id)
 	add_child(area)
 	Game.register_area(area, area_id)

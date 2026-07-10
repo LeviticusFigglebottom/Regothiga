@@ -183,9 +183,10 @@ func _run() -> void:
 	check(lanterns.size() >= 1, "the Quaylantern stands")
 	var portal: AreaPortal = null
 	for n in area.base.get_children():
-		if n is AreaPortal:
+		# the town keeps two doors now (the canal and the parish); find the ferry's
+		if n is AreaPortal and (n as AreaPortal).to_area == "drowned_marches":
 			portal = n
-	check(portal != null and portal.to_area == "drowned_marches", "the ferry poles back up the canal")
+	check(portal != null, "the ferry poles back up the canal")
 	var m := AreaBuilder.build("drowned_marches")
 	add_child(m)
 	var back: AreaPortal = null

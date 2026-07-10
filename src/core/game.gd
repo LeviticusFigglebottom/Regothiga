@@ -17,6 +17,9 @@ var current_area_id := ""
 
 var orisons := 0
 var _death_flow_running := false
+## A duel is live behind a sealed pale: the arena's doors refuse until the
+## warden rests or the Latecomer does. Set/cleared by the fog gates.
+var arena_locked := false
 
 func _ready() -> void:
 	player_registered.connect(func(p): p.died.connect(_on_player_died))
@@ -59,7 +62,11 @@ func on_boss_slain(area_id: String) -> void:
 	World.save_game()
 	AudioDirector.play_music("", 2.0)
 	AudioDirector.duck_ambience(false)
-	toast.emit("The warden rests. The memory is yours to keep or quench.")
+	if area_id == "wick_cathedral":
+		# no keeping this one: the keeper is down, and the wax knows it
+		toast.emit("The last keeper rests. Something has gone out of the world.")
+	else:
+		toast.emit("The warden rests. The memory is yours to keep or quench.")
 	area_cleared.emit(area_id)
 	await get_tree().create_timer(2.0, false).timeout
 	if current_area != null and current_area.area_id == area_id:
@@ -119,6 +126,7 @@ var world_root: Node3D = null   # container that owns the current area
 func travel_to(area_id: String, spawn_pos: Vector3, spawn_yaw := 1e9) -> void:
 	if world_root == null or player == null:
 		return
+	arena_locked = false   # no lock survives leaving the room that set it
 	player.lock_control(true)
 	var old := current_area
 	var next := AreaBuilder.build(area_id)

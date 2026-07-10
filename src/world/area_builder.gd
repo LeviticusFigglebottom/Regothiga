@@ -66,6 +66,7 @@ static func build(area_id: String) -> Area:
 		var f := FogGate.new()
 		f.gate_id = spec.get("id", "fog")
 		f.area_id = area_id
+		f.aux_seal_specs = spec.get("seals", [])
 		area.attach(f, spec.get("tag", "ruin"))
 		_place(f, spec)
 		# bind its boss spawner
@@ -97,7 +98,11 @@ static func build(area_id: String) -> Area:
 		area.attach(p, spec.get("tag", "base"))
 		_place(p, spec)
 	for spec in def.get("scripted", []):
+		if not _flag_ok(spec):
+			continue
 		var sn: Node3D = load(spec["script"]).new()
+		for k in spec.get("params", {}):
+			sn.set(k, spec["params"][k])
 		area.attach(sn, spec.get("tag", "base"))
 		_place(sn, spec)
 	for spec in def.get("word_stones", []):
@@ -210,7 +215,19 @@ const STRUCTURAL_KITS := ["wall_4x4", "arcade_4m", "portal_4m", "window_lancet_4
 static func _is_structural(kit) -> bool:
 	return String(kit) in STRUCTURAL_KITS
 
+## World-flag conditions on any spec: "require_flag" builds only once the
+## flag is set; "absent_flag" builds only until it is. Evaluated at area
+## build, so the kingdom changes shape between visits, not mid-room.
+static func _flag_ok(spec: Dictionary) -> bool:
+	if spec.has("require_flag") and not World.flag(String(spec["require_flag"])):
+		return false
+	if spec.has("absent_flag") and World.flag(String(spec["absent_flag"])):
+		return false
+	return true
+
 static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
+	if not _flag_ok(spec):
+		return null
 	var tag: String = spec.get("tag", "base")
 	var mode := 1 if tag == "glory" else (2 if tag == "ruin" else 0)
 	var piece := KitLib.instance(spec["kit"], mode)

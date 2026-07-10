@@ -156,7 +156,11 @@
     0
    ],
    "count": 4,
-   "rot": 0
+   "rot": 0,
+   "skip": [
+    1,
+    2
+   ]
   },
   {
    "kit": "balustrade_4m",
@@ -417,6 +421,26 @@
    ],
    "rot": 90,
    "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    -2,
+    -2.62,
+    19.8
+   ],
+   "rot": 0,
+   "absent_flag": "reckoning_heard"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    2,
+    -2.62,
+    19.8
+   ],
+   "rot": 0,
+   "absent_flag": "reckoning_heard"
   }
  ],
  "props": [
@@ -768,7 +792,7 @@
     -6.4
    ],
    "rot": -160,
-   "text": "BASILICA OF LAST LIGHT\n\nHere the great bell waits for the thirteenth hour, and the door does not open \u2014 not for grief, not for gold, not yet for you.\n\nBeyond this porch the kingdom goes on: the Ossuary Undercroft, the Larkspire, the Black Gate under its drowned sun. All of it remembered. All of it waiting to be walked.\n\n(The pilgrimage continues in the next passing.)"
+   "text": "BASILICA OF LAST LIGHT\n\nHere the great bell waits for the thirteenth hour, and the door does not open \u2014 not for grief, not for gold, not yet for you.\n\nBeyond this porch the kingdom goes on: the Ossuary Undercroft, the Larkspire, the Black Gate under its drowned sun. All of it kept. None of it quite as it seems.\n\nAnd above it all, past the rail and the long dark, the inner city keeps its heart: the temple of the final flame. No road runs there. Not yet."
   },
   {
    "at": [
@@ -846,9 +870,9 @@
   {
    "id": "terrace_prayers",
    "at": [
-    0,
+    3.1,
     -2.6,
-    18.5
+    18.2
    ],
    "orisons": 120,
    "tag": "base",
@@ -1123,5 +1147,20 @@
    "tag": "ruin"
   }
  ],
- "free_kindle": true
+ "free_kindle": true,
+ "scripted": [
+  {
+   "script": "res://src/world/light_bridge.gd",
+   "at": [
+    0,
+    -2.62,
+    20.0
+   ],
+   "rot": 180,
+   "require_flag": "reckoning_heard",
+   "params": {
+    "length": 110.0
+   }
+  }
+ ]
 }

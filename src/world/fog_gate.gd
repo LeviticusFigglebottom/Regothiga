@@ -16,6 +16,14 @@ var _engaged := false
 var intercept: Node = null   # a scripted reveal may stage the first engagement
 var _snap_when_ready := false
 
+## Arenas with a second way out (the parish's front door) list extra pale
+## walls in the gate spec: {"at": [x,y,z], "rot": deg, "size": [w,h]} in
+## world coords. They stand only while the duel does — no walking out on a
+## warden mid-fight.
+var aux_seal_specs: Array = []
+var _aux_walls: Array = []
+var _aux_planes: Array = []
+
 func _ready() -> void:
 	add_to_group(VG.GROUP_RESPAWN_ON_REST)
 	add_child(KitLib.instance("fog_gate_frame"))
@@ -44,8 +52,45 @@ func _ready() -> void:
 	_zone.setup_zone(1.4, 2.0, Vector3(0, 0, 1.2))
 	_zone.activated.connect(_on_enter)
 	add_child(_zone)
+	_build_aux_seals()
 	if _snap_when_ready:
 		snap_cleared()
+
+func _build_aux_seals() -> void:
+	for spec in aux_seal_specs:
+		var at: Array = spec.get("at", [0, 0, 0])
+		var size: Array = spec.get("size", [4.2, 4.0])
+		var holder := Node3D.new()
+		add_child(holder)
+		holder.global_position = Vector3(at[0], at[1], at[2])
+		holder.global_rotation = Vector3(0, deg_to_rad(float(spec.get("rot", 0.0))), 0)
+		var plane := MeshInstance3D.new()
+		var quad := QuadMesh.new()
+		quad.size = Vector2(float(size[0]), float(size[1]))
+		plane.mesh = quad
+		var m := ShaderMaterial.new()
+		m.shader = load("res://shaders/fog_gate.gdshader")
+		plane.set_surface_override_material(0, m)
+		plane.position = Vector3(0, float(size[1]) * 0.5, 0)
+		plane.visible = false
+		holder.add_child(plane)
+		var wall := StaticBody3D.new()
+		wall.collision_layer = 0
+		var cs := CollisionShape3D.new()
+		var box := BoxShape3D.new()
+		box.size = Vector3(float(size[0]) + 0.2, float(size[1]), 0.3)
+		cs.shape = box
+		cs.position.y = float(size[1]) * 0.5
+		wall.add_child(cs)
+		holder.add_child(wall)
+		_aux_walls.append(wall)
+		_aux_planes.append(plane)
+
+func _set_aux(up: bool) -> void:
+	for w in _aux_walls:
+		(w as StaticBody3D).collision_layer = (1 << (VG.L_WORLD_RUIN - 1)) if up else 0
+	for p in _aux_planes:
+		(p as MeshInstance3D).visible = up
 
 func _on_enter(player) -> void:
 	if _engaged or player == null:
@@ -82,6 +127,8 @@ func _engage_boss() -> void:
 		for hud in get_tree().get_nodes_in_group("hud"):
 			hud.show_boss(boss)
 		boss.died.connect(_on_boss_dead)
+	_set_aux(true)
+	Game.arena_locked = true
 	boss_engaged.emit()
 
 func _on_boss_dead(_e) -> void:
@@ -101,6 +148,8 @@ func respawn() -> void:
 	_seal.collision_layer = 1 << (VG.L_WORLD_RUIN - 1)
 	_plane.transparency = 0.0
 	_plane.show()
+	_set_aux(false)
+	Game.arena_locked = false
 	for hud in get_tree().get_nodes_in_group("hud"):
 		hud.hide_boss()
 
@@ -116,10 +165,13 @@ func snap_cleared() -> void:
 	_zone.enabled = false
 	_seal.collision_layer = 0
 	_plane.hide()
+	_set_aux(false)
 
 func dissolve() -> void:
 	_seal.collision_layer = 0
 	_zone.enabled = false
+	_set_aux(false)
+	Game.arena_locked = false
 	var tw := create_tween()
 	tw.tween_property(_plane, "transparency", 1.0, 2.0)
 	tw.tween_callback(_plane.hide)
