@@ -7154,26 +7154,6 @@
    "tag": "ruin"
   },
   {
-   "kit": "banner",
-   "at": [
-    -2,
-    0.4,
-    9.7
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "banner_torn",
-   "at": [
-    -2,
-    0.4,
-    9.7
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
    "kit": "barrel",
    "at": [
     -9.4,

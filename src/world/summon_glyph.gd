@@ -95,8 +95,8 @@ func _on_use(player) -> void:
 	# the warden takes strength from the audience, as such bargains go
 	var b := _boss()
 	if b != null and is_instance_valid(b) and not b.get("dead"):
-		b.max_hp *= 1.5
-		b.hp *= 1.5
+		b.max_hp *= 2.0
+		b.hp *= 2.0
 		b.stagger_resist = 2.0   # honored by an audience, twice as hard to break
 	_set_active(false)
 

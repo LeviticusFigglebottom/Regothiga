@@ -227,25 +227,13 @@
   "short_name": "the widow",
   "body": "char_aveline",
   "pose": "kneel",
-  "lines_first": [
-   "...and keep him, and keep him, and keep him..."
-  ],
-  "lines_repeat": [
-   "...and keep him..."
-  ],
-  "services": []
+  "mute": true
  },
  "waxbound_clerk": {
   "name": "A Waxbound Clerk",
   "short_name": "the clerk",
   "body": "skel_sexton",
   "pose": "kneel",
-  "lines_first": [
-   "The ledger balances. The ledger balances. It has always balanced."
-  ],
-  "lines_repeat": [
-   "It balances."
-  ],
-  "services": []
+  "mute": true
  }
 }

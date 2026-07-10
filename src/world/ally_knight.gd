@@ -54,10 +54,10 @@ func _ready() -> void:
 	_light.position.y = 1.3
 	add_child(_light)
 
-	# he carries twice the Latecomer's life — a summon must outlast the pit,
-	# though not so surely as he once did (a third of his strength pared away)
+	# he carries half again the Latecomer's life — stout enough to outlast
+	# the pit, never so stout that the duel stops being yours
 	if Game.player != null and is_instance_valid(Game.player):
-		max_hp = float(Game.player.max_hp) * 2.0
+		max_hp = float(Game.player.max_hp) * 1.5
 		hp = max_hp
 
 	hurtbox = Hurtbox.new()

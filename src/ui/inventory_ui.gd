@@ -2,7 +2,7 @@ class_name InventoryUI
 extends CanvasLayer
 ## The Pilgrim's Satchel — Tab opens it. Two leaves: the SATCHEL (arms and
 ## relics; drag or click an arm onto a hand-slot 1-5) and the RITES (known
-## spells; click or drop one to attune it to C). Fully mouse-driven — click
+## spells; click or drop one to attune it to X). Fully mouse-driven — click
 ## rows, click slots, or drag between them — with W/S + 1-5 + Q/E still live.
 
 const GOLD := Color(0.95, 0.8, 0.45)
@@ -114,7 +114,7 @@ func _show_tab(key: String) -> void:
 	if _attune_lbl != null: _attune_lbl.visible = (key == "rites")
 	_hint.text = ("A/D — leaf     W/S — choose     1-5 or drag — set the arm in that hand-slot     Tab — close" \
 		if key == "satchel" else \
-		"A/D — leaf     W/S — choose     Enter/click/drag — attune the rite to  C     Tab — close")
+		"A/D — leaf     W/S — choose     Enter/click/drag — attune the rite to  X     Tab — close")
 
 # ------------------------------------------------------------------ list
 
@@ -162,7 +162,7 @@ func _fill_rites() -> void:
 		any = true
 		var sp: Dictionary = DB.table("spells")[id]
 		var nm: String = sp.get("name", id)
-		if id == player.attuned_spell: nm += "   — attuned  [C]"
+		if id == player.attuned_spell: nm += "   — attuned  [X]"
 		_row(id, "spell", _icon_for(id), nm,
 			"%d wick" % int(sp.get("mana", 0)), sp.get("desc", ""))
 	if not any:
@@ -263,7 +263,7 @@ func _act_selected() -> void:
 	var r: Dictionary = _rows[_sel]
 	if r["kind"] == "spell":
 		player.attune_spell(r["id"])
-		Game.toast.emit("%s is attuned. Cast with C." % _name_of(r["id"]))
+		Game.toast.emit("%s is attuned. Cast with X." % _name_of(r["id"]))
 		AudioDirector.sfx("res://assets/audio/ui_tick.wav", -8.0)
 		_rebuild_list()
 
@@ -339,7 +339,7 @@ func _build_attune_slot(panel: Panel) -> void:
 	panel.add_child(_attune_slot)
 	var c := Label.new()
 	c.label_settings = _ls(22, GOLD, "res://assets/fonts/DejaVuSerif-Bold.ttf")
-	c.text = "C"; c.position = Vector2(22, 14)
+	c.text = "X"; c.position = Vector2(22, 14)
 	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_attune_slot.add_child(c)
 	var lbl := Label.new()
@@ -354,7 +354,7 @@ func _can_drop_attune(_at, data) -> bool:
 
 func _drop_attune(_at, data) -> void:
 	player.attune_spell(data["id"])
-	Game.toast.emit("%s is attuned. Cast with C." % _name_of(data["id"]))
+	Game.toast.emit("%s is attuned. Cast with X." % _name_of(data["id"]))
 	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -8.0)
 	_rebuild_list()
 

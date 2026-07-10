@@ -52,15 +52,20 @@ func _st_combat(dt: float) -> void:
 			for k in _cooldowns:
 				_cooldowns[k] = 0.0
 	if _retreat_t > 0.0 and target != null:
-		var away := global_position - target.global_position
-		away.y = 0.0
-		away = away.normalized()
-		var sp := float(cfg.get("speed", 4.0)) * 0.85
-		velocity.x = away.x * sp
-		velocity.z = away.z * sp
-		_face(-away, dt)
-		move_and_slide()
-		return
+		if _rec_t > 0.0:
+			_retreat_t = 0.0   # a wall already won; take the open lane instead
+		else:
+			var away := global_position - target.global_position
+			away.y = 0.0
+			away = away.normalized()
+			var sp := float(cfg.get("speed", 4.0)) * 0.85
+			velocity.x = away.x * sp
+			velocity.z = away.z * sp
+			_face(-away, dt)
+			move_and_slide()
+			if is_on_wall():
+				_retreat_t = 0.0   # backing into the chancel is not a retreat
+			return
 	super(dt)
 
 func _do_roll(pl: Player) -> void:
@@ -70,7 +75,14 @@ func _do_roll(pl: Player) -> void:
 	if randf() < 0.5:
 		lat = -lat
 	var back := (global_position - pl.global_position).normalized() * 0.6
-	velocity = (lat + back).normalized() * 9.5
+	# never roll into a pillar or pew: probe the lane, flip if it is walled
+	var dir := (lat + back).normalized()
+	var from := global_position + Vector3.UP * 0.8
+	var q := PhysicsRayQueryParameters3D.create(from, from + dir * 2.4, VG.M_WORLD_ALL)
+	if not get_world_3d().direct_space_state.intersect_ray(q).is_empty():
+		lat = -lat
+		dir = (lat + back).normalized()
+	velocity = dir * 9.5
 	vis.play("roll", 0.05)
 
 func take_hit(packet: DamagePacket) -> void:
@@ -89,21 +101,50 @@ func take_hit(packet: DamagePacket) -> void:
 		_hits_recent = 0.0
 	super(packet)
 
-## Half his wax: instead of raging he performs the rite. Untouchable while
-## it runs; then the kindling.
+## Half his wax: instead of raging he performs the rite. He lays the shield
+## down, takes the hilt in both hands, turns the point home and drives it —
+## untouchable while it runs; then the kindling.
 func _enrage() -> void:
 	if _phase2 or _seppuku:
 		return
 	_seppuku = true
-	vis.play("block", 0.25)          # both hands find the hilt
+	_lay_down_shield()
+	vis.play("seppuku", 0.3)
 	var tw := create_tween()
-	tw.tween_interval(1.2)
+	tw.tween_interval(0.7)
+	tw.tween_callback(_turn_blade)   # the point comes round to his belly
+	tw.tween_interval(0.5)
 	tw.tween_callback(func():
-		vis.play("atk_thrust", 0.05, 0.65)
 		AudioDirector.sfx_at("res://assets/audio/guard_break.wav", global_position, 0.0, 0.7)
 		Juice.shake(0.4, 0.4))
 	tw.tween_interval(1.5)
 	tw.tween_callback(_kindle)
+
+## He fights the first half behind the Latecomer's own kite shield; the rite
+## begins with it laid flat on the stones at his side.
+func _lay_down_shield() -> void:
+	if vis.shield_mount == null:
+		return
+	vis.shield_mount.visible = false
+	var s := KitLib.instance("shield_kite")
+	if s == null:
+		return
+	get_parent().add_child(s)
+	var at := global_position + vis.global_transform.basis * Vector3(0.6, 0.0, -0.2)
+	var from := global_position + Vector3.UP * 0.5
+	var q := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 3.0, VG.M_WORLD_ALL)
+	var hit := get_world_3d().direct_space_state.intersect_ray(q)
+	at.y = (hit["position"].y if not hit.is_empty() else global_position.y - 0.1) + 0.06
+	s.global_position = at
+	s.rotation_degrees = Vector3(90, vis.rotation.y * 57.3 + 25.0, 0)
+	AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", at, -8.0, 0.8)
+
+func _turn_blade() -> void:
+	if vis.weapon_mount == null:
+		return
+	var tw := create_tween()
+	tw.tween_property(vis.weapon_mount, "rotation_degrees", Vector3(-100, 0, 0), 0.45) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 func _kindle() -> void:
 	_phase2 = true
@@ -112,19 +153,43 @@ func _kindle() -> void:
 	hp = maxf(hp, max_hp * 0.5)
 	for a in cfg.get("attacks", []):
 		a["dmg"] = float(a["dmg"]) * 1.35
-	WickReveal.radiance(Game.current_area)
+	# Teardown order is load-bearing: freeing the culled key-lights in the
+	# same breath as the layer churn crashes the renderer (Godot cull-pairing
+	# bug, "did not unpair geometries from light" -> SIGSEGV). So: the lights
+	# go dark but are NEVER freed mid-scene, a frame passes for the cull to
+	# unpair, only then the regild, the bit-strip, and the church's turn.
+	if _key_rig != null:
+		for l in _key_rig.get_children():
+			if l is Light3D:
+				(l as Light3D).visible = false
+	await get_tree().physics_frame
+	if dead or not is_instance_valid(vis):
+		return
 	# the wax leaves him: armour returns to the Latecomer's own — exactly
 	# the player's black, no invented tint — and only the blade takes the
-	# gold, burning in either state
+	# gold, burning in either state, carried in both hands now
 	_restore_body()
 	for mi in _body_meshes():
 		mi.layers &= ~GOLD_BIT
-	if _key_rig != null:
-		_key_rig.queue_free()
-		_key_rig = null
+	if vis.weapon_mount != null:
+		vis.weapon_mount.rotation_degrees = Vector3.ZERO   # the blade comes back to hand
 	_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 1.6)
+	vis.idle_override = "twohand_idle"
+	await get_tree().physics_frame
+	if dead:
+		return
+	WickReveal.radiance(Game.current_area)
 	Juice.shake(0.8, 0.7)
 	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, 2.0, 0.75)
+
+## Insurance against the same renderer bug on his death: the private lights
+## sleep before the corpse's layers ever churn.
+func _die() -> void:
+	if _key_rig != null:
+		for l in _key_rig.get_children():
+			if l is Light3D:
+				(l as Light3D).visible = false
+	super()
 
 ## He arrives as the kingdom kept him: not a glow but a gold TEXTURE — his
 ## armour wears the exact M_gold material the kingdom's gilt and reliquaries

@@ -1445,6 +1445,7 @@
   "leash": 999.0,
   "body": "skel_hero",
   "weapon": "sword_cloister",
+  "shield": "shield_kite",
   "vis_scale": 1.02,
   "arm_h": 1.4,
   "arm_dx": 0.25,

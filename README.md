@@ -68,7 +68,7 @@ xvfb-run -a -s "-screen 0 1920x1080x24" godot --path . --rendering-driver vulkan
 | Block | Right mouse (hold) |
 | Parry | Q |
 | Use Chrism Flask | R |
-| Cast attuned rite | C |
+| Cast attuned rite | X |
 | Girdle slots (weapons, torch, flask) | 1–5 |
 | Satchel & Rites | Tab |
 | Interact / loot / vigil | E |

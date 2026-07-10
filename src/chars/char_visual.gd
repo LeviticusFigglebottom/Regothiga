@@ -22,7 +22,11 @@ var step_volume := -14.0
 var _step_i := 0
 var _lean := Vector2.ZERO
 
-const LOCO := ["idle", "walk", "run", ""]
+## When set, standing rest plays this clip instead of "idle" (e.g. the
+## Immortalized's two-handed vigil stance). Walk/run stay themselves.
+var idle_override := ""
+
+const LOCO := ["idle", "walk", "run", "twohand_idle", ""]
 
 func build_body(skel_id: String, amp := 1.0, sway := 1.0, vis_scale := 1.0) -> void:
 	body = KitLib.instance(skel_id)
@@ -110,7 +114,7 @@ func locomotion(dt: float, ground_speed: float, accel_lean := Vector2.ZERO, grou
 	var cur := anim.current_animation
 	if not (cur in LOCO):
 		return
-	var want := "idle"
+	var want := "idle" if idle_override == "" else idle_override
 	if grounded and ground_speed > 0.55:
 		want = "run" if ground_speed > stride * 1.5 else "walk"
 	if want != cur:

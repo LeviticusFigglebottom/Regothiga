@@ -437,7 +437,7 @@ func _build_hotbar(root: Control) -> void:
 	var rkey := Label.new()
 	rkey.label_settings = _font(SERIF_B, 13, Color(0.95, 0.82, 0.45))
 	rkey.position = Vector2(4, 0)
-	rkey.text = "C"
+	rkey.text = "X"
 	rite_panel.add_child(rkey)
 	rite_cost = Label.new()
 	rite_cost.label_settings = _font(SERIF_B, 14, Color(0.92, 0.82, 0.5))

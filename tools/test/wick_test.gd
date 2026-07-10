@@ -60,11 +60,11 @@ func _run() -> void:
 	check(player.max_mana == 0.0, "no rite, no wick-bar")
 	player.give_item("mend")
 	check(player.max_mana > 0.0, "learning Mend kindles the wick-bar")
-	check(player.attuned_spell == "mend", "Mend attunes itself to C")
+	check(player.attuned_spell == "mend", "Mend attunes itself to X")
 	# attune a different rite and confirm C would cast it
 	player.give_item("radiant_blast")
 	player.attune_spell("radiant_blast")
-	check(player.attuned_spell == "radiant_blast", "the Rites tab re-attunes to C")
+	check(player.attuned_spell == "radiant_blast", "the Rites tab re-attunes to X")
 	player.attune_spell("mend")
 	player.mana = player.max_mana
 	player.hp = player.max_hp * 0.4

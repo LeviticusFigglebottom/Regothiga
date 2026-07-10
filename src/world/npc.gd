@@ -43,11 +43,13 @@ func _ready() -> void:
 	bcs.position.y = 0.85
 	body.add_child(bcs)
 	add_child(body)
-	var zone := Interactable.new()
-	zone.prompt = "Speak with %s" % cfg.get("short_name", cfg.get("name", "?"))
-	zone.setup_zone(1.8, 1.8)
-	zone.activated.connect(_on_talk)
-	add_child(zone)
+	# the mute keep their prayers to themselves: no prompt, no dialogue
+	if not cfg.get("mute", false):
+		var zone := Interactable.new()
+		zone.prompt = "Speak with %s" % cfg.get("short_name", cfg.get("name", "?"))
+		zone.setup_zone(1.8, 1.8)
+		zone.activated.connect(_on_talk)
+		add_child(zone)
 
 func _physics_process(dt: float) -> void:
 	var p = Game.player
