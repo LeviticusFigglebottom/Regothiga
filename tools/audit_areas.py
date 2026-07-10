@@ -29,12 +29,18 @@ ARCH = {"floor_4x4", "wall_4x4", "ossuary_wall_4m", "arcade_4m", "portal_4m",
         "stair_grand_4m_l", "stair_grand_4m_r",   # one-parapet variants
         "column_broken", "door_leaf", "fog_gate_frame", "cornice_4m",
         "canal_vault_8m", "canal_vault_8m_win",   # 40 m shells span everything
-        "balustrade_4m", "buttress"}   # buttresses ride at height on purpose
+        "balustrade_4m", "buttress",   # buttresses ride at height on purpose
+        # the palace kit stacks the same way its stone counterparts do:
+        # walls carry glazed bays, cornices and finials ride the wall heads
+        "palace_floor_4x4", "palace_wall_4x4", "palace_wall_low_4m",
+        "palace_portal_4m", "palace_window_4m", "palace_arcade_4m",
+        "palace_cornice_4m", "palace_balustrade_4m", "palace_pier",
+        "gilt_finial", "palace_pediment_8m"}
 # railings sit ON their floor and INSIDE its edge — they must NOT float or overhang.
 # (They stay in ARCH so the wall-hug/overlap checks skip them, but the grounding
 #  check below opts them back in with a tight tolerance. A 0.22 m float or an
 #  x=+-8.2 rail on an x=+-8 floor edge — the exact terrace bug — now trips it.)
-RAILING = {"balustrade_4m"}
+RAILING = {"balustrade_4m", "palace_balustrade_4m"}
 RAIL_TOL = 0.18     # a railing more than this off its floor top is a defect
 
 

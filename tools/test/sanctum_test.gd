@@ -55,17 +55,19 @@ func _run() -> void:
 	ui.close()
 	await ticks(3)
 
-	# ---- Ser Adalric in the light; his note in the dim
-	var adalric: NPC = null
-	for n in area.glory_layer.get_children():
-		if n is NPC and (n as NPC).npc_id == "knight_sanctum":
-			adalric = n
-	check(adalric != null, "Ser Adalric keeps the radiant garden")
+	# ---- no one waits above the hours (Adalric stays on the porch —
+	# no stair climbs this far); only his note, in the dim version
+	var anyone := false
+	for layer in [area.glory_layer, area.ruin_layer, area.base]:
+		for n in layer.get_children():
+			if n is NPC:
+				anyone = true
+	check(not anyone, "no one stands in the sanctum")
 	var note_found := false
 	for n in area.ruin_layer.get_children():
 		if n is LorePlaque and "AMEND" in (n as LorePlaque).text:
 			note_found = true
-	check(note_found, "a note takes his place in the dim version")
+	check(note_found, "the knight's note waits in the dim version")
 
 	# ---- the Offices of the Hour: dawn, noon, dusk
 	var chime: ChimePuzzle = null
@@ -82,6 +84,15 @@ func _run() -> void:
 			elif (n as FlagGate).flag == "sanctum_candles":
 				candle_gate = n
 	check(hours_gate != null and not hours_gate._unlocked(), "the reliquary starts barred")
+	# the alcove is a sealed room: the gate is the only way in, and the tithe
+	# sits beyond arm's reach of every outside surface
+	var space := area.get_world_3d().direct_space_state
+	var rq := PhysicsRayQueryParameters3D.create(Vector3(15.5, 0.9, 8), Vector3(21.5, 0.9, 8), VG.M_WORLD_ALL)
+	var rhit := space.intersect_ray(rq)
+	check(not rhit.is_empty() and rhit["position"].x < 18.6, "the barred gate stops the reliquary road")
+	rq = PhysicsRayQueryParameters3D.create(Vector3(20, 0.9, 3), Vector3(20, 0.9, 9), VG.M_WORLD_ALL)
+	rhit = space.intersect_ray(rq)
+	check(not rhit.is_empty() and rhit["position"].z < 6.4, "the alcove walls hold from the court side")
 	chime._ring("noon")
 	check(not World.flag("sanctum_hours"), "a broken order rings nothing")
 	chime._ring("dawn")
@@ -89,6 +100,10 @@ func _run() -> void:
 	chime._ring("dusk")
 	check(World.flag("sanctum_hours"), "dawn, noon and dusk unbar the reliquary")
 	check(hours_gate._unlocked(), "and the gate stands open")
+	await ticks(3)
+	rq = PhysicsRayQueryParameters3D.create(Vector3(15.5, 0.9, 8), Vector3(21.5, 0.9, 8), VG.M_WORLD_ALL)
+	rhit = space.intersect_ray(rq)
+	check(rhit.is_empty() or rhit["position"].x > 18.6, "the open gate clears the way to the tithe")
 
 	# ---- the Keepers' Candles
 	var votive: VotiveLock = null
@@ -124,7 +139,10 @@ func _run() -> void:
 	check(door_up != null and door_up.cutscene == "ascend", "the beacon offers the ascent")
 	porch.queue_free()
 
-	for kit in ["spire_tower_a", "cathedral_mass", "statue_orans", "chime_stone", "votive_stand_lit"]:
+	for kit in ["spire_tower_a", "cathedral_mass", "statue_orans", "chime_stone",
+			"votive_stand_lit", "palace_wall_4x4", "palace_portal_4m", "palace_arcade_4m",
+			"palace_floor_4x4", "palace_window_4m", "palace_balustrade_4m",
+			"palace_pier", "gilt_finial", "palace_pediment_8m"]:
 		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
 
 	finish()

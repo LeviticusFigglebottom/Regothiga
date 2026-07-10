@@ -19,15 +19,15 @@
    ],
    "sun_color": [
     1.0,
-    0.93,
-    0.74
+    0.95,
+    0.8
    ],
-   "sun_energy": 1.35,
-   "fog_density": 0.008,
+   "sun_energy": 1.5,
+   "fog_density": 0.007,
    "fog_color": [
-    0.74,
-    0.57,
-    0.32
+    0.78,
+    0.62,
+    0.4
    ]
   },
   "ruin": {
@@ -51,7 +51,7 @@
  },
  "fills": [
   {
-   "kit": "floor_4x4",
+   "kit": "palace_floor_4x4",
    "min": [
     -22,
     0,
@@ -64,7 +64,7 @@
    ]
   },
   {
-   "kit": "floor_4x4",
+   "kit": "palace_floor_4x4",
    "min": [
     -16,
     2,
@@ -79,7 +79,7 @@
  ],
  "rows": [
   {
-   "kit": "wall_4x4",
+   "kit": "palace_wall_4x4",
    "from": [
     -14,
     2,
@@ -94,7 +94,7 @@
    "rot": 0
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_wall_4x4",
    "from": [
     6,
     2,
@@ -109,7 +109,7 @@
    "rot": 0
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_wall_4x4",
    "from": [
     -14,
     6,
@@ -124,7 +124,7 @@
    "rot": 0
   },
   {
-   "kit": "cornice_4m",
+   "kit": "palace_cornice_4m",
    "from": [
     -14,
     10,
@@ -139,7 +139,7 @@
    "rot": 0
   },
   {
-   "kit": "balustrade_4m",
+   "kit": "palace_balustrade_4m",
    "from": [
     -14,
     2,
@@ -154,9 +154,9 @@
    "rot": 0
   },
   {
-   "kit": "balustrade_4m",
+   "kit": "palace_balustrade_4m",
    "from": [
-    6,
+    10,
     2,
     -12.2
    ],
@@ -169,309 +169,9 @@
    "rot": 0
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_balustrade_4m",
    "from": [
-    -13,
-    0,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": 90
-  },
-  {
-   "kit": "window_lancet_4m",
-   "from": [
-    -13,
-    4,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": 90
-  },
-  {
-   "kit": "cornice_4m",
-   "from": [
-    -13,
-    8,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": 90
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    -13,
-    0,
-    18
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": 90
-  },
-  {
-   "kit": "parish_window_4m",
-   "from": [
-    -13,
-    4,
-    18
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": 90
-  },
-  {
-   "kit": "cornice_4m",
-   "from": [
-    -13,
-    8,
-    18
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": 90
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    13,
-    0,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": -90
-  },
-  {
-   "kit": "window_lancet_4m",
-   "from": [
-    13,
-    4,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": -90
-  },
-  {
-   "kit": "cornice_4m",
-   "from": [
-    13,
-    8,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": -90
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    13,
-    0,
-    18
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": -90
-  },
-  {
-   "kit": "parish_window_4m",
-   "from": [
-    13,
-    4,
-    18
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": -90
-  },
-  {
-   "kit": "cornice_4m",
-   "from": [
-    13,
-    8,
-    18
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": -90
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    22,
-    0,
-    0
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": -90
-  },
-  {
-   "kit": "window_lancet_4m",
-   "from": [
-    22,
-    4,
-    0
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": -90
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    14,
-    0,
-    -0.5
-   ],
-   "dir": [
-    1,
-    0,
-    0
-   ],
-   "count": 2,
-   "rot": 0
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    14,
-    0,
-    14.5
-   ],
-   "dir": [
-    1,
-    0,
-    0
-   ],
-   "count": 2,
-   "rot": 180
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    -22,
-    0,
-    0
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": 90
-  },
-  {
-   "kit": "parish_window_4m",
-   "from": [
-    -22,
-    4,
-    0
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": 90
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    -16,
-    0,
-    -0.5
-   ],
-   "dir": [
-    1,
-    0,
-    0
-   ],
-   "count": 2,
-   "rot": 0
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    -16,
-    0,
-    14.5
-   ],
-   "dir": [
-    1,
-    0,
-    0
-   ],
-   "count": 2,
-   "rot": 180
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    -20,
+    -8,
     0,
     30.2
    ],
@@ -480,73 +180,11 @@
     0,
     0
    ],
-   "count": 11,
+   "count": 5,
    "rot": 180,
    "skip": [
-    5
+    2
    ]
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    -22.2,
-    0,
-    16
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": 90
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    22.2,
-    0,
-    16
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": -90
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    -7,
-    0,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": 90,
-   "skip": []
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    7,
-    0,
-    -10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 3,
-   "rot": -90,
-   "skip": []
   }
  ],
  "pieces": [
@@ -578,7 +216,7 @@
    "rot": 0
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_wall_4x4",
    "at": [
     -3,
     2,
@@ -592,7 +230,7 @@
    ]
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_wall_4x4",
    "at": [
     3,
     2,
@@ -606,7 +244,7 @@
    ]
   },
   {
-   "kit": "portal_4m",
+   "kit": "palace_portal_4m",
    "at": [
     0,
     2,
@@ -639,38 +277,90 @@
    "collide": false
   },
   {
-   "kit": "buttress",
+   "kit": "palace_pediment_8m",
+   "at": [
+    0,
+    10.3,
+    -24
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
    "at": [
     -14,
-    2,
-    -23.4
+    10.3,
+    -23.85
    ],
-   "rot": 0
+   "rot": 0,
+   "collide": false
   },
   {
-   "kit": "buttress",
+   "kit": "gilt_finial",
    "at": [
-    -7,
-    2,
-    -23.4
+    -10,
+    10.3,
+    -23.85
    ],
-   "rot": 0
+   "rot": 0,
+   "collide": false
   },
   {
-   "kit": "buttress",
+   "kit": "gilt_finial",
    "at": [
-    7,
-    2,
-    -23.4
+    -6,
+    10.3,
+    -23.85
    ],
-   "rot": 0
+   "rot": 0,
+   "collide": false
   },
   {
-   "kit": "buttress",
+   "kit": "gilt_finial",
+   "at": [
+    6,
+    10.3,
+    -23.85
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    10,
+    10.3,
+    -23.85
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
    "at": [
     14,
+    10.3,
+    -23.85
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -15.7,
     2,
-    -23.4
+    -23.6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    15.7,
+    2,
+    -23.6
    ],
    "rot": 0
   },
@@ -726,177 +416,2453 @@
    "flames": false
   },
   {
-   "kit": "buttress",
+   "kit": "palace_balustrade_4m",
    "at": [
-    -12.4,
-    0,
-    -8
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "buttress",
-   "at": [
-    -12.4,
-    0,
-    18
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "buttress",
-   "at": [
-    -12.4,
-    0,
-    26
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "gargoyle",
-   "at": [
-    -12.5,
-    8.2,
-    -2
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "buttress",
-   "at": [
-    12.4,
-    0,
-    -8
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "buttress",
-   "at": [
-    12.4,
-    0,
-    18
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "buttress",
-   "at": [
-    12.4,
-    0,
-    26
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "gargoyle",
-   "at": [
-    12.5,
-    8.2,
-    -2
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "arcade_4m",
-   "at": [
-    -9.5,
-    0,
-    2
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "arcade_4m",
-   "at": [
-    -9.5,
-    0,
-    12
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "arcade_4m",
-   "at": [
-    9.5,
-    0,
-    2
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "arcade_4m",
-   "at": [
-    9.5,
-    0,
-    12
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "wall_4x4",
-   "at": [
-    19.4,
-    0,
-    5.4
+    -7.2,
+    2,
+    -12.2
    ],
    "rot": 0,
    "scale": [
-    0.6,
+    0.4,
     1,
     1
    ]
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_balustrade_4m",
    "at": [
-    19.4,
-    0,
-    10.6
+    7.2,
+    2,
+    -12.2
    ],
-   "rot": 180,
+   "rot": 0,
    "scale": [
-    0.6,
+    0.4,
     1,
     1
    ]
   },
   {
-   "kit": "statue_orans",
+   "kit": "palace_pier",
    "at": [
-    -15,
+    -6.7,
+    2,
+    -12.3
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    6.7,
+    2,
+    -12.3
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
     0,
-    11.4
+    -10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    -10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    -10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    9,
+    0,
+    -6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    9.15,
+    0,
+    -6
+   ],
+   "rot": -90,
+   "scale": [
+    1.2,
+    1.3,
+    1.2
+   ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    -6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    -6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    0,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    -10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    -10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    -10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    -2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    -2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    -2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    11,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    11,
+    4,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    11,
+    8,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    15,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    15,
+    4,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    15,
+    8,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    19,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    19,
+    4,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    19,
+    8,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    21.5,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    21.5,
+    4,
+    -12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    11,
+    0,
+    0
    ],
    "rot": 180
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
-    -19.4,
-    0,
-    5.4
+    11,
+    4,
+    0
    ],
-   "rot": 0,
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    11,
+    8,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    15,
+    0,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    15,
+    4,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    15,
+    8,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    19,
+    0,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    19,
+    4,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    19,
+    8,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    21.5,
+    0,
+    0
+   ],
+   "rot": 180,
    "scale": [
-    0.6,
+    0.25,
     1,
     1
    ]
   },
   {
-   "kit": "wall_4x4",
+   "kit": "palace_wall_4x4",
    "at": [
-    -19.4,
-    0,
-    10.6
+    21.5,
+    4,
+    0
    ],
    "rot": 180,
    "scale": [
-    0.6,
+    0.25,
     1,
     1
    ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    0,
+    14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    9,
+    0,
+    18
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    9.15,
+    0,
+    18
+   ],
+   "rot": -90,
+   "scale": [
+    1.2,
+    1.3,
+    1.2
+   ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    18
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    18
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    0,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    0,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    0,
+    29
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    4,
+    29
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    18
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    18
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    18
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    29
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    4,
+    29
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    11,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    11,
+    4,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    11,
+    8,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    15,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    15,
+    4,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    15,
+    8,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    19,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    19,
+    4,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    19,
+    8,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    21.5,
+    0,
+    12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    21.5,
+    4,
+    12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    11,
+    0,
+    30
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    15,
+    0,
+    30
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    19,
+    0,
+    30
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    21.5,
+    0,
+    30
+   ],
+   "rot": 180,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_arcade_4m",
+   "at": [
+    9,
+    0,
+    4
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_arcade_4m",
+   "at": [
+    9,
+    0,
+    8
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    0,
+    1
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    9,
+    0,
+    11
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    9,
+    4,
+    10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    9,
+    8,
+    10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    22,
+    0,
+    10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    22,
+    4,
+    10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    22,
+    8,
+    10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    8.8,
+    8.35,
+    -10
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    8.8,
+    8.35,
+    -2
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    8.8,
+    8.35,
+    6
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    8.8,
+    8.35,
+    14
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    8.8,
+    8.35,
+    26
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    8.5,
+    8.2,
+    -4
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    8.5,
+    8.2,
+    20
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    9,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    9,
+    0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    9,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    9,
+    0,
+    30
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    22,
+    0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    22,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    20,
+    0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    20,
+    0,
+    10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0,
+    6.4
+   ],
+   "rot": -90,
+   "scale": [
+    0.2,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0,
+    9.6
+   ],
+   "rot": -90,
+   "scale": [
+    0.2,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    18,
+    0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    18,
+    0,
+    10
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    -10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    -10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    -10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -9,
+    0,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    -9.15,
+    0,
+    -6
+   ],
+   "rot": 90,
+   "scale": [
+    1.2,
+    1.3,
+    1.2
+   ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    -6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    -2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    -2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    -2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    -10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    -10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    -10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    -6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    -6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    -6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -19,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -19,
+    4,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -19,
+    8,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -15,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -15,
+    4,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -15,
+    8,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -11,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -11,
+    4,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -11,
+    8,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -21.5,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -21.5,
+    4,
+    -12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -19,
+    0,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -19,
+    4,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -19,
+    8,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -15,
+    0,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -15,
+    4,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -15,
+    8,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -11,
+    0,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -11,
+    4,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -11,
+    8,
+    0
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -21.5,
+    0,
+    0
+   ],
+   "rot": 180,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -21.5,
+    4,
+    0
+   ],
+   "rot": 180,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -9,
+    0,
+    18
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    -9.15,
+    0,
+    18
+   ],
+   "rot": 90,
+   "scale": [
+    1.2,
+    1.3,
+    1.2
+   ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    18
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    18
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    29
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    4,
+    29
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    18
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    18
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    18
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    29
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    4,
+    29
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -19,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -19,
+    4,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -19,
+    8,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -15,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -15,
+    4,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -15,
+    8,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -11,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -11,
+    4,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -11,
+    8,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -21.5,
+    0,
+    12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -21.5,
+    4,
+    12
+   ],
+   "rot": 0,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -19,
+    0,
+    30
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -15,
+    0,
+    30
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -11,
+    0,
+    30
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -21.5,
+    0,
+    30
+   ],
+   "rot": 180,
+   "scale": [
+    0.25,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_arcade_4m",
+   "at": [
+    -9,
+    0,
+    4
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_arcade_4m",
+   "at": [
+    -9,
+    0,
+    8
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    1
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -9,
+    0,
+    11
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -9,
+    4,
+    10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -9,
+    8,
+    10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -22,
+    0,
+    10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -22,
+    4,
+    10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -22,
+    8,
+    10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    -8.8,
+    8.35,
+    -10
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    -8.8,
+    8.35,
+    -2
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    -8.8,
+    8.35,
+    6
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    -8.8,
+    8.35,
+    14
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    -8.8,
+    8.35,
+    26
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    -8.5,
+    8.2,
+    -4
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "gargoyle",
+   "at": [
+    -8.5,
+    8.2,
+    20
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -9,
+    0,
+    -12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -9,
+    0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -9,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -9,
+    0,
+    30
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -22,
+    0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -22,
+    0,
+    12
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -20,
+    0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -20,
+    0,
+    10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0,
+    6.4
+   ],
+   "rot": 90,
+   "scale": [
+    0.2,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0,
+    9.6
+   ],
+   "rot": 90,
+   "scale": [
+    0.2,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -18,
+    0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -18,
+    0,
+    10
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    -13.5,
+    0,
+    4.8
+   ],
+   "rot": 180
   }
  ],
  "props": [
@@ -1003,27 +2969,27 @@
   {
    "kit": "brazier_lit",
    "at": [
-    12.5,
+    16.2,
     0,
-    3.5
+    5.4
    ],
-   "rot": 0,
+   "rot": 90,
    "tag": "glory"
   },
   {
    "kit": "brazier_cold",
    "at": [
-    12.5,
+    16.2,
     0,
-    3.5
+    5.4
    ],
-   "rot": 0,
+   "rot": 90,
    "tag": "ruin"
   },
   {
    "kit": "shrine_aedicule",
    "at": [
-    21.2,
+    20.3,
     0,
     8
    ],
@@ -1035,7 +3001,7 @@
    "at": [
     -12,
     0,
-    3
+    2.8
    ],
    "rot": 15,
    "tag": "glory"
@@ -1045,7 +3011,7 @@
    "at": [
     -12,
     0,
-    3
+    2.8
    ],
    "rot": 15,
    "tag": "ruin"
@@ -1053,9 +3019,9 @@
   {
    "kit": "garden_bed",
    "at": [
-    -18,
+    -16,
     0,
-    3
+    2.8
    ],
    "rot": -20,
    "tag": "glory"
@@ -1063,9 +3029,9 @@
   {
    "kit": "garden_bed_dead",
    "at": [
-    -18,
+    -16,
     0,
-    3
+    2.8
    ],
    "rot": -20,
    "tag": "ruin"
@@ -1073,9 +3039,9 @@
   {
    "kit": "garden_bed",
    "at": [
-    -12,
+    -11.5,
     0,
-    11
+    10.2
    ],
    "rot": -160,
    "tag": "glory"
@@ -1083,9 +3049,9 @@
   {
    "kit": "garden_bed_dead",
    "at": [
-    -12,
+    -11.5,
     0,
-    11
+    10.2
    ],
    "rot": -160,
    "tag": "ruin"
@@ -1093,9 +3059,9 @@
   {
    "kit": "garden_bed",
    "at": [
-    -18,
+    -15.5,
     0,
-    11
+    10.2
    ],
    "rot": 160,
    "tag": "glory"
@@ -1103,17 +3069,27 @@
   {
    "kit": "garden_bed_dead",
    "at": [
-    -18,
+    -15.5,
     0,
-    11
+    10.2
    ],
    "rot": 160,
    "tag": "ruin"
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    -13.5,
+    0.02,
+    8.4
+   ],
+   "rot": 0,
+   "tag": "base"
   },
   {
    "kit": "altar",
    "at": [
-    -21.2,
+    -20.7,
     0,
     8
    ],
@@ -1207,7 +3183,7 @@
     -12.6
    ],
    "max": [
-    -8.2,
+    -6.3,
     4,
     -11.9
    ],
@@ -1215,7 +3191,7 @@
   },
   {
    "min": [
-    8.2,
+    6.3,
     2,
     -12.6
    ],
@@ -1254,66 +3230,27 @@
   },
   {
    "min": [
-    -22.4,
+    -9,
     0,
     30.4
    ],
    "max": [
-    22.4,
+    -2.2,
     3,
-    31.2
+    31.4
    ],
    "tag": "base"
   },
   {
    "min": [
-    -23.0,
+    2.2,
     0,
-    14.2
+    30.4
    ],
    "max": [
-    -22.2,
+    9,
     3,
-    30.6
-   ],
-   "tag": "base"
-  },
-  {
-   "min": [
-    22.2,
-    0,
-    14.2
-   ],
-   "max": [
-    23.0,
-    3,
-    30.6
-   ],
-   "tag": "base"
-  },
-  {
-   "min": [
-    -22.6,
-    0,
-    -12.6
-   ],
-   "max": [
-    -16.2,
-    6,
-    -11.8
-   ],
-   "tag": "base"
-  },
-  {
-   "min": [
-    16.2,
-    0,
-    -12.6
-   ],
-   "max": [
-    22.6,
-    6,
-    -11.8
+    31.4
    ],
    "tag": "base"
   }
@@ -1537,29 +3474,29 @@
   },
   {
    "at": [
-    -13.2,
+    -15.4,
     0,
-    6.2
+    6.4
    ],
-   "rot": 130,
+   "rot": 115,
    "text": "THE TWELVE'S GARDEN\n\nOne bed for each keeper who kept their hour. The soil remembers their names even here.\n\nThe thirteenth bed was never planted. There is still room."
   },
   {
    "at": [
-    12.6,
+    12.4,
     0,
-    6.4
+    6.2
    ],
    "rot": -120,
    "text": "THE OFFICES OF THE HOUR\n\nSound the offices as the day was kept aloft: the dawn office first, then the noon, then the dusk.\n\nKeep the order and the reliquary opens. Break it and begin the day again."
   },
   {
    "at": [
-    -17.5,
+    -12.4,
     0,
-    5.0
+    9.6
    ],
-   "rot": 120,
+   "rot": 25,
    "tag": "ruin",
    "text": "A NOTE, IN A KNIGHT'S HAND\n\nGone to do what can still be done. If you read this, Latecomer, then do not follow \u2014 AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nWhen every one of them has forgiven you \u2014 or refused to \u2014 come back to the light, and ring what is owed.\n\n\u2014 A."
   },
@@ -1573,28 +3510,16 @@
    "text": "THE PALACES BEYOND\n\nThe wards of the light: promised halls for every soul the wax was keeping.\n\nNo road runs to them. Roads are for the unfinished. When the hour rings, no one here will need one."
   }
  ],
- "npcs": [
-  {
-   "id": "knight_sanctum",
-   "at": [
-    -17.5,
-    0,
-    5.0
-   ],
-   "rot": 120,
-   "tag": "glory"
-  }
- ],
  "lanterns": [
   {
    "id": "sanctum",
    "name": "The Unfaltering Vigil",
    "at": [
-    -15,
+    -13.5,
     0,
-    7
+    8.4
    ],
-   "rot": 160
+   "rot": 180
   }
  ],
  "chime_puzzles": [
@@ -1607,9 +3532,9 @@
      "id": "dawn",
      "label": "the dawn office",
      "at": [
-      11.5,
+      12.0,
       0,
-      3.0
+      2.8
      ],
      "rot": 140
     },
@@ -1617,21 +3542,21 @@
      "id": "noon",
      "label": "the noon office",
      "at": [
-      15.0,
+      15.5,
       0,
-      12.2
+      10.7
      ],
-     "rot": 190
+     "rot": 15
     },
     {
      "id": "dusk",
      "label": "the dusk office",
      "at": [
-      18.5,
+      17.3,
       0,
-      3.0
+      2.8
      ],
-     "rot": 220
+     "rot": 230
     }
    ],
    "order": [
@@ -1685,7 +3610,7 @@
    "flag": "sanctum_hours",
    "kit": "gate_iron",
    "at": [
-    19.4,
+    18,
     0,
     8.0
    ],
@@ -1696,7 +3621,7 @@
    "flag": "sanctum_candles",
    "kit": "gate_iron",
    "at": [
-    -19.4,
+    -18,
     0,
     8.0
    ],
@@ -1708,9 +3633,9 @@
   {
    "id": "sanctum_reliquary",
    "at": [
-    20.3,
+    19.6,
     0,
-    9.4
+    9.6
    ],
    "orisons": 900,
    "label": "Take up the reliquary tithe",
@@ -1719,9 +3644,9 @@
   {
    "id": "sanctum_chapel",
    "at": [
-    -20.3,
+    -19.8,
     0,
-    9.4
+    8.6
    ],
    "orisons": 400,
    "item": "candleglass",

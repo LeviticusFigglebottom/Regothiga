@@ -242,8 +242,45 @@ def make_bone():
     write_png("T_bone", posterize(np.clip(img, 0, 1), 7, 0.3))
 
 
+def make_marble():
+    # palace ashlar: near-still ivory ground, thin meandering veins, a faint
+    # polish sheen band — reads rich and smooth against T_stone's rough blocks
+    # true marble veining: sine bands warped by smooth turbulence (integer
+    # band counts keep the tile seamless). Ridge-of-blocky-noise traces the
+    # noise cells' edges and reads as nested squares — never that.
+    yy, xx = np.mgrid[0:N, 0:N] / N
+    warp1 = blur_wrap(vnoise(4, 142, 3, gain=0.55), 10)
+    warp2 = blur_wrap(vnoise(6, 143, 3, gain=0.55), 10)
+    band1 = np.sin((xx * 3 + yy * 1) * 2 * np.pi + warp1 * 7.5)
+    band2 = np.sin((xx * 1 - yy * 2) * 2 * np.pi + warp2 * 9.5)
+    veins = (np.clip(1.0 - np.abs(band1) * 5.0, 0, 1) * 0.65
+             + np.clip(1.0 - np.abs(band2) * 7.0, 0, 1) * 0.45)
+    veins = blur_wrap(veins, 1)
+    ground = brush(blur_wrap(vnoise(16, 141, 3, gain=0.5), 2), 30, 12, passes=2)
+    sheen = brush(vnoise(5, 145, 2), 25, 14)
+    img = norm05(ground, 0.14) + (norm05(sheen, 0.2) - 0.5) * 0.07 - veins * 0.15
+    write_png("T_marble", np.clip(img, 0, 1))
+
+
+def make_marble_floor():
+    # broad polished slabs, hairline joints, long reflection streaks
+    base = brush(blur_wrap(vnoise(14, 151, 3, gain=0.5), 2), 78, 10, passes=3)
+    streaks = brush(vnoise(7, 152, 3), 78, 14)
+    ids, mortar, bevel = cell_grid(2, 2, 153, stagger=False)      # 2 m slabs
+    tone = tone_from_ids(ids, 154, 0.06)
+    yy, xx = np.mgrid[0:N, 0:N] / N
+    warp = blur_wrap(vnoise(5, 155, 3, gain=0.55), 10)
+    band = np.sin((xx * 2 + yy * 2) * 2 * np.pi + warp * 8.0)
+    veins = blur_wrap(np.clip(1.0 - np.abs(band) * 6.0, 0, 1), 1)
+    img = norm05(base, 0.2) * 0.5 + tone * 0.5 + (norm05(streaks, 0.25) - 0.5) * 0.09
+    img -= veins * 0.10
+    img = img * (1 - 0.30 * mortar) + 0.03 * bevel
+    write_png("T_marble_floor", np.clip(img, 0, 1))
+
+
 if __name__ == "__main__":
     make_stone(); make_trim(); make_floor(); make_wood()
     make_roof(); make_cloth(); make_iron(); make_wax()
     make_mosaic(); make_bronze(); make_bone()
+    make_marble(); make_marble_floor()
     print("[tex] done")

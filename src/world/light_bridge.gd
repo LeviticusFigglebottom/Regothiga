@@ -138,17 +138,17 @@ func _motes() -> void:
 	add_child(p)
 	p.emitting = true
 
-## A soft standing shaft where the span meets the far dark: the promise of
-## the gate to come.
+## The lightfall itself: a soft standing shaft rising off the saint's column
+## that ends the road (the column stands ~2 m past the deck's last plank).
 func _beacon() -> void:
 	var b := MeshInstance3D.new()
 	var cm := CylinderMesh.new()
-	cm.top_radius = 0.9
-	cm.bottom_radius = 1.4
-	cm.height = 14.0
+	cm.top_radius = 0.8
+	cm.bottom_radius = 1.5
+	cm.height = 20.0
 	b.mesh = cm
 	b.material_override = _glow_mat(Color(1.0, 0.9, 0.6), 0.16)
-	b.position = Vector3(0, 7.0, -length + 0.4)
+	b.position = Vector3(0, 6.0, -length - 2.0)
 	b.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(b)
 

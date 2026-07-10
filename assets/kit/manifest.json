@@ -722,6 +722,16 @@
    2.35
   ]
  },
+ "gilt_finial": {
+  "file": "assets/kit/gilt_finial.glb",
+  "origin": "bottom-center",
+  "polys": 34,
+  "size": [
+   0.45,
+   0.45,
+   1.3
+  ]
+ },
  "glass_lancet": {
   "file": "assets/kit/glass_lancet.glb",
   "origin": "bottom-center",
@@ -919,6 +929,114 @@
   "size": [
    4,
    0.6,
+   4
+  ]
+ },
+ "palace_arcade_4m": {
+  "file": "assets/kit/palace_arcade_4m.glb",
+  "opening": [
+   2.4,
+   3.1
+  ],
+  "origin": "bottom-center",
+  "polys": 422,
+  "size": [
+   4,
+   0.5,
+   4
+  ]
+ },
+ "palace_balustrade_4m": {
+  "file": "assets/kit/palace_balustrade_4m.glb",
+  "origin": "bottom-center",
+  "polys": 318,
+  "size": [
+   4,
+   0.3,
+   1.06
+  ]
+ },
+ "palace_cornice_4m": {
+  "file": "assets/kit/palace_cornice_4m.glb",
+  "origin": "bottom-center",
+  "polys": 14,
+  "size": [
+   4,
+   0.3,
+   0.3
+  ]
+ },
+ "palace_floor_4x4": {
+  "file": "assets/kit/palace_floor_4x4.glb",
+  "origin": "top-center",
+  "polys": 42,
+  "size": [
+   4,
+   0.25,
+   4
+  ]
+ },
+ "palace_pediment_8m": {
+  "file": "assets/kit/palace_pediment_8m.glb",
+  "origin": "bottom-center",
+  "polys": 113,
+  "size": [
+   8,
+   0.9,
+   2.1
+  ]
+ },
+ "palace_pier": {
+  "file": "assets/kit/palace_pier.glb",
+  "origin": "bottom-center",
+  "polys": 52,
+  "size": [
+   0.8,
+   0.8,
+   4.7
+  ]
+ },
+ "palace_portal_4m": {
+  "file": "assets/kit/palace_portal_4m.glb",
+  "opening": [
+   1.9,
+   2.9
+  ],
+  "origin": "bottom-center",
+  "polys": 664,
+  "size": [
+   4,
+   0.6,
+   4
+  ]
+ },
+ "palace_wall_4x4": {
+  "file": "assets/kit/palace_wall_4x4.glb",
+  "origin": "bottom-center",
+  "polys": 360,
+  "size": [
+   4,
+   0.5,
+   4
+  ]
+ },
+ "palace_wall_low_4m": {
+  "file": "assets/kit/palace_wall_low_4m.glb",
+  "origin": "bottom-center",
+  "polys": 12,
+  "size": [
+   4,
+   0.5,
+   1.05
+  ]
+ },
+ "palace_window_4m": {
+  "file": "assets/kit/palace_window_4m.glb",
+  "origin": "bottom-center",
+  "polys": 120,
+  "size": [
+   4,
+   0.5,
    4
   ]
  },

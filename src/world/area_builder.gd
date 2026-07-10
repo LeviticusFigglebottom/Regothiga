@@ -210,7 +210,9 @@ const STRUCTURAL_KITS := ["wall_4x4", "arcade_4m", "portal_4m", "window_lancet_4
 	"vault_bay_4x4", "floor_4x4", "fence_iron_4m", "gate_iron", "cornice_4m",
 	"gate_black",   # trimesh keeps the walkable breach between the leaves
 	"burg_wall_3m", "burg_wall_3m_door", "burg_wall_3m_win", "burg_floor_3m",
-	"roof_gable_7m", "balcony_3m"]   # town shells: doorways and decks stay hollow
+	"roof_gable_7m", "balcony_3m",   # town shells: doorways and decks stay hollow
+	"palace_wall_4x4", "palace_floor_4x4", "palace_portal_4m", "palace_window_4m",
+	"palace_arcade_4m", "palace_balustrade_4m", "palace_cornice_4m"]
 
 static func _is_structural(kit) -> bool:
 	return String(kit) in STRUCTURAL_KITS

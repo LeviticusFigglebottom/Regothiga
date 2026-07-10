@@ -33,6 +33,8 @@ const TEXTURES := {
 	"M_backdrop":   ["T_stone", 0.16, 0.5],
 	"M_terrain":    ["T_stone", 0.45, 0.55],
 	"M_steel":      ["T_iron", 1.4, 0.35],
+	"M_marble":       ["T_marble", 0.4, 0.5],
+	"M_marble_floor": ["T_marble_floor", 0.5, 0.55],
 }
 const GLASS := preload("res://shaders/glass.gdshader")
 const FLAME := preload("res://shaders/flame.gdshader")
@@ -71,8 +73,8 @@ const FAMILIES := {
 	# city gilding: gold ridges/finials/domes on the panorama. Faint glory-gated
 	# glow so the kingdom reads gilded at dusk; in ruin the gate kills it and the
 	# cold grade tarnishes the albedo.
-	"M_gild":       {"albedo": Color(0.82, 0.60, 0.22), "rough": 0.38, "rim": 1.0, "moss": 0.0, "crack": 0.0,
-					 "emission": Color(1.0, 0.78, 0.32), "emission_energy": 0.22, "emission_gate": 1},
+	"M_gild":       {"albedo": Color(0.92, 0.68, 0.25), "rough": 0.3, "rim": 1.15, "moss": 0.0, "crack": 0.0,
+					 "emission": Color(1.0, 0.78, 0.32), "emission_energy": 0.3, "emission_gate": 1},
 	# lit dwelling windows across the city — warm lamplight in glory, dead dark
 	# panes in ruin (same gate the votive gold uses).
 	"M_citywindow": {"albedo": Color(0.14, 0.10, 0.08), "rough": 0.9, "rim": 0.1, "moss": 0.0, "crack": 0.0,
@@ -84,6 +86,10 @@ const FAMILIES := {
 	"M_terrain":    {"albedo": Color(0.15, 0.12, 0.09), "rough": 1.0, "rim": 0.05, "moss": 0.45, "crack": 0.0},
 	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
 	"M_foliage":    {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.95, "rim": 0.55, "moss": 0.0, "crack": 0.0, "vc": 1},
+	# the Sanctum's palace stone: polished ivory marble, no moss (nothing decays
+	# above the hours), light cracking only. Gold trim rides M_gild.
+	"M_marble":       {"albedo": Color(0.88, 0.86, 0.79), "rough": 0.45, "rim": 0.55, "moss": 0.0, "crack": 0.12, "wear": 0.18},
+	"M_marble_floor": {"albedo": Color(0.78, 0.76, 0.70), "rough": 0.4, "rim": 0.45, "moss": 0.0, "crack": 0.1, "wear": 0.15},
 }
 
 static var _cache: Dictionary = {}
