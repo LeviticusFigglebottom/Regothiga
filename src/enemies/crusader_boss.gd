@@ -92,7 +92,9 @@ func _do_roll(pl: Player) -> void:
 func take_hit(packet: DamagePacket) -> void:
 	if _seppuku or _iframes > 0.0:
 		return
-	if _block_t > 0.0 and packet.source is Node3D:
+	# a staggered guard is no guard, and a riposte ignores the raised blade
+	if _block_t > 0.0 and state != ES.STAGGER and not packet.is_riposte \
+			and packet.source is Node3D:
 		var to := ((packet.source as Node3D).global_position - global_position).normalized()
 		var fwd := -vis.global_transform.basis.z
 		if fwd.dot(to) > 0.2:
@@ -106,6 +108,17 @@ func take_hit(packet: DamagePacket) -> void:
 		_retreat_t = 1.5
 		_hits_recent = 0.0
 	super(packet)
+
+## The mirror cuts both ways: unlike the kingdom's other great foes, a true
+## parry opens HIM — blade turned wide, guard gone, the full long breath for
+## the riposte he taught you. Both phases; the creed excuses no one.
+func on_parried(_host) -> void:
+	_end_all_swings()
+	_block_t = 0.0
+	var p := _player()
+	if p != null and p.has_method("on_parry_success"):
+		p.on_parry_success(self)
+	_stagger(2.6)
 
 ## Half his wax: the fight stops and the rite takes the stage — a forced
 ## cutscene. He reels from the wound that spent him, walks to the church's
@@ -124,8 +137,7 @@ func _enrage() -> void:
 	_seppuku = true
 	set_physics_process(false)      # the rite owns him: no gravity, no AI
 	velocity = Vector3.ZERO
-	if hitbox != null:
-		hitbox.end_swing()
+	_end_all_swings()
 	_rite_cutscene.call_deferred()
 
 func _rite_cutscene() -> void:

@@ -126,6 +126,52 @@ func _run() -> void:
 	await ticks(5)
 	check(boss.target == player, "the address ends and the duel begins")
 
+	# ---- his edge is the hitbox: the volume rides the sword, so a blade
+	# short of you is no hit at all
+	check(boss.blade_hitbox != null, "his sword carries its own hit volume")
+	for a2 in boss.cfg["attacks"]:
+		boss._cooldowns[a2["id"]] = 99.0   # stage-manage: his own AI swings nothing
+	var cut: Dictionary = {}
+	for a2 in boss.cfg["attacks"]:
+		if a2["id"] == "cut_pair":
+			cut = (a2 as Dictionary).duplicate()
+	cut["lunge"] = 0.0   # measure the blade, not the stride
+	player.heal_full()
+	boss.global_position = Vector3(0, 0.3, -12)
+	boss.velocity = Vector3.ZERO
+	boss.vis.rotation.y = 0.0
+	player.global_position = Vector3(0, 0.3, -15.1)   # 3.1 m: beyond the steel
+	var hp_dry := player.hp
+	boss._begin_attack(cut)
+	await ticks(80)
+	check(player.hp >= hp_dry - 0.01, "a swing that never crosses you never hits (hp %.0f)" % player.hp)
+	boss.global_position = Vector3(0, 0.3, -12)
+	boss.velocity = Vector3.ZERO
+	boss.vis.rotation.y = 0.0
+	player.global_position = Vector3(0, 0.3, -13.5)   # 1.5 m: in the sweep
+	boss._begin_attack(cut)
+	await ticks(29)   # ~0.48 s: inside the active window
+	check(boss.blade_hitbox.monitoring and not boss.hitbox.monitoring,
+		"the swing opens the steel itself, not a box off his chest")
+	await ticks(51)
+	check(player.hp < hp_dry, "and the same cut bites when it truly crosses you")
+	player.heal_full()
+
+	# ---- the mirror can be read: a true parry opens HIM, and the riposte
+	# bites its full crit even through a raised guard
+	await ticks(20)
+	boss.on_parried(player)
+	check(boss.state == Enemy.ES.STAGGER, "a true parry staggers even the Immortalized")
+	check(player._riposte_target == boss, "and primes the riposte")
+	boss._block_t = 0.9
+	player.global_position = boss.global_position + Vector3(0, 0, 1.4)
+	var bhp0: float = boss.hp
+	check(player.try_riposte(), "the riposte answers within the breath")
+	await ticks(40)
+	check(boss.hp < bhp0 - 60.0, "the riposte bites its full crit, guard or no guard (%.0f -> %.0f)" % [bhp0, boss.hp])
+	for k in boss._cooldowns:
+		boss._cooldowns[k] = 0.0
+
 	# ---- half his wax: the forced rite at the church's heart, then — once
 	# the duel is handed back — the remembered light sweeps the parish
 	var first_dmg := float(boss.cfg["attacks"][0]["dmg"])

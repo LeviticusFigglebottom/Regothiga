@@ -42,8 +42,16 @@ var vis: EnemyVisual
 var agent: NavigationAgent3D
 var hitbox: Hitbox
 var hitbox_shape: CollisionShape3D
+## Armed foes strike with the weapon itself: a box wrapping the mounted
+## weapon's true extent, riding the weapon mount through the swing. The
+## chest-projected `hitbox` remains for the unarmed and for attacks flagged
+## "body_hitbox" (charges, horn butts).
+var blade_hitbox: Hitbox
 var hurtbox: Hurtbox
 var hpbar: EnemyHealthBar
+## How far the last _stagger() stretched the punishable state (a parry buys
+## a longer breath than a poise break).
+var _stagger_mult := 1.0
 
 func setup(enemy_id: String) -> void:
 	id = enemy_id
@@ -100,6 +108,7 @@ func _ready() -> void:
 	hitbox.add_child(hitbox_shape)
 	vis.add_child(hitbox)
 	hitbox.on_contact = _on_hit_contact
+	_build_blade_hitbox()
 
 	# floating health bar for regular foes; bosses ride the big HUD bar instead
 	if not cfg.get("is_boss", false):
@@ -373,6 +382,7 @@ func _begin_attack(a: Dictionary) -> void:
 	AudioDirector.sfx_at("res://assets/audio/whoosh_h.wav", global_position, -10.0, 0.8)
 
 func _st_attack(dt: float) -> void:
+	_sync_blade()   # the blade box wears the weapon's frame through the swing
 	var speed_mult := 1.35 if phase >= 2 else 1.0
 	var w: float = float(_atk["windup"]) / speed_mult
 	var act: float = float(_atk["active"]) / speed_mult
@@ -404,13 +414,77 @@ func _st_attack(dt: float) -> void:
 			_shockwave.call_deferred(float(_atk["shockwave"]))
 	if vis.trail != null and _atk_done and t >= w + act:
 		vis.trail.visible = false
-	if _atk_done and t >= w + act and hitbox.monitoring:
-		hitbox.end_swing()
+	if _atk_done and t >= w + act and (hitbox.monitoring
+			or (blade_hitbox != null and blade_hitbox.monitoring)):
+		_end_all_swings()
 	if t >= w + act + rec:
 		_set_state(ES.COMBAT)
 		vis.idle()
 
+## The blade's own hit volume: merge the mounted weapon's mesh extents in
+## mount space, wrap them with a hand's width of forgiveness, and hang the
+## box off the enemy root as top_level — physics shapes must never inherit
+## the body scale, so the mount's frame is copied in by hand each attack
+## frame and the scale is baked into the box size once, here.
+func _build_blade_hitbox() -> void:
+	if vis == null or vis.weapon_mount == null:
+		return
+	var merged := AABB()
+	var found := false
+	for n in vis.weapon_mount.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh == null:
+			continue
+		var rel := Transform3D.IDENTITY
+		var walk: Node3D = mi
+		while walk != null and walk != vis.weapon_mount:
+			rel = walk.transform * rel
+			walk = walk.get_parent() as Node3D
+		var ab := rel * mi.get_aabb()
+		merged = ab if not found else merged.merge(ab)
+		found = true
+	if not found:
+		return
+	merged = merged.grow(0.17)
+	var s := float(cfg.get("vis_scale", 1.55 if cfg.get("is_boss", false) else 1.0))
+	blade_hitbox = Hitbox.new()
+	blade_hitbox.exclude = self
+	blade_hitbox.friendly_team = hitbox.friendly_team
+	blade_hitbox.on_contact = _on_hit_contact
+	blade_hitbox.top_level = true
+	var shape := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = merged.size * s
+	shape.shape = box
+	shape.position = merged.get_center() * s
+	blade_hitbox.add_child(shape)
+	add_child(blade_hitbox)
+	_sync_blade()
+
+func _sync_blade() -> void:
+	if blade_hitbox == null or vis.weapon_mount == null:
+		return
+	var m := vis.weapon_mount.global_transform
+	blade_hitbox.global_transform = Transform3D(m.basis.orthonormalized(), m.origin)
+
+func _end_all_swings() -> void:
+	if hitbox != null:
+		hitbox.end_swing()
+	if blade_hitbox != null:
+		blade_hitbox.end_swing()
+
 func _open_hitbox() -> void:
+	var pk := DamagePacket.new(float(_atk.get("dmg", 10)), float(_atk.get("poise_dmg", 10)), self)
+	# an armed foe hits with the steel itself: the box riding the weapon
+	# through the swing IS the attack — no arc gate, no chest projection.
+	# "The sword never touched me" is now literally never a hit.
+	if blade_hitbox != null and not _atk.get("body_hitbox", false):
+		blade_hitbox.arc_node = vis
+		blade_hitbox.arc_deg = 360.0
+		blade_hitbox.occlude = true
+		_sync_blade()
+		blade_hitbox.begin_swing(pk)
+		return
 	var reach := float(_atk.get("reach", 1.8))
 	(hitbox_shape.shape as BoxShape3D).size = Vector3(float(_atk.get("width", 1.8)),
 			float(_atk.get("height", 1.5)), reach)
@@ -420,7 +494,6 @@ func _open_hitbox() -> void:
 	hitbox.arc_node = vis
 	hitbox.arc_deg = float(_atk.get("arc", 150.0))
 	hitbox.occlude = true
-	var pk := DamagePacket.new(float(_atk.get("dmg", 10)), float(_atk.get("poise_dmg", 10)), self)
 	hitbox.begin_swing(pk)
 
 ## Ranged attacks sing projectiles: count/spread fan, aimed at the player's
@@ -527,18 +600,24 @@ func _ring_vfx(radius: float) -> void:
 func _on_hit_contact(_hb: Area3D, result: String) -> void:
 	if result == "hit":
 		Juice.shake(0.28, 0.2)
-	elif result == "parried":
+	elif result == "parried" and state != ES.STAGGER:
+		# on_parried already bought the full riposte breath for foes who take
+		# it; this shorter flinch is only for those who shrugged the parry —
+		# it must never overwrite the long window
 		_stagger(1.6)
 
 func _st_stagger(dt: float) -> void:
 	velocity.x = move_toward(velocity.x, 0, 10 * dt)
 	velocity.z = move_toward(velocity.z, 0, 10 * dt)
-	if state_t >= float(cfg.get("stagger_time", 0.9)):
+	if state_t >= float(cfg.get("stagger_time", 0.9)) * _stagger_mult:
 		_set_state(ES.COMBAT if target != null else ES.IDLE)
 		vis.idle()
 
+## mult stretches the whole punishable state, not just the clip: a parry's
+## 2.6 buys 2.6x the foe's stagger_time to walk up and answer.
 func _stagger(mult := 1.0) -> void:
-	hitbox.end_swing()
+	_end_all_swings()
+	_stagger_mult = mult
 	_set_state(ES.STAGGER)
 	vis.play("stagger", 0.05, 1.0 / mult)
 
@@ -603,8 +682,8 @@ func receive_riposte(packet: DamagePacket) -> void:
 
 func on_parried(_host) -> void:
 	if cfg.get("is_boss", false):
-		return   # bosses shrug parries; they stagger via poise only
-	hitbox.end_swing()
+		return   # most bosses shrug parries (a brief flinch via _on_hit_contact)
+	_end_all_swings()
 	var p := _player()
 	if p != null and p.has_method("on_parry_success"):
 		p.on_parry_success(self)
@@ -616,7 +695,7 @@ func _die() -> void:
 	if hpbar != null:
 		hpbar.set_ratio(0.0)
 		hpbar.dismiss()
-	hitbox.end_swing()
+	_end_all_swings()
 	hurtbox.set_deferred("monitorable", false)
 	collision_layer = 0
 	vis.play("death", 0.06)

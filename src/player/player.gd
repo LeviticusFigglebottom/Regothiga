@@ -87,8 +87,10 @@ var attuned_spell := ""    # the rite bound to C, chosen in the Rites tab
 var _stam_delay := 0.0
 var _poise_delay := 0.0
 
-# riposte
+# riposte: the parry primes a target for a WINDOW, not forever — roughly
+# as long as the parried foe stays reeling
 var _riposte_target: Node3D = null
+var _riposte_t := 0.0
 
 # out-of-bounds failsafe
 var _last_ground := Vector3.ZERO
@@ -439,6 +441,9 @@ func _spend(amount: float) -> void:
 
 func _regen(dt: float) -> void:
 	_winded = maxf(_winded - dt, 0.0)
+	_riposte_t = maxf(_riposte_t - dt, 0.0)
+	if _riposte_t <= 0.0:
+		_riposte_target = null
 	# stamina
 	if _stam_delay > 0.0:
 		_stam_delay -= dt
@@ -956,6 +961,7 @@ func is_parrying_toward(from_pos: Vector3) -> bool:
 ## Called by an enemy when we parried them; they enter a punishable state.
 func on_parry_success(enemy: Node3D) -> void:
 	_riposte_target = enemy
+	_riposte_t = 2.6   # matches the parried foe's long stagger breath
 	Juice.hitstop(0.14, 0.03)
 	Juice.shake(0.4, 0.2)
 	AudioDirector.sfx_at("res://assets/audio/parry.wav", global_position, 0.0)
