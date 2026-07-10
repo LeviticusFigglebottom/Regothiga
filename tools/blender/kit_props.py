@@ -734,7 +734,21 @@ def door_leaf():
     return objs, {"size": [2.0, 0.24, 3.98], "origin": "bottom-center"}
 
 
+def chrism_flask():
+    """The pilgrim's chrism flask: a dark leather gourd with a gilt stopper.
+    Rides the off-hand while the Latecomer actually drinks."""
+    objs = []
+    n = 10
+    objs.append(V.loft_rings("body", [(0.035, 0, n, 0), (0.075, 0.03, n, 0.3),
+                                      (0.085, 0.09, n, 0), (0.06, 0.15, n, 0.2),
+                                      (0.028, 0.18, n, 0), (0.03, 0.21, n, 0)], "M_wax"))
+    objs.append(V.loft_rings("stopper", [(0.032, 0.21, 8, 0), (0.034, 0.24, 8, 0.4),
+                                         (0.012, 0.26, 8, 0)], "M_gold"))
+    return objs, {"size": [0.17, 0.17, 0.26], "origin": "bottom-center"}
+
+
 BUILDERS = {
+    "chrism_flask": chrism_flask,
     "vigil_lantern": vigil_lantern,
     "candelabra": candelabra,
     "brazier_lit": lambda: brazier(True),

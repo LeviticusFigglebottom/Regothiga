@@ -488,6 +488,16 @@
    1.75
   ]
  },
+ "chrism_flask": {
+  "file": "assets/kit/chrism_flask.glb",
+  "origin": "bottom-center",
+  "polys": 70,
+  "size": [
+   0.17,
+   0.17,
+   0.26
+  ]
+ },
  "city_cluster_a": {
   "file": "assets/kit/city_cluster_a.glb",
   "origin": "bottom-center",

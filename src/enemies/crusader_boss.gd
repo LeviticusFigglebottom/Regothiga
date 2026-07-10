@@ -136,8 +136,10 @@ func _rite_cutscene() -> void:
 	_rite_cine = RiteCine.new(self)
 	get_parent().add_child(_rite_cine)
 	_rite_cine.skip_requested.connect(_rite_skip)
-	# the wound lands: he reels from the blow that spent his wax
+	# the wound lands: he reels from the blow that spent his wax — and for
+	# the first time since the address, he speaks
 	vis.play("stagger", 0.08, 0.7)
+	_rite_line()
 	var to_mark := RITE_MARK - global_position
 	to_mark.y = 0.0
 	var walk_t: float = clampf(to_mark.length() / 2.4, 0.6, 3.2)
@@ -157,7 +159,10 @@ func _rite_cutscene() -> void:
 		vis.play("idle", 0.3)
 		_lay_down_shield())
 	tw.tween_interval(0.5)
-	tw.tween_callback(func(): vis.play("seppuku", 0.4, 0.5))   # half speed: slow, deliberate
+	tw.tween_callback(func():
+		vis.play("seppuku", 0.4, 0.5)   # half speed: slow, deliberate
+		if _rite_cine != null and is_instance_valid(_rite_cine):
+			_rite_cine.tighten())       # the camera leans in for the drive
 	tw.tween_interval(1.4)      # both hands find the hilt...
 	tw.tween_callback(_turn_blade)
 	tw.tween_interval(1.4)      # ...the point comes round...
@@ -176,6 +181,25 @@ func _rite_abort() -> void:
 	if _rite_cine != null and is_instance_valid(_rite_cine):
 		_rite_cine.finish()
 		_rite_cine = null
+
+## His words for the turn, wounded and low; the cine carries the caption.
+func _rite_line() -> void:
+	if _rite_cine != null and is_instance_valid(_rite_cine):
+		_rite_cine.show_line("Foolish Latecomer, you forget yourself... you forget your creed...")
+	var path := "res://assets/audio/voice/crusader_rite.mp3"
+	if not ResourceLoader.exists(path):
+		return
+	var a := AudioStreamPlayer3D.new()
+	a.stream = load(path)
+	a.unit_size = 16.0
+	a.max_db = 3.0
+	add_child(a)
+	a.play()
+	a.finished.connect(func():
+		if is_instance_valid(a):
+			a.queue_free()
+		if _rite_cine != null and is_instance_valid(_rite_cine):
+			_rite_cine.clear_line())
 
 ## Any input skips: land the end-state and hand the duel back at once.
 func _rite_skip() -> void:
@@ -292,6 +316,8 @@ class RiteCine extends Node3D:
 	var cam: Camera3D
 	var layer: CanvasLayer
 	var black: ColorRect
+	var _sub: Label = null
+	var _off := Vector3(2.2, 1.5, 3.2)
 	var _skipped := false
 
 	func _init(b: Node3D) -> void:
@@ -335,10 +361,42 @@ class RiteCine extends Node3D:
 		layer.add_child(hint)
 		create_tween().tween_property(black, "color:a", 0.0, 0.7)
 
-	## Three-quarter station off his sword-side, riding his facing.
+	## Three-quarter station off his sword-side, riding his facing; the
+	## drive pulls the frame in close.
 	func _want() -> Vector3:
 		var b: Basis = boss.get("vis").global_transform.basis if boss.get("vis") != null else Basis()
-		return boss.global_position + b * Vector3(2.2, 1.5, 3.2)
+		return boss.global_position + b * _off
+
+	func tighten() -> void:
+		var tw := create_tween()
+		tw.tween_property(self, "_off", Vector3(1.5, 1.3, 2.2), 2.2) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	func show_line(text: String) -> void:
+		if _sub == null:
+			_sub = Label.new()
+			var ls := LabelSettings.new()
+			ls.font = load("res://assets/fonts/DejaVuSerif.ttf")
+			ls.font_size = 26
+			ls.font_color = Color(0.92, 0.88, 0.78)
+			ls.shadow_color = Color(0, 0, 0, 0.85)
+			ls.shadow_offset = Vector2(1, 2)
+			_sub.label_settings = ls
+			_sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			_sub.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+			_sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			_sub.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+			_sub.offset_left = 280
+			_sub.offset_right = -280
+			_sub.offset_top = -250
+			_sub.offset_bottom = -26
+			layer.add_child(_sub)
+		_sub.text = text
+		_sub.visible = true
+
+	func clear_line() -> void:
+		if _sub != null:
+			_sub.visible = false
 
 	func _process(dt: float) -> void:
 		if boss == null or not is_instance_valid(boss) or cam == null:

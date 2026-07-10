@@ -375,6 +375,8 @@ func _physics_process(dt: float) -> void:
 func _set_state(s: S) -> void:
 	if s == S.MOVE:
 		apply_carry_pose()
+	if state == S.FLASK and s != S.FLASK:
+		_show_flask(false)   # a stagger or a death mid-drink drops the gourd
 	state = s
 	state_t = 0.0
 	if s != S.MOVE:
@@ -993,6 +995,7 @@ func try_flask() -> bool:
 	flasks_changed.emit(flasks, flask_max)
 	_set_state(S.FLASK)
 	vis.play("flask", 0.08)
+	_show_flask(true)
 	AudioDirector.sfx("res://assets/audio/flask.wav", -6.0)
 	return true
 
@@ -1017,17 +1020,24 @@ func cast_spell(id: String) -> void:
 	mana -= cost
 	mana_changed.emit(mana, max_mana)
 	_cast_cd = 0.7
+	# the shield rides the casting forearm; tucked away for the gesture or
+	# every rite reads as a guard-raise
+	if vis.shield_mount != null:
+		vis.shield_mount.visible = false
+		get_tree().create_timer(0.85, false).timeout.connect(func():
+			if vis != null and is_instance_valid(vis) and vis.shield_mount != null:
+				vis.shield_mount.visible = true)
 	var dev: float = 1.0 + float(attributes["devotion"]) * 0.025
 	match String(sp.get("type", "")):
 		"heal":
-			vis.play("flask", 0.1)
+			vis.play("cast_self", 0.1)
 			hp = minf(hp + max_hp * float(sp.get("power", 0.3)), max_hp)
 			health_changed.emit(hp, max_hp)
 			Juice.shake(0.08, 0.1)
 			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -8.0, 1.3)
 			_radiant_flash(1.4, 4.0)
 		"blast":
-			vis.play("atk_thrust", 0.08)
+			vis.play("cast", 0.08)
 			var from := global_position + Vector3.UP * 1.45
 			var aim: Vector3
 			if cam.locked_target != null and is_instance_valid(cam.locked_target):
@@ -1043,7 +1053,7 @@ func cast_spell(id: String) -> void:
 			AudioDirector.sfx("res://assets/audio/whoosh_h.wav", -6.0, 1.2)
 			_radiant_flash(1.2, 3.0)
 		"burst":
-			vis.play("attack_h", 0.08)
+			vis.play("cast", 0.08, 0.85)
 			var r := float(sp.get("radius", 4.5))
 			for e in get_tree().get_nodes_in_group(VG.GROUP_ENEMIES):
 				if e is Node3D and e.global_position.distance_to(global_position) <= r:
@@ -1075,8 +1085,26 @@ func _st_flask(dt: float) -> void:
 		hp = minf(hp + float(T["flask"]["heal"]), max_hp)
 		health_changed.emit(hp, max_hp)
 	if state_t >= use_time:
+		_show_flask(false)
 		_set_state(S.MOVE)
 		vis.back_to_idle()
+
+## The chrism gourd itself, mounted in the off-hand only while he drinks —
+## tipped so the gilt stopper finds the visor as the arm rises.
+var _flask_mount: Node3D = null
+
+func _show_flask(on: bool) -> void:
+	if on:
+		if _flask_mount == null and KitLib.has_piece("chrism_flask"):
+			_flask_mount = vis.mount("hand_l")
+			_flask_mount.position = Vector3(0, 0.07, 0.02)
+			_flask_mount.rotation_degrees = Vector3(-104, 0, 0)
+			_flask_mount.add_child(KitLib.instance("chrism_flask"))
+	elif _flask_mount != null:
+		var att := _flask_mount.get_parent()   # the BoneAttachment3D
+		_flask_mount = null
+		if att != null and is_instance_valid(att):
+			att.queue_free()
 
 # --- damage intake -----------------------------------------------------------
 func take_hit(packet: DamagePacket) -> void:
