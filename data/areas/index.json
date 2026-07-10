@@ -7,7 +7,8 @@
   "larkspire",
   "black_gate",
   "drowned_marches",
-  "vigils_end"
+  "vigils_end",
+  "gilded_sanctum"
  ],
  "graph": {
   "gray_cloister": {
@@ -17,7 +18,8 @@
   "basilica_porch": {
    "west": "gray_cloister",
    "north": "basilica_nave",
-   "down": "black_gate"
+   "down": "black_gate",
+   "up": "gilded_sanctum"
   },
   "basilica_nave": {
    "south": "basilica_porch",
@@ -41,6 +43,9 @@
   },
   "vigils_end": {
    "east": "drowned_marches"
+  },
+  "gilded_sanctum": {
+   "down": "basilica_porch"
   }
  },
  "start_area": "gray_cloister"

@@ -82,7 +82,9 @@ func _enter_main() -> void:
 	var aid := _aid()
 	var cur := World.get_area_state(aid)
 	if _stub_lantern():
-		_options.append({"id": "rest", "label": "Keep vigil  (rest — the memory here is thin)"})
+		var def2: Dictionary = lantern.area.get_meta("def", {}) if lantern.area != null else {}
+		_options.append({"id": "rest", "label": String(def2.get("stub_label",
+			"Keep vigil  (rest — the memory here is thin)"))})
 	elif Game.toggle_free(aid):
 		_options.append({"id": "rest", "label": "Keep vigil  (rest)"})
 		_options.append({"id": "toggle", "label": "Turn the memory — " +

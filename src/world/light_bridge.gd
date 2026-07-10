@@ -13,9 +13,11 @@ var far_beacon := true
 func _ready() -> void:
 	_deck()
 	_collision()
+	_rails()
 	_motes()
 	if far_beacon:
 		_beacon()
+		_lightfall_door()
 
 ## Two planes make the glow: a soft wide wash and a brighter core strip that
 ## breathes. Additive, unshaded, shadowless — light, not masonry.
@@ -84,6 +86,38 @@ func _collision() -> void:
 	wcs.position = Vector3(0, 2.0, -length + 0.6)
 	wall.add_child(wcs)
 	add_child(wall)
+
+## Low walls of standing light along both edges: the road holds its own.
+func _rails() -> void:
+	for sx in [-1.0, 1.0]:
+		var glow := MeshInstance3D.new()
+		var gm := BoxMesh.new()
+		gm.size = Vector3(0.1, 0.85, length)
+		glow.mesh = gm
+		glow.material_override = _glow_mat(Color(1.0, 0.9, 0.62), 0.22)
+		glow.position = Vector3(sx * (width * 0.5 + 0.05), 0.42, -length * 0.5)
+		glow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(glow)
+		var body := StaticBody3D.new()
+		body.collision_layer = 1 << (VG.L_WORLD_BASE - 1)
+		var cs := CollisionShape3D.new()
+		var box := BoxShape3D.new()
+		box.size = Vector3(0.3, 2.6, length)
+		cs.shape = box
+		cs.position = Vector3(sx * (width * 0.5 + 0.15), 1.3, -length * 0.5)
+		body.add_child(cs)
+		add_child(body)
+
+## The beacon is the way: step into the light, and the light takes you.
+func _lightfall_door() -> void:
+	var door := AreaPortal.new()
+	door.to_area = "gilded_sanctum"
+	door.spawn_pos = Vector3(0, 0.2, 27)
+	door.spawn_yaw = 0.0
+	door.prompt = "Step into the light"
+	door.cutscene = "ascend"
+	add_child(door)
+	door.position = Vector3(0, 0.0, -length + 2.4)
 
 ## Gold motes drift up off the span, sparse — the light is alive.
 func _motes() -> void:

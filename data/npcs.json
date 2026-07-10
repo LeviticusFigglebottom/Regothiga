@@ -235,5 +235,23 @@
   "body": "skel_sexton",
   "pose": "kneel",
   "mute": true
+ },
+ "knight_sanctum": {
+  "name": "Ser Adalric of the Morrow",
+  "short_name": "Ser Adalric",
+  "body": "char_ward",
+  "carry": "sword_cloister",
+  "carry_hand": "r",
+  "lines_first": [
+   "Well met, pilgrim! Ser Adalric \u2014 knight, votary, and... no. No, forgive me. I will not play that man here. Not in this light.",
+   "Do you know what this place is? The light that does not falter \u2014 which means the light that does not FORGET. Every hour stands visible at once here. The road behind you. The road you have not walked yet. I have seen both, Latecomer, and I could not tell you which one grieves me more.",
+   "I will say only this, and pray I am wrong to say it: when the dark asks you for the last bell \u2014 and it will ask \u2014 remember that it has asked you once before. And remember what you answered.",
+   "Go. Look on the palaces. Kneel at the vigil that cannot gutter. And leave, while leaving is still a thing this place will let you do."
+  ],
+  "lines_repeat": [
+   "Still here? The palaces do not open for staring, pilgrim. Nor, I fear, for deserving.",
+   "Every hour at once, Latecomer. Even here I cannot stop watching yours."
+  ],
+  "face_flip": true
  }
 }

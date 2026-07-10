@@ -101,7 +101,20 @@ func _on_use(player) -> void:
 	if cutscene == "ferry":
 		_ferry_ride.call_deferred()
 		return
+	if cutscene == "ascend":
+		_ascension.call_deferred()
+		return
 	Game.travel_to(to_area, spawn_pos, spawn_yaw)
+
+## The lightfall: rise into the beacon, white out, arrive above the hours.
+func _ascension() -> void:
+	if Game.player != null:
+		Game.player.lock_control(true)
+	var ride := AscensionRide.new()
+	get_tree().root.add_child(ride)
+	await ride.finished
+	Game.travel_to(to_area, spawn_pos, spawn_yaw)
+	ride.reveal_and_free()
 
 ## The waterworks passage: ride the canal down to the destination, then arrive.
 func _ferry_ride() -> void:
