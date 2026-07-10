@@ -18,6 +18,8 @@ var target: Node3D = null
 var _atk_cd := 0.0
 var _bolt_cd := 2.5
 var _retarget := 0.0
+var _hold_t := 0.0      # after a swing he steps off his mark and circles
+var _circle_sgn := 1.0
 var _busy := false
 var _fading := false
 var _light: OmniLight3D
@@ -181,6 +183,7 @@ func _physics_process(dt: float) -> void:
 	_atk_cd -= dt
 	_bolt_cd -= dt
 	_retarget -= dt
+	_hold_t = maxf(_hold_t - dt, 0.0)
 	_blink_check(dt)
 	if _retarget <= 0.0:
 		_retarget = 0.5
@@ -194,6 +197,12 @@ func _physics_process(dt: float) -> void:
 	# they walk together
 	var far_from_player := Game.player != null and is_instance_valid(Game.player) \
 			and global_position.distance_to(Game.player.global_position) > 14.0
+	# a comrade, not a hound: fresh off a swing he steps back off his mark
+	# and circles, giving the Latecomer's own blade the floor awhile
+	if _hold_t > 0.0 and not _busy and target != null and is_instance_valid(target) \
+			and not far_from_player:
+		_circle(dt)
+		return
 	var goal := global_position
 	var stop := 1.9
 	if target != null and is_instance_valid(target) and not far_from_player:
@@ -225,9 +234,27 @@ func _physics_process(dt: float) -> void:
 	elif d >= 5.0 and d <= 16.0 and _bolt_cd <= 0.0 and _los_to(target):
 		_bolt(target)
 
+## Sword-side keeping: face the foe, hold a few paces, walk the ring.
+func _circle(dt: float) -> void:
+	var to := target.global_position - global_position
+	to.y = 0.0
+	var d := to.length()
+	var dir := to.normalized()
+	var side := dir.cross(Vector3.UP) * _circle_sgn
+	var want := side
+	if d > 4.8:
+		want = (dir + side * 0.5).normalized()
+	elif d < 2.6:
+		want = (side - dir).normalized()
+	velocity.x = want.x * 2.9
+	velocity.z = want.z * 2.9
+	vis.rotation.y = lerp_angle(vis.rotation.y, atan2(-dir.x, -dir.z), 1.0 - exp(-7.0 * dt))
+	move_and_slide()
+	vis.locomotion(dt, Vector2(velocity.x, velocity.z).length())
+
 func _melee() -> void:
 	_busy = true
-	_atk_cd = 1.4
+	_atk_cd = 1.6 + randf() * 0.9
 	vis.play("attack_l1", 0.1)
 	await get_tree().create_timer(0.34, false).timeout
 	if dead:
@@ -241,11 +268,15 @@ func _melee() -> void:
 	_busy = false
 	if is_instance_valid(vis):
 		vis.back_to_idle(0.25)
+	# more often than not the swing ends his turn: he yields the mark
+	if randf() < 0.6:
+		_hold_t = 1.1 + randf() * 1.2
+		_circle_sgn = -1.0 if randf() < 0.5 else 1.0
 
 ## The storm-glass versicle: a thrown bolt of pale lightning.
 func _bolt(at: Node3D) -> void:
 	_busy = true
-	_bolt_cd = 4.5
+	_bolt_cd = 5.5 + randf() * 1.5
 	vis.play("attack_l1", 0.1, 1.3)
 	await get_tree().create_timer(0.3, false).timeout
 	_busy = false

@@ -111,6 +111,62 @@ def icon_relic():
     return img
 
 
+# ------------------------------------------------------------------- rites
+FLAME = (244, 168, 54, 255)
+FLAME_HI = (255, 214, 120, 255)
+WAX = (232, 222, 196, 255)
+
+
+def icon_mend():
+    """Mend the Wick: a votive candle, its flame ringed by a healing halo."""
+    img = _canvas()
+    d = ImageDraw.Draw(img)
+    d.rectangle([26, 30, 38, 56], fill=WAX, outline=GOLD)             # the candle
+    d.line([(27, 34), (25, 46)], fill=(210, 198, 168, 255), width=3)  # a run of wax
+    d.ellipse([24, 52, 40, 60], fill=WAX, outline=GOLD)               # pooled foot
+    d.line([(32, 30), (32, 24)], fill=(90, 70, 45, 255), width=2)     # the wick
+    d.polygon([(32, 8), (38, 20), (32, 26), (26, 20)], fill=FLAME, outline=FLAME_HI)
+    d.ellipse([30, 15, 34, 21], fill=FLAME_HI)
+    for r in (14, 19):                                                # the halo, twice
+        d.arc([32 - r, 17 - r, 32 + r, 17 + r], start=205, end=335, fill=GOLD, width=2)
+    return img
+
+
+def icon_blast():
+    """Radiant Blast: a thrown coal of daylight, streaking where grief aims."""
+    img = _canvas()
+    d = ImageDraw.Draw(img)
+    for w, off in ((7, 0), (3, 0)):                                    # the tail, cored
+        d.line([(10, 54 - off), (40, 24 - off)],
+               fill=FLAME if w == 7 else FLAME_HI, width=w)
+    d.line([(12, 44), (26, 30)], fill=GOLD_DIM, width=2)               # trailing embers
+    d.line([(22, 56), (34, 44)], fill=GOLD_DIM, width=2)
+    star = []
+    for i in range(8):                                                 # the coal itself
+        a = math.radians(i * 45)
+        r = 13 if i % 2 == 0 else 6
+        star.append((44 + r * math.cos(a), 20 + r * math.sin(a)))
+    d.polygon(star, fill=FLAME, outline=FLAME_HI)
+    d.ellipse([39, 15, 49, 25], fill=FLAME_HI)
+    return img
+
+
+def icon_burst():
+    """Radiant Burst: the whole candle at once — noon, in every direction."""
+    img = _canvas()
+    d = ImageDraw.Draw(img)
+    d.ellipse([8, 8, 56, 56], outline=GOLD, width=2)                   # the shockwave
+    for i in range(12):                                                # the rays
+        a = math.radians(i * 30)
+        r0, r1 = 12, (21 if i % 3 == 0 else 17)
+        d.line([(32 + r0 * math.cos(a), 32 + r0 * math.sin(a)),
+                (32 + r1 * math.cos(a), 32 + r1 * math.sin(a))],
+               fill=FLAME_HI if i % 3 == 0 else FLAME, width=3)
+    d.ellipse([23, 23, 41, 41], fill=FLAME, outline=FLAME_HI)          # the noon disc
+    d.ellipse([28, 28, 36, 36], fill=FLAME_HI)
+    return img
+
+
 # ---------------------------------------------------------------- splash
 def _skin(t):
     """Flesh ramp: t 0 (shadow) .. 1 (highlight)."""
@@ -231,6 +287,9 @@ def main():
     _finish(icon_arrows(), "arrows")
     _finish(icon_torch(), "torch")
     _finish(icon_relic(), "relic")
+    _finish(icon_mend(), "mend")
+    _finish(icon_blast(), "blast")
+    _finish(icon_burst(), "burst")
     splash()
 
 

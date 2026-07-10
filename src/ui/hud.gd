@@ -459,7 +459,8 @@ func _refresh_rite() -> void:
 	var sid: String = p.attuned_spell
 	rite_panel.visible = sid != "" and not DB.spell(sid).is_empty()
 	if rite_panel.visible:
-		rite_icon.texture = load("res://assets/ui/icons/relic.png")
+		var by := {"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst"}
+		rite_icon.texture = load("res://assets/ui/icons/%s.png" % by.get(sid, "relic"))
 		rite_cost.text = str(int(DB.spell(sid).get("mana", 0)))
 
 func _refresh_hotbar() -> void:

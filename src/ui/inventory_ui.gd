@@ -163,7 +163,7 @@ func _fill_rites() -> void:
 		var sp: Dictionary = DB.table("spells")[id]
 		var nm: String = sp.get("name", id)
 		if id == player.attuned_spell: nm += "   — attuned  [C]"
-		_row(id, "spell", "res://assets/ui/icons/relic.png", nm,
+		_row(id, "spell", _icon_for(id), nm,
 			"%d wick" % int(sp.get("mana", 0)), sp.get("desc", ""))
 	if not any:
 		_note("    No rites yet. The Prior of the First Wick teaches them.")
@@ -371,7 +371,7 @@ func _drag_row(_at, ctrl: Control, id: String, kind: String) -> Variant:
 	icon.set_anchors_preset(Control.PRESET_FULL_RECT)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	var ip := "res://assets/ui/icons/relic.png" if kind == "spell" else _icon_for(id)
+	var ip := _icon_for(id)
 	if ResourceLoader.exists(ip): icon.texture = load(ip)
 	prev.add_child(icon)
 	ctrl.set_drag_preview(prev)
@@ -417,6 +417,7 @@ func _icon_for(id: String) -> String:
 		"cloistersword": "sword", "marsh_spear": "spear", "lark_bow": "bow",
 		"pilgrim_greatsword": "greatsword", "arrows": "arrows", "torch": "torch",
 		"flask": "flask", "sexton_maul": "greatsword", "ward_halberd": "spear",
+		"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst",
 	}
 	return "res://assets/ui/icons/%s.png" % by.get(id, "relic")
 
