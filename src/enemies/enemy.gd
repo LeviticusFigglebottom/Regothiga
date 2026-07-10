@@ -415,6 +415,11 @@ func _open_hitbox() -> void:
 	(hitbox_shape.shape as BoxShape3D).size = Vector3(float(_atk.get("width", 1.8)),
 			float(_atk.get("height", 1.5)), reach)
 	hitbox.position = Vector3(0, float(cfg.get("arm_h", 1.2)) * 0.9, -reach * 0.5 - 0.3)
+	# the swing only bites inside its arc (thrusts narrow, sweeps wide) and
+	# never through world geometry — the box alone was a barn door
+	hitbox.arc_node = vis
+	hitbox.arc_deg = float(_atk.get("arc", 150.0))
+	hitbox.occlude = true
 	var pk := DamagePacket.new(float(_atk.get("dmg", 10)), float(_atk.get("poise_dmg", 10)), self)
 	hitbox.begin_swing(pk)
 
@@ -473,7 +478,13 @@ func _shockwave(radius: float) -> void:
 	var p := _player()
 	if p != null and not p.get("dead"):
 		var d := global_position.distance_to(p.global_position)
-		if d < radius and p.has_method("take_hit"):
+		# ground-zero only counts with a clear line — a pillar is real cover
+		var seen := true
+		if d < radius:
+			var q := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * 1.0,
+					p.global_position + Vector3.UP * 1.0, VG.M_WORLD_ALL)
+			seen = get_world_3d().direct_space_state.intersect_ray(q).is_empty()
+		if d < radius and seen and p.has_method("take_hit"):
 			var hb: Hurtbox = p.get("hurtbox")
 			var pk := DamagePacket.new(float(_atk.get("dmg", 20)) * 0.7, 20.0, self)
 			pk.can_be_parried = false

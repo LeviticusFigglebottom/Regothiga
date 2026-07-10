@@ -75,18 +75,13 @@ func set_weapon(kit_id: String) -> void:
 	if kit_id != "":
 		weapon_mount.add_child(KitLib.instance(kit_id))
 
+const _SWING_TRAIL := preload("res://src/chars/swing_trail.gd")
+
 func add_trail() -> void:
-	trail = MeshInstance3D.new()
-	trail.name = "Trail"
-	var tq := PlaneMesh.new()
-	tq.size = Vector2(0.55, 1.05)
-	tq.orientation = PlaneMesh.FACE_Z
-	trail.mesh = tq
-	var tm := ShaderMaterial.new()
-	tm.shader = load("res://shaders/trail.gdshader")
-	trail.set_surface_override_material(0, tm)
-	trail.position = Vector3(0, 0.68, 0)   # centered along the blade (+Y)
-	trail.visible = false
+	var st: MeshInstance3D = _SWING_TRAIL.new()
+	st.name = "Trail"
+	st.set("target", weapon_mount)
+	trail = st
 	# sibling of the weapon so set_weapon() never frees it
 	weapon_mount.get_parent().add_child(trail)
 

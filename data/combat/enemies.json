@@ -113,7 +113,8 @@
     "height": 1.4,
     "cooldown": 3.5,
     "anim": "atk_thrust",
-    "lunge": 5.5
+    "lunge": 5.5,
+    "arc": 65
    },
    {
     "id": "overhead",
@@ -128,7 +129,8 @@
     "height": 2.0,
     "cooldown": 5.0,
     "anim": "atk_over",
-    "lunge": 1.6
+    "lunge": 1.6,
+    "arc": 110
    }
   ],
   "sfx_alert": "res://assets/audio/ward_hail.wav"
@@ -173,7 +175,8 @@
     "height": 1.8,
     "cooldown": 2.2,
     "anim": "atk_r",
-    "lunge": 2.4
+    "lunge": 2.4,
+    "arc": 65
    },
    {
     "id": "toll_slam",
@@ -189,7 +192,8 @@
     "cooldown": 4.5,
     "anim": "atk_over",
     "lunge": 1.2,
-    "shockwave": 4.5
+    "shockwave": 4.5,
+    "arc": 110
    },
    {
     "id": "backswing",
@@ -237,7 +241,8 @@
     "anim": "atk_over",
     "lunge": 0.0,
     "shockwave": 7.5,
-    "phase2_only": true
+    "phase2_only": true,
+    "arc": 110
    }
   ],
   "phase2_at": 0.55,
@@ -371,7 +376,8 @@
     "cooldown": 6.0,
     "anim": "atk_over",
     "lunge": 1.0,
-    "shockwave": 5.0
+    "shockwave": 5.0,
+    "arc": 110
    },
    {
     "id": "descant",
@@ -466,7 +472,8 @@
     "height": 1.4,
     "cooldown": 3.4,
     "anim": "atk_thrust",
-    "lunge": 6.5
+    "lunge": 6.5,
+    "arc": 65
    }
   ],
   "sfx_alert": "res://assets/audio/penitent_moan.wav"
@@ -510,7 +517,8 @@
     "height": 2.0,
     "cooldown": 4.0,
     "anim": "atk_thrust",
-    "lunge": 9.0
+    "lunge": 9.0,
+    "arc": 65
    },
    {
     "id": "yoke_swing",
@@ -541,7 +549,8 @@
     "cooldown": 5.5,
     "anim": "atk_over",
     "lunge": 0.8,
-    "shockwave": 4.2
+    "shockwave": 4.2,
+    "arc": 110
    },
    {
     "id": "stampede",
@@ -557,7 +566,8 @@
     "cooldown": 6.0,
     "anim": "atk_thrust",
     "lunge": 11.0,
-    "phase2_only": true
+    "phase2_only": true,
+    "arc": 65
    }
   ],
   "sfx_alert": "res://assets/audio/bellkeeper_roar.wav"
@@ -600,7 +610,8 @@
     "height": 1.5,
     "cooldown": 1.9,
     "anim": "atk_r",
-    "lunge": 2.0
+    "lunge": 2.0,
+    "arc": 65
    },
    {
     "id": "drag_hook",
@@ -615,7 +626,8 @@
     "height": 1.5,
     "cooldown": 3.8,
     "anim": "atk_thrust",
-    "lunge": 5.0
+    "lunge": 5.0,
+    "arc": 65
    },
    {
     "id": "cage_slam",
@@ -630,7 +642,8 @@
     "height": 2.0,
     "cooldown": 5.5,
     "anim": "atk_over",
-    "lunge": 1.4
+    "lunge": 1.4,
+    "arc": 110
    }
   ],
   "sfx_alert": "res://assets/audio/ward_hail.wav"
@@ -747,7 +760,8 @@
     "height": 1.6,
     "cooldown": 4.0,
     "anim": "atk_thrust",
-    "lunge": 6.0
+    "lunge": 6.0,
+    "arc": 65
    },
    {
     "id": "warden_toll",
@@ -763,7 +777,8 @@
     "cooldown": 6.5,
     "anim": "atk_over",
     "lunge": 1.0,
-    "shockwave": 4.5
+    "shockwave": 4.5,
+    "arc": 110
    },
    {
     "id": "song_ring",
@@ -965,7 +980,8 @@
     "cooldown": 6.8,
     "anim": "atk_over",
     "lunge": 0.9,
-    "shockwave": 5.2
+    "shockwave": 5.2,
+    "arc": 110
    },
    {
     "id": "shove_thrust",
@@ -980,7 +996,8 @@
     "height": 1.6,
     "cooldown": 4.2,
     "anim": "atk_thrust",
-    "lunge": 6.2
+    "lunge": 6.2,
+    "arc": 65
    },
    {
     "id": "last_toll",
@@ -1075,7 +1092,8 @@
     "cooldown": 6.0,
     "anim": "atk_over",
     "lunge": 2.5,
-    "shockwave": 3.0
+    "shockwave": 3.0,
+    "arc": 65
    }
   ],
   "sfx_alert": "res://assets/audio/penitent_moan.wav"
@@ -1136,7 +1154,8 @@
     "height": 1.5,
     "cooldown": 4.0,
     "anim": "atk_thrust",
-    "lunge": 7.5
+    "lunge": 7.5,
+    "arc": 65
    },
    {
     "id": "wake_slam",
@@ -1152,7 +1171,8 @@
     "cooldown": 6.6,
     "anim": "atk_over",
     "lunge": 1.0,
-    "shockwave": 5.5
+    "shockwave": 5.5,
+    "arc": 110
    },
    {
     "id": "undertow",
@@ -1294,7 +1314,8 @@
     "height": 1.6,
     "cooldown": 3.0,
     "anim": "atk_thrust",
-    "lunge": 2.6
+    "lunge": 2.6,
+    "arc": 65
    }
   ]
  },
@@ -1356,7 +1377,8 @@
     "cooldown": 4.0,
     "anim": "atk_over",
     "lunge": 1.6,
-    "shockwave": 4.2
+    "shockwave": 4.2,
+    "arc": 110
    },
    {
     "id": "hook_drag",
@@ -1371,7 +1393,8 @@
     "height": 1.7,
     "cooldown": 3.4,
     "anim": "atk_thrust",
-    "lunge": 3.2
+    "lunge": 3.2,
+    "arc": 65
    },
    {
     "id": "watch_flame",
@@ -1477,7 +1500,8 @@
     "cooldown": 1.3,
     "anim": "atk_r",
     "lunge": 2.4,
-    "phase1_only": true
+    "phase1_only": true,
+    "arc": 140
    },
    {
     "id": "vigil_thrust",
@@ -1493,7 +1517,8 @@
     "cooldown": 3.2,
     "anim": "atk_thrust",
     "lunge": 4.6,
-    "phase1_only": true
+    "phase1_only": true,
+    "arc": 60
    },
    {
     "id": "tallow_over",
@@ -1509,7 +1534,8 @@
     "cooldown": 4.6,
     "anim": "atk_over",
     "lunge": 2.0,
-    "phase1_only": true
+    "phase1_only": true,
+    "arc": 100
    },
    {
     "id": "wick_turn",
@@ -1525,7 +1551,8 @@
     "cooldown": 5.2,
     "anim": "atk_spin",
     "lunge": 2.8,
-    "phase1_only": true
+    "phase1_only": true,
+    "arc": 170
    },
    {
     "id": "sun_cleave",
@@ -1542,7 +1569,8 @@
     "anim": "atk_2h_cleave",
     "lunge": 2.6,
     "shockwave": 3.4,
-    "phase2_only": true
+    "phase2_only": true,
+    "arc": 100
    },
    {
     "id": "gilded_sweep",
@@ -1558,7 +1586,8 @@
     "cooldown": 4.4,
     "anim": "atk_2h_sweep",
     "lunge": 2.2,
-    "phase2_only": true
+    "phase2_only": true,
+    "arc": 170
    },
    {
     "id": "creed_thrust",
@@ -1574,7 +1603,8 @@
     "cooldown": 4.0,
     "anim": "atk_2h_thrust",
     "lunge": 4.8,
-    "phase2_only": true
+    "phase2_only": true,
+    "arc": 55
    },
    {
     "id": "wheel_of_wax",
@@ -1590,7 +1620,8 @@
     "cooldown": 7.5,
     "anim": "atk_2h_sweep",
     "lunge": 2.4,
-    "phase2_only": true
+    "phase2_only": true,
+    "arc": 220
    },
    {
     "id": "immortal_knell",
