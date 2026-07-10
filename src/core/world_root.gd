@@ -1,6 +1,9 @@
 extends Node3D
-## The game proper: loads the save (or begins the pilgrimage), builds the
-## current area, places the Latecomer, raises the HUD.
+## The game proper: loads the save (or begins the pilgrimage), shows the
+## title over the drifting kingdom, builds the chosen area, places the
+## Latecomer, raises the HUD.
+
+const TITLE := preload("res://src/ui/title_screen.gd")
 
 func _ready() -> void:
 	Game.world_root = self
@@ -26,18 +29,36 @@ func _ready() -> void:
 		add_child(splash)
 		await splash.finished
 
-	# a fresh pilgrimage weighs the dark first, then opens with the rite:
-	# story cards over the kingdom, ending on the vigil-wave rolling across
-	# the porch city
+	# the title stands between the house card and the kingdom: a first
+	# launch weighs the dark first (difficulty), every launch then rests at
+	# the title while the camera drifts the quarters; a fresh journey opens
+	# with the rite (story cards ending on the vigil-wave over the porch)
 	var intro: IntroDirector = null
-	if fresh and interactive:
-		var sel := DifficultyUI.new()
-		add_child(sel)
-		var picked: String = await sel.chosen
-		Game.set_difficulty(picked)
-		intro = IntroDirector.new()
-		add_child(intro)
-		await intro.finished
+	if interactive:
+		if fresh:
+			var sel := DifficultyUI.new()
+			add_child(sel)
+			Game.set_difficulty(await sel.chosen)
+		var title := TITLE.new()
+		title.has_save = not fresh
+		add_child(title)
+		var pick: String = await title.done
+		title.queue_free()
+		if pick == "new" and not fresh:
+			# a true new journey: forget the world, weigh the dark anew
+			World.reset()
+			if FileAccess.file_exists(World.save_path()):
+				DirAccess.remove_absolute(World.save_path())
+			Game.set_orisons(0)
+			fresh = true
+			area_id = "gray_cloister"
+			var sel2 := DifficultyUI.new()
+			add_child(sel2)
+			Game.set_difficulty(await sel2.chosen)
+		if fresh:
+			intro = IntroDirector.new()
+			add_child(intro)
+			await intro.finished
 
 	for f in Shot.forced_flags:
 		World.set_flag(String(f))   # shot harness: flag-conditional geometry

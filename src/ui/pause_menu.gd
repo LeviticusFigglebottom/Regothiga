@@ -42,6 +42,16 @@ func _ready() -> void:
 		var t := get_tree().create_timer(0.5, true, false, true)
 		t.timeout.connect(open)
 
+## Settings straight from the title screen: no game behind it, no pause,
+## and both Return and Esc close the sheet instead of sliding to "main".
+var _solo := false
+
+func open_settings_solo() -> void:
+	_solo = true
+	visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_show_page("settings")
+
 func is_open() -> bool:
 	return visible
 
@@ -58,7 +68,7 @@ func _input(event: InputEvent) -> void:
 	if _credits != null and is_instance_valid(_credits):
 		return          # the credits reel owns Esc while it rolls
 	if visible:
-		if _page == "main":
+		if _page == "main" or _solo:
 			close()
 		else:
 			_show_page("main")
@@ -75,6 +85,7 @@ func open() -> void:
 
 func close() -> void:
 	visible = false
+	_solo = false
 	get_tree().paused = false
 	if Game.player != null and not Game.player.busy_in_menu():
 		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN \
@@ -247,7 +258,7 @@ func _build() -> void:
 	fs.text = "Fullscreen: %s" % ("on" if settings["fullscreen"] else "off")
 	st.add_child(fs)
 	st.add_child(_button("Credits", _open_credits))
-	st.add_child(_button("Return", func(): _show_page("main")))
+	st.add_child(_button("Return", func(): close() if _solo else _show_page("main")))
 	_pages["settings"] = st
 	_first_button["settings"] = fs
 
