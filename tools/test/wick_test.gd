@@ -126,7 +126,8 @@ func _run() -> void:
 	await ticks(5)
 	check(boss.target == player, "the address ends and the duel begins")
 
-	# ---- half his wax: the rite, the radiance, the harder hand
+	# ---- half his wax: the forced rite at the church's heart, then — once
+	# the duel is handed back — the remembered light sweeps the parish
 	var first_dmg := float(boss.cfg["attacks"][0]["dmg"])
 	boss.take_hit(DamagePacket.new(boss.max_hp * 0.55, 0, player))
 	await ticks(5)
@@ -134,10 +135,15 @@ func _run() -> void:
 	var hp_mid = boss.hp
 	boss.take_hit(DamagePacket.new(500, 0, player))
 	check(boss.hp == hp_mid, "the rite cannot be interrupted")
-	await ticks(200)
+	await ticks(620)
 	check(boss._phase2, "the kindling takes")
-	check(area.glory_layer.visible, "the church remembers itself around the duel")
+	check(boss.global_position.distance_to(Vector3(0, 0.1, -20)) < 1.2,
+		"the rite is performed at the church's heart (at %.1f,%.1f)" % [boss.global_position.x, boss.global_position.z])
+	check(String(boss.cfg["attacks"][0]["anim"]) == "atk_2h_sweep", "every swing takes the two-handed grip")
+	check(String(boss.vis.loco_override.get("walk", "")) == "twohand_walk", "he carries the golden blade in both hands")
 	check(float(boss.cfg["attacks"][0]["dmg"]) > first_dmg, "his golden blade bites deeper")
+	await ticks(330)
+	check(area.glory_layer.visible, "the light sweeps, and the church remembers itself around the duel")
 	var npc_hidden := true
 	for n in area.glory_layer.get_children():
 		if n is NPC and (n as Node3D).visible:

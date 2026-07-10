@@ -1522,6 +1522,61 @@
     "cooldown": 5.2,
     "anim": "atk_spin",
     "lunge": 2.8
+   },
+   {
+    "id": "sun_cleave",
+    "range": 3.2,
+    "windup": 0.85,
+    "active": 0.18,
+    "recover": 1.05,
+    "dmg": 50,
+    "poise_dmg": 50,
+    "reach": 2.7,
+    "width": 2.0,
+    "height": 2.2,
+    "cooldown": 6.5,
+    "anim": "atk_2h_cleave",
+    "lunge": 2.6,
+    "shockwave": 3.4,
+    "phase2_only": true
+   },
+   {
+    "id": "gilded_sweep",
+    "range": 3.0,
+    "windup": 0.6,
+    "active": 0.2,
+    "recover": 0.85,
+    "dmg": 38,
+    "poise_dmg": 34,
+    "reach": 2.8,
+    "width": 3.2,
+    "height": 1.6,
+    "cooldown": 4.4,
+    "anim": "atk_2h_sweep",
+    "lunge": 2.2,
+    "phase2_only": true
+   },
+   {
+    "id": "immortal_knell",
+    "type": "ranged",
+    "range": 16.0,
+    "windup": 1.1,
+    "active": 0.16,
+    "recover": 1.25,
+    "dmg": 15,
+    "poise_dmg": 9,
+    "cooldown": 9.5,
+    "anim": "atk_2h_cleave",
+    "count": 10,
+    "spread_deg": 320,
+    "proj_speed": 8.5,
+    "lunge": 0.0,
+    "proj_color": [
+     1.0,
+     0.82,
+     0.4
+    ],
+    "phase2_only": true
    }
   ]
  }

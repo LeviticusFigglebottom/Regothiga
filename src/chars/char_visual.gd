@@ -22,11 +22,12 @@ var step_volume := -14.0
 var _step_i := 0
 var _lean := Vector2.ZERO
 
-## When set, standing rest plays this clip instead of "idle" (e.g. the
-## Immortalized's two-handed vigil stance). Walk/run stay themselves.
-var idle_override := ""
+## Locomotion clip substitutions (e.g. the Immortalized's two-handed carry:
+## {"idle": "twohand_idle", "walk": "twohand_walk", "run": "twohand_walk"}).
+## Pacing still follows the base gait; only the clip swaps.
+var loco_override := {}
 
-const LOCO := ["idle", "walk", "run", "twohand_idle", ""]
+const LOCO := ["idle", "walk", "run", "twohand_idle", "twohand_walk", ""]
 
 func build_body(skel_id: String, amp := 1.0, sway := 1.0, vis_scale := 1.0) -> void:
 	body = KitLib.instance(skel_id)
@@ -100,7 +101,7 @@ func back_to_idle(blend := 0.2) -> void:
 	if anim == null:
 		return
 	anim.speed_scale = 1.0
-	anim.play("idle", blend)
+	anim.play(String(loco_override.get("idle", "idle")), blend)
 
 func idle(blend := 0.25) -> void:
 	back_to_idle(blend)
@@ -114,12 +115,13 @@ func locomotion(dt: float, ground_speed: float, accel_lean := Vector2.ZERO, grou
 	var cur := anim.current_animation
 	if not (cur in LOCO):
 		return
-	var want := "idle" if idle_override == "" else idle_override
+	var base := "idle"
 	if grounded and ground_speed > 0.55:
-		want = "run" if ground_speed > stride * 1.5 else "walk"
+		base = "run" if ground_speed > stride * 1.5 else "walk"
+	var want := String(loco_override.get(base, base))
 	if want != cur:
 		anim.play(want, 0.3)
-	match want:
+	match base:
 		"walk":
 			anim.speed_scale = clampf(ground_speed / stride, 0.55, 1.75)
 		"run":
@@ -127,7 +129,7 @@ func locomotion(dt: float, ground_speed: float, accel_lean := Vector2.ZERO, grou
 		_:
 			anim.speed_scale = 1.0
 	# lean into acceleration (whole-rig, subtle)
-	_lean = _lean.lerp(accel_lean if want != "idle" else Vector2.ZERO, 1.0 - exp(-7.0 * dt))
+	_lean = _lean.lerp(accel_lean if base != "idle" else Vector2.ZERO, 1.0 - exp(-7.0 * dt))
 	rotation.x = clampf(-_lean.y * 0.05, -0.1, 0.1)
 	rotation.z = clampf(_lean.x * 0.04, -0.09, 0.09)
 	# footfalls at each half-cycle

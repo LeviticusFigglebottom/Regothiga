@@ -51,6 +51,10 @@ func _st_combat(dt: float) -> void:
 		if pl.state == Player.S.FLASK:
 			for k in _cooldowns:
 				_cooldowns[k] = 0.0
+	# the guard loop never resolves itself: when the window closes, hand the
+	# rig back to locomotion or he glides around frozen mid-block
+	if _block_t <= 0.0 and vis.anim != null and vis.anim.current_animation == "block":
+		vis.back_to_idle(0.2)
 	if _retreat_t > 0.0 and target != null:
 		if _rec_t > 0.0:
 			_retreat_t = 0.0   # a wall already won; take the open lane instead
@@ -101,24 +105,106 @@ func take_hit(packet: DamagePacket) -> void:
 		_hits_recent = 0.0
 	super(packet)
 
-## Half his wax: instead of raging he performs the rite. He lays the shield
-## down, takes the hilt in both hands, turns the point home and drives it —
-## untouchable while it runs; then the kindling.
+## Half his wax: the fight stops and the rite takes the stage — a forced
+## cutscene. He reels from the wound that spent him, walks to the church's
+## heart, lays the shield, takes the hilt in both hands and drives it home,
+## slow; his armour goes to the Latecomer's black and the blade to gold.
+## Only once the duel is yours again does the remembered light sweep the
+## parish around you.
+const RITE_MARK := Vector3(0, 0.1, -20.0)   # the heart of the nave
+
+var _rite_cine: RiteCine = null
+var _rite_tw: Tween = null
+
 func _enrage() -> void:
 	if _phase2 or _seppuku:
 		return
 	_seppuku = true
-	_lay_down_shield()
-	vis.play("seppuku", 0.3)
+	set_physics_process(false)      # the rite owns him: no gravity, no AI
+	velocity = Vector3.ZERO
+	if hitbox != null:
+		hitbox.end_swing()
+	_rite_cutscene.call_deferred()
+
+func _rite_cutscene() -> void:
+	var p = Game.player
+	if p != null and is_instance_valid(p):
+		p.lock_control(true)
+	# if the Latecomer somehow falls mid-rite, the respawn resets this boss:
+	# tear the stage down rather than puppet a reset body through the beats
+	Game.player_forgotten.connect(_rite_abort, CONNECT_ONE_SHOT)
+	_rite_cine = RiteCine.new(self)
+	get_parent().add_child(_rite_cine)
+	_rite_cine.skip_requested.connect(_rite_skip)
+	# the wound lands: he reels from the blow that spent his wax
+	vis.play("stagger", 0.08, 0.7)
+	var to_mark := RITE_MARK - global_position
+	to_mark.y = 0.0
+	var walk_t: float = clampf(to_mark.length() / 2.4, 0.6, 3.2)
 	var tw := create_tween()
-	tw.tween_interval(0.7)
-	tw.tween_callback(_turn_blade)   # the point comes round to his belly
+	tw.tween_interval(1.1)
+	tw.tween_callback(func():
+		if to_mark.length() > 0.4:
+			vis.rotation.y = atan2(-to_mark.x, -to_mark.z)
+		vis.play("walk", 0.3))
+	tw.tween_property(self, "global_position", RITE_MARK, walk_t) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_callback(func():
+		var pl = Game.player
+		if pl != null and is_instance_valid(pl):
+			var face: Vector3 = pl.global_position - global_position
+			vis.rotation.y = atan2(-face.x, -face.z)
+		vis.play("idle", 0.3)
+		_lay_down_shield())
+	tw.tween_interval(0.5)
+	tw.tween_callback(func(): vis.play("seppuku", 0.4, 0.5))   # half speed: slow, deliberate
+	tw.tween_interval(1.4)      # both hands find the hilt...
+	tw.tween_callback(_turn_blade)
+	tw.tween_interval(1.4)      # ...the point comes round...
+	tw.tween_callback(func():
+		AudioDirector.sfx_at("res://assets/audio/guard_break.wav", global_position, 0.0, 0.6)
+		Juice.shake(0.5, 0.5))
+	tw.tween_interval(2.6)      # ...and the drive holds, trembling
+	tw.tween_callback(_kindle_dark)
+	tw.tween_interval(0.9)
+	tw.tween_callback(_rite_end)
+	_rite_tw = tw
+
+func _rite_abort() -> void:
+	if _rite_tw != null and _rite_tw.is_valid():
+		_rite_tw.kill()
+	if _rite_cine != null and is_instance_valid(_rite_cine):
+		_rite_cine.finish()
+		_rite_cine = null
+
+## Any input skips: land the end-state and hand the duel back at once.
+func _rite_skip() -> void:
+	if _phase2:
+		return
+	if _rite_tw != null and _rite_tw.is_valid():
+		_rite_tw.kill()
+	global_position = RITE_MARK
+	if vis.shield_mount != null and vis.shield_mount.visible:
+		_lay_down_shield()
+	_kindle_dark()
+	_rite_end()
+
+## The cutscene releases: control returns, and half a breath later the
+## remembered light sweeps out from him across the parish.
+func _rite_end() -> void:
+	if _rite_cine != null and is_instance_valid(_rite_cine):
+		_rite_cine.finish()
+		_rite_cine = null
+	var p = Game.player
+	if p != null and is_instance_valid(p):
+		p.lock_control(false)
+	set_physics_process(true)
+	if p != null:
+		target = p
+	var tw := create_tween()
 	tw.tween_interval(0.5)
 	tw.tween_callback(func():
-		AudioDirector.sfx_at("res://assets/audio/guard_break.wav", global_position, 0.0, 0.7)
-		Juice.shake(0.4, 0.4))
-	tw.tween_interval(1.5)
-	tw.tween_callback(_kindle)
+		WickReveal.radiance_wave(Game.current_area, global_position))
 
 ## He fights the first half behind the Latecomer's own kite shield; the rite
 ## begins with it laid flat on the stones at his side.
@@ -146,18 +232,26 @@ func _turn_blade() -> void:
 	tw.tween_property(vis.weapon_mount, "rotation_degrees", Vector3(-100, 0, 0), 0.45) \
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
-func _kindle() -> void:
+## The turn itself — stats, black armour, gold blade, the two-handed style.
+## The church's radiance is NOT applied here: the sweeping light belongs to
+## the moment after the duel is handed back (_rite_end -> radiance_wave).
+func _kindle_dark() -> void:
+	if _phase2:
+		return
 	_phase2 = true
 	_seppuku = false
 	stagger_resist = 3.0
 	hp = maxf(hp, max_hp * 0.5)
 	for a in cfg.get("attacks", []):
 		a["dmg"] = float(a["dmg"]) * 1.35
+		# every swing is two-handed now; the old arcs take the new grip
+		a["anim"] = {"atk_r": "atk_2h_sweep", "atk_over": "atk_2h_cleave",
+				"atk_thrust": "atk_2h_thrust"}.get(String(a.get("anim", "")), a.get("anim", "atk_r"))
 	# Teardown order is load-bearing: freeing the culled key-lights in the
 	# same breath as the layer churn crashes the renderer (Godot cull-pairing
 	# bug, "did not unpair geometries from light" -> SIGSEGV). So: the lights
 	# go dark but are NEVER freed mid-scene, a frame passes for the cull to
-	# unpair, only then the regild, the bit-strip, and the church's turn.
+	# unpair, only then the regild and the bit-strip.
 	if _key_rig != null:
 		for l in _key_rig.get_children():
 			if l is Light3D:
@@ -174,13 +268,10 @@ func _kindle() -> void:
 	if vis.weapon_mount != null:
 		vis.weapon_mount.rotation_degrees = Vector3.ZERO   # the blade comes back to hand
 	_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 1.6)
-	vis.idle_override = "twohand_idle"
-	await get_tree().physics_frame
-	if dead:
-		return
-	WickReveal.radiance(Game.current_area)
-	Juice.shake(0.8, 0.7)
-	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, 2.0, 0.75)
+	vis.loco_override = {"idle": "twohand_idle", "walk": "twohand_walk", "run": "twohand_walk"}
+	vis.play("twohand_idle", 0.5)
+	Juice.shake(0.6, 0.5)
+	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, 0.0, 0.9)
 
 ## Insurance against the same renderer bug on his death: the private lights
 ## sleep before the corpse's layers ever churn.
@@ -190,6 +281,93 @@ func _die() -> void:
 			if l is Light3D:
 				(l as Light3D).visible = false
 	super()
+
+## The rite's own camera rig, in the house cinematic grammar: letterbox
+## bars, a dip from black, a three-quarter frame that follows him to the
+## church's heart, any-input skip, and a dip back over the return cut.
+class RiteCine extends Node3D:
+	signal skip_requested
+	var boss: Node3D
+	var rig: Node3D
+	var cam: Camera3D
+	var layer: CanvasLayer
+	var black: ColorRect
+	var _skipped := false
+
+	func _init(b: Node3D) -> void:
+		boss = b
+
+	func _ready() -> void:
+		rig = Node3D.new()
+		add_child(rig)
+		cam = Camera3D.new()
+		cam.fov = 50
+		rig.add_child(cam)
+		cam.global_position = _want()
+		cam.look_at(boss.global_position + Vector3(0, 1.25, 0))
+		cam.make_current()
+		layer = CanvasLayer.new()
+		layer.layer = 24
+		add_child(layer)
+		black = ColorRect.new()
+		black.color = Color.BLACK
+		black.set_anchors_preset(Control.PRESET_FULL_RECT)
+		layer.add_child(black)
+		for top in [true, false]:
+			var bar := ColorRect.new()
+			bar.color = Color.BLACK
+			bar.set_anchors_preset(Control.PRESET_TOP_WIDE if top else Control.PRESET_BOTTOM_WIDE)
+			if top: bar.offset_bottom = 110
+			else: bar.offset_top = -110
+			layer.add_child(bar)
+		var hint := Label.new()
+		hint.text = "press any key to skip"
+		var hls := LabelSettings.new()
+		hls.font = load("res://assets/fonts/DejaVuSerif.ttf")
+		hls.font_size = 15
+		hls.font_color = Color(0.6, 0.57, 0.5, 0.55)
+		hint.label_settings = hls
+		hint.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		hint.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		hint.offset_left = -240
+		hint.offset_top = -40
+		layer.add_child(hint)
+		create_tween().tween_property(black, "color:a", 0.0, 0.7)
+
+	## Three-quarter station off his sword-side, riding his facing.
+	func _want() -> Vector3:
+		var b: Basis = boss.get("vis").global_transform.basis if boss.get("vis") != null else Basis()
+		return boss.global_position + b * Vector3(2.2, 1.5, 3.2)
+
+	func _process(dt: float) -> void:
+		if boss == null or not is_instance_valid(boss) or cam == null:
+			return
+		cam.global_position = cam.global_position.lerp(_want(), 1.0 - exp(-3.5 * dt))
+		cam.look_at(boss.global_position + Vector3(0, 1.25, 0))
+
+	func _unhandled_input(event: InputEvent) -> void:
+		if _skipped:
+			return
+		if (event is InputEventKey and event.pressed) \
+				or (event is InputEventMouseButton and event.pressed) \
+				or (event is InputEventJoypadButton and event.pressed):
+			_skipped = true
+			skip_requested.emit()
+
+	## Dip to black, free the camera at the bottom of the dip (the viewport
+	## falls back to the gameplay camera), lift, then free the whole rig.
+	func finish() -> void:
+		set_process(false)
+		set_process_unhandled_input(false)
+		var r := rig
+		var tw := create_tween()
+		tw.tween_property(black, "color:a", 1.0, 0.35)
+		tw.tween_callback(func():
+			if r != null and is_instance_valid(r):
+				r.queue_free())
+		tw.tween_property(black, "color:a", 0.0, 0.55)
+		tw.tween_callback(queue_free)
 
 ## He arrives as the kingdom kept him: not a glow but a gold TEXTURE — his
 ## armour wears the exact M_gold material the kingdom's gilt and reliquaries

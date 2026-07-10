@@ -56,8 +56,12 @@ func _cutscene(p) -> void:
 	p.velocity = Vector3.ZERO
 	boss.global_position = Vector3(0, 0.1, -1.5)
 	boss.vis.rotation.y = 0.0            # facing the length of the nave
+	# the tween owns his stride: physics off, or gravity fights the tween
+	# every other frame (the approach used to jitter) and the idle-speed
+	# locomotion overwrites the walk cycle (he used to glide)
+	boss.set_physics_process(false)
 	_cine_begin(boss)
-	boss.vis.play("walk", 0.2)
+	boss.vis.play("walk", 0.2, 1.05)
 	var tw := create_tween()
 	tw.tween_property(boss, "global_position", Vector3(0, 0.1, -19.0), 6.5)
 	tw.tween_callback(func():
@@ -168,6 +172,8 @@ func finish(fog, p) -> void:
 	_finished = true
 	_close_sub()
 	_cine_end()
+	if _boss_ref != null and is_instance_valid(_boss_ref):
+		_boss_ref.set_physics_process(true)   # the duel takes him back
 	if p != null and is_instance_valid(p):
 		p.lock_control(false)
 	if fog != null and is_instance_valid(fog):
@@ -223,6 +229,35 @@ func _close_sub() -> void:
 	if _sub != null and is_instance_valid(_sub):
 		_sub.queue_free()
 		_sub = null
+
+## The remembered light as a SWEEP: the kingdom's own transformation wave,
+## gold and outward from the rite's mark, but cosmetic only — no layer or
+## collision swap until the wavefront has passed, and the world's recorded
+## state stays RUIN (the veil, the spawner and the duel live there).
+static func radiance_wave(area, origin: Vector3) -> void:
+	if area == null or not is_instance_valid(area):
+		return
+	StateDirector._set_g("vg_wave_origin", origin)
+	StateDirector._set_g("vg_wave_band", 4.5)
+	StateDirector._set_g("vg_wave_dir", 0.0)   # toward glory
+	StateDirector._set_g("vg_wave_color", Vector3(StateDirector.GOLD.r, StateDirector.GOLD.g, StateDirector.GOLD.b))
+	StateDirector._set_g("vg_wave_r", 0.0)
+	StateDirector._spawn_wave_particles(area, origin, 3.6, 60.0, false)
+	AudioDirector.sfx("res://assets/audio/swell_kindle.wav", 2.0)
+	AudioDirector.sfx_at("res://assets/audio/bell_toll.wav", origin, 4.0, 1.0)
+	Juice.shake(0.3, 1.0)
+	var t := 0.0
+	while t < 3.6:
+		if not is_instance_valid(area):
+			return
+		t += area.get_process_delta_time()
+		var k: float = ease(clampf(t / 3.6, 0.0, 1.0), 0.65)
+		StateDirector._set_g("vg_wave_r", k * 60.0)
+		area.env.blend(1.0 - k)   # ruin's dark yields to the remembered dusk
+		await area.get_tree().process_frame
+	StateDirector._set_g("vg_state_blend", 0.0)   # materials read glory now
+	StateDirector._set_g("vg_wave_r", -1000.0)
+	radiance(area)
 
 ## Phase-two radiance: the church remembers itself around the duel — light
 ## and dressing only. The praying dead and the pews stay out of the arena,

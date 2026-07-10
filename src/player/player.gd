@@ -246,6 +246,9 @@ func enter_dialogue() -> void:
 	input_enabled = false
 	velocity = Vector3.ZERO
 	_set_state(S.TALK)
+	# TALK skips locomotion updates; a live walk/run cycle would jog in place
+	if vis != null and vis.anim != null and vis.anim.current_animation in ["walk", "run"]:
+		vis.play("idle", 0.2)
 
 func exit_dialogue() -> void:
 	_finish_dialogue.call_deferred()
@@ -1119,6 +1122,10 @@ func lock_control(on: bool) -> void:
 	input_enabled = not on
 	if on:
 		velocity = Vector3.ZERO
+		# menus freeze input mid-stride; settle the gait so he does not jog
+		# in place behind the parchment
+		if vis != null and vis.anim != null and vis.anim.current_animation in ["walk", "run"]:
+			vis.play("idle", 0.2)
 
 func enter_rest() -> void:
 	_set_state(S.REST)
