@@ -333,6 +333,8 @@ func _max_attack_range() -> float:
 	for a in cfg.get("attacks", []):
 		if a.get("phase2_only", false) and phase < 2:
 			continue
+		if a.get("phase1_only", false) and phase >= 2:
+			continue
 		m = maxf(m, float(a.get("range", 2)))
 	return m
 
@@ -340,6 +342,8 @@ func _pick_attack(dist: float) -> Dictionary:
 	var pool: Array = []
 	for a in cfg.get("attacks", []):
 		if a.get("phase2_only", false) and phase < 2:
+			continue
+		if a.get("phase1_only", false) and phase >= 2:
 			continue
 		if dist <= float(a.get("range", 2)) and _cooldowns.get(a["id"], 0.0) <= 0.0:
 			pool.append(a)

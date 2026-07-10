@@ -135,7 +135,6 @@ func _rite_cutscene() -> void:
 	Game.player_forgotten.connect(_rite_abort, CONNECT_ONE_SHOT)
 	_rite_cine = RiteCine.new(self)
 	get_parent().add_child(_rite_cine)
-	_rite_cine.skip_requested.connect(_rite_skip)
 	# the wound lands: he reels from the blow that spent his wax — and for
 	# the first time since the address, he speaks
 	vis.play("stagger", 0.08, 0.7)
@@ -201,18 +200,6 @@ func _rite_line() -> void:
 		if _rite_cine != null and is_instance_valid(_rite_cine):
 			_rite_cine.clear_line())
 
-## Any input skips: land the end-state and hand the duel back at once.
-func _rite_skip() -> void:
-	if _phase2:
-		return
-	if _rite_tw != null and _rite_tw.is_valid():
-		_rite_tw.kill()
-	global_position = RITE_MARK
-	if vis.shield_mount != null and vis.shield_mount.visible:
-		_lay_down_shield()
-	_kindle_dark()
-	_rite_end()
-
 ## The cutscene releases: control returns, and half a breath later the
 ## remembered light sweeps out from him across the parish.
 func _rite_end() -> void:
@@ -268,9 +255,8 @@ func _kindle_dark() -> void:
 	hp = maxf(hp, max_hp * 0.5)
 	for a in cfg.get("attacks", []):
 		a["dmg"] = float(a["dmg"]) * 1.35
-		# every swing is two-handed now; the old arcs take the new grip
-		a["anim"] = {"atk_r": "atk_2h_sweep", "atk_over": "atk_2h_cleave",
-				"atk_thrust": "atk_2h_thrust"}.get(String(a.get("anim", "")), a.get("anim", "atk_r"))
+	# the player-mirror set retires with the shield (phase1_only); from here
+	# he fights only the two-handed arsenal
 	# Teardown order is load-bearing: freeing the culled key-lights in the
 	# same breath as the layer churn crashes the renderer (Godot cull-pairing
 	# bug, "did not unpair geometries from light" -> SIGSEGV). So: the lights
@@ -310,7 +296,6 @@ func _die() -> void:
 ## bars, a dip from black, a three-quarter frame that follows him to the
 ## church's heart, any-input skip, and a dip back over the return cut.
 class RiteCine extends Node3D:
-	signal skip_requested
 	var boss: Node3D
 	var rig: Node3D
 	var cam: Camera3D
@@ -318,7 +303,6 @@ class RiteCine extends Node3D:
 	var black: ColorRect
 	var _sub: Label = null
 	var _off := Vector3(2.2, 1.5, 3.2)
-	var _skipped := false
 
 	func _init(b: Node3D) -> void:
 		boss = b
@@ -346,19 +330,6 @@ class RiteCine extends Node3D:
 			if top: bar.offset_bottom = 110
 			else: bar.offset_top = -110
 			layer.add_child(bar)
-		var hint := Label.new()
-		hint.text = "press any key to skip"
-		var hls := LabelSettings.new()
-		hls.font = load("res://assets/fonts/DejaVuSerif.ttf")
-		hls.font_size = 15
-		hls.font_color = Color(0.6, 0.57, 0.5, 0.55)
-		hint.label_settings = hls
-		hint.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-		hint.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-		hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
-		hint.offset_left = -240
-		hint.offset_top = -40
-		layer.add_child(hint)
 		create_tween().tween_property(black, "color:a", 0.0, 0.7)
 
 	## Three-quarter station off his sword-side, riding his facing; the
@@ -403,15 +374,6 @@ class RiteCine extends Node3D:
 			return
 		cam.global_position = cam.global_position.lerp(_want(), 1.0 - exp(-3.5 * dt))
 		cam.look_at(boss.global_position + Vector3(0, 1.25, 0))
-
-	func _unhandled_input(event: InputEvent) -> void:
-		if _skipped:
-			return
-		if (event is InputEventKey and event.pressed) \
-				or (event is InputEventMouseButton and event.pressed) \
-				or (event is InputEventJoypadButton and event.pressed):
-			_skipped = true
-			skip_requested.emit()
 
 	## Dip to black, free the camera at the bottom of the dip (the viewport
 	## falls back to the gameplay camera), lift, then free the whole rig.

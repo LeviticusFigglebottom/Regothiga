@@ -139,7 +139,13 @@ func _run() -> void:
 	check(boss._phase2, "the kindling takes")
 	check(boss.global_position.distance_to(Vector3(0, 0.1, -20)) < 1.2,
 		"the rite is performed at the church's heart (at %.1f,%.1f)" % [boss.global_position.x, boss.global_position.z])
-	check(String(boss.cfg["attacks"][0]["anim"]) == "atk_2h_sweep", "every swing takes the two-handed grip")
+	var p2 := 0
+	for a in boss.cfg["attacks"]:
+		if a.get("phase2_only", false):
+			p2 += 1
+	check(p2 >= 5, "the two-handed arsenal is his own (%d rites of the blade)" % p2)
+	var pick: Dictionary = boss._pick_attack(3.0)
+	check(pick.get("phase2_only", false) == true, "phase 2 swings only the two-handed arsenal (picked %s)" % pick.get("id", "none"))
 	check(String(boss.vis.loco_override.get("walk", "")) == "twohand_walk", "he carries the golden blade in both hands")
 	check(float(boss.cfg["attacks"][0]["dmg"]) > first_dmg, "his golden blade bites deeper")
 	await ticks(330)

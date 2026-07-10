@@ -7,7 +7,7 @@ extends Node3D
 
 const LINE := "So... you've finally made it. Some things are better left forgotten, Latecomer. But since you've come this far, let me ensure you learn that, here and now — lest the wax claim another would-be crusader of a fallen kingdom. Prepare to join the memories of those so blissfully immortalized."
 
-var _ran := false
+var _running := false
 var _finished := false
 var _sub: CanvasLayer
 var _cine: Node3D = null          # cutscene camera rig
@@ -29,12 +29,18 @@ func _physics_process(_dt: float) -> void:
 				(n as FogGate).intercept = self
 	set_physics_process(false)
 
-## Called by the fog gate when the pale is parted. Returns true when the
-## reveal stages the engagement itself (first meeting only).
-func on_parted(_fog: FogGate, p) -> bool:
-	if _ran or World.area_flag("wick_cathedral", "met_crusader"):
+## Called by the fog gate when the pale is parted. He makes his entrance
+## EVERY time the duel is re-sought (skippable) — the address only rests
+## when he does.
+func on_parted(fog: FogGate, p) -> bool:
+	if _running:
 		return false
-	_ran = true
+	var boss = fog.boss_spawner.current if fog.boss_spawner != null else null
+	if boss == null or not is_instance_valid(boss) or boss.get("dead"):
+		return false
+	_running = true
+	_finished = false
+	_skipped = false
 	World.set_area_flag("wick_cathedral", "met_crusader")
 	_cutscene.call_deferred(p)
 	return true
@@ -170,10 +176,13 @@ func finish(fog, p) -> void:
 	if _finished:
 		return
 	_finished = true
+	_running = false
+	var b := _boss_ref
+	_boss_ref = null
 	_close_sub()
 	_cine_end()
-	if _boss_ref != null and is_instance_valid(_boss_ref):
-		_boss_ref.set_physics_process(true)   # the duel takes him back
+	if b != null and is_instance_valid(b):
+		b.set_physics_process(true)   # the duel takes him back
 	if p != null and is_instance_valid(p):
 		p.lock_control(false)
 	if fog != null and is_instance_valid(fog):
