@@ -19,7 +19,7 @@ func _ready() -> void:
 	super()
 	cfg = cfg.duplicate(true)   # phase 2 rewrites his damage; never the table's
 	# he arrives as the kingdom kept him: radiant, not yet yours
-	_tint.call_deferred(Color(1.0, 0.84, 0.5), Color(0.78, 0.8, 0.88))
+	_radiant.call_deferred()
 
 func _physics_process(dt: float) -> void:
 	_iframes = maxf(_iframes - dt, 0.0)
@@ -113,17 +113,31 @@ func _kindle() -> void:
 	for a in cfg.get("attacks", []):
 		a["dmg"] = float(a["dmg"]) * 1.35
 	WickReveal.radiance(Game.current_area)
-	_tint(Color(0.13, 0.12, 0.15), Color(1.0, 0.85, 0.42))
+	# the wax leaves him: armor to the Latecomer's black (no glow), blade
+	# to a golden light that burns in either state
+	_paint_body(Color(0.11, 0.10, 0.12), Color.BLACK, 0.0)
+	_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 2.4)
 	Juice.shake(0.8, 0.7)
 	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, 2.0, 0.75)
 
-## Repaint the knight: armor to the Latecomer's black, blade to gold.
-func _tint(armor: Color, blade: Color) -> void:
-	_tint_under(vis.skel, armor)
-	if vis.weapon_mount != null:
-		_tint_under(vis.weapon_mount, blade)
+## He arrives radiant: gold armor that GLOWS on its own (emission, so it
+## reads bright even in the black of the ruined nave), a pale bright blade.
+func _radiant() -> void:
+	# a lit gold that still reads its plates — bright enough to glow in the
+	# ruined dark, not so hot it burns to a featureless blob
+	_paint_body(Color(1.0, 0.88, 0.58), Color(1.0, 0.78, 0.4), 0.85)
+	_paint_weapon(Color(0.92, 0.94, 1.0), Color(0.72, 0.8, 0.98), 0.45)
 
-func _tint_under(root: Node, c: Color) -> void:
+## Repaint every mesh under the body (its blade too, being bone-parented);
+## the weapon repaint runs after so the blade always wins its own colour.
+func _paint_body(albedo: Color, emit: Color, energy: float) -> void:
+	_paint_under(vis.body, albedo, emit, energy)   # body meshes may sit outside the Skeleton3D
+
+func _paint_weapon(albedo: Color, emit: Color, energy: float) -> void:
+	if vis.weapon_mount != null:
+		_paint_under(vis.weapon_mount, albedo, emit, energy)
+
+func _paint_under(root: Node, albedo: Color, emit: Color, energy: float) -> void:
 	if root == null:
 		return
 	for n in root.find_children("*", "MeshInstance3D", true, false):
@@ -134,9 +148,15 @@ func _tint_under(root: Node, c: Color) -> void:
 			var m := mi.get_active_material(i)
 			if m is ShaderMaterial:
 				var d := (m as ShaderMaterial).duplicate()
-				d.set_shader_parameter("albedo", c)
+				d.set_shader_parameter("albedo", albedo)
+				d.set_shader_parameter("emission_color", emit)
+				d.set_shader_parameter("emission_energy", energy)
+				d.set_shader_parameter("emission_gate", 0)   # burns in glory AND ruin
 				mi.set_surface_override_material(i, d)
 			elif m is StandardMaterial3D:
 				var d2 := (m as StandardMaterial3D).duplicate()
-				d2.albedo_color = c
+				d2.albedo_color = albedo
+				d2.emission_enabled = energy > 0.0
+				d2.emission = emit
+				d2.emission_energy_multiplier = energy
 				mi.set_surface_override_material(i, d2)
