@@ -117,10 +117,10 @@ for x in (-15.7, 15.7):
     piece("palace_pier", (x, 2, -23.6), 0)
 for x in (-10, 10):
     piece("statue_saint", (x, 2, -22.6), 0)
-# spires crown the palace, unreachable
-piece("spire_tower_a", (0, 2, -30), 0, collide=False, flames=False)
-piece("spire_tower_c", (-11, 2, -28), 0, collide=False, flames=False)
-piece("spire_tower_c", (11, 2, -28), 0, collide=False, flames=False)
+# radiant spires crown the palace, unreachable
+piece("radiant_spire_a", (0, 2, -32), 0, collide=False)
+piece("radiant_spire_b", (-12, 2, -29), 40, collide=False)
+piece("radiant_spire_b", (12, 2, -29), -70, collide=False)
 blocker((-16.6, 2, -24.6), (16.6, 14, -23.6))
 # terrace rim: gold-railed marble balustrades left and right of the stair
 row("palace_balustrade_4m", (-14, 2, -12.2), (1, 0, 0), 2, rot=0)     # -16..-8
@@ -215,57 +215,66 @@ prop("mosaic_medallion", (0, 0.02, 26.5), 0)
 row("palace_balustrade_4m", (-8, 0, 30.2), (1, 0, 0), 5, rot=180, skip=[2])
 blocker((-9, 0, 30.4), (-2.2, 3, 31.4))
 blocker((2.2, 0, 30.4), (9, 3, 31.4))
+# the lightfall landing: a railed marble balcony carrying the descent portal
+# past the rim — solid underfoot and fenced on every side, no overhang drop
+B.append({"min": [-3, -0.8, 30], "max": [3, 0, 33.4], "tag": "base", "walkable": True})
+piece("palace_balustrade_4m", (-3.1, 0, 31.7), 90, scale=[0.85, 1, 1])
+piece("palace_balustrade_4m", (3.1, 0, 31.7), -90, scale=[0.85, 1, 1])
+piece("palace_balustrade_4m", (0, 0, 33.5), 180, scale=[1.5, 1, 1])
+blocker((-3.7, 0, 30.2), (-3.0, 3, 33.9))
+blocker((3.0, 0, 30.2), (3.7, 3, 33.9))
+blocker((-3.6, 0, 33.6), (3.6, 3, 34.2))
 
 # ---------------------------------------------------------------- palaces beyond (inaccessible)
+# A zone of its own, IN the sky: no mortal city below — only radiant marble
+# castles and needle spires ringing the horizon, nested in the cloud sea.
 import math as _m
 import random as _random
 
-SKY = [{"kit": "city_panorama", "at": [0, -7, 0]}]
-# the near ring: grounded neighbours just past the balustrades
-for at in [(48, -3, -46), (-54, -2, -32), (40, -5, 40), (-46, -6, 46), (-2, -9, -74), (66, -8, 6)]:
-    SKY.append({"kit": "cathedral_mass", "at": [at[0], at[1], at[2]], "rot": (at[0] * 7) % 360})
-    SKY.append({"kit": "spire_tower_b", "at": [at[0] + 7, at[1], at[2] + 5], "rot": (at[0] * 13) % 360})
-    SKY.append({"kit": "spire_tower_c", "at": [at[0] - 6, at[1], at[2] - 4], "rot": (at[0] * 29) % 360})
-
-# the far ring: towering castles on every horizon, every third one riding
-# the sky itself with cloud banks massed beneath its footing
+SKY = []
 _rng = _random.Random(7)
+# the far ring: radiant castles and spires on every horizon, every third
+# riding higher in the open sky with cloud banks massed beneath its footing
 for i in range(11):
     ang = (i + 0.5) / 11 * 2 * _m.pi
-    r = _rng.uniform(175, 265)          # far enough that the haze makes them holy
+    r = _rng.uniform(150, 240)
     x, z = r * _m.sin(ang), -r * _m.cos(ang)
-    s = _rng.uniform(1.6, 2.2)
+    s = _rng.uniform(1.6, 2.4)
     floating = i % 3 == 0
-    y = _rng.uniform(16, 30) if floating else _rng.uniform(-20, -8)
+    y = _rng.uniform(14, 30) if floating else _rng.uniform(-14, -2)
     rot = int(_rng.uniform(0, 360))
-    SKY.append({"kit": "cathedral_mass", "at": [round(x, 1), round(y, 1), round(z, 1)],
-                "rot": rot, "scale": [s, s, s * _rng.uniform(1.0, 1.25)]})
-    st = _rng.uniform(1.9, 2.8)
-    SKY.append({"kit": "spire_tower_b" if i % 2 else "spire_tower_c",
-                "at": [round(x + 12 * s * _m.cos(ang), 1), round(y, 1), round(z + 12 * s * _m.sin(ang), 1)],
-                "rot": (rot * 3) % 360, "scale": [st, st, st * 1.2]})
+    SKY.append({"kit": "radiant_castle_a" if i % 2 else "radiant_castle_b",
+                "at": [round(x, 1), round(y, 1), round(z, 1)],
+                "rot": rot, "scale": [s, s, s * _rng.uniform(1.0, 1.2)]})
+    st = _rng.uniform(1.6, 2.6)
+    SKY.append({"kit": "radiant_spire_a" if i % 3 else "radiant_spire_b",
+                "at": [round(x + 16 * s * _m.cos(ang), 1), round(y + _rng.uniform(-2, 4), 1),
+                       round(z + 16 * s * _m.sin(ang), 1)],
+                "rot": (rot * 3) % 360, "scale": [st, st, st * 1.15]})
     if floating:
         for k in range(2):
-            cs = _rng.uniform(1.4, 2.4)
+            cs = _rng.uniform(1.6, 2.6)
             SKY.append({"kit": ["cloud_bank_a", "cloud_bank_b", "cloud_bank_c"][(i + k) % 3],
                         "at": [round(x + _rng.uniform(-18, 18), 1), round(y - _rng.uniform(4, 8), 1),
                                round(z + _rng.uniform(-16, 16), 1)],
                         "rot": int(_rng.uniform(0, 360)), "scale": [cs, cs * 0.8, cs]})
 
-# free clouds drifting between the ward and the far palaces
-for i in range(12):
-    ang = i / 12 * 2 * _m.pi + 0.26
-    r = _rng.uniform(75, 170)
-    cs = _rng.uniform(1.0, 2.0)
-    SKY.append({"kit": ["cloud_bank_a", "cloud_bank_b", "cloud_bank_c"][i % 3],
-                "at": [round(r * _m.sin(ang), 1), round(_rng.uniform(-2, 16), 1),
+# mid-distance sentinels: lone radiant needles rising straight from the sea
+for i in range(5):
+    ang = i / 5 * 2 * _m.pi + 0.6
+    r = _rng.uniform(72, 118)
+    st = _rng.uniform(1.1, 1.7)
+    SKY.append({"kit": "radiant_spire_b" if i % 2 else "radiant_spire_a",
+                "at": [round(r * _m.sin(ang), 1), round(_rng.uniform(-16, -8), 1),
                        round(-r * _m.cos(ang), 1)],
-                "rot": int(_rng.uniform(0, 360)), "scale": [cs, cs * 0.8, cs]})
+                "rot": int(_rng.uniform(0, 360)), "scale": [st, st, st]})
 
-# streaming light over the ward — the sky is doing something holy (glory only)
+# streaming light + the living cloud sea (the clouds orbit, slow and stately)
 SCRIPTED = [
     {"script": "res://src/world/god_rays.gd", "at": [0, 0, 6], "tag": "glory",
-     "params": {"count": 9, "span_x": 26.0, "span_z": 22.0, "seed_v": 7, "sun": [-34, -40]}},
+     "params": {"count": 7, "span_x": 26.0, "span_z": 22.0, "seed_v": 7, "sun": [-34, -40]}},
+    {"script": "res://src/world/sky_clouds.gd", "at": [0, 0, 4], "tag": "base",
+     "params": {"low_count": 26, "high_count": 10, "under_count": 8, "drift": 1.1, "seed_v": 5}},
 ]
 
 # ---------------------------------------------------------------- lore
@@ -307,7 +316,8 @@ def main():
         "skyline": SKY,
         "scripted": SCRIPTED,
         "open_air_regions": [{"min": [-22, 0, -12], "max": [22, 0, 30]},
-                             {"min": [-16, 2, -24], "max": [16, 2, -12]}],
+                             {"min": [-16, 2, -24], "max": [16, 2, -12]},
+                             {"min": [-3, 0, 30], "max": [3, 0, 33.4]}],
         "plaques": PLQ,
         "lanterns": [
             {"id": "sanctum", "name": "The Unfaltering Vigil", "at": [-13.5, 0, 8.4], "rot": 180},

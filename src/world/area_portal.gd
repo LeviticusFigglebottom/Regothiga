@@ -107,10 +107,14 @@ func _on_use(player) -> void:
 	Game.travel_to(to_area, spawn_pos, spawn_yaw)
 
 ## The lightfall: rise into the beacon, white out, arrive above the hours.
+## A door may carry an "ascend_focus" meta (a door-local offset) naming the
+## pillar's axis, so the ride lifts the pilgrim through the light itself.
 func _ascension() -> void:
 	if Game.player != null:
 		Game.player.lock_control(true)
 	var ride := AscensionRide.new()
+	if has_meta("ascend_focus"):
+		ride.focus = to_global(get_meta("ascend_focus"))
 	get_tree().root.add_child(ride)
 	await ride.finished
 	Game.travel_to(to_area, spawn_pos, spawn_yaw)

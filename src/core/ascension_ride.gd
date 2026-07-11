@@ -7,6 +7,10 @@ extends Node3D
 
 signal finished
 
+## World-space axis of the light pillar; the portal sets this so the rise
+## happens THROUGH the shaft, not from wherever the pilgrim was standing.
+var focus := Vector3.INF
+
 var _cam: Camera3D
 var _layer: CanvasLayer
 var _white: ColorRect
@@ -41,6 +45,8 @@ func _run() -> void:
 	_player.set_physics_process(false)
 	_player.velocity = Vector3.ZERO
 	var base: Vector3 = _player.global_position
+	if focus.is_finite():
+		base = Vector3(focus.x, _player.global_position.y, focus.z)
 	_cam.global_position = base + Vector3(2.6, 1.2, 3.4)
 	_cam.look_at(base + Vector3(0, 1.4, 0))
 	_cam.make_current()
@@ -69,8 +75,12 @@ func _run() -> void:
 	motes.global_position = base + Vector3.UP * 0.4
 	motes.emitting = true
 	AudioDirector.sfx("res://assets/audio/swell_kindle.wav", 0.0, 0.8)
-	# the rise: slow first breath, then taken
+	# the light draws them in first: a short glide onto the pillar's axis
 	var tw := create_tween()
+	if base.distance_to(_player.global_position) > 0.1:
+		tw.tween_property(_player, "global_position", base, 0.6) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	# then the rise: slow first breath, then taken
 	tw.tween_property(_player, "global_position", base + Vector3.UP * 2.2, 1.6) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tw.parallel().tween_property(col, "light_energy", 6.0, 1.6)

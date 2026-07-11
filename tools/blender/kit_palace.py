@@ -299,8 +299,85 @@ def palace_pediment_8m():
     return objs, {"size": [8, 0.9, 2.1], "origin": "bottom-center"}
 
 
+# ------------------------------------------------------- radiant skyline
+# Backdrop-scale marble-and-gold silhouettes for the Sanctum's horizon:
+# no mortal masonry above the hours. Warm-lit windows ride M_citywindow
+# (lamplit in glory, dead-dark in ruin). No collision — skyline pieces.
+
+def _radiant_tower(L, G, W, rng, cx, cy, base, w, h, cap=1.0):
+    """One marble tower: shaft, gold string courses, window strips, and a
+    gold pyramidal cap (returned as its own loft object)."""
+    hw = w * 0.5
+    V.add_box(L, (cx - hw, cy - hw, base), (cx + hw, cy + hw, base + h))
+    for k in (0.35, 0.7):
+        V.add_box(G, (cx - hw - 0.12, cy - hw - 0.12, base + h * k),
+                  (cx + hw + 0.12, cy + hw + 0.12, base + h * k + 0.5))
+    for (dx, dy) in ((0, -hw), (0, hw), (-hw, 0), (hw, 0)):
+        ww = w * 0.16
+        if dx == 0:
+            V.add_box(W, (cx - ww, cy + dy - 0.06, base + h * 0.45),
+                      (cx + ww, cy + dy + 0.06, base + h * 0.82))
+        else:
+            V.add_box(W, (cx + dx - 0.06, cy - ww, base + h * 0.45),
+                      (cx + dx + 0.06, cy + ww, base + h * 0.82))
+    rings = [(hw * 1.18, base + h, 4, 0.785), (0.06, base + h + w * 1.1 * cap, 4, 0.785)]
+    caps = V.loft_rings("radiant_cap", rings, "M_gild")
+    caps.location = (cx, cy, 0)
+    return caps
+
+
+def radiant_spire(seed=3):
+    """A lone marble needle for the far sky, ~40 m. Origin bottom-center."""
+    rng = random.Random(seed)
+    L = bmesh.new()
+    G = bmesh.new()
+    W = bmesh.new()
+    objs = []
+    h = rng.uniform(30, 38)
+    objs.append(_radiant_tower(L, G, W, rng, 0, 0, 0.0, rng.uniform(5.5, 7.0), h, cap=1.3))
+    for a in (0.9, -2.2):
+        d = rng.uniform(4.5, 6.0)
+        objs.append(_radiant_tower(L, G, W, rng, math.cos(a) * d, math.sin(a) * d,
+                                   0.0, rng.uniform(2.4, 3.2), h * rng.uniform(0.45, 0.6)))
+    objs.insert(0, V.bm_to_object(L, "radiant_spire", ("M_marble",)))
+    objs.insert(1, V.bm_to_object(G, "radiant_spire_gild", ("M_gild",)))
+    objs.insert(2, V.bm_to_object(W, "radiant_spire_win", ("M_citywindow",)))
+    return objs, {"size": [16, 16, 46], "origin": "bottom-center"}
+
+
+def radiant_castle(seed=4):
+    """A gleaming keep for the horizon: central tower over a corniced keep,
+    four corner towers, all marble with gold caps and courses.
+    ~30 x 30 x 44. Origin bottom-center."""
+    rng = random.Random(seed)
+    L = bmesh.new()
+    G = bmesh.new()
+    W = bmesh.new()
+    objs = []
+    kw, kh = rng.uniform(12, 15), rng.uniform(13, 17)
+    V.add_box(L, (-kw * 0.5, -kw * 0.5, 0), (kw * 0.5, kw * 0.5, kh))
+    V.add_box(G, (-kw * 0.5 - 0.2, -kw * 0.5 - 0.2, kh - 0.7), (kw * 0.5 + 0.2, kw * 0.5 + 0.2, kh))
+    for s in (-1, 1):
+        V.add_box(W, (s * (kw * 0.5 + 0.06) - 0.06, -kw * 0.2, kh * 0.35),
+                  (s * (kw * 0.5 + 0.06) + 0.06, kw * 0.2, kh * 0.8))
+    objs.append(_radiant_tower(L, G, W, rng, 0, 0, kh, rng.uniform(6, 7.5),
+                               rng.uniform(16, 22), cap=1.2))
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            objs.append(_radiant_tower(L, G, W, rng, sx * kw * 0.5, sy * kw * 0.5, 0.0,
+                                       rng.uniform(3.4, 4.4), kh + rng.uniform(4, 8)))
+    objs.insert(0, V.bm_to_object(L, "radiant_castle", ("M_marble",)))
+    objs.insert(1, V.bm_to_object(G, "radiant_castle_gild", ("M_gild",)))
+    objs.insert(2, V.bm_to_object(W, "radiant_castle_win", ("M_citywindow",)))
+    return objs, {"size": [30, 30, 44], "origin": "bottom-center"}
+
+
 BUILDERS = {
     "palace_floor_4x4": palace_floor_4x4,
+    "radiant_spire_a": lambda: radiant_spire(3),
+    "radiant_spire_b": lambda: radiant_spire(9),
+    "radiant_castle_a": lambda: radiant_castle(4),
+    "radiant_castle_b": lambda: radiant_castle(11),
     "palace_wall_4x4": palace_wall_4x4,
     "palace_wall_low_4m": palace_wall_low_4m,
     "palace_cornice_4m": palace_cornice_4m,

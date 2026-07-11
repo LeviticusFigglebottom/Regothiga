@@ -16,6 +16,8 @@ MOUNTED = {
     "buttress", "gargoyle", "chime_stone", "banner", "vault_bay_4x4",
     "city_panorama", "cathedral_mass", "spire_tower_a", "spire_tower_b",
     "spire_tower_c", "buttress_arc", "bell_great",
+    "radiant_spire_a", "radiant_spire_b", "radiant_castle_a", "radiant_castle_b",
+    "cloud_bank_a", "cloud_bank_b", "cloud_bank_c",   # sky dressing rides the sky
     "lark_cage", "lark_cage_dead", "aviary_screen",
     "chimney_stack", "balcony_3m",   # ride roofs and upper wall faces
     "clock_tower",   # crowns the parish facade

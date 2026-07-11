@@ -1174,6 +1174,46 @@
    3.9
   ]
  },
+ "radiant_castle_a": {
+  "file": "assets/kit/radiant_castle_a.glb",
+  "origin": "bottom-center",
+  "polys": 264,
+  "size": [
+   30,
+   30,
+   44
+  ]
+ },
+ "radiant_castle_b": {
+  "file": "assets/kit/radiant_castle_b.glb",
+  "origin": "bottom-center",
+  "polys": 264,
+  "size": [
+   30,
+   30,
+   44
+  ]
+ },
+ "radiant_spire_a": {
+  "file": "assets/kit/radiant_spire_a.glb",
+  "origin": "bottom-center",
+  "polys": 144,
+  "size": [
+   16,
+   16,
+   46
+  ]
+ },
+ "radiant_spire_b": {
+  "file": "assets/kit/radiant_spire_b.glb",
+  "origin": "bottom-center",
+  "polys": 144,
+  "size": [
+   16,
+   16,
+   46
+  ]
+ },
  "reed_clump": {
   "file": "assets/kit/reed_clump.glb",
   "origin": "bottom-center",

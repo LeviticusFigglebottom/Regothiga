@@ -139,10 +139,12 @@ func _run() -> void:
 	check(door_up != null and door_up.cutscene == "ascend", "the beacon offers the ascent")
 	porch.queue_free()
 
-	for kit in ["spire_tower_a", "cathedral_mass", "statue_orans", "chime_stone",
+	for kit in ["statue_orans", "chime_stone",
 			"votive_stand_lit", "palace_wall_4x4", "palace_portal_4m", "palace_arcade_4m",
 			"palace_floor_4x4", "palace_window_4m", "palace_balustrade_4m",
-			"palace_pier", "gilt_finial", "palace_pediment_8m"]:
+			"palace_pier", "gilt_finial", "palace_pediment_8m",
+			"radiant_spire_a", "radiant_spire_b", "radiant_castle_a", "radiant_castle_b",
+			"cloud_bank_a", "cloud_bank_b", "cloud_bank_c"]:
 		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
 
 	finish()

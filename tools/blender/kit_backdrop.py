@@ -915,6 +915,9 @@ def cloud_bank(seed=5):
         mtx = Matrix.LocRotScale((x, y, z), None, (1.0, rng.uniform(0.7, 1.0), 0.55))
         bmesh.ops.create_uvsphere(bm, u_segments=9, v_segments=6, radius=r, matrix=mtx)
     obj = V.bm_to_object(bm, "cloud_bank", ("M_cloud",))
+    # smooth normals: faceted lobes read as rock, soft ones as vapour
+    for poly in obj.data.polygons:
+        poly.use_smooth = True
     return [obj], {"size": [44, 14, 10], "origin": "center"}
 
 
