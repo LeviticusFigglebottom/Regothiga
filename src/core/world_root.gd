@@ -126,6 +126,10 @@ func _mend_ledger(player) -> void:
 				+ (0 if World.flag("amend_psalm_b") else 1)
 		if int(player.inventory.get("morrow_anthem", 0)) < owed:
 			player.inventory["morrow_anthem"] = owed
+		# holding her anthem IS her errand: a ledger that took the loft
+		# without the asking flag (older gating) stays coherent
+		if not World.flag("amend_psalm_asked"):
+			World.set_flag("amend_psalm_asked")
 	if not World.flag("amend_bell"):
 		var taken := 0
 		for spot in [["drowned_marches", "took_bell_fragment_marsh"],

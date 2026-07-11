@@ -1,7 +1,7 @@
 class_name VG
 
 ## Build tag shown in the HUD pose line — proves WHICH code a screenshot ran
-const BUILD := "U56"
+const BUILD := "U57"
 
 ## Renderer discipline for MASS teardown: freeing a subtree that carries
 ## lights (worst: cull-masked key rigs like the gilded player's or the

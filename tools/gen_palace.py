@@ -131,26 +131,38 @@ F.append({"kit": "palace_floor_4x4", "min": [-42, 0, 8], "max": [-10, 0, 40]})
 # ---------------------------------------------------------------- vaults (roofs)
 # great nave: vaulted end to end EXCEPT an 8x8 crossing at z 24..32 where
 # the first dome seats (its rim covers the hole's corners); a hidden flat
-# lid high above seals the weather for the auditor's roof ledger
-VF.append({"min": [-10, 0, 0], "max": [10, 0, 24], "spring_top": 8})
-VF.append({"min": [-10, 0, 24], "max": [-6, 0, 32], "spring_top": 8})
-VF.append({"min": [6, 0, 24], "max": [10, 0, 32], "spring_top": 8})
-VF.append({"min": [-10, 0, 32], "max": [10, 0, 56], "spring_top": 8})
-VF.append({"min": [-6, 0, 24], "max": [6, 0, 32], "flat": True, "spring_top": 12.3})
-# antechamber rotunda: same treatment, dome centred on the warden's ground
-VF.append({"min": [-10, 0, 56], "max": [10, 0, 60], "spring_top": 8})
-VF.append({"min": [-10, 0, 60], "max": [-6, 0, 68], "spring_top": 8})
-VF.append({"min": [6, 0, 60], "max": [10, 0, 68], "spring_top": 8})
-VF.append({"min": [-10, 0, 68], "max": [10, 0, 72], "spring_top": 8})
-VF.append({"min": [-6, 0, 60], "max": [6, 0, 68], "flat": True, "spring_top": 12.3})
+# lid high above seals the weather for the auditor's roof ledger.
+# EVERY palace band/lid wears marble, not attic brick — a bare stone band
+# face over an open crossing read as a raw slab hanging in the room.
+# A DOME IS A DOME: every field that touches a crossing presents NO boxy
+# band into the bowl's airspace — the ring around each dome is a flat
+# gilt-coffered marble soffit at the spring, and the bowl rises alone.
+_COFFER_RING = {"flat": True, "coffer": True, "lid_mat": "M_marble",
+                "beam_mat": "M_gold", "spring_top": 8}
+# nave: vaults keep the long bays, but a coffer ring holds the 4 m around
+# the crossing so no vault band stands at the hole's own edge
+VF.append({"min": [-10, 0, 0], "max": [10, 0, 20], "spring_top": 8, "band_mat": "M_marble"})
+VF.append(dict(_COFFER_RING, min=[-10, 0, 20], max=[10, 0, 24]))
+VF.append(dict(_COFFER_RING, min=[-10, 0, 24], max=[-6, 0, 32]))
+VF.append(dict(_COFFER_RING, min=[6, 0, 24], max=[10, 0, 32]))
+VF.append(dict(_COFFER_RING, min=[-10, 0, 32], max=[10, 0, 36]))
+VF.append({"min": [-10, 0, 36], "max": [10, 0, 56], "spring_top": 8, "band_mat": "M_marble"})
+# no hidden lid over the crossing: the dome SHELL is the closure (collar
+# covers the hole's corners, the eye disc plugs the oculus) — a lid at
+# 12.3 hung in plain sight from the south nave, a pale box over the bowl
+# antechamber: NO vault fields at all — the room's entire ceiling is the
+# cloister-vault dome (palace_cove_dome): the perimeter springs from the
+# wall tops on all four sides and slopes continuously to the oculus.
+# No flat ceiling anywhere in the room.
 for s in (1, -1):
     a, b = (10, 26) if s > 0 else (-26, -10)
     g0, g1 = (26, 42) if s > 0 else (-42, -26)
-    VF.append({"min": [a, 0, 8], "max": [b, 0, 24]})                    # room 1
-    VF.append({"min": [a, 0, 24], "max": [b, 0, 28]})                   # cross-corridor
+    VF.append({"min": [a, 0, 8], "max": [b, 0, 24], "band_mat": "M_marble"})    # room 1
+    VF.append({"min": [a, 0, 24], "max": [b, 0, 28], "band_mat": "M_marble"})   # cross-corridor
     VF.append({"min": [a, 0, 28], "max": [b, 0, 40], "flat": True,      # room 3:
                "coffer": True, "lid_mat": "M_marble", "beam_mat": "M_gold"})  # gilt coffers
-    VF.append({"min": [g0, 0, 8], "max": [g1, 0, 40], "spring_top": 8}) # long gallery
+    VF.append({"min": [g0, 0, 8], "max": [g1, 0, 40], "spring_top": 8,
+               "band_mat": "M_marble"})                                 # long gallery
 
 # ---------------------------------------------------------------- the great nave
 # south wall + the way back out
@@ -184,8 +196,11 @@ for z in (14, 34):
         prop("banquet_table_6m", (3.6 * sd, 0, z + 2), 90)
         prop("banquet_bench_6m", (2.2 * sd, 0, z + 2), 90)
         prop("banquet_bench_6m", (5.0 * sd, 0, z + 2), 90)
-for z in (12, 24, 36, 48):
+# chandeliers: one per long bay — and the crossing keeps exactly ONE,
+# centred under the dome and hung low, so the bowl rises empty above it
+for z in (12, 48):
     prop("chandelier_gilt", (0, 6.0, z), 0, collide=False)
+prop("chandelier_gilt", (0, 5.2, 28), 0, collide=False)
 for z in (6, 20, 34, 48):
     for sd in (1, -1):
         prop("banner", (9.55 * sd, 4.4, z), -90 if sd > 0 else 90, collide=False)
@@ -221,7 +236,7 @@ for a, r in [((-6.4, 0, 62), 40), ((6.4, 0, 62), -40), ((-6.4, 0, 70), 140), ((6
     prop("candelabra", a, r)
 prop("mosaic_medallion", (0, 0.02, 65), 0)
 prop("carpet_runner_8m", (0, 0.02, 61), 90)
-prop("chandelier_gilt", (0, 6.0, 64), 0, collide=False)
+prop("chandelier_gilt", (0, 5.2, 64), 0, collide=False)
 piece("statue_orans", (0, 0, 70.4), 180)
 piece("statue_saint", (-7.5, 0, 70.5), 160)
 piece("statue_saint", (7.5, 0, 70.5), -160)
@@ -292,17 +307,19 @@ for (cx, cz) in [(-30.5, 10.5), (-37.5, 15.5), (-30.5, 21), (-37.5, 27), (-30.5,
     prop("candle_cluster", (cx, 0, cz), (cx * 13) % 360)         # the long watch burns
 prop("altar", (-18, 0, 30.5), 0)                                 # the waxworks
 prop("candle_cluster", (-18.55, 1.16, 30.4), 70, collide=False)  # wax pooled on the slab
-prop("book_stack", (-17.45, 1.16, 30.65), -25, collide=False)    # the chandler's ledger
-prop("wellhead", (-20, 0, 36), 30)                               # the old well, dry and deep
+# the chandler's ledger — the altar slab TOPS at 1.02 (0.92 body + 0.1
+# slab, measured from the kit, not the manifest's padded box)
+prop("book_stack", (-17.45, 1.02, 30.65), -25, collide=False)
 prop("candle_cluster", (-15.5, 0, 32.5), 40)
 prop("candle_cluster", (-21, 0, 33), -30)
 prop("censer_hanging", (-18, 4.84, 34), 0, collide=False)
 
 # ---- the regal ceilings: two coffered domes seated INTO the vault line —
 # rims on the spring plane over true 8x8 holes in the bays, shells rising
-# into the sealed attic above
-prop("palace_dome_12m", (0, 8.0, 28), 0, collide=False, flames=False)
-prop("palace_dome_12m", (0, 8.0, 64), 0, collide=False, flames=False)
+# into the sealed attic above. Each bowl carries its own morning: a warm
+# glow inside the shell, or the marble reads as a void from the floor.
+prop("palace_dome_12m", (0, 8.0, 28), 0, collide=False, flames=False, glow=[1.7, 1.6, 9.0])
+prop("palace_cove_dome", (0, 8.0, 64), 0, collide=False, flames=False, glow=[3.0, 1.9, 11.0])
 
 # guards of the morning: they hold every room once the Scion has spoken
 for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),
@@ -329,8 +346,6 @@ PLQ.append({"at": [0, 0, 66.5], "rot": 180, "text":
     "THE ANTECHAMBER\n\nA throne of light, empty. A floor swept for a duel no servant will name.\n\nWhoever keeps the Hour has not forgotten you are coming."})
 PLQ.append({"at": [38.6, 0, 37.6], "rot": -140, "text":
     "THE BELL-STAIR\n\nDown, and down, and out by the Offices — the short way the ringers kept."})
-PLQ.append({"at": [-20.5, 0, 37.4], "rot": 120, "text":
-    "THE LIGHTWELL\n\nThe palace drops its spent light down this well, all the way to the porch of the Basilica.\n\nThe fall is long. The light remembers how to be a road."})
 
 # ---------------------------------------------------------------- data
 def main():

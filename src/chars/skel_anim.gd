@@ -167,13 +167,14 @@ static func _clips(amp := 1.0, sway := 1.0) -> Dictionary:
 			"chest": [[0.0, 0, 0, 0], [0.1, 0, -16, 0], [0.26, 0, 10, 0], [0.6, 0, 0, 0]],
 		}},
 		"flask": {"len": 1.1, "bones": {
-			# the sip must land ON the visor: the arm lifts AND crosses the
-			# chest (Z adduction), so the gourd rises to the mouth, not past
-			# the ear — a raise without the cross reads as a toast, not a drink
-			"uarm_l": [[0.0, 0, 0, 0], [0.3, 56, 4, -22], [0.8, 62, 6, -26], [1.1, 0, 0, 0]],
-			"farm_l": [[0.0, 12, 0, 0], [0.3, 112, 18, 0], [0.8, 124, 22, 0], [1.1, 12, 0, 0]],
-			"head": [[0.0, 0, 0, 0], [0.35, -6, 0, 0], [0.55, 14, 0, 0], [0.85, 17, 0, 0], [1.1, 0, 0, 0]],
-			"chest": [[0.0, 0, 0, 0], [0.55, 5, 4, 0], [0.85, 6, 5, 0], [1.1, 0, 0, 0]],
+			# the sip must land ON the visor MIDLINE: the arm lifts AND
+			# crosses the chest hard (Z adduction + forearm sweep), so the
+			# gourd rises to the mouth's centre — even from the play camera
+			# behind the shoulder it must read AT the face, not beside it
+			"uarm_l": [[0.0, 0, 0, 0], [0.3, 58, 4, -32], [0.8, 64, 6, -36], [1.1, 0, 0, 0]],
+			"farm_l": [[0.0, 12, 0, 0], [0.3, 114, 26, 0], [0.8, 126, 30, 0], [1.1, 12, 0, 0]],
+			"head": [[0.0, 0, 0, 0], [0.35, -6, 0, 0], [0.55, 15, -6, 0], [0.85, 18, -7, 0], [1.1, 0, 0, 0]],
+			"chest": [[0.0, 0, 0, 0], [0.55, 5, 6, 0], [0.85, 6, 7, 0], [1.1, 0, 0, 0]],
 		}},
 		"stagger": {"len": 0.7, "bones": {
 			"chest": [[0.0, 0, 0, 0], [0.1, -24, -8, 4], [0.42, -10, 6, -3], [0.7, 0, 0, 0]],

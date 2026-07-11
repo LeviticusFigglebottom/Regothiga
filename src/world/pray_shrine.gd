@@ -13,18 +13,26 @@ extends Node3D
 const AMENDS := ["amend_toll", "amend_bell", "amend_larks_thanked",
 		"amend_psalm", "amend_ferry"]
 
+## Whatever the pilgrim has or hasn't done, the road itself is never
+## refused: every audience OPENS with the way to the thirteenth bell.
+## The wardens' amends are grace beside the road, not its toll — she
+## marks their progress, or points to the knight's missive when even
+## the asking hasn't been found yet.
+const LINES_UNSWORN := [
+	"You kneel. Good. The way to the THIRTEENTH bell stands open to you, Latecomer — it has stood open since your hand silenced the twelfth. That is the road, and no one bars it.",
+	"But there is a letter you have not read. A knight left his last words for you on the Basilica's porch — stand there in the world as it truly lies, in ruin, and read them. What the light still hopes from you is written in a dead man's hand.",
+]
 const LINES_NONE := [
-	"You kneel. How the bell does love to bow, once the ringing is done.",
-	"Nothing is paid, Latecomer. Five wardens keep their quarters in the light, and not one has heard your voice. The path of redemption stands open — the THIRTEENTH bell is yours to ring — but ring it unatoned and your legacy is wax and tarnish, remembered only as the hand that silenced the morning.",
-	"Heed the knight's missive. Go back down to the porch, stand in the world as it truly lies — in ruin — and read what was left for you. Then seek the wardens, every one.",
+	"You kneel. Good. The way to the THIRTEENTH bell stands open, Latecomer — that road is yours, and I will not bar it.",
+	"Yet five wardens keep their quarters in the light, and not one has heard your voice. Their amends are not the toll of the road — they are the grace beside it. Ring unatoned if you must; ring answered, and your name rings clean.",
 ]
 const LINES_PART := [
-	"You kneel better than you did. Some of the debt has found its way home — I have heard them, the ones you answered.",
-	"But an office half-sung is still a silence, Latecomer. Earn the rest. Every warden. Then come and kneel again.",
+	"You kneel, and the way to the THIRTEENTH bell stands open — as it has, as it will. But I have heard wardens speak your name, Latecomer, and speak it warmly.",
+	"Some of the five stand answered. The rest still wait in the light. Finish what you began, or ring on regardless — the bell will not refuse you. Only the morning will remember which hand it was.",
 ]
 const LINES_WHOLE := [
-	"...So. Every warden rests answered, every amend made whole. I confess, bell-hand: I did not believe the morning had that much patience in you.",
-	"Rise. Whatever the Hour asks of you now, you meet it unashamed — your insolence is spent, and your name will ring clean.",
+	"...So. Every warden rests answered, every amend made whole — and the way to the THIRTEENTH bell stands open before a clean name. I confess, bell-hand: I did not believe the morning had that much patience in you.",
+	"Rise. Whatever the Hour asks of you now, you meet it unashamed. Your insolence is spent. Go and ring.",
 ]
 
 
@@ -59,12 +67,14 @@ func _amends_done() -> int:
 
 ## the tier the pilgrim has earned: [lines, voice keys]
 func _tier() -> Array:
+	if not World.flag("amend_sworn"):
+		return [LINES_UNSWORN, ["u1", "u2"]]
 	var n := _amends_done()
 	if n >= AMENDS.size():
 		return [LINES_WHOLE, ["c1", "c2"]]
 	if n > 0:
 		return [LINES_PART, ["b1", "b2"]]
-	return [LINES_NONE, ["a1", "a2", "a3"]]
+	return [LINES_NONE, ["a1", "a2"]]
 
 func _begin() -> void:
 	if _busy:

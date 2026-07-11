@@ -1046,10 +1046,20 @@
    0.3
   ]
  },
+ "palace_cove_dome": {
+  "file": "assets/kit/palace_cove_dome.glb",
+  "origin": "rim-center",
+  "polys": 2677,
+  "size": [
+   20.0,
+   16.0,
+   5.9
+  ]
+ },
  "palace_dome_12m": {
   "file": "assets/kit/palace_dome_12m.glb",
   "origin": "rim-center",
-  "polys": 1520,
+  "polys": 1576,
   "size": [
    15.0,
    15.0,
@@ -1854,7 +1864,7 @@
  "wellhead": {
   "file": "assets/kit/wellhead.glb",
   "origin": "bottom-center",
-  "polys": 105,
+  "polys": 114,
   "size": [
    2.1,
    1.0,

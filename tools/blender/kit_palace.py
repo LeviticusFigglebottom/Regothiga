@@ -420,7 +420,10 @@ def palace_dome_12m():
     (both windings) — the export chain normalises winding, so trusting a
     single orientation left the bowl backface-culled into open sky. Rim
     collar seats on the spring plane over a grid-aligned 12x8 hole
-    (corner 7.21 < 7.45); shell in dark stone, gilt ribs/bands/oculus."""
+    (corner 7.21 < 7.45). The bowl is pale MARBLE, not attic stone: seen
+    from the floor it must read as a dressed rotunda, and the dark brick
+    read as a raw slab hanging in the room. The drum bottom is closed
+    with a gilt washer — the open annulus was a black ring of attic."""
     import bmesh as _bmesh
     from mathutils import Matrix as _M
     objs = []
@@ -435,12 +438,16 @@ def palace_dome_12m():
 
     prof = [(6.0, 0.0), (5.85, 0.62), (5.4, 1.3), (4.6, 2.05), (3.5, 2.7),
             (2.2, 3.2), (1.1, 3.42)]
-    objs += _loft2("dome_shell", prof, "M_stone_dark")
+    objs += _loft2("dome_shell", prof, "M_marble")
     objs += _loft2("dome_rim", [(7.45, -0.05), (7.5, 0.14), (6.7, 0.32), (6.05, 0.38)], "M_gold")
     # the drum: a fascia ring dropping below the spring plane so grazing
     # sightlines through the hole meet gilt stone, never the open attic
     objs += _loft2("dome_drum", [(6.6, -0.85), (6.72, -0.2), (6.6, 0.05)], "M_gold")
-    objs += _loft2("dome_drum_in", [(6.1, -0.8), (6.1, 0.05)], "M_stone_dark")
+    objs += _loft2("dome_drum_in", [(6.1, -0.8), (6.1, 0.05)], "M_marble")
+    # the washer that closes the drum from below (6.06..6.74 at the fascia's
+    # own depth) — without it the annulus between fascia and inner drum is
+    # an open slot straight up into the dark
+    objs += _loft2("dome_drum_seal", [(6.06, -0.82), (6.74, -0.82)], "M_gold")
     for (r, z) in ((5.63, 0.95), (4.75, 1.9), (2.9, 2.92)):
         objs += _loft2("dome_band", [(r + 0.05, z - 0.08), (r + 0.09, z), (r + 0.05, z + 0.08)], "M_gold")
     # eight meridian ribs: chains of gilt blocks following the profile
@@ -465,8 +472,142 @@ def palace_dome_12m():
                 bm.faces.new([vs[j] for j in q])
     objs.append(V.bm_to_object(bm, "dome_ribs", ("M_gold",)))
     objs += _loft2("dome_oculus", [(1.25, 3.25), (1.3, 3.45), (1.1, 3.58)], "M_gold")
-    objs += _loft2("dome_eye_disc", [(0.85, 3.48), (0.5, 3.6), (0.08, 3.64)], "M_flame")
+    # the eye overlaps the oculus ring (1.14 > 1.1): with no attic lid
+    # above, an open annulus here would be a ring of naked sky
+    objs += _loft2("dome_eye_disc", [(1.14, 3.5), (0.5, 3.6), (0.08, 3.64)], "M_flame")
     return objs, {"size": [15.0, 15.0, 3.7], "origin": "rim-center"}
+
+
+def palace_cove_dome():
+    """The antechamber's WHOLE ceiling: a cloister-vault dome. The
+    perimeter springs from the wall tops on all four sides (exact 20x16
+    rectangle, no corner gaps) and slopes continuously up, the plan
+    melting from rectangle to circle, to a gilt ring and a starred-eye
+    oculus. NO flat ceiling anywhere in the room. Gilt meridian ribs +
+    latitude bands articulate the bowl; a drop chain hangs from the eye
+    for the chandelier below. Both windings on every sheet. Origin
+    rim-center: place at wall-top height, room centre."""
+    import bmesh as _bmesh
+    objs = []
+    W, D, RISE = 10.0, 8.0, 5.5
+    CROWN = 1.3
+    N = 48          # verts per ring
+    STEPS = 13      # rings base -> crown
+
+    def _ease(t):
+        return math.sin(t * math.pi / 2.0)
+
+    def _ring(t):
+        # equal inset all around (true cloister groins), blending to a
+        # circle near the crown so the round oculus seats cleanly
+        m_in = (D - CROWN) * _ease(t)
+        rx = W - m_in
+        rz = D - m_in
+        blend = 0.0 if t < 0.6 else ((t - 0.6) / 0.4) ** 2
+        z = RISE * _ease(t)
+        pts = []
+        for i in range(N):
+            a = math.tau * i / N
+            c, s = math.cos(a), math.sin(a)
+            # ray-to-rectangle-boundary point
+            th = 1.0 / max(abs(c) / max(rx, 1e-3), abs(s) / max(rz, 1e-3))
+            px, py = th * c, th * s
+            # circle point at the crown radius
+            qx, qy = CROWN * c, CROWN * s
+            pts.append(Vector((px + (qx - px) * blend,
+                               py + (qy - py) * blend, z)))
+        return pts
+
+    def _sheet(name, rings, mat, scale=1.0, drop=0.0):
+        """Bridge consecutive rings into a quad shell — BOTH windings."""
+        out = []
+        for rev in (False, True):
+            bm = _bmesh.new()
+            rows = []
+            for pts in rings:
+                row = [bm.verts.new(Vector((p.x * scale, p.y * scale, p.z + drop)))
+                       for p in pts]
+                rows.append(row)
+            bm.verts.ensure_lookup_table()
+            for j in range(len(rows) - 1):
+                a, b = rows[j], rows[j + 1]
+                for i in range(N):
+                    k = (i + 1) % N
+                    q = [a[i], a[k], b[k], b[i]]
+                    bm.faces.new(reversed(q) if rev else q)
+            out.append(V.bm_to_object(bm, name + ("_in" if rev else ""), (mat,)))
+        return out
+
+    rings = [_ring(j / (STEPS - 1.0)) for j in range(STEPS)]
+    objs += _sheet("cove_shell", rings, "M_marble")
+    # base cornice: a gold course where the bowl leaves the walls
+    objs += _sheet("cove_cornice", rings[0:2], "M_gold", scale=1.004, drop=-0.02)
+    # latitude bands: gilt courses riding the bowl
+    for j in (4, 7, 10):
+        objs += _sheet("cove_band", rings[j:j + 2], "M_gold", scale=0.992, drop=-0.03)
+    # meridian ribs: CONTINUOUS gilt runs following the slope — dashed
+    # segments read as stitching, not structure
+    bm = _bmesh.new()
+    for i in range(0, N, 4):
+        for j in range(1, STEPS - 1):
+            p = rings[j][i]
+            q = rings[j - 1][i]
+            seg = p - q
+            d = seg.normalized()
+            c = (p + q) * 0.5
+            hl = seg.length * 0.5 + 0.05
+            side = d.cross(Vector((0, 0, 1)))
+            if side.length < 0.01:
+                side = Vector((1, 0, 0))
+            side = side.normalized() * 0.12
+            nrm = d.cross(side).normalized() * 0.09
+            vs = []
+            for sa in (-1, 1):
+                for sb in (-1, 1):
+                    for sc_ in (-1, 1):
+                        vs.append(bm.verts.new(c + d * (hl * sa) + side * sb + nrm * sc_))
+            for q4 in ((0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4),
+                       (1, 5, 7, 3), (0, 4, 5, 1), (2, 3, 7, 6)):
+                try:
+                    bm.faces.new([vs[k] for k in q4])
+                except ValueError:
+                    pass
+    objs.append(V.bm_to_object(bm, "cove_ribs", ("M_gold",)))
+    # the oculus: gold ring + starred eye sealing the crown
+    zc = RISE
+    objs.append(V.loft_rings("cove_oculus", [(1.52, zc - 0.06, 24, 0), (1.58, zc + 0.1, 24, 0),
+                                             (1.28, zc + 0.2, 24, 0)], "M_gold",
+                             cap_bottom=False, cap_top=False))
+    objs.append(V.loft_rings("cove_oculus_in", [(1.28, zc + 0.2, 24, 0), (1.58, zc + 0.1, 24, 0),
+                                                (1.52, zc - 0.06, 24, 0)], "M_gold",
+                             cap_bottom=False, cap_top=False))
+    # the eye: a deep night disc behind the ring, sown with gilt stars —
+    # an emissive orange plate read as a hovering sun, not an oculus
+    objs.append(V.loft_rings("cove_eye", [(1.32, zc + 0.14, 24, 0), (0.6, zc + 0.3, 24, 0),
+                                          (0.08, zc + 0.36, 24, 0)], "M_stone_dark",
+                             cap_bottom=True, cap_top=False))
+    objs.append(V.loft_rings("cove_eye_in", [(0.08, zc + 0.36, 24, 0), (0.6, zc + 0.3, 24, 0),
+                                             (1.32, zc + 0.14, 24, 0)], "M_stone_dark",
+                             cap_bottom=False, cap_top=False))
+    sbm = _bmesh.new()
+    srng = random.Random(11)
+    for _ in range(22):
+        a = srng.uniform(0, math.tau)
+        rr = srng.uniform(0.08, 1.12)
+        sx, sy = rr * math.cos(a), rr * math.sin(a)
+        sz = zc + 0.14 + (1.0 - rr / 1.32) * 0.2 - 0.015
+        s = srng.uniform(0.022, 0.045)
+        V.add_box(sbm, (sx - s, sy - s, sz - s), (sx + s, sy + s, sz + s))
+    objs.append(V.bm_to_object(sbm, "cove_stars", ("M_flame",)))
+    # the drop chain: from the eye down to where a chandelier's own chain
+    # reaches (rim + 0.8), so the great ring hangs FROM the dome
+    ch = V.box_object("cove_chain", [0.06, 0.06, zc - 0.85], "M_iron", origin="center")
+    ch.location = (0, 0, (zc + 0.75) / 2.0)
+    objs.append(ch)
+    knob = V.loft_rings("cove_knob", [(0.11, 0.68, 8, 0), (0.13, 0.78, 8, 0), (0.05, 0.86, 8, 0)],
+                        "M_gold")
+    objs.append(knob)
+    return objs, {"size": [20.0, 16.0, RISE + 0.4], "origin": "rim-center"}
 
 
 def chandelier_gilt():
@@ -573,6 +714,7 @@ BUILDERS = {
     "banquet_bench_6m": banquet_bench_6m,
     "chandelier_gilt": chandelier_gilt,
     "palace_dome_12m": palace_dome_12m,
+    "palace_cove_dome": palace_cove_dome,
     "carpet_runner_8m": carpet_runner_8m,
     "scriptorium_shelf": scriptorium_shelf,
     "radiant_spire_a": lambda: radiant_spire(3),

@@ -63,9 +63,15 @@ func _run() -> void:
 	# still vault every floored region — the auditor enforces cell coverage,
 	# here we hold the field count so a dropped wing roof can't slip through
 	var def2: Dictionary = area.get_meta("def")
-	# 18 now: the nave and antechamber each split 4+1 around their dome
-	# holes (side strips + a hidden high lid), the four wings keep their 8
-	check(def2.get("vault_fields", []).size() == 18, "eighteen vault fields roof the house around its two domes")
+	# 14 now: the nave runs 2 long vaults + 4 coffer-ring strips around its
+	# crossing dome; the antechamber has NO fields at all (its whole
+	# ceiling is the cove dome); the four wings keep their 8
+	check(def2.get("vault_fields", []).size() == 14, "fourteen vault fields roof the house around its domes")
+	var cove := false
+	for pr in def2.get("props", []):
+		if pr.get("kit", "") == "palace_cove_dome":
+			cove = true
+	check(cove, "and the antechamber's ceiling IS the cove dome")
 
 	# ---- no mouth of the house lets you fall out of it
 	var space := area.get_world_3d().direct_space_state
@@ -216,21 +222,30 @@ func _run() -> void:
 	check(shrine != null, "the unlit saint keeps the antechamber")
 	check(shrine != null and shrine.find_children("*", "Interactable", false, false).size() == 1,
 			"and offers the Pray hand")
+	# every tier OPENS the way to the thirteenth bell; the wardens' amends
+	# are graded as grace beside the road, never its toll
+	var tu: Array = shrine._tier()
+	check((tu[0] as Array).size() == 2 and String(tu[0][0]).contains("THIRTEENTH"),
+			"unsworn, the way stands open all the same")
+	check(String(tu[0][1]).contains("porch") and String(tu[0][1]).contains("ruin"),
+			"and she points to the knight's letter — the porch, in ruin")
+	World.set_flag("amend_sworn")
 	var t0: Array = shrine._tier()
-	check((t0[0] as Array).size() == 3 and String(t0[0][1]).contains("THIRTEENTH"),
-			"unatoned, she shuns — and names the thirteenth bell")
-	check(String(t0[0][2]).contains("porch") and String(t0[0][2]).contains("ruin"),
-			"and sends you to the porch, in the world's true ruin")
+	check(String(t0[0][0]).contains("THIRTEENTH"), "sworn and unatoned, the way is open still")
+	check(String(t0[0][1]).contains("grace beside it"),
+			"and she names the wardens' grace, unearned")
 	World.set_flag("amend_toll")
 	World.set_flag("amend_bell")
 	var t1: Array = shrine._tier()
-	check(String(t1[0][1]).contains("Earn the rest"), "half-paid, she bids you earn the rest")
+	check(String(t1[0][0]).contains("THIRTEENTH"), "half-paid, the way is open still")
+	check(String(t1[0][1]).contains("Finish what you began"),
+			"and she marks the amends begun")
 	World.set_flag("amend_larks_thanked")
 	World.set_flag("amend_psalm")
 	World.set_flag("amend_ferry")
 	var t2: Array = shrine._tier()
 	check(String(t2[0][0]).contains("amend made whole"), "amends whole, she is pleased")
-	for f in ["amend_toll", "amend_bell", "amend_larks_thanked", "amend_psalm", "amend_ferry"]:
+	for f in ["amend_sworn", "amend_toll", "amend_bell", "amend_larks_thanked", "amend_psalm", "amend_ferry"]:
 		World.set_flag(f, false)
 
 	# ---- palace music is its own: the heavenly chorale

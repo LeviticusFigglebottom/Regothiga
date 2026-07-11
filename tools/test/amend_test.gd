@@ -229,8 +229,15 @@ func _run() -> void:
 			"both copies come down from the loft")
 	check(int(World.player_data.get("inventory", {}).get("morrow_anthem", 0)) == 2,
 			"and the anthem is in the ledger the pickup itself wrote")
-	# both deliveries, through the true dialogue and its filters
-	for spec in [["aveline", "amend_psalm_a"], ["apostle_light", "amend_psalm_b"]]:
+	# both deliveries, through the true dialogue and its filters — the
+	# rites-seller copy goes to the PRIOR this run (any rites-seller of
+	# the light may receive it; the Apostle still carries the service)
+	var ap_del := false
+	for s2 in DB.npc("apostle_light").get("services", []):
+		if s2.get("type", "") == "deliver" and s2.get("flag", "") == "amend_psalm_b":
+			ap_del = true
+	check(ap_del, "the Apostle stands ready for her song as well")
+	for spec in [["aveline", "amend_psalm_a"], ["wick_prior", "amend_psalm_b"]]:
 		var dcfg: Dictionary = DB.npc(spec[0])
 		dcfg["id"] = spec[0]
 		var ddlg := DialogueUI.new(dcfg, null)

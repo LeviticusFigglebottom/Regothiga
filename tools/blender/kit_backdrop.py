@@ -280,14 +280,21 @@ def wellhead():
     handle = V.box_object("well_handle", [0.06, 0.06, 0.24], "M_iron", origin="center")
     handle.location = (1.15, -0.24, 1.28)
     objs.append(handle)
-    # chain + bucket hanging over the mouth
-    chain = V.box_object("well_chain", [0.04, 0.04, 0.68], "M_iron", origin="center")
-    chain.location = (0.3, 0, 1.16)   # bucket lip to the roller-bar: no gap
-    objs.append(chain)
+    # chain + bucket: the bucket hangs CENTRED over the mouth and clearly
+    # ABOVE the coping (0.99) — sunk below the rim it read as a cut-off
+    # shard inside the well. The cup carries an inner shell so its open
+    # top never backface-culls, and the chain spans lip to bar, no gap.
     bucket = V.loft_rings("bucket", [(0.16, 0, 8, 0), (0.19, 0.3, 8, 0)], "M_wood",
                           cap_bottom=True, cap_top=False)
-    bucket.location = (0.3, 0, 0.52)
+    bucket.location = (0, 0, 1.06)
     objs.append(bucket)
+    bucket_in = V.loft_rings("bucket_in", [(0.185, 0.295, 8, 0), (0.155, 0.01, 8, 0)],
+                             "M_wood", cap_bottom=True, cap_top=False)
+    bucket_in.location = (0, 0, 1.06)
+    objs.append(bucket_in)
+    chain = V.box_object("well_chain", [0.04, 0.04, 0.16], "M_iron", origin="center")
+    chain.location = (0, 0, 1.44)   # bucket lip (1.36) to the roller-bar (1.5)
+    objs.append(chain)
     return objs, {"size": [2.1, 1.0, 1.72], "origin": "bottom-center"}
 
 

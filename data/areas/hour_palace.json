@@ -102,11 +102,34 @@
    "max": [
     10,
     0,
-    24
+    20
    ],
-   "spring_top": 8
+   "spring_top": 8,
+   "band_mat": "M_marble"
   },
   {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "spring_top": 8,
+   "min": [
+    -10,
+    0,
+    20
+   ],
+   "max": [
+    10,
+    0,
+    24
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "spring_top": 8,
    "min": [
     -10,
     0,
@@ -116,10 +139,14 @@
     -6,
     0,
     32
-   ],
-   "spring_top": 8
+   ]
   },
   {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "spring_top": 8,
    "min": [
     6,
     0,
@@ -129,101 +156,38 @@
     10,
     0,
     32
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "spring_top": 8,
+   "min": [
+    -10,
+    0,
+    32
    ],
-   "spring_top": 8
+   "max": [
+    10,
+    0,
+    36
+   ]
   },
   {
    "min": [
     -10,
     0,
-    32
+    36
    ],
    "max": [
     10,
     0,
     56
    ],
-   "spring_top": 8
-  },
-  {
-   "min": [
-    -6,
-    0,
-    24
-   ],
-   "max": [
-    6,
-    0,
-    32
-   ],
-   "flat": true,
-   "spring_top": 12.3
-  },
-  {
-   "min": [
-    -10,
-    0,
-    56
-   ],
-   "max": [
-    10,
-    0,
-    60
-   ],
-   "spring_top": 8
-  },
-  {
-   "min": [
-    -10,
-    0,
-    60
-   ],
-   "max": [
-    -6,
-    0,
-    68
-   ],
-   "spring_top": 8
-  },
-  {
-   "min": [
-    6,
-    0,
-    60
-   ],
-   "max": [
-    10,
-    0,
-    68
-   ],
-   "spring_top": 8
-  },
-  {
-   "min": [
-    -10,
-    0,
-    68
-   ],
-   "max": [
-    10,
-    0,
-    72
-   ],
-   "spring_top": 8
-  },
-  {
-   "min": [
-    -6,
-    0,
-    60
-   ],
-   "max": [
-    6,
-    0,
-    68
-   ],
-   "flat": true,
-   "spring_top": 12.3
+   "spring_top": 8,
+   "band_mat": "M_marble"
   },
   {
    "min": [
@@ -235,7 +199,8 @@
     26,
     0,
     24
-   ]
+   ],
+   "band_mat": "M_marble"
   },
   {
    "min": [
@@ -247,7 +212,8 @@
     26,
     0,
     28
-   ]
+   ],
+   "band_mat": "M_marble"
   },
   {
    "min": [
@@ -276,7 +242,8 @@
     0,
     40
    ],
-   "spring_top": 8
+   "spring_top": 8,
+   "band_mat": "M_marble"
   },
   {
    "min": [
@@ -288,7 +255,8 @@
     -10,
     0,
     24
-   ]
+   ],
+   "band_mat": "M_marble"
   },
   {
    "min": [
@@ -300,7 +268,8 @@
     -10,
     0,
     28
-   ]
+   ],
+   "band_mat": "M_marble"
   },
   {
    "min": [
@@ -329,7 +298,8 @@
     0,
     40
    ],
-   "spring_top": 8
+   "spring_top": 8,
+   "band_mat": "M_marble"
   }
  ],
  "pieces": [
@@ -3265,29 +3235,18 @@
    "at": [
     0,
     6.0,
-    24
-   ],
-   "rot": 0,
-   "tag": "base",
-   "collide": false
-  },
-  {
-   "kit": "chandelier_gilt",
-   "at": [
-    0,
-    6.0,
-    36
-   ],
-   "rot": 0,
-   "tag": "base",
-   "collide": false
-  },
-  {
-   "kit": "chandelier_gilt",
-   "at": [
-    0,
-    6.0,
     48
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0,
+    5.2,
+    28
    ],
    "rot": 0,
    "tag": "base",
@@ -3567,7 +3526,7 @@
    "kit": "chandelier_gilt",
    "at": [
     0,
-    6.0,
+    5.2,
     64
    ],
    "rot": 0,
@@ -4103,22 +4062,12 @@
    "kit": "book_stack",
    "at": [
     -17.45,
-    1.16,
+    1.02,
     30.65
    ],
    "rot": -25,
    "tag": "base",
    "collide": false
-  },
-  {
-   "kit": "wellhead",
-   "at": [
-    -20,
-    0,
-    36
-   ],
-   "rot": 30,
-   "tag": "base"
   },
   {
    "kit": "candle_cluster",
@@ -4161,10 +4110,15 @@
    "rot": 0,
    "tag": "base",
    "collide": false,
-   "flames": false
+   "flames": false,
+   "glow": [
+    1.7,
+    1.6,
+    9.0
+   ]
   },
   {
-   "kit": "palace_dome_12m",
+   "kit": "palace_cove_dome",
    "at": [
     0,
     8.0,
@@ -4173,7 +4127,12 @@
    "rot": 0,
    "tag": "base",
    "collide": false,
-   "flames": false
+   "flames": false,
+   "glow": [
+    3.0,
+    1.9,
+    11.0
+   ]
   }
  ],
  "blockers": [
@@ -4271,15 +4230,6 @@
    ],
    "rot": -140,
    "text": "THE BELL-STAIR\n\nDown, and down, and out by the Offices \u2014 the short way the ringers kept."
-  },
-  {
-   "at": [
-    -20.5,
-    0,
-    37.4
-   ],
-   "rot": 120,
-   "text": "THE LIGHTWELL\n\nThe palace drops its spent light down this well, all the way to the porch of the Basilica.\n\nThe fall is long. The light remembers how to be a road."
   }
  ],
  "spawners": [

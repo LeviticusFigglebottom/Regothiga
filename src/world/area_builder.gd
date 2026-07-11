@@ -263,6 +263,18 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 			KitLib.add_collision(piece, _tag_bit(tag), not _is_structural(spec["kit"]))
 	if spec.get("flames", true) and (tag != "ruin"):
 		KitLib.add_flame_lights(piece)
+	# "glow": [dy, energy, range] — a warm interior light the piece carries
+	# (dome bowls, lightwells): flame auto-lights are per-candle and too
+	# short-armed to reach a 12 m shell, so big hollows bring their own sun
+	if spec.has("glow"):
+		var g: Array = spec["glow"]
+		var gl := OmniLight3D.new()
+		gl.light_color = Color(1.0, 0.9, 0.65)
+		gl.position.y = float(g[0]) if g.size() > 0 else 1.5
+		gl.light_energy = float(g[1]) if g.size() > 1 else 1.5
+		gl.omni_range = float(g[2]) if g.size() > 2 else 8.0
+		gl.shadow_enabled = false
+		piece.add_child(gl)
 	area.attach(piece, tag)
 	return piece
 
@@ -412,8 +424,11 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 			_piece(area, p, false)
 			z += 4.0
 		x += 4.0
-	# watertight lid + clerestory band so no sky shows above the walls (absolute Y)
-	var mat := MaterialLib.get_mat("M_stone", _state_mode(tag))
+	# watertight lid + clerestory band so no sky shows above the walls
+	# (absolute Y). "band_mat" lets a dressed hall clad these faces in its
+	# own stone — the palace's bare attic brick read as a raw slab wherever
+	# a band face crossed an open ceiling
+	var mat := MaterialLib.get_mat(spec.get("band_mat", "M_stone"), _state_mode(tag))
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, ceil_h + 0.15, (mn.z + mx.z) * 0.5),
 			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
 	var cy := (band_from + ceil_h) * 0.5

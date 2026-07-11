@@ -20,7 +20,7 @@ MOUNTED = {
     "cloud_bank_a", "cloud_bank_b", "cloud_bank_c",   # sky dressing rides the sky
     "lark_cage", "lark_cage_dead", "aviary_screen",
     "chimney_stack", "balcony_3m",   # ride roofs and upper wall faces
-    "chandelier_gilt", "palace_dome_12m",   # hang from the vault by design
+    "chandelier_gilt", "palace_dome_12m", "palace_cove_dome",   # hang from the vault by design
     "book_stack", "scroll_pile",   # ride desks and shelves
     "clock_tower",   # crowns the parish facade
 }
@@ -151,8 +151,25 @@ def audit(area_id):
 
     # 0) roof coverage: any floored cell with no vault_field (roof) at its level
     #    exposes the sky. open_air_cells whitelists intentional outdoor tiles.
+    #    A dome prop IS a roof: its shell closes the crossing it sits over
+    #    (collar covers the hole corners), so its footprint counts.
     floor_cells = cells_of(fills, "max")
     roof_cells = cells_of(d.get("vault_fields", []), "min")
+    # circular domes cover a radius; the cove dome covers its full rectangle
+    ROOF_PROPS = {"palace_dome_12m": ("disc", 7.45),
+                  "palace_cove_dome": ("rect", 10.0, 8.0)}
+    for p in d.get("props", []):
+        shape = ROOF_PROPS.get(p.get("kit", ""))
+        if not shape:
+            continue
+        ax, ay, az = v3(p.get("at", [0, 0, 0]))
+        for (cx, cz), fys in floor_cells.items():
+            hit = (math.hypot(cx - ax, cz - az) <= shape[1]) if shape[0] == "disc" \
+                else (abs(cx - ax) <= shape[1] and abs(cz - az) <= shape[2])
+            if hit:
+                for fy in fys:
+                    if fy <= ay:   # the bowl roofs every floor beneath its rim
+                        roof_cells.setdefault((cx, cz), set()).add(fy)
     for (cx, cz), fys in floor_cells.items():
         if (cx, cz) in open_air:
             continue
