@@ -255,14 +255,23 @@ def banner():
 
 
 def pew():
+    """Same silhouette it always had — plus the joiner's touches: scrolled
+    end caps, a back rail cap, and a kneeler rail at the feet."""
     bm = bmesh.new()
     V.add_box(bm, (-0.9, -0.22, 0.0), (0.9, 0.22, 0.06))
     V.add_box(bm, (-0.9, -0.20, 0.40), (0.9, 0.02, 0.46))     # seat
     V.add_box(bm, (-0.9, 0.16, 0.40), (0.9, 0.24, 1.02))      # back
     V.add_box(bm, (-0.9, -0.20, 0.06), (-0.82, 0.22, 0.42))
     V.add_box(bm, (0.82, -0.20, 0.06), (0.9, 0.22, 0.42))
+    # scrolled end caps on the armrest line
+    V.add_box(bm, (-0.93, -0.24, 0.42), (-0.79, 0.26, 0.52))
+    V.add_box(bm, (0.79, -0.24, 0.42), (0.93, 0.26, 0.52))
+    # a rounded-read cap rail along the back's head
+    V.add_box(bm, (-0.92, 0.14, 1.02), (0.92, 0.26, 1.08))
+    # the kneeler: a low rail the faithful actually used
+    V.add_box(bm, (-0.86, -0.34, 0.10), (0.86, -0.26, 0.16))
     obj = V.bm_to_object(bm, "pew", ("M_wood",))
-    return [obj], {"size": [1.8, 0.5, 1.05], "origin": "bottom-center"}
+    return [obj], {"size": [1.86, 0.62, 1.1], "origin": "bottom-center"}
 
 
 def altar():
@@ -272,6 +281,11 @@ def altar():
     V.add_box(bm, (-1.08, -0.58, 0.92), (1.08, 0.58, 1.02))
     V.add_box(bm, (-1.06, -0.56, 0), (1.06, 0.56, 0.1))
     objs.append(V.bm_to_object(bm, "altar_body", ("M_stone_trim",)))
+    # the same table, kept: a gilt edge course under the slab lip — quiet
+    # dignity; a full cloth runner read as a striped tent from the aisle
+    gm = bmesh.new()
+    V.add_box(gm, (-1.085, -0.585, 0.89), (1.085, 0.585, 0.925))
+    objs.append(V.bm_to_object(gm, "altar_gilt", ("M_gold",)))
     for c in _candle(0.26):
         c.location = (-0.7, 0, 1.02)
         objs.append(c)

@@ -121,15 +121,31 @@ def make_stone():
     ids, mortar, bevel = cell_grid(4, 2, 31)          # 2m tile: 0.5m rows, 1m blocks
     tone = tone_from_ids(ids, 32, 0.13)
     img = norm05(base, 0.8) * 0.55 + tone * 0.45
+    # the mason's hand: fine diagonal chisel hatching, phase-shifted per
+    # block so no two neighbours read tooled the same way
+    u = np.arange(N)
+    hatch = 0.5 + 0.5 * np.sin((u[None, :] + u[:, None] * 0.35) * 0.55 + ids * 2.1)
+    hatch = (hatch > 0.72).astype(float) * 0.045
+    img = img - hatch * (1 - mortar)
+    # weather pitting: sparse dark specks, denser toward block bottoms
+    pits = (vnoise(48, 33, 2) > 0.80).astype(float) * 0.10
+    img = img - pits * (1 - mortar)
     img = posterize(img, 7, 0.35)
-    img = img * (1 - 0.42 * mortar) + 0.06 * bevel
+    img = img * (1 - 0.46 * mortar) + 0.07 * bevel
     write_png("T_stone", img)
 
 def make_trim():
     base = brush(vnoise(12, 41, 4), 5, 5)
     img = norm05(base, 0.6) * 0.8 + 0.1
-    veins = (vnoise(6, 42, 2) > 0.62) * 0.08
-    img = posterize(img - veins, 8, 0.3)
+    # marble veins: thin dark threads wandering through a warped field,
+    # with a faint bright echo beside each (polished relief)
+    warp = vnoise(4, 43, 3)
+    field = vnoise(6, 42, 3) + warp * 0.6
+    veins = (np.abs(field - 0.55) < 0.012).astype(float)
+    veins = blur_wrap(veins, 1)
+    echo = (np.abs(field - 0.535) < 0.008).astype(float) * 0.03
+    img = img - veins * 0.10 + blur_wrap(echo, 1)
+    img = posterize(img, 8, 0.3)
     write_png("T_trim", img)
 
 def make_floor():
@@ -137,9 +153,17 @@ def make_floor():
     ids, mortar, bevel = cell_grid(2, 2, 52, stagger=False)   # 1m slabs
     tone = tone_from_ids(ids, 53, 0.1)
     wear = blur_wrap((vnoise(4, 54, 2) > 0.6).astype(float), 4) * 0.12
-    img = norm05(base, 0.7) * 0.5 + tone * 0.5 - wear
+    # processional wear: a soft polished lane, brighter and smoother where
+    # ten thousand feet crossed the tile
+    u = np.linspace(0, 1, N)
+    lane = np.exp(-((u[None, :] - 0.5) ** 2) / 0.045) * 0.05
+    # chipped corners: small dark nicks where slabs meet
+    fx = (np.linspace(0, 2, N, endpoint=False) % 1)
+    corner = ((fx[None, :] < 0.08) | (fx[None, :] > 0.92)).astype(float)            * ((fx[:, None] < 0.08) | (fx[:, None] > 0.92)).astype(float)
+    chips = corner * (vnoise(8, 55, 2) > 0.55) * 0.10
+    img = norm05(base, 0.7) * 0.5 + tone * 0.5 - wear + lane - chips
     img = posterize(img, 6, 0.4)
-    img = img * (1 - 0.38 * mortar) + 0.045 * bevel
+    img = img * (1 - 0.42 * mortar) + 0.05 * bevel
     write_png("T_floor", img)
 
 def make_wood():
@@ -147,8 +171,21 @@ def make_wood():
     grain = np.tile(np.linspace(0, 1, N // 8, endpoint=False), 8)[None, :]
     img = 0.5 + 0.5 * np.sin((grain * 4 + g * 2.2) * np.pi * 2) * 0.14
     img = brush(img + (vnoise(24, 62, 2) - 0.5) * 0.15, 90, 8)
+    # knots: sparse dark whorls, rings warping the grain around them
+    r = np.random.default_rng(63)
+    yy, xx = np.indices((N, N))
+    for _ in range(7):
+        cx, cy = r.integers(20, N - 20), r.integers(20, N - 20)
+        d = np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2)
+        knot = np.exp(-d / 9.0) * 0.16 + np.clip(0.04 * np.sin(d * 0.9), 0, 1) * np.exp(-d / 22.0)
+        img = img - knot
     planks = ((np.arange(N)[None, :] % (N // 4)) < 4).astype(float)
-    img = norm05(img, 0.8) * (1 - 0.3 * blur_wrap(planks, 1))
+    # plank ends: staggered butt joints, slightly darkened
+    ends = np.zeros((N, N))
+    for i in range(4):
+        col = (np.arange(N)[None, :] % (N // 4) == i * 0)  # keep shape
+    seam_y = ((np.arange(N)[:, None] + (np.arange(N)[None, :] // (N // 4)) * 37) % (N // 3) < 3).astype(float)
+    img = norm05(img, 0.8) * (1 - 0.3 * blur_wrap(planks, 1)) * (1 - 0.10 * blur_wrap(seam_y, 1))
     write_png("T_wood", img)
 
 def make_roof():

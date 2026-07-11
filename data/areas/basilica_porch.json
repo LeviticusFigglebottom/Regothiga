@@ -770,6 +770,36 @@
    ],
    "rot": 135,
    "tag": "ruin"
+  },
+  {
+   "kit": "hand_cart",
+   "at": [
+    5.6,
+    0,
+    4.6
+   ],
+   "rot": -35,
+   "tag": "glory"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    6.7,
+    0,
+    3.6
+   ],
+   "rot": 10,
+   "tag": "glory"
+  },
+  {
+   "kit": "rubble_s",
+   "at": [
+    5.6,
+    0,
+    4.6
+   ],
+   "rot": -35,
+   "tag": "ruin"
   }
  ],
  "lanterns": [
@@ -1189,6 +1219,63 @@
    "require_flag": "reckoning_heard",
    "params": {
     "length": 44.0
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    10
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     16,
+     5,
+     14
+    ],
+    "count": 22
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    12
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "birds",
+    "extent": [
+     12,
+     1,
+     10
+    ],
+    "count": 4
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    10
+   ],
+   "rot": 0,
+   "tag": "ruin",
+   "params": {
+    "kind": "motes_ash",
+    "extent": [
+     16,
+     5,
+     14
+    ],
+    "count": 28
    }
   }
  ]

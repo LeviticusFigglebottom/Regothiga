@@ -320,6 +320,19 @@ prop("censer_hanging", (-18, 4.84, 34), 0, collide=False)
 prop("palace_dome_12m", (0, 8.0, 28), 0, collide=False, flames=False, glow=[1.7, 1.6, 9.0])
 prop("palace_cove_dome", (0, 8.0, 64), 0, collide=False, flames=False, glow=[3.0, 1.9, 11.0])
 
+# the long galleries were promenades once: saints at either end, urns
+# against the piers, a bench mid-walk to take the light from the windows
+for s_ in (1, -1):
+    gx = 34 * s_
+    prop("statue_saint", (30 * s_, 0, 10.5), 180)
+    prop("statue_saint", (38 * s_, 0, 10.5), 180)
+    prop("statue_saint", (30 * s_, 0, 37.5), 0)
+    prop("statue_saint", (38 * s_, 0, 37.5), 0)
+    prop("urn", (27.2 * s_, 0, 16), 0)
+    prop("urn", (40.8 * s_, 0, 30), 0)
+    prop("pew_3m", (gx, 0, 15.4), 90)
+    prop("pew_3m", (gx, 0, 32.6), 90)
+
 # guards of the morning: they hold every room once the Scion has spoken
 for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),
                        (18, 16, 90), (34, 24, -90), (18, 34, 90),
@@ -380,6 +393,10 @@ def main():
              "rot": 0, "scale": [1.7, 1.8, 1.0], "tag": "base"},
         ],
         "scripted": [
+            {"script": "res://src/world/ambient_life.gd", "at": [0, 1, 28], "tag": "glory",
+             "params": {"kind": "motes_gold", "extent": [16, 6, 44], "count": 34}},
+            {"script": "res://src/world/ambient_life.gd", "at": [0, 1, 28], "tag": "ruin",
+             "params": {"kind": "motes_ash", "extent": [16, 6, 44], "count": 36}},
             {"script": "res://src/world/scion_herald.gd", "at": [0, 0, 9], "tag": "base",
              "params": {"trigger_radius": 9.0}},
             {"script": "res://src/world/pray_shrine.gd", "at": [0, 0, 70.6], "tag": "base"},

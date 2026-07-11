@@ -3968,6 +3968,25 @@
    }
   },
   {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    1,
+    46
+   ],
+   "rot": 0,
+   "tag": "base",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     10,
+     6,
+     80
+    ],
+    "count": 30
+   }
+  },
+  {
    "script": "res://src/world/blessing_keeper.gd",
    "at": [
     0,

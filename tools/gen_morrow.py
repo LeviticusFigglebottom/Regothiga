@@ -315,6 +315,10 @@ for k in range(6):
         prop("candelabra", (cx - 3.8 * s, 0, cz + 4.6), 20 * s)
         prop("banner", (cx + 5.6 * s, 2.6, cz), 90 if s > 0 else -90, collide=False)
 
+# the keep's air: gold adrift the length of the processional
+SC.append({"script": "res://src/world/ambient_life.gd", "at": [0, 1, 46], "rot": 0,
+           "tag": "base", "params": {"kind": "motes_gold", "extent": [10, 6, 80], "count": 30}})
+
 # ---------------------------------------------------------------- the ledger
 SC.append({"script": "res://src/world/blessing_keeper.gd", "at": [0, 0, 46], "tag": "base",
            "params": {"count": 12, "prefix": "morrow_trial_", "flag": "bell_blessing"}})

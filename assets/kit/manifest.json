@@ -2,7 +2,7 @@
  "altar": {
   "file": "assets/kit/altar.glb",
   "origin": "bottom-center",
-  "polys": 138,
+  "polys": 144,
   "size": [
    2.2,
    1.2,
@@ -1213,11 +1213,11 @@
  "pew": {
   "file": "assets/kit/pew.glb",
   "origin": "bottom-center",
-  "polys": 30,
+  "polys": 54,
   "size": [
-   1.8,
-   0.5,
-   1.05
+   1.86,
+   0.62,
+   1.1
   ]
  },
  "pew_3m": {

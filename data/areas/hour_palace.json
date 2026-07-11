@@ -4105,6 +4105,166 @@
     1.9,
     11.0
    ]
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    30,
+    0,
+    10.5
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    38,
+    0,
+    10.5
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    30,
+    0,
+    37.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    38,
+    0,
+    37.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    27.2,
+    0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    40.8,
+    0,
+    30
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    34,
+    0,
+    15.4
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    34,
+    0,
+    32.6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -30,
+    0,
+    10.5
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -38,
+    0,
+    10.5
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -30,
+    0,
+    37.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -38,
+    0,
+    37.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -27.2,
+    0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -40.8,
+    0,
+    30
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -34,
+    0,
+    15.4
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -34,
+    0,
+    32.6
+   ],
+   "rot": 90,
+   "tag": "base"
   }
  ],
  "blockers": [
@@ -4369,6 +4529,42 @@
   }
  ],
  "scripted": [
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    1,
+    28
+   ],
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     16,
+     6,
+     44
+    ],
+    "count": 34
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    1,
+    28
+   ],
+   "tag": "ruin",
+   "params": {
+    "kind": "motes_ash",
+    "extent": [
+     16,
+     6,
+     44
+    ],
+    "count": 36
+   }
+  },
   {
    "script": "res://src/world/scion_herald.gd",
    "at": [

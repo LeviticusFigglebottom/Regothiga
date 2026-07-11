@@ -89,6 +89,7 @@ func _ready() -> void:
 	Game.player_respawned.connect(func(): _fade_splash(false))
 	Game.remembrance_reclaimed.connect(func(n): show_toast("Remembrance reclaimed — %d orisons." % n))
 	Game.toast.connect(show_toast)
+	Game.area_title.connect(show_area_title)
 	StateDirector.transition_started.connect(_on_transition)
 	if Game.player != null:
 		_bind_player(Game.player)
@@ -586,3 +587,53 @@ func show_boss(boss: Node) -> void:
 func hide_boss() -> void:
 	boss_root.visible = false
 	_boss = null
+
+
+# ---------------------------------------------------------------- area title
+## The house announces itself: a grand serif card, centre-screen, a thin
+## gold rule beneath — faded in, held a breath, and let go.
+var _title_layer: CanvasLayer = null
+
+func show_area_title(text: String) -> void:
+	if _title_layer != null and is_instance_valid(_title_layer):
+		_title_layer.queue_free()
+	_title_layer = CanvasLayer.new()
+	_title_layer.layer = 22
+	add_child(_title_layer)
+	var box := Control.new()
+	box.set_anchors_preset(Control.PRESET_FULL_RECT)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_title_layer.add_child(box)
+	var name_l := Label.new()
+	var ls := LabelSettings.new()
+	ls.font = load("res://assets/fonts/DejaVuSerif.ttf")
+	ls.font_size = 52
+	ls.font_color = Color(0.96, 0.9, 0.74)
+	ls.shadow_color = Color(0, 0, 0, 0.85)
+	ls.shadow_size = 6
+	name_l.label_settings = ls
+	name_l.text = text
+	name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_l.anchor_left = 0.0
+	name_l.anchor_right = 1.0
+	name_l.anchor_top = 0.30
+	name_l.anchor_bottom = 0.40
+	box.add_child(name_l)
+	var rule := ColorRect.new()
+	rule.color = Color(0.85, 0.72, 0.42, 0.9)
+	rule.anchor_left = 0.38
+	rule.anchor_right = 0.62
+	rule.anchor_top = 0.405
+	rule.anchor_bottom = 0.408
+	box.add_child(rule)
+	box.modulate.a = 0.0
+	var tw := box.create_tween()
+	tw.tween_property(box, "modulate:a", 1.0, 0.9) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(2.2)
+	tw.tween_property(box, "modulate:a", 0.0, 1.2) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	var layer_ref := _title_layer
+	tw.tween_callback(func():
+		if is_instance_valid(layer_ref):
+			layer_ref.queue_free())

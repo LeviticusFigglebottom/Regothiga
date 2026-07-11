@@ -9,6 +9,7 @@ signal player_respawned
 signal remembrance_reclaimed(amount: int)
 signal toast(text: String)               # short diegetic messages
 signal lore_panel(text: String)          # plaque/lore reading
+signal area_title(text: String)          # grand entry card: the area's name
 signal area_cleared(area_id: String)
 
 var player: Node = null
@@ -148,7 +149,7 @@ func travel_to(area_id: String, spawn_pos: Vector3, spawn_yaw := 1e9) -> void:
 	refresh_remembrance()
 	snapshot_player()
 	World.save_game()
-	toast.emit(next.display_name)
+	area_title.emit(next.display_name)
 	player.lock_control(false)
 
 signal vigil_kept(lantern)

@@ -308,6 +308,12 @@ SCRIPTED = [
       "flag": "scion_prayed"}},
 ]
 
+# the living city: dust of gold in the terrace air, birds on the pavement
+SCRIPTED.append({"script": "res://src/world/ambient_life.gd", "at": [0, 2, -16],
+    "rot": 0, "tag": "glory", "params": {"kind": "motes_gold", "extent": [24, 5, 14], "count": 26}})
+SCRIPTED.append({"script": "res://src/world/ambient_life.gd", "at": [-2, 2, -17],
+    "rot": 0, "tag": "glory", "params": {"kind": "birds", "extent": [14, 1, 9], "count": 5}})
+
 # ---------------------------------------------------------------- lore
 PLQ.append({"at": [2.2, 0, 25.4], "rot": -160, "text":
     "THE GILDED SANCTUM\n\nYou stand above the hours. This is the light the kingdom banked toward — undimmed, unforgetting, the vault where the morning is kept.\n\nWalk softly. Every palace you see was promised to someone."})

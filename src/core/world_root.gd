@@ -114,8 +114,9 @@ func _ready() -> void:
 	Game.refresh_remembrance()
 	if intro != null:
 		intro.reveal_and_free()
-	if fresh:
-		Game.toast.emit(area.display_name)
+	# every arrival gets the house's name writ large — new pilgrimage or
+	# a vigil resumed
+	Game.area_title.emit(area.display_name)
 
 ## Older ledgers wrote world flags without the pilgrim: a cache could stand
 ## consumed (took_...) while the item it gave was rolled back to the last

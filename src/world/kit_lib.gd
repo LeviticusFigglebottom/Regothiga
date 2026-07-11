@@ -63,6 +63,8 @@ static func add_flame_lights(piece: Node3D, energy := 1.8, range_m := 5.0,
 	for mi in _mesh_instances(piece):
 		if String(mi.name).to_lower().contains("flame"):
 			var l := OmniLight3D.new()
+			# the light breathes like the flame it serves
+			l.set_script(load("res://src/world/flame_flicker.gd"))
 			l.light_color = color
 			l.light_energy = energy
 			l.omni_range = range_m

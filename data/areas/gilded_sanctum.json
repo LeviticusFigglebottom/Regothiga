@@ -4822,6 +4822,44 @@
     "spawn_yaw": 180,
     "flag": "scion_prayed"
    }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    2,
+    -16
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     24,
+     5,
+     14
+    ],
+    "count": 26
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    -2,
+    2,
+    -17
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "birds",
+    "extent": [
+     14,
+     1,
+     9
+    ],
+    "count": 5
+   }
   }
  ],
  "npcs": [
