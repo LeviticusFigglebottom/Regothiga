@@ -87,12 +87,16 @@ static func build(area_id: String) -> Area:
 			var fwd := Vector3(0, 0, 1).rotated(Vector3.UP, deg_to_rad(float(spec.get("rot", 0))))
 			glyph.position = _v3(spec.get("at", [0, 0, 0])) + fwd * 3.4 + Vector3(0, 0.02, 0)
 	for spec in def.get("npcs", []):
+		if not _flag_ok(spec):
+			continue      # a knight may stand only before/after a turn of the story
 		var n := NPC.new()
 		n.npc_id = spec.get("id", "aveline")
 		n.set_meta("state_tag", spec.get("tag", "glory"))
 		area.attach(n, spec.get("tag", "glory"))
 		_place(n, spec)
 	for spec in def.get("plaques", []):
+		if not _flag_ok(spec):
+			continue
 		var p := LorePlaque.new()
 		p.text = spec.get("text", "…")
 		area.attach(p, spec.get("tag", "base"))

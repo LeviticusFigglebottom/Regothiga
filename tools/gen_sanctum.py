@@ -74,10 +74,15 @@ def face(x, z0, count, rot, portal_at=None, filler=None):
         piece("palace_wall_4x4", (x, 4, filler), rot, scale=[0.5, 1, 1])
 
 
-def face_x(z, x0, count, rot, windows=True, filler=None, filler_scale=0.25):
+def face_x(z, x0, count, rot, windows=True, filler=None, filler_scale=0.25, portal_at=None):
     """A palace face running along X at fixed z."""
     for i in range(count):
         x = x0 + 4 * i
+        if portal_at is not None and abs(x - portal_at) < 0.01:
+            piece("palace_portal_4m", (x, 0, z), rot)
+            piece("palace_window_4m" if windows else "palace_wall_4x4", (x, 4, z), rot)
+            piece("palace_cornice_4m", (x, 8, z), rot)
+            continue
         piece("palace_wall_4x4", (x, 0, z), rot)
         if windows:
             piece("palace_window_4m", (x, 4, z), rot)
@@ -158,7 +163,10 @@ for s in (1, -1):
     face(xa, -10, 3, ra, portal_at=-6)                      # avenue face
     face(xw, -10, 3, rw)                                    # outer face
     face_x(-12, x0, 3, 0, filler=21.5 * s)                  # terrace-void face
-    face_x(0, x0, 3, 180, filler=21.5 * s)                  # court north wall
+    face_x(0, x0, 3, 180, filler=21.5 * s, portal_at=15 * s)   # court north wall + stair door
+    piece("door_leaf", (15 * s, 0, 0.18), 180, scale=[1.2, 1.3, 1.2])
+    BL.append({"min": [15 * s - 2.2, 0, -0.8], "max": [15 * s + 2.2, 4, 0.0], "tag": "base"})
+    piece("gilt_finial", (15 * s, 4.3, 0.2), 0, collide=False)
     # ---- south wing (z 12..30)
     face(xa, 14, 4, ra, portal_at=18, filler=29)            # avenue face
     face(xw, 14, 4, rw, filler=29)                          # outer face
@@ -382,12 +390,12 @@ def main():
              "prompt": "Enter the Door of the Hour",
              "locked_flag": "sanctum_hours",
              "locked_prompt": "The Door keeps its hour \u2014 sound the Offices"},
-            {"to": "hour_palace", "at": [15, 0, 8.5], "rot": 180,
+            {"to": "hour_palace", "at": [15, 0, 1.4], "rot": 180,
              "spawn": [36, 0.2, 37.0], "spawn_yaw": 180,
              "prompt": "Climb the bell-stair",
              "locked_flag": "scion_heard",
              "locked_prompt": "Barred from above"},
-            {"to": "hour_palace", "at": [-13.5, 0, 4.5], "rot": 180,
+            {"to": "hour_palace", "at": [-15, 0, 1.4], "rot": 180,
              "spawn": [-36, 0.2, 37.0], "spawn_yaw": 180,
              "prompt": "Climb the candle-stair",
              "locked_flag": "scion_heard",

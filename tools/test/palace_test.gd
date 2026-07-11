@@ -1,8 +1,8 @@
 extends TestBase
 ## The Palace of the Hour: the great nave and its two wings, roofed end to
-## end; the Carillon and the Hundred Candles unbar the Hour Gate together;
-## the Scion's judgement opens the shortcut stairs; every road out leads
-## where it says. No warden yet — the antechamber waits.
+## end and doored at every mouth; the Bellman's Echo and the Unlit
+## Procession unbar the Hour Gate together; the Scion's judgement meets the
+## FIRST step across the threshold; the porch below remembers the reckoning.
 
 var area: Area
 var player: Player
@@ -14,6 +14,14 @@ func _floor_under(p: Vector3) -> float:
 	var q := PhysicsRayQueryParameters3D.create(p + Vector3.UP * 0.5, p + Vector3.DOWN * 4.0, VG.M_WORLD_ALL)
 	var hit := area.get_world_3d().direct_space_state.intersect_ray(q)
 	return hit["position"].y if not hit.is_empty() else -999.0
+
+func _npc_ids(a: Area) -> Array:
+	var out: Array = []
+	for layer in [a.base, a.glory_layer, a.ruin_layer]:
+		for n in layer.get_children():
+			if n is NPC:
+				out.append((n as NPC).npc_id)
+	return out
 
 
 func _run() -> void:
@@ -28,6 +36,22 @@ func _run() -> void:
 	player.global_position = Vector3(0, 0.3, 3)
 	await ticks(12)
 
+	# ---- the Scion meets the FIRST crossing — no walk down the hall required
+	var herald: Node3D = null
+	for n in area.base.get_children():
+		if n is Node3D and n.get_script() != null \
+				and String(n.get_script().resource_path).ends_with("scion_herald.gd"):
+			herald = n
+	check(herald != null, "the Scion waits at the threshold")
+	check(herald != null and float(herald.get("trigger_radius")) >= 6.5,
+			"and his reach covers the door itself")
+	check(herald != null and herald._staged, "the judgement begins the moment you enter")
+	herald._line = 99
+	herald._end()
+	await ticks(6)
+	check(World.flag("scion_heard"), "the judgement is spoken once")
+	check(World.flag("palace_hostile"), "and the house is hostile after it")
+
 	# ---- floored and roofed across the house
 	for wp in [[Vector3(0, 0, 3), "the threshold"], [Vector3(0, 0, 30), "the great nave"],
 			[Vector3(18, 0, 16), "the chime court"], [Vector3(34, 0, 24), "the bell gallery"],
@@ -41,60 +65,83 @@ func _run() -> void:
 	var def2: Dictionary = area.get_meta("def")
 	check(def2.get("vault_fields", []).size() == 10, "ten vault fields roof the house")
 
+	# ---- no mouth of the house lets you fall out of it
+	var space := area.get_world_3d().direct_space_state
+	var entry := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(0, 1.2, 2), Vector3(0, 1.2, -3), VG.M_WORLD_ALL))
+	check(not entry.is_empty() and entry["position"].z > -1.0,
+			"the entry keeps its door — the threshold cannot be fallen out of")
+	for sx in [36.0, -36.0]:
+		var stair := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+				Vector3(sx, 1.2, 38), Vector3(sx, 1.2, 43), VG.M_WORLD_ALL))
+		check(not stair.is_empty() and stair["position"].z < 41.0,
+				"the stair door at x=%d holds the gallery floor" % int(sx))
+
 	# ---- the Hour Gate: barred until BOTH wing rites are done
 	var gate: FlagGate = null
 	for n in area.base.get_children():
 		if n is FlagGate and (n as FlagGate).flag == "palace_gate_open":
 			gate = n
 	check(gate != null and not gate._unlocked(), "the Hour Gate starts barred")
-	var space := area.get_world_3d().direct_space_state
-	var rq := PhysicsRayQueryParameters3D.create(Vector3(0, 1.2, 52), Vector3(0, 1.2, 60), VG.M_WORLD_ALL)
-	var rhit := space.intersect_ray(rq)
+	var rhit := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(0, 1.2, 52), Vector3(0, 1.2, 60), VG.M_WORLD_ALL))
 	check(not rhit.is_empty() and rhit["position"].z < 56.5, "and its bars stop the nave road")
 
-	# ---- the Carillon: dawn, noon, dusk, midnight in the day's order
-	var chime: ChimePuzzle = null
+	# ---- the Bellman's Echo: hear her phrase, answer it in her order
+	var bell: Node3D = null
 	for n in area.base.get_children():
-		if n is ChimePuzzle:
-			chime = n
-	check(chime != null and chime.flag == "palace_hours", "the Carillon keeps the east wing")
-	chime._ring("noon")
-	check(not World.flag("palace_hours"), "a broken order rings nothing")
-	for id in ["dawn", "noon", "dusk", "midnight"]:
-		chime._ring(id)
-	check(World.flag("palace_hours"), "the day rung true is the first rite")
+		if n is Node3D and n.get_script() != null \
+				and String(n.get_script().resource_path).ends_with("echo_bell.gd"):
+			bell = n
+	check(bell != null and String(bell.get("flag")) == "palace_hours",
+			"the mother bell keeps the east wing")
+	bell._answer("dawn")
+	check(not World.flag("palace_hours"), "answering unasked earns nothing — the phrase is hers")
+	bell._demonstrate()
+	var first_phrase: Array = (bell.get("_seq") as Array).duplicate()
+	check(first_phrase.size() >= 3, "asked, she gives a phrase (%d offices)" % first_phrase.size())
+	bell.set("_playing", false)
+	bell._answer(String(first_phrase[(first_phrase.size() - 1)]))
+	check(not World.flag("palace_hours") and (bell.get("_seq") as Array).is_empty(),
+			"a sour note spends the phrase — she must be asked again")
+	bell._demonstrate()
+	var phrase: Array = (bell.get("_seq") as Array).duplicate()
+	check(phrase != first_phrase, "and each asking may sing a different day")
+	bell.set("_playing", false)
+	for id in phrase:
+		bell._answer(String(id))
+	check(World.flag("palace_hours"), "the echo answered true is the first rite")
 	check(gate != null and not gate._unlocked(), "one rite alone moves nothing")
 
-	# ---- the Hundred Candles
-	var votive: VotiveLock = null
-	for n in area.glory_layer.get_children():
-		if n is VotiveLock:
-			votive = n
-	check(votive != null and votive.flag == "palace_candles", "five keepers' lights wait in the west")
-	for i in votive._stands.size():
-		votive._try_light(i)
-	check(World.flag("palace_candles"), "the watch lit whole is the second")
+	# ---- the Unlit Procession: each flame carries to both its neighbours
+	var proc: Node3D = null
+	for n in area.base.get_children():
+		if n is Node3D and n.get_script() != null \
+				and String(n.get_script().resource_path).ends_with("procession_lock.gd"):
+			proc = n
+	check(proc != null and String(proc.get("flag")) == "palace_candles",
+			"the procession waits dark in the west")
+	var lit0 := 0
+	for v in (proc.get("_lit") as Array):
+		if v:
+			lit0 += 1
+	check(lit0 == 0, "every stand starts unlit")
+	proc._touch(0)
+	var lit1 := 0
+	for v in (proc.get("_lit") as Array):
+		if v:
+			lit1 += 1
+	check(lit1 == 3, "one touch kindles a stand AND both its neighbours (%d)" % lit1)
+	check(not World.flag("palace_candles"), "three flames are not the watch")
+	var n_stands: int = (proc.get("_lit") as Array).size()
+	for i in range(1, n_stands):
+		proc._touch(i)
+	check(World.flag("palace_candles"), "the ring walked once around burns whole — the second rite")
 
 	# ---- the seal joins them and the gate stands open
 	await ticks(6)
 	check(World.flag("palace_gate_open"), "both rites together unbar the Hour Gate")
 	check(gate._unlocked(), "and the gate knows it")
-
-	# ---- the Scion's judgement
-	var herald: Node3D = null
-	for n in area.base.get_children():
-		if n is Node3D and n.get_script() != null \
-				and String(n.get_script().resource_path).ends_with("scion_herald.gd"):
-			herald = n
-	check(herald != null, "the Scion waits at the threshold")
-	herald.stage_now()
-	await ticks(4)
-	check(herald._staged, "and meets the first crossing")
-	herald._line = 99
-	herald._end()
-	await ticks(4)
-	check(World.flag("scion_heard"), "the judgement is spoken once")
-	check(World.flag("palace_hostile"), "and the house is hostile after it")
 
 	# ---- guards of the morning hold the rooms
 	var guards := 0
@@ -131,13 +178,40 @@ func _run() -> void:
 	check(door._unlocked(), "and opens for it")
 	check(stairs == 2, "both shortcut stairs wait on the Scion (%d)" % stairs)
 	sanctum.queue_free()
+	await ticks(2)
+
+	# ---- the porch below remembers the reckoning
+	World.reset()
+	var porch := AreaBuilder.build("basilica_porch")
+	add_child(porch)
+	await ticks(4)
+	var before := _npc_ids(porch)
+	check(before.has("knight_morrow") and not before.has("knight_morrow_grim"),
+			"before the reckoning, Ser Adalric keeps his glad watch")
+	porch.queue_free()
+	await ticks(2)
+	World.set_flag("reckoning_heard")
+	var porch2 := AreaBuilder.build("basilica_porch")
+	add_child(porch2)
+	await ticks(4)
+	var after := _npc_ids(porch2)
+	check(after.has("knight_morrow_grim") and not after.has("knight_morrow"),
+			"after it, a darker knight stands the same stones")
+	var note := false
+	for n in porch2.ruin_layer.get_children():
+		if n is LorePlaque and String((n as LorePlaque).text).begins_with("A NOTE"):
+			note = true
+	check(note, "and when the light goes, only his note remains")
+	porch2.queue_free()
+	await ticks(2)
 
 	# ---- palace music is its own: the heavenly chorale
 	check(area.env.music_for(VG.WState.GLORY).ends_with("theme_sanctum.mp3"),
 			"the chorale keeps the palace")
 
 	for kit in ["palace_wall_4x4", "palace_portal_4m", "palace_arcade_4m",
-			"palace_pier", "chime_stone", "votive_stand_lit", "gate_iron"]:
+			"palace_pier", "chime_stone", "votive_stand_lit", "candle_cluster",
+			"door_leaf", "wellhead", "gate_iron"]:
 		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
 
 	finish()

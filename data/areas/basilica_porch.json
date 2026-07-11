@@ -802,6 +802,17 @@
    ],
    "rot": -60,
    "text": "THE VESPER CHIMES\n\nThe door hears only the day rung in its dying order:\n\nthe morning office first \u2014 then the evening we kept \u2014 then the hour that never came."
+  },
+  {
+   "at": [
+    -3.4,
+    0,
+    6.9
+   ],
+   "rot": 25,
+   "tag": "ruin",
+   "require_flag": "reckoning_heard",
+   "text": "A NOTE, IN A KNIGHT'S HAND\n\nGone up to look at the road you made. If you read this in the dark, Latecomer, then the dark is where you chose to stand \u2014 AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nThen come back to the light, and ring what is owed.\n\n\u2014 A."
   }
  ],
  "portals": [
@@ -1134,7 +1145,8 @@
     6.9
    ],
    "rot": 190,
-   "tag": "glory"
+   "tag": "glory",
+   "absent_flag": "reckoning_heard"
   },
   {
    "id": "knight_crest",
@@ -1144,7 +1156,20 @@
     6.9
    ],
    "rot": 155,
-   "tag": "ruin"
+   "tag": "ruin",
+   "absent_flag": "reckoning_heard"
+  },
+  {
+   "id": "knight_morrow_grim",
+   "at": [
+    -3.4,
+    0,
+    6.9
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "require_flag": "reckoning_heard",
+   "face_flip": true
   }
  ],
  "free_kindle": true,

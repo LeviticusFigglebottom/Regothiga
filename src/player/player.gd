@@ -814,12 +814,28 @@ func _bow_move_input(dt: float) -> void:
 			_nock_arrow(true)
 	if _bow_drawing:
 		_bow_t += dt
+		# once the string reaches the cheek, hand the pose to an explicit
+		# looping hold — the draw clip ending must never let the arm sag
+		if _bow_t > 0.72 and vis.anim != null and vis.anim.current_animation != "bow_hold":
+			vis.play("bow_hold", 0.08)
 		# the shaft stays docked LEVEL, pointing where the archer faces —
 		# the hand bone's own frame tilts with the draw and can't be trusted
 		if _nock != null and is_instance_valid(_nock):
 			_nock.global_transform.basis = vis.global_transform.basis
 		if not Input.is_action_pressed("attack_light"):
 			_bow_release()
+	_set_crosshair(_bow_drawing or (cam.zoomed and _bow_equipped()))
+
+var _xhair_on := false
+
+## A quiet gold sight-dot while the string is drawn or the eye is sighted.
+func _set_crosshair(on: bool) -> void:
+	if on == _xhair_on:
+		return
+	_xhair_on = on
+	for h in get_tree().get_nodes_in_group("hud"):
+		if h.has_method("set_crosshair"):
+			h.set_crosshair(on)
 
 ## The nocked shaft rides the bow while the string is drawn.
 var _nock: Node3D = null

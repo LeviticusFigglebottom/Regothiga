@@ -53,6 +53,30 @@ const SLOT_ICON := {
 	"torch": "res://assets/ui/icons/torch.png",
 }
 
+var _xhair: Control = null
+
+## The archer's sight: a small gold ring-dot dead centre, shown only while
+## the string is drawn or the eye is sighted.
+func set_crosshair(on: bool) -> void:
+	if _xhair == null:
+		_xhair = Control.new()
+		_xhair.set_anchors_preset(Control.PRESET_CENTER)
+		_xhair.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var dot := ColorRect.new()
+		dot.color = Color(1.0, 0.88, 0.55, 0.9)
+		dot.size = Vector2(5, 5)
+		dot.position = Vector2(-2.5, -2.5)
+		dot.rotation = PI / 4
+		_xhair.add_child(dot)
+		for off in [Vector2(-11, -1), Vector2(7, -1), Vector2(-1, -11), Vector2(-1, 7)]:
+			var tick := ColorRect.new()
+			tick.color = Color(1.0, 0.88, 0.55, 0.55)
+			tick.size = Vector2(4, 2) if abs(off.x) > abs(off.y) else Vector2(2, 4)
+			tick.position = off
+			_xhair.add_child(tick)
+		add_child(_xhair)
+	_xhair.visible = on
+
 func _ready() -> void:
 	layer = 10
 	add_to_group("hud")

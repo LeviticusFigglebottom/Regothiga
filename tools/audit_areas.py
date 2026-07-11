@@ -126,6 +126,13 @@ def opposite_state(a, b):
     return {a, b} == {"glory", "ruin"}
 
 
+def flags_exclusive(a, b):
+    """True when two specs can never coexist because one requires a world
+    flag the other requires absent (a story swap: knight before, note after)."""
+    return (a.get("require_flag") and a.get("require_flag") == b.get("absent_flag")) \
+        or (b.get("require_flag") and b.get("require_flag") == a.get("absent_flag"))
+
+
 def audit(area_id):
     d = json.load(open(f"data/areas/{area_id}.json"))
     fills = d.get("fills", [])
@@ -173,8 +180,15 @@ def audit(area_id):
     for key in ("pickups", "lanterns", "npcs", "plaques", "spawners"):
         for p in d.get(key, []):
             if "at" in p:
-                placed.append({"kit": "(%s)" % key[:-1], "at": p["at"],
-                               "tag": p.get("tag", "base")})
+                e = {"kit": "(%s)" % key[:-1], "at": p["at"],
+                     "tag": p.get("tag", "base")}
+                # story swaps (knight in glory, his note after the reckoning)
+                # share a spot on purpose — carry the gating flags through so
+                # the duplicate/overlap checks can see they never coexist
+                for f in ("require_flag", "absent_flag"):
+                    if f in p:
+                        e[f] = p[f]
+                placed.append(e)
 
     # 1) props floating off the floor (grounded decor + railings). Railings are in
     #    ARCH (so wall/overlap checks skip them) but opt back IN here: a balustrade
@@ -272,8 +286,9 @@ def audit(area_id):
         at = v3(p["at"]); tag = p.get("tag", "base")
         key = (kit, tag, round(at[0]), round(at[1]), round(at[2]))
         if key in seen:
-            issues.append(f"DUPLICATE  {kit} ({tag}) near {p['at']}")
-        seen[key] = True
+            if not flags_exclusive(p, seen[key]):
+                issues.append(f"DUPLICATE  {kit} ({tag}) near {p['at']}")
+        seen[key] = p
 
     # 2b) distinct co-present props merged into one another (asset collision)
     DECAL = {"mosaic_medallion", "carpet_runner_8m", "rubble_s", "ivy_sheet_a", "ivy_sheet_b",
@@ -284,7 +299,8 @@ def audit(area_id):
         ka = ground[i].get("kit", ""); ta = ground[i].get("tag", "base"); pa = v3(ground[i]["at"])
         for j in range(i + 1, len(ground)):
             kb = ground[j].get("kit", ""); tb = ground[j].get("tag", "base")
-            if ka == kb or opposite_state(ta, tb):     # same-kit -> DUPLICATE owns it
+            if ka == kb or opposite_state(ta, tb) \
+                    or flags_exclusive(ground[i], ground[j]):   # story swaps never co-present
                 continue
             pb = v3(ground[j]["at"])
             if math.hypot(pa[0] - pb[0], pa[2] - pb[2]) < 0.5 and abs(pa[1] - pb[1]) < 1.2:

@@ -310,6 +310,20 @@
    "rot": 0
   },
   {
+   "kit": "door_leaf",
+   "at": [
+    0,
+    0,
+    0.18
+   ],
+   "rot": 0,
+   "scale": [
+    1.2,
+    1.3,
+    1.2
+   ]
+  },
+  {
    "kit": "palace_wall_4x4",
    "at": [
     10,
@@ -1478,6 +1492,24 @@
    "rot": 180
   },
   {
+   "kit": "statue_saint",
+   "at": [
+    -7.5,
+    0,
+    70.5
+   ],
+   "rot": 160
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    7.5,
+    0,
+    70.5
+   ],
+   "rot": -160
+  },
+  {
    "kit": "palace_wall_4x4",
    "at": [
     12.0,
@@ -1620,6 +1652,20 @@
     40
    ],
    "rot": 180
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    36,
+    0,
+    39.82
+   ],
+   "rot": 180,
+   "scale": [
+    1.2,
+    1.3,
+    1.2
+   ]
   },
   {
    "kit": "palace_wall_4x4",
@@ -2343,6 +2389,20 @@
     40
    ],
    "rot": 180
+  },
+  {
+   "kit": "door_leaf",
+   "at": [
+    -36,
+    0,
+    39.82
+   ],
+   "rot": 180,
+   "scale": [
+    1.2,
+    1.3,
+    1.2
+   ]
   },
   {
    "kit": "palace_wall_4x4",
@@ -3270,6 +3330,68 @@
   {
    "kit": "candelabra",
    "at": [
+    -9.2,
+    0,
+    20
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    9.2,
+    0,
+    20
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -9.2,
+    0,
+    36
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    9.2,
+    0,
+    36
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "censer_hanging",
+   "at": [
+    0,
+    6.2,
+    18
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "censer_hanging",
+   "at": [
+    0,
+    6.2,
+    40
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
     -6.4,
     0,
     62
@@ -3653,9 +3775,9 @@
   {
    "kit": "scriptorium_shelf",
    "at": [
-    -25.2,
+    -24.3,
     0,
-    8.6
+    8.5
    ],
    "rot": 0,
    "tag": "base"
@@ -3663,9 +3785,9 @@
   {
    "kit": "scriptorium_shelf",
    "at": [
-    -22.2,
+    -21.5,
     0,
-    8.6
+    8.5
    ],
    "rot": 0,
    "tag": "base"
@@ -3673,9 +3795,9 @@
   {
    "kit": "scriptorium_shelf",
    "at": [
-    -19.2,
+    -18.7,
     0,
-    8.6
+    8.5
    ],
    "rot": 0,
    "tag": "base"
@@ -3683,9 +3805,9 @@
   {
    "kit": "scriptorium_shelf",
    "at": [
-    -16.2,
+    -15.9,
     0,
-    8.6
+    8.5
    ],
    "rot": 0,
    "tag": "base"
@@ -3703,22 +3825,22 @@
   {
    "kit": "book_stack",
    "at": [
-    -17.2,
-    0.88,
-    16.2
+    -17.6,
+    0.9,
+    16.0
    ],
-   "rot": 30,
+   "rot": 15,
    "tag": "base",
    "collide": false
   },
   {
    "kit": "scroll_pile",
    "at": [
-    -19.4,
-    0.88,
-    15.8
+    -18.9,
+    0.9,
+    16.0
    ],
-   "rot": -20,
+   "rot": -10,
    "tag": "base",
    "collide": false
   },
@@ -3845,6 +3967,38 @@
   {
    "kit": "candle_cluster",
    "at": [
+    -18.55,
+    1.35,
+    30.4
+   ],
+   "rot": 70,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    -17.45,
+    1.35,
+    30.65
+   ],
+   "rot": -25,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wellhead",
+   "at": [
+    -20,
+    0,
+    36
+   ],
+   "rot": 30,
+   "tag": "base"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
     -15.5,
     0,
     32.5
@@ -3874,7 +4028,47 @@
    "collide": false
   }
  ],
- "blockers": [],
+ "blockers": [
+  {
+   "min": [
+    -2.2,
+    0,
+    -0.8
+   ],
+   "max": [
+    2.2,
+    4,
+    0.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    33.8,
+    0,
+    40.0
+   ],
+   "max": [
+    38.2,
+    4,
+    40.8
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -38.2,
+    0,
+    40.0
+   ],
+   "max": [
+    -33.8,
+    4,
+    40.8
+   ],
+   "tag": "base"
+  }
+ ],
  "plaques": [
   {
    "at": [
@@ -3892,7 +4086,7 @@
     25.2
    ],
    "rot": -110,
-   "text": "THE CARILLON\n\nFour voices keep the wing: dawn in the chime court, noon and dusk in the long gallery, midnight in the reliquary.\n\nRing the day in its order and the Hour Gate will know its own."
+   "text": "THE BELLMAN'S ECHO\n\nThe mother bell remembers the day better than any plaque. ASK her, and she will sing a phrase of it \u2014 watch which offices take her light.\n\nAnswer the phrase back, office by office, in her order. She does not repeat herself kindly, but she will always sing again."
   },
   {
    "at": [
@@ -3901,7 +4095,7 @@
     25.2
    ],
    "rot": 110,
-   "text": "THE HUNDRED CANDLES\n\nOf the hundred, five yet stand. One for the scribes, one for the shelves, two for the long watch, one for the wax itself.\n\nKindle every keeper's light and the Hour Gate will know its own."
+   "text": "THE UNLIT PROCESSION\n\nSix keepers' stands walk a ring in the vault. Fire is not obedient here: carry the flame to any stand and its NEIGHBOURS take the change as well \u2014 lit gutters, dark kindles, three at every stroke.\n\nThe wing rests when the whole procession burns. Walk it with intent; an idle touch digs a hole your reason must climb out of."
   },
   {
    "at": [
@@ -4042,108 +4236,6 @@
    "rot": -140
   }
  ],
- "chime_puzzles": [
-  {
-   "flag": "palace_hours",
-   "kit": "chime_stone",
-   "verb": "Sound",
-   "chimes": [
-    {
-     "id": "dawn",
-     "label": "the dawn office",
-     "at": [
-      14,
-      0,
-      12
-     ],
-     "rot": 120
-    },
-    {
-     "id": "noon",
-     "label": "the noon office",
-     "at": [
-      38,
-      0,
-      12
-     ],
-     "rot": -120
-    },
-    {
-     "id": "dusk",
-     "label": "the dusk office",
-     "at": [
-      38,
-      0,
-      36
-     ],
-     "rot": -60
-    },
-    {
-     "id": "midnight",
-     "label": "the midnight office",
-     "at": [
-      14,
-      0,
-      36
-     ],
-     "rot": 60
-    }
-   ],
-   "order": [
-    "dawn",
-    "noon",
-    "dusk",
-    "midnight"
-   ]
-  }
- ],
- "votive_locks": [
-  {
-   "flag": "palace_candles",
-   "votives": [
-    {
-     "at": [
-      -14,
-      0,
-      12
-     ],
-     "rot": 120
-    },
-    {
-     "at": [
-      -22,
-      0,
-      20
-     ],
-     "rot": -60
-    },
-    {
-     "at": [
-      -38,
-      0,
-      12
-     ],
-     "rot": -120
-    },
-    {
-     "at": [
-      -38,
-      0,
-      36
-     ],
-     "rot": -30
-    },
-    {
-     "at": [
-      -12.5,
-      0,
-      37
-     ],
-     "rot": 60
-    }
-   ]
-  }
- ],
  "flag_gates": [
   {
    "flag": "palace_gate_open",
@@ -4168,9 +4260,115 @@
    "at": [
     0,
     0,
-    10
+    9
    ],
-   "tag": "base"
+   "tag": "base",
+   "params": {
+    "trigger_radius": 9.0
+   }
+  },
+  {
+   "script": "res://src/world/echo_bell.gd",
+   "at": [
+    26,
+    0,
+    24
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "palace_hours",
+    "bell_at": [
+     34,
+     0,
+     20
+    ],
+    "chimes": [
+     {
+      "id": "dawn",
+      "label": "the dawn office",
+      "at": [
+       14,
+       0,
+       12
+      ],
+      "rot": 120
+     },
+     {
+      "id": "noon",
+      "label": "the noon office",
+      "at": [
+       38,
+       0,
+       12
+      ],
+      "rot": -120
+     },
+     {
+      "id": "dusk",
+      "label": "the dusk office",
+      "at": [
+       38,
+       0,
+       36
+      ],
+      "rot": -60
+     },
+     {
+      "id": "midnight",
+      "label": "the midnight office",
+      "at": [
+       14,
+       0,
+       36
+      ],
+      "rot": 60
+     }
+    ]
+   }
+  },
+  {
+   "script": "res://src/world/procession_lock.gd",
+   "at": [
+    -34,
+    0,
+    16
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "palace_candles",
+    "stands": [
+     [
+      -38,
+      0,
+      11
+     ],
+     [
+      -33,
+      0,
+      10
+     ],
+     [
+      -29.5,
+      0,
+      14
+     ],
+     [
+      -29.5,
+      0,
+      19
+     ],
+     [
+      -33,
+      0,
+      22.5
+     ],
+     [
+      -38,
+      0,
+      21
+     ]
+    ]
+   }
   },
   {
    "script": "res://src/world/seal_gate.gd",
@@ -4244,7 +4442,7 @@
    "spawn": [
     15,
     0.2,
-    7
+    3.0
    ],
    "spawn_yaw": 180,
    "prompt": "Descend the bell-stair"
@@ -4258,9 +4456,9 @@
    ],
    "rot": 0,
    "spawn": [
-    -13.5,
+    -15,
     0.2,
-    6
+    3.0
    ],
    "spawn_yaw": 180,
    "prompt": "Descend the candle-stair"

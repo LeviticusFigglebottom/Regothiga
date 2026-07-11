@@ -235,5 +235,23 @@
   "body": "skel_sexton",
   "pose": "kneel",
   "mute": true
+ },
+ "knight_morrow_grim": {
+  "name": "Ser Adalric of the Morrow",
+  "short_name": "Ser Adalric",
+  "body": "char_ward",
+  "carry": "sword_cloister",
+  "carry_hand": "r",
+  "lines_first": [
+   "I will not play the glad votary tonight, Latecomer. You know me. And I know what walked out of that parish over the keeper's body.",
+   "Look at it. The light that does not FORGET. The road behind you, burning plain as script... and the road you have not walked yet, already written somewhere above us.",
+   "When the dark asks you for the last bell \u2014 and it will ask, up there where the morning is kept \u2014 remember that it has asked you once before. And remember what you answered.",
+   "Go on, then. While going is still a thing this porch will let you do."
+  ],
+  "lines_repeat": [
+   "The offices above keep their own counsel. Ring what is owed, and let an old knight keep his porch.",
+   "I will be here. Watching the road you make. It is what I am for, now."
+  ],
+  "face_flip": true
  }
 }

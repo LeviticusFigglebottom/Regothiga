@@ -143,6 +143,8 @@ for s in (1, -1):
 # south wall + the way back out
 wall_run_x(0, -10, 10, 0, doors=(0,))
 window_run_x(0, -10, 10, 0)
+piece("door_leaf", (0, 0, 0.18), 0, scale=[1.2, 1.3, 1.2])   # the Door, shut
+BL.append({"min": [-2.2, 0, -0.8], "max": [2.2, 4, 0.0], "tag": "base"})
 # nave flanks: solid to the wings, one door + one colonnade mouth each side
 for s in (1, -1):
     x = 10 * s
@@ -179,6 +181,11 @@ for z in (12, 28, 44):
     prop("candelabra", (6.5, 0, z), -20)
 for s in (1, -1):
     piece("statue_saint", (4 * s, 0, 52), 180)
+for z in (20, 36):
+    prop("candelabra", (-9.2, 0, z), 90)
+    prop("candelabra", (9.2, 0, z), -90)
+prop("censer_hanging", (0, 6.2, 18), 0, collide=False)
+prop("censer_hanging", (0, 6.2, 40), 0, collide=False)
 
 # ---------------------------------------------------------------- the Hour Gate
 wall_run_x(56, -10, -2, 0)
@@ -203,6 +210,8 @@ prop("mosaic_medallion", (0, 0.02, 65), 0)
 prop("carpet_runner_8m", (0, 0.02, 61), 90)
 prop("chandelier_gilt", (0, 6.9, 64), 0, collide=False)
 piece("statue_orans", (0, 0, 70.4), 180)
+piece("statue_saint", (-7.5, 0, 70.5), 160)
+piece("statue_saint", (7.5, 0, 70.5), -160)
 
 # ---------------------------------------------------------------- the wings
 for s in (1, -1):
@@ -214,6 +223,8 @@ for s in (1, -1):
     wall_run_x(8, min(10 * s, xo), max(10 * s, xo), 0)
     wall_run_x(40, min(10 * s, xo), max(10 * s, xo), 180,
                doors=(36 * s,))                              # the stair door
+    piece("door_leaf", (36 * s, 0, 39.82), 180, scale=[1.2, 1.3, 1.2])
+    BL.append({"min": [36 * s - 2.2, 0, 40.0], "max": [36 * s + 2.2, 4, 40.8], "tag": "base"})
     wall_run_z(xo, 8, 40, rot_out)
     window_run_z(xo, 8, 40, rot_out)                         # gallery glazing
     # gallery upper band on its inner wall + ends
@@ -256,17 +267,20 @@ prop("candle_cluster", (24, 0, 38.4), 0)
 prop("book_stack", (12.5, 0, 30.5), 20)
 
 # ---- west wing character: the scribes' house and the wax
-for sx in (-25.2, -22.2, -19.2, -16.2):
-    prop("scriptorium_shelf", (sx, 0, 8.6), 0)                   # W1 south wall
+for sx in (-24.3, -21.5, -18.7, -15.9):
+    prop("scriptorium_shelf", (sx, 0, 8.5), 0)                   # W1 south wall
 prop("banquet_table_6m", (-18, 0, 16), 0)                        # copy desks
-prop("book_stack", (-17.2, 0.88, 16.2), 30, collide=False)
-prop("scroll_pile", (-19.4, 0.88, 15.8), -20, collide=False)
+prop("book_stack", (-17.6, 0.9, 16.0), 15, collide=False)
+prop("scroll_pile", (-18.9, 0.9, 16.0), -10, collide=False)
 prop("banquet_bench_6m", (-18, 0, 14.6), 0)
 for sz in (12.5, 20, 27.5, 35):
-    prop("scriptorium_shelf", (-41.5, 0, sz), 90)                # W2: the stacks
+    prop("scriptorium_shelf", (-41.5, 0, sz), 90)                # W2: books face the room (+X)
 for (cx, cz) in [(-30.5, 10.5), (-37.5, 15.5), (-30.5, 21), (-37.5, 27), (-30.5, 33), (-36.5, 38)]:
     prop("candle_cluster", (cx, 0, cz), (cx * 13) % 360)         # the long watch burns
 prop("altar", (-18, 0, 30.5), 0)                                 # the waxworks
+prop("candle_cluster", (-18.55, 1.35, 30.4), 70, collide=False)  # wax pooled on the slab
+prop("book_stack", (-17.45, 1.35, 30.65), -25, collide=False)    # the chandler's ledger
+prop("wellhead", (-20, 0, 36), 30)                               # the Lightwell itself
 prop("candle_cluster", (-15.5, 0, 32.5), 40)
 prop("candle_cluster", (-21, 0, 33), -30)
 prop("censer_hanging", (-18, 3.6, 34), 0, collide=False)
@@ -282,9 +296,9 @@ for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),
 PLQ.append({"at": [3.2, 0, 2.6], "rot": -150, "text":
     "THE PALACE OF THE HOUR\n\nHere the morning was kept before it was rung: twelve offices, one gate, one bell that never came.\n\nThe house is awake. Walk as a debt walks — quickly, and owing."})
 PLQ.append({"at": [11.2, 0, 25.2], "rot": -110, "text":
-    "THE CARILLON\n\nFour voices keep the wing: dawn in the chime court, noon and dusk in the long gallery, midnight in the reliquary.\n\nRing the day in its order and the Hour Gate will know its own."})
+    "THE BELLMAN'S ECHO\n\nThe mother bell remembers the day better than any plaque. ASK her, and she will sing a phrase of it — watch which offices take her light.\n\nAnswer the phrase back, office by office, in her order. She does not repeat herself kindly, but she will always sing again."})
 PLQ.append({"at": [-11.2, 0, 25.2], "rot": 110, "text":
-    "THE HUNDRED CANDLES\n\nOf the hundred, five yet stand. One for the scribes, one for the shelves, two for the long watch, one for the wax itself.\n\nKindle every keeper's light and the Hour Gate will know its own."})
+    "THE UNLIT PROCESSION\n\nSix keepers' stands walk a ring in the vault. Fire is not obedient here: carry the flame to any stand and its NEIGHBOURS take the change as well — lit gutters, dark kindles, three at every stroke.\n\nThe wing rests when the whole procession burns. Walk it with intent; an idle touch digs a hole your reason must climb out of."})
 PLQ.append({"at": [3.4, 0, 54.2], "rot": -160, "text":
     "THE HOUR GATE\n\nTwo rites unbar it: the day rung true, the watch lit whole.\n\nBeyond, the Hour itself is kept. Nothing in this house wants you past this door."})
 PLQ.append({"at": [0, 0, 66.5], "rot": 180, "text":
@@ -322,34 +336,24 @@ def main():
         "lanterns": [
             {"id": "palace", "name": "The Threshold Vigil", "at": [6.5, 0, 4], "rot": -140},
         ],
-        "chime_puzzles": [{
-            "flag": "palace_hours",
-            "kit": "chime_stone",
-            "verb": "Sound",
-            "chimes": [
-                {"id": "dawn", "label": "the dawn office", "at": [14, 0, 12], "rot": 120},
-                {"id": "noon", "label": "the noon office", "at": [38, 0, 12], "rot": -120},
-                {"id": "dusk", "label": "the dusk office", "at": [38, 0, 36], "rot": -60},
-                {"id": "midnight", "label": "the midnight office", "at": [14, 0, 36], "rot": 60},
-            ],
-            "order": ["dawn", "noon", "dusk", "midnight"],
-        }],
-        "votive_locks": [{
-            "flag": "palace_candles",
-            "votives": [
-                {"at": [-14, 0, 12], "rot": 120},
-                {"at": [-22, 0, 20], "rot": -60},
-                {"at": [-38, 0, 12], "rot": -120},
-                {"at": [-38, 0, 36], "rot": -30},
-                {"at": [-12.5, 0, 37], "rot": 60},
-            ],
-        }],
+
         "flag_gates": [
             {"flag": "palace_gate_open", "kit": "gate_iron", "at": [0, 0, 56],
              "rot": 0, "scale": [1.7, 1.8, 1.0], "tag": "base"},
         ],
         "scripted": [
-            {"script": "res://src/world/scion_herald.gd", "at": [0, 0, 10], "tag": "base"},
+            {"script": "res://src/world/scion_herald.gd", "at": [0, 0, 9], "tag": "base",
+             "params": {"trigger_radius": 9.0}},
+            {"script": "res://src/world/echo_bell.gd", "at": [26, 0, 24], "tag": "base",
+             "params": {"flag": "palace_hours", "bell_at": [34, 0, 20], "chimes": [
+                 {"id": "dawn", "label": "the dawn office", "at": [14, 0, 12], "rot": 120},
+                 {"id": "noon", "label": "the noon office", "at": [38, 0, 12], "rot": -120},
+                 {"id": "dusk", "label": "the dusk office", "at": [38, 0, 36], "rot": -60},
+                 {"id": "midnight", "label": "the midnight office", "at": [14, 0, 36], "rot": 60}]}},
+            {"script": "res://src/world/procession_lock.gd", "at": [-34, 0, 16], "tag": "base",
+             "params": {"flag": "palace_candles", "stands": [
+                 [-38, 0, 11], [-33, 0, 10], [-29.5, 0, 14],
+                 [-29.5, 0, 19], [-33, 0, 22.5], [-38, 0, 21]]}},
             {"script": "res://src/world/seal_gate.gd", "at": [0, 0, 52], "tag": "base",
              "params": {"flags": ["palace_hours", "palace_candles"],
                         "target": "palace_gate_open",
@@ -367,10 +371,10 @@ def main():
              "spawn": [0, 2.2, -21.5], "spawn_yaw": 180,
              "prompt": "Leave by the Door of the Hour"},
             {"to": "gilded_sanctum", "at": [36, 0, 39], "rot": 0,
-             "spawn": [15, 0.2, 7], "spawn_yaw": 180,
+             "spawn": [15, 0.2, 3.0], "spawn_yaw": 180,
              "prompt": "Descend the bell-stair"},
             {"to": "gilded_sanctum", "at": [-36, 0, 39], "rot": 0,
-             "spawn": [-13.5, 0.2, 6], "spawn_yaw": 180,
+             "spawn": [-15, 0.2, 3.0], "spawn_yaw": 180,
              "prompt": "Descend the candle-stair"},
             {"to": "basilica_porch", "at": [-20, 0, 34], "rot": 90,
              "spawn": [0, -2.42, 17], "spawn_yaw": 0,

@@ -209,6 +209,14 @@ static func _clips(amp := 1.0, sway := 1.0) -> Dictionary:
 		}, "pos": {"hips": [[0.0, 0, 0, 0], [0.8, 0, -0.42, 0.04], [1.2, 0, -0.42, 0.04]]}},
 		# Prayer: palms together at the sternum — elbows tucked in, forearms
 		# raised to the midline, head bowed over the joined hands.
+		"bow_hold": {"len": 1.6, "loop": true, "bones": {
+			"uarm_l": [[0.0, 86, 0, -4], [0.8, 87, 0, -4], [1.6, 86, 0, -4]],
+			"farm_l": [[0.0, 3, 0, 0], [1.6, 3, 0, 0]],
+			"uarm_r": [[0.0, 30, -26, -12], [0.8, 31, -26, -12], [1.6, 30, -26, -12]],
+			"farm_r": [[0.0, 96, 0, 0], [1.6, 96, 0, 0]],
+			"chest": [[0.0, 0, -15, 0], [1.6, 0, -15, 0]],
+			"head": [[0.0, 0, 12, 0], [1.6, 0, 12, 0]],
+		}},
 		"bow_draw": {"len": 0.7, "loop": false, "bones": {
 			"uarm_l": [[0.0, 30, 0, -6], [0.7, 86, 0, -4]],
 			"farm_l": [[0.0, 14, 0, 0], [0.7, 3, 0, 0]],
