@@ -541,7 +541,7 @@
  "cloud_bank_a": {
   "file": "assets/kit/cloud_bank_a.glb",
   "origin": "center",
-  "polys": 540,
+  "polys": 648,
   "size": [
    44,
    14,
@@ -551,7 +551,7 @@
  "cloud_bank_b": {
   "file": "assets/kit/cloud_bank_b.glb",
   "origin": "center",
-  "polys": 540,
+  "polys": 648,
   "size": [
    44,
    14,
@@ -561,7 +561,7 @@
  "cloud_bank_c": {
   "file": "assets/kit/cloud_bank_c.glb",
   "origin": "center",
-  "polys": 540,
+  "polys": 648,
   "size": [
    44,
    14,

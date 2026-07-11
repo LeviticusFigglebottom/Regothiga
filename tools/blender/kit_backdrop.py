@@ -904,15 +904,15 @@ def cloud_bank(seed=5):
     palace could stand on. ~44 x 14 x 10 m, origin center, no collision."""
     rng = random.Random(seed)
     bm = bmesh.new()
-    lobes = 10
+    lobes = 12
     for i in range(lobes):
         t = i / (lobes - 1)
         swell = 0.5 + 0.5 * math.sin(math.pi * t)
-        x = (t - 0.5) * 38 + rng.uniform(-1.5, 1.5)
-        y = rng.uniform(-2.6, 2.6)
+        x = (t - 0.5) * 34 + rng.uniform(-1.2, 1.2)
+        y = rng.uniform(-2.2, 2.2)
         r = rng.uniform(4.2, 7.2) * (0.55 + 0.55 * swell)
-        z = r * 0.22 + rng.uniform(-0.6, 0.9)      # bases roughly level
-        mtx = Matrix.LocRotScale((x, y, z), None, (1.0, rng.uniform(0.7, 1.0), 0.55))
+        z = r * 0.3 + rng.uniform(-0.3, 0.5)       # bases near-level, tops billow
+        mtx = Matrix.LocRotScale((x, y, z), None, (1.0, rng.uniform(0.75, 1.0), 0.66))
         bmesh.ops.create_uvsphere(bm, u_segments=9, v_segments=6, radius=r, matrix=mtx)
     obj = V.bm_to_object(bm, "cloud_bank", ("M_cloud",))
     # smooth normals: faceted lobes read as rock, soft ones as vapour

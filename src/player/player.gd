@@ -615,19 +615,23 @@ func _st_move(dt: float) -> void:
 		if Input.is_action_just_pressed("cast_spell") and attuned_spell != "":
 			cast_spell(attuned_spell)
 		if _bow_equipped():
+			# the bow owns LMB (draw/loose) and RMB (the sight): the melee
+			# swing, block and parry handlers must not eat the same presses —
+			# try_attack on the draw's own click killed the draw the frame
+			# it began, which is why the string could never be held
 			_bow_move_input(dt)
 		if Input.is_action_just_pressed("dodge"):
 			_try_roll(dir)
-		elif Input.is_action_just_pressed("attack_light") and _mouse_ok():
+		elif not _bow_equipped() and Input.is_action_just_pressed("attack_light") and _mouse_ok():
 			if _pressed("sprint"):
 				try_attack(false)  # sprint attack folded into light for pass 1
 			else:
 				try_attack(false)
-		elif Input.is_action_just_pressed("attack_heavy"):
+		elif not _bow_equipped() and Input.is_action_just_pressed("attack_heavy"):
 			try_attack(true)
-		elif Input.is_action_just_pressed("parry"):
+		elif not _bow_equipped() and Input.is_action_just_pressed("parry"):
 			try_parry()
-		elif Input.is_action_pressed("block") and _mouse_ok():
+		elif not _bow_equipped() and Input.is_action_pressed("block") and _mouse_ok():
 			_enter_block()
 		elif Input.is_action_just_pressed("flask"):
 			try_flask()
@@ -810,6 +814,10 @@ func _bow_move_input(dt: float) -> void:
 			_nock_arrow(true)
 	if _bow_drawing:
 		_bow_t += dt
+		# the shaft stays docked LEVEL, pointing where the archer faces —
+		# the hand bone's own frame tilts with the draw and can't be trusted
+		if _nock != null and is_instance_valid(_nock):
+			_nock.global_transform.basis = vis.global_transform.basis
 		if not Input.is_action_pressed("attack_light"):
 			_bow_release()
 
@@ -823,10 +831,10 @@ func _nock_arrow(on: bool) -> void:
 	if on and vis.bow_mount != null:
 		_nock = Projectile.make_arrow()
 		vis.bow_mount.add_child(_nock)
-		# bow mount: +Y along the (vertical) bow; the shaft lies across it,
-		# pointing where the archer faces
-		_nock.position = Vector3(0, 0.52, 0)
-		_nock.rotation_degrees = Vector3(-90, 0, 0)
+		# bow mount: +Y runs along the stave. The shaft docks ACROSS it at
+		# the grip, riding the string plane, pointing where the archer faces
+		_nock.position = Vector3(0, 0.5, 0.1)
+		_nock.rotation_degrees = Vector3(0, 0, 0)
 
 func _bow_release() -> void:
 	_bow_drawing = false
@@ -1277,6 +1285,12 @@ func _radiant_flash(energy: float, rng: float) -> void:
 func _st_flask(dt: float) -> void:
 	velocity.x = move_toward(velocity.x, 0, 12 * dt)
 	velocity.z = move_toward(velocity.z, 0, 12 * dt)
+	# the gourd stays world-upright with a sip-tilt toward the visor — the
+	# raised fist's bone frame flips "up", so a fixed mount angle reads
+	# inverted no matter which constant it is
+	if _flask_mount != null and is_instance_valid(_flask_mount):
+		_flask_mount.global_transform.basis = vis.global_transform.basis \
+				* Basis.from_euler(Vector3(deg_to_rad(_flask_tilt), 0, 0))
 	var use_time := float(T["flask"]["use_time"])
 	if state_t >= use_time * 0.62 and hp < max_hp and state_t - get_physics_process_delta_time() < use_time * 0.62:
 		hp = minf(hp + float(T["flask"]["heal"]), max_hp)
@@ -1287,15 +1301,18 @@ func _st_flask(dt: float) -> void:
 		vis.back_to_idle()
 
 ## The chrism gourd itself, mounted in the off-hand only while he drinks —
-## tipped so the gilt stopper finds the visor as the arm rises.
+## held world-upright, tipped back toward the visor as the arm rises.
 var _flask_mount: Node3D = null
+var _flask_tilt := 35.0
 
 func _show_flask(on: bool) -> void:
 	if on:
 		if _flask_mount == null and KitLib.has_piece("chrism_flask"):
 			_flask_mount = vis.mount("hand_l")
 			_flask_mount.position = Vector3(0, 0.07, 0.02)
-			_flask_mount.rotation_degrees = Vector3(104, 0, 0)
+			# a drinking tilt: mouth up and toward the lips — 104 tipped it
+			# past the vertical and the chrism poured at the sky
+			_flask_mount.rotation_degrees = Vector3(38, 0, 0)
 			_flask_mount.add_child(KitLib.instance("chrism_flask"))
 	elif _flask_mount != null:
 		var att := _flask_mount.get_parent()   # the BoneAttachment3D

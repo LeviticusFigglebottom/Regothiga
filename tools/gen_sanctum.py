@@ -95,9 +95,12 @@ F.append({"kit": "palace_floor_4x4", "min": [-16, 2, -24], "max": [16, 2, -12]})
 # terrace body so the +2 m deck has a face, not a floating slab
 B.append({"min": [-16, 0, -24], "max": [16, 2, -12], "tag": "base"})
 
-# the grand stair up to the Door of the Hour (three flights abreast)
-for x in (-6, -2, 2):
-    piece("stair_grand_4m", (x + 2, 2, -12), 0)
+# the grand stair up to the Door of the Hour (three flights abreast,
+# descending SOUTH into the avenue — treads face the pilgrim; the outer
+# flights carry their edge parapets so the drop is railed)
+piece("stair_grand_4m_r", (-4, 2, -12), 180)
+piece("stair_grand_4m", (0, 2, -12), 180)
+piece("stair_grand_4m_l", (4, 2, -12), 180)
 
 # ---------------------------------------------------------------- the Door of the Hour
 # palace front along the terrace's north edge — marble and gold
@@ -216,14 +219,16 @@ row("palace_balustrade_4m", (-8, 0, 30.2), (1, 0, 0), 5, rot=180, skip=[2])
 blocker((-9, 0, 30.4), (-2.2, 3, 31.4))
 blocker((2.2, 0, 30.4), (9, 3, 31.4))
 # the lightfall landing: a railed marble balcony carrying the descent portal
-# past the rim — solid underfoot and fenced on every side, no overhang drop
-B.append({"min": [-3, -0.8, 30], "max": [3, 0, 33.4], "tag": "base", "walkable": True})
-piece("palace_balustrade_4m", (-3.1, 0, 31.7), 90, scale=[0.85, 1, 1])
-piece("palace_balustrade_4m", (3.1, 0, 31.7), -90, scale=[0.85, 1, 1])
-piece("palace_balustrade_4m", (0, 0, 33.5), 180, scale=[1.5, 1, 1])
-blocker((-3.7, 0, 30.2), (-3.0, 3, 33.9))
-blocker((3.0, 0, 30.2), (3.7, 3, 33.9))
-blocker((-3.6, 0, 33.6), (3.6, 3, 34.2))
+# past the rim. Exactly as wide as the rim balustrade's gap, side rails
+# running its full depth and the end rail overlapping their ends — the
+# handrails meet at every corner instead of crossing or falling short.
+B.append({"min": [-2.2, -0.8, 30], "max": [2.2, 0, 33.4], "tag": "base", "walkable": True})
+piece("palace_balustrade_4m", (-2.05, 0, 31.8), 90, scale=[0.8, 1, 1])
+piece("palace_balustrade_4m", (2.05, 0, 31.8), -90, scale=[0.8, 1, 1])
+piece("palace_balustrade_4m", (0, 0, 33.4), 180, scale=[1.1, 1, 1])
+blocker((-2.9, 0, 30.2), (-2.2, 3, 33.8))
+blocker((2.2, 0, 30.2), (2.9, 3, 33.8))
+blocker((-2.6, 0, 33.5), (2.6, 3, 34.1))
 
 # ---------------------------------------------------------------- palaces beyond (inaccessible)
 # A zone of its own, IN the sky: no mortal city below — only radiant marble
@@ -233,41 +238,53 @@ import random as _random
 
 SKY = []
 _rng = _random.Random(7)
-# the far ring: radiant castles and spires on every horizon, every third
-# riding higher in the open sky with cloud banks massed beneath its footing
+_CLOUDS = ["cloud_bank_a", "cloud_bank_b", "cloud_bank_c"]
+
+
+def _cloud_bed(x, y, z, spread, n, s_lo=1.6, s_hi=2.6):
+    """Cloud banks massed around a footing so no structure shows a bottom
+    edge — everything RISES from the sea instead of floating in it."""
+    for k in range(n):
+        cs = _rng.uniform(s_lo, s_hi)
+        SKY.append({"kit": _CLOUDS[(k + int(x)) % 3],
+                    "at": [round(x + _rng.uniform(-spread, spread), 1),
+                           round(y + _rng.uniform(-2.0, 1.5), 1),
+                           round(z + _rng.uniform(-spread * 0.8, spread * 0.8), 1)],
+                    "rot": int(_rng.uniform(0, 360)), "scale": [cs, cs * 0.8, cs]})
+
+
+# the far ring: radiant castles and spires on every horizon, every one
+# rising out of a bed of cloud that swallows its base
 for i in range(11):
     ang = (i + 0.5) / 11 * 2 * _m.pi
     r = _rng.uniform(150, 240)
     x, z = r * _m.sin(ang), -r * _m.cos(ang)
     s = _rng.uniform(1.6, 2.4)
-    floating = i % 3 == 0
-    y = _rng.uniform(14, 30) if floating else _rng.uniform(-14, -2)
+    y = _rng.uniform(-10, 2)
     rot = int(_rng.uniform(0, 360))
     SKY.append({"kit": "radiant_castle_a" if i % 2 else "radiant_castle_b",
                 "at": [round(x, 1), round(y, 1), round(z, 1)],
                 "rot": rot, "scale": [s, s, s * _rng.uniform(1.0, 1.2)]})
     st = _rng.uniform(1.6, 2.6)
+    sx = x + 16 * s * _m.cos(ang)
+    sz = z + 16 * s * _m.sin(ang)
     SKY.append({"kit": "radiant_spire_a" if i % 3 else "radiant_spire_b",
-                "at": [round(x + 16 * s * _m.cos(ang), 1), round(y + _rng.uniform(-2, 4), 1),
-                       round(z + 16 * s * _m.sin(ang), 1)],
+                "at": [round(sx, 1), round(y + _rng.uniform(-2, 2), 1), round(sz, 1)],
                 "rot": (rot * 3) % 360, "scale": [st, st, st * 1.15]})
-    if floating:
-        for k in range(2):
-            cs = _rng.uniform(1.6, 2.6)
-            SKY.append({"kit": ["cloud_bank_a", "cloud_bank_b", "cloud_bank_c"][(i + k) % 3],
-                        "at": [round(x + _rng.uniform(-18, 18), 1), round(y - _rng.uniform(4, 8), 1),
-                               round(z + _rng.uniform(-16, 16), 1)],
-                        "rot": int(_rng.uniform(0, 360)), "scale": [cs, cs * 0.8, cs]})
+    _cloud_bed(x, y + 2.0, z, 20 * s * 0.8, 3, 1.8, 2.8)
+    _cloud_bed(sx, y + 1.5, sz, 9 * st * 0.8, 2, 1.2, 1.9)
 
 # mid-distance sentinels: lone radiant needles rising straight from the sea
 for i in range(5):
     ang = i / 5 * 2 * _m.pi + 0.6
     r = _rng.uniform(72, 118)
     st = _rng.uniform(1.1, 1.7)
+    x, z = r * _m.sin(ang), -r * _m.cos(ang)
+    y = _rng.uniform(-14, -8)
     SKY.append({"kit": "radiant_spire_b" if i % 2 else "radiant_spire_a",
-                "at": [round(r * _m.sin(ang), 1), round(_rng.uniform(-16, -8), 1),
-                       round(-r * _m.cos(ang), 1)],
+                "at": [round(x, 1), round(y, 1), round(z, 1)],
                 "rot": int(_rng.uniform(0, 360)), "scale": [st, st, st]})
+    _cloud_bed(x, y + 2.5, z, 8 * st, 2, 1.1, 1.7)
 
 # streaming light + the living cloud sea (the clouds orbit, slow and stately)
 SCRIPTED = [
@@ -317,7 +334,7 @@ def main():
         "scripted": SCRIPTED,
         "open_air_regions": [{"min": [-22, 0, -12], "max": [22, 0, 30]},
                              {"min": [-16, 2, -24], "max": [16, 2, -12]},
-                             {"min": [-3, 0, 30], "max": [3, 0, 33.4]}],
+                             {"min": [-2.2, 0, 30], "max": [2.2, 0, 33.4]}],
         "plaques": PLQ,
         "lanterns": [
             {"id": "sanctum", "name": "The Unfaltering Vigil", "at": [-13.5, 0, 8.4], "rot": 180},
@@ -338,8 +355,8 @@ def main():
             "votives": [
                 {"at": [-7.0, 0, 22.6], "rot": 40},
                 {"at": [7.0, 0, 22.6], "rot": -40},
-                {"at": [-5.6, 0, -9.4], "rot": 150},
-                {"at": [5.6, 0, -9.4], "rot": -150},
+                {"at": [-7.3, 0, -9.0], "rot": 150},
+                {"at": [7.3, 0, -9.0], "rot": -150},
             ],
         }],
         "flag_gates": [
