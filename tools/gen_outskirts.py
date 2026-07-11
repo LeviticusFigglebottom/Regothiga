@@ -231,6 +231,12 @@ def main():
           stairwells=[(-26, -16, "x")], roof_rot=0, chimney=(-21, -15))
     PK.append({"id": "corner_till", "at": [-24.6, 3, -11.4], "orisons": 80, "tag": "base",
                "label": "Gather the corner-house till"})
+    # the Bellkeeper's amend: one fragment lies in the old kingdom's broken
+    # houses — an upper ruin room, unseen until his word is given
+    PK.append({"id": "bell_fragment_ruins", "at": [-16.4, 5.4, -31.2],
+               "item": "bell_fragment", "tag": "base",
+               "label": "Take the bell fragment",
+               "require_flag": "amend_bell_asked"})
 
     # R1: roofless shell between N1 and the plaza
     ruin(-26, -6, -20, 0, 0, {"S": "ab", "N": "ba", "E": "ap", "W": "b-"},

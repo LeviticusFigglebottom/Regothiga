@@ -403,6 +403,7 @@ func _st_attack(dt: float) -> void:
 		match _atk.get("type", "melee"):
 			"ranged": _fire_projectiles()
 			"summon": _summon()
+			"nova": _radiant_nova(float(_atk.get("nova_radius", 4.2)))
 			_:
 				_open_hitbox()
 				if vis.trail != null:
@@ -565,6 +566,41 @@ func _shockwave(radius: float) -> void:
 	_ring_vfx(radius)
 	Juice.shake(0.5, 0.3)
 	AudioDirector.sfx_at("res://assets/audio/bell_toll.wav", global_position, -2.0, 1.2)
+
+## The radiant nova: the morning kept by force. A held flash at the caster,
+## then a gold ring that takes everyone standing in the office's radius.
+## Full damage across the whole ring (unlike the slam's ground-zero rule) —
+## the telegraph is the long overhead windup, and the answer is distance.
+func _radiant_nova(radius: float) -> void:
+	var p := _player()
+	if p != null and not p.get("dead"):
+		var d := global_position.distance_to(p.global_position)
+		var seen := true
+		if d < radius:
+			var q := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * 1.0,
+					p.global_position + Vector3.UP * 1.0, VG.M_WORLD_ALL)
+			seen = get_world_3d().direct_space_state.intersect_ray(q).is_empty()
+		if d < radius and seen and p.has_method("take_hit"):
+			var hb: Hurtbox = p.get("hurtbox")
+			var pk := DamagePacket.new(float(_atk.get("dmg", 30)), float(_atk.get("poise_dmg", 35)), self)
+			pk.kind = "radiant"
+			pk.can_be_parried = false
+			if hb != null:
+				hb.receive(pk)
+	_ring_vfx(radius)
+	# the ring itself burns gold, and a breath of light rides it out
+	var flash := OmniLight3D.new()
+	flash.light_color = Color(1.0, 0.9, 0.6)
+	flash.light_energy = 5.0
+	flash.omni_range = radius + 2.0
+	flash.shadow_enabled = false
+	get_parent().add_child(flash)
+	flash.global_position = global_position + Vector3.UP * 1.2
+	var tw := flash.create_tween()
+	tw.tween_property(flash, "light_energy", 0.0, 0.55)
+	tw.tween_callback(flash.queue_free)
+	Juice.shake(0.4, 0.28)
+	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, -2.0, 1.15)
 
 func _ring_vfx(radius: float) -> void:
 	var p := CPUParticles3D.new()

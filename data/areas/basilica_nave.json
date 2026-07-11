@@ -1913,6 +1913,19 @@
    "orisons": 400,
    "label": "Gather the votive offerings",
    "tag": "base"
+  },
+  {
+   "id": "morrow_anthem_loft",
+   "at": [
+    -12,
+    4.78,
+    -20
+   ],
+   "item": "morrow_anthem",
+   "count": 2,
+   "label": "Take the sealed anthem",
+   "tag": "base",
+   "require_flag": "amend_psalm_asked"
   }
  ],
  "portals": [
@@ -2303,6 +2316,24 @@
     -4.9
    ],
    "mat": "M_stone"
+  }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/radiant_warden.gd",
+   "at": [
+    0,
+    0,
+    -30
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "require_flag": "amend_sworn",
+   "params": {
+    "warden": "psalm",
+    "arena": "basilica_nave",
+    "scale_mult": 1.25
+   }
   }
  ]
 }

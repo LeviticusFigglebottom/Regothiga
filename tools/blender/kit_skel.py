@@ -521,3 +521,34 @@ def wretch(arm):
 
 
 ARCHETYPES["skel_wretch"] = wretch
+
+
+def seraph(arm):
+    """Ward of the Morning: the palace's elect — white-gold plate over pale
+    weave, gilt at every joining, a thin halo ring riding above the helm.
+    White enamel reads M_marble; the encrusting is honest M_gold."""
+    b = BodyBuilder("seraph")
+    common_body(b, "M_marble", "M_wax", "M_marble", hood=False, skirt=True,
+                skirt_len=0.46, girth=1.1)
+    # white cuirass banded in gold
+    bm = b.part("chest", "M_marble")
+    _tube(bm, Vector((0, 0, 1.2)), Vector((0, 0, 1.5)), 0.2, 0.165, 10, 1.06)
+    bm = b.part("chest", "M_gold")
+    _tube(bm, Vector((0, 0, 1.31)), Vector((0, 0, 1.37)), 0.205, 0.2, 10)
+    _tube(bm, Vector((0, 0, 1.47)), Vector((0, -0.01, 1.52)), 0.17, 0.18, 10)
+    # gilt pauldron caps over white balls
+    for side, s in (("r", 1), ("l", -1)):
+        bm = b.part(f"uarm_{side}", "M_marble")
+        _ball(bm, (s * 0.25, 0, 1.43), 0.105)
+        bm = b.part(f"uarm_{side}", "M_gold")
+        _tube(bm, Vector((s * 0.25, 0, 1.5)), Vector((s * 0.25, 0, 1.54)), 0.1, 0.08, 8)
+    # gold girdle
+    bm = b.part("hips", "M_gold")
+    _tube(bm, Vector((0, 0, 0.99)), Vector((0, 0, 1.05)), 0.18, 0.18, 10)
+    # the halo: a thin gilt ring floating over the crown
+    bm = b.part("head", "M_gold")
+    _tube(bm, Vector((0, 0, 1.78)), Vector((0, 0, 1.8)), 0.15, 0.15, 12)
+    return b.finalize(arm, seed=451)
+
+
+ARCHETYPES["skel_seraph"] = seraph

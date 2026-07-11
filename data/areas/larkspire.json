@@ -2996,5 +2996,59 @@
     8.3
    ]
   }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/radiant_warden.gd",
+   "at": [
+    0,
+    19.2,
+    -6
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "require_flag": "amend_sworn",
+   "params": {
+    "warden": "lark",
+    "arena": "larkspire",
+    "scale_mult": 1.3
+   }
+  },
+  {
+   "script": "res://src/world/amend_larks.gd",
+   "at": [
+    0,
+    9.59,
+    0
+   ],
+   "rot": 0,
+   "tag": "ruin",
+   "require_flag": "amend_lark_asked",
+   "params": {
+    "flag": "amend_larks",
+    "cages": [
+     [
+      0.8,
+      9.59,
+      -2
+     ],
+     [
+      2,
+      14.39,
+      0.8
+     ],
+     [
+      2,
+      19.19,
+      -0.8
+     ],
+     [
+      2,
+      19.19,
+      -2
+     ]
+    ]
+   }
+  }
  ]
 }

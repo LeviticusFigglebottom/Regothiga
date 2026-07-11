@@ -313,6 +313,15 @@ PLQ.append({"at": [12.4, 0, 6.2], "rot": -120, "text":
     "THE OFFICES OF THE HOUR\n\nSound the offices as the day was kept aloft: the dawn office first, then the noon, then the dusk.\n\nKeep the order and the reliquary opens. Break it and begin the day again."})
 PLQ.append({"at": [-12.4, 0, 9.6], "rot": 25, "tag": "ruin", "text":
     "A NOTE, IN A KNIGHT'S HAND\n\nGone to do what can still be done. If you read this, Latecomer, then do not follow — AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nWhen every one of them has forgiven you — or refused to — come back to the light, and ring what is owed.\n\n— A."})
+
+# the Apostle's stall: a banquet table of wares under a hung banner, candles
+# to read prices by (glory only, like its keeper)
+PR.append({"kit": "banquet_table_6m", "at": [9.4, 0, 14.6], "rot": 55, "tag": "glory"})
+PR.append({"kit": "book_stack", "at": [9.0, 0.9, 14.2], "rot": 30, "tag": "glory", "collide": False})
+PR.append({"kit": "scroll_pile", "at": [10.0, 0.9, 15.2], "rot": -20, "tag": "glory", "collide": False})
+PR.append({"kit": "candle_cluster", "at": [7.2, 0, 15.6], "rot": 10, "tag": "glory"})
+PR.append({"kit": "candle_cluster", "at": [12.1, 0, 12.3], "rot": -35, "tag": "glory"})
+
 PLQ.append({"at": [-8.5, 0, 29.0], "rot": 175, "text":
     "THE PALACES BEYOND\n\nThe wards of the light: promised halls for every soul the wax was keeping.\n\nNo road runs to them. Roads are for the unfinished. When the hour rings, no one here will need one."})
 
@@ -341,6 +350,11 @@ def main():
         "blockers": BL,
         "skyline": SKY,
         "scripted": SCRIPTED,
+        # the Apostle of Light keeps his outdoor church by the palace door,
+        # stall dressed to be found: table, wares, candles, a hung banner
+        "npcs": [
+            {"id": "apostle_light", "at": [8.4, 0, 12.6], "rot": -125, "tag": "glory"},
+        ],
         "open_air_regions": [{"min": [-22, 0, -12], "max": [22, 0, 30]},
                              {"min": [-16, 2, -24], "max": [16, 2, -12]},
                              {"min": [-2.2, 0, 30], "max": [2.2, 0, 33.4]}],

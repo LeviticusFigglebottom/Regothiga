@@ -20,5 +20,21 @@
   "damage": 95,
   "radius": 4.6,
   "desc": "The whole candle at once. Everything near the vigil learns what it was to stand in the kingdom's noon."
+ },
+ "morrow_lance": {
+  "name": "Morrow Lance",
+  "mana": 42,
+  "type": "lance",
+  "damage": 88,
+  "length": 24.0,
+  "desc": "A straight seam of morning driven through everything between you and the far wall. The light does not swerve, and does not apologise."
+ },
+ "vesper_ward": {
+  "name": "Vesper Ward",
+  "mana": 55,
+  "type": "ward",
+  "absorb": 70,
+  "duration": 9.0,
+  "desc": "The evening office, worn. A skin of remembered candlelight that takes the world's anger first, and goes out doing it."
  }
 }

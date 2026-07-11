@@ -4222,6 +4222,50 @@
    ],
    "face": -90,
    "tag": "glory"
+  },
+  {
+   "id": "elect_0_24",
+   "enemy": "morning_ward",
+   "at": [
+    0,
+    0,
+    24
+   ],
+   "face": 180,
+   "tag": "glory"
+  },
+  {
+   "id": "elect_0_44",
+   "enemy": "morning_ward",
+   "at": [
+    0,
+    0,
+    44
+   ],
+   "face": 180,
+   "tag": "glory"
+  },
+  {
+   "id": "elect_-4_62",
+   "enemy": "morning_ward",
+   "at": [
+    -4.5,
+    0,
+    62
+   ],
+   "face": 160,
+   "tag": "glory"
+  },
+  {
+   "id": "elect_4_62",
+   "enemy": "morning_ward",
+   "at": [
+    4.5,
+    0,
+    62
+   ],
+   "face": -160,
+   "tag": "glory"
   }
  ],
  "lanterns": [

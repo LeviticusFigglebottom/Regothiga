@@ -1226,6 +1226,39 @@ func cast_spell(id: String) -> void:
 			vis.rotation.y = atan2(-aim.x, -aim.z)
 			AudioDirector.sfx("res://assets/audio/whoosh_h.wav", -6.0, 1.2)
 			_radiant_flash(1.2, 3.0)
+		"lance":
+			vis.play("cast", 0.08)
+			var lfrom := global_position + Vector3.UP * 1.45
+			var laim: Vector3
+			if cam.locked_target != null and is_instance_valid(cam.locked_target):
+				laim = ((cam.locked_target.global_position + Vector3.UP * 1.0) - lfrom).normalized()
+			else:
+				laim = -cam.cam.global_transform.basis.z
+			var llen := float(sp.get("length", 24.0))
+			# the seam of morning: everything within a blade's width of the line
+			var lend := lfrom + laim * llen
+			for e in get_tree().get_nodes_in_group(VG.GROUP_ENEMIES):
+				if e is Node3D and e.has_method("take_hit"):
+					var ep: Vector3 = (e as Node3D).global_position + Vector3.UP * 1.0
+					var t := clampf((ep - lfrom).dot(laim), 0.0, llen)
+					if ep.distance_to(lfrom + laim * t) <= 1.1:
+						var pk3 := DamagePacket.new(float(sp.get("damage", 85)) * dev, 40, self)
+						pk3.kind = "radiant"
+						pk3.can_be_parried = false
+						e.take_hit(pk3)
+			_lance_beam(lfrom, lend)
+			vis.rotation.y = atan2(-laim.x, -laim.z)
+			Juice.shake(0.2, 0.18)
+			AudioDirector.sfx("res://assets/audio/whoosh_h.wav", -4.0, 1.5)
+			_radiant_flash(1.6, 4.0)
+		"ward":
+			vis.play("cast_self", 0.1)
+			_ward_hp = float(sp.get("absorb", 70)) * dev
+			_ward_until = Time.get_ticks_msec() / 1000.0 + float(sp.get("duration", 9.0))
+			_ward_glow()
+			Game.toast.emit("The Vesper Ward takes the watch.")
+			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -6.0, 1.1)
+			_radiant_flash(1.5, 3.5)
 		"burst":
 			vis.play("cast", 0.08, 0.85)
 			var r := float(sp.get("radius", 4.5))
@@ -1339,9 +1372,67 @@ func _show_flask(on: bool) -> void:
 			att.queue_free()
 
 # --- damage intake -----------------------------------------------------------
+# ---- the Vesper Ward: a skin of candlelight that spends itself first
+var _ward_hp := 0.0
+var _ward_until := 0.0
+
+func _ward_active() -> bool:
+	return _ward_hp > 0.0 and Time.get_ticks_msec() / 1000.0 < _ward_until
+
+func _ward_glow() -> void:
+	var l := OmniLight3D.new()
+	l.name = "WardGlow"
+	l.light_color = Color(1.0, 0.88, 0.6)
+	l.light_energy = 1.1
+	l.omni_range = 2.6
+	l.shadow_enabled = false
+	l.position.y = 1.2
+	add_child(l)
+	var life := _ward_until - Time.get_ticks_msec() / 1000.0
+	var tw := l.create_tween()
+	tw.tween_interval(maxf(life - 0.6, 0.1))
+	tw.tween_property(l, "light_energy", 0.0, 0.6)
+	tw.tween_callback(l.queue_free)
+
+## The lance made visible: a gold seam hanging in the air a breath, then gone.
+func _lance_beam(from: Vector3, to: Vector3) -> void:
+	var beam := MeshInstance3D.new()
+	var cm := CylinderMesh.new()
+	cm.top_radius = 0.09
+	cm.bottom_radius = 0.09
+	cm.height = from.distance_to(to)
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mat.albedo_color = Color(1.0, 0.92, 0.6, 0.85)
+	cm.material = mat
+	beam.mesh = cm
+	beam.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	get_parent().add_child(beam)
+	beam.global_position = (from + to) * 0.5
+	beam.look_at(to, Vector3.UP if absf(from.direction_to(to).y) < 0.98 else Vector3.RIGHT)
+	beam.rotate_object_local(Vector3.RIGHT, PI / 2.0)
+	var tw := beam.create_tween()
+	tw.tween_property(mat, "albedo_color:a", 0.0, 0.35)
+	tw.tween_callback(beam.queue_free)
+
 func take_hit(packet: DamagePacket) -> void:
 	if dead:
 		return
+	# the Vesper Ward takes the world's anger first
+	if _ward_active():
+		var soak := minf(_ward_hp, packet.amount * Game.dmg_in_mult())
+		_ward_hp -= soak
+		packet.amount = maxf(packet.amount - soak / maxf(Game.dmg_in_mult(), 0.001), 0.0)
+		_radiant_flash(1.2, 2.6)
+		AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -8.0, 1.4)
+		if _ward_hp <= 0.0:
+			Game.toast.emit("The Vesper Ward gutters out.")
+		if packet.amount <= 0.0:
+			poise -= packet.poise_damage * 0.4
+			_poise_delay = 2.0
+			return
 	hp = maxf(hp - packet.amount * Game.dmg_in_mult(), 0.0)
 	health_changed.emit(hp, max_hp)
 	poise -= packet.poise_damage

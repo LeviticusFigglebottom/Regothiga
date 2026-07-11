@@ -137,6 +137,14 @@ func _enter_options() -> void:
 		# done: it leaves the menu instead of tempting a second purchase
 		if o.has("once_flag") and World.flag(String(o["once_flag"])):
 			continue
+		# story-gated services: an errand not yet given, a parcel not carried
+		if o.has("require_flag") and not World.flag(String(o["require_flag"])):
+			continue
+		if o.has("absent_flag") and World.flag(String(o["absent_flag"])):
+			continue
+		if o.has("needs_item") and Game.player != null \
+				and int(Game.player.inventory.get(String(o["needs_item"]), 0)) < 1:
+			continue
 		_options.append(o)
 	_options.append({"id": "leave", "label": "Leave"})
 	text_label.visible = false
@@ -257,6 +265,30 @@ func _activate(o: Dictionary) -> void:
 				AudioDirector.sfx("res://assets/audio/levelup.wav", -6.0)
 				text_label.text = o.get("line_done", "Sold. Spend it on staying alive.")
 				_flash_line()
+		"rite":
+			# warden rites carry their own law — the node that opened this
+			# dialogue judges the attempt and hands back the line to speak
+			if npc_node != null and npc_node.has_method("_rite"):
+				text_label.text = String(npc_node._rite(o))
+			else:
+				text_label.text = "..."
+			_flash_line()
+		"deliver":
+			var ditem: String = o.get("item", "")
+			var dflag: String = o.get("flag", "delivered")
+			if World.flag(dflag):
+				text_label.text = o.get("line_have", "That kindness is already done.")
+			elif int(p.inventory.get(ditem, 0)) < 1:
+				text_label.text = o.get("line_missing", "You do not carry it.")
+			else:
+				p.inventory[ditem] = int(p.inventory[ditem]) - 1
+				p.inventory_changed.emit()
+				World.set_flag(dflag)
+				World.save_game()
+				Game.toast.emit(o.get("toast", "Delivered."))
+				AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -6.0, 1.0)
+				text_label.text = o.get("line_done", "It is received, and dearly.")
+			_flash_line()
 		"dig":
 			var cost3 := int(o.get("orisons", 180))
 			var fl: String = o.get("flag", "sexton_dug")

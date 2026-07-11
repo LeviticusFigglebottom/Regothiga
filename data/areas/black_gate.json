@@ -1506,6 +1506,18 @@
    "orisons": 210,
    "tag": "base",
    "label": "Gather the Tollkeeper's due"
+  },
+  {
+   "id": "bell_fragment_gate",
+   "at": [
+    0,
+    4.8,
+    -14
+   ],
+   "item": "bell_fragment",
+   "label": "Take the bell fragment",
+   "tag": "base",
+   "require_flag": "amend_bell_asked"
   }
  ],
  "portals": [
@@ -1563,5 +1575,23 @@
    6,
    -14
   ]
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/radiant_warden.gd",
+   "at": [
+    0,
+    0,
+    -26
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "require_flag": "amend_sworn",
+   "params": {
+    "warden": "toll",
+    "arena": "black_gate",
+    "scale_mult": 1.35
+   }
+  }
  ]
 }

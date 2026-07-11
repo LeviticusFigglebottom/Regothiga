@@ -291,6 +291,11 @@ for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),
                        (-22, 20, -90), (-34, 24, 90), (-16, 31.5, -90)]:
     SPAWN.append({"id": "guard_%d_%d" % (int(ex), int(ez)), "enemy": "gilded_echo",
                   "at": [ex, 0, ez], "face": face, "tag": "glory"})
+# the Wards of the Morning: white-gold elect holding the nave road and the
+# antechamber — the palace's answer once the Scion has spoken
+for (ex, ez, face) in [(0, 24, 180), (0, 44, 180), (-4.5, 62, 160), (4.5, 62, -160)]:
+    SPAWN.append({"id": "elect_%d_%d" % (int(ex), int(ez)), "enemy": "morning_ward",
+                  "at": [ex, 0, ez], "face": face, "tag": "glory"})
 
 # ---------------------------------------------------------------- lore
 PLQ.append({"at": [3.2, 0, 2.6], "rot": -150, "text":

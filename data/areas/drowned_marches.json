@@ -1501,6 +1501,18 @@
    "orisons": 230,
    "tag": "base",
    "label": "Gather the ferryman's fare"
+  },
+  {
+   "id": "bell_fragment_marsh",
+   "at": [
+    -14,
+    -2.2,
+    -12
+   ],
+   "item": "bell_fragment",
+   "label": "Take the bell fragment",
+   "tag": "base",
+   "require_flag": "amend_bell_asked"
   }
  ],
  "blockers": [
@@ -1567,6 +1579,29 @@
     -8.0,
     0
    ]
+  }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/radiant_warden.gd",
+   "at": [
+    -40,
+    0,
+    2
+   ],
+   "rot": 90,
+   "tag": "glory",
+   "require_flag": "amend_sworn",
+   "params": {
+    "warden": "ferry",
+    "arena": "drowned_marches",
+    "scale_mult": 1.3,
+    "fight_at": [
+     -38,
+     0,
+     0
+    ]
+   }
   }
  ]
 }

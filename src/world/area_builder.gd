@@ -99,6 +99,8 @@ static func build(area_id: String) -> Area:
 			continue
 		var p := LorePlaque.new()
 		p.text = spec.get("text", "…")
+		p.set_flag = spec.get("set_flag", "")
+		p.flag_toast = spec.get("flag_toast", "")
 		area.attach(p, spec.get("tag", "base"))
 		_place(p, spec)
 	for spec in def.get("scripted", []):
@@ -115,6 +117,8 @@ static func build(area_id: String) -> Area:
 		area.attach(ws, spec.get("tag", "base"))
 		_place(ws, spec)
 	for spec in def.get("pickups", []):
+		if not _flag_ok(spec):
+			continue    # quest relics stay unseen until their word is given
 		var k := Pickup.new()
 		k.pickup_id = spec.get("id", "pickup")
 		k.area_id = area_id

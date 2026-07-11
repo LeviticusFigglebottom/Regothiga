@@ -38,5 +38,17 @@
  "radiant_burst": {
   "name": "Radiant Burst",
   "desc": "The whole candle at once. Everything near the vigil learns what it was to stand in the kingdom's noon."
+ },
+ "bell_fragment": {
+  "name": "Bell Fragment",
+  "desc": "A curved shard of the Bellkeeper's own bell, cold as a held breath. It hums faintly when carried toward its brothers."
+ },
+ "morrow_anthem": {
+  "name": "The Morrow Anthem",
+  "desc": "A fair copy in the Precentress's hand \u2014 the anthem she wrote for a morning that never rang. The seal is wax the colour of dawn."
+ },
+ "penance_writ": {
+  "name": "Writ of Penance, Discharged",
+  "desc": "Ten thousand orisons, weighed and forgiven. The Tollkeeper's mark presses clean through the vellum."
  }
 }

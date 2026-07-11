@@ -2848,5 +2848,23 @@
    ],
    "tag": "base"
   }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/radiant_warden.gd",
+   "at": [
+    20,
+    0,
+    -10.5
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "require_flag": "amend_sworn",
+   "params": {
+    "warden": "bell",
+    "arena": "gray_cloister",
+    "scale_mult": 1.35
+   }
+  }
  ]
 }

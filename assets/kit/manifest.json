@@ -1513,6 +1513,17 @@
   ],
   "skeletal": true
  },
+ "skel_seraph": {
+  "file": "assets/kit/skel_seraph.glb",
+  "origin": "feet",
+  "polys": 933,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",

@@ -55,14 +55,19 @@ func _run() -> void:
 	ui.close()
 	await ticks(3)
 
-	# ---- no one waits above the hours (Adalric stays on the porch —
-	# no stair climbs this far); only his note, in the dim version
-	var anyone := false
+	# ---- the only soul above the hours is the Apostle at his stall
+	# (Adalric stays on the porch; the wardens keep their own quarters)
+	var others := 0
+	var apostle_here := false
 	for layer in [area.glory_layer, area.ruin_layer, area.base]:
 		for n in layer.get_children():
 			if n is NPC:
-				anyone = true
-	check(not anyone, "no one stands in the sanctum")
+				if (n as NPC).npc_id == "apostle_light":
+					apostle_here = true
+				else:
+					others += 1
+	check(apostle_here, "the Apostle of Light keeps his stall by the door")
+	check(others == 0, "and no one else stands the court (%d)" % others)
 	var note_found := false
 	for n in area.ruin_layer.get_children():
 		if n is LorePlaque and "AMEND" in (n as LorePlaque).text:

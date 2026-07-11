@@ -812,7 +812,9 @@
    "rot": 25,
    "tag": "ruin",
    "require_flag": "reckoning_heard",
-   "text": "A NOTE, IN A KNIGHT'S HAND\n\nGone up to look at the road you made. If you read this in the dark, Latecomer, then the dark is where you chose to stand \u2014 AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nThen come back to the light, and ring what is owed.\n\n\u2014 A."
+   "text": "A NOTE, IN A KNIGHT'S HAND\n\nGone up to look at the road you made. If you read this in the dark, Latecomer, then the dark is where you chose to stand \u2014 AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nThen come back to the light, and ring what is owed.\n\n\u2014 A.",
+   "set_flag": "amend_sworn",
+   "flag_toast": "The Amend is sworn \u2014 seek the wardens you put to rest, in the light their quarters remember."
   }
  ],
  "portals": [

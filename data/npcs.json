@@ -20,6 +20,26 @@
     "orisons": 300,
     "once_flag": "bought_tallow",
     "label": "Buy the Tallow Heart \u2014 deepen the chrism flask \u2014 300 orisons"
+   },
+   {
+    "id": "buy_blast_av",
+    "type": "buy",
+    "item": "radiant_blast",
+    "orisons": 650,
+    "label": "Learn the Radiant Blast \u2014 650 orisons",
+    "line_done": "Carefully. It remembers being daylight, and daylight has a temper."
+   },
+   {
+    "id": "deliver_anthem_av",
+    "type": "deliver",
+    "item": "morrow_anthem",
+    "flag": "amend_psalm_a",
+    "require_flag": "amend_psalm_asked",
+    "needs_item": "morrow_anthem",
+    "label": "Deliver the Precentress's anthem",
+    "toast": "The anthem is with the Chandler.",
+    "line_done": "The Precentress wrote this? For US? ...Then the wax will learn to sing it. Tell her\u2014 tell her the wick heard.",
+    "line_have": "Her song is safe with the wax. I hum it to the votives when nobody is listening."
    }
   ],
   "carry": "candle_cluster"
@@ -253,5 +273,170 @@
    "I will be here. Watching the road you make. It is what I am for, now."
   ],
   "face_flip": true
+ },
+ "warden_bell": {
+  "name": "The Bellkeeper, Remembered",
+  "short_name": "the Bellkeeper",
+  "body": "skel_giant",
+  "lines_first": [
+   "So the porch knight sent you climbing after ghosts. Good. A ghost is owed.",
+   "I kept the hour bell of this cloister until you rang me out of it. I do not grudge you that. But my bell went into the dark in three pieces, and a keeper cannot rest in pieces.",
+   "One drowned in the marsh water. One lies in the old kingdom's broken houses. One waits on the high walk above the capstan gate. Bring them home, Latecomer, and I will teach this house its hour again."
+  ],
+  "lines_waiting": [
+   "Three pieces, Latecomer. The marsh, the old houses, the high walk over the gate. The bell knows you are looking \u2014 listen for the hum."
+  ],
+  "lines_done_repeat": [
+   "Every hour I ring now is a gift you carried up out of the dark. Go well, and go counted."
+  ]
+ },
+ "warden_toll": {
+  "name": "The Tollkeeper, Forgiven",
+  "short_name": "the Tollkeeper",
+  "body": "skel_giant",
+  "carry": "toll_maul",
+  "lines_first": [
+   "Stand where I can weigh you. ...Yes. The one who paid my fare in iron.",
+   "I kept the toll of this gate; you broke the toll and the keeper both. The light has dressed me for forgiving, but forgiveness is still an accounting.",
+   "Ten thousand orisons, Latecomer. Not for me \u2014 for every soul who crossed unpaid the night the kingdom guttered. Bring the sum, and the debt dies with a clean page."
+  ],
+  "lines_waiting": [
+   "The sum stands at ten thousand. Prayers are counted, not haggled."
+  ],
+  "lines_done_repeat": [
+   "The ledger is closed. Cross freely, and be counted a friend of the gate."
+  ]
+ },
+ "warden_lark": {
+  "name": "The Larkwarden, in the Light",
+  "short_name": "the Larkwarden",
+  "body": "skel_giant",
+  "carry": "crook_great",
+  "lines_first": [
+   "Hush \u2014 softly on the boards. They still startle, even remembered ones.",
+   "I warded the spire's choir: every lark the kingdom raised to sing the offices. When the dark came I locked the cages to keep them safe, and kept them into starving. That is my amend, not yours.",
+   "But my hands are light now, and light opens nothing. Go down into the ruin of this place, where the cages truly stand, and open every door I shut. Let what is left of them out."
+  ],
+  "lines_waiting": [
+   "The cages are below, in the world as it truly is. Four doors. My shame has kept the count."
+  ],
+  "lines_done": [
+   "...The spire is empty. I have not heard it empty since before the kingdom.",
+   "Thank you, Latecomer. An empty cage is the only hymn I ever wanted."
+  ],
+  "lines_done_repeat": [
+   "Listen. Nothing. Isn't it beautiful."
+  ]
+ },
+ "warden_psalm": {
+  "name": "The Precentress, Radiant",
+  "short_name": "the Precentress",
+  "body": "skel_precentress",
+  "lines_first": [
+   "Posture, Latecomer. Even penitents stand as if the choir were watching.",
+   "I wrote an anthem for the morning this kingdom never reached \u2014 then hid it in my loft, because a proud dead woman is still proud. It lies above this nave, sealed twice in dawn-wax.",
+   "Fetch it down. Carry one copy to the Chandler below the basilica, and one to the Apostle who keeps his light outside the palace door. Let the rites-sellers teach it to anyone with breath. The morning gets its song whether I ring or not."
+  ],
+  "lines_waiting": [
+   "The loft above, Latecomer. Then the Chandler, and the palace Apostle. A song is not delivered until it is sung twice."
+  ],
+  "lines_done": [
+   "Both hands, both keepers. Somewhere a morning is practising my anthem.",
+   "I find I do not mind at all, being survived by a song."
+  ],
+  "lines_done_repeat": [
+   "If you hear it sung badly, correct them gently. It was written for tired voices."
+  ]
+ },
+ "warden_ferry": {
+  "name": "The Ferryman, Waiting",
+  "short_name": "the Ferryman",
+  "body": "skel_giant",
+  "carry": "oar_glaive",
+  "lines_first": [
+   "You again. The far shore sent back my shape, but not my rest \u2014 a ferryman who sank his own fare cannot lie down.",
+   "There is one crossing left in me, Latecomer, and you are the only fare heavy enough to make it. Take up your blade and pay me true \u2014 no half strokes, no mercy at the rail.",
+   "Beat me whole, and I go down with the boat like a keeper should. Refuse, and I stand at this jetty until the water forgets my name."
+  ],
+  "lines_waiting": [
+   "The oar is patient. The water is not. When you are ready, say so \u2014 and mean it."
+  ]
+ },
+ "apostle_light": {
+  "name": "Brother Halcyon, Apostle of Light",
+  "short_name": "the Apostle",
+  "body": "skel_sexton",
+  "carry": "candle_cluster",
+  "lines_first": [
+   "Latecomer! No \u2014 stand there, just there, where the door-light takes you. Yes. The palace glows less than you do this evening.",
+   "I am an Apostle of the Morning Office. Excommunicate, technically \u2014 the palace and I disagree about doors. So I keep my church out here: rites, arrows, and honest prices under an honest sky.",
+   "Buy something. Learning a rite from an apostle counts, I promise you, as prayer."
+  ],
+  "lines_repeat": [
+   "Back to the light, friend. The stock is blessed and the prices are shameless."
+  ],
+  "services": [
+   {
+    "id": "buy_lance",
+    "type": "buy",
+    "item": "morrow_lance",
+    "orisons": 950,
+    "label": "Learn the Morrow Lance \u2014 950 orisons",
+    "line_done": "Aim it like an accusation. The morning does the rest."
+   },
+   {
+    "id": "buy_ward",
+    "type": "buy",
+    "item": "vesper_ward",
+    "orisons": 800,
+    "label": "Learn the Vesper Ward \u2014 800 orisons",
+    "line_done": "Wear it thin and it still loves you. That is rather the point of vespers."
+   },
+   {
+    "id": "buy_blast",
+    "type": "buy",
+    "item": "radiant_blast",
+    "orisons": 600,
+    "label": "Learn the Radiant Blast \u2014 600 orisons",
+    "line_done": "The first coal of the morning. Throw it with feeling."
+   },
+   {
+    "id": "buy_burst",
+    "type": "buy",
+    "item": "radiant_burst",
+    "orisons": 1500,
+    "label": "Learn the Radiant Burst \u2014 1,500 orisons",
+    "line_done": "The whole candle at once. Do try to be standing in the middle of your enemies and not your friends."
+   },
+   {
+    "id": "buy_arrows",
+    "type": "buy",
+    "item": "arrows",
+    "count": 24,
+    "orisons": 140,
+    "label": "Buy arrows, two dozen \u2014 140 orisons",
+    "line_done": "Fletched from choir-lectern quills. They fly slightly sanctimonious."
+   },
+   {
+    "id": "buy_glass",
+    "type": "buy",
+    "item": "candleglass",
+    "orisons": 260,
+    "label": "Buy candleglass \u2014 260 orisons",
+    "line_done": "Ground from a window that saw the whole kingdom kneel. The Smith will know what to do with it."
+   },
+   {
+    "id": "deliver_anthem",
+    "type": "deliver",
+    "item": "morrow_anthem",
+    "flag": "amend_psalm_b",
+    "require_flag": "amend_psalm_asked",
+    "needs_item": "morrow_anthem",
+    "label": "Deliver the Precentress's anthem",
+    "toast": "The anthem is with the Apostle.",
+    "line_done": "Her hand \u2014 I would know it anywhere. Oh, the palace will HATE this. I will teach it to every pilgrim with a pulse.",
+    "line_have": "I have her anthem safe. It is already being mislearned beautifully."
+   }
+  ]
  }
 }
