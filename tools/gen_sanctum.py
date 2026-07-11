@@ -300,6 +300,12 @@ SCRIPTED = [
      "params": {"count": 7, "span_x": 26.0, "span_z": 22.0, "seed_v": 7, "sun": [-34, -40]}},
     {"script": "res://src/world/sky_clouds.gd", "at": [0, 0, 4], "tag": "base",
      "params": {"low_count": 26, "high_count": 10, "under_count": 8, "drift": 1.1, "seed_v": 5}},
+    # the Stair of Light: after the first prayer, golden steps climb from
+    # the west terrace parapet over the void, toward the keep on the clouds
+    {"script": "res://src/world/light_stair.gd", "at": [-14, 2, -18], "rot": 90,
+     "tag": "glory", "params": {"steps": 14, "rise": 0.5, "run": 0.95,
+      "to": "morrow_keep", "spawn": [0, 0.3, -8], "spawn_yaw": 180,
+      "flag": "scion_prayed"}},
 ]
 
 # ---------------------------------------------------------------- lore

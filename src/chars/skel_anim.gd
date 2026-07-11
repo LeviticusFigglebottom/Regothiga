@@ -167,14 +167,14 @@ static func _clips(amp := 1.0, sway := 1.0) -> Dictionary:
 			"chest": [[0.0, 0, 0, 0], [0.1, 0, -16, 0], [0.26, 0, 10, 0], [0.6, 0, 0, 0]],
 		}},
 		"flask": {"len": 1.1, "bones": {
-			# the sip must land ON the visor MIDLINE: the arm lifts AND
-			# crosses the chest hard (Z adduction + forearm sweep), so the
-			# gourd rises to the mouth's centre — even from the play camera
-			# behind the shoulder it must read AT the face, not beside it
-			"uarm_l": [[0.0, 0, 0, 0], [0.3, 58, 4, -32], [0.8, 64, 6, -36], [1.1, 0, 0, 0]],
-			"farm_l": [[0.0, 12, 0, 0], [0.3, 114, 26, 0], [0.8, 126, 30, 0], [1.1, 12, 0, 0]],
+			# the gourd is POSITION-anchored to the mouth (player.gd blends
+			# the mount to the head bone), so the ARM must arrive there too:
+			# high lift, hard cross, deep fold — the fist wraps the gourd at
+			# the visor instead of trailing behind the drink
+			"uarm_l": [[0.0, 0, 0, 0], [0.3, 66, 4, -38], [0.8, 74, 6, -42], [1.1, 0, 0, 0]],
+			"farm_l": [[0.0, 12, 0, 0], [0.3, 120, 30, 0], [0.8, 134, 34, 0], [1.1, 12, 0, 0]],
 			"head": [[0.0, 0, 0, 0], [0.35, -6, 0, 0], [0.55, 15, -6, 0], [0.85, 18, -7, 0], [1.1, 0, 0, 0]],
-			"chest": [[0.0, 0, 0, 0], [0.55, 5, 6, 0], [0.85, 6, 7, 0], [1.1, 0, 0, 0]],
+			"chest": [[0.0, 0, 0, 0], [0.55, 5, 8, 0], [0.85, 6, 9, 0], [1.1, 0, 0, 0]],
 		}},
 		"stagger": {"len": 0.7, "bones": {
 			"chest": [[0.0, 0, 0, 0], [0.1, -24, -8, 4], [0.42, -10, 6, -3], [0.7, 0, 0, 0]],

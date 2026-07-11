@@ -1,0 +1,4431 @@
+{
+ "id": "morrow_keep",
+ "name": "The Keep of the Morrow",
+ "start": {
+  "pos": [
+   0,
+   0.3,
+   -8
+  ],
+  "yaw": 180
+ },
+ "env": {
+  "glory": {
+   "sun_rot": [
+    -38,
+    -30
+   ],
+   "sun_color": [
+    1.0,
+    0.97,
+    0.88
+   ],
+   "sun_energy": 1.7,
+   "fog_density": 0.006,
+   "fog_color": [
+    0.92,
+    0.84,
+    0.66
+   ],
+   "music": "res://assets/audio/theme_sanctum.mp3"
+  },
+  "ruin": {
+   "sun_rot": [
+    -32,
+    -30
+   ],
+   "sun_color": [
+    0.92,
+    0.8,
+    0.6
+   ],
+   "sun_energy": 0.8,
+   "fog_density": 0.009,
+   "fog_color": [
+    0.5,
+    0.42,
+    0.3
+   ],
+   "music": "res://assets/audio/theme_sanctum.mp3"
+  }
+ },
+ "free_kindle": true,
+ "boxes": [
+  {
+   "min": [
+    -2.6,
+    9.15,
+    99.7
+   ],
+   "max": [
+    2.6,
+    9.75,
+    100.3
+   ],
+   "mat": "M_gold"
+  }
+ ],
+ "fills": [
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -10,
+    0,
+    -12
+   ],
+   "max": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -6,
+    0,
+    0
+   ],
+   "max": [
+    6,
+    0,
+    92
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -10,
+    0,
+    92
+   ],
+   "max": [
+    10,
+    0,
+    108
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -18,
+    0,
+    6
+   ],
+   "max": [
+    -6,
+    0,
+    18
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    6,
+    0,
+    6
+   ],
+   "max": [
+    18,
+    0,
+    18
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -18,
+    0,
+    20
+   ],
+   "max": [
+    -6,
+    0,
+    32
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    6,
+    0,
+    20
+   ],
+   "max": [
+    18,
+    0,
+    32
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -18,
+    0,
+    34
+   ],
+   "max": [
+    -6,
+    0,
+    46
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    6,
+    0,
+    34
+   ],
+   "max": [
+    18,
+    0,
+    46
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -18,
+    0,
+    48
+   ],
+   "max": [
+    -6,
+    0,
+    60
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    6,
+    0,
+    48
+   ],
+   "max": [
+    18,
+    0,
+    60
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -18,
+    0,
+    62
+   ],
+   "max": [
+    -6,
+    0,
+    74
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    6,
+    0,
+    62
+   ],
+   "max": [
+    18,
+    0,
+    74
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    -18,
+    0,
+    76
+   ],
+   "max": [
+    -6,
+    0,
+    88
+   ]
+  },
+  {
+   "kit": "palace_floor_4x4",
+   "min": [
+    6,
+    0,
+    76
+   ],
+   "max": [
+    18,
+    0,
+    88
+   ]
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -8,
+    0,
+    -11.8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -4,
+    0,
+    -11.8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    0,
+    0,
+    -11.8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    4,
+    0,
+    -11.8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    8,
+    0,
+    -11.8
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -9.8,
+    0,
+    -8
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    9.8,
+    0,
+    -8
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -9.8,
+    0,
+    -4
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    9.8,
+    0,
+    -4
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -4.0,
+    0.0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    0,
+    0.0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    4.0,
+    0.0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pediment_8m",
+   "at": [
+    0,
+    8,
+    0.2
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    0,
+    10.6,
+    0.2
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    2.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    6.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    9.0
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -6,
+    0.0,
+    12
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    16.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    20.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    23.0
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -6,
+    0.0,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    30.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    34.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    37.0
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -6,
+    0.0,
+    40
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    44.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    48.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    51.0
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -6,
+    0.0,
+    54
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    58.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    62.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    65.0
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -6,
+    0.0,
+    68
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    72.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    76.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    79.0
+   ],
+   "rot": 90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    -6,
+    0.0,
+    82
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    86.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    90.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    2.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    6.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    9.0
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    6,
+    0.0,
+    12
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    16.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    20.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    23.0
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    6,
+    0.0,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    30.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    34.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    37.0
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    6,
+    0.0,
+    40
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    44.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    48.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    51.0
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    6,
+    0.0,
+    54
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    58.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    62.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    65.0
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    6,
+    0.0,
+    68
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    72.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    76.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    79.0
+   ],
+   "rot": -90,
+   "scale": [
+    0.5,
+    1,
+    1
+   ]
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    6,
+    0.0,
+    82
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    86.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    6,
+    0.0,
+    90.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    6
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    6
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    10
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    10
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    14
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    18
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    18
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    26
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    26
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    30
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    30
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    34
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    34
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    38
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    38
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    42
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    42
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    46
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    46
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    50
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    50
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    54
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    54
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    58
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    58
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    62
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    62
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    66
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    66
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    70
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    70
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    74
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    74
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    78
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    78
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    82
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    82
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    86
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    86
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    90
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    90
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -4.0,
+    0.0,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_portal_4m",
+   "at": [
+    0,
+    0.0,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    4.0,
+    0.0,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -6,
+    4,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    6,
+    4,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    8.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    12.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    16.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    8
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    16
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    18
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    18
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    18
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    8.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    12.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    16.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    8
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    16
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    18
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    18
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    18
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    22.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    26.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    30.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    22
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    30
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    32
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    32
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    32
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    22.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    26.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    30.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    30
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    20
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    32
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    32
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    32
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    36.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    40.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    44.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    36
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    44
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    34
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    34
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    34
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    46
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    46
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    46
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    36.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    40.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    44.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    36
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    44
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    34
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    34
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    34
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    46
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    46
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    46
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    50.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    54.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    58.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    50
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    58
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    48
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    48
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    48
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    60
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    60
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    60
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    50.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    54.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    58.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    50
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    58
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    48
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    48
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    48
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    60
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    60
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    60
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    64.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    68.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    72.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    64
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    72
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    62
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    62
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    62
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    74
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    74
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    74
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    64.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    68.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    72.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    64
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    72
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    62
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    62
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    62
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    74
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    74
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    74
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    78.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    82.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    0.0,
+    86.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    78
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    86
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    76
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    76
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    76
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    88
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    12.0,
+    0.0,
+    88
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    16.0,
+    0.0,
+    88
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    78.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    82.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    86.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    78
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    86
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    76
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    76
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    76
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -16.0,
+    0.0,
+    88
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -12.0,
+    0.0,
+    88
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    88
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -8.0,
+    0.0,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -4.0,
+    0.0,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    0.0,
+    0.0,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    4.0,
+    0.0,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    8.0,
+    0.0,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -10,
+    0.0,
+    94.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -10,
+    0.0,
+    98.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -10,
+    0.0,
+    102.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -10,
+    0.0,
+    106.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    10,
+    0.0,
+    94.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    10,
+    0.0,
+    98.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    10,
+    0.0,
+    102.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    10,
+    0.0,
+    106.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -10,
+    4,
+    96
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -10,
+    4,
+    104
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    10,
+    4,
+    96
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    10,
+    4,
+    104
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -4,
+    4,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    4,
+    4,
+    108
+   ],
+   "rot": 180
+  }
+ ],
+ "props": [
+  {
+   "kit": "candelabra",
+   "at": [
+    -3.4,
+    0,
+    -2.5
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    3.4,
+    0,
+    -2.5
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0,
+    0.02,
+    10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0,
+    0.02,
+    26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0,
+    0.02,
+    42
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0,
+    0.02,
+    58
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0,
+    0.02,
+    74
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0,
+    6.0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0,
+    6.0,
+    44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0,
+    6.0,
+    72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -4.6,
+    0,
+    8
+   ],
+   "rot": 30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    4.6,
+    0,
+    8
+   ],
+   "rot": -30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -4.6,
+    0,
+    36
+   ],
+   "rot": 30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    4.6,
+    0,
+    36
+   ],
+   "rot": -30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -4.6,
+    0,
+    64
+   ],
+   "rot": 30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    4.6,
+    0,
+    64
+   ],
+   "rot": -30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -4.6,
+    0,
+    88
+   ],
+   "rot": 30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    4.6,
+    0,
+    88
+   ],
+   "rot": -30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.2,
+    0,
+    16.6
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    17.6,
+    2.6,
+    12
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.2,
+    0,
+    16.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -17.6,
+    2.6,
+    12
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.2,
+    0,
+    30.6
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    17.6,
+    2.6,
+    26
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.2,
+    0,
+    30.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -17.6,
+    2.6,
+    26
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.2,
+    0,
+    44.6
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    17.6,
+    2.6,
+    40
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.2,
+    0,
+    44.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -17.6,
+    2.6,
+    40
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.2,
+    0,
+    58.6
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    17.6,
+    2.6,
+    54
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.2,
+    0,
+    58.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -17.6,
+    2.6,
+    54
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.2,
+    0,
+    72.6
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    17.6,
+    2.6,
+    68
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.2,
+    0,
+    72.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -17.6,
+    2.6,
+    68
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.2,
+    0,
+    86.6
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    17.6,
+    2.6,
+    82
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.2,
+    0,
+    86.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -17.6,
+    2.6,
+    82
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "palace_cove_dome",
+   "at": [
+    0,
+    8.0,
+    100
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "flames": false,
+   "glow": [
+    3.0,
+    1.9,
+    11.0
+   ]
+  },
+  {
+   "kit": "bell_great",
+   "at": [
+    0,
+    7.3,
+    100
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    0,
+    0.02,
+    100
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -6.5,
+    0,
+    96
+   ],
+   "rot": 30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    6.5,
+    0,
+    96
+   ],
+   "rot": -30,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -6.5,
+    0,
+    104
+   ],
+   "rot": 150,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    6.5,
+    0,
+    104
+   ],
+   "rot": -150,
+   "tag": "base"
+  }
+ ],
+ "vault_fields": [
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    -6,
+    0,
+    0
+   ],
+   "max": [
+    6,
+    0,
+    92
+   ],
+   "spring_top": 8
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    -18,
+    0,
+    6
+   ],
+   "max": [
+    -6,
+    0,
+    18
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    6,
+    0,
+    6
+   ],
+   "max": [
+    18,
+    0,
+    18
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    -18,
+    0,
+    20
+   ],
+   "max": [
+    -6,
+    0,
+    32
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    6,
+    0,
+    20
+   ],
+   "max": [
+    18,
+    0,
+    32
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    -18,
+    0,
+    34
+   ],
+   "max": [
+    -6,
+    0,
+    46
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    6,
+    0,
+    34
+   ],
+   "max": [
+    18,
+    0,
+    46
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    -18,
+    0,
+    48
+   ],
+   "max": [
+    -6,
+    0,
+    60
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    6,
+    0,
+    48
+   ],
+   "max": [
+    18,
+    0,
+    60
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    -18,
+    0,
+    62
+   ],
+   "max": [
+    -6,
+    0,
+    74
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    6,
+    0,
+    62
+   ],
+   "max": [
+    18,
+    0,
+    74
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    -18,
+    0,
+    76
+   ],
+   "max": [
+    -6,
+    0,
+    88
+   ]
+  },
+  {
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold",
+   "band_mat": "M_marble",
+   "min": [
+    6,
+    0,
+    76
+   ],
+   "max": [
+    18,
+    0,
+    88
+   ]
+  }
+ ],
+ "blockers": [
+  {
+   "min": [
+    -18,
+    0,
+    18.0
+   ],
+   "max": [
+    -6,
+    8,
+    20.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    6,
+    0,
+    18.0
+   ],
+   "max": [
+    18,
+    8,
+    20.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -18,
+    0,
+    32.0
+   ],
+   "max": [
+    -6,
+    8,
+    34.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    6,
+    0,
+    32.0
+   ],
+   "max": [
+    18,
+    8,
+    34.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -18,
+    0,
+    46.0
+   ],
+   "max": [
+    -6,
+    8,
+    48.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    6,
+    0,
+    46.0
+   ],
+   "max": [
+    18,
+    8,
+    48.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -18,
+    0,
+    60.0
+   ],
+   "max": [
+    -6,
+    8,
+    62.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    6,
+    0,
+    60.0
+   ],
+   "max": [
+    18,
+    8,
+    62.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -18,
+    0,
+    74.0
+   ],
+   "max": [
+    -6,
+    8,
+    76.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    6,
+    0,
+    74.0
+   ],
+   "max": [
+    18,
+    8,
+    76.0
+   ],
+   "tag": "base"
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    -16.5,
+    0,
+    7.5
+   ],
+   "rot": 135,
+   "text": "THE FIRST RINGER \u2014 SERA, THE LAMPWRIGHT\n\nShe rang the First Bell with burned hands, having carried the vigil flame through a night the wind hated.\n\nHer fate: she never again stood in a light she had not made. She was deemed worthy because she STOOD STILL while it hurt.\n\nStand in her light. Do not leave it."
+  },
+  {
+   "at": [
+    7.5,
+    0,
+    7.5
+   ],
+   "rot": 135,
+   "text": "THE SECOND RINGER \u2014 HARLAN, THE TOLLWRIGHT\n\nHe rang the Second Bell only after every debt in the quarter was paid \u2014 most of them out of his own purse.\n\nHis fate: he died owning nothing but the rope. He was deemed worthy because the ledger balanced.\n\nKindle all three votives. Light is paid forward here."
+  },
+  {
+   "at": [
+    -7.5,
+    0,
+    21.5
+   ],
+   "rot": -135,
+   "text": "THE THIRD RINGER \u2014 BRIDE VESPERINE, THE CHORISTER\n\nShe rang the Third Bell as the last note of a psalm sung alone in an empty quire.\n\nHer fate: no choir would have her after \u2014 her voice made theirs sound like counting. She was deemed worthy for singing the day in its ORDER.\n\nRing her day: dawn, then noon, then dusk."
+  },
+  {
+   "at": [
+    16.5,
+    0,
+    21.5
+   ],
+   "rot": -135,
+   "text": "THE FOURTH RINGER \u2014 SER ODILE, WARDEN-AT-ARMS\n\nShe rang the Fourth Bell with her shield arm, the right one being occupied with dying.\n\nHer fate: the wound kept her from every war after; she drilled children in the yard instead. Deemed worthy because she rang WHILE losing.\n\nHer echoes still drill. Put them down."
+  },
+  {
+   "at": [
+    -16.5,
+    0,
+    35.5
+   ],
+   "rot": 135,
+   "text": "THE FIFTH RINGER \u2014 BROTHER CASSIAN, THE WATCHER\n\nHe rang the Fifth Bell at the exact instant dawn crossed the sill, having watched forty nights for it without once facing away.\n\nHis fate: his eyes never recovered the dark. Deemed worthy because he LOOKED where the light would come from.\n\nTurn every watcher to the east."
+  },
+  {
+   "at": [
+    16.5,
+    0,
+    35.5
+   ],
+   "rot": -135,
+   "text": "THE SIXTH RINGER \u2014 VEY, WHO WAS PAID\n\nA sellsword rang the Sixth Bell for coin, because no believer was left standing that year.\n\nHis fate: he refused the purse at the rope's end and no one ever learned why. Deemed worthy the moment the coin stopped mattering.\n\nHis hired blade stands the room. Best it, without hiring one of your own."
+  },
+  {
+   "at": [
+    -16.5,
+    0,
+    49.5
+   ],
+   "rot": 135,
+   "text": "THE SEVENTH RINGER \u2014 MOTHER LOAM, THE GRAVEDIGGER\n\nShe rang the Seventh Bell once for every soul she had put down that winter \u2014 six hundred pulls, one grief at a time.\n\nHer fate: her hands forgot how to open. Deemed worthy because she counted every one and skipped none.\n\nThe unquiet she buried rise here. Return them, one at a time."
+  },
+  {
+   "at": [
+    16.5,
+    0,
+    49.5
+   ],
+   "rot": -135,
+   "text": "THE EIGHTH RINGER \u2014 MASTER HALIARD, THE ASTRONOMER\n\nHe rang the Eighth Bell by arithmetic, at an hour he had computed nine years in advance, alone against every almanac.\n\nHis fate: he was right, and never forgiven for it. Deemed worthy because the heavens kept his appointment.\n\nRing his sky in its order: east, zenith, west, nadir, north."
+  },
+  {
+   "at": [
+    -16.5,
+    0,
+    63.5
+   ],
+   "rot": 135,
+   "text": "THE NINTH RINGER \u2014 WREN, THE MIDWIFE\n\nShe rang the Ninth Bell one-handed. The other arm held a child born in the same minute, because neither task would wait.\n\nHer fate: every child she caught after was said to sleep through any bell. Deemed worthy for holding BOTH.\n\nHold her hour. It is longer than it looks."
+  },
+  {
+   "at": [
+    16.5,
+    0,
+    63.5
+   ],
+   "rot": -135,
+   "text": "THE TENTH RINGER \u2014 GORE THE GATEWRIGHT\n\nHe rang the Tenth Bell with the same pull that shut the flood-gates, one rope in each fist, because the river and the hour came at once.\n\nHis fate: the town kept dry and never knew. Deemed worthy for facing every gate HOME before himself.\n\nTurn all four to face the road home \u2014 south, where you came from."
+  },
+  {
+   "at": [
+    -16.5,
+    0,
+    77.5
+   ],
+   "rot": 135,
+   "text": "THE ELEVENTH RINGER \u2014 THE FERRYWRIGHT ANSA\n\nShe rang the Eleventh Bell from mid-river, standing on the keel of her own capsized ferry, so the crossing bell would not miss its hour.\n\nHer fate: she never reached either bank; the river kept her fare. Deemed worthy because the hour arrived DRY.\n\nHer drowned crew still makes the crossing. See them over."
+  },
+  {
+   "at": [
+    16.5,
+    0,
+    77.5
+   ],
+   "rot": -135,
+   "text": "THE TWELFTH RINGER \u2014 UNNAMED, THE LAST HAND\n\nThe Twelfth gave up their name at the rope, so the bell would carry NOTHING of them but the ring.\n\nTheir fate: no grave, no ballad, no face in the glass. Deemed worthy because nothing was kept back.\n\nWhat is left of them keeps this room. Give them rest, Thirteenth."
+  },
+  {
+   "at": [
+    3.4,
+    0,
+    90.2
+   ],
+   "rot": -150,
+   "text": "THE LAST DOOR\n\nTwelve rang before you. Twelve rooms remember how, and what it cost.\n\nKeep all twelve trials, and the bell itself will draw the bolt."
+  }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/trial_room.gd",
+   "at": [
+    -12,
+    0,
+    12
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "morrow_trial_1",
+    "mode": "vigil",
+    "hold": 12.0,
+    "title": "the Trial of the First Light"
+   }
+  },
+  {
+   "script": "res://src/world/trial_room.gd",
+   "at": [
+    12,
+    0,
+    26
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "morrow_trial_4",
+    "mode": "arena",
+    "foes": [
+     "gilded_echo",
+     "gilded_echo"
+    ],
+    "spots": [
+     [
+      -2.8,
+      0,
+      1.5
+     ],
+     [
+      2.8,
+      0,
+      -1.5
+     ]
+    ],
+    "radius": 5.5,
+    "title": "the Trial of Arms"
+   }
+  },
+  {
+   "script": "res://src/world/trial_room.gd",
+   "at": [
+    12,
+    0,
+    40
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "morrow_trial_6",
+    "mode": "duel",
+    "foes": [
+     "morning_ward"
+    ],
+    "spots": [
+     [
+      0,
+      0,
+      1.0
+     ]
+    ],
+    "radius": 5.5,
+    "title": "the Trial of the Hired Blade"
+   }
+  },
+  {
+   "script": "res://src/world/trial_room.gd",
+   "at": [
+    -12,
+    0,
+    54
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "morrow_trial_7",
+    "mode": "arena",
+    "foes": [
+     "penitent",
+     "penitent",
+     "penitent"
+    ],
+    "spots": [
+     [
+      -3,
+      0,
+      0
+     ],
+     [
+      3,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      3
+     ]
+    ],
+    "radius": 5.5,
+    "title": "the Trial of the Spade"
+   }
+  },
+  {
+   "script": "res://src/world/trial_room.gd",
+   "at": [
+    -12,
+    0,
+    68
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "morrow_trial_9",
+    "mode": "vigil",
+    "hold": 18.0,
+    "title": "the Trial of the Held Hour"
+   }
+  },
+  {
+   "script": "res://src/world/trial_room.gd",
+   "at": [
+    -12,
+    0,
+    82
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "morrow_trial_11",
+    "mode": "arena",
+    "foes": [
+     "vigilant_husk",
+     "gilded_echo",
+     "vigilant_husk"
+    ],
+    "spots": [
+     [
+      -3,
+      0,
+      1
+     ],
+     [
+      0,
+      0,
+      -2.5
+     ],
+     [
+      3,
+      0,
+      1
+     ]
+    ],
+    "radius": 5.5,
+    "title": "the Trial of the Crossing"
+   }
+  },
+  {
+   "script": "res://src/world/trial_room.gd",
+   "at": [
+    12,
+    0,
+    82
+   ],
+   "tag": "base",
+   "params": {
+    "flag": "morrow_trial_12",
+    "mode": "duel",
+    "foes": [
+     "wick_crusader"
+    ],
+    "spots": [
+     [
+      0,
+      0,
+      0.5
+     ]
+    ],
+    "radius": 5.5,
+    "title": "the Trial of the Twelfth Hand"
+   }
+  },
+  {
+   "script": "res://src/world/blessing_keeper.gd",
+   "at": [
+    0,
+    0,
+    46
+   ],
+   "tag": "base",
+   "params": {
+    "count": 12,
+    "prefix": "morrow_trial_",
+    "flag": "bell_blessing"
+   }
+  },
+  {
+   "script": "res://src/world/bell_thirteen.gd",
+   "at": [
+    0,
+    0,
+    100
+   ],
+   "tag": "base",
+   "params": {
+    "bless_flag": "bell_blessing",
+    "rung_flag": "bell_thirteen_rung"
+   }
+  }
+ ],
+ "chime_puzzles": [
+  {
+   "flag": "morrow_trial_3",
+   "order": [
+    "dawn",
+    "noon",
+    "dusk"
+   ],
+   "chimes": [
+    {
+     "id": "noon",
+     "label": "the Noon stone",
+     "at": [
+      -15.2,
+      0,
+      28.8
+     ],
+     "rot": -135
+    },
+    {
+     "id": "dawn",
+     "label": "the Dawn stone",
+     "at": [
+      -12,
+      0,
+      22.4
+     ],
+     "rot": 0
+    },
+    {
+     "id": "dusk",
+     "label": "the Dusk stone",
+     "at": [
+      -8.8,
+      0,
+      28.8
+     ],
+     "rot": 135
+    }
+   ]
+  },
+  {
+   "flag": "morrow_trial_8",
+   "order": [
+    "east",
+    "zenith",
+    "west",
+    "nadir",
+    "north"
+   ],
+   "chimes": [
+    {
+     "id": "east",
+     "label": "the East star",
+     "at": [
+      15.6,
+      0,
+      54
+     ],
+     "rot": -90
+    },
+    {
+     "id": "zenith",
+     "label": "the Zenith star",
+     "at": [
+      12,
+      0,
+      50.4
+     ],
+     "rot": 0
+    },
+    {
+     "id": "west",
+     "label": "the West star",
+     "at": [
+      8.4,
+      0,
+      54
+     ],
+     "rot": 90
+    },
+    {
+     "id": "nadir",
+     "label": "the Nadir star",
+     "at": [
+      12,
+      0,
+      57.6
+     ],
+     "rot": 180
+    },
+    {
+     "id": "north",
+     "label": "the North star",
+     "at": [
+      14.6,
+      0,
+      56.6
+     ],
+     "rot": -135
+    }
+   ]
+  }
+ ],
+ "votive_locks": [
+  {
+   "flag": "morrow_trial_2",
+   "tag": "base",
+   "votives": [
+    {
+     "at": [
+      9,
+      0,
+      9
+     ],
+     "rot": 45
+    },
+    {
+     "at": [
+      15,
+      0,
+      9
+     ],
+     "rot": -45
+    },
+    {
+     "at": [
+      12,
+      0,
+      15.6
+     ],
+     "rot": 180
+    }
+   ]
+  }
+ ],
+ "watcher_puzzles": [
+  {
+   "flag": "morrow_trial_5",
+   "target": -90,
+   "watchers": [
+    {
+     "at": [
+      -15,
+      0,
+      37.5
+     ]
+    },
+    {
+     "at": [
+      -12,
+      0,
+      43
+     ]
+    },
+    {
+     "at": [
+      -9,
+      0,
+      37.5
+     ]
+    }
+   ],
+   "done_toast": "The watchers face the morrow. The Fifth is satisfied."
+  },
+  {
+   "flag": "morrow_trial_10",
+   "target": 180,
+   "watchers": [
+    {
+     "at": [
+      9,
+      0,
+      70.5
+     ]
+    },
+    {
+     "at": [
+      15,
+      0,
+      70.5
+     ]
+    },
+    {
+     "at": [
+      9,
+      0,
+      65.5
+     ]
+    },
+    {
+     "at": [
+      15,
+      0,
+      65.5
+     ]
+    }
+   ],
+   "done_toast": "Four gates face the road home. The Tenth is satisfied."
+  }
+ ],
+ "flag_gates": [
+  {
+   "at": [
+    0,
+    0,
+    92
+   ],
+   "flag": "bell_blessing",
+   "kit": "gate_iron",
+   "open_dir": "up",
+   "tag": "base",
+   "scale": [
+    1.34,
+    1.0,
+    1.35
+   ]
+  }
+ ],
+ "skyline": [
+  {
+   "kit": "cloud_bank_a",
+   "at": [
+    -62,
+    -9.5,
+    -20
+   ],
+   "rot": 20,
+   "scale": [
+    1.6,
+    1.6,
+    1.6
+   ]
+  },
+  {
+   "kit": "cloud_bank_b",
+   "at": [
+    60,
+    -10.0,
+    -6
+   ],
+   "rot": -30,
+   "scale": [
+    1.8,
+    1.8,
+    1.8
+   ]
+  },
+  {
+   "kit": "cloud_bank_c",
+   "at": [
+    -64,
+    -10.5,
+    30
+   ],
+   "rot": 70,
+   "scale": [
+    2.0,
+    2.0,
+    2.0
+   ]
+  },
+  {
+   "kit": "cloud_bank_a",
+   "at": [
+    62,
+    -9.8,
+    46
+   ],
+   "rot": 130,
+   "scale": [
+    1.7,
+    1.7,
+    1.7
+   ]
+  },
+  {
+   "kit": "cloud_bank_b",
+   "at": [
+    -62,
+    -10.2,
+    70
+   ],
+   "rot": -50,
+   "scale": [
+    1.9,
+    1.9,
+    1.9
+   ]
+  },
+  {
+   "kit": "cloud_bank_c",
+   "at": [
+    60,
+    -9.6,
+    92
+   ],
+   "rot": 40,
+   "scale": [
+    1.6,
+    1.6,
+    1.6
+   ]
+  },
+  {
+   "kit": "cloud_bank_a",
+   "at": [
+    0,
+    -11.0,
+    140
+   ],
+   "rot": 0,
+   "scale": [
+    2.2,
+    2.2,
+    2.2
+   ]
+  },
+  {
+   "kit": "cloud_bank_b",
+   "at": [
+    -30,
+    -10.6,
+    -44
+   ],
+   "rot": -70,
+   "scale": [
+    1.5,
+    1.5,
+    1.5
+   ]
+  },
+  {
+   "kit": "radiant_spire_a",
+   "at": [
+    -70,
+    -26,
+    40
+   ],
+   "rot": 30,
+   "scale": [
+    1.6,
+    1.6,
+    1.8
+   ]
+  },
+  {
+   "kit": "radiant_spire_b",
+   "at": [
+    72,
+    -30,
+    20
+   ],
+   "rot": -40,
+   "scale": [
+    1.6,
+    1.6,
+    1.8
+   ]
+  },
+  {
+   "kit": "radiant_castle_a",
+   "at": [
+    -90,
+    -34,
+    110
+   ],
+   "rot": 60,
+   "scale": [
+    1.6,
+    1.6,
+    1.8
+   ]
+  },
+  {
+   "kit": "radiant_castle_b",
+   "at": [
+    80,
+    -30,
+    90
+   ],
+   "rot": 110,
+   "scale": [
+    1.6,
+    1.6,
+    1.8
+   ]
+  }
+ ],
+ "open_air_regions": [
+  {
+   "min": [
+    -10,
+    0,
+    -12
+   ],
+   "max": [
+    10,
+    0,
+    0
+   ]
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "morrow",
+   "name": "The Morrow's Porch",
+   "at": [
+    -6.5,
+    0,
+    -6
+   ],
+   "rot": 120
+  }
+ ],
+ "portals": [
+  {
+   "to": "gilded_sanctum",
+   "at": [
+    0,
+    0,
+    -11.2
+   ],
+   "rot": 0,
+   "spawn": [
+    -11.5,
+    2.3,
+    -18
+   ],
+   "spawn_yaw": 90,
+   "prompt": "Descend the Stair of Light"
+  }
+ ]
+}

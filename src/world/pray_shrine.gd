@@ -81,6 +81,11 @@ func _begin() -> void:
 		return
 	_busy = true
 	_zone.enabled = false   # the "Pray" hand has no place inside the vision
+	if not World.flag("scion_prayed"):
+		# the first prayer opens the sky-road: a stair of light stands up
+		# from the Sanctum's west parapet toward the castle on the clouds
+		World.set_flag("scion_prayed")
+		World.save_game()
 	_player = Game.player
 	_player.lock_control(true)
 	_player.velocity = Vector3.ZERO
