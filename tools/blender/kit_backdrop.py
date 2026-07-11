@@ -281,8 +281,8 @@ def wellhead():
     handle.location = (1.15, -0.24, 1.28)
     objs.append(handle)
     # chain + bucket hanging over the mouth
-    chain = V.box_object("well_chain", [0.04, 0.04, 0.72], "M_iron", origin="center")
-    chain.location = (0.3, 0, 0.82)
+    chain = V.box_object("well_chain", [0.04, 0.04, 0.68], "M_iron", origin="center")
+    chain.location = (0.3, 0, 1.16)   # bucket lip to the roller-bar: no gap
     objs.append(chain)
     bucket = V.loft_rings("bucket", [(0.16, 0, 8, 0), (0.19, 0.3, 8, 0)], "M_wood",
                           cap_bottom=True, cap_top=False)

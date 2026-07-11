@@ -112,6 +112,12 @@ func delete_slot(i: int) -> void:
 		DirAccess.remove_absolute(path)
 
 func save_game() -> void:
+	# a save is the whole truth: refresh the pilgrim's ledger before writing.
+	# Without this, a pickup-triggered save pairs its new world flags
+	# (took_...) with a player snapshotted at some earlier rest — quit and
+	# continue would then find the cache consumed AND the item gone.
+	if Game.player != null and is_instance_valid(Game.player):
+		Game.snapshot_player()
 	DirAccess.make_dir_recursive_absolute(_save_dir)
 	var data := {
 		"version": 1,

@@ -291,12 +291,12 @@ for sz in (12.5, 20, 27.5, 35):
 for (cx, cz) in [(-30.5, 10.5), (-37.5, 15.5), (-30.5, 21), (-37.5, 27), (-30.5, 33), (-36.5, 38)]:
     prop("candle_cluster", (cx, 0, cz), (cx * 13) % 360)         # the long watch burns
 prop("altar", (-18, 0, 30.5), 0)                                 # the waxworks
-prop("candle_cluster", (-18.55, 1.35, 30.4), 70, collide=False)  # wax pooled on the slab
-prop("book_stack", (-17.45, 1.35, 30.65), -25, collide=False)    # the chandler's ledger
+prop("candle_cluster", (-18.55, 1.16, 30.4), 70, collide=False)  # wax pooled on the slab
+prop("book_stack", (-17.45, 1.16, 30.65), -25, collide=False)    # the chandler's ledger
 prop("wellhead", (-20, 0, 36), 30)                               # the old well, dry and deep
 prop("candle_cluster", (-15.5, 0, 32.5), 40)
 prop("candle_cluster", (-21, 0, 33), -30)
-prop("censer_hanging", (-18, 3.98, 34), 0, collide=False)
+prop("censer_hanging", (-18, 4.84, 34), 0, collide=False)
 
 # ---- the regal ceilings: two coffered domes seated INTO the vault line —
 # rims on the spring plane over true 8x8 holes in the bays, shells rising
@@ -368,6 +368,7 @@ def main():
         "scripted": [
             {"script": "res://src/world/scion_herald.gd", "at": [0, 0, 9], "tag": "base",
              "params": {"trigger_radius": 9.0}},
+            {"script": "res://src/world/pray_shrine.gd", "at": [0, 0, 70.6], "tag": "base"},
             {"script": "res://src/world/echo_bell.gd", "at": [26, 0, 24], "tag": "base",
              "params": {"flag": "palace_hours", "bell_at": [34, 0, 20], "chimes": [
                  {"id": "dawn", "label": "the dawn office", "at": [14, 0, 12], "rot": 120},

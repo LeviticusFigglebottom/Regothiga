@@ -207,6 +207,32 @@ func _run() -> void:
 	porch2.queue_free()
 	await ticks(2)
 
+	# ---- the unlit saint hears prayers, and the Scion answers by the ledger
+	var shrine: Node3D = null
+	for n in area.base.get_children():
+		if n is Node3D and n.get_script() != null \
+				and String(n.get_script().resource_path).ends_with("pray_shrine.gd"):
+			shrine = n
+	check(shrine != null, "the unlit saint keeps the antechamber")
+	check(shrine != null and shrine.find_children("*", "Interactable", false, false).size() == 1,
+			"and offers the Pray hand")
+	var t0: Array = shrine._tier()
+	check((t0[0] as Array).size() == 3 and String(t0[0][1]).contains("THIRTEENTH"),
+			"unatoned, she shuns — and names the thirteenth bell")
+	check(String(t0[0][2]).contains("porch") and String(t0[0][2]).contains("ruin"),
+			"and sends you to the porch, in the world's true ruin")
+	World.set_flag("amend_toll")
+	World.set_flag("amend_bell")
+	var t1: Array = shrine._tier()
+	check(String(t1[0][1]).contains("Earn the rest"), "half-paid, she bids you earn the rest")
+	World.set_flag("amend_larks_thanked")
+	World.set_flag("amend_psalm")
+	World.set_flag("amend_ferry")
+	var t2: Array = shrine._tier()
+	check(String(t2[0][0]).contains("amend made whole"), "amends whole, she is pleased")
+	for f in ["amend_toll", "amend_bell", "amend_larks_thanked", "amend_psalm", "amend_ferry"]:
+		World.set_flag(f, false)
+
 	# ---- palace music is its own: the heavenly chorale
 	check(area.env.music_for(VG.WState.GLORY).ends_with("theme_sanctum.mp3"),
 			"the chorale keeps the palace")

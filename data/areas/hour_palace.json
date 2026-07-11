@@ -4092,7 +4092,7 @@
    "kit": "candle_cluster",
    "at": [
     -18.55,
-    1.35,
+    1.16,
     30.4
    ],
    "rot": 70,
@@ -4103,7 +4103,7 @@
    "kit": "book_stack",
    "at": [
     -17.45,
-    1.35,
+    1.16,
     30.65
    ],
    "rot": -25,
@@ -4144,7 +4144,7 @@
    "kit": "censer_hanging",
    "at": [
     -18,
-    3.98,
+    4.84,
     34
    ],
    "rot": 0,
@@ -4458,6 +4458,15 @@
    "params": {
     "trigger_radius": 9.0
    }
+  },
+  {
+   "script": "res://src/world/pray_shrine.gd",
+   "at": [
+    0,
+    0,
+    70.6
+   ],
+   "tag": "base"
   },
   {
    "script": "res://src/world/echo_bell.gd",

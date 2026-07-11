@@ -143,8 +143,14 @@ func _run() -> void:
 				and String(n.get_script().resource_path).ends_with("amend_larks.gd"):
 			larks = n
 	check(larks != null, "the cages stand ready in the ruin below")
+	await ticks(2)
 	var zones := larks.find_children("*", "Interactable", false, false)
-	check(zones.size() == 4, "four doors he shut (%d)" % zones.size())
+	check(zones.size() == 3, "the three office cages he shut (%d)" % zones.size())
+	# the doors ARE the Daily Offices stations — same cages the puzzle rang
+	var st_matins := a.find_child("Station_matins", true, false)
+	check(st_matins != null and zones.size() > 0 and (zones[0] as Node3D) \
+			.global_position.distance_to((st_matins as Node3D).global_position) < 0.2,
+			"and they stand on the offices' own stations")
 	var armed_early := false
 	for z in zones:
 		if (z as Interactable).enabled:
@@ -157,9 +163,15 @@ func _run() -> void:
 	for z in zones:
 		if (z as Interactable).enabled:
 			armed += 1
-	check(armed == 4, "his word arms every door without leaving the tower (%d)" % armed)
+	check(armed == 3, "his word arms every door without leaving the tower (%d)" % armed)
+	# while the amend stands open, the offices' own hand yields the cage
+	var st_open_off := true
+	for c in (st_matins as Node3D).get_children():
+		if c is Interactable and (c as Interactable).enabled:
+			st_open_off = false
+	check(st_open_off, "one cage never begs two answers")
 	for i in zones.size():
-		larks._free(i, zones[i])
+		larks._free(i)
 		await ticks(1)
 	check(World.flag("amend_larks"), "every cage opened frees the choir")
 	# and the warden SAYS so, through the true dialogue, and pays his token
@@ -208,20 +220,39 @@ func _run() -> void:
 	check(loft != null and loft.visible and loft._zone.enabled,
 			"her word unseals the loft in place — no pilgrimage of rebuilds")
 	check(loft != null and loft.item_count == 2, "two fair copies wait in the loft")
-	# both deliveries: the Chandler and the Apostle carry deliver services
-	var av: Dictionary = DB.npc("aveline")
-	var ap: Dictionary = DB.npc("apostle_light")
-	var av_del := false
-	var ap_del := false
-	for s in av.get("services", []):
-		if s.get("type", "") == "deliver" and s.get("flag", "") == "amend_psalm_a":
-			av_del = true
-	for s in ap.get("services", []):
-		if s.get("type", "") == "deliver" and s.get("flag", "") == "amend_psalm_b":
-			ap_del = true
-	check(av_del and ap_del, "both rites-sellers stand ready to receive her song")
-	World.set_flag("amend_psalm_a")
-	World.set_flag("amend_psalm_b")
+	# the copies come down — and the pickup's own save must write the pilgrim
+	# WITH them, or quit-and-continue rolls the anthem back while the loft
+	# stays consumed (the bug that stranded the delivery)
+	loft._on_take(player)
+	await ticks(2)
+	check(int(player.inventory.get("morrow_anthem", 0)) == 2,
+			"both copies come down from the loft")
+	check(int(World.player_data.get("inventory", {}).get("morrow_anthem", 0)) == 2,
+			"and the anthem is in the ledger the pickup itself wrote")
+	# both deliveries, through the true dialogue and its filters
+	for spec in [["aveline", "amend_psalm_a"], ["apostle_light", "amend_psalm_b"]]:
+		var dcfg: Dictionary = DB.npc(spec[0])
+		dcfg["id"] = spec[0]
+		var ddlg := DialogueUI.new(dcfg, null)
+		get_tree().root.add_child(ddlg)
+		await ticks(2)
+		var g := 0
+		while ddlg._phase == "lines" and g < 20:
+			ddlg.advance()
+			g += 1
+		var di := -1
+		for i in ddlg._options.size():
+			if String(ddlg._options[i].get("type", "")) == "deliver":
+				di = i
+		check(di >= 0, "%s offers to receive the anthem" % spec[0])
+		if di >= 0:
+			ddlg.choose(di)
+		await ticks(2)
+		check(World.flag(String(spec[1])), "%s takes her song" % spec[0])
+		ddlg.close()
+		await ticks(4)
+	check(int(player.inventory.get("morrow_anthem", 0)) == 0,
+			"both copies given away")
 	var ptok := int(player.inventory.get("radiant_token", 0))
 	pw._on_talk(player)
 	await ticks(3)
@@ -248,7 +279,7 @@ func _run() -> void:
 	check(apostle != null, "the Apostle of Light keeps his stall by the door")
 	var sells := {"morrow_lance": false, "vesper_ward": false,
 			"radiant_blast": false, "radiant_burst": false}
-	for s in ap.get("services", []):
+	for s in DB.npc("apostle_light").get("services", []):
 		if s.get("type", "") == "buy" and sells.has(String(s.get("item", ""))):
 			sells[String(s["item"])] = true
 	for k in sells:

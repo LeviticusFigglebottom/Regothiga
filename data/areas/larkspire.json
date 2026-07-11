@@ -3025,27 +3025,10 @@
    "tag": "ruin",
    "params": {
     "flag": "amend_larks",
-    "cages": [
-     [
-      0.8,
-      9.59,
-      -2
-     ],
-     [
-      2,
-      14.39,
-      0.8
-     ],
-     [
-      2,
-      19.19,
-      -0.8
-     ],
-     [
-      2,
-      19.19,
-      -2
-     ]
+    "stations": [
+     "matins",
+     "sext",
+     "vespers"
     ],
     "asked_flag": "amend_lark_asked"
    }

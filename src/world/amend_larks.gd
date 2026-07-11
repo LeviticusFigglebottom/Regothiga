@@ -1,36 +1,52 @@
 extends Node3D
 ## The Larkwarden's amend, done with living hands: down in the ruin, where
-## the cages truly stand, every door he shut is opened. Built ALWAYS (the
-## warden is spoken to in this same tower — no rebuild happens between his
-## word and the deed), the cage doors arm themselves the moment his word
-## is given. Each opening shakes the old cage in a burst of gold dust and
-## lets a remembered lark climb out on beating wings. All open -> flag.
+## the cages truly stand, every door he shut is opened. The cages are the
+## Daily Offices' own stations — Matins, Sext, Vespers — the same gilded
+## cages the puzzle rang. Built ALWAYS (the warden is spoken to in this same
+## tower — no rebuild happens between his word and the deed), the cage doors
+## arm themselves the moment his word is given; while armed, the offices'
+## own "Open" hand yields the floor. Each opening cants the old cage in a
+## burst of gold dust and lets its remembered lark climb out on beating
+## wings. All open -> flag.
 ##   {"script": ".../amend_larks.gd", "at": [0,0,0], "tag": "ruin",
 ##    "params": {"flag": "amend_larks", "asked_flag": "amend_lark_asked",
-##               "cages": [[0.8,9.59,-2], ...]}}
+##               "stations": ["matins", "sext", "vespers"]}}
 
 var flag := "amend_larks"
 var asked_flag := "amend_lark_asked"
-var cages: Array = []
+var stations: Array = []
 
 var _zones: Array = []
+var _cages: Array = []   # station roots, shared with the offices puzzle
 var _opened: Array = []
 var _armed := false
 
 func _ready() -> void:
 	if World.flag(flag):
 		return
-	for i in cages.size():
-		var at: Array = cages[i]
+	# the puzzle raises its stations in the same build pass — wait it out
+	_setup.call_deferred()
+
+func _setup() -> void:
+	var root := get_parent()
+	while root != null and not root is Area:
+		root = root.get_parent()
+	if root == null:
+		return
+	for id in stations:
+		var st := (root as Area).find_child("Station_" + String(id), true, false)
+		if st == null or not st is Node3D:
+			continue
 		var z := Interactable.new()
 		z.prompt = "Free the lark"
 		z.setup_zone(1.5, 1.6)
-		var idx := i
-		z.activated.connect(func(_p): _free(idx, z))
+		var idx := _zones.size()
+		z.activated.connect(func(_p): _free(idx))
 		add_child(z)
-		z.position = Vector3(at[0], at[1], at[2]) - position
+		z.global_position = (st as Node3D).global_position
 		z.enabled = false
 		_zones.append(z)
+		_cages.append(st)
 		_opened.append(false)
 	_arm_when_asked()
 
@@ -50,16 +66,22 @@ func _arm_when_asked() -> void:
 
 func _arm() -> void:
 	_armed = true
-	for z in _zones:
-		(z as Interactable).enabled = true
+	for i in _zones.size():
+		(_zones[i] as Interactable).enabled = true
+		# the offices are sung; while the amend stands open, their "Open"
+		# hand steps aside so one cage never begs two answers
+		for c in (_cages[i] as Node3D).get_children():
+			if c is Interactable:
+				(c as Interactable).enabled = false
 
-func _free(i: int, zone: Interactable) -> void:
+func _free(i: int) -> void:
 	if _opened[i] or World.flag(flag):
 		return
 	_opened[i] = true
-	zone.enabled = false
-	var at := zone.global_position
-	_open_cage(at)
+	(_zones[i] as Interactable).enabled = false
+	var st := _cages[i] as Node3D
+	var at := st.global_position
+	_open_cage(st, at)
 	# the lark waits half a breath for the door, then goes
 	get_tree().create_timer(0.25, false).timeout.connect(func(): _bird(at))
 	var freed := 0
@@ -74,19 +96,20 @@ func _free(i: int, zone: Interactable) -> void:
 	else:
 		Game.toast.emit("%d of %d cages opened." % [freed, _opened.size()])
 
-## the door made real: the old cage shudders on its hook and a grate panel
-## swings wide on its hinge — the nearest cage prop lends its body to the
-## shake so the opening reads on the actual bars
-func _open_cage(at: Vector3) -> void:
+## the door made real: the gilded cage is knocked wide on its stand — it
+## shudders, settles ajar, and its remembered occupant stops being caged
+func _open_cage(st: Node3D, at: Vector3) -> void:
 	AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", at, -14.0, 0.7)
-	var cage := _nearest_cage(at)
+	var cage := st.find_child("stand_cage*", true, false)
 	if cage != null:
-		var base_rot: Vector3 = cage.rotation
-		var tw := cage.create_tween()
-		tw.tween_property(cage, "rotation:z", base_rot.z + 0.07, 0.09)
-		tw.tween_property(cage, "rotation:z", base_rot.z - 0.05, 0.09)
-		tw.tween_property(cage, "rotation:z", base_rot.z + 0.02, 0.08)
-		tw.tween_property(cage, "rotation:z", base_rot.z, 0.08)
+		var tw := create_tween()
+		tw.tween_property(cage, "rotation:x", 0.45, 0.12)
+		tw.tween_property(cage, "rotation:x", 0.12, 0.9) \
+			.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	# the caged bird gives its shape to the one that flies
+	for lark in st.find_children("stand_lark*", "", true, false):
+		if lark is Node3D:
+			(lark as Node3D).visible = false
 	# a burst of gold dust where the door gives — the opening, made of light
 	var puff := CPUParticles3D.new()
 	puff.amount = 24
@@ -109,34 +132,18 @@ func _open_cage(at: Vector3) -> void:
 	pm.material = pmat
 	puff.mesh = pm
 	get_parent().add_child(puff)
-	puff.global_position = at + Vector3(0, 0.6, 0)
+	puff.global_position = at + Vector3(0, 1.25, 0)
 	puff.emitting = true
 	get_tree().create_timer(1.6, false).timeout.connect(puff.queue_free)
 
-func _nearest_cage(at: Vector3) -> Node3D:
-	var root := get_parent()
-	while root != null and not root is Area:
-		root = root.get_parent()
-	if root == null:
-		return null
-	var best: Node3D = null
-	var best_d := 2.2
-	for n in (root as Area).find_children("*lark_cage*", "", true, false):
-		if n is Node3D and n.is_visible_in_tree():
-			var d: float = (n as Node3D).global_position.distance_to(at)
-			if d < best_d:
-				best_d = d
-				best = n
-	return best
-
-## a remembered lark: it hops to the door, beats its wings, and flies a
-## true climbing arc away over the rail — banking, flapping, gone to light
+## a remembered lark: it hops from the cage mouth, beats its wings, and
+## flies a true climbing arc away over the rail — banking, flapping, gone
 func _bird(at: Vector3) -> void:
 	AudioDirector.sfx_at("res://assets/audio/lark_trill.wav", at, -4.0,
 			randf_range(0.95, 1.15))
 	var bird := Node3D.new()
 	get_parent().add_child(bird)
-	bird.global_position = at + Vector3(0.25, 0.55, 0.2)
+	bird.global_position = at + Vector3(0.1, 1.28, 0.1)
 	var mat := StandardMaterial3D.new()
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
