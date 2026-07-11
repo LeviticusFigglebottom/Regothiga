@@ -90,6 +90,9 @@ const FAMILIES := {
 	# above the hours), light cracking only. Gold trim rides M_gild.
 	"M_marble":       {"albedo": Color(0.88, 0.86, 0.79), "rough": 0.45, "rim": 0.55, "moss": 0.0, "crack": 0.12, "wear": 0.18},
 	"M_marble_floor": {"albedo": Color(0.78, 0.76, 0.70), "rough": 0.4, "rim": 0.45, "moss": 0.0, "crack": 0.1, "wear": 0.15},
+	# the sanctum's cloud banks: near-white, sun-kissed tops, strong rim so
+	# the edges catch the gold — no weathering of any kind
+	"M_cloud":        {"albedo": Color(0.96, 0.93, 0.87), "rough": 1.0, "rim": 0.9, "moss": 0.0, "crack": 0.0, "wear": 0.0},
 }
 
 static var _cache: Dictionary = {}

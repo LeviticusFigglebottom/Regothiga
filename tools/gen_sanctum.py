@@ -217,11 +217,56 @@ blocker((-9, 0, 30.4), (-2.2, 3, 31.4))
 blocker((2.2, 0, 30.4), (9, 3, 31.4))
 
 # ---------------------------------------------------------------- palaces beyond (inaccessible)
+import math as _m
+import random as _random
+
 SKY = [{"kit": "city_panorama", "at": [0, -7, 0]}]
+# the near ring: grounded neighbours just past the balustrades
 for at in [(48, -3, -46), (-54, -2, -32), (40, -5, 40), (-46, -6, 46), (-2, -9, -74), (66, -8, 6)]:
     SKY.append({"kit": "cathedral_mass", "at": [at[0], at[1], at[2]], "rot": (at[0] * 7) % 360})
     SKY.append({"kit": "spire_tower_b", "at": [at[0] + 7, at[1], at[2] + 5], "rot": (at[0] * 13) % 360})
     SKY.append({"kit": "spire_tower_c", "at": [at[0] - 6, at[1], at[2] - 4], "rot": (at[0] * 29) % 360})
+
+# the far ring: towering castles on every horizon, every third one riding
+# the sky itself with cloud banks massed beneath its footing
+_rng = _random.Random(7)
+for i in range(11):
+    ang = (i + 0.5) / 11 * 2 * _m.pi
+    r = _rng.uniform(175, 265)          # far enough that the haze makes them holy
+    x, z = r * _m.sin(ang), -r * _m.cos(ang)
+    s = _rng.uniform(1.6, 2.2)
+    floating = i % 3 == 0
+    y = _rng.uniform(16, 30) if floating else _rng.uniform(-20, -8)
+    rot = int(_rng.uniform(0, 360))
+    SKY.append({"kit": "cathedral_mass", "at": [round(x, 1), round(y, 1), round(z, 1)],
+                "rot": rot, "scale": [s, s, s * _rng.uniform(1.0, 1.25)]})
+    st = _rng.uniform(1.9, 2.8)
+    SKY.append({"kit": "spire_tower_b" if i % 2 else "spire_tower_c",
+                "at": [round(x + 12 * s * _m.cos(ang), 1), round(y, 1), round(z + 12 * s * _m.sin(ang), 1)],
+                "rot": (rot * 3) % 360, "scale": [st, st, st * 1.2]})
+    if floating:
+        for k in range(2):
+            cs = _rng.uniform(1.4, 2.4)
+            SKY.append({"kit": ["cloud_bank_a", "cloud_bank_b", "cloud_bank_c"][(i + k) % 3],
+                        "at": [round(x + _rng.uniform(-18, 18), 1), round(y - _rng.uniform(4, 8), 1),
+                               round(z + _rng.uniform(-16, 16), 1)],
+                        "rot": int(_rng.uniform(0, 360)), "scale": [cs, cs * 0.8, cs]})
+
+# free clouds drifting between the ward and the far palaces
+for i in range(12):
+    ang = i / 12 * 2 * _m.pi + 0.26
+    r = _rng.uniform(75, 170)
+    cs = _rng.uniform(1.0, 2.0)
+    SKY.append({"kit": ["cloud_bank_a", "cloud_bank_b", "cloud_bank_c"][i % 3],
+                "at": [round(r * _m.sin(ang), 1), round(_rng.uniform(-2, 16), 1),
+                       round(-r * _m.cos(ang), 1)],
+                "rot": int(_rng.uniform(0, 360)), "scale": [cs, cs * 0.8, cs]})
+
+# streaming light over the ward — the sky is doing something holy (glory only)
+SCRIPTED = [
+    {"script": "res://src/world/god_rays.gd", "at": [0, 0, 6], "tag": "glory",
+     "params": {"count": 9, "span_x": 26.0, "span_z": 22.0, "seed_v": 7, "sun": [-34, -40]}},
+]
 
 # ---------------------------------------------------------------- lore
 PLQ.append({"at": [2.2, 0, 25.4], "rot": -160, "text":
@@ -260,6 +305,7 @@ def main():
         "boxes": B,
         "blockers": BL,
         "skyline": SKY,
+        "scripted": SCRIPTED,
         "open_air_regions": [{"min": [-22, 0, -12], "max": [22, 0, 30]},
                              {"min": [-16, 2, -24], "max": [16, 2, -12]}],
         "plaques": PLQ,

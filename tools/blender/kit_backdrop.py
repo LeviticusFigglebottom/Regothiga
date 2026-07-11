@@ -8,7 +8,7 @@ urns, wellhead, sconces) are playable-scale.
 import math
 import random
 import bmesh
-from mathutils import Vector
+from mathutils import Matrix, Vector
 
 import vglib as V
 
@@ -898,8 +898,31 @@ def city_panorama(seed=3):
     return objs, {"size": [500, 500, 140], "origin": "center"}
 
 
+def cloud_bank(seed=5):
+    """A soft bank of cloud for the Sanctum's sky: overlapping flattened
+    lobes, larger amidships, with a level underside — the kind of cloud a
+    palace could stand on. ~44 x 14 x 10 m, origin center, no collision."""
+    rng = random.Random(seed)
+    bm = bmesh.new()
+    lobes = 10
+    for i in range(lobes):
+        t = i / (lobes - 1)
+        swell = 0.5 + 0.5 * math.sin(math.pi * t)
+        x = (t - 0.5) * 38 + rng.uniform(-1.5, 1.5)
+        y = rng.uniform(-2.6, 2.6)
+        r = rng.uniform(4.2, 7.2) * (0.55 + 0.55 * swell)
+        z = r * 0.22 + rng.uniform(-0.6, 0.9)      # bases roughly level
+        mtx = Matrix.LocRotScale((x, y, z), None, (1.0, rng.uniform(0.7, 1.0), 0.55))
+        bmesh.ops.create_uvsphere(bm, u_segments=9, v_segments=6, radius=r, matrix=mtx)
+    obj = V.bm_to_object(bm, "cloud_bank", ("M_cloud",))
+    return [obj], {"size": [44, 14, 10], "origin": "center"}
+
+
 BUILDERS = {
     "city_panorama": city_panorama,
+    "cloud_bank_a": lambda: cloud_bank(5),
+    "cloud_bank_b": lambda: cloud_bank(12),
+    "cloud_bank_c": lambda: cloud_bank(27),
     "spire_tower_a": lambda: spire_tower(11),
     "spire_tower_b": lambda: spire_tower(23),
     "spire_tower_c": lambda: spire_tower(37),

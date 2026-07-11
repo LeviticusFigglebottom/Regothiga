@@ -17,6 +17,7 @@ func _ready() -> void:
 	_motes()
 	if far_beacon:
 		_beacon()
+		_end_rail()
 		_lightfall_door()
 
 ## Two planes make the glow: a soft wide wash and a brighter core strip that
@@ -138,19 +139,61 @@ func _motes() -> void:
 	add_child(p)
 	p.emitting = true
 
-## The lightfall itself: a soft standing shaft rising off the saint's column
-## that ends the road (the column stands ~2 m past the deck's last plank).
+## The lightfall proper: a white-hot core sheathed in gold halos, rooted on
+## the saint's column that ends the road (the column stands ~2 m past the
+## deck's last plank). Nested additive shells read against bright sky and
+## dark stone alike — the pillar must be unmissable, and dead-centred.
 func _beacon() -> void:
-	var b := MeshInstance3D.new()
-	var cm := CylinderMesh.new()
-	cm.top_radius = 0.8
-	cm.bottom_radius = 1.5
-	cm.height = 20.0
-	b.mesh = cm
-	b.material_override = _glow_mat(Color(1.0, 0.9, 0.6), 0.16)
-	b.position = Vector3(0, 6.0, -length - 2.0)
-	b.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	add_child(b)
+	var base := Vector3(0, -4.0, -length - 2.0)
+	for spec in [[0.38, 0.5, 28.0, Color(1.0, 0.98, 0.9), 0.6],
+			[0.9, 1.3, 24.0, Color(1.0, 0.92, 0.66), 0.22],
+			[1.7, 2.3, 19.0, Color(1.0, 0.88, 0.55), 0.08]]:
+		var b := MeshInstance3D.new()
+		var cm := CylinderMesh.new()
+		cm.top_radius = spec[0]
+		cm.bottom_radius = spec[1]
+		cm.height = spec[2]
+		b.mesh = cm
+		b.material_override = _glow_mat(spec[3], spec[4])
+		b.position = base + Vector3(0, float(spec[2]) * 0.5, 0)
+		b.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(b)
+	var l := OmniLight3D.new()
+	l.light_color = Color(1.0, 0.9, 0.62)
+	l.light_energy = 2.4
+	l.omni_range = 9.0
+	l.shadow_enabled = false
+	l.position = Vector3(0, 1.6, -length - 2.0)
+	add_child(l)
+	# gilt motes rising in the shaft — the light is going somewhere
+	var p := CPUParticles3D.new()
+	p.amount = 60
+	p.lifetime = 3.0
+	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	p.emission_sphere_radius = 1.3
+	p.direction = Vector3.UP
+	p.spread = 8.0
+	p.initial_velocity_min = 1.2
+	p.initial_velocity_max = 2.6
+	p.gravity = Vector3.ZERO
+	p.scale_amount_min = 0.02
+	p.scale_amount_max = 0.05
+	p.color = Color(1.0, 0.9, 0.6)
+	p.position = Vector3(0, 0.5, -length - 2.0)
+	add_child(p)
+	p.emitting = true
+
+## A rail of standing light caps the far end, flush with the unseen wall —
+## the road refuses the fall as plainly as it lights the way.
+func _end_rail() -> void:
+	var glow := MeshInstance3D.new()
+	var gm := BoxMesh.new()
+	gm.size = Vector3(width + 0.3, 0.85, 0.12)
+	glow.mesh = gm
+	glow.material_override = _glow_mat(Color(1.0, 0.9, 0.62), 0.3)
+	glow.position = Vector3(0, 0.42, -length + 0.55)
+	glow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(glow)
 
 func _process(dt: float) -> void:
 	_pulse += dt
