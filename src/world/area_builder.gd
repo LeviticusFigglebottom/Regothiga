@@ -194,6 +194,7 @@ const PASSABLE_PROPS := ["banner", "banner_torn", "ivy_sheet_a", "ivy_sheet_b",
 	"censer_hanging", "censer_fallen", "sconce_torch", "glass_lancet",
 	"glass_lancet_broken", "candle_cluster", "candle_cluster_dead",
 	"book_stack", "scroll_pile", "rubble_s", "mosaic_medallion",
+	"carpet_runner_8m", "chandelier_gilt",
 	"cobweb", "hanging_chain", "hanging_chain_bare", "shroud_dead",
 	"lark_cage", "lark_cage_dead", "perch_rail", "perch_rail_bare",
 	"aviary_screen", "reed_clump", "reed_clump_dead"]

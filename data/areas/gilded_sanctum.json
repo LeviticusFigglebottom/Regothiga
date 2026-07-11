@@ -28,7 +28,8 @@
     0.78,
     0.62,
     0.4
-   ]
+   ],
+   "music": "res://assets/audio/theme_sanctum.mp3"
   },
   "ruin": {
    "sun_rot": [
@@ -4930,6 +4931,60 @@
    ],
    "spawn_yaw": 0,
    "prompt": "Descend the lightfall"
+  },
+  {
+   "to": "hour_palace",
+   "at": [
+    0,
+    2,
+    -23.0
+   ],
+   "rot": 0,
+   "spawn": [
+    0,
+    0.2,
+    3.0
+   ],
+   "spawn_yaw": 0,
+   "prompt": "Enter the Door of the Hour",
+   "locked_flag": "sanctum_hours",
+   "locked_prompt": "The Door keeps its hour \u2014 sound the Offices"
+  },
+  {
+   "to": "hour_palace",
+   "at": [
+    15,
+    0,
+    8.5
+   ],
+   "rot": 180,
+   "spawn": [
+    36,
+    0.2,
+    37.0
+   ],
+   "spawn_yaw": 180,
+   "prompt": "Climb the bell-stair",
+   "locked_flag": "scion_heard",
+   "locked_prompt": "Barred from above"
+  },
+  {
+   "to": "hour_palace",
+   "at": [
+    -13.5,
+    0,
+    4.5
+   ],
+   "rot": 180,
+   "spawn": [
+    -36,
+    0.2,
+    37.0
+   ],
+   "spawn_yaw": 180,
+   "prompt": "Climb the candle-stair",
+   "locked_flag": "scion_heard",
+   "locked_prompt": "Barred from above"
   }
  ]
 }

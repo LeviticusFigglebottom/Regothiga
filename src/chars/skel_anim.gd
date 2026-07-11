@@ -210,10 +210,10 @@ static func _clips(amp := 1.0, sway := 1.0) -> Dictionary:
 		# Prayer: palms together at the sternum — elbows tucked in, forearms
 		# raised to the midline, head bowed over the joined hands.
 		"bow_draw": {"len": 0.7, "loop": false, "bones": {
-			"uarm_l": [[0.0, 24, 0, -6], [0.7, 64, 0, -4]],
-			"farm_l": [[0.0, 14, 0, 0], [0.7, 6, 0, 0]],
-			"uarm_r": [[0.0, 40, 0, 10], [0.35, 30, -10, 2], [0.7, 4, -24, -12]],
-			"farm_r": [[0.0, 24, 0, 0], [0.7, 92, 0, 0]],
+			"uarm_l": [[0.0, 30, 0, -6], [0.7, 86, 0, -4]],
+			"farm_l": [[0.0, 14, 0, 0], [0.7, 3, 0, 0]],
+			"uarm_r": [[0.0, 44, 0, 10], [0.35, 46, -10, 2], [0.7, 30, -26, -12]],
+			"farm_r": [[0.0, 24, 0, 0], [0.7, 96, 0, 0]],
 			"chest": [[0.0, 0, -8, 0], [0.7, 0, -15, 0]],
 			"head": [[0.0, 0, 7, 0], [0.7, 0, 12, 0]],
 		}},

@@ -89,6 +89,26 @@
    2.6
   ]
  },
+ "banquet_bench_6m": {
+  "file": "assets/kit/banquet_bench_6m.glb",
+  "origin": "bottom-center",
+  "polys": 18,
+  "size": [
+   6,
+   0.4,
+   0.5
+  ]
+ },
+ "banquet_table_6m": {
+  "file": "assets/kit/banquet_table_6m.glb",
+  "origin": "bottom-center",
+  "polys": 60,
+  "size": [
+   6,
+   1.25,
+   1.1
+  ]
+ },
  "barrel": {
   "file": "assets/kit/barrel.glb",
   "origin": "bottom-center",
@@ -358,6 +378,16 @@
    1.0
   ]
  },
+ "carpet_runner_8m": {
+  "file": "assets/kit/carpet_runner_8m.glb",
+  "origin": "bottom-center",
+  "polys": 30,
+  "size": [
+   8,
+   2.2,
+   0.05
+  ]
+ },
  "cathedral_mass": {
   "file": "assets/kit/cathedral_mass.glb",
   "origin": "west-front",
@@ -386,6 +416,16 @@
    0.3,
    0.3,
    2.1
+  ]
+ },
+ "chandelier_gilt": {
+  "file": "assets/kit/chandelier_gilt.glb",
+  "origin": "center",
+  "polys": 152,
+  "size": [
+   2.1,
+   2.1,
+   2.3
   ]
  },
  "char_aveline": {
@@ -1322,6 +1362,16 @@
    0.2,
    0.4,
    0.5
+  ]
+ },
+ "scriptorium_shelf": {
+  "file": "assets/kit/scriptorium_shelf.glb",
+  "origin": "bottom-center",
+  "polys": 342,
+  "size": [
+   2.5,
+   0.5,
+   2.3
   ]
  },
  "scroll_pile": {

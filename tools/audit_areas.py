@@ -20,6 +20,8 @@ MOUNTED = {
     "cloud_bank_a", "cloud_bank_b", "cloud_bank_c",   # sky dressing rides the sky
     "lark_cage", "lark_cage_dead", "aviary_screen",
     "chimney_stack", "balcony_3m",   # ride roofs and upper wall faces
+    "chandelier_gilt",   # hangs from the vault by design
+    "book_stack", "scroll_pile",   # ride desks and shelves
     "clock_tower",   # crowns the parish facade
 }
 # kits that are architecture (not decor); they define floors/walls, skip float check
@@ -274,7 +276,7 @@ def audit(area_id):
         seen[key] = True
 
     # 2b) distinct co-present props merged into one another (asset collision)
-    DECAL = {"mosaic_medallion", "rubble_s", "ivy_sheet_a", "ivy_sheet_b",
+    DECAL = {"mosaic_medallion", "carpet_runner_8m", "rubble_s", "ivy_sheet_a", "ivy_sheet_b",
              "cobweb", "shroud_dead", "bone_pile"}
     ground = [p for p in placed if p.get("kit", "") not in ARCH
               and p.get("kit", "") not in MOUNTED and p.get("kit", "") not in DECAL]

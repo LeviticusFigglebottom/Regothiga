@@ -8,7 +8,8 @@
   "black_gate",
   "drowned_marches",
   "vigils_end",
-  "gilded_sanctum"
+  "gilded_sanctum",
+  "hour_palace"
  ],
  "graph": {
   "gray_cloister": {
@@ -45,7 +46,11 @@
    "east": "drowned_marches"
   },
   "gilded_sanctum": {
-   "down": "basilica_porch"
+   "down": "basilica_porch",
+   "up": "hour_palace"
+  },
+  "hour_palace": {
+   "down": "gilded_sanctum"
   }
  },
  "start_area": "gray_cloister"

@@ -372,8 +372,122 @@ def radiant_castle(seed=4):
     return objs, {"size": [30, 30, 44], "origin": "bottom-center"}
 
 
+
+
+# ------------------------------------------------------- palace furnishing
+
+def banquet_table_6m():
+    """Feast table: marble slab on carved legs, a gold runner down the
+    middle, candle pairs riding it. Origin bottom-center. Solid."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-3.0, -0.62, 0.72), (3.0, 0.62, 0.86))          # top
+    for sx in (-2.6, 2.6):
+        for sy in (-0.44, 0.44):
+            V.add_box(bm, (sx - 0.09, sy - 0.09, 0.0), (sx + 0.09, sy + 0.09, 0.72))
+    V.add_box(bm, (-2.6, -0.06, 0.3), (2.6, 0.06, 0.42))           # stretcher
+    objs.append(V.bm_to_object(bm, "table_body", ("M_marble",)))
+    bm = bmesh.new()
+    V.add_box(bm, (-3.0, -0.22, 0.861), (3.0, 0.22, 0.875))        # gold runner
+    objs.append(V.bm_to_object(bm, "table_runner", ("M_gild",)))
+    bm = bmesh.new()
+    for cx in (-2.0, 0.0, 2.0):
+        V.add_box(bm, (cx - 0.045, -0.045, 0.875), (cx + 0.045, 0.045, 1.06))
+    objs.append(V.bm_to_object(bm, "table_candles", ("M_wax",)))
+    return objs, {"size": [6, 1.25, 1.1], "origin": "bottom-center"}
+
+
+def banquet_bench_6m():
+    """Long bench for the feast table. Origin bottom-center. Solid."""
+    bm = bmesh.new()
+    V.add_box(bm, (-3.0, -0.19, 0.4), (3.0, 0.19, 0.5))
+    for sx in (-2.6, 2.6):
+        V.add_box(bm, (sx - 0.08, -0.15, 0.0), (sx + 0.08, 0.15, 0.4))
+    obj = V.bm_to_object(bm, "bench", ("M_wood",))
+    return [obj], {"size": [6, 0.4, 0.5], "origin": "bottom-center"}
+
+
+def chandelier_gilt():
+    """Hanging gold chandelier: chain, twin rings, a crown of candles.
+    Origin at the RING centre — place at hanging height, no collision."""
+    objs = []
+    n = 10
+    ring = V.loft_rings("chand_ring", [(0.95, -0.06, n, 0), (1.0, 0.0, n, 0),
+                                       (0.95, 0.06, n, 0)], "M_gild")
+    objs.append(ring)
+    ring2 = V.loft_rings("chand_ring2", [(0.55, 0.34, n, 0), (0.6, 0.4, n, 0),
+                                         (0.55, 0.46, n, 0)], "M_gild")
+    objs.append(ring2)
+    bm = bmesh.new()
+    V.add_box(bm, (-0.03, -0.03, 0.4), (0.03, 0.03, 2.2))          # chain to the vault
+    for i in range(4):
+        a = math.tau * i / 4
+        V.add_box(bm, (math.cos(a) * 0.72 - 0.02, math.sin(a) * 0.72 - 0.02, 0.06),
+                  (math.cos(a) * 0.72 + 0.02, math.sin(a) * 0.72 + 0.02, 0.36))
+    objs.append(V.bm_to_object(bm, "chand_chain", ("M_iron",)))
+    bm = bmesh.new()
+    for i in range(8):
+        a = math.tau * (i + 0.5) / 8
+        cx, cy = math.cos(a) * 0.86, math.sin(a) * 0.86
+        V.add_box(bm, (cx - 0.04, cy - 0.04, 0.0), (cx + 0.04, cy + 0.04, 0.3))
+    for i in range(5):
+        a = math.tau * i / 5
+        cx, cy = math.cos(a) * 0.42, math.sin(a) * 0.42
+        V.add_box(bm, (cx - 0.04, cy - 0.04, 0.4), (cx + 0.04, cy + 0.04, 0.68))
+    objs.append(V.bm_to_object(bm, "chand_candles", ("M_wax",)))
+    return objs, {"size": [2.1, 2.1, 2.3], "origin": "center"}
+
+
+def carpet_runner_8m():
+    """Processional runner: deep red field, gold borders, flat and passable.
+    Origin bottom-center of the run (lies along X)."""
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-4.0, -1.1, 0.008), (4.0, 1.1, 0.028))
+    objs.append(V.bm_to_object(bm, "carpet_field", ("M_cloth",)))
+    bm = bmesh.new()
+    for sy in (-1.0, 0.94):
+        V.add_box(bm, (-3.94, sy, 0.03), (3.94, sy + 0.06, 0.042))
+    V.add_box(bm, (-3.94, -1.0, 0.03), (-3.88, 1.0, 0.042))
+    V.add_box(bm, (3.88, -1.0, 0.03), (3.94, 1.0, 0.042))
+    objs.append(V.bm_to_object(bm, "carpet_border", ("M_gild",)))
+    return objs, {"size": [8, 2.2, 0.05], "origin": "bottom-center"}
+
+
+def scriptorium_shelf():
+    """Tall book-press for the west wing: carved case, three laden shelves.
+    Origin bottom-center against a wall (back at +Y). Solid."""
+    rng = random.Random(23)
+    objs = []
+    bm = bmesh.new()
+    V.add_box(bm, (-1.2, 0.16, 0.0), (1.2, 0.24, 2.3))             # back board
+    for sx in (-1.2, 1.2):
+        V.add_box(bm, (sx - 0.05, -0.2, 0.0), (sx + 0.05, 0.24, 2.3))
+    for z in (0.08, 0.78, 1.48, 2.18):
+        V.add_box(bm, (-1.2, -0.2, z), (1.2, 0.24, z + 0.06))
+    objs.append(V.bm_to_object(bm, "shelf_case", ("M_wood",)))
+    for (mat, jitter) in (("M_leather", 0), ("M_cloth", 1)):
+        bm = bmesh.new()
+        r2 = random.Random(31 + jitter)
+        for z in (0.14, 0.84, 1.54):
+            x = -1.1
+            while x < 1.0:
+                w = r2.uniform(0.08, 0.16)
+                h = r2.uniform(0.4, 0.58)
+                if r2.random() < 0.5:
+                    V.add_box(bm, (x, -0.12, z), (x + w, 0.2, z + h))
+                x += w + 0.015
+        objs.append(V.bm_to_object(bm, "books_%d" % jitter, (mat,)))
+    return objs, {"size": [2.5, 0.5, 2.3], "origin": "bottom-center"}
+
+
 BUILDERS = {
     "palace_floor_4x4": palace_floor_4x4,
+    "banquet_table_6m": banquet_table_6m,
+    "banquet_bench_6m": banquet_bench_6m,
+    "chandelier_gilt": chandelier_gilt,
+    "carpet_runner_8m": carpet_runner_8m,
+    "scriptorium_shelf": scriptorium_shelf,
     "radiant_spire_a": lambda: radiant_spire(3),
     "radiant_spire_b": lambda: radiant_spire(9),
     "radiant_castle_a": lambda: radiant_castle(4),

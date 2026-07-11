@@ -833,7 +833,7 @@ func _nock_arrow(on: bool) -> void:
 		vis.bow_mount.add_child(_nock)
 		# bow mount: +Y runs along the stave. The shaft docks ACROSS it at
 		# the grip, riding the string plane, pointing where the archer faces
-		_nock.position = Vector3(0, 0.5, 0.1)
+		_nock.position = Vector3(0, 0.06, 0.1)
 		_nock.rotation_degrees = Vector3(0, 0, 0)
 
 func _bow_release() -> void:
@@ -1289,8 +1289,10 @@ func _st_flask(dt: float) -> void:
 	# raised fist's bone frame flips "up", so a fixed mount angle reads
 	# inverted no matter which constant it is
 	if _flask_mount != null and is_instance_valid(_flask_mount):
+		var k := clampf(state_t / (float(T["flask"]["use_time"]) * 0.7), 0.0, 1.0)
+		var tip := lerpf(16.0, _flask_tilt, k * k * (3.0 - 2.0 * k))
 		_flask_mount.global_transform.basis = vis.global_transform.basis \
-				* Basis.from_euler(Vector3(deg_to_rad(_flask_tilt), 0, 0))
+				* Basis.from_euler(Vector3(deg_to_rad(tip), 0, 0))
 	var use_time := float(T["flask"]["use_time"])
 	if state_t >= use_time * 0.62 and hp < max_hp and state_t - get_physics_process_delta_time() < use_time * 0.62:
 		hp = minf(hp + float(T["flask"]["heal"]), max_hp)
@@ -1303,7 +1305,7 @@ func _st_flask(dt: float) -> void:
 ## The chrism gourd itself, mounted in the off-hand only while he drinks —
 ## held world-upright, tipped back toward the visor as the arm rises.
 var _flask_mount: Node3D = null
-var _flask_tilt := 35.0
+var _flask_tilt := 78.0   # peak sip angle; the drink ramps up to it
 
 func _show_flask(on: bool) -> void:
 	if on:

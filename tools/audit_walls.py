@@ -16,9 +16,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 BLOCKING = {"wall_4x4", "window_lancet_4m", "portal_4m", "fence_iron_4m",
             "arcade_4m", "rubble_m", "rubble_l", "column_4m", "buttress",
-            "balustrade_4m", "stair_grand_4m", "ossuary_wall_4m", "sarcophagus"}
+            "balustrade_4m", "stair_grand_4m", "ossuary_wall_4m", "sarcophagus",
+            "stair_grand_4m_l", "stair_grand_4m_r",
+            # the palace family seals the same edges its stone kin do
+            "palace_wall_4x4", "palace_window_4m", "palace_portal_4m",
+            "palace_arcade_4m", "palace_balustrade_4m", "palace_wall_low_4m",
+            "palace_pier"}
 # pieces that block travel but are passable doorways (still "not a fall")
-OPEN_DOOR = {"portal_4m", "arcade_4m"}
+OPEN_DOOR = {"portal_4m", "arcade_4m", "palace_portal_4m", "palace_arcade_4m"}
 
 
 def pieces_of(def_):
