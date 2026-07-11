@@ -23,7 +23,7 @@
     0.76
    ],
    "sun_energy": 0.85,
-   "fog_density": 0.014,
+   "fog_density": 0.0085,
    "fog_color": [
     0.6,
     0.47,
@@ -42,7 +42,7 @@
     0.5
    ],
    "sun_energy": 0.45,
-   "fog_density": 0.018,
+   "fog_density": 0.012,
    "fog_color": [
     0.3,
     0.24,
@@ -102,9 +102,62 @@
    "max": [
     10,
     0,
+    24
+   ],
+   "spring_top": 8
+  },
+  {
+   "min": [
+    -10,
+    0,
+    24
+   ],
+   "max": [
+    -6,
+    0,
+    32
+   ],
+   "spring_top": 8
+  },
+  {
+   "min": [
+    6,
+    0,
+    24
+   ],
+   "max": [
+    10,
+    0,
+    32
+   ],
+   "spring_top": 8
+  },
+  {
+   "min": [
+    -10,
+    0,
+    32
+   ],
+   "max": [
+    10,
+    0,
     56
    ],
    "spring_top": 8
+  },
+  {
+   "min": [
+    -6,
+    0,
+    24
+   ],
+   "max": [
+    6,
+    0,
+    32
+   ],
+   "flat": true,
+   "spring_top": 12.3
   },
   {
    "min": [
@@ -115,9 +168,62 @@
    "max": [
     10,
     0,
+    60
+   ],
+   "spring_top": 8
+  },
+  {
+   "min": [
+    -10,
+    0,
+    60
+   ],
+   "max": [
+    -6,
+    0,
+    68
+   ],
+   "spring_top": 8
+  },
+  {
+   "min": [
+    6,
+    0,
+    60
+   ],
+   "max": [
+    10,
+    0,
+    68
+   ],
+   "spring_top": 8
+  },
+  {
+   "min": [
+    -10,
+    0,
+    68
+   ],
+   "max": [
+    10,
+    0,
     72
    ],
    "spring_top": 8
+  },
+  {
+   "min": [
+    -6,
+    0,
+    60
+   ],
+   "max": [
+    6,
+    0,
+    68
+   ],
+   "flat": true,
+   "spring_top": 12.3
   },
   {
    "min": [
@@ -154,7 +260,10 @@
     0,
     40
    ],
-   "flat": true
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold"
   },
   {
    "min": [
@@ -204,7 +313,10 @@
     0,
     40
    ],
-   "flat": true
+   "flat": true,
+   "coffer": true,
+   "lid_mat": "M_marble",
+   "beam_mat": "M_gold"
   },
   {
    "min": [
@@ -4043,28 +4155,25 @@
    "kit": "palace_dome_12m",
    "at": [
     0,
-    7.9,
+    8.0,
     28
    ],
    "rot": 0,
    "tag": "base",
-   "collide": false
+   "collide": false,
+   "flames": false
   },
   {
    "kit": "palace_dome_12m",
    "at": [
     0,
-    7.9,
+    8.0,
     64
    ],
    "rot": 0,
    "tag": "base",
    "collide": false,
-   "scale": [
-    1.15,
-    1.05,
-    1.15
-   ]
+   "flames": false
   }
  ],
  "blockers": [

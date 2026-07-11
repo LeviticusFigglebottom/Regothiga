@@ -416,35 +416,57 @@ def banquet_bench_6m():
 
 
 def palace_dome_12m():
-    """Coffered marble dome, 12 m across: the regal ceiling. Open below,
-    banded in gold at three latitudes, crowned by a gilt oculus ring with
-    a soft glow standing in for the morning above. Origin at the RIM —
-    hang the rim just under a vault line and the shell rises into it."""
+    """Coffered crossing dome. Every lathe surface is built DOUBLE-SIDED
+    (both windings) — the export chain normalises winding, so trusting a
+    single orientation left the bowl backface-culled into open sky. Rim
+    collar seats on the spring plane over a grid-aligned 12x8 hole
+    (corner 7.21 < 7.45); shell in dark stone, gilt ribs/bands/oculus."""
+    import bmesh as _bmesh
+    from mathutils import Matrix as _M
     objs = []
-    n = 24
-    # the shell: hemisphere-ish profile rising 4.2 over the rim
-    prof = [(6.0, 0.0), (5.86, 0.7), (5.45, 1.5), (4.7, 2.4), (3.6, 3.2),
-            (2.3, 3.8), (1.1, 4.1)]
-    rings = [(r, z, n, 0) for (r, z) in prof]
-    shell = V.loft_rings("dome_shell", rings, "M_marble", cap_bottom=False, cap_top=False)
-    objs.append(shell)
-    # gilt latitude bands (the coffering read)
-    for (r, z) in ((5.7, 1.0), (4.9, 2.15), (3.1, 3.45)):
-        band = V.loft_rings("dome_band", [(r + 0.06, z - 0.09, n, 0), (r + 0.1, z, n, 0),
-                                          (r + 0.06, z + 0.09, n, 0)], "M_gold")
-        objs.append(band)
-    # rim cornice
-    rim = V.loft_rings("dome_rim", [(6.25, -0.12, n, 0), (6.3, 0.06, n, 0),
-                                    (6.05, 0.2, n, 0)], "M_gold")
-    objs.append(rim)
-    # the oculus: gilt ring + a soft standing glow
-    oc = V.loft_rings("dome_oculus", [(1.15, 4.0, 16, 0), (1.2, 4.18, 16, 0),
-                                      (1.05, 4.3, 16, 0)], "M_gold")
-    objs.append(oc)
-    glow = V.loft_rings("dome_glow", [(0.95, 4.12, 12, 0), (0.55, 4.4, 12, 0),
-                                      (0.1, 4.5, 12, 0)], "M_flame")
-    objs.append(glow)
-    return objs, {"size": [12.6, 12.6, 4.5], "origin": "rim-center"}
+    n = 28
+
+    def _loft2(name, prof, mat):
+        rings = [(r, z, n, 0) for (r, z) in prof]
+        a = V.loft_rings(name, rings, mat, cap_bottom=False, cap_top=False)
+        b = V.loft_rings(name + "_in", list(reversed(rings)), mat,
+                         cap_bottom=False, cap_top=False)
+        return [a, b]
+
+    prof = [(6.0, 0.0), (5.85, 0.62), (5.4, 1.3), (4.6, 2.05), (3.5, 2.7),
+            (2.2, 3.2), (1.1, 3.42)]
+    objs += _loft2("dome_shell", prof, "M_stone_dark")
+    objs += _loft2("dome_rim", [(7.45, -0.05), (7.5, 0.14), (6.7, 0.32), (6.05, 0.38)], "M_gold")
+    # the drum: a fascia ring dropping below the spring plane so grazing
+    # sightlines through the hole meet gilt stone, never the open attic
+    objs += _loft2("dome_drum", [(6.6, -0.85), (6.72, -0.2), (6.6, 0.05)], "M_gold")
+    objs += _loft2("dome_drum_in", [(6.1, -0.8), (6.1, 0.05)], "M_stone_dark")
+    for (r, z) in ((5.63, 0.95), (4.75, 1.9), (2.9, 2.92)):
+        objs += _loft2("dome_band", [(r + 0.05, z - 0.08), (r + 0.09, z), (r + 0.05, z + 0.08)], "M_gold")
+    # eight meridian ribs: chains of gilt blocks following the profile
+    bm = _bmesh.new()
+    seg_pts = [(5.92, 0.3), (5.62, 0.97), (5.0, 1.7), (4.05, 2.4), (2.85, 2.95), (1.6, 3.32)]
+    for i in range(8):
+        a = math.tau * i / 8
+        rot = _M.Rotation(a, 3, "Z")
+        for (r, z) in seg_pts:
+            c = rot @ Vector((r, 0, z))
+            half = rot @ Vector((0.14, 0.14, 0))
+            up = 0.34
+            vs = []
+            for sx in (-1, 1):
+                for sy in (-1, 1):
+                    for sz in (-up / 2, up / 2):
+                        vs.append(bm.verts.new(Vector((c.x + sx * abs(half.x),
+                                                       c.y + sx * half.y, c.z + sz))))
+            bm.verts.ensure_lookup_table()
+            f = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4), (1, 5, 7, 3), (0, 4, 5, 1), (2, 3, 7, 6)]
+            for q in f:
+                bm.faces.new([vs[j] for j in q])
+    objs.append(V.bm_to_object(bm, "dome_ribs", ("M_gold",)))
+    objs += _loft2("dome_oculus", [(1.25, 3.25), (1.3, 3.45), (1.1, 3.58)], "M_gold")
+    objs += _loft2("dome_eye_disc", [(0.85, 3.48), (0.5, 3.6), (0.08, 3.64)], "M_flame")
+    return objs, {"size": [15.0, 15.0, 3.7], "origin": "rim-center"}
 
 
 def chandelier_gilt():

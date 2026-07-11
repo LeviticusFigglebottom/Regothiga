@@ -63,7 +63,9 @@ func _run() -> void:
 	# still vault every floored region — the auditor enforces cell coverage,
 	# here we hold the field count so a dropped wing roof can't slip through
 	var def2: Dictionary = area.get_meta("def")
-	check(def2.get("vault_fields", []).size() == 10, "ten vault fields roof the house")
+	# 18 now: the nave and antechamber each split 4+1 around their dome
+	# holes (side strips + a hidden high lid), the four wings keep their 8
+	check(def2.get("vault_fields", []).size() == 18, "eighteen vault fields roof the house around its two domes")
 
 	# ---- no mouth of the house lets you fall out of it
 	var space := area.get_world_3d().direct_space_state

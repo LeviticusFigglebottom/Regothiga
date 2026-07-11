@@ -1049,11 +1049,11 @@
  "palace_dome_12m": {
   "file": "assets/kit/palace_dome_12m.glb",
   "origin": "rim-center",
-  "polys": 404,
+  "polys": 1520,
   "size": [
-   12.6,
-   12.6,
-   4.5
+   15.0,
+   15.0,
+   3.7
   ]
  },
  "palace_floor_4x4": {

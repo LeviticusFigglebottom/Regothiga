@@ -397,7 +397,7 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 	# some rooms read better with a plain timber-beamed flat ceiling than groin
 	# vaults; "flat": true opts a field into that (vaults stay for grander halls)
 	if spec.get("flat", false):
-		_flat_ceiling(area, mn, mx, tag, wall_top)
+		_flat_ceiling(area, mn, mx, tag, spring, spec)
 		return
 	var ceil_h := spring + _VAULT_APEX + 0.2
 	# decorative groin vaults, springing from the cornice
@@ -427,17 +427,40 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 ## A flat, sensibly-high coffered ceiling: a stone lid a little above the wall
 ## cornice, crossed by warm timber beams, with a short clerestory band sealing
 ## the gap so no sky shows. Used where groin vaults would feel too busy.
-static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wall_top: float) -> void:
+static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wall_top: float,
+		spec: Dictionary = {}) -> void:
 	var lid := wall_top + 0.85
-	var mat := MaterialLib.get_mat("M_stone", _state_mode(tag))
-	var wood := MaterialLib.get_mat("M_wood", _state_mode(tag))
+	var mat := MaterialLib.get_mat(spec.get("lid_mat", "M_stone"), _state_mode(tag))
+	var wood := MaterialLib.get_mat(spec.get("beam_mat", "M_wood"), _state_mode(tag))
 	# the flat lid (absolute Y)
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, lid + 0.15, (mn.z + mx.z) * 0.5),
 			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
-	# timber beams every 4 m across the shorter span, for a coffered read
 	var span_x := mx.x - mn.x
 	var span_z := mx.z - mn.z
-	if span_x <= span_z:
+	if spec.get("coffer", false):
+		# a TRUE coffer grid: deep beams both ways on a tight square module —
+		# the palace's regal answer to plain timber
+		var m := float(spec.get("coffer_step", 2.0))
+		var bx := mn.x + m
+		while bx < mx.x - 0.01:
+			_roof_box(area, tag, wood, Vector3(bx, lid - 0.2, (mn.z + mx.z) * 0.5),
+					Vector3(0.3, 0.42, span_z))
+			bx += m
+		var bz := mn.z + m
+		while bz < mx.z - 0.01:
+			_roof_box(area, tag, wood, Vector3((mn.x + mx.x) * 0.5, lid - 0.2, bz),
+					Vector3(span_x, 0.42, 0.3))
+			bz += m
+		# perimeter cove: a trim band where the coffers meet the walls
+		_roof_box(area, tag, wood, Vector3((mn.x + mx.x) * 0.5, lid - 0.2, mn.z + 0.15),
+				Vector3(span_x, 0.42, 0.3))
+		_roof_box(area, tag, wood, Vector3((mn.x + mx.x) * 0.5, lid - 0.2, mx.z - 0.15),
+				Vector3(span_x, 0.42, 0.3))
+		_roof_box(area, tag, wood, Vector3(mn.x + 0.15, lid - 0.2, (mn.z + mx.z) * 0.5),
+				Vector3(0.3, 0.42, span_z))
+		_roof_box(area, tag, wood, Vector3(mx.x - 0.15, lid - 0.2, (mn.z + mx.z) * 0.5),
+				Vector3(0.3, 0.42, span_z))
+	elif span_x <= span_z:
 		var bx := mn.x + 2.0
 		while bx < mx.x - 0.01:
 			_roof_box(area, tag, wood, Vector3(bx, lid - 0.13, (mn.z + mx.z) * 0.5),

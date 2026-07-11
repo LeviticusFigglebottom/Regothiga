@@ -129,14 +129,27 @@ F.append({"kit": "palace_floor_4x4", "min": [10, 0, 8], "max": [42, 0, 40]})
 F.append({"kit": "palace_floor_4x4", "min": [-42, 0, 8], "max": [-10, 0, 40]})
 
 # ---------------------------------------------------------------- vaults (roofs)
-VF.append({"min": [-10, 0, 0], "max": [10, 0, 56], "spring_top": 8})    # great nave
-VF.append({"min": [-10, 0, 56], "max": [10, 0, 72], "spring_top": 8})   # antechamber
+# great nave: vaulted end to end EXCEPT an 8x8 crossing at z 24..32 where
+# the first dome seats (its rim covers the hole's corners); a hidden flat
+# lid high above seals the weather for the auditor's roof ledger
+VF.append({"min": [-10, 0, 0], "max": [10, 0, 24], "spring_top": 8})
+VF.append({"min": [-10, 0, 24], "max": [-6, 0, 32], "spring_top": 8})
+VF.append({"min": [6, 0, 24], "max": [10, 0, 32], "spring_top": 8})
+VF.append({"min": [-10, 0, 32], "max": [10, 0, 56], "spring_top": 8})
+VF.append({"min": [-6, 0, 24], "max": [6, 0, 32], "flat": True, "spring_top": 12.3})
+# antechamber rotunda: same treatment, dome centred on the warden's ground
+VF.append({"min": [-10, 0, 56], "max": [10, 0, 60], "spring_top": 8})
+VF.append({"min": [-10, 0, 60], "max": [-6, 0, 68], "spring_top": 8})
+VF.append({"min": [6, 0, 60], "max": [10, 0, 68], "spring_top": 8})
+VF.append({"min": [-10, 0, 68], "max": [10, 0, 72], "spring_top": 8})
+VF.append({"min": [-6, 0, 60], "max": [6, 0, 68], "flat": True, "spring_top": 12.3})
 for s in (1, -1):
     a, b = (10, 26) if s > 0 else (-26, -10)
     g0, g1 = (26, 42) if s > 0 else (-42, -26)
     VF.append({"min": [a, 0, 8], "max": [b, 0, 24]})                    # room 1
     VF.append({"min": [a, 0, 24], "max": [b, 0, 28]})                   # cross-corridor
-    VF.append({"min": [a, 0, 28], "max": [b, 0, 40], "flat": True})     # room 3: beamed
+    VF.append({"min": [a, 0, 28], "max": [b, 0, 40], "flat": True,      # room 3:
+               "coffer": True, "lid_mat": "M_marble", "beam_mat": "M_gold"})  # gilt coffers
     VF.append({"min": [g0, 0, 8], "max": [g1, 0, 40], "spring_top": 8}) # long gallery
 
 # ---------------------------------------------------------------- the great nave
@@ -285,10 +298,11 @@ prop("candle_cluster", (-15.5, 0, 32.5), 40)
 prop("candle_cluster", (-21, 0, 33), -30)
 prop("censer_hanging", (-18, 3.98, 34), 0, collide=False)
 
-# ---- the regal ceilings: two coffered domes rise where the house is
-# proudest — the nave's mid-crossing and the antechamber rotunda
-prop("palace_dome_12m", (0, 7.9, 28), 0, collide=False)
-prop("palace_dome_12m", (0, 7.9, 64), 0, collide=False, scale=[1.15, 1.05, 1.15])
+# ---- the regal ceilings: two coffered domes seated INTO the vault line —
+# rims on the spring plane over true 8x8 holes in the bays, shells rising
+# into the sealed attic above
+prop("palace_dome_12m", (0, 8.0, 28), 0, collide=False, flames=False)
+prop("palace_dome_12m", (0, 8.0, 64), 0, collide=False, flames=False)
 
 # guards of the morning: they hold every room once the Scion has spoken
 for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),
@@ -328,11 +342,11 @@ def main():
         "stub_label": "Keep vigil  (rest — the light here does not falter)",
         "env": {
             "glory": {"sun_rot": [-38, -30], "sun_color": [1.0, 0.93, 0.76],
-                      "sun_energy": 0.85, "fog_density": 0.014,
+                      "sun_energy": 0.85, "fog_density": 0.0085,
                       "fog_color": [0.6, 0.47, 0.28],
                       "music": "res://assets/audio/theme_sanctum.mp3"},
             "ruin": {"sun_rot": [-38, -30], "sun_color": [0.8, 0.68, 0.5],
-                     "sun_energy": 0.45, "fog_density": 0.018,
+                     "sun_energy": 0.45, "fog_density": 0.012,
                      "fog_color": [0.3, 0.24, 0.17],
                      "music": "res://assets/audio/theme_sanctum.mp3"},
         },
