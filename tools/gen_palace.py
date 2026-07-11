@@ -139,14 +139,13 @@ F.append({"kit": "palace_floor_4x4", "min": [-42, 0, 8], "max": [-10, 0, 40]})
 # gilt-coffered marble soffit at the spring, and the bowl rises alone.
 _COFFER_RING = {"flat": True, "coffer": True, "lid_mat": "M_marble",
                 "beam_mat": "M_gold", "spring_top": 8}
-# nave: vaults keep the long bays, but a coffer ring holds the 4 m around
-# the crossing so no vault band stands at the hole's own edge
-VF.append({"min": [-10, 0, 0], "max": [10, 0, 20], "spring_top": 8, "band_mat": "M_marble"})
-VF.append(dict(_COFFER_RING, min=[-10, 0, 20], max=[10, 0, 24]))
+# nave: ONE uniform gilt coffer plane end to end — height steps between
+# vault lids and ring lids kept reading as random walls hung in the hall.
+# The crossing dome rises from its drum out of a single flat regal field.
+VF.append(dict(_COFFER_RING, min=[-10, 0, 0], max=[10, 0, 24]))
 VF.append(dict(_COFFER_RING, min=[-10, 0, 24], max=[-6, 0, 32]))
 VF.append(dict(_COFFER_RING, min=[6, 0, 24], max=[10, 0, 32]))
-VF.append(dict(_COFFER_RING, min=[-10, 0, 32], max=[10, 0, 36]))
-VF.append({"min": [-10, 0, 36], "max": [10, 0, 56], "spring_top": 8, "band_mat": "M_marble"})
+VF.append(dict(_COFFER_RING, min=[-10, 0, 32], max=[10, 0, 56]))
 # no hidden lid over the crossing: the dome SHELL is the closure (collar
 # covers the hole's corners, the eye disc plugs the oculus) — a lid at
 # 12.3 hung in plain sight from the south nave, a pale box over the bowl
@@ -197,10 +196,10 @@ for z in (14, 34):
         prop("banquet_bench_6m", (2.2 * sd, 0, z + 2), 90)
         prop("banquet_bench_6m", (5.0 * sd, 0, z + 2), 90)
 # chandeliers: one per long bay — and the crossing keeps exactly ONE,
-# centred under the dome and hung low, so the bowl rises empty above it
+# centred under the dome on an unbroken rope from the crown
 for z in (12, 48):
     prop("chandelier_gilt", (0, 6.0, z), 0, collide=False)
-prop("chandelier_gilt", (0, 5.2, 28), 0, collide=False)
+prop("chandelier_dome_low", (0, 5.2, 28), 0, collide=False)
 for z in (6, 20, 34, 48):
     for sd in (1, -1):
         prop("banner", (9.55 * sd, 4.4, z), -90 if sd > 0 else 90, collide=False)
@@ -236,7 +235,7 @@ for a, r in [((-6.4, 0, 62), 40), ((6.4, 0, 62), -40), ((-6.4, 0, 70), 140), ((6
     prop("candelabra", a, r)
 prop("mosaic_medallion", (0, 0.02, 65), 0)
 prop("carpet_runner_8m", (0, 0.02, 61), 90)
-prop("chandelier_gilt", (0, 5.2, 64), 0, collide=False)
+prop("chandelier_dome_high", (0, 5.2, 64), 0, collide=False)
 piece("statue_orans", (0, 0, 70.4), 180)
 piece("statue_saint", (-7.5, 0, 70.5), 160)
 piece("statue_saint", (7.5, 0, 70.5), -160)

@@ -94,20 +94,6 @@
  ],
  "vault_fields": [
   {
-   "min": [
-    -10,
-    0,
-    0
-   ],
-   "max": [
-    10,
-    0,
-    20
-   ],
-   "spring_top": 8,
-   "band_mat": "M_marble"
-  },
-  {
    "flat": true,
    "coffer": true,
    "lid_mat": "M_marble",
@@ -116,7 +102,7 @@
    "min": [
     -10,
     0,
-    20
+    0
    ],
    "max": [
     10,
@@ -172,22 +158,8 @@
    "max": [
     10,
     0,
-    36
-   ]
-  },
-  {
-   "min": [
-    -10,
-    0,
-    36
-   ],
-   "max": [
-    10,
-    0,
     56
-   ],
-   "spring_top": 8,
-   "band_mat": "M_marble"
+   ]
   },
   {
    "min": [
@@ -3242,7 +3214,7 @@
    "collide": false
   },
   {
-   "kit": "chandelier_gilt",
+   "kit": "chandelier_dome_low",
    "at": [
     0,
     5.2,
@@ -3523,7 +3495,7 @@
    "tag": "base"
   },
   {
-   "kit": "chandelier_gilt",
+   "kit": "chandelier_dome_high",
    "at": [
     0,
     5.2,

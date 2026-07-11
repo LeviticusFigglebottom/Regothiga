@@ -40,7 +40,7 @@ var _busy := false
 var _zone: Interactable = null
 var _player: Node3D = null
 var _scion: CharVisual = null
-var _shaft: MeshInstance3D = null
+var _scion_exit := Vector3.ZERO
 var _cine: Node3D = null
 var _cam: Camera3D = null
 var _layer: CanvasLayer = null
@@ -139,8 +139,12 @@ func _begin() -> void:
 	get_tree().create_timer(2.1, false).timeout.connect(_scion_arrives)
 
 func _scion_arrives() -> void:
+	# she does not descend — she WALKS, out of the dark of the hall, and
+	# stops a few paces behind the kneeling pilgrim
 	var pp: Vector3 = _player.global_position
-	var at := pp + Vector3(0, 0, -3.6)   # behind the kneeling pilgrim
+	var stop := pp + Vector3(0, 0, -3.6)
+	var from := pp + Vector3(0, 0, -11.0)
+	_scion_exit = from
 	_scion = CharVisual.new()
 	add_child(_scion)
 	_scion.build_body("skel_ward", 0.92, 1.0)
@@ -148,8 +152,8 @@ func _scion_arrives() -> void:
 	for mi in _scion.find_children("*", "MeshInstance3D", true, false):
 		for s in ((mi as MeshInstance3D).mesh.get_surface_count() if (mi as MeshInstance3D).mesh != null else 0):
 			(mi as MeshInstance3D).set_surface_override_material(s, gold)
-	_scion.global_position = at + Vector3(0, 7.0, 0)
-	_scion.rotation.y = atan2(-(pp.x - at.x), -(pp.z - at.z))
+	_scion.global_position = from
+	_scion.rotation.y = atan2(-(pp.x - from.x), -(pp.z - from.z))
 	var lamp := OmniLight3D.new()
 	lamp.light_color = Color(1.0, 0.9, 0.6)
 	lamp.light_energy = 2.2
@@ -157,37 +161,23 @@ func _scion_arrives() -> void:
 	lamp.shadow_enabled = false
 	lamp.position.y = 1.3
 	_scion.add_child(lamp)
-	_shaft = MeshInstance3D.new()
-	var cm := CylinderMesh.new()
-	cm.top_radius = 0.5
-	cm.bottom_radius = 0.85
-	cm.height = 11.0
-	var sm := StandardMaterial3D.new()
-	sm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	sm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	sm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	# thin enough that SHE reads through it — the light frames the herald,
-	# it must not consume her
-	sm.albedo_color = Color(1.0, 0.94, 0.7, 0.14)
-	sm.cull_mode = BaseMaterial3D.CULL_DISABLED
-	_shaft.material_override = sm
-	_shaft.mesh = cm
-	_shaft.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	add_child(_shaft)
-	_shaft.global_position = at + Vector3(0, 5.5, 0)
-	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", at, -4.0, 0.85)
+	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", stop, -8.0, 0.85)
+	_scion.play("walk", 0.3)
 	var tw := _scion.create_tween()
-	tw.tween_property(_scion, "global_position", at, 1.6) \
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	# the second shot: over the penitent's shoulder, up into her light
+	tw.tween_property(_scion, "global_position", stop, 3.6)
+	tw.tween_callback(func():
+		if _scion != null and is_instance_valid(_scion):
+			_scion.back_to_idle(0.4))
+	# the second shot: over the penitent's shoulder, meeting her approach
 	var pp2 := _player.global_position
 	var ctw := _cam.create_tween()
-	ctw.tween_interval(0.7)
-	ctw.tween_property(_cam, "global_position", pp2 + Vector3(-1.1, 1.5, 1.9), 1.2) \
+	ctw.tween_interval(1.0)
+	ctw.tween_property(_cam, "global_position", pp2 + Vector3(-1.1, 1.5, 1.9), 1.4) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	ctw.parallel().tween_method(func(t: float):
-		_cam.look_at(pp2.lerp(at + Vector3(0, 1.5, 0), t) + Vector3(0, 1.0, 0)),
-		0.0, 1.0, 1.2)
+		_cam.look_at(pp2.lerp(stop + Vector3(0, 1.4, 0), t) + Vector3(0, 1.0, 0)),
+		0.0, 1.0, 1.4)
+	ctw.tween_interval(1.2)   # she finishes the walk before she speaks
 	ctw.tween_callback(_advance)
 	set_process(true)
 
@@ -229,37 +219,20 @@ func _end() -> void:
 	_sub.text = ""
 	if _voice != null and is_instance_valid(_voice):
 		_voice.stop()
-	# she comes apart into motes, upward
+	# she turns, and walks back into the dark she came from
 	if _scion != null and is_instance_valid(_scion):
-		var motes := CPUParticles3D.new()
-		motes.amount = 80
-		motes.lifetime = 2.0
-		motes.one_shot = true
-		motes.explosiveness = 0.9
-		motes.direction = Vector3.UP
-		motes.gravity = Vector3(0, 1.6, 0)
-		motes.initial_velocity_min = 0.8
-		motes.initial_velocity_max = 2.6
-		motes.scale_amount_min = 0.03
-		motes.scale_amount_max = 0.07
-		var mm := SphereMesh.new()
-		mm.radius = 0.04
-		mm.height = 0.08
-		var mmat := StandardMaterial3D.new()
-		mmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		mmat.albedo_color = Color(1.0, 0.92, 0.66)
-		mm.material = mmat
-		motes.mesh = mm
-		add_child(motes)
-		motes.global_position = _scion.global_position + Vector3.UP * 1.1
-		motes.emitting = true
-		get_tree().create_timer(2.6, false).timeout.connect(motes.queue_free)
-		VG.free_gently(_scion)
+		var sc := _scion
 		_scion = null
-	if _shaft != null and is_instance_valid(_shaft):
-		var stw := _shaft.create_tween()
-		stw.tween_property(_shaft, "scale", Vector3(0.02, 1.0, 0.02), 0.9)
-		stw.tween_callback(_shaft.queue_free)
+		var ttw := sc.create_tween()
+		ttw.tween_property(sc, "rotation:y", sc.rotation.y + PI, 0.5) \
+			.set_trans(Tween.TRANS_SINE)
+		ttw.tween_callback(func():
+			if is_instance_valid(sc):
+				sc.play("walk", 0.3))
+		ttw.tween_property(sc, "global_position", _scion_exit, 3.2)
+		ttw.tween_callback(func():
+			if is_instance_valid(sc):
+				VG.free_gently(sc))
 	AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -6.0, 1.3)
 	get_tree().create_timer(1.1, false).timeout.connect(func():
 		if _cine != null and is_instance_valid(_cine):

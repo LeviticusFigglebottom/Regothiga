@@ -428,10 +428,30 @@
    2.1
   ]
  },
+ "chandelier_dome_high": {
+  "file": "assets/kit/chandelier_dome_high.glb",
+  "origin": "center",
+  "polys": 816,
+  "size": [
+   2.8,
+   2.8,
+   8.9
+  ]
+ },
+ "chandelier_dome_low": {
+  "file": "assets/kit/chandelier_dome_low.glb",
+  "origin": "center",
+  "polys": 816,
+  "size": [
+   2.8,
+   2.8,
+   6.8999999999999995
+  ]
+ },
  "chandelier_gilt": {
   "file": "assets/kit/chandelier_gilt.glb",
   "origin": "center",
-  "polys": 798,
+  "polys": 816,
   "size": [
    2.8,
    2.8,
@@ -1049,7 +1069,7 @@
  "palace_cove_dome": {
   "file": "assets/kit/palace_cove_dome.glb",
   "origin": "rim-center",
-  "polys": 2677,
+  "polys": 2653,
   "size": [
    20.0,
    16.0,
@@ -1059,7 +1079,7 @@
  "palace_dome_12m": {
   "file": "assets/kit/palace_dome_12m.glb",
   "origin": "rim-center",
-  "polys": 1576,
+  "polys": 1728,
   "size": [
    15.0,
    15.0,

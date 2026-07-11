@@ -439,7 +439,8 @@ def palace_dome_12m():
     prof = [(6.0, 0.0), (5.85, 0.62), (5.4, 1.3), (4.6, 2.05), (3.5, 2.7),
             (2.2, 3.2), (1.1, 3.42)]
     objs += _loft2("dome_shell", prof, "M_marble")
-    objs += _loft2("dome_rim", [(7.45, -0.05), (7.5, 0.14), (6.7, 0.32), (6.05, 0.38)], "M_gold")
+    objs += _loft2("dome_rim", [(7.45, -0.05), (7.5, 0.14), (7.28, 0.85),
+                                (6.6, 1.12), (6.05, 1.18)], "M_gold")
     # the drum: a fascia ring dropping below the spring plane so grazing
     # sightlines through the hole meet gilt stone, never the open attic
     objs += _loft2("dome_drum", [(6.6, -0.85), (6.72, -0.2), (6.6, 0.05)], "M_gold")
@@ -473,8 +474,20 @@ def palace_dome_12m():
     objs.append(V.bm_to_object(bm, "dome_ribs", ("M_gold",)))
     objs += _loft2("dome_oculus", [(1.25, 3.25), (1.3, 3.45), (1.1, 3.58)], "M_gold")
     # the eye overlaps the oculus ring (1.14 > 1.1): with no attic lid
-    # above, an open annulus here would be a ring of naked sky
-    objs += _loft2("dome_eye_disc", [(1.14, 3.5), (0.5, 3.6), (0.08, 3.64)], "M_flame")
+    # above, an open annulus here would be a ring of naked sky. DARK stone
+    # sown with gilt stars — a big M_flame plate breathes with the flame
+    # animator and the whole crown read as moving
+    objs += _loft2("dome_eye_disc", [(1.14, 3.5), (0.5, 3.6), (0.08, 3.64)], "M_stone_dark")
+    sbm = _bmesh.new()
+    srng = random.Random(23)
+    for _ in range(16):
+        a = srng.uniform(0, math.tau)
+        rr = srng.uniform(0.06, 0.95)
+        sx, sy = rr * math.cos(a), rr * math.sin(a)
+        sz = 3.5 + (1.0 - rr / 1.14) * 0.12 - 0.012
+        st = srng.uniform(0.02, 0.04)
+        V.add_box(sbm, (sx - st, sy - st, sz - st), (sx + st, sy + st, sz + st))
+    objs.append(V.bm_to_object(sbm, "dome_stars", ("M_flame",)))
     return objs, {"size": [15.0, 15.0, 3.7], "origin": "rim-center"}
 
 
@@ -599,22 +612,19 @@ def palace_cove_dome():
         s = srng.uniform(0.022, 0.045)
         V.add_box(sbm, (sx - s, sy - s, sz - s), (sx + s, sy + s, sz + s))
     objs.append(V.bm_to_object(sbm, "cove_stars", ("M_flame",)))
-    # the drop chain: from the eye down to where a chandelier's own chain
-    # reaches (rim + 0.8), so the great ring hangs FROM the dome
-    ch = V.box_object("cove_chain", [0.06, 0.06, zc - 0.85], "M_iron", origin="center")
-    ch.location = (0, 0, (zc + 0.75) / 2.0)
-    objs.append(ch)
-    knob = V.loft_rings("cove_knob", [(0.11, 0.68, 8, 0), (0.13, 0.78, 8, 0), (0.05, 0.86, 8, 0)],
-                        "M_gold")
-    objs.append(knob)
+    # no separate drop chain: the dome-variant chandelier carries ONE
+    # unbroken rope from its ring to this crown
     return objs, {"size": [20.0, 16.0, RISE + 0.4], "origin": "rim-center"}
 
 
-def chandelier_gilt():
+def chandelier_gilt(chain_top=3.6):
     """Hanging gold chandelier, GRAND: two gilt tiers of candles, curtain
-    chains between the rims, a pendant drop below, and a long iron chain
-    running all the way up into the vault. Origin at the great ring's
-    centre — hang low over the hall; the chain finds the ceiling."""
+    chains between the rims, a pendant drop below, and ONE unbroken iron
+    chain running all the way up into the vault, crowned with a gilt boss
+    where it meets the ceiling. chain_top picks the ceiling: 3.6 reaches
+    the flat coffer lids; the dome variants run 6.3 / 8.3 so the great
+    ring hangs FROM the crown of its dome, visibly on the rope. Origin at
+    the great ring's centre."""
     objs = []
     n = 12
     ring = V.loft_rings("chand_ring", [(1.3, -0.08, n, 0), (1.38, 0.0, n, 0),
@@ -624,8 +634,8 @@ def chandelier_gilt():
                                          (0.72, 1.06, n, 0)], "M_gild")
     objs.append(ring2)
     bm = bmesh.new()
-    # the long chain to the vault (top reaches +3.6 over the great ring)
-    V.add_box(bm, (-0.035, -0.035, 1.0), (0.035, 0.035, 3.6))
+    # the long chain to the vault (top reaches +chain_top over the ring)
+    V.add_box(bm, (-0.035, -0.035, 1.0), (0.035, 0.035, chain_top))
     # curtain chains: upper rim down to the great ring
     for i in range(6):
         a = math.tau * i / 6
@@ -661,7 +671,11 @@ def chandelier_gilt():
         f = _pflame("chand_flame_u%d" % i)
         f.location = (math.cos(a) * 0.6, math.sin(a) * 0.6, 1.3)
         objs.append(f)
-    return objs, {"size": [2.8, 2.8, 4.2], "origin": "center"}
+    boss = V.loft_rings("chand_boss", [(0.16, chain_top - 0.16, 8, 0),
+                                       (0.19, chain_top - 0.05, 8, 0),
+                                       (0.08, chain_top + 0.02, 8, 0)], "M_gold")
+    objs.append(boss)
+    return objs, {"size": [2.8, 2.8, chain_top + 0.6], "origin": "center"}
 
 
 
@@ -715,6 +729,8 @@ BUILDERS = {
     "chandelier_gilt": chandelier_gilt,
     "palace_dome_12m": palace_dome_12m,
     "palace_cove_dome": palace_cove_dome,
+    "chandelier_dome_low": lambda: chandelier_gilt(6.3),
+    "chandelier_dome_high": lambda: chandelier_gilt(8.3),
     "carpet_runner_8m": carpet_runner_8m,
     "scriptorium_shelf": scriptorium_shelf,
     "radiant_spire_a": lambda: radiant_spire(3),

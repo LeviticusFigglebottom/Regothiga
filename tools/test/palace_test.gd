@@ -63,10 +63,10 @@ func _run() -> void:
 	# still vault every floored region — the auditor enforces cell coverage,
 	# here we hold the field count so a dropped wing roof can't slip through
 	var def2: Dictionary = area.get_meta("def")
-	# 14 now: the nave runs 2 long vaults + 4 coffer-ring strips around its
+	# 12 now: the nave is ONE uniform coffer plane in 4 fields around its
 	# crossing dome; the antechamber has NO fields at all (its whole
 	# ceiling is the cove dome); the four wings keep their 8
-	check(def2.get("vault_fields", []).size() == 14, "fourteen vault fields roof the house around its domes")
+	check(def2.get("vault_fields", []).size() == 12, "twelve vault fields roof the house around its domes")
 	var cove := false
 	for pr in def2.get("props", []):
 		if pr.get("kit", "") == "palace_cove_dome":

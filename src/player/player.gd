@@ -1339,9 +1339,17 @@ func _st_flask(dt: float) -> void:
 	# inverted no matter which constant it is
 	if _flask_mount != null and is_instance_valid(_flask_mount):
 		var k := clampf(state_t / (float(T["flask"]["use_time"]) * 0.7), 0.0, 1.0)
-		var tip := lerpf(16.0, _flask_tilt, k * k * (3.0 - 2.0 * k))
+		var s := k * k * (3.0 - 2.0 * k)
+		var tip := lerpf(16.0, _flask_tilt, s)
 		_flask_mount.global_transform.basis = vis.global_transform.basis \
 				* Basis.from_euler(Vector3(deg_to_rad(tip), 0, 0))
+		# the sip lands CENTERED on the visor: the gourd blends off the
+		# fist's line to a point squarely before the mouth — the head bone
+		# is the midline, so this cannot drift beside the face
+		if _flask_lips != null and is_instance_valid(_flask_lips):
+			var lips: Vector3 = _flask_lips.global_position \
+					+ vis.global_transform.basis * Vector3(0, -0.06, -0.17)
+			_flask_mount.global_position = _flask_mount.global_position.lerp(lips, s)
 	var use_time := float(T["flask"]["use_time"])
 	if state_t >= use_time * 0.62 and hp < max_hp and state_t - get_physics_process_delta_time() < use_time * 0.62:
 		hp = minf(hp + float(T["flask"]["heal"]), max_hp)
@@ -1354,6 +1362,7 @@ func _st_flask(dt: float) -> void:
 ## The chrism gourd itself, mounted in the off-hand only while he drinks —
 ## held world-upright, tipped back toward the visor as the arm rises.
 var _flask_mount: Node3D = null
+var _flask_lips: Node3D = null   # head-bone anchor: the sip's true midline
 var _flask_tilt := 78.0   # peak sip angle; the drink ramps up to it
 
 func _show_flask(on: bool) -> void:
@@ -1365,11 +1374,17 @@ func _show_flask(on: bool) -> void:
 			# past the vertical and the chrism poured at the sky
 			_flask_mount.rotation_degrees = Vector3(38, 0, 0)
 			_flask_mount.add_child(KitLib.instance("chrism_flask"))
+			_flask_lips = vis.mount("head")
 	elif _flask_mount != null:
 		var att := _flask_mount.get_parent()   # the BoneAttachment3D
 		_flask_mount = null
 		if att != null and is_instance_valid(att):
 			att.queue_free()
+		if _flask_lips != null:
+			var att2 := _flask_lips.get_parent()
+			_flask_lips = null
+			if att2 != null and is_instance_valid(att2):
+				att2.queue_free()
 
 # --- damage intake -----------------------------------------------------------
 # ---- the Vesper Ward: a skin of candlelight that spends itself first
