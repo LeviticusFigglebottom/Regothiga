@@ -551,6 +551,46 @@ def votive_stand_tall(lit=True):
     return objs, {"size": [0.5, 0.5, 1.6], "origin": "bottom-center"}
 
 
+def bell_fragment():
+    """A broken arc of the Bellkeeper's bell: three bronze staves bent round
+    a lost circumference, the sound-bow lip still on them, the break ragged.
+    Quest relic — stands upright, half-leaned, waiting to be carried home."""
+    import bmesh as _bmesh
+    from mathutils import Matrix as _M
+    R = 0.34
+    lean = _M.Rotation(math.radians(11), 3, "X")
+
+    def _arc_boxes(bm, half_w, half_t, z0, z1, y_off):
+        for i, ang in enumerate((-26, 0, 26)):
+            a = math.radians(ang)
+            rot = _M.Rotation(a, 3, "Z")
+            cx = R * math.sin(a)
+            cy = -R * (1 - math.cos(a)) + y_off
+            top = z1 + (0.06 if i == 1 else 0.0)
+            corners = []
+            for sx in (-half_w, half_w):
+                for sy in (-half_t, half_t):
+                    for sz in (z0, top):
+                        v = rot @ Vector((sx, sy, sz))
+                        corners.append((v.x + cx, v.y + cy, v.z))
+            # emit as its own convex box: 8 verts, 6 faces
+            vs = [bm.verts.new(lean @ Vector(c)) for c in corners]
+            bm.verts.ensure_lookup_table()
+            faces = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4),
+                     (1, 5, 7, 3), (0, 4, 5, 1), (2, 3, 7, 6)]
+            for f in faces:
+                bm.faces.new([vs[k] for k in f])
+
+    objs = []
+    bm = _bmesh.new()
+    _arc_boxes(bm, 0.085, 0.025, 0.0, 0.46, 0.0)
+    objs.append(V.bm_to_object(bm, "frag_wall", ("M_bronze",)))
+    bm = _bmesh.new()
+    _arc_boxes(bm, 0.095, 0.045, 0.0, 0.085, -0.012)
+    objs.append(V.bm_to_object(bm, "frag_lip", ("M_iron",)))
+    return objs, {"size": [0.6, 0.45, 0.55], "origin": "bottom-center"}
+
+
 def mosaic_medallion():
     """Flat inlaid mosaic roundel, 3.4 m across — floor charm for garths,
     thresholds and crossings. Passable (no collision policy)."""
@@ -772,6 +812,7 @@ BUILDERS = {
     "chime_stone": chime_stone,
     "votive_stand_lit": lambda: votive_stand_tall(True),
     "votive_stand_cold": lambda: votive_stand_tall(False),
+    "bell_fragment": bell_fragment,
     "mosaic_medallion": mosaic_medallion,
     "ossuary_wall_4m": ossuary_wall_4m,
     "bone_pile": bone_pile,

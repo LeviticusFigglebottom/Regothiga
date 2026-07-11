@@ -32,6 +32,8 @@ static func build(area_id: String) -> Area:
 	for spec in def.get("vault_fields", []):
 		_vault_field(area, spec)
 	for spec in def.get("blockers", []):
+		if not _flag_ok(spec):
+			continue    # a sealed quire may open when the story turns
 		_blocker(area, spec)
 	for spec in def.get("boxes", []):
 		_solid_box(area, spec)
@@ -101,6 +103,7 @@ static func build(area_id: String) -> Area:
 		p.text = spec.get("text", "…")
 		p.set_flag = spec.get("set_flag", "")
 		p.flag_toast = spec.get("flag_toast", "")
+		p.style = spec.get("style", "plaque")
 		area.attach(p, spec.get("tag", "base"))
 		_place(p, spec)
 	for spec in def.get("scripted", []):
@@ -126,6 +129,8 @@ static func build(area_id: String) -> Area:
 		k.item_id = spec.get("item", "")
 		k.item_count = int(spec.get("count", 1))
 		k.label = spec.get("label", "Take")
+		k.appear_flag = spec.get("appear_flag", "")
+		k.display_kit = spec.get("kit", "")
 		area.attach(k, spec.get("tag", "base"))
 		_place(k, spec)
 	for spec in def.get("cameos", []):

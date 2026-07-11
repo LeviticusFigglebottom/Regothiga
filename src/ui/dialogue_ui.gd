@@ -150,6 +150,10 @@ func _enter_options() -> void:
 	text_label.visible = false
 	options_box.visible = true
 	_opt_i = 0
+	# a long stock list must not spill past the panel: grow the panel upward
+	# so every option (and Leave) stays inside the frame
+	var over := maxi(0, _options.size() - 5)
+	panel.offset_top = -310 - over * 34
 	_render_options()
 
 func _render_options() -> void:
@@ -267,9 +271,15 @@ func _activate(o: Dictionary) -> void:
 				_flash_line()
 		"rite":
 			# warden rites carry their own law — the node that opened this
-			# dialogue judges the attempt and hands back the line to speak
+			# dialogue judges the attempt and hands back the line to speak.
+			# a rite that begins a FIGHT closes the audience on the spot.
 			if npc_node != null and npc_node.has_method("_rite"):
-				text_label.text = String(npc_node._rite(o))
+				var said := String(npc_node._rite(o))
+				if o.get("close", false):
+					Game.toast.emit(said)
+					close()
+					return
+				text_label.text = said
 			else:
 				text_label.text = "..."
 			_flash_line()

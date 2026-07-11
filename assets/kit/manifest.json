@@ -139,6 +139,16 @@
    2.0
   ]
  },
+ "bell_fragment": {
+  "file": "assets/kit/bell_fragment.glb",
+  "origin": "bottom-center",
+  "polys": 36,
+  "size": [
+   0.6,
+   0.45,
+   0.55
+  ]
+ },
  "bell_great": {
   "file": "assets/kit/bell_great.glb",
   "origin": "bottom-center",

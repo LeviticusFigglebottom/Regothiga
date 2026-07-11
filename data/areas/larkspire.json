@@ -3023,7 +3023,6 @@
    ],
    "rot": 0,
    "tag": "ruin",
-   "require_flag": "amend_lark_asked",
    "params": {
     "flag": "amend_larks",
     "cages": [
@@ -3047,7 +3046,8 @@
       19.19,
       -2
      ]
-    ]
+    ],
+    "asked_flag": "amend_lark_asked"
    }
   }
  ]

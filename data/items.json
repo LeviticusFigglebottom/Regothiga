@@ -50,5 +50,9 @@
  "penance_writ": {
   "name": "Writ of Penance, Discharged",
   "desc": "Ten thousand orisons, weighed and forgiven. The Tollkeeper's mark presses clean through the vellum."
+ },
+ "radiant_token": {
+  "name": "Token of Radiant Retribution",
+  "desc": "A warden's amend, pressed into a coin of morning-light. It is warm on the side that faced him. Five were owed; the light is counting."
  }
 }

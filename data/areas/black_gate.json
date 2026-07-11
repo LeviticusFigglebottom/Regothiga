@@ -611,7 +611,7 @@
   {
    "kit": "battlement_4m",
    "from": [
-    -10,
+    -6,
     4.8,
     -8.3
    ],
@@ -620,7 +620,7 @@
     0,
     0
    ],
-   "count": 6,
+   "count": 4,
    "rot": 180,
    "skip": [
     0,
@@ -632,7 +632,7 @@
    "from": [
     -10,
     4.8,
-    -15.7
+    -15.15
    ],
    "dir": [
     1,
@@ -646,7 +646,7 @@
   {
    "kit": "battlement_4m",
    "from": [
-    -11.7,
+    -11.25,
     4.8,
     -14
    ],
@@ -661,7 +661,7 @@
   {
    "kit": "battlement_4m",
    "from": [
-    11.7,
+    11.25,
     4.8,
     -14
    ],
@@ -1517,7 +1517,8 @@
    "item": "bell_fragment",
    "label": "Take the bell fragment",
    "tag": "base",
-   "require_flag": "amend_bell_asked"
+   "require_flag": "amend_bell_asked",
+   "kit": "bell_fragment"
   }
  ],
  "portals": [

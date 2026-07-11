@@ -2865,6 +2865,20 @@
     "arena": "gray_cloister",
     "scale_mult": 1.35
    }
+  },
+  {
+   "script": "res://src/world/bell_toller.gd",
+   "at": [
+    20,
+    6.2,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "params": {
+    "arena": "gray_cloister",
+    "period": 26.0
+   }
   }
  ]
 }

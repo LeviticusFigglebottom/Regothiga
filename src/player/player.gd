@@ -1227,7 +1227,7 @@ func cast_spell(id: String) -> void:
 			AudioDirector.sfx("res://assets/audio/whoosh_h.wav", -6.0, 1.2)
 			_radiant_flash(1.2, 3.0)
 		"lance":
-			vis.play("cast", 0.08)
+			vis.play("cast_lance", 0.08)
 			var lfrom := global_position + Vector3.UP * 1.45
 			var laim: Vector3
 			if cam.locked_target != null and is_instance_valid(cam.locked_target):
@@ -1252,7 +1252,7 @@ func cast_spell(id: String) -> void:
 			AudioDirector.sfx("res://assets/audio/whoosh_h.wav", -4.0, 1.5)
 			_radiant_flash(1.6, 4.0)
 		"ward":
-			vis.play("cast_self", 0.1)
+			vis.play("cast_ward", 0.1)
 			_ward_hp = float(sp.get("absorb", 70)) * dev
 			_ward_until = Time.get_ticks_msec() / 1000.0 + float(sp.get("duration", 9.0))
 			_ward_glow()

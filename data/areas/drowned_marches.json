@@ -1512,7 +1512,8 @@
    "item": "bell_fragment",
    "label": "Take the bell fragment",
    "tag": "base",
-   "require_flag": "amend_bell_asked"
+   "require_flag": "amend_bell_asked",
+   "kit": "bell_fragment"
   }
  ],
  "blockers": [

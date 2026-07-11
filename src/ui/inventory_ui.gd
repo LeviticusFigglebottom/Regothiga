@@ -418,6 +418,7 @@ func _icon_for(id: String) -> String:
 		"pilgrim_greatsword": "greatsword", "arrows": "arrows", "torch": "torch",
 		"flask": "flask", "sexton_maul": "greatsword", "ward_halberd": "spear",
 		"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst",
+		"morrow_lance": "lance", "vesper_ward": "ward",
 	}
 	return "res://assets/ui/icons/%s.png" % by.get(id, "relic")
 

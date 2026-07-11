@@ -132,6 +132,36 @@ def icon_mend():
     return img
 
 
+def icon_lance():
+    """Morrow Lance: a straight seam of morning driven through the frame."""
+    img = _canvas()
+    d = ImageDraw.Draw(img)
+    d.line([(8, 56), (50, 14)], fill=FLAME, width=7)                  # the seam
+    d.line([(8, 56), (50, 14)], fill=FLAME_HI, width=3)               # its core
+    d.line([(16, 58), (44, 30)], fill=GOLD_DIM, width=2)              # trailing light
+    star = []
+    for i in range(8):                                                # the strike-head
+        a = math.radians(i * 45 + 22)
+        r = 11 if i % 2 == 0 else 4
+        star.append((52 + r * math.cos(a), 12 + r * math.sin(a)))
+    d.polygon(star, fill=FLAME, outline=FLAME_HI)
+    d.ellipse([48, 8, 56, 16], fill=FLAME_HI)
+    return img
+
+
+def icon_ward():
+    """Vesper Ward: a candle flame kept inside a veil of evening light."""
+    img = _canvas()
+    d = ImageDraw.Draw(img)
+    d.arc([10, 8, 54, 62], start=-235, end=55, fill=GOLD, width=4)     # the veil
+    d.arc([16, 14, 48, 56], start=-225, end=45, fill=GOLD_DIM, width=2)
+    d.rectangle([29, 34, 35, 50], fill=WAX, outline=GOLD)              # the stub
+    d.line([(32, 34), (32, 29)], fill=(90, 70, 45, 255), width=2)
+    d.polygon([(32, 18), (37, 27), (32, 32), (27, 27)], fill=FLAME, outline=FLAME_HI)
+    d.ellipse([30, 23, 34, 28], fill=FLAME_HI)
+    return img
+
+
 def icon_blast():
     """Radiant Blast: a thrown coal of daylight, streaking where grief aims."""
     img = _canvas()
@@ -290,6 +320,8 @@ def main():
     _finish(icon_mend(), "mend")
     _finish(icon_blast(), "blast")
     _finish(icon_burst(), "burst")
+    _finish(icon_lance(), "lance")
+    _finish(icon_ward(), "ward")
     splash()
 
 

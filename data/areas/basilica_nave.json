@@ -1925,7 +1925,7 @@
    "count": 2,
    "label": "Take the sealed anthem",
    "tag": "base",
-   "require_flag": "amend_psalm_asked"
+   "appear_flag": "amend_psalm_asked"
   }
  ],
  "portals": [
@@ -1987,7 +1987,8 @@
     3.4,
     -23.5
    ],
-   "tag": "glory"
+   "tag": "glory",
+   "absent_flag": "amend_sworn"
   },
   {
    "min": [
@@ -2322,9 +2323,9 @@
   {
    "script": "res://src/world/radiant_warden.gd",
    "at": [
+    2.4,
     0,
-    0,
-    -30
+    -28.4
    ],
    "rot": 0,
    "tag": "glory",

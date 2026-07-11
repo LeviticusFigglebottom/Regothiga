@@ -35,6 +35,8 @@ const ST_W := 340.0
 
 var lore_root: Control
 var lore_text: Label
+var _lore_panel: Panel
+var _lore_hint: Label
 var pose_label: Label
 
 # the girdle: five slots along the bottom edge (1-4 arms, 5 the flask)
@@ -275,26 +277,26 @@ func _build() -> void:
 	ldim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	ldim.color = Color(0, 0, 0, 0.55)
 	lore_root.add_child(ldim)
-	var lpanel := Panel.new()
+	_lore_panel = Panel.new()
 	var lsb := StyleBoxFlat.new()
 	lsb.bg_color = Color(0.05, 0.045, 0.04, 0.96)
 	lsb.border_color = Color(0.6, 0.5, 0.32)
 	lsb.set_border_width_all(1)
-	lpanel.add_theme_stylebox_override("panel", lsb)
-	lpanel.position = Vector2(510, 330)
-	lpanel.size = Vector2(900, 400)
-	lore_root.add_child(lpanel)
+	_lore_panel.add_theme_stylebox_override("panel", lsb)
+	_lore_panel.position = Vector2(510, 330)
+	_lore_panel.size = Vector2(900, 400)
+	lore_root.add_child(_lore_panel)
 	lore_text = Label.new()
 	lore_text.label_settings = _font(SERIF, 26, Color(0.9, 0.87, 0.78), false)
 	lore_text.position = Vector2(46, 46)
 	lore_text.size = Vector2(808, 260)
 	lore_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	lpanel.add_child(lore_text)
-	var lhint := Label.new()
-	lhint.label_settings = _font(SERIF, 18, Color(0.6, 0.55, 0.45), false)
-	lhint.position = Vector2(46, 340)
-	lhint.text = "— press any key —"
-	lpanel.add_child(lhint)
+	_lore_panel.add_child(lore_text)
+	_lore_hint = Label.new()
+	_lore_hint.label_settings = _font(SERIF, 18, Color(0.6, 0.55, 0.45), false)
+	_lore_hint.position = Vector2(46, 340)
+	_lore_hint.text = "— press any key —"
+	_lore_panel.add_child(_lore_hint)
 
 	# death splash
 	splash = Control.new()
@@ -487,7 +489,8 @@ func _refresh_rite() -> void:
 	var sid: String = p.attuned_spell
 	rite_panel.visible = sid != "" and not DB.spell(sid).is_empty()
 	if rite_panel.visible:
-		var by := {"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst"}
+		var by := {"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst",
+				"morrow_lance": "lance", "vesper_ward": "ward"}
 		rite_icon.texture = load("res://assets/ui/icons/%s.png" % by.get(sid, "relic"))
 		rite_cost.text = str(int(DB.spell(sid).get("mana", 0)))
 
@@ -553,6 +556,17 @@ func show_toast(text: String) -> void:
 
 func show_lore(text: String) -> void:
 	lore_text.text = text
+	# the panel fits the words, not the other way round: measure the wrapped
+	# text and grow the frame so nothing spills past the border or the hint
+	var f: Font = lore_text.label_settings.font
+	var need := f.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT,
+			808.0, lore_text.label_settings.font_size).y
+	var h := clampf(need + 150.0, 400.0, 860.0)
+	lore_text.size = Vector2(808, h - 140.0)
+	_lore_panel.size = Vector2(900, h)
+	var vp := get_viewport().get_visible_rect().size
+	_lore_panel.position = Vector2((vp.x - 900.0) * 0.5, maxf((vp.y - h) * 0.5, 40.0))
+	_lore_hint.position = Vector2(46, h - 60.0)
 	lore_root.visible = true
 	if Game.player:
 		Game.player.lock_control(true)

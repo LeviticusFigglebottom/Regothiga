@@ -263,14 +263,14 @@
   "carry": "sword_cloister",
   "carry_hand": "r",
   "lines_first": [
-   "I will not play the glad votary tonight, Latecomer. You know me. And I know what walked out of that parish over the keeper's body.",
-   "Look at it. The light that does not FORGET. The road behind you, burning plain as script... and the road you have not walked yet, already written somewhere above us.",
-   "When the dark asks you for the last bell \u2014 and it will ask, up there where the morning is kept \u2014 remember that it has asked you once before. And remember what you answered.",
+   "I will not play the glad votary tonight, Latecomer. Stand in the light where I can look at you.",
+   "Something has changed on your road. I was not there to see it \u2014 but a knight learns the weight of a footstep, and yours comes back heavier than it left. Grim work leaves a gait.",
+   "I do not know what you did, and I find I do not want you to tell me. But the dark has started asking after you by name, up where the morning is kept. When it asks you for the last bell \u2014 and it will \u2014 remember what you answer.",
    "Go on, then. While going is still a thing this porch will let you do."
   ],
   "lines_repeat": [
-   "The offices above keep their own counsel. Ring what is owed, and let an old knight keep his porch.",
-   "I will be here. Watching the road you make. It is what I am for, now."
+   "The offices above keep their own counsel. Whatever you carry now, carry it standing straight.",
+   "I will be here. Watching the road you make. It is what I am for, now \u2014 and lately, Latecomer, your road is hard to watch."
   ],
   "face_flip": true
  },

@@ -46,14 +46,33 @@ func _run() -> void:
 		if n is LorePlaque and String((n as LorePlaque).text).begins_with("A NOTE"):
 			note = n
 	check(note != null and note.set_flag == "amend_sworn", "the note carries the oath")
+	check(note != null and note.style == "note", "and lies as a true note on the ground, lamplit")
 	porch.queue_free()
+	await ticks(2)
 	World.set_flag("amend_sworn")
+	# sworn, the note is taken up: it no longer builds
+	var porch2 := AreaBuilder.build("basilica_porch")
+	add_child(porch2)
+	await ticks(4)
+	var note2 := false
+	for n in porch2.ruin_layer.get_children():
+		if n is LorePlaque and String((n as LorePlaque).text).begins_with("A NOTE"):
+			note2 = true
+	check(not note2, "taken up, the note is gone from the stones")
+	porch2.queue_free()
 
-	# ---- sworn but boss alive: still no warden
+	# ---- sworn but boss alive: still no warden — but his BELL still hangs
 	World.set_cleared("gray_cloister", false)
 	a = _build("gray_cloister")
 	await ticks(4)
 	check(_warden(a, "bell") == null, "a warden still standing his first watch gives no audience")
+	var toller: Node3D = null
+	for n in a.base.get_children():
+		if n is Node3D and n.get_script() != null \
+				and String(n.get_script().resource_path).ends_with("bell_toller.gd"):
+			toller = n
+	check(toller != null and toller.get_child_count() > 0,
+			"his whole bell hangs over the quarters he still keeps")
 
 	# ---- the Bellkeeper, remembered
 	World.set_cleared("gray_cloister")
@@ -61,6 +80,12 @@ func _run() -> void:
 	await ticks(4)
 	var bell := _warden(a, "bell")
 	check(bell != null, "the Bellkeeper stands his quarters in the light")
+	var toller2 := false
+	for n in a.base.get_children():
+		if n is Node3D and n.get_script() != null \
+				and String(n.get_script().resource_path).ends_with("bell_toller.gd"):
+			toller2 = true
+	check(not toller2, "and the broken bell hangs nowhere — its pieces are abroad")
 	# fragments are unseen until his word is given
 	var marsh := AreaBuilder.build("drowned_marches")
 	add_child(marsh)
@@ -111,46 +136,77 @@ func _run() -> void:
 	a = _build("larkspire")
 	await ticks(4)
 	check(_warden(a, "lark") != null, "the Larkwarden waits at the songloft")
-	# ruined cages are not interactable before his word
-	var found_larks := false
-	for n in a.ruin_layer.get_children():
-		if n is Node3D and n.get_script() != null \
-				and String(n.get_script().resource_path).ends_with("amend_larks.gd"):
-			found_larks = true
-	check(not found_larks, "the cages keep shut before he asks")
-	World.set_flag("amend_lark_asked")
-	a = _build("larkspire")
-	await ticks(4)
+	# the cages stand built even before his word — but their doors are inert
 	var larks: Node3D = null
 	for n in a.ruin_layer.get_children():
 		if n is Node3D and n.get_script() != null \
 				and String(n.get_script().resource_path).ends_with("amend_larks.gd"):
 			larks = n
-	check(larks != null, "asked, the ruined cages wait on living hands")
+	check(larks != null, "the cages stand ready in the ruin below")
 	var zones := larks.find_children("*", "Interactable", false, false)
 	check(zones.size() == 4, "four doors he shut (%d)" % zones.size())
+	var armed_early := false
+	for z in zones:
+		if (z as Interactable).enabled:
+			armed_early = true
+	check(not armed_early, "and none answers a hand before he asks")
+	# his word arms them IN PLACE — the same visit, no rebuild
+	World.set_flag("amend_lark_asked")
+	await ticks(45)
+	var armed := 0
+	for z in zones:
+		if (z as Interactable).enabled:
+			armed += 1
+	check(armed == 4, "his word arms every door without leaving the tower (%d)" % armed)
 	for i in zones.size():
 		larks._free(i, zones[i])
 		await ticks(1)
 	check(World.flag("amend_larks"), "every cage opened frees the choir")
+	# and the warden SAYS so, through the true dialogue, and pays his token
+	var lw := _warden(a, "lark")
+	check(lw != null, "the Larkwarden still keeps the songloft")
+	var tokens0 := int(player.inventory.get("radiant_token", 0))
+	lw._on_talk(player)
+	await ticks(3)
+	var dlg: DialogueUI = null
+	for n in get_tree().root.get_children():
+		if n is DialogueUI:
+			dlg = n
+	check(dlg != null, "he gives audience")
+	var conf: Array = DB.npc("warden_lark").get("lines_done", [])
+	check(dlg != null and dlg._lines.size() > 0 and conf.size() > 0 \
+			and String(dlg._lines[0]) == String(conf[0]),
+			"and his first words CONFIRM the empty cages")
+	check(World.flag("amend_larks_thanked"), "the amend is counted")
+	check(int(player.inventory.get("radiant_token", 0)) == tokens0 + 1,
+			"and a Token of Radiant Retribution changes hands")
+	if dlg != null:
+		dlg.close()
+		await ticks(3)
 
 	# ---- the Precentress's anthem
 	World.set_cleared("basilica_nave")
 	a = _build("basilica_nave")
 	await ticks(4)
-	check(_warden(a, "psalm") != null, "the Precentress holds her nave in the light")
-	var loft_hidden := true
-	for n in a.base.get_children():
-		if n is Pickup and (n as Pickup).item_id == "morrow_anthem":
-			loft_hidden = false
-	check(loft_hidden, "her loft keeps its seal before she asks")
-	World.set_flag("amend_psalm_asked")
-	a = _build("basilica_nave")
-	await ticks(4)
+	var pw := _warden(a, "psalm")
+	check(pw != null, "the Precentress holds her nave in the light")
+	# the quire road is open in the light once the amend is sworn
+	var space := a.get_world_3d().direct_space_state
+	var quire := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(0, 1.2, -20), Vector3(0, 1.2, -26), 1 << (VG.L_WORLD_GLORY - 1)))
+	check(quire.is_empty(), "the quire stands open to the radiant nave")
+	# and she stands BESIDE her altar, not inside it
+	check(pw.position.distance_to(Vector3(0, 0, -30.2)) > 2.0,
+			"she keeps her feet clear of the altar stone")
 	var loft: Pickup = null
 	for n in a.base.get_children():
 		if n is Pickup and (n as Pickup).item_id == "morrow_anthem":
 			loft = n
+	check(loft != null and not loft.visible, "her loft keeps its seal before she asks")
+	World.set_flag("amend_psalm_asked")
+	await ticks(45)
+	check(loft != null and loft.visible and loft._zone.enabled,
+			"her word unseals the loft in place — no pilgrimage of rebuilds")
 	check(loft != null and loft.item_count == 2, "two fair copies wait in the loft")
 	# both deliveries: the Chandler and the Apostle carry deliver services
 	var av: Dictionary = DB.npc("aveline")
@@ -166,6 +222,19 @@ func _run() -> void:
 	check(av_del and ap_del, "both rites-sellers stand ready to receive her song")
 	World.set_flag("amend_psalm_a")
 	World.set_flag("amend_psalm_b")
+	var ptok := int(player.inventory.get("radiant_token", 0))
+	pw._on_talk(player)
+	await ticks(3)
+	var pdlg: DialogueUI = null
+	for n in get_tree().root.get_children():
+		if n is DialogueUI:
+			pdlg = n
+	check(World.flag("amend_psalm"), "song sung twice, her amend is made")
+	check(int(player.inventory.get("radiant_token", 0)) == ptok + 1,
+			"and she too presses a Token into your hand")
+	if pdlg != null:
+		pdlg.close()
+		await ticks(3)
 
 	# ---- the apostle keeps his church outside the palace door
 	World.set_flag("scion_heard")
@@ -263,6 +332,8 @@ func _run() -> void:
 		rw._check_whole()
 		rw.free()
 	check(World.flag("amend_whole"), "THE AMEND IS MADE WHOLE")
+	check(int(player.inventory.get("radiant_token", 0)) == 5,
+			"five amends, five Tokens of Radiant Retribution (%d)" % int(player.inventory.get("radiant_token", 0)))
 
 	finish()
 

@@ -113,7 +113,7 @@ func _on_talk(player) -> void:
 			elif World.flag("amend_larks"):
 				lines = cfg.get("lines_done", [])
 				World.set_flag("amend_larks_thanked")
-				_grant(600, "", "The Larkwarden's amend is made.")
+				_grant(600, "radiant_token", "The Larkwarden's amend is made.")
 			elif asked:
 				lines = cfg.get("lines_waiting", [])
 			else:
@@ -124,7 +124,7 @@ func _on_talk(player) -> void:
 			elif World.flag("amend_psalm_a") and World.flag("amend_psalm_b"):
 				lines = cfg.get("lines_done", [])
 				World.set_flag("amend_psalm")
-				_grant(600, "", "The Precentress's amend is made.")
+				_grant(600, "radiant_token", "The Precentress's amend is made.")
 			elif asked:
 				lines = cfg.get("lines_waiting", [])
 			else:
@@ -134,7 +134,7 @@ func _on_talk(player) -> void:
 				lines = cfg.get("lines_waiting", [])
 			else:
 				lines = cfg.get("lines_first", [])
-			services = [{"type": "rite", "id": "fare",
+			services = [{"type": "rite", "id": "fare", "close": true,
 				"label": "Pay the last fare — face the Ferryman"}]
 	if not asked:
 		World.set_flag(_asked_flag())
@@ -155,6 +155,7 @@ func _rite(o: Dictionary) -> String:
 			World.set_flag("amend_toll")
 			World.save_game()
 			p.give_item("penance_writ", 1)
+			p.give_item("radiant_token", 1)
 			Game.toast.emit("Penance paid — the Tollkeeper's amend is made.")
 			AudioDirector.sfx("res://assets/audio/bell_toll.wav", -4.0, 0.9)
 			_check_whole()
@@ -168,7 +169,7 @@ func _rite(o: Dictionary) -> String:
 			World.save_game()
 			_assemble_bell()
 			Game.toast.emit("The bell made whole — the Bellkeeper's amend is made.")
-			_grant(800, "", "")
+			_grant(800, "radiant_token", "")
 			_check_whole()
 			return "Whole. WHOLE. Do you hear it, Latecomer? The hour comes back to me like a name I misplaced."
 		"fare":
@@ -263,6 +264,8 @@ func _ferry_rested(_e) -> void:
 		motes.global_position = _fight.global_position + Vector3.UP * 1.2
 		motes.emitting = true
 		get_tree().create_timer(3.0, false).timeout.connect(motes.queue_free)
+	if Game.player != null:
+		Game.player.give_item("radiant_token", 1)
 	Game.toast.emit("The Ferryman rests — his amend is made, and yours with it.")
 	_check_whole()
 	queue_free()
