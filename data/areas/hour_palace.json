@@ -3139,7 +3139,7 @@
    "kit": "chandelier_gilt",
    "at": [
     0,
-    6.9,
+    6.0,
     12
    ],
    "rot": 0,
@@ -3150,7 +3150,7 @@
    "kit": "chandelier_gilt",
    "at": [
     0,
-    6.9,
+    6.0,
     24
    ],
    "rot": 0,
@@ -3161,7 +3161,7 @@
    "kit": "chandelier_gilt",
    "at": [
     0,
-    6.9,
+    6.0,
     36
    ],
    "rot": 0,
@@ -3172,7 +3172,7 @@
    "kit": "chandelier_gilt",
    "at": [
     0,
-    6.9,
+    6.0,
     48
    ],
    "rot": 0,
@@ -3371,7 +3371,7 @@
    "kit": "censer_hanging",
    "at": [
     0,
-    6.2,
+    9.44,
     18
    ],
    "rot": 0,
@@ -3382,7 +3382,7 @@
    "kit": "censer_hanging",
    "at": [
     0,
-    6.2,
+    9.44,
     40
    ],
    "rot": 0,
@@ -3453,7 +3453,7 @@
    "kit": "chandelier_gilt",
    "at": [
     0,
-    6.9,
+    6.0,
     64
    ],
    "rot": 0,
@@ -3504,7 +3504,23 @@
    "kit": "chandelier_gilt",
    "at": [
     18,
-    4.6,
+    3.4,
+    16
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.6,
+    0.6,
+    0.6
+   ]
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    34,
+    6.0,
     16
    ],
    "rot": 0,
@@ -3515,18 +3531,7 @@
    "kit": "chandelier_gilt",
    "at": [
     34,
-    6.9,
-    16
-   ],
-   "rot": 0,
-   "tag": "base",
-   "collide": false
-  },
-  {
-   "kit": "chandelier_gilt",
-   "at": [
-    34,
-    6.9,
+    6.0,
     32
    ],
    "rot": 0,
@@ -3609,7 +3614,23 @@
    "kit": "chandelier_gilt",
    "at": [
     -18,
-    4.6,
+    3.4,
+    16
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.6,
+    0.6,
+    0.6
+   ]
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -34,
+    6.0,
     16
    ],
    "rot": 0,
@@ -3620,18 +3641,7 @@
    "kit": "chandelier_gilt",
    "at": [
     -34,
-    6.9,
-    16
-   ],
-   "rot": 0,
-   "tag": "base",
-   "collide": false
-  },
-  {
-   "kit": "chandelier_gilt",
-   "at": [
-    -34,
-    6.9,
+    6.0,
     32
    ],
    "rot": 0,
@@ -3704,7 +3714,7 @@
    "kit": "censer_hanging",
    "at": [
     18,
-    3.6,
+    5.44,
     12
    ],
    "rot": 0,
@@ -4020,7 +4030,7 @@
    "kit": "censer_hanging",
    "at": [
     -18,
-    3.6,
+    5.44,
     34
    ],
    "rot": 0,
@@ -4506,22 +4516,6 @@
    ],
    "spawn_yaw": 180,
    "prompt": "Descend the candle-stair"
-  },
-  {
-   "to": "basilica_porch",
-   "at": [
-    -20,
-    0,
-    34
-   ],
-   "rot": 90,
-   "spawn": [
-    0,
-    -2.42,
-    17
-   ],
-   "spawn_yaw": 0,
-   "prompt": "Leap the lightwell"
   }
  ]
 }

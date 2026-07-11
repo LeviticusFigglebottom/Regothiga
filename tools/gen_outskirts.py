@@ -233,8 +233,8 @@ def main():
                "label": "Gather the corner-house till"})
     # the Bellkeeper's amend: one fragment lies in the old kingdom's broken
     # houses — an upper ruin room, unseen until his word is given
-    PK.append({"id": "bell_fragment_ruins", "at": [-16.4, 5.4, -31.2],
-               "item": "bell_fragment", "tag": "base",
+    PK.append({"id": "bell_fragment_ruins", "at": [-24.4, 0, -1.6],
+               "item": "bell_fragment", "kit": "bell_fragment", "tag": "base",
                "label": "Take the bell fragment",
                "require_flag": "amend_bell_asked"})
 
@@ -454,10 +454,8 @@ def main():
         w.update({"all_of": ["word_wax", "word_wick", "word_flame"], "sets": "parish_words",
                   "tag": "base"})
     d["word_stones"] = WS
-    PR.append({"kit": "banner", "at": [-2, 0.4, 9.7], "rot": 0, "tag": "glory"})
-    PR.append({"kit": "banner_torn", "at": [-2, 0.4, 9.7], "rot": 0, "tag": "ruin"})
-    PR.append({"kit": "barrel", "at": [-9.4, 0, 9.2], "rot": 25, "tag": "base"})
-    PR.append({"kit": "crate_stack", "at": [-11, 0, 8.6], "rot": -20, "tag": "base"})
+    # (the quay-edge banner and loose clutter hung on air here — removed;
+    # nothing may float where no wall stands)
 
     # the parish door is a true threshold now: the vestibule leads inside
     d["portals"] = [pp for pp in d.get("portals", []) if pp.get("to") != "wick_cathedral"]

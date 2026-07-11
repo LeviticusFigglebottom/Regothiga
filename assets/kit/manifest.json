@@ -431,11 +431,11 @@
  "chandelier_gilt": {
   "file": "assets/kit/chandelier_gilt.glb",
   "origin": "center",
-  "polys": 152,
+  "polys": 798,
   "size": [
-   2.1,
-   2.1,
-   2.3
+   2.8,
+   2.8,
+   4.2
   ]
  },
  "char_aveline": {

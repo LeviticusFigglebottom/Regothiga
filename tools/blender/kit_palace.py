@@ -14,6 +14,14 @@ from mathutils import Vector
 import vglib as V
 
 
+def _pflame(name, r=0.03, h=0.1):
+    """Stylized flame for the chandelier crowns (M_flame is emissive)."""
+    n = 6
+    rings = [(r * 0.4, 0.0, n, 0), (r, h * 0.28, n, 0.2), (r * 0.55, h * 0.62, n, 0.4),
+             (r * 0.18, h * 0.86, n, 0.6), (0.004, h, n, 0.8)]
+    return V.loft_rings(name, rings, "M_flame")
+
+
 # ---------------------------------------------------------------- helpers
 
 def _dentils(bm, x0, x1, z, y_front, depth=0.1, w=0.16, gap=0.17, h=0.2):
@@ -408,34 +416,58 @@ def banquet_bench_6m():
 
 
 def chandelier_gilt():
-    """Hanging gold chandelier: chain, twin rings, a crown of candles.
-    Origin at the RING centre — place at hanging height, no collision."""
+    """Hanging gold chandelier, GRAND: two gilt tiers of candles, curtain
+    chains between the rims, a pendant drop below, and a long iron chain
+    running all the way up into the vault. Origin at the great ring's
+    centre — hang low over the hall; the chain finds the ceiling."""
     objs = []
-    n = 10
-    ring = V.loft_rings("chand_ring", [(0.95, -0.06, n, 0), (1.0, 0.0, n, 0),
-                                       (0.95, 0.06, n, 0)], "M_gild")
+    n = 12
+    ring = V.loft_rings("chand_ring", [(1.3, -0.08, n, 0), (1.38, 0.0, n, 0),
+                                       (1.3, 0.08, n, 0)], "M_gild")
     objs.append(ring)
-    ring2 = V.loft_rings("chand_ring2", [(0.55, 0.34, n, 0), (0.6, 0.4, n, 0),
-                                         (0.55, 0.46, n, 0)], "M_gild")
+    ring2 = V.loft_rings("chand_ring2", [(0.72, 0.9, n, 0), (0.8, 0.98, n, 0),
+                                         (0.72, 1.06, n, 0)], "M_gild")
     objs.append(ring2)
     bm = bmesh.new()
-    V.add_box(bm, (-0.03, -0.03, 0.4), (0.03, 0.03, 2.2))          # chain to the vault
-    for i in range(4):
-        a = math.tau * i / 4
-        V.add_box(bm, (math.cos(a) * 0.72 - 0.02, math.sin(a) * 0.72 - 0.02, 0.06),
-                  (math.cos(a) * 0.72 + 0.02, math.sin(a) * 0.72 + 0.02, 0.36))
+    # the long chain to the vault (top reaches +3.6 over the great ring)
+    V.add_box(bm, (-0.035, -0.035, 1.0), (0.035, 0.035, 3.6))
+    # curtain chains: upper rim down to the great ring
+    for i in range(6):
+        a = math.tau * i / 6
+        x0, y0 = math.cos(a) * 0.76, math.sin(a) * 0.76
+        x1, y1 = math.cos(a) * 1.3, math.sin(a) * 1.3
+        for t in (0.0, 0.5, 1.0):
+            cx, cy = x0 + (x1 - x0) * t, y0 + (y1 - y0) * t
+            cz = 0.94 - 0.94 * t
+            V.add_box(bm, (cx - 0.015, cy - 0.015, cz - 0.18), (cx + 0.015, cy + 0.015, cz + 0.18))
+    # the pendant drop under the great ring
+    V.add_box(bm, (-0.03, -0.03, -0.55), (0.03, 0.03, 0.0))
     objs.append(V.bm_to_object(bm, "chand_chain", ("M_iron",)))
+    drop = V.loft_rings("chand_drop", [(0.02, -0.55, 8, 0), (0.11, -0.42, 8, 0),
+                                       (0.02, -0.3, 8, 0)], "M_gild")
+    objs.append(drop)
     bm = bmesh.new()
-    for i in range(8):
-        a = math.tau * (i + 0.5) / 8
-        cx, cy = math.cos(a) * 0.86, math.sin(a) * 0.86
-        V.add_box(bm, (cx - 0.04, cy - 0.04, 0.0), (cx + 0.04, cy + 0.04, 0.3))
-    for i in range(5):
-        a = math.tau * i / 5
-        cx, cy = math.cos(a) * 0.42, math.sin(a) * 0.42
-        V.add_box(bm, (cx - 0.04, cy - 0.04, 0.4), (cx + 0.04, cy + 0.04, 0.68))
+    for i in range(12):
+        a = math.tau * (i + 0.5) / 12
+        cx, cy = math.cos(a) * 1.2, math.sin(a) * 1.2
+        V.add_box(bm, (cx - 0.04, cy - 0.04, 0.02), (cx + 0.04, cy + 0.04, 0.34))
+    for i in range(7):
+        a = math.tau * i / 7
+        cx, cy = math.cos(a) * 0.6, math.sin(a) * 0.6
+        V.add_box(bm, (cx - 0.04, cy - 0.04, 1.0), (cx + 0.04, cy + 0.04, 1.3))
     objs.append(V.bm_to_object(bm, "chand_candles", ("M_wax",)))
-    return objs, {"size": [2.1, 2.1, 2.3], "origin": "center"}
+    for i in range(12):
+        a = math.tau * (i + 0.5) / 12
+        f = _pflame("chand_flame%d" % i)
+        f.location = (math.cos(a) * 1.2, math.sin(a) * 1.2, 0.34)
+        objs.append(f)
+    for i in range(7):
+        a = math.tau * i / 7
+        f = _pflame("chand_flame_u%d" % i)
+        f.location = (math.cos(a) * 0.6, math.sin(a) * 0.6, 1.3)
+        objs.append(f)
+    return objs, {"size": [2.8, 2.8, 4.2], "origin": "center"}
+
 
 
 def carpet_runner_8m():

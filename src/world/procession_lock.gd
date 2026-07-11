@@ -15,6 +15,7 @@ var stands: Array = []
 var _lit: Array = []
 var _flames: Array = []
 var _lights: Array = []
+var _tongues: Array = []
 
 func _ready() -> void:
 	if World.flag(flag):
@@ -40,12 +41,34 @@ func _ready() -> void:
 		var l := OmniLight3D.new()
 		l.light_color = Color(1.0, 0.8, 0.45)
 		l.light_energy = 0.0
-		l.omni_range = 3.6
+		l.omni_range = 4.2
 		l.shadow_enabled = false
 		l.position.y = 1.7
 		holder.add_child(l)
+		# the flame made unmistakable: a tall bright tongue over the wax,
+		# there when lit, gone when cold — readable across the whole vault
+		var tongue := MeshInstance3D.new()
+		var tm := CylinderMesh.new()
+		tm.top_radius = 0.01
+		tm.bottom_radius = 0.09
+		tm.height = 0.55
+		var tmat := StandardMaterial3D.new()
+		tmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		tmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		tmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		tmat.albedo_color = Color(1.0, 0.82, 0.4, 0.85)
+		tm.material = tmat
+		tongue.mesh = tm
+		tongue.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		tongue.position.y = 1.62
+		tongue.visible = false
+		holder.add_child(tongue)
+		var ttw := tongue.create_tween()
+		ttw.set_loops(0)
+		ttw.tween_property(tongue, "scale", Vector3(1.15, 1.25, 1.15), 0.5).set_trans(Tween.TRANS_SINE)
+		ttw.tween_property(tongue, "scale", Vector3(0.9, 0.92, 0.9), 0.5).set_trans(Tween.TRANS_SINE)
 		var z := Interactable.new()
-		z.prompt = "Carry the flame"
+		z.prompt = "Kindle the flame"
 		z.setup_zone(1.4, 1.9)
 		var idx := i
 		z.activated.connect(func(_p): _touch(idx))
@@ -53,13 +76,16 @@ func _ready() -> void:
 		_lit.append(false)
 		_flames.append(flame)
 		_lights.append(l)
+		_tongues.append(tongue)
 		_apply(i)
 
 func _apply(i: int) -> void:
 	var on: bool = _lit[i]
 	if _flames[i] != null and is_instance_valid(_flames[i]):
 		(_flames[i] as Node3D).visible = on
-	(_lights[i] as OmniLight3D).light_energy = 1.6 if on else 0.0
+	(_lights[i] as OmniLight3D).light_energy = 2.4 if on else 0.0
+	if i < _tongues.size() and _tongues[i] != null and is_instance_valid(_tongues[i]):
+		(_tongues[i] as Node3D).visible = on
 
 func _touch(i: int) -> void:
 	if World.flag(flag):

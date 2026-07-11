@@ -158,7 +158,7 @@ func _run() -> void:
 			if want.has(t):
 				want[t] += 1
 	check(want["gilded_sanctum"] == 3, "the Door and both stairs descend to the Sanctum (%d)" % want["gilded_sanctum"])
-	check(want["basilica_porch"] == 1, "the Lightwell drops all the way home")
+	check(want["basilica_porch"] == 0, "no road in the palace drops to the porch — the way home is the Door")
 
 	# ---- the Door of the Hour opens for the hour (sanctum side)
 	World.reset()

@@ -7152,46 +7152,6 @@
    ],
    "rot": 45,
    "tag": "ruin"
-  },
-  {
-   "kit": "banner",
-   "at": [
-    -2,
-    0.4,
-    9.7
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "banner_torn",
-   "at": [
-    -2,
-    0.4,
-    9.7
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "barrel",
-   "at": [
-    -9.4,
-    0,
-    9.2
-   ],
-   "rot": 25,
-   "tag": "base"
-  },
-  {
-   "kit": "crate_stack",
-   "at": [
-    -11,
-    0,
-    8.6
-   ],
-   "rot": -20,
-   "tag": "base"
   }
  ],
  "spawners": [
@@ -7384,11 +7344,12 @@
   {
    "id": "bell_fragment_ruins",
    "at": [
-    -16.4,
-    5.4,
-    -31.2
+    -24.4,
+    0,
+    -1.6
    ],
    "item": "bell_fragment",
+   "kit": "bell_fragment",
    "tag": "base",
    "label": "Take the bell fragment",
    "require_flag": "amend_bell_asked"

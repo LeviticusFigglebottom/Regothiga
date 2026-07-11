@@ -6,7 +6,7 @@ A vaulted great nave runs the spine, colonnaded, lit by its own clerestory.
 Two full wings branch off it — the Carillon (east: four chimes rung in the
 day's order) and the Hundred Candles (west: five keepers' lights) — each a
 loop of rooms with doors joining every neighbour, a guarded reward, and a
-stair back down to the Sanctum. The west Waxworks hides the Lightwell, a
+stair back down to the Sanctum. The west Waxworks keeps an old wellhead, a
 one-way leap all the way home to the porch. Both wing rites together unbar
 the HOUR GATE at the nave's head; the antechamber beyond stands ready for
 the one who keeps it (not yet — the room waits).
@@ -172,7 +172,7 @@ for z in (14, 34):
         prop("banquet_bench_6m", (2.2 * sd, 0, z + 2), 90)
         prop("banquet_bench_6m", (5.0 * sd, 0, z + 2), 90)
 for z in (12, 24, 36, 48):
-    prop("chandelier_gilt", (0, 6.9, z), 0, collide=False)
+    prop("chandelier_gilt", (0, 6.0, z), 0, collide=False)
 for z in (6, 20, 34, 48):
     for sd in (1, -1):
         prop("banner", (9.55 * sd, 4.4, z), -90 if sd > 0 else 90, collide=False)
@@ -184,8 +184,8 @@ for s in (1, -1):
 for z in (20, 36):
     prop("candelabra", (-9.2, 0, z), 90)
     prop("candelabra", (9.2, 0, z), -90)
-prop("censer_hanging", (0, 6.2, 18), 0, collide=False)
-prop("censer_hanging", (0, 6.2, 40), 0, collide=False)
+prop("censer_hanging", (0, 9.44, 18), 0, collide=False)
+prop("censer_hanging", (0, 9.44, 40), 0, collide=False)
 
 # ---------------------------------------------------------------- the Hour Gate
 wall_run_x(56, -10, -2, 0)
@@ -208,7 +208,7 @@ for a, r in [((-6.4, 0, 62), 40), ((6.4, 0, 62), -40), ((-6.4, 0, 70), 140), ((6
     prop("candelabra", a, r)
 prop("mosaic_medallion", (0, 0.02, 65), 0)
 prop("carpet_runner_8m", (0, 0.02, 61), 90)
-prop("chandelier_gilt", (0, 6.9, 64), 0, collide=False)
+prop("chandelier_gilt", (0, 6.0, 64), 0, collide=False)
 piece("statue_orans", (0, 0, 70.4), 180)
 piece("statue_saint", (-7.5, 0, 70.5), 160)
 piece("statue_saint", (7.5, 0, 70.5), -160)
@@ -248,9 +248,9 @@ for s in (1, -1):
     prop("candelabra", (18 * s, 0, 36), 180)
     prop("candelabra", (34 * s, 0, 20), rot_in)
     prop("mosaic_medallion", (18 * s, 0.02, 16), 0)
-    prop("chandelier_gilt", (18 * s, 4.6, 16), 0, collide=False)
-    prop("chandelier_gilt", (34 * s, 6.9, 16), 0, collide=False)
-    prop("chandelier_gilt", (34 * s, 6.9, 32), 0, collide=False)
+    prop("chandelier_gilt", (18 * s, 3.4, 16), 0, collide=False, scale=[0.6, 0.6, 0.6])
+    prop("chandelier_gilt", (34 * s, 6.0, 16), 0, collide=False)
+    prop("chandelier_gilt", (34 * s, 6.0, 32), 0, collide=False)
     prop("carpet_runner_8m", (34 * s, 0.02, 24), 90)
     prop("banner", (41.55 * s, 4.4, 16), rot_out, collide=False)
     prop("banner", (41.55 * s, 4.4, 32), rot_out, collide=False)
@@ -258,7 +258,7 @@ for s in (1, -1):
 # ---- east wing character: the ringers' house
 prop("banquet_bench_6m", (18, 0, 19.5), 90, scale=[0.6, 1, 1])   # practice pews
 prop("banquet_bench_6m", (21.5, 0, 19.5), 90, scale=[0.6, 1, 1])
-prop("censer_hanging", (18, 3.6, 12), 0, collide=False)
+prop("censer_hanging", (18, 5.44, 12), 0, collide=False)
 prop("bell_great", (34, 5.4, 20), 0, collide=False)              # the mother bell
 prop("carpet_runner_8m", (18, 0.02, 33), 0)
 prop("shrine_aedicule", (22, 0, 36.5), 180)                      # reliquary shrine
@@ -280,10 +280,10 @@ for (cx, cz) in [(-30.5, 10.5), (-37.5, 15.5), (-30.5, 21), (-37.5, 27), (-30.5,
 prop("altar", (-18, 0, 30.5), 0)                                 # the waxworks
 prop("candle_cluster", (-18.55, 1.35, 30.4), 70, collide=False)  # wax pooled on the slab
 prop("book_stack", (-17.45, 1.35, 30.65), -25, collide=False)    # the chandler's ledger
-prop("wellhead", (-20, 0, 36), 30)                               # the Lightwell itself
+prop("wellhead", (-20, 0, 36), 30)                               # the old well, dry and deep
 prop("candle_cluster", (-15.5, 0, 32.5), 40)
 prop("candle_cluster", (-21, 0, 33), -30)
-prop("censer_hanging", (-18, 3.6, 34), 0, collide=False)
+prop("censer_hanging", (-18, 5.44, 34), 0, collide=False)
 
 # guards of the morning: they hold every room once the Scion has spoken
 for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),
@@ -381,9 +381,6 @@ def main():
             {"to": "gilded_sanctum", "at": [-36, 0, 39], "rot": 0,
              "spawn": [-15, 0.2, 3.0], "spawn_yaw": 180,
              "prompt": "Descend the candle-stair"},
-            {"to": "basilica_porch", "at": [-20, 0, 34], "rot": 90,
-             "spawn": [0, -2.42, 17], "spawn_yaw": 0,
-             "prompt": "Leap the lightwell"},
         ],
     }
     with open(PATH, "w") as f:

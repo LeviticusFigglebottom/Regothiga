@@ -1247,50 +1247,10 @@
    "tag": "ruin"
   },
   {
-   "kit": "banner",
-   "at": [
-    -9.7,
-    0.4,
-    -16
-   ],
-   "rot": 90,
-   "tag": "glory"
-  },
-  {
-   "kit": "banner",
-   "at": [
-    9.7,
-    0.4,
-    -12
-   ],
-   "rot": -90,
-   "tag": "glory"
-  },
-  {
-   "kit": "banner_torn",
-   "at": [
-    -9.7,
-    0.4,
-    -16
-   ],
-   "rot": 90,
-   "tag": "ruin"
-  },
-  {
-   "kit": "banner_torn",
-   "at": [
-    9.7,
-    0.4,
-    -12
-   ],
-   "rot": -90,
-   "tag": "ruin"
-  },
-  {
    "kit": "censer_hanging",
    "at": [
     0,
-    5.3,
+    9.42,
     -8
    ],
    "tag": "glory"
@@ -1309,7 +1269,7 @@
    "kit": "censer_hanging",
    "at": [
     0,
-    5.3,
+    9.42,
     -18
    ],
    "rot": 90,
