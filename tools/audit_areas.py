@@ -20,7 +20,7 @@ MOUNTED = {
     "cloud_bank_a", "cloud_bank_b", "cloud_bank_c",   # sky dressing rides the sky
     "lark_cage", "lark_cage_dead", "aviary_screen",
     "chimney_stack", "balcony_3m",   # ride roofs and upper wall faces
-    "chandelier_gilt",   # hangs from the vault by design
+    "chandelier_gilt", "palace_dome_12m",   # hang from the vault by design
     "book_stack", "scroll_pile",   # ride desks and shelves
     "clock_tower",   # crowns the parish facade
 }

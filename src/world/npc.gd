@@ -55,7 +55,10 @@ func _physics_process(dt: float) -> void:
 	var p = Game.player
 	if p != null and global_position.distance_to(p.global_position) < 5.0:
 		var to: Vector3 = p.global_position - global_position
-		var ty := atan2(-to.x, -to.z)
+		# the WORLD bearing to the player, expressed in the node's LOCAL frame —
+		# an npc authored with any spec rot used to add that rot on top and
+		# face somewhere else entirely (the grim knight greeted the arch)
+		var ty := atan2(-to.x, -to.z) - global_rotation.y
 		# some bodies (char_ward) are authored turned about: flip so the
 		# knight greets you with his face, not his pack
 		if cfg.get("face_flip", false):

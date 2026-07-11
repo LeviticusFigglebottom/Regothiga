@@ -1046,6 +1046,16 @@
    0.3
   ]
  },
+ "palace_dome_12m": {
+  "file": "assets/kit/palace_dome_12m.glb",
+  "origin": "rim-center",
+  "polys": 404,
+  "size": [
+   12.6,
+   12.6,
+   4.5
+  ]
+ },
  "palace_floor_4x4": {
   "file": "assets/kit/palace_floor_4x4.glb",
   "origin": "top-center",

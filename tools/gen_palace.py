@@ -136,7 +136,7 @@ for s in (1, -1):
     g0, g1 = (26, 42) if s > 0 else (-42, -26)
     VF.append({"min": [a, 0, 8], "max": [b, 0, 24]})                    # room 1
     VF.append({"min": [a, 0, 24], "max": [b, 0, 28]})                   # cross-corridor
-    VF.append({"min": [a, 0, 28], "max": [b, 0, 40]})                   # room 3
+    VF.append({"min": [a, 0, 28], "max": [b, 0, 40], "flat": True})     # room 3: beamed
     VF.append({"min": [g0, 0, 8], "max": [g1, 0, 40], "spring_top": 8}) # long gallery
 
 # ---------------------------------------------------------------- the great nave
@@ -283,7 +283,12 @@ prop("book_stack", (-17.45, 1.35, 30.65), -25, collide=False)    # the chandler'
 prop("wellhead", (-20, 0, 36), 30)                               # the old well, dry and deep
 prop("candle_cluster", (-15.5, 0, 32.5), 40)
 prop("candle_cluster", (-21, 0, 33), -30)
-prop("censer_hanging", (-18, 5.44, 34), 0, collide=False)
+prop("censer_hanging", (-18, 3.98, 34), 0, collide=False)
+
+# ---- the regal ceilings: two coffered domes rise where the house is
+# proudest — the nave's mid-crossing and the antechamber rotunda
+prop("palace_dome_12m", (0, 7.9, 28), 0, collide=False)
+prop("palace_dome_12m", (0, 7.9, 64), 0, collide=False, scale=[1.15, 1.05, 1.15])
 
 # guards of the morning: they hold every room once the Scion has spoken
 for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),

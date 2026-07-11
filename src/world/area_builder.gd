@@ -357,10 +357,17 @@ static func _fill(area: Area, spec: Dictionary) -> void:
 	var step := float(spec.get("step", 4.0))
 	var x := mn.x
 	while x < mx.x - 0.01:
+		# a span that doesn't divide by the tile must NOT overshoot its bound:
+		# the sanctum court's last row used to poke 2 m past the balustrade —
+		# a gated-off ledge nobody could reach. Clamp the edge tiles instead.
+		var w := minf(step, mx.x - x)
 		var z := mn.z
 		while z < mx.z - 0.01:
+			var dpt := minf(step, mx.z - z)
 			var sub := spec.duplicate()
-			sub["at"] = [x + step * 0.5, mn.y, z + step * 0.5]
+			sub["at"] = [x + w * 0.5, mn.y, z + dpt * 0.5]
+			if w < step - 0.01 or dpt < step - 0.01:
+				sub["scale"] = [w / step, 1.0, dpt / step]
 			_piece(area, sub, spec.get("collide", true))
 			z += step
 		x += step

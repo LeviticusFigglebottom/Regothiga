@@ -292,7 +292,7 @@ for i in range(5):
     SKY.append({"kit": "radiant_spire_b" if i % 2 else "radiant_spire_a",
                 "at": [round(x, 1), round(y, 1), round(z, 1)],
                 "rot": int(_rng.uniform(0, 360)), "scale": [st, st, st]})
-    _cloud_bed(x, y + 2.5, z, 8 * st, 2, 1.1, 1.7)
+    _cloud_bed(x, y + 0.5, z, 8 * st, 2, 1.1, 1.7)
 
 # streaming light + the living cloud sea (the clouds orbit, slow and stately)
 SCRIPTED = [

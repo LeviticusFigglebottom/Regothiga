@@ -10,7 +10,7 @@ extends Node3D
 var low_count := 26           # the sea ringing the ward
 var high_count := 10          # drifting among the far spires
 var under_count := 8          # the sea directly beneath the floor line
-var r_lo_min := 96.0          # ward reaches r~37; a 2.4-scaled bank's long
+var r_lo_min := 120.0          # ward reaches r~37; a 2.4-scaled bank's long
 var r_lo_max := 190.0         # axis pokes ~28 inward — nothing reads as a
                               # walkable shelf from the landing rail again
 var r_hi_min := 110.0
@@ -27,7 +27,7 @@ func _ready() -> void:
 	rng.seed = seed_v
 	for i in low_count:
 		_bank(rng, rng.randf_range(r_lo_min, r_lo_max),
-				rng.randf_range(-20.0, -9.0), rng.randf_range(1.8, 2.4))
+				rng.randf_range(-20.0, -10.0), rng.randf_range(1.6, 2.2))
 	for i in high_count:
 		_bank(rng, rng.randf_range(r_hi_min, r_hi_max),
 				rng.randf_range(8.0, 26.0), rng.randf_range(1.4, 2.6))

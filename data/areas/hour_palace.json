@@ -153,7 +153,8 @@
     26,
     0,
     40
-   ]
+   ],
+   "flat": true
   },
   {
    "min": [
@@ -202,7 +203,8 @@
     -10,
     0,
     40
-   ]
+   ],
+   "flat": true
   },
   {
    "min": [
@@ -4030,12 +4032,39 @@
    "kit": "censer_hanging",
    "at": [
     -18,
-    5.44,
+    3.98,
     34
    ],
    "rot": 0,
    "tag": "base",
    "collide": false
+  },
+  {
+   "kit": "palace_dome_12m",
+   "at": [
+    0,
+    7.9,
+    28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "palace_dome_12m",
+   "at": [
+    0,
+    7.9,
+    64
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    1.15,
+    1.05,
+    1.15
+   ]
   }
  ],
  "blockers": [

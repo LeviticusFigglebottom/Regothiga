@@ -415,6 +415,38 @@ def banquet_bench_6m():
     return [obj], {"size": [6, 0.4, 0.5], "origin": "bottom-center"}
 
 
+def palace_dome_12m():
+    """Coffered marble dome, 12 m across: the regal ceiling. Open below,
+    banded in gold at three latitudes, crowned by a gilt oculus ring with
+    a soft glow standing in for the morning above. Origin at the RIM —
+    hang the rim just under a vault line and the shell rises into it."""
+    objs = []
+    n = 24
+    # the shell: hemisphere-ish profile rising 4.2 over the rim
+    prof = [(6.0, 0.0), (5.86, 0.7), (5.45, 1.5), (4.7, 2.4), (3.6, 3.2),
+            (2.3, 3.8), (1.1, 4.1)]
+    rings = [(r, z, n, 0) for (r, z) in prof]
+    shell = V.loft_rings("dome_shell", rings, "M_marble", cap_bottom=False, cap_top=False)
+    objs.append(shell)
+    # gilt latitude bands (the coffering read)
+    for (r, z) in ((5.7, 1.0), (4.9, 2.15), (3.1, 3.45)):
+        band = V.loft_rings("dome_band", [(r + 0.06, z - 0.09, n, 0), (r + 0.1, z, n, 0),
+                                          (r + 0.06, z + 0.09, n, 0)], "M_gold")
+        objs.append(band)
+    # rim cornice
+    rim = V.loft_rings("dome_rim", [(6.25, -0.12, n, 0), (6.3, 0.06, n, 0),
+                                    (6.05, 0.2, n, 0)], "M_gold")
+    objs.append(rim)
+    # the oculus: gilt ring + a soft standing glow
+    oc = V.loft_rings("dome_oculus", [(1.15, 4.0, 16, 0), (1.2, 4.18, 16, 0),
+                                      (1.05, 4.3, 16, 0)], "M_gold")
+    objs.append(oc)
+    glow = V.loft_rings("dome_glow", [(0.95, 4.12, 12, 0), (0.55, 4.4, 12, 0),
+                                      (0.1, 4.5, 12, 0)], "M_flame")
+    objs.append(glow)
+    return objs, {"size": [12.6, 12.6, 4.5], "origin": "rim-center"}
+
+
 def chandelier_gilt():
     """Hanging gold chandelier, GRAND: two gilt tiers of candles, curtain
     chains between the rims, a pendant drop below, and a long iron chain
@@ -518,6 +550,7 @@ BUILDERS = {
     "banquet_table_6m": banquet_table_6m,
     "banquet_bench_6m": banquet_bench_6m,
     "chandelier_gilt": chandelier_gilt,
+    "palace_dome_12m": palace_dome_12m,
     "carpet_runner_8m": carpet_runner_8m,
     "scriptorium_shelf": scriptorium_shelf,
     "radiant_spire_a": lambda: radiant_spire(3),
