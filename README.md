@@ -116,7 +116,15 @@ template into the build container, exports the `Web` preset, and serves
 1.3 GB download); nothing needs to be installed or configured, and no secrets
 are involved.
 
-Build it locally the same way, then play it the way the deployment serves it:
+**Just want to play it without deploying?** Every push builds it too. Open the
+repo's **Actions** tab, pick the latest "Export game builds" run, download
+`vespergard-web` from its Artifacts, unzip, and run the `play.py` inside:
+
+```sh
+python3 play.py           # -> http://127.0.0.1:8060
+```
+
+Or build it locally the same way Vercel does, and serve it the same way:
 
 ```sh
 tools/vercel_build.sh     # -> build/web

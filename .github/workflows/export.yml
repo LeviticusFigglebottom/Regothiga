@@ -66,7 +66,13 @@ jobs:
 
       # The playable page Vercel serves. Uploaded so a run proves the web
       # export still builds even when nobody is deploying, and so the same
-      # directory can be handed to `vercel deploy --prebuilt`.
+      # directory can be handed to `vercel deploy --prebuilt`. play.py rides
+      # along because the download is useless without it: the threaded build
+      # needs SharedArrayBuffer, so opening index.html from disk (or from any
+      # static server that does not send COOP/COEP) loads the engine and stops.
+      - name: Add the local runner to the web build
+        run: cp tools/web_play.py build/web/play.py
+
       - name: Upload Web build
         uses: actions/upload-artifact@v4
         with:
