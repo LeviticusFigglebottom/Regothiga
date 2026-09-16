@@ -72,14 +72,14 @@ func _tint_for(s: VG.WState) -> void:
 	if _flame == null:
 		return
 	if s == VG.WState.RUIN:
-		_flame.set_instance_shader_parameter("flame_tint", Vector3(0.45, 0.65, 1.0))
-		_flame.set_instance_shader_parameter("flame_energy", 2.4)
+		MaterialLib.set_mesh_param(_flame, "flame_tint", Vector3(0.45, 0.65, 1.0))
+		MaterialLib.set_mesh_param(_flame, "flame_energy", 2.4)
 		if _light:
 			_light.light_color = Color(0.5, 0.68, 1.0)
 			_light.light_energy = 2.0
 	else:
-		_flame.set_instance_shader_parameter("flame_tint", Vector3(1.0, 0.72, 0.30))
-		_flame.set_instance_shader_parameter("flame_energy", 3.4)
+		MaterialLib.set_mesh_param(_flame, "flame_tint", Vector3(1.0, 0.72, 0.30))
+		MaterialLib.set_mesh_param(_flame, "flame_energy", 3.4)
 		if _light:
 			_light.light_color = Color(1.0, 0.72, 0.38)
 			_light.light_energy = 2.6

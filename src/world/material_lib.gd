@@ -134,3 +134,48 @@ static func get_mat(family: String, state_mode := 0) -> Material:
 				mat.set_shader_parameter("tex_strength", spec[2])
 	_cache[key] = mat
 	return mat
+
+## Write a shader value on just these meshes, without an instance uniform.
+##
+## The materials above are shared by every piece that wears the family, so a
+## plain set_shader_parameter would repaint the whole kingdom. Godot's usual
+## answer is `instance uniform`, but the Compatibility backend the web build
+## runs on caps its global parameter buffer at 4096 items and spends 16 of them
+## on every instance whose shader declares one — roughly 256 instances, where a
+## single area builds ~1400. Past that Godot refuses the allocation, and the
+## meshes that actually vary (a dissolving corpse, the vigil flame) are last in
+## line and so the ones that lose their value.
+##
+## Instead the handful of meshes that vary take their own copy of the shared
+## material, made on first write and kept on the node, so the shared originals
+## stay shared and the buffer stays empty.
+static func set_mesh_param(root: Node, param: StringName, value: Variant) -> void:
+	var stack: Array[Node] = [root]
+	while not stack.is_empty():
+		var n: Node = stack.pop_back()
+		if n is GeometryInstance3D:
+			for m in _own_mats(n as GeometryInstance3D):
+				m.set_shader_parameter(param, value)
+		for c in n.get_children():
+			stack.append(c)
+
+## This instance's private ShaderMaterials, copied off the shared ones the
+## first time it needs to differ from its family.
+static func _own_mats(gi: GeometryInstance3D) -> Array:
+	if gi.has_meta(&"vg_own_mats"):
+		return gi.get_meta(&"vg_own_mats")
+	var out: Array = []
+	if gi.material_override is ShaderMaterial:
+		var mo := (gi.material_override as ShaderMaterial).duplicate() as ShaderMaterial
+		gi.material_override = mo
+		out.append(mo)
+	elif gi is MeshInstance3D and (gi as MeshInstance3D).mesh != null:
+		var mi := gi as MeshInstance3D
+		for i in mi.mesh.get_surface_count():
+			var cur := mi.get_active_material(i)
+			if cur is ShaderMaterial:
+				var c := (cur as ShaderMaterial).duplicate() as ShaderMaterial
+				mi.set_surface_override_material(i, c)
+				out.append(c)
+	gi.set_meta(&"vg_own_mats", out)
+	return out

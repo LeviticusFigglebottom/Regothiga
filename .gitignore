@@ -23,3 +23,8 @@ docs/verify/
 
 # documentation images are not game resources (docs/.gdignore keeps Godot out)
 docs/**/*.import
+
+# Vercel / web export
+/build/
+/.godot-toolchain/
+/.vercel/

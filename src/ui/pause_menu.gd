@@ -230,7 +230,11 @@ func _build() -> void:
 	main.add_child(_button("Return to the World", close))
 	main.add_child(_button("Settings", func(): _show_page("settings")))
 	main.add_child(_button("Begin the Pilgrimage Anew", func(): _show_page("confirm")))
-	main.add_child(_button("Abandon the Kingdom", func(): get_tree().quit()))
+	# A browser tab is closed by the browser. On web get_tree().quit() only
+	# stops the main loop, leaving a black canvas and no way back, so the
+	# kingdom is only abandonable where abandoning means something.
+	if not OS.has_feature("web"):
+		main.add_child(_button("Abandon the Kingdom", func(): get_tree().quit()))
 	_pages["main"] = main
 	_first_button["main"] = main.get_child(0)
 
@@ -257,7 +261,7 @@ func _build() -> void:
 	var fs := _button("Fullscreen: —")
 	fs.pressed.connect(func():
 		settings["fullscreen"] = not settings["fullscreen"]
-		_apply_video()
+		_apply_video(true)
 		_save_settings()
 		fs.text = "Fullscreen: %s" % ("on" if settings["fullscreen"] else "off"))
 	fs.text = "Fullscreen: %s" % ("on" if settings["fullscreen"] else "off")
@@ -337,8 +341,13 @@ func _apply_camera() -> void:
 	cam.set_sensitivity(settings["sensitivity"] * 0.0007)
 	cam.set_base_fov(settings["fov"])
 
-func _apply_video() -> void:
+func _apply_video(from_input := false) -> void:
 	if DisplayServer.get_name() == "headless":
+		return
+	# Browsers only grant fullscreen inside the click or keypress that asked for
+	# it, so on web the toggle applies and restoring the saved choice at startup
+	# does not. Re-pressing it is the only way in, and the setting still holds.
+	if OS.has_feature("web") and not from_input:
 		return
 	DisplayServer.window_set_mode(
 		DisplayServer.WINDOW_MODE_FULLSCREEN if settings["fullscreen"]

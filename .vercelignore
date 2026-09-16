@@ -1,0 +1,8 @@
+# Only used by `vercel deploy` from a working copy; Git-connected builds ignore
+# it. Keeps the upload to what the export actually reads.
+.git
+.godot
+.godot-toolchain
+build
+docs
+scratch

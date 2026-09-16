@@ -307,3 +307,69 @@ gaps of void between them. Both broke the Anor-Londo illusion.
 - **The shut tower door**: a new door_leaf (banded oak) closes the Basilica
   portal in the glory layer — "During the Vespers the tower is shut" — so
   the radiant memory ends at a door, not a barrier onto nothing.
+
+---
+
+## D-019 · The kingdom in a browser (Vercel)
+
+The game had to become a link anyone can open, without the desktop build
+giving anything up. Godot's web platform is WebGL2-only — there is no Vulkan
+and no WebGPU backend in 4.7 — so the browser build runs the **Compatibility**
+renderer while the desktop build stays on Forward+. That split is declared per
+platform in `project.godot`:
+
+```
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.web="gl_compatibility"
+```
+
+Everything else here is the work of making one set of content correct under
+both backends, rather than authoring a reduced web version.
+
+**What the split cost, and what was done about it**
+
+| Forward+ feature | On Compatibility | Resolution |
+|---|---|---|
+| Volumetric fog | Not implemented | `EnvRig` folds `vol_density` into the depth fog at `VOL_AS_DEPTH_FOG` (0.5) when there is no `RenderingDevice`. The air still thickens between glory and ruin; only the scattering volume is gone, and the god-rays that read as shafts are mesh blades, so they are unaffected. |
+| Screen-space AA (FXAA) | Not implemented — warned every frame | `screen_space_aa.web=0`, `msaa_3d.web=1`. The web build buys its edges back with 2x MSAA instead of shipping aliased ones. |
+| `instance uniform` (per-instance shader values) | Hard-capped | Rewritten — see below. |
+
+**Instance uniforms were the real blocker.** `gothic`, `gothic_ds` and `flame`
+each declared one (`death_diss`, `flame_tint`/`flame_energy`). The
+Compatibility backend keeps global shader parameters in a UBO capped by the
+driver at **4096 items**, and spends **16 of them on every instance** whose
+shader declares an instance uniform — about 256 instances for the whole
+kingdom, where a single area builds ~1400. Godot refused the rest: 1123
+allocation failures in the first seconds of the Gray Cloister, and because the
+architecture is built before anything else, the meshes that actually needed a
+per-instance value — a dissolving corpse, a vigil flame turning cold blue —
+were the ones at the back of the queue that lost it.
+
+Raising the buffer does not help; 4096 is the hardware ceiling. So the
+mechanism went away instead of being rationed: `death_diss`, `flame_tint` and
+`flame_energy` are plain `uniform`s again, and `MaterialLib.set_mesh_param`
+gives the handful of meshes that genuinely differ **their own copy** of the
+shared family material, made on first write and kept on the node. The shared
+originals stay shared, the instance buffer stays empty, and the kingdom-wide
+count of special-cased meshes is the few dozen that were ever special. This is
+not a web workaround — the desktop build was allocating ~22k buffer items for
+1378 meshes that never varied, and now allocates none.
+
+**Deployment.** `vercel.json` builds with `tools/vercel_build.sh`, which
+fetches Godot and the web export template into the build container and exports
+the `Web` preset to `build/web`. Building **on** Vercel rather than uploading a
+build sidesteps the 100 MB CLI upload limit on Hobby (the export is ~94 MB:
+a 38 MB wasm and a 55 MB pack).
+
+The threaded template is used, not `nothreads` — it wants `SharedArrayBuffer`,
+which browsers only grant a cross-origin-isolated page, and `vercel.json` can
+send the headers that grant it (`Cross-Origin-Opener-Policy: same-origin`,
+`Cross-Origin-Embedder-Policy: require-corp`). Taking the single-threaded
+template to avoid the headers would have been the one real sacrifice
+available, and it was not necessary. `tools/serve_web.sh` sends the same three
+headers locally, so a local run and the deployment behave alike.
+
+**Web-shaped UI.** "Abandon the Kingdom" is hidden on web — `get_tree().quit()`
+there only halts the main loop and leaves a dead canvas with no way back; a tab
+is closed by the browser. Fullscreen still toggles, but only from the button
+press itself, since browsers grant it only inside the gesture that asked.

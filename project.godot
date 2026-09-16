@@ -201,9 +201,20 @@ cast_spell={
 
 [rendering]
 
+; Desktop keeps Forward+ (volumetric fog, full shadow pipeline). The web build
+; has no choice: Godot's web platform is WebGL2-only, so it runs the
+; Compatibility backend. Everything else in the project is authored to work in
+; both — see EnvRig for the fog fallback the web build picks up.
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.web="gl_compatibility"
 lights_and_shadows/directional_shadow/size=2048
 environment/defaults/default_clear_color=Color(0.04, 0.045, 0.06, 1)
 anti_aliasing/quality/screen_space_aa=1
+; FXAA is a Forward+/Mobile pass; the Compatibility backend the web build
+; runs on has no screen-space AA at all, so the web build buys its edges
+; back with 2x MSAA instead of shipping aliased ones.
+anti_aliasing/quality/screen_space_aa.web=0
+anti_aliasing/quality/msaa_3d.web=1
 
 [shader_globals]
 

@@ -300,6 +300,10 @@ func _emit_all() -> void:
 ## captured. Capture engages on the first click (a user gesture — required
 ## by browsers for pointer-lock), Esc frees the cursor, clicking back in
 ## recaptures it. The recapturing click is swallowed so it doesn't also swing.
+## Has this player ever sent an input event? Only ever false on web, and only
+## until the first click or key — see the pointer-lock note in _physics_process.
+var _interacted := false
+
 func _grab_mouse(on: bool) -> void:
 	if not on:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -330,6 +334,7 @@ func busy_in_menu() -> bool:
 func _input(event: InputEvent) -> void:
 	if sim_active:
 		return
+	_interacted = true
 	if event is InputEventMouseMotion:
 		_mo_n += 1
 		# look works from relative motion even if the OS refuses the capture
@@ -390,7 +395,15 @@ func _physics_process(dt: float) -> void:
 	_recap_cd = maxf(0.0, _recap_cd - dt)
 	var play_owns := not sim_active and not dead and input_enabled \
 			and not PauseUI.is_open() and state != S.REST and state != S.TALK
-	if play_owns and not _captured() and get_window().has_focus() and _recap_cd == 0.0:
+	# Browsers hand out pointer lock only off the back of a user gesture, so
+	# before the player has touched anything this retry cannot succeed — it
+	# just throws twice a second into their console. Once they have, the click
+	# above and the ordinary flows (a closed menu, a finished conversation)
+	# carry the activation the browser wants, and this keeps its old job of
+	# restoring a capture the game lost.
+	var may_grab := _interacted or not OS.has_feature("web")
+	if play_owns and may_grab and not _captured() and get_window().has_focus() \
+			and _recap_cd == 0.0:
 		_grab_mouse(true)
 		_recap_cd = 0.5
 	# pointer-compat auto-engage keys on the REMOTE-DESKTOP signature: the

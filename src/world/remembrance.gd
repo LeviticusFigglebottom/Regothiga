@@ -18,8 +18,7 @@ func _ready() -> void:
 	ghost.scale = Vector3(0.95, 0.95, 0.95)
 	ghost.play("kneel", 0.0)
 	ghost.anim.advance(1.2)   # settle straight into the kneel
-	for mi in KitLib._mesh_instances(ghost):
-		mi.set_instance_shader_parameter("death_diss", 0.55)
+	MaterialLib.set_mesh_param(ghost, "death_diss", 0.55)
 	var p := CPUParticles3D.new()
 	p.amount = 26
 	p.lifetime = 2.2

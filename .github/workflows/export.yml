@@ -46,6 +46,12 @@ jobs:
           godot --headless --path . --export-release "Windows" build/vespergard-windows.exe 2>&1 | tail -3
           test -f build/vespergard-windows.exe
 
+      - name: Export Web
+        run: |
+          mkdir -p build/web
+          godot --headless --path . --export-release "Web" build/web/index.html 2>&1 | tail -3
+          test -s build/web/index.wasm && test -s build/web/index.pck
+
       - name: Upload Linux build
         uses: actions/upload-artifact@v4
         with:
@@ -57,3 +63,12 @@ jobs:
         with:
           name: vespergard-windows
           path: build/vespergard-windows.exe
+
+      # The playable page Vercel serves. Uploaded so a run proves the web
+      # export still builds even when nobody is deploying, and so the same
+      # directory can be handed to `vercel deploy --prebuilt`.
+      - name: Upload Web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: vespergard-web
+          path: build/web

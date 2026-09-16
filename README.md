@@ -102,6 +102,44 @@ editor: all content is data-driven from `data/` and pre-baked assets — no
 editor-only dependencies, no dev tools included (`tools/`, docs and pipeline
 scripts are excluded from the pack). Saves go to the platform `user://` dir.
 
+## Playing in a browser (deploying to Vercel)
+
+The whole game runs in a browser — same content, same eleven regions, same
+wardens, saves and all. `vercel.json` is committed, so deployment is:
+
+1. Import the repository at [vercel.com/new](https://vercel.com/new).
+2. Leave every build setting alone and deploy.
+
+Vercel runs `tools/vercel_build.sh`, which fetches Godot 4.7 and the web export
+template into the build container, exports the `Web` preset, and serves
+`build/web`. The first build takes a few minutes (the export template is a
+1.3 GB download); nothing needs to be installed or configured, and no secrets
+are involved.
+
+Build it locally the same way, then play it the way the deployment serves it:
+
+```sh
+tools/vercel_build.sh     # -> build/web
+tools/serve_web.sh        # -> http://127.0.0.1:8060
+```
+
+`tools/serve_web.sh` exists because a plain static server is not enough: the
+threaded build needs `SharedArrayBuffer`, so the page must be cross-origin
+isolated. The script sends the same COOP/COEP headers `vercel.json` does.
+
+**What the browser build gives up:** Godot's web platform is WebGL2-only, so it
+runs the Compatibility renderer instead of Forward+. Volumetric fog is the one
+effect that backend cannot draw; its density is folded into the depth fog
+instead, and the god-rays — real mesh blades — are unaffected. Everything else
+(the transformation wave, glow, shadows, every shader, all audio and voice)
+renders as it does on the desktop build, and edges get 2x MSAA in place of
+FXAA. See D-019 in DECISIONS.md.
+
+Expect a ~94 MB download on first load (a 38 MB engine and a 55 MB content
+pack), cached by the browser afterward. Saves live in the browser's origin
+storage, so they persist across visits but do not follow you to another
+browser or machine — the desktop build's saves are the portable ones.
+
 ## Rebuilding generated content (optional)
 
 All assets are generated and committed; you only need these to *regenerate*:
@@ -142,4 +180,5 @@ assets/         generated kit (.glb), textures, audio, voice, fonts, ui art
 tools/          blender generators, audio synth, screenshot + sim harnesses
 DECISIONS.md    architecture decisions + rationale
 ROADMAP.md      what's real, what's shallow, what's next
+vercel.json     web deployment: build command + cross-origin isolation headers
 ```

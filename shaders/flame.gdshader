@@ -2,11 +2,14 @@ shader_type spatial;
 render_mode cull_disabled, unshaded;
 
 // Candle / lantern flames: emissive teardrop that sways and flickers.
-// flame_tint is per-instance so the vigil flame can burn gold in glory
-// and cold blue in ruin.
+// The vigil flame burns gold in glory and cold blue in ruin; it gets its own
+// copy of this material (MaterialLib.set_mesh_param) rather than an instance
+// uniform, which the web build's Compatibility backend can only afford for a
+// couple of hundred instances kingdom-wide. Every other candle keeps these
+// defaults and keeps sharing the one material.
 
-instance uniform vec3 flame_tint : source_color = vec3(1.0, 0.72, 0.30);
-instance uniform float flame_energy = 3.2;
+uniform vec3 flame_tint : source_color = vec3(1.0, 0.72, 0.30);
+uniform float flame_energy = 3.2;
 uniform int state_mode = 0;
 
 global uniform float vg_wave_r;

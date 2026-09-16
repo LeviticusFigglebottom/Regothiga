@@ -8,6 +8,15 @@ var world_env: WorldEnvironment
 var sun: DirectionalLight3D
 var sky_mat: ShaderMaterial
 
+## Volumetric fog is a Forward+ pass. The Compatibility backend — the web build,
+## and any desktop run forced onto it — has no RenderingDevice and no
+## volumetric fog, so the murk it would have hung in the air is folded into the
+## depth fog instead and the kingdom keeps its weather. Set by eye against the
+## Forward+ build; the ratio holds across both state profiles.
+const VOL_AS_DEPTH_FOG := 0.5
+
+var volumetric := RenderingServer.get_rendering_device() != null
+
 var profiles: Dictionary = {}
 ## Per-area profile overrides from the area def's "env" block: only the keys
 ## given are replaced per state, so an area can redden its sun (the Black
@@ -40,7 +49,7 @@ func _ready() -> void:
 	e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	e.fog_enabled = true
 	e.fog_sky_affect = 0.2
-	e.volumetric_fog_enabled = true
+	e.volumetric_fog_enabled = volumetric
 	e.volumetric_fog_anisotropy = 0.62
 	e.volumetric_fog_length = 80.0
 	e.glow_enabled = true
@@ -75,9 +84,14 @@ func blend(t: float) -> void:
 	e.ambient_light_color = _c(a["ambient"]).lerp(_c(b["ambient"]), t)
 	e.ambient_light_energy = lerpf(a["ambient_energy"], b["ambient_energy"], t)
 	e.fog_light_color = _c(a["fog_color"]).lerp(_c(b["fog_color"]), t)
-	e.fog_density = lerpf(a["fog_density"], b["fog_density"], t)
-	e.volumetric_fog_density = lerpf(a["vol_density"], b["vol_density"], t)
-	e.volumetric_fog_albedo = _c(a["vol_albedo"]).lerp(_c(b["vol_albedo"]), t)
+	var depth_fog := lerpf(a["fog_density"], b["fog_density"], t)
+	var vol_fog := lerpf(a["vol_density"], b["vol_density"], t)
+	if volumetric:
+		e.fog_density = depth_fog
+		e.volumetric_fog_density = vol_fog
+		e.volumetric_fog_albedo = _c(a["vol_albedo"]).lerp(_c(b["vol_albedo"]), t)
+	else:
+		e.fog_density = depth_fog + vol_fog * VOL_AS_DEPTH_FOG
 	e.tonemap_exposure = lerpf(a["exposure"], b["exposure"], t)
 	e.glow_intensity = lerpf(a["glow"], b["glow"], t)
 	var top := _c(a["bg_top"]).lerp(_c(b["bg_top"]), t)

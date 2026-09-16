@@ -37,8 +37,13 @@ uniform int emission_gate = 0;
 uniform int state_mode = 0;
 uniform int albedo_from_vc = 0;   // foliage: COLOR carries paint, not masks
 
-// per-instance dissolve (deaths, pickups fading out)
-instance uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
+// per-mesh dissolve (deaths, pickups fading out)
+// Written per-mesh via MaterialLib.set_mesh_param, which gives the few
+// meshes that dissolve their own copy of the shared material. It is NOT an
+// instance uniform: the Compatibility backend the web build runs on spends
+// 16 of its 4096 global-parameter slots on every instance whose shader
+// declares one, and an area builds far more pieces than that allows.
+uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
 
 // Transformation wave (global — one knob moves the whole world)
 global uniform float vg_wave_r;
