@@ -509,23 +509,52 @@ def clock_tower():
 
 
 def word_stone():
-    """A graven wayside stone: one of the parish's three words sleeps in
-    it. Gilt script strokes on the +Y face."""
+    """A graven wayside stele: one of the parish's three words sleeps in it.
+    Stepped stone plinth, gabled Gothic tablet with recessed dark-stone niche,
+    embossed gold sun-roundel + 3 gilt script strokes on the +Y face, and
+    melted votive wax stubs at its foot."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.3, -0.22, 0.0), (0.3, 0.22, 0.18))
+    V.add_box(bm, (-0.34, -0.25, 0.0), (0.34, 0.25, 0.11))
+    V.add_box(bm, (-0.29, -0.20, 0.11), (0.29, 0.20, 0.20))
     objs.append(V.bm_to_object(bm, "plinth", ("M_stone",)))
+
+    # Gabled Gothic stele with raised border stiles & pointed gable coping
     bm = bmesh.new()
-    V.add_box(bm, (-0.26, -0.09, 0.18), (0.26, 0.09, 1.05))
+    V.add_box(bm, (-0.26, -0.09, 0.20), (0.26, 0.07, 0.92))
+    for sx in (-0.22, 0.22):
+        V.add_box(bm, (sx - 0.04, -0.10, 0.20), (sx + 0.04, 0.10, 0.94))
+    V.add_box(bm, (-0.26, -0.10, 0.20), (0.26, 0.10, 0.28))
+    V.add_box(bm, (-0.27, -0.11, 0.90), (0.27, 0.11, 0.96))
+    # Gabled coping hood
+    a = [bm.verts.new(p) for p in ((-0.28, -0.11, 0.96), (0.28, -0.11, 0.96), (0.28, 0.11, 0.96), (-0.28, 0.11, 0.96))]
+    r0 = bm.verts.new((0.0, -0.11, 1.12))
+    r1 = bm.verts.new((0.0, 0.11, 1.12))
+    bm.faces.new((a[0], a[1], r0))
+    bm.faces.new((a[2], a[3], r1))
+    bm.faces.new((a[0], r0, r1, a[3]))
+    bm.faces.new((r0, a[1], a[2], r1))
+    bm.faces.new(list(reversed(a)))
     objs.append(V.bm_to_object(bm, "tablet", ("M_stone_trim",)))
+
+    # Recessed dark-stone inscription field on the +Y face
+    bm_field = bmesh.new()
+    V.add_box(bm_field, (-0.18, 0.06, 0.28), (0.18, 0.088, 0.90))
+    objs.append(V.bm_to_object(bm_field, "tablet_field", ("M_stone_dark",)))
+
+    # Gilt sun-disc & three engraved script lines on the +Y face
     bm = bmesh.new()
-    for z0, x0, x1 in ((0.78, -0.16, 0.16), (0.6, -0.12, 0.19), (0.42, -0.17, 0.1)):
-        V.add_box(bm, (x0, 0.09, z0), (x1, 0.125, z0 + 0.07))
+    V.add_box(bm, (-0.055, 0.086, 0.76), (0.055, 0.116, 0.87))
+    for z0, x0, x1 in ((0.64, -0.15, 0.15), (0.50, -0.12, 0.16), (0.36, -0.15, 0.11)):
+        V.add_box(bm, (x0, 0.086, z0), (x1, 0.118, z0 + 0.055))
     objs.append(V.bm_to_object(bm, "script", ("M_gold",)))
-    stub = V.loft_rings("waxstub", [(0.06, 0.18, 8, 0), (0.05, 0.31, 8, 0)], "M_wax")
-    stub.location = (0.0, -0.14, 0.0)
-    objs.append(stub)
-    return objs, {"size": [0.6, 0.45, 1.05], "origin": "bottom-center"}
+
+    for idx, (wx, wy, wh) in enumerate(((0.0, 0.15, 0.13), (-0.12, 0.14, 0.09), (0.11, -0.14, 0.11))):
+        nm = "waxstub" if idx == 0 else ("waxstub_%d" % idx)
+        stub = V.loft_rings(nm, [(0.048, 0.20, 10, 0), (0.040, 0.20 + wh, 10, 0)], "M_wax")
+        stub.location = (wx, wy, 0.0)
+        objs.append(stub)
+    return objs, {"size": [0.68, 0.5, 1.12], "origin": "bottom-center"}
 
 
 def pew_3m():

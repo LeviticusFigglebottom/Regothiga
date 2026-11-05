@@ -52,8 +52,8 @@ shot undercroft_watchers.png   ossuary_undercroft glory "5.5,1.7,10.5,25,-4,62"
 shot undercroft_bellox.png     ossuary_undercroft ruin  "6.2,1.65,-6,-90,-2,58"
 # pass Q: Vigil's End
 shot vigils_arrival.png      vigils_end glory "24,1.7,1,-95,2,72"
-shot vigils_shrine.png       vigils_end glory "-13,1.8,2,80,10,70"
-shot vigils_crown_ruin.png   vigils_end ruin  "-19.5,3.9,-5,-35,-6,70"
+shot vigils_shrine.png       vigils_end glory "-19.2,4.1,-3.8,112,-6,66"
+shot vigils_crown_ruin.png   vigils_end ruin  "-19.5,4.1,-1.5,120,-6,66"
 # pass U: the Old Outskirts + the Parish of the First Wick
 shot outskirts_square.png      old_outskirts glory  "0,2.0,2,0,6,76"
 shot outskirts_square_ruin.png old_outskirts ruin   "0,2.0,2,0,6,76"

@@ -188,22 +188,42 @@ def _robe(name, height=1.8, girth=0.34, hood=True, mat="M_stone"):
 
 
 def statue_saint():
-    """Hooded saint with a downward sword, on a plinth."""
+    """Carved Gothic hooded saint statue on a moulded pedestal, clasping a
+    downward broadsword with stone halo disc behind the hood."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.42, -0.42, 0), (0.42, 0.42, 0.55))
-    V.add_box(bm, (-0.5, -0.5, 0), (0.5, 0.5, 0.12))
+    V.add_box(bm, (-0.52, -0.52, 0.0), (0.52, 0.52, 0.11))
+    V.add_box(bm, (-0.45, -0.45, 0.11), (0.45, 0.45, 0.18))
+    V.add_box(bm, (-0.40, -0.40, 0.18), (0.40, 0.40, 0.47))
+    V.add_box(bm, (-0.46, -0.46, 0.47), (0.46, 0.46, 0.55))
     objs.append(V.bm_to_object(bm, "plinth", ("M_stone_dark",)))
+
     robe = _robe("saint", 1.9, 0.34, True, "M_stone")
     robe.location = (0, 0, 0.55)
     objs.append(robe)
+
+    # Draped stone sleeves clasping the sword hilt + carved stone halo disc + broadsword
     bm2 = bmesh.new()
-    V.add_box(bm2, (-0.035, -0.012, 0.62), (0.035, 0.012, 1.55))    # blade
-    V.add_box(bm2, (-0.16, -0.03, 1.52), (0.16, 0.03, 1.60))        # cross
-    V.add_box(bm2, (-0.03, -0.03, 1.60), (0.03, 0.03, 1.78))        # grip
+    for sx in (-1, 1):
+        V.add_box(bm2, (sx * 0.20 - 0.06, 0.04, 1.62), (sx * 0.20 + 0.06, 0.26, 1.96))
+        V.add_box(bm2, (sx * 0.08 - 0.05, 0.20, 1.56), (sx * 0.08 + 0.05, 0.36, 1.72))
+    # Tapered broadsword blade, arched quillons, grip, and wheel pommel
+    V.add_box(bm2, (-0.042, 0.325, 0.55), (0.042, 0.355, 1.54))
+    V.add_box(bm2, (-0.018, 0.315, 0.55), (0.018, 0.365, 1.54))
+    V.add_box(bm2, (-0.19, 0.31, 1.52), (0.19, 0.37, 1.58))
+    V.add_box(bm2, (-0.028, 0.315, 1.58), (0.028, 0.365, 1.76))
+    V.add_box(bm2, (-0.055, 0.305, 1.76), (0.055, 0.375, 1.85))
     sw = V.bm_to_object(bm2, "saint_sword", ("M_stone_trim",))
-    sw.location = (0, 0.34, 0)
     objs.append(sw)
+
+    halo = V.loft_rings(
+        "saint_halo",
+        [(0.02, -0.015, 16, 0), (0.28, 0.0, 16, 0), (0.02, 0.015, 16, 0)],
+        "M_stone_trim",
+    )
+    halo.rotation_euler = (math.pi / 2, 0, 0)
+    halo.location = (0, -0.10, 2.32)
+    objs.append(halo)
     return objs, {"size": [1, 1, 2.6], "origin": "bottom-center"}
 
 
@@ -431,15 +451,35 @@ def plaque():
 
 
 def tomb_slab():
+    """Carved Gothic effigy tomb chest: stepped plinth, blind-arcade pilasters,
+    overhanging ledger slab, stone bolster pillow, and recumbent robed effigy
+    clasping a relief broadsword."""
+    objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.55, -1.1, 0), (0.55, 1.1, 0.42))
-    V.add_box(bm, (-0.6, -1.15, 0.42), (0.6, 1.15, 0.52))
-    obj = V.bm_to_object(bm, "tomb", ("M_stone_dark",))
+    V.add_box(bm, (-0.60, -1.16, 0.0), (0.60, 1.16, 0.08))
+    V.add_box(bm, (-0.54, -1.10, 0.08), (0.54, 1.10, 0.42))
+    V.add_box(bm, (-0.62, -1.18, 0.42), (0.62, 1.18, 0.52))
+    objs.append(V.bm_to_object(bm, "tomb", ("M_stone_dark",)))
+
+    # Pilaster colonnettes on the tomb chest + head bolster pillow + relief sword
+    bm_trim = bmesh.new()
+    for sx in (-0.54, 0.54):
+        for sy in (-1.02, -0.34, 0.34, 1.02):
+            V.add_box(bm_trim, (sx - 0.025, sy - 0.045, 0.08), (sx + 0.025, sy + 0.045, 0.42))
+    # Carved stone pillow under the effigy's hood (+Y end)
+    V.add_box(bm_trim, (-0.28, 0.62, 0.52), (0.28, 1.00, 0.60))
+    # Relief broadsword & clasped hands along the effigy's chest
+    V.add_box(bm_trim, (-0.025, -0.78, 0.68), (0.025, 0.32, 0.72))
+    V.add_box(bm_trim, (-0.15, 0.16, 0.68), (0.15, 0.21, 0.73))
+    V.add_box(bm_trim, (-0.09, 0.22, 0.67), (0.09, 0.36, 0.74))
+    objs.append(V.bm_to_object(bm_trim, "tomb_trim", ("M_stone_trim",)))
+
     robe = _robe("effigy", 1.9, 0.3, True, "M_stone_trim")
     robe.scale = (1, 1, 0.28)
     robe.rotation_euler = (-math.pi / 2, 0, math.pi)
     robe.location = (0, 0.85, 0.62)
-    return [obj, robe], {"size": [1.2, 2.3, 0.75], "origin": "bottom-center"}
+    objs.append(robe)
+    return objs, {"size": [1.24, 2.36, 0.75], "origin": "bottom-center"}
 
 
 def gate_iron():
@@ -507,16 +547,30 @@ def canal_vault(win: bool):
 
 
 def ferry_boat():
-    """A working mini ferry for the waterworks passage."""
+    """A working mini ferry for the waterworks passage: timber barge hull with
+    gunwale rubbing strakes, internal ribs, planked deck, stern mooring frame,
+    prow wrought-iron cresset lantern cage with teardrop ember flame, and
+    angled wooden steering sweep oar."""
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-2.1, -0.85, 0.08), (1.7, 0.85, 0.34))
     V.add_box(bm, (-2.1, -0.85, 0.34), (-1.95, 0.85, 0.82))
     V.add_box(bm, (-2.1, -0.85, 0.34), (1.7, -0.7, 0.78))
     V.add_box(bm, (-2.1, 0.7, 0.34), (1.7, 0.85, 0.78))
+    # Outer gunwale rubbing strakes & internal framing ribs
+    for sy in (-1, 1):
+        y_out = sy * 0.88
+        y_in = sy * 0.83
+        V.add_box(bm, (-2.12, min(y_in, y_out), 0.70), (1.72, max(y_in, y_out), 0.80))
+    for rx in (-1.55, -0.85, -0.15, 0.55, 1.25):
+        for sy in (-1, 1):
+            y0, y1 = (0.64, 0.70) if sy > 0 else (-0.70, -0.64)
+            V.add_box(bm, (rx - 0.035, y0, 0.38), (rx + 0.035, y1, 0.76))
     V.add_box(bm, (1.7, -0.62, 0.12), (2.15, 0.62, 0.74))
     V.add_box(bm, (2.15, -0.34, 0.18), (2.52, 0.34, 0.68))
+    V.add_box(bm, (2.48, -0.12, 0.24), (2.64, 0.12, 0.72))  # prow stemhead post
     objs.append(V.bm_to_object(bm, "ferry_hull", ("M_wood",)))
+
     bm = bmesh.new()
     x = -1.92
     while x < 1.6:
@@ -524,23 +578,40 @@ def ferry_boat():
         x += 0.36
     V.add_box(bm, (1.7, -0.5, 0.32), (2.12, 0.5, 0.40))
     objs.append(V.bm_to_object(bm, "ferry_deck", ("M_wood",)))
+
+    # Stern mooring gallows + prow wrought-iron lantern post & octagonal cage
     bm = bmesh.new()
     for py in (-0.72, 0.72):
         V.add_box(bm, (-1.99, py - 0.05, 0.78), (-1.89, py + 0.05, 1.44))
     V.add_box(bm, (-1.98, -0.74, 1.32), (-1.9, 0.74, 1.42))
-    V.add_box(bm, (1.82, -0.05, 0.68), (1.92, 0.05, 1.5))
-    V.add_box(bm, (1.74, -0.13, 1.5), (2.0, 0.13, 1.58))
-    V.add_box(bm, (1.72, -0.15, 1.86), (2.02, 0.15, 1.94))
-    for py in (-0.11, 0.11):
-        V.add_box(bm, (1.75, py - 0.015, 1.58), (1.78, py + 0.015, 1.86))
-        V.add_box(bm, (1.96, py - 0.015, 1.58), (1.99, py + 0.015, 1.86))
+    V.add_cyl(bm, 1.87, 0.0, 0.68, 0.84, 0.042, n=10)
+    V.add_cyl(bm, 1.87, 0.0, 1.50, 0.06, 0.145, n=10)
+    V.add_cyl(bm, 1.87, 0.0, 1.84, 0.05, 0.155, n=10)
+    V.add_cyl(bm, 1.87, 0.0, 1.89, 0.06, 0.085, n=10)
+    for i in range(6):
+        a = i * math.pi / 3.0
+        V.add_cyl(bm, 1.87 + 0.125 * math.cos(a), 0.125 * math.sin(a), 1.55, 0.30, 0.013, n=6)
     objs.append(V.bm_to_object(bm, "ferry_iron", ("M_iron",)))
+
+    flame = V.loft_rings(
+        "ferry_flame",
+        [
+            (0.055, 1.56, 10, 0),
+            (0.095, 1.66, 10, 0.3),
+            (0.055, 1.76, 10, 0.6),
+            (0.015, 1.83, 10, 0.9),
+        ],
+        "M_ember",
+    )
+    flame.location = (1.87, 0.0, 0.0)
+    objs.append(flame)
+
+    # Angled wooden steering sweep oar resting over the stern transom
     bm = bmesh.new()
-    V.add_box(bm, (1.79, -0.08, 1.6), (1.95, 0.08, 1.82))
-    objs.append(V.bm_to_object(bm, "ferry_flame", ("M_ember",)))
-    bm = bmesh.new()
-    V.add_box(bm, (-2.78, 0.30, 0.30), (-2.05, 0.42, 0.44))
-    V.add_box(bm, (-2.1, 0.30, 0.44), (-1.5, 0.38, 0.92))
+    oar_m = Matrix.Translation((-2.02, 0.36, 0.66)) @ Matrix.Rotation(math.radians(-26), 4, "Y")
+    V.add_box(bm, (-0.18, -0.025, -0.025), (0.68, 0.025, 0.025))   # loom shaft
+    V.add_box(bm, (-0.82, -0.018, -0.085), (-0.16, 0.018, 0.085))  # tapered sweep blade
+    bmesh.ops.transform(bm, matrix=oar_m, verts=bm.verts)
     objs.append(V.bm_to_object(bm, "ferry_sweep", ("M_wood",)))
     return objs, {"size": [5.3, 1.7, 1.94], "origin": "bottom-center"}
 
@@ -1030,23 +1101,44 @@ def hanging_chain(with_hook=True):
 
 
 def door_leaf():
-    """A shut double door of banded oak for a 1.9-wide portal opening."""
+    """A shut double door of iron-banded oak for a 1.9-wide portal opening,
+    with plank stiles, central astragal, wrought-iron strap hinges with rivets,
+    ring knockers, and a stepped Gothic stone tympanum."""
     objs = []
     bm = bmesh.new()
     for sx in (-1, 1):
-        x0 = 0.02 * sx
+        x0 = 0.015 * sx
         x1 = sx * 0.92
         lo, hi = (min(x0, x1), max(x0, x1))
-        V.add_box(bm, (lo, -0.06, 0.02), (hi, 0.06, 2.82))
+        V.add_box(bm, (lo, -0.055, 0.02), (hi, 0.055, 2.72))
+        # Vertical plank muntin stiles & horizontal rails on both faces
+        for px in (0.06, 0.34, 0.62, 0.88):
+            V.add_box(bm, (sx * px - 0.022, -0.072, 0.04), (sx * px + 0.022, 0.072, 2.68))
+    # Central meeting astragal & transom lintel beam
+    V.add_box(bm, (-0.035, -0.082, 0.02), (0.035, 0.082, 2.70))
+    V.add_box(bm, (-0.96, -0.095, 2.66), (0.96, 0.095, 2.78))
     objs.append(V.bm_to_object(bm, "door_oak", ("M_wood",)))
+
     bm = bmesh.new()
-    for z in (0.5, 1.4, 2.3):
-        V.add_box(bm, (-0.9, -0.08, z - 0.05), (0.9, 0.08, z + 0.05))
+    for z in (0.46, 1.38, 2.28):
+        V.add_box(bm, (-0.91, -0.086, z - 0.045), (0.91, 0.086, z + 0.045))
+        # Rivet bosses along the iron strap hinges
+        for rx in (-0.78, -0.52, -0.24, 0.24, 0.52, 0.78):
+            V.add_box(bm, (rx - 0.018, -0.098, z - 0.018), (rx + 0.018, 0.098, z + 0.018))
     for sx in (-1, 1):
-        V.add_box(bm, (sx * 0.9 - 0.05, -0.08, 0.1), (sx * 0.9 + 0.05, 0.08, 2.75))
+        V.add_box(bm, (sx * 0.90 - 0.045, -0.086, 0.08), (sx * 0.90 + 0.045, 0.086, 2.68))
+        # Escutcheon plates & ring knockers on both faces
+        V.add_box(bm, (sx * 0.22 - 0.045, -0.094, 1.12), (sx * 0.22 + 0.045, 0.094, 1.24))
+        V.add_box(bm, (sx * 0.22 - 0.065, -0.105, 1.00), (sx * 0.22 + 0.065, 0.105, 1.13))
     objs.append(V.bm_to_object(bm, "door_bands", ("M_iron",)))
+
     tbm = bmesh.new()
-    V.add_box(tbm, (-1.0, -0.07, 2.66), (1.0, 0.1, 3.98))
+    V.add_box(tbm, (-0.98, -0.07, 2.74), (0.98, 0.09, 3.36))
+    V.add_box(tbm, (-0.74, -0.07, 3.36), (0.74, 0.09, 3.72))
+    V.add_box(tbm, (-0.42, -0.07, 3.72), (0.42, 0.09, 3.96))
+    # Relief stone mullion & lintel cross inside the tympanum
+    V.add_box(tbm, (-0.045, -0.095, 2.78), (0.045, 0.115, 3.88))
+    V.add_box(tbm, (-0.56, -0.095, 3.24), (0.56, 0.115, 3.34))
     objs.append(V.bm_to_object(tbm, "door_tympanum", ("M_stone",)))
     return objs, {"size": [2.0, 0.24, 3.98], "origin": "bottom-center"}
 

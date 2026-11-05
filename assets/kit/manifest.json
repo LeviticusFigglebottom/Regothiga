@@ -711,7 +711,7 @@
  "door_leaf": {
   "file": "assets/kit/door_leaf.glb",
   "origin": "bottom-center",
-  "polys": 48,
+  "polys": 264,
   "size": [
    2.0,
    0.24,
@@ -731,7 +731,7 @@
  "ferry_boat": {
   "file": "assets/kit/ferry_boat.glb",
   "origin": "bottom-center",
-  "polys": 180,
+  "polys": 338,
   "size": [
    5.3,
    1.7,
@@ -955,7 +955,7 @@
  "lantern_crook": {
   "file": "assets/kit/lantern_crook.glb",
   "origin": "grip",
-  "polys": 95,
+  "polys": 316,
   "size": [
    0.5,
    0.25,
@@ -1447,7 +1447,7 @@
  "shrine_aedicule": {
   "file": "assets/kit/shrine_aedicule.glb",
   "origin": "bottom-center",
-  "polys": 184,
+  "polys": 543,
   "size": [
    3.0,
    3.0,
@@ -1723,7 +1723,7 @@
  "statue_saint": {
   "file": "assets/kit/statue_saint.glb",
   "origin": "bottom-center",
-  "polys": 176,
+  "polys": 258,
   "size": [
    1,
    1,
@@ -1753,10 +1753,10 @@
  "tomb_slab": {
   "file": "assets/kit/tomb_slab.glb",
   "origin": "bottom-center",
-  "polys": 158,
+  "polys": 236,
   "size": [
-   1.2,
-   2.3,
+   1.24,
+   2.36,
    0.75
   ]
  },
@@ -1794,7 +1794,7 @@
  "vigil_brazier": {
   "file": "assets/kit/vigil_brazier.glb",
   "origin": "bottom-center",
-  "polys": 69,
+  "polys": 219,
   "size": [
    1.3,
    1.3,
@@ -1910,11 +1910,11 @@
  "word_stone": {
   "file": "assets/kit/word_stone.glb",
   "origin": "bottom-center",
-  "polys": 40,
+  "polys": 113,
   "size": [
-   0.6,
-   0.45,
-   1.05
+   0.68,
+   0.5,
+   1.12
   ]
  }
 }
