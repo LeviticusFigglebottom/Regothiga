@@ -98,7 +98,7 @@ def face_x(z, x0, count, rot, windows=True, filler=None, filler_scale=0.25, port
 F.append({"kit": "palace_floor_4x4", "min": [-22, 0, -12], "max": [22, 0, 30]})
 F.append({"kit": "palace_floor_4x4", "min": [-16, 2, -24], "max": [16, 2, -12]})
 # terrace body so the +2 m deck has a face, not a floating slab
-B.append({"min": [-16, 0, -24], "max": [16, 2, -12], "tag": "base"})
+B.append({"min": [-16, 0, -24], "max": [16, 2, -12], "tag": "base", "mat": "M_marble"})
 
 # the grand stair up to the Door of the Hour (three flights abreast,
 # descending SOUTH into the avenue — treads face the pilgrim; the outer
@@ -137,10 +137,20 @@ row("palace_balustrade_4m", (10, 2, -12.2), (1, 0, 0), 2, rot=0)      # 8..16
 piece("palace_balustrade_4m", (7.2, 2, -12.2), 0, scale=[0.4, 1, 1])   # 6.4..8
 piece("palace_pier", (-6.7, 2, -12.3), 0)
 piece("palace_pier", (6.7, 2, -12.3), 0)
+piece("palace_pier", (-15.7, 2, -12.3), 0)
+piece("palace_pier", (15.7, 2, -12.3), 0)
 blocker((-16.4, 2, -12.6), (-6.3, 4, -11.9))
 blocker((6.3, 2, -12.6), (16.4, 4, -11.9))
-# terrace flanks
-blocker((-16.6, 2, -24.4), (-15.9, 4, -12.0))
+# terrace flanks: gold-railed marble balustrades; west central bay opens for the Stair of Light
+row("palace_balustrade_4m", (15.8, 2, -22), (0, 0, 1), 3, rot=-90)
+piece("palace_balustrade_4m", (-15.8, 2, -22), 90)
+piece("palace_balustrade_4m", (-15.8, 2, -18), 90, absent_flag="scion_prayed")
+piece("palace_balustrade_4m", (-15.8, 2, -14), 90)
+piece("palace_pier", (-15.7, 2, -20.1), 0)
+piece("palace_pier", (-15.7, 2, -15.9), 0)
+blocker((-16.6, 2, -24.4), (-15.9, 4, -19.8))
+BL.append({"min": [-16.6, 2, -19.8], "max": [-15.9, 4, -16.2], "tag": "base", "absent_flag": "scion_prayed"})
+blocker((-16.6, 2, -16.2), (-15.9, 4, -12.0))
 blocker((15.9, 2, -24.4), (16.6, 4, -12.0))
 
 # ---------------------------------------------------------------- the avenue
@@ -230,7 +240,7 @@ blocker((2.2, 0, 30.4), (9, 3, 31.4))
 # past the rim. Exactly as wide as the rim balustrade's gap, side rails
 # running its full depth and the end rail overlapping their ends — the
 # handrails meet at every corner instead of crossing or falling short.
-B.append({"min": [-2.2, -0.8, 30], "max": [2.2, 0, 33.4], "tag": "base", "walkable": True})
+B.append({"min": [-2.2, -0.8, 30], "max": [2.2, 0, 33.4], "tag": "base", "walkable": True, "mat": "M_marble"})
 piece("palace_balustrade_4m", (-2.05, 0, 31.8), 90, scale=[0.8, 1, 1])
 piece("palace_balustrade_4m", (2.05, 0, 31.8), -90, scale=[0.8, 1, 1])
 piece("palace_balustrade_4m", (0, 0, 33.4), 180, scale=[1.1, 1, 1])

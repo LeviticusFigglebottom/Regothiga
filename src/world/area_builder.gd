@@ -447,6 +447,9 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 	var lid := wall_top + 0.85
 	var mat := MaterialLib.get_mat(spec.get("lid_mat", "M_stone"), _state_mode(tag))
 	var wood := MaterialLib.get_mat(spec.get("beam_mat", "M_wood"), _state_mode(tag))
+	var skip_bands := {}
+	for sb in spec.get("skip_bands", []):
+		skip_bands[String(sb)] = true
 	# the flat lid (absolute Y)
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, lid + 0.15, (mn.z + mx.z) * 0.5),
 			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
@@ -475,6 +478,19 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 				Vector3(0.3, 0.42, span_z))
 		_roof_box(area, tag, wood, Vector3(mx.x - 0.15, lid - 0.2, (mn.z + mx.z) * 0.5),
 				Vector3(0.3, 0.42, span_z))
+		# lower architrave trim along perimeter wall heads
+		if not skip_bands.has("N"):
+			_roof_box(area, tag, wood, Vector3((mn.x + mx.x) * 0.5, wall_top + 0.08, mn.z + 0.14),
+					Vector3(span_x, 0.16, 0.28))
+		if not skip_bands.has("S"):
+			_roof_box(area, tag, wood, Vector3((mn.x + mx.x) * 0.5, wall_top + 0.08, mx.z - 0.14),
+					Vector3(span_x, 0.16, 0.28))
+		if not skip_bands.has("W"):
+			_roof_box(area, tag, wood, Vector3(mn.x + 0.14, wall_top + 0.08, (mn.z + mx.z) * 0.5),
+					Vector3(0.28, 0.16, span_z))
+		if not skip_bands.has("E"):
+			_roof_box(area, tag, wood, Vector3(mx.x - 0.14, wall_top + 0.08, (mn.z + mx.z) * 0.5),
+					Vector3(0.28, 0.16, span_z))
 	elif span_x <= span_z:
 		var bx := mn.x + 2.0
 		while bx < mx.x - 0.01:
@@ -487,13 +503,17 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 			_roof_box(area, tag, wood, Vector3((mn.x + mx.x) * 0.5, lid - 0.13, bz),
 					Vector3(span_x, 0.26, 0.24))
 			bz += 4.0
-	# clerestory band closing wall-top -> lid on all four sides
+	# clerestory band closing wall-top -> lid on non-skipped perimeter sides
 	var cy := (wall_top + lid) * 0.5
 	var ch := maxf(lid - wall_top, 0.1)
-	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
-	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
-	_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
-	_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+	if not skip_bands.has("N"):
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z - 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3))
+	if not skip_bands.has("S"):
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z + 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3))
+	if not skip_bands.has("W"):
+		_roof_box(area, tag, mat, Vector3(mn.x - 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4))
+	if not skip_bands.has("E"):
+		_roof_box(area, tag, mat, Vector3(mx.x + 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4))
 
 static func _state_mode(tag: String) -> int:
 	return 1 if tag == "glory" else (2 if tag == "ruin" else 0)

@@ -545,18 +545,17 @@ def banquet_bench_6m():
 
 
 def palace_dome_12m():
-    """Coffered crossing dome. Every lathe surface is built DOUBLE-SIDED
-    (both windings) — the export chain normalises winding, so trusting a
-    single orientation left the bowl backface-culled into open sky. Rim
-    collar seats on the spring plane over a grid-aligned 12x8 hole
-    (corner 7.21 < 7.45). The bowl is pale MARBLE, not attic stone: seen
-    from the floor it must read as a dressed rotunda, and the dark brick
-    read as a raw slab hanging in the room. The drum bottom is closed
-    with a gilt washer — the open annulus was a black ring of attic."""
+    """Coffered crossing dome seated flush in the y=8.85 coffer ceiling plane
+    (placed at y=8.0, so local z=+0.85 is the ceiling soffit). A 12x16 m
+    pendentive collar plate (with matching gold coffer beams outside r=6.0)
+    bridges the rectangular crossing bay (x=-6..6, z=20..36) to the circular
+    r=6.0 gold cornice drum, and the pale marble bowl rises cleanly above the
+    ceiling plane from z=+0.85 to z=+4.27 with zero beams crossing the bowl."""
     import bmesh as _bmesh
     from mathutils import Matrix as _M
     objs = []
-    n = 28
+    n = 32
+    dz = 0.85
 
     def _loft2(name, prof, mat):
         rings = [(r, z, n, 0) for (r, z) in prof]
@@ -565,24 +564,43 @@ def palace_dome_12m():
                          cap_bottom=False, cap_top=False)
         return [a, b]
 
-    prof = [(6.0, 0.0), (5.85, 0.62), (5.4, 1.3), (4.6, 2.05), (3.5, 2.7),
-            (2.2, 3.2), (1.1, 3.42)]
+    prof = [(6.0, 0.0 + dz), (5.85, 0.62 + dz), (5.4, 1.3 + dz), (4.6, 2.05 + dz),
+            (3.5, 2.7 + dz), (2.2, 3.2 + dz), (1.1, 3.42 + dz)]
     objs += _loft2("dome_shell", prof, "M_marble")
-    objs += _loft2("dome_rim", [(7.45, -0.05), (7.5, 0.14), (7.28, 0.85),
-                                (6.6, 1.12), (6.05, 1.18)], "M_gold")
-    # the drum: a fascia ring dropping below the spring plane so grazing
-    # sightlines through the hole meet gilt stone, never the open attic
-    objs += _loft2("dome_drum", [(6.6, -0.85), (6.72, -0.2), (6.6, 0.05)], "M_gold")
-    objs += _loft2("dome_drum_in", [(6.1, -0.8), (6.1, 0.05)], "M_marble")
-    # the washer that closes the drum from below (6.06..6.74 at the fascia's
-    # own depth) — without it the annulus between fascia and inner drum is
-    # an open slot straight up into the dark
-    objs += _loft2("dome_drum_seal", [(6.06, -0.82), (6.74, -0.82)], "M_gold")
-    for (r, z) in ((5.63, 0.95), (4.75, 1.9), (2.9, 2.92)):
+    # Pendentive collar bridging r=5.95 circle to the 12x16 crossing rectangle (r=10.4 covers corners)
+    objs += _loft2("dome_pendentive", [(5.95, dz + 0.02), (10.4, dz + 0.02)], "M_marble")
+    objs += _loft2("dome_pendentive_top", [(5.95, dz + 0.28), (10.4, dz + 0.28)], "M_marble")
+
+    # Matching coffer beam segments on the pendentive soffit outside the circular drum (r >= 6.05)
+    cbm = _bmesh.new()
+    for bx in (-6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0):
+        if abs(bx) >= 5.95:
+            V.add_box(cbm, (bx - 0.15, -8.0, 0.44), (bx + 0.15, 8.0, 0.86))
+        else:
+            y_cut = math.sqrt(max(0.0, 6.02 * 6.02 - bx * bx))
+            if y_cut < 7.95:
+                V.add_box(cbm, (bx - 0.15, -8.0, 0.44), (bx + 0.15, -y_cut, 0.86))
+                V.add_box(cbm, (bx - 0.15, y_cut, 0.44), (bx + 0.15, 8.0, 0.86))
+    for by in (-8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0):
+        if abs(by) >= 5.95:
+            V.add_box(cbm, (-6.0, by - 0.15, 0.44), (6.0, by + 0.15, 0.86))
+        else:
+            x_cut = math.sqrt(max(0.0, 6.02 * 6.02 - by * by))
+            if x_cut < 5.95:
+                V.add_box(cbm, (-6.0, by - 0.15, 0.44), (-x_cut, by + 0.15, 0.86))
+                V.add_box(cbm, (x_cut, by - 0.15, 0.44), (6.0, by + 0.15, 0.86))
+    objs.append(V.bm_to_object(cbm, "dome_spandrel_beams", ("M_gold",)))
+
+    # Circular gold cornice drum flush with the coffer beam soffit (z = 0.36..0.95)
+    objs += _loft2("dome_drum", [(6.38, 0.36), (6.46, 0.62), (6.35, 0.90)], "M_gold")
+    objs += _loft2("dome_drum_in", [(5.95, 0.36), (5.92, 0.62), (6.00, 0.90)], "M_gold")
+    objs += _loft2("dome_drum_seal", [(5.92, 0.36), (6.40, 0.36)], "M_gold")
+    for (r, z) in ((5.63, 0.95 + dz), (4.75, 1.9 + dz), (2.9, 2.92 + dz)):
         objs += _loft2("dome_band", [(r + 0.05, z - 0.08), (r + 0.09, z), (r + 0.05, z + 0.08)], "M_gold")
     # eight meridian ribs: chains of gilt blocks following the profile
     bm = _bmesh.new()
-    seg_pts = [(5.92, 0.3), (5.62, 0.97), (5.0, 1.7), (4.05, 2.4), (2.85, 2.95), (1.6, 3.32)]
+    seg_pts = [(5.92, 0.3 + dz), (5.62, 0.97 + dz), (5.0, 1.7 + dz),
+               (4.05, 2.4 + dz), (2.85, 2.95 + dz), (1.6, 3.32 + dz)]
     for i in range(8):
         a = math.tau * i / 8
         rot = _M.Rotation(a, 3, "Z")
@@ -601,23 +619,19 @@ def palace_dome_12m():
             for q in f:
                 bm.faces.new([vs[j] for j in q])
     objs.append(V.bm_to_object(bm, "dome_ribs", ("M_gold",)))
-    objs += _loft2("dome_oculus", [(1.25, 3.25), (1.3, 3.45), (1.1, 3.58)], "M_gold")
-    # the eye overlaps the oculus ring (1.14 > 1.1): with no attic lid
-    # above, an open annulus here would be a ring of naked sky. DARK stone
-    # sown with gilt stars — a big M_flame plate breathes with the flame
-    # animator and the whole crown read as moving
-    objs += _loft2("dome_eye_disc", [(1.14, 3.5), (0.5, 3.6), (0.08, 3.64)], "M_stone_dark")
+    objs += _loft2("dome_oculus", [(1.25, 3.25 + dz), (1.3, 3.45 + dz), (1.1, 3.58 + dz)], "M_gold")
+    objs += _loft2("dome_eye_disc", [(1.14, 3.5 + dz), (0.5, 3.6 + dz), (0.08, 3.64 + dz)], "M_stone_dark")
     sbm = _bmesh.new()
     srng = random.Random(23)
     for _ in range(16):
         a = srng.uniform(0, math.tau)
         rr = srng.uniform(0.06, 0.95)
         sx, sy = rr * math.cos(a), rr * math.sin(a)
-        sz = 3.5 + (1.0 - rr / 1.14) * 0.12 - 0.012
+        sz = 3.5 + dz + (1.0 - rr / 1.14) * 0.12 - 0.012
         st = srng.uniform(0.02, 0.04)
         V.add_box(sbm, (sx - st, sy - st, sz - st), (sx + st, sy + st, sz + st))
     objs.append(V.bm_to_object(sbm, "dome_stars", ("M_citywindow",)))
-    return objs, {"size": [15.0, 15.0, 3.7], "origin": "rim-center"}
+    return objs, {"size": [12.4, 16.4, 4.5], "origin": "rim-center"}
 
 
 def palace_cove_dome():
@@ -908,7 +922,7 @@ BUILDERS = {
     "chandelier_gilt": chandelier_gilt,
     "palace_dome_12m": palace_dome_12m,
     "palace_cove_dome": palace_cove_dome,
-    "chandelier_dome_low": lambda: chandelier_gilt(6.3),
+    "chandelier_dome_low": lambda: chandelier_gilt(7.1),
     "chandelier_dome_high": lambda: chandelier_gilt(8.3),
     "carpet_runner_8m": carpet_runner_8m,
     "scriptorium_shelf": scriptorium_shelf,

@@ -172,6 +172,21 @@
   {
    "kit": "palace_balustrade_4m",
    "from": [
+    15.8,
+    2,
+    -22
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "count": 3,
+   "rot": -90
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "from": [
     -8,
     0,
     30.2
@@ -456,6 +471,70 @@
     6.7,
     2,
     -12.3
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -15.7,
+    2,
+    -12.3
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    15.7,
+    2,
+    -12.3
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -15.8,
+    2,
+    -22
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -15.8,
+    2,
+    -18
+   ],
+   "rot": 90,
+   "absent_flag": "scion_prayed"
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -15.8,
+    2,
+    -14
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -15.7,
+    2,
+    -20.1
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -15.7,
+    2,
+    -15.9
    ],
    "rot": 0
   },
@@ -3299,7 +3378,8 @@
     2,
     -12
    ],
-   "tag": "base"
+   "tag": "base",
+   "mat": "M_marble"
   },
   {
    "min": [
@@ -3313,7 +3393,8 @@
     33.4
    ],
    "tag": "base",
-   "walkable": true
+   "walkable": true,
+   "mat": "M_marble"
   }
  ],
  "blockers": [
@@ -3361,6 +3442,33 @@
     -16.6,
     2,
     -24.4
+   ],
+   "max": [
+    -15.9,
+    4,
+    -19.8
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.6,
+    2,
+    -19.8
+   ],
+   "max": [
+    -15.9,
+    4,
+    -16.2
+   ],
+   "tag": "base",
+   "absent_flag": "scion_prayed"
+  },
+  {
+   "min": [
+    -16.6,
+    2,
+    -16.2
    ],
    "max": [
     -15.9,

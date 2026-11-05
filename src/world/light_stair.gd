@@ -32,6 +32,20 @@ func _ready() -> void:
 	var core := StandardMaterial3D.new()
 	core.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	core.albedo_color = Color(1.0, 0.97, 0.85)
+	var rail_mat := StandardMaterial3D.new()
+	rail_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	rail_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	rail_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	rail_mat.albedo_color = Color(1.0, 0.93, 0.68, 0.72)
+	# starter threshold step at the parapet edge so the flight meets the terrace
+	var s0 := MeshInstance3D.new()
+	var bm0 := BoxMesh.new()
+	bm0.size = Vector3(2.6, 0.14, 0.85)
+	s0.mesh = bm0
+	s0.material_override = mat
+	s0.position = Vector3(0, 0.12, -0.25)
+	s0.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(s0)
 	for i in steps:
 		var s := MeshInstance3D.new()
 		var bm := BoxMesh.new()
@@ -57,22 +71,86 @@ func _ready() -> void:
 	lm.size = Vector3(4.6, 0.2, 4.6)
 	land.mesh = lm
 	land.material_override = mat
-	land.position = Vector3(0, top_y - 0.06, top_z - 2.0)
+	land.position = Vector3(0, top_y - 0.08, top_z - 2.0)
 	land.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(land)
-	# one smooth ramp collider under the flight, one slab under the landing
+	var land_core := MeshInstance3D.new()
+	var lcm := BoxMesh.new()
+	lcm.size = Vector3(4.1, 0.05, 4.1)
+	land_core.mesh = lcm
+	land_core.material_override = core
+	land_core.position = land.position + Vector3(0, 0.11, 0)
+	land_core.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(land_core)
+	# glowing side-rail ribbons along the climb + landing rim
+	var slope_len := sqrt(pow(run * steps, 2) + pow(rise * steps, 2)) + 0.5
+	var slope_ang := atan2(rise * steps, run * steps)
+	for sx in [-1.26, 1.26]:
+		var rail := MeshInstance3D.new()
+		var rbm := BoxMesh.new()
+		rbm.size = Vector3(0.08, 0.08, slope_len)
+		rail.mesh = rbm
+		rail.material_override = rail_mat
+		rail.position = Vector3(sx, top_y * 0.5 + 0.55, top_z * 0.5)
+		rail.rotation.x = slope_ang
+		rail.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(rail)
+	# beacon column over the landing portal
+	var beacon := MeshInstance3D.new()
+	var bcm := CylinderMesh.new()
+	bcm.top_radius = 0.55
+	bcm.bottom_radius = 0.85
+	bcm.height = 6.5
+	beacon.mesh = bcm
+	beacon.material_override = mat
+	beacon.position = Vector3(0, top_y + 3.25, top_z - 2.0)
+	beacon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(beacon)
+	# rising golden motes along the stair
+	var motes := CPUParticles3D.new()
+	var qm := QuadMesh.new()
+	qm.size = Vector2(0.09, 0.09)
+	var mmat := StandardMaterial3D.new()
+	mmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mmat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	mmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mmat.albedo_color = Color(1.0, 0.92, 0.62, 0.85)
+	qm.material = mmat
+	motes.mesh = qm
+	motes.amount = 36
+	motes.lifetime = 3.2
+	motes.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	motes.emission_box_extents = Vector3(1.5, 2.5, 7.5)
+	motes.position = Vector3(0, top_y * 0.5 + 0.5, top_z * 0.5 - 1.0)
+	motes.direction = Vector3(0, 1, 0)
+	motes.spread = 20.0
+	motes.gravity = Vector3(0, 0.25, 0)
+	motes.initial_velocity_min = 0.25
+	motes.initial_velocity_max = 0.55
+	add_child(motes)
+	# one smooth ramp collider under the flight, one slab under the landing,
+	# plus side guardrail colliders so the pilgrim cannot slip into the void
 	var bit := AreaBuilder._tag_bit("glory")
 	var ramp := StaticBody3D.new()
 	ramp.collision_layer = 1 << (bit - 1)
 	ramp.collision_mask = 0
 	var rcs := CollisionShape3D.new()
 	var rbox := BoxShape3D.new()
-	var length := sqrt(pow(run * steps, 2) + pow(rise * steps, 2)) + 0.6
+	var length := slope_len + 0.3
 	rbox.size = Vector3(2.6, 0.2, length)
 	rcs.shape = rbox
-	rcs.position = Vector3(0, top_y * 0.5, top_z * 0.5)
-	rcs.rotation.x = -atan2(rise * steps, run * steps)
+	rcs.position = Vector3(0, top_y * 0.5 - 0.08, top_z * 0.5)
+	rcs.rotation.x = slope_ang
 	ramp.add_child(rcs)
+	for sx in [-1.4, 1.4]:
+		var gcs := CollisionShape3D.new()
+		var gbox := BoxShape3D.new()
+		gbox.size = Vector3(0.2, 1.4, length)
+		gcs.shape = gbox
+		gcs.position = Vector3(sx, top_y * 0.5 + 0.6, top_z * 0.5)
+		gcs.rotation.x = slope_ang
+		ramp.add_child(gcs)
 	add_child(ramp)
 	_bodies.append(ramp)
 	var slab := StaticBody3D.new()
@@ -80,20 +158,38 @@ func _ready() -> void:
 	slab.collision_mask = 0
 	var scs := CollisionShape3D.new()
 	var sbox := BoxShape3D.new()
-	sbox.size = Vector3(4.6, 0.2, 4.6)
+	sbox.size = Vector3(4.6, 0.2, 4.3)
 	scs.shape = sbox
-	scs.position = land.position
+	scs.position = Vector3(0, top_y - 0.08, top_z - 2.15)
 	slab.add_child(scs)
+	for gspec in [
+		[Vector3(-2.4, top_y + 0.6, top_z - 2.0), Vector3(0.2, 1.4, 4.6)],
+		[Vector3(2.4, top_y + 0.6, top_z - 2.0), Vector3(0.2, 1.4, 4.6)],
+		[Vector3(0.0, top_y + 0.6, top_z - 4.4), Vector3(4.8, 1.4, 0.2)],
+	]:
+		var lcs := CollisionShape3D.new()
+		var lbox := BoxShape3D.new()
+		lbox.size = gspec[1]
+		lcs.shape = lbox
+		lcs.position = gspec[0]
+		slab.add_child(lcs)
 	add_child(slab)
 	_bodies.append(slab)
 	# the road's own light
 	var l := OmniLight3D.new()
 	l.light_color = Color(1.0, 0.9, 0.6)
-	l.light_energy = 1.6
-	l.omni_range = 9.0
+	l.light_energy = 1.8
+	l.omni_range = 11.0
 	l.shadow_enabled = false
 	l.position = Vector3(0, top_y * 0.6, top_z * 0.5)
 	add_child(l)
+	var l_top := OmniLight3D.new()
+	l_top.light_color = Color(1.0, 0.93, 0.68)
+	l_top.light_energy = 2.0
+	l_top.omni_range = 9.0
+	l_top.shadow_enabled = false
+	l_top.position = Vector3(0, top_y + 1.8, top_z - 2.0)
+	add_child(l_top)
 	# the door at the top
 	_portal = AreaPortal.new()
 	_portal.to_area = to
@@ -103,11 +199,17 @@ func _ready() -> void:
 	add_child(_portal)
 	_portal.position = Vector3(0, top_y, top_z - 2.0)
 	_apply(World.flag(flag))
-	if not _shown:
+	if _shown and not World.flag("morrow_stair_seen"):
+		World.set_flag("morrow_stair_seen")
+		get_tree().create_timer(0.6, false).timeout.connect(func():
+			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -4.0, 1.15)
+			Game.toast.emit("To the west, a stair of light climbs over the Sanctum parapet."))
+	elif not _shown:
 		var t := Timer.new()
 		t.wait_time = 0.5
 		t.timeout.connect(func():
 			if not _shown and World.flag(flag):
+				World.set_flag("morrow_stair_seen")
 				_apply(true)
 				AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -4.0, 1.15)
 				Game.toast.emit("A stair of light stands over the parapet.")
@@ -122,3 +224,14 @@ func _apply(on: bool) -> void:
 		(b as StaticBody3D).collision_layer = (1 << (AreaBuilder._tag_bit("glory") - 1)) if on else 0
 	if _portal != null:
 		_portal._zone.enabled = on
+	if on and get_parent() != null and get_parent().get_parent() != null:
+		var area_node := get_parent().get_parent()
+		var base_layer := area_node.get_node_or_null("Base")
+		if base_layer != null:
+			for c in base_layer.get_children():
+				if c is Node3D and c.position.x < -15.5 and absf(c.position.z - position.z) < 1.2:
+					c.visible = false
+					if c is StaticBody3D:
+						(c as StaticBody3D).collision_layer = 0
+					for sb in c.find_children("*", "StaticBody3D", true, false):
+						(sb as StaticBody3D).collision_layer = 0

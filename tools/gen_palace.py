@@ -142,10 +142,10 @@ _COFFER_RING = {"flat": True, "coffer": True, "lid_mat": "M_marble",
 # nave: ONE uniform gilt coffer plane end to end — height steps between
 # vault lids and ring lids kept reading as random walls hung in the hall.
 # The crossing dome rises from its drum out of a single flat regal field.
-VF.append(dict(_COFFER_RING, min=[-10, 0, 0], max=[10, 0, 24]))
-VF.append(dict(_COFFER_RING, min=[-10, 0, 24], max=[-6, 0, 32]))
-VF.append(dict(_COFFER_RING, min=[6, 0, 24], max=[10, 0, 32]))
-VF.append(dict(_COFFER_RING, min=[-10, 0, 32], max=[10, 0, 56]))
+VF.append(dict(_COFFER_RING, min=[-10, 0, 0], max=[10, 0, 20], skip_bands=["S"]))
+VF.append(dict(_COFFER_RING, min=[-10, 0, 20], max=[-6, 0, 36], skip_bands=["N", "S", "E"]))
+VF.append(dict(_COFFER_RING, min=[6, 0, 20], max=[10, 0, 36], skip_bands=["N", "S", "W"]))
+VF.append(dict(_COFFER_RING, min=[-10, 0, 36], max=[10, 0, 56], skip_bands=["N"]))
 # no hidden lid over the crossing: the dome SHELL is the closure (collar
 # covers the hole's corners, the eye disc plugs the oculus) — a lid at
 # 12.3 hung in plain sight from the south nave, a pale box over the bowl

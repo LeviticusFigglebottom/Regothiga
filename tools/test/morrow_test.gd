@@ -42,6 +42,17 @@ func _run() -> void:
 	check(sportal != null and sportal.to_area == "morrow_keep",
 			"and its landing opens on the Keep of the Morrow")
 	check(sportal != null and sportal._zone.enabled, "the way is armed")
+	# physically walk the pilgrim from the Sanctum terrace up the Stair of Light
+	player.global_position = Vector3(-12.5, 2.3, -18.0)
+	player.velocity = Vector3.ZERO
+	player.sim_move = Vector3(-1, 0, 0)
+	for _step in 280:
+		await get_tree().physics_frame
+		if player.global_position.x <= -28.8:
+			break
+	player.sim_move = Vector3.ZERO
+	check(player.global_position.x < -28.0 and player.global_position.y > 8.8,
+			"the pilgrim walks cleanly over the west parapet and up the Stair of Light (pos=%s)" % str(player.global_position))
 
 	# ---- the keep: twelve trials, twelve memories
 	World.set_flag("amend_sworn")

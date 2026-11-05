@@ -313,7 +313,7 @@
    "at": [
     -9.8,
     0,
-    -8
+    -10
    ],
    "rot": 90
   },
@@ -322,7 +322,7 @@
    "at": [
     9.8,
     0,
-    -8
+    -10
    ],
    "rot": -90
   },
@@ -331,7 +331,7 @@
    "at": [
     -9.8,
     0,
-    -4
+    -6
    ],
    "rot": 90
   },
@@ -340,9 +340,63 @@
    "at": [
     9.8,
     0,
-    -4
+    -6
    ],
    "rot": -90
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    -9.8,
+    0,
+    -2
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_balustrade_4m",
+   "at": [
+    9.8,
+    0,
+    -2
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -9.7,
+    0,
+    -11.7
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    9.7,
+    0,
+    -11.7
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    -9.7,
+    0,
+    -0.3
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_pier",
+   "at": [
+    9.7,
+    0,
+    -0.3
+   ],
+   "rot": 0
   },
   {
    "kit": "palace_wall_4x4",
@@ -392,6 +446,15 @@
   {
    "kit": "palace_window_4m",
    "at": [
+    -8,
+    4,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
     -4,
     4,
     0
@@ -417,20 +480,179 @@
    "rot": 0
   },
   {
-   "kit": "palace_pediment_8m",
+   "kit": "palace_window_4m",
+   "at": [
+    8,
+    4,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -8,
+    8,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -4,
+    8,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
    "at": [
     0,
     8,
-    0.2
+    0
    ],
    "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    4,
+    8,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    8,
+    8,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_low_4m",
+   "at": [
+    -4,
+    8.15,
+    0
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "palace_wall_low_4m",
+   "at": [
+    0,
+    8.15,
+    0
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "palace_wall_low_4m",
+   "at": [
+    4,
+    8.15,
+    0
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0,
+    6.05,
+    -0.25
+   ],
+   "rot": 0,
+   "scale": [
+    0.82,
+    0.82,
+    0.82
+   ],
+   "collide": false
+  },
+  {
+   "kit": "palace_pediment_8m",
+   "at": [
+    0,
+    9.1,
+    -0.05
+   ],
+   "rot": 0,
+   "collide": false
   },
   {
    "kit": "gilt_finial",
    "at": [
     0,
-    10.6,
-    0.2
+    11.2,
+    -0.05
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    -8,
+    8.3,
+    -0.15
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    -6,
+    9.15,
+    -0.15
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    6,
+    9.15,
+    -0.15
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "gilt_finial",
+   "at": [
+    8,
+    8.3,
+    -0.15
+   ],
+   "rot": 0,
+   "collide": false
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -7.5,
+    0,
+    -1.5
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    7.5,
+    0,
+    -1.5
    ],
    "rot": 0
   },
@@ -1503,6 +1725,15 @@
    "rot": -90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    4,
+    12
+   ],
+   "rot": -90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     18,
@@ -1602,6 +1833,15 @@
    "rot": 90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    4,
+    12
+   ],
+   "rot": 90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     -18,
@@ -1701,6 +1941,15 @@
    "rot": -90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    4,
+    26
+   ],
+   "rot": -90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     18,
@@ -1800,6 +2049,15 @@
    "rot": 90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    4,
+    26
+   ],
+   "rot": 90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     -18,
@@ -1899,6 +2157,15 @@
    "rot": -90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    4,
+    40
+   ],
+   "rot": -90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     18,
@@ -1998,6 +2265,15 @@
    "rot": 90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    4,
+    40
+   ],
+   "rot": 90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     -18,
@@ -2097,6 +2373,15 @@
    "rot": -90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    4,
+    54
+   ],
+   "rot": -90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     18,
@@ -2196,6 +2481,15 @@
    "rot": 90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    4,
+    54
+   ],
+   "rot": 90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     -18,
@@ -2295,6 +2589,15 @@
    "rot": -90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    4,
+    68
+   ],
+   "rot": -90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     18,
@@ -2394,6 +2697,15 @@
    "rot": 90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    4,
+    68
+   ],
+   "rot": 90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     -18,
@@ -2493,6 +2805,15 @@
    "rot": -90
   },
   {
+   "kit": "palace_wall_4x4",
+   "at": [
+    18,
+    4,
+    82
+   ],
+   "rot": -90
+  },
+  {
    "kit": "palace_window_4m",
    "at": [
     18,
@@ -2588,6 +2909,15 @@
     -18,
     4,
     78
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -18,
+    4,
+    82
    ],
    "rot": 90
   },
@@ -2909,6 +3239,17 @@
    ],
    "rot": -20,
    "tag": "base"
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    0,
+    0.02,
+    -6.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
   },
   {
    "kit": "carpet_runner_8m",
@@ -3630,6 +3971,45 @@
   }
  ],
  "blockers": [
+  {
+   "min": [
+    -10.4,
+    0,
+    -12.4
+   ],
+   "max": [
+    10.4,
+    3,
+    -11.6
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -10.4,
+    0,
+    -12.4
+   ],
+   "max": [
+    -9.6,
+    3,
+    0.0
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    9.6,
+    0,
+    -12.4
+   ],
+   "max": [
+    10.4,
+    3,
+    0.0
+   ],
+   "tag": "base"
+  },
   {
    "min": [
     -18,

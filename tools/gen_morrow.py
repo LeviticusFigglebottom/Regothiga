@@ -128,19 +128,35 @@ for k in range(6):
 # balustrade rim around the arrival cloud-porch; open sky above it
 for x in (-8, -4, 0, 4, 8):
     piece("palace_balustrade_4m", (x, 0, -11.8), 0)
-piece("palace_balustrade_4m", (-9.8, 0, -8), 90)
-piece("palace_balustrade_4m", (9.8, 0, -8), -90)
-piece("palace_balustrade_4m", (-9.8, 0, -4), 90)
-piece("palace_balustrade_4m", (9.8, 0, -4), -90)
+for z in (-10, -6, -2):
+    piece("palace_balustrade_4m", (-9.8, 0, z), 90)
+    piece("palace_balustrade_4m", (9.8, 0, z), -90)
+for (px, pz) in [(-9.7, -11.7), (9.7, -11.7), (-9.7, -0.3), (9.7, -0.3)]:
+    piece("palace_pier", (px, 0, pz), 0)
+BL.append({"min": [-10.4, 0, -12.4], "max": [10.4, 3, -11.6], "tag": "base"})
+BL.append({"min": [-10.4, 0, -12.4], "max": [-9.6, 3, 0.0], "tag": "base"})
+BL.append({"min": [9.6, 0, -12.4], "max": [10.4, 3, 0.0], "tag": "base"})
 # keep front: a grand pedimented face with the one door
 wall_run_x(0, -10, 10, 0, doors=(0,))
+piece("palace_window_4m", (-8, 4, 0), 0)
 piece("palace_window_4m", (-4, 4, 0), 0)
 piece("palace_wall_4x4", (0, 4, 0), 0)
 piece("palace_window_4m", (4, 4, 0), 0)
-piece("palace_pediment_8m", (0, 8, 0.2), 0)
-piece("gilt_finial", (0, 10.6, 0.2), 0)
+piece("palace_window_4m", (8, 4, 0), 0)
+for x in (-8, -4, 0, 4, 8):
+    piece("palace_cornice_4m", (x, 8, 0), 0)
+for x in (-4, 0, 4):
+    piece("palace_wall_low_4m", (x, 8.15, 0), 0, collide=False)
+piece("rose_window", (0, 6.05, -0.25), 0, scale=[0.82, 0.82, 0.82], collide=False)
+piece("palace_pediment_8m", (0, 9.1, -0.05), 0, collide=False)
+piece("gilt_finial", (0, 11.2, -0.05), 0, collide=False)
+for x in (-8, -6, 6, 8):
+    piece("gilt_finial", (x, 8.3 if abs(x) > 6 else 9.15, -0.15), 0, collide=False)
+piece("statue_saint", (-7.5, 0, -1.5), 0)
+piece("statue_saint", (7.5, 0, -1.5), 0)
 prop("candelabra", (-3.4, 0, -2.5), 20)
 prop("candelabra", (3.4, 0, -2.5), -20)
+prop("mosaic_medallion", (0, 0.02, -6.0), 0, collide=False)
 
 # ---------------------------------------------------------------- the hall
 # west/east hall walls with a door to each trial room; windows above
@@ -176,6 +192,7 @@ for k in range(6):
         rot_o = -90 if s > 0 else 90
         wall_run_z(xo, z0, z0 + 12, rot_o)
         piece("palace_window_4m", (xo, 4, z0 + 2), rot_o)
+        piece("palace_wall_4x4", (xo, 4, z0 + 6), rot_o)
         piece("palace_window_4m", (xo, 4, z0 + 10), rot_o)
         # south + north walls of each room
         x_in, x_out = (6, 18) if s > 0 else (-18, -6)

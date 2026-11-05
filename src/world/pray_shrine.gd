@@ -50,6 +50,7 @@ var _lines: Array = []
 var _keys: Array = []
 var _line := -1
 var _line_t := 0.0
+var _ascend_root: Node3D = null
 
 func _ready() -> void:
 	_zone = Interactable.new()
@@ -57,6 +58,57 @@ func _ready() -> void:
 	_zone.setup_zone(1.9, 1.8, Vector3(0, 0, -1.3))
 	_zone.activated.connect(func(_p): _begin())
 	add_child(_zone)
+	if World.flag("scion_prayed"):
+		_ensure_ascend_beacon()
+
+func _ensure_ascend_beacon() -> void:
+	if _ascend_root != null and is_instance_valid(_ascend_root):
+		return
+	_ascend_root = Node3D.new()
+	_ascend_root.position = Vector3(0, 0, -5.6)
+	add_child(_ascend_root)
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mat.albedo_color = Color(1.0, 0.92, 0.58, 0.38)
+	var col := MeshInstance3D.new()
+	var cm := CylinderMesh.new()
+	cm.top_radius = 0.55
+	cm.bottom_radius = 1.05
+	cm.height = 7.6
+	col.mesh = cm
+	col.material_override = mat
+	col.position = Vector3(0, 3.8, 0)
+	col.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_ascend_root.add_child(col)
+	var ring_mat := StandardMaterial3D.new()
+	ring_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	ring_mat.albedo_color = Color(1.0, 0.96, 0.8)
+	var disc := MeshInstance3D.new()
+	var dm := CylinderMesh.new()
+	dm.top_radius = 1.15
+	dm.bottom_radius = 1.25
+	dm.height = 0.05
+	disc.mesh = dm
+	disc.material_override = ring_mat
+	disc.position = Vector3(0, 0.03, 0)
+	disc.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_ascend_root.add_child(disc)
+	var l := OmniLight3D.new()
+	l.light_color = Color(1.0, 0.92, 0.64)
+	l.light_energy = 2.0
+	l.omni_range = 8.5
+	l.shadow_enabled = false
+	l.position = Vector3(0, 1.8, 0)
+	_ascend_root.add_child(l)
+	var portal := AreaPortal.new()
+	portal.to_area = "morrow_keep"
+	portal.spawn_pos = Vector3(0, 0.3, -8)
+	portal.spawn_yaw = 180.0
+	portal.prompt = "Ascend to the Keep of the Morrow"
+	portal.cutscene = "ascend"
+	_ascend_root.add_child(portal)
 
 func _amends_done() -> int:
 	var n := 0
@@ -256,4 +308,6 @@ func _end() -> void:
 			_player.lock_control(false)
 		_line = -1
 		_busy = false
-		_zone.enabled = true)
+		_zone.enabled = true
+		_ensure_ascend_beacon()
+		Game.toast.emit("The way to the Keep of the Morrow stands open — before the altar and beyond the Sanctum parapet."))

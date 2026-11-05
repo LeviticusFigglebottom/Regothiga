@@ -441,11 +441,11 @@
  "chandelier_dome_low": {
   "file": "assets/kit/chandelier_dome_low.glb",
   "origin": "center",
-  "polys": 2180,
+  "polys": 2190,
   "size": [
    2.8,
    2.8,
-   6.8999999999999995
+   7.699999999999999
   ]
  },
  "chandelier_gilt": {
@@ -1079,11 +1079,11 @@
  "palace_dome_12m": {
   "file": "assets/kit/palace_dome_12m.glb",
   "origin": "rim-center",
-  "polys": 1728,
+  "polys": 2000,
   "size": [
-   15.0,
-   15.0,
-   3.7
+   12.4,
+   16.4,
+   4.5
   ]
  },
  "palace_floor_4x4": {
