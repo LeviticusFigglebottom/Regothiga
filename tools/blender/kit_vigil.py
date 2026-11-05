@@ -228,16 +228,26 @@ def shrine_aedicule():
         cap_top=True,
     )
     objs.append(basin)
-    core = V.loft_rings(
-        "first_light",
+    coals = V.loft_rings(
+        "shrine_coals",
         [
-            (0.18, 1.18, 12, 0),
+            (0.22, 1.16, 12, 0),
+            (0.16, 1.23, 12, 0.25),
+            (0.06, 1.28, 12, 0.55),
+        ],
+        "M_ember",
+    )
+    objs.append(coals)
+    core = V.loft_rings(
+        "first_light_flame",
+        [
+            (0.18, 1.20, 12, 0),
             (0.32, 1.48, 12, 0.35),
             (0.16, 1.85, 12, 0.7),
             (0.06, 2.10, 12, 1.05),
             (0.015, 2.25, 12, 1.4),
         ],
-        "M_ember",
+        "M_flame",
     )
     objs.append(core)
     halo = V.loft_rings(

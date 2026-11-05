@@ -48,10 +48,8 @@ void vertex() {
 
 void fragment() {
 	float ruin = local_ruin(v_world_pos);
-	float presence = 1.0;
-	if (state_mode == 1) {
-		presence = 1.0 - ruin;
-	} else if (state_mode == 2) {
+	float presence = 1.0 - ruin;
+	if (state_mode == 2) {
 		presence = ruin;
 	}
 	if (presence < 0.5) {
