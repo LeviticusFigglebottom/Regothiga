@@ -2645,7 +2645,7 @@
     0.1,
     -8
    ],
-   "face": -90,
+   "face": 90,
    "dead_once": true,
    "fog_gate_id": "belfry"
   }

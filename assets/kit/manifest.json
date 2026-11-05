@@ -1478,7 +1478,7 @@
  "skel_chorister": {
   "file": "assets/kit/skel_chorister.glb",
   "origin": "feet",
-  "polys": 2278,
+  "polys": 2490,
   "size": [
    0.8,
    0.8,
@@ -1489,7 +1489,7 @@
  "skel_echo": {
   "file": "assets/kit/skel_echo.glb",
   "origin": "feet",
-  "polys": 2410,
+  "polys": 2622,
   "size": [
    0.8,
    0.8,
@@ -1533,7 +1533,7 @@
  "skel_mire": {
   "file": "assets/kit/skel_mire.glb",
   "origin": "feet",
-  "polys": 2220,
+  "polys": 2180,
   "size": [
    0.8,
    0.8,
@@ -1555,7 +1555,7 @@
  "skel_precentress": {
   "file": "assets/kit/skel_precentress.glb",
   "origin": "feet",
-  "polys": 2566,
+  "polys": 2778,
   "size": [
    0.8,
    0.8,
@@ -1599,7 +1599,7 @@
  "skel_sister": {
   "file": "assets/kit/skel_sister.glb",
   "origin": "feet",
-  "polys": 2302,
+  "polys": 2514,
   "size": [
    0.8,
    0.8,
@@ -1621,7 +1621,7 @@
  "skel_wretch": {
   "file": "assets/kit/skel_wretch.glb",
   "origin": "feet",
-  "polys": 2142,
+  "polys": 2102,
   "size": [
    0.8,
    0.8,
@@ -1745,9 +1745,9 @@
   "origin": "grip",
   "polys": 130,
   "size": [
-   0.48,
-   0.74,
-   2.9
+   0.34,
+   0.58,
+   2.7
   ]
  },
  "tomb_slab": {

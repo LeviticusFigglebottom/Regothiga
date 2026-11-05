@@ -155,10 +155,14 @@ def _arc_tube(bm, p0, p1, r0, r1, n=14, gap=1.0, steps=5):
             a = ang0 + gap + (2 * math.pi - 2 * gap) * i / n
             ring.append(bm.verts.new(c + (bx * math.cos(a) + by * math.sin(a)) * r))
         rings.append(ring)
+    faces = []
     for s in range(steps):
         for i in range(n):
-            bm.faces.new((rings[s][i], rings[s][i + 1],
-                          rings[s + 1][i + 1], rings[s + 1][i]))
+            faces.append(bm.faces.new((rings[s][i], rings[s][i + 1],
+                                       rings[s + 1][i + 1], rings[s + 1][i])))
+    verts = [v for ring in rings for v in ring]
+    edges = list({e for f in faces for e in f.edges})
+    bmesh.ops.solidify(bm, geom=faces + edges + verts, thickness=0.014)
     return rings
 
 
@@ -408,15 +412,12 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
     bm = b.joint("chest", "head", under_mat)
     _tube(bm, Vector((0, 0, 1.42)), Vector((0, 0.01, 1.53)), 0.062 * g, 0.056 * g, 12, steps=3)
     bm = b.part("head", head_under_mat)
-    _ball(bm, (0, 0.015, 1.615), 0.102 * g, sub=2, scale=(0.92, 1.06, 1.05))
-    if hood:
-        # Sculpted jawline, chin & nose bridge for open-hooded figures
-        _tube(bm, Vector((0, 0.032 * g, 1.535)), Vector((0, 0.020 * g, 1.61)),
-              0.068 * g, 0.092 * g, n=12, steps=2, squash=(0.90, 1.10), ridge_fwd=0.18)
-        # Subtle shadowed eye-socket band recessed into the brow
+    _ball(bm, (0, 0.012 * g, 1.620), 0.100 * g, sub=2, scale=(0.90, 1.04, 1.04))
+    if hood and hood != "closed":
+        # Smooth ovoid lower face/chin & dark shadowed upper-brow veil under the cowl
+        _ball(bm, (0, 0.026 * g, 1.568), 0.076 * g, sub=2, scale=(0.84, 1.06, 1.10))
         bm_eye = b.part("head", "M_iron")
-        _tube(bm_eye, Vector((0, 0.022 * g, 1.605)), Vector((0, 0.022 * g, 1.628)),
-              0.094 * g, 0.094 * g, n=12, steps=1, squash=(0.92, 1.06))
+        _ball(bm_eye, (0, 0.022 * g, 1.626), 0.096 * g, sub=2, scale=(0.91, 1.06, 0.42))
     if hood == "closed":
         # sealed wax cone — the faceless penitents
         bm = b.part("head", robe_mat)

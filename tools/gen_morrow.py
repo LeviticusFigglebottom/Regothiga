@@ -134,8 +134,9 @@ piece("palace_balustrade_4m", (-9.8, 0, -4), 90)
 piece("palace_balustrade_4m", (9.8, 0, -4), -90)
 # keep front: a grand pedimented face with the one door
 wall_run_x(0, -10, 10, 0, doors=(0,))
-piece("palace_window_4m", (-6, 4, 0), 0)
-piece("palace_window_4m", (6, 4, 0), 0)
+piece("palace_window_4m", (-4, 4, 0), 0)
+piece("palace_wall_4x4", (0, 4, 0), 0)
+piece("palace_window_4m", (4, 4, 0), 0)
 piece("palace_pediment_8m", (0, 8, 0.2), 0)
 piece("gilt_finial", (0, 10.6, 0.2), 0)
 prop("candelabra", (-3.4, 0, -2.5), 20)
@@ -151,8 +152,11 @@ for z in range(2, 92, 4):
     piece("palace_window_4m", (6, 4, z), -90)
 # north hall wall: the LAST DOOR into the bell chamber
 wall_run_x(92, -10, 10, 180, doors=(0,))
-piece("palace_window_4m", (-6, 4, 92), 180)
-piece("palace_window_4m", (6, 4, 92), 180)
+piece("palace_window_4m", (-8, 4, 92), 0)
+piece("palace_wall_4x4", (-4, 4, 92), 180)
+piece("palace_wall_4x4", (0, 4, 92), 180)
+piece("palace_wall_4x4", (4, 4, 92), 180)
+piece("palace_window_4m", (8, 4, 92), 0)
 # the runner and the lights of the processional
 for z in (10, 26, 42, 58, 74):
     prop("carpet_runner_8m", (0, 0.02, z), 90)
@@ -334,12 +338,9 @@ PLQ.append({"at": [3.4, 0, 90.2], "rot": -150, "text":
 wall_run_x(108, -10, 10, 180)
 wall_run_z(-10, 92, 108, 90)
 wall_run_z(10, 92, 108, -90)
-piece("palace_window_4m", (-10, 4, 96), 90)
-piece("palace_window_4m", (-10, 4, 104), 90)
-piece("palace_window_4m", (10, 4, 96), -90)
-piece("palace_window_4m", (10, 4, 104), -90)
-piece("palace_window_4m", (-4, 4, 108), 180)
-piece("palace_window_4m", (4, 4, 108), 180)
+wall_run_x(108, -10, 10, 180, y=4, kit="palace_window_4m")
+wall_run_z(-10, 92, 108, 90, y=4, kit="palace_window_4m")
+wall_run_z(10, 92, 108, -90, y=4, kit="palace_window_4m")
 prop("palace_cove_dome", (0, 8.0, 100), 0, collide=False, flames=False,
      glow=[3.0, 1.9, 11.0])
 # the bell hangs from a gilt beam under the crown

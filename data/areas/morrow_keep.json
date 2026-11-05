@@ -392,7 +392,16 @@
   {
    "kit": "palace_window_4m",
    "at": [
-    -6,
+    -4,
+    4,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    0,
     4,
     0
    ],
@@ -401,7 +410,7 @@
   {
    "kit": "palace_window_4m",
    "at": [
-    6,
+    4,
     4,
     0
    ],
@@ -1415,7 +1424,34 @@
   {
    "kit": "palace_window_4m",
    "at": [
-    -6,
+    -8,
+    4,
+    92
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    -4,
+    4,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    0,
+    4,
+    92
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_wall_4x4",
+   "at": [
+    4,
     4,
     92
    ],
@@ -1424,11 +1460,11 @@
   {
    "kit": "palace_window_4m",
    "at": [
-    6,
+    8,
     4,
     92
    ],
-   "rot": 180
+   "rot": 0
   },
   {
    "kit": "palace_wall_4x4",
@@ -2738,43 +2774,7 @@
   {
    "kit": "palace_window_4m",
    "at": [
-    -10,
-    4,
-    96
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "palace_window_4m",
-   "at": [
-    -10,
-    4,
-    104
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "palace_window_4m",
-   "at": [
-    10,
-    4,
-    96
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "palace_window_4m",
-   "at": [
-    10,
-    4,
-    104
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "palace_window_4m",
-   "at": [
-    -4,
+    -8.0,
     4,
     108
    ],
@@ -2783,11 +2783,110 @@
   {
    "kit": "palace_window_4m",
    "at": [
-    4,
+    -4.0,
     4,
     108
    ],
    "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    0.0,
+    4,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    4.0,
+    4,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    8.0,
+    4,
+    108
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -10,
+    4,
+    94.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -10,
+    4,
+    98.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -10,
+    4,
+    102.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -10,
+    4,
+    106.0
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    10,
+    4,
+    94.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    10,
+    4,
+    98.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    10,
+    4,
+    102.0
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    10,
+    4,
+    106.0
+   ],
+   "rot": -90
   }
  ],
  "props": [
