@@ -256,27 +256,51 @@ def chimney_stack():
 
 
 def balcony_3m():
-    """Timber balcony off an upper wall face: deck 3 x 1.25, rails on the
-    three open sides, two struts beneath. Origin at the wall face, deck top
-    at z=0; the deck extends +Y (away from the wall, like roof_shed)."""
+    """Timber balcony off an upper wall face: deck 3 x 1.25, rails and turned
+    balusters on the three open sides, two struts beneath, and wrought-iron
+    corner/wall bracket straps. Origin at the wall face, deck top at z=0; the
+    deck extends +Y (away from the wall, like roof_shed)."""
     objs = []
     bm = bmesh.new()
     y = 0.06
     while y < 1.2:
         V.add_box(bm, (-1.5, y, -0.16), (1.5, y + 0.3, -0.02))
         y += 0.36
-    # rails
+    # Outer deck fascia rim
+    V.add_box(bm, (-1.52, 1.18, -0.20), (1.52, 1.24, 0.0))
+    for sx in (-1.52, 1.46):
+        V.add_box(bm, (sx, 0.04, -0.20), (sx + 0.06, 1.24, 0.0))
+    # Top, mid, and bottom rails on all three open sides
     for sx in (-1.44, 1.44):
         _frame_stick(bm, (sx, 0.06, -0.02), (sx, 1.19, -0.02), 0.07)
-    _frame_stick(bm, (-1.44, 1.19, 1.0), (1.44, 1.19, 1.0), 0.08)
-    for sx in (-1.44, 1.44):
-        _frame_stick(bm, (sx, 1.19, -0.02), (sx, 1.19, 1.0), 0.07)
-        _frame_stick(bm, (sx, 0.66, -0.02), (sx, 0.66, 1.0), 0.06)
+        _frame_stick(bm, (sx, 0.06, 0.55), (sx, 1.19, 0.55), 0.055)
+        _frame_stick(bm, (sx, 0.06, 1.0), (sx, 1.19, 1.0), 0.075)
+    _frame_stick(bm, (-1.44, 1.19, -0.02), (1.44, 1.19, -0.02), 0.07)
     _frame_stick(bm, (-1.44, 1.19, 0.55), (1.44, 1.19, 0.55), 0.06)
-    # struts
+    _frame_stick(bm, (-1.44, 1.19, 1.0), (1.44, 1.19, 1.0), 0.08)
+    # Corner newel posts + finials, side balusters, and 7 front balusters
+    for sx in (-1.44, 1.44):
+        _frame_stick(bm, (sx, 0.08, -0.02), (sx, 0.08, 1.06), 0.075)
+        _frame_stick(bm, (sx, 1.19, -0.02), (sx, 1.19, 1.08), 0.08)
+        V.add_box(bm, (sx - 0.055, 1.19 - 0.055, 1.06), (sx + 0.055, 1.19 + 0.055, 1.12))
+        for sy in (0.42, 0.80):
+            _frame_stick(bm, (sx, sy, -0.02), (sx, sy, 1.0), 0.05)
+    for bx in (-1.08, -0.72, -0.36, 0.0, 0.36, 0.72, 1.08):
+        _frame_stick(bm, (bx, 1.19, -0.02), (bx, 1.19, 1.0), 0.052)
+    # Under-deck knee struts
     for sx in (-1.2, 1.2):
         _frame_stick(bm, (sx, 0.06, -1.0), (sx, 1.05, -0.1), 0.1)
+        _frame_stick(bm, (sx, 0.06, -1.02), (sx, 0.12, -0.02), 0.09)
     objs.append(V.bm_to_object(bm, "balcony", ("M_wood",)))
+
+    bm_iron = bmesh.new()
+    for sx in (-1.44, 1.44):
+        V.add_box(bm_iron, (sx - 0.05, 1.14, 0.94), (sx + 0.05, 1.24, 1.02))
+        V.add_box(bm_iron, (sx - 0.05, 1.14, 0.51), (sx + 0.05, 1.24, 0.58))
+        V.add_box(bm_iron, (sx - 0.05, 0.02, 0.94), (sx + 0.05, 0.14, 1.02))
+    for sx in (-1.2, 1.2):
+        V.add_box(bm_iron, (sx - 0.06, 0.02, -0.98), (sx + 0.06, 0.14, -0.86))
+    objs.append(V.bm_to_object(bm_iron, "balcony_iron", ("M_iron",)))
     return objs, {"size": [3, 1.25, 2.1], "origin": "wall-face-deck"}
 
 
@@ -327,12 +351,25 @@ def barrel():
         (0.235, 0.86, n, 0),
     ]
     objs.append(V.loft_rings("staves", rings, "M_wood", cap_bottom=True, cap_top=True))
-    for idx, (z, r) in enumerate(((0.06, 0.284), (0.24, 0.330), (0.66, 0.330), (0.84, 0.284))):
+    for idx, (z, r) in enumerate(((0.06, 0.286), (0.24, 0.332), (0.66, 0.332), (0.84, 0.286))):
         nm = "hoop" if idx == 0 else ("hoop_%d" % idx)
-        objs.append(V.loft_rings(nm, [(r, z - 0.024, n, 0), (r, z + 0.024, n, 0)],
-                                 "M_iron", cap_bottom=False, cap_top=False))
+        ri = r - 0.022
+        objs.append(V.loft_rings(
+            nm,
+            [
+                (ri, z - 0.024, n, 0),
+                (r, z - 0.024, n, 0),
+                (r, z + 0.024, n, 0),
+                (ri, z + 0.024, n, 0),
+                (ri, z - 0.024, n, 0),
+            ],
+            "M_iron",
+            cap_bottom=False,
+            cap_top=False,
+        ))
     bm_iron = bmesh.new()
-    V.add_cyl(bm_iron, 0.0, 0.335, 0.43, 0.04, 0.032, n=8)
+    V.add_box(bm_iron, (-0.048, 0.330, 0.402), (0.048, 0.352, 0.498))
+    V.add_cyl(bm_iron, 0.0, 0.340, 0.43, 0.04, 0.032, n=8)
     objs.append(V.bm_to_object(bm_iron, "barrel_bung", ("M_iron",)))
     return objs, {"size": [0.7, 0.7, 0.9], "origin": "bottom-center"}
 
@@ -462,9 +499,20 @@ def hand_cart():
         rim.rotation_euler = (0, math.pi / 2, 0)
         rim.location = (sx, 0.0, 0.34)
         objs.append(rim)
-        # Outer iron tire hoop + hub
-        tire = V.loft_rings("wheel_tire", [(0.34, -0.038, 14, 0), (0.34, 0.038, 14, 0)],
-                            "M_iron", cap_bottom=False, cap_top=False)
+        # Outer 3D closed iron tire hoop + hub
+        tire = V.loft_rings(
+            "wheel_tire",
+            [
+                (0.328, -0.038, 14, 0),
+                (0.344, -0.038, 14, 0),
+                (0.344, 0.038, 14, 0),
+                (0.328, 0.038, 14, 0),
+                (0.328, -0.038, 14, 0),
+            ],
+            "M_iron",
+            cap_bottom=False,
+            cap_top=False,
+        )
         tire.rotation_euler = (0, math.pi / 2, 0)
         tire.location = (sx, 0.0, 0.34)
         objs.append(tire)
@@ -472,6 +520,18 @@ def hand_cart():
         hub.rotation_euler = (0, math.pi / 2, 0)
         hub.location = (sx, 0.0, 0.34)
         objs.append(hub)
+
+    # Corded cloth cargo bale resting on the cart bed
+    bm_bale = bmesh.new()
+    V.add_box(bm_bale, (-0.38, -0.58, 0.58), (0.38, 0.48, 0.90))
+    V.add_box(bm_bale, (-0.34, -0.52, 0.90), (0.34, 0.42, 0.96))
+    objs.append(V.bm_to_object(bm_bale, "cart_bale", ("M_cloth",)))
+
+    bm_cord = bmesh.new()
+    for cy in (-0.32, 0.18):
+        V.add_box(bm_cord, (-0.395, cy - 0.022, 0.58), (0.395, cy + 0.022, 0.97))
+    V.add_box(bm_cord, (-0.022, -0.595, 0.58), (0.022, 0.495, 0.97))
+    objs.append(V.bm_to_object(bm_cord, "cart_cord", ("M_leather",)))
     return objs, {"size": [1.4, 3.0, 0.96], "origin": "bottom-center"}
 
 
@@ -589,6 +649,7 @@ def clock_tower():
     bezel = V.loft_rings("dial_bezel", [
         (1.04, -0.06, 20, 0), (1.04, 0.06, 20, 0),
         (0.92, 0.06, 20, 0), (0.92, -0.06, 20, 0),
+        (1.04, -0.06, 20, 0),
     ], "M_iron", cap_bottom=False, cap_top=False)
     bezel.rotation_euler = (math.pi / 2, 0, 0)
     bezel.location = (0, 2.07, 5.9)

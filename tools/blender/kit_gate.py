@@ -15,11 +15,13 @@ def portcullis_4m():
     turned (FlagGate open_dir=up). Origin bottom-center."""
     objs = []
     bm = bmesh.new()
+    bm_boss = bmesh.new()
     xs = [-1.8 + i * 0.45 for i in range(9)]
     zs = (0.5, 1.3, 2.1, 2.9, 3.5)
     for x in xs:                                                    # verticals
-        V.add_box(bm, (x - 0.05, -0.05, 0.0), (x + 0.05, 0.05, 3.6))
-        # Capped spiked foot
+        V.add_box(bm, (x - 0.05, -0.05, 0.0), (x + 0.05, 0.05, 3.62))
+        # Capped spiked foot collar + pyramidal spike
+        V.add_box(bm_boss, (x - 0.068, -0.068, 0.0), (x + 0.068, 0.068, 0.08))
         tip = bmesh.new()
         a = tip.verts.new((x - 0.07, -0.07, 0.0))
         b = tip.verts.new((x + 0.07, -0.07, 0.0))
@@ -30,11 +32,22 @@ def portcullis_4m():
             tip.faces.new((e0, e1, p))
         tip.faces.new((d, c, b, a))
         objs.append(V.bm_to_object(tip, "spike", ("M_iron",)))
+    # Top header beam and 3 forged hoist rings + chain links at (-1.35, 0.0, 1.35)
+    V.add_box(bm, (-2.0, -0.075, 3.56), (2.0, 0.075, 3.68))
+    for hx in (-1.35, 0.0, 1.35):
+        V.add_box(bm_boss, (hx - 0.09, -0.09, 3.54), (hx + 0.09, 0.09, 3.70))
+        # Hollow square hoist ring + vertical chain link above header
+        V.add_box(bm, (hx - 0.11, -0.04, 3.70), (hx + 0.11, 0.04, 3.75))
+        V.add_box(bm, (hx - 0.11, -0.04, 3.84), (hx + 0.11, 0.04, 3.89))
+        V.add_box(bm, (hx - 0.11, -0.04, 3.70), (hx - 0.06, 0.04, 3.89))
+        V.add_box(bm, (hx + 0.06, -0.04, 3.70), (hx + 0.11, 0.04, 3.89))
     for z in zs:                                                    # crossbars
         V.add_box(bm, (-2.0, -0.06, z - 0.06), (2.0, 0.06, z + 0.06))
         for x in xs:
-            V.add_box(bm, (x - 0.075, -0.082, z - 0.075), (x + 0.075, 0.082, z + 0.075))
+            V.add_box(bm, (x - 0.075, -0.075, z - 0.075), (x + 0.075, 0.075, z + 0.075))
+            V.add_box(bm_boss, (x - 0.052, -0.092, z - 0.052), (x + 0.052, 0.092, z + 0.052))
     objs.append(V.bm_to_object(bm, "grate", ("M_iron",)))
+    objs.append(V.bm_to_object(bm_boss, "grate_bosses", ("M_bronze",)))
     return objs, {"size": [4, 0.3, 3.9], "origin": "bottom-center"}
 
 
@@ -134,6 +147,14 @@ def capstan_base():
     V.add_box(bm, (-0.82, -0.82, 0.0), (0.82, 0.82, 0.11))
     V.add_box(bm, (-0.70, -0.70, 0.11), (0.70, 0.70, 0.18))
     objs.append(V.bm_to_object(bm, "cap_plinth", ("M_stone_dark",)))
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-0.85, -0.85, 0.08), (0.85, 0.85, 0.12))
+    V.add_box(bm_trim, (-0.73, -0.73, 0.15), (0.73, 0.73, 0.19))
+    V.add_box(bm_trim, (-0.21, -1.55, 0.0), (0.21, -1.11, 0.10))
+    V.add_box(bm_trim, (-0.21, -1.55, 0.44), (0.21, -1.11, 0.52))
+    objs.append(V.bm_to_object(bm_trim, "cap_trim", ("M_stone_trim",)))
+
     drum = V.loft_rings(
         "cap_drum",
         [
@@ -146,10 +167,22 @@ def capstan_base():
         "M_iron",
     )
     objs.append(drum)
-    # chain winding: three dark rings around the drum
-    for z in (0.36, 0.52, 0.68):
-        ring = V.loft_rings("cap_chain", [(0.46, z, 12, 0), (0.46, z + 0.08, 12, 0)], "M_iron",
-                            cap_bottom=False, cap_top=False)
+    # 3D closed chain windings around the drum
+    for idx, z in enumerate((0.36, 0.52, 0.68)):
+        nm = "cap_chain" if idx == 0 else ("cap_chain_%d" % idx)
+        ring = V.loft_rings(
+            nm,
+            [
+                (0.41, z, 12, 0),
+                (0.47, z, 12, 0),
+                (0.47, z + 0.08, 12, 0),
+                (0.41, z + 0.08, 12, 0),
+                (0.41, z, 12, 0),
+            ],
+            "M_bronze",
+            cap_bottom=False,
+            cap_top=False,
+        )
         objs.append(ring)
     # the chain-LEAD: a taut run leaving the drum toward the gate it pulls
     lead = bmesh.new()
@@ -160,7 +193,9 @@ def capstan_base():
                   (0.50 * math.cos(a) + 0.04, 0.50 * math.sin(a) + 0.04, 0.25))
     objs.append(V.bm_to_object(lead, "cap_lead", ("M_iron",)))
     guide = bmesh.new()
-    V.add_box(guide, (-0.18, -1.52, 0.0), (0.18, -1.14, 0.50))
+    V.add_box(guide, (-0.18, -1.52, 0.0), (-0.08, -1.14, 0.50))
+    V.add_box(guide, (0.08, -1.52, 0.0), (0.18, -1.14, 0.50))
+    V.add_box(guide, (-0.18, -1.52, 0.0), (0.18, -1.14, 0.24))
     objs.append(V.bm_to_object(guide, "cap_guide", ("M_stone_dark",)))
     return objs, {"size": [1.6, 3.0, 1.0], "origin": "bottom-center"}
 

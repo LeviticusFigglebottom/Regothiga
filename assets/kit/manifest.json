@@ -52,7 +52,7 @@
  "balcony_3m": {
   "file": "assets/kit/balcony_3m.glb",
   "origin": "wall-face-deck",
-  "polys": 84,
+  "polys": 270,
   "size": [
    3,
    1.25,
@@ -112,7 +112,7 @@
  "barrel": {
   "file": "assets/kit/barrel.glb",
   "origin": "bottom-center",
-  "polys": 180,
+  "polys": 354,
   "size": [
    0.7,
    0.7,
@@ -381,7 +381,7 @@
  "capstan_base": {
   "file": "assets/kit/capstan_base.glb",
   "origin": "bottom-center",
-  "polys": 146,
+  "polys": 290,
   "size": [
    1.6,
    3.0,
@@ -601,7 +601,7 @@
  "clock_tower": {
   "file": "assets/kit/clock_tower.glb",
   "origin": "bottom-center",
-  "polys": 310,
+  "polys": 330,
   "size": [
    4,
    4,
@@ -895,7 +895,7 @@
  "hand_cart": {
   "file": "assets/kit/hand_cart.glb",
   "origin": "bottom-center",
-  "polys": 340,
+  "polys": 454,
   "size": [
    1.4,
    3.0,
@@ -1257,7 +1257,7 @@
  "portcullis_4m": {
   "file": "assets/kit/portcullis_4m.glb",
   "origin": "bottom-center",
-  "polys": 399,
+  "polys": 819,
   "size": [
    4,
    0.3,
