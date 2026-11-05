@@ -47,8 +47,8 @@ uniform int emission_gate = 0;
 uniform int state_mode = 0;
 uniform int albedo_from_vc = 0;
 
-// Per-instance dissolve (deaths, pickups fading out)
-instance uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
+// Per-subtree dissolve (deaths, pickups fading out; applied via VG.set_dissolve)
+uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
 
 // Transformation wave globals (set by StateDirector)
 global uniform float vg_wave_r;

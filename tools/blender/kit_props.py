@@ -483,22 +483,42 @@ def tomb_slab():
 
 
 def gate_iron():
-    """Two-leaf wrought gate for a 2.4 m opening."""
+    """Two-leaf wrought-iron Gothic gate for a 2.4 m opening, with forged
+    spearhead finials atop every bar, lock-plates, and hinge collars."""
     objs = []
     for leaf, sgn in (("gate_leaf_l", -1), ("gate_leaf_r", 1)):
         bm = bmesh.new()
         x0, x1 = (0.02, 1.18) if sgn > 0 else (-1.18, -0.02)
         for x in (x0, x1):
-            V.add_box(bm, (x - 0.022, -0.022, 0.02), (x + 0.022, 0.022, 2.2))
-        for z in (0.09, 1.05, 2.05):
-            V.add_box(bm, (x0, -0.018, z - 0.028), (x1, 0.018, z + 0.028))
+            V.add_box(bm, (x - 0.024, -0.024, 0.02), (x + 0.024, 0.024, 2.24))
+            # Spearhead finial on outer & inner stiles
+            V.add_box(bm, (x - 0.032, -0.030, 2.22), (x + 0.032, 0.030, 2.26))
+            V.add_box(bm, (x - 0.020, -0.020, 2.26), (x + 0.020, 0.020, 2.34))
+        for z in (0.09, 0.56, 1.05, 2.05):
+            h_rail = 0.018 if z == 0.56 else 0.028
+            V.add_box(bm, (x0, -0.020, z - h_rail), (x1, 0.020, z + h_rail))
+        # Lockbox plate at central meeting stile & hinge collars at outer stile
+        x_in = 0.06 if sgn > 0 else -0.06
+        x_out = 1.18 if sgn > 0 else -1.18
+        V.add_box(bm, (x_in - 0.04, -0.030, 0.94), (x_in + 0.04, 0.030, 1.16))
+        for zh in (0.28, 1.86):
+            V.add_box(bm, (x_out - 0.038, -0.038, zh - 0.035), (x_out + 0.038, 0.038, zh + 0.035))
         x = x0 + 0.12
         while x < x1 - 0.05:
-            V.add_box(bm, (x - 0.014, -0.014, 0.04), (x + 0.014, 0.014, 2.3))
+            V.add_box(bm, (x - 0.014, -0.014, 0.04), (x + 0.014, 0.014, 2.24))
+            # Forged spearhead collar + tapered point
+            V.add_box(bm, (x - 0.024, -0.022, 2.21), (x + 0.024, 0.022, 2.24))
+            V.add_box(bm, (x - 0.020, -0.016, 2.24), (x + 0.020, 0.016, 2.30))
+            V.add_box(bm, (x - 0.010, -0.010, 2.30), (x + 0.010, 0.010, 2.36))
+            # Lower dog-bar pickets between 0.09 and 0.56
+            if x + 0.078 < x1 - 0.05:
+                xm = x + 0.078
+                V.add_box(bm, (xm - 0.010, -0.010, 0.09), (xm + 0.010, 0.010, 0.62))
+                V.add_box(bm, (xm - 0.016, -0.014, 0.62), (xm + 0.016, 0.014, 0.67))
             x += 0.155
         obj = V.bm_to_object(bm, leaf, ("M_iron",))
         objs.append(obj)
-    return objs, {"size": [2.4, 0.1, 2.35], "origin": "bottom-center"}
+    return objs, {"size": [2.4, 0.1, 2.36], "origin": "bottom-center"}
 
 
 def canal_vault(win: bool):
@@ -680,18 +700,36 @@ def anvil():
 
 
 def fence_iron_4m():
+    """4 m wrought-iron Gothic fence section on a chamfered stone curb with
+    forged spearhead pickets, lower dog-bars, and finial-crowned end posts."""
+    objs = []
+    bm_curb = bmesh.new()
+    V.add_box(bm_curb, (-2.04, -0.09, 0.0), (2.04, 0.09, 0.10))
+    V.add_box(bm_curb, (-2.02, -0.07, 0.10), (2.02, 0.07, 0.14))
+    objs.append(V.bm_to_object(bm_curb, "fence_curb", ("M_stone_trim",)))
+
     bm = bmesh.new()
-    V.add_box(bm, (-2, -0.03, 0.0), (2, 0.03, 0.08))
-    for z in (0.75, 1.7):
-        V.add_box(bm, (-2, -0.02, z - 0.03), (2, 0.02, z + 0.03))
-    x = -1.9
-    while x < 1.95:
-        V.add_box(bm, (x - 0.015, -0.015, 0.08), (x + 0.015, 0.015, 1.95))
+    for z in (0.18, 0.72, 1.72):
+        V.add_box(bm, (-2.0, -0.022, z - 0.028), (2.0, 0.022, z + 0.028))
+    x = -1.87
+    while x < 1.90:
+        V.add_box(bm, (x - 0.015, -0.015, 0.14), (x + 0.015, 0.015, 1.90))
+        # Forged spearhead collar + tapered point
+        V.add_box(bm, (x - 0.025, -0.022, 1.87), (x + 0.025, 0.022, 1.90))
+        V.add_box(bm, (x - 0.022, -0.016, 1.90), (x + 0.022, 0.016, 1.97))
+        V.add_box(bm, (x - 0.011, -0.010, 1.97), (x + 0.011, 0.010, 2.03))
+        if x + 0.085 < 1.90:
+            xm = x + 0.085
+            V.add_box(bm, (xm - 0.010, -0.010, 0.18), (xm + 0.010, 0.010, 0.78))
+            V.add_box(bm, (xm - 0.016, -0.014, 0.78), (xm + 0.016, 0.014, 0.84))
         x += 0.17
-    for px in (-2, 2):
-        V.add_box(bm, (px - 0.045, -0.045, 0), (px + 0.045, 0.045, 2.1))
-    obj = V.bm_to_object(bm, "fence_iron_4m", ("M_iron",))
-    return [obj], {"size": [4, 0.1, 2.1], "origin": "bottom-center"}
+    for px in (-2.0, 2.0):
+        V.add_box(bm, (px - 0.048, -0.048, 0.14), (px + 0.048, 0.048, 1.98))
+        V.add_box(bm, (px - 0.062, -0.062, 1.98), (px + 0.062, 0.062, 2.03))
+        V.add_box(bm, (px - 0.036, -0.036, 2.03), (px + 0.036, 0.036, 2.12))
+        V.add_box(bm, (px - 0.018, -0.018, 2.12), (px + 0.018, 0.018, 2.18))
+    objs.append(V.bm_to_object(bm, "fence_iron_4m", ("M_iron",)))
+    return objs, {"size": [4, 0.18, 2.18], "origin": "bottom-center"}
 
 
 def bell_great():

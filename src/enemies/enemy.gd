@@ -780,10 +780,4 @@ func _fade_out() -> void:
 	queue_free()
 
 func _set_dissolve(v: float) -> void:
-	var stack: Array[Node] = [vis]
-	while not stack.is_empty():
-		var n: Node = stack.pop_back()
-		if n is GeometryInstance3D:
-			(n as GeometryInstance3D).set_instance_shader_parameter("death_diss", v)
-		for c in n.get_children():
-			stack.append(c)
+	VG.set_dissolve(vis, v)

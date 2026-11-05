@@ -46,6 +46,35 @@ static func stop_emitting_after(p: Node, secs: float) -> void:
 	var tw := p.create_tween()
 	tw.tween_interval(secs)
 	tw.tween_callback(p.set.bind("emitting", false))
+
+## Apply per-subtree dissolve (`death_diss` uniform) by lazily cloning surface
+## ShaderMaterials on the target character/ghost meshes. Keeping `death_diss`
+## as a regular uniform instead of an `instance uniform` on `gothic.gdshader`
+## prevents the 4,000+ static architectural meshes in large areas (`morrow_keep`,
+## `hour_palace`) from exhausting the 4,096-item OpenGL3 UBO limit.
+static func set_dissolve(root: Node, v: float) -> void:
+	if root == null or not is_instance_valid(root):
+		return
+	var stack: Array[Node] = [root]
+	while not stack.is_empty():
+		var n: Node = stack.pop_back()
+		if n is MeshInstance3D:
+			var mi := n as MeshInstance3D
+			if mi.mesh != null:
+				var cloned := mi.has_meta("_diss_cloned")
+				for s in mi.mesh.get_surface_count():
+					var mat := mi.get_surface_override_material(s)
+					if mat == null:
+						mat = mi.mesh.surface_get_material(s)
+					if mat is ShaderMaterial:
+						if not cloned:
+							mat = mat.duplicate()
+							mi.set_surface_override_material(s, mat)
+						(mat as ShaderMaterial).set_shader_parameter("death_diss", v)
+				if not cloned:
+					mi.set_meta("_diss_cloned", true)
+		for c in n.get_children():
+			stack.append(c)
 ## Global constants and enums for Vespergard.
 
 enum WState { GLORY, RUIN }

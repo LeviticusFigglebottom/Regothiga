@@ -711,63 +711,106 @@ def palace_cove_dome():
     return objs, {"size": [20.0, 16.0, RISE + 0.4], "origin": "rim-center"}
 
 
+def _add_hollow_wheel(bm, r_in, r_out, z0, z1, n=20):
+    """Add a closed hollow polygonal wheel-crown (annular ring) to `bm`."""
+    ring_ib = [bm.verts.new((r_in * math.cos(math.tau * i / n), r_in * math.sin(math.tau * i / n), z0)) for i in range(n)]
+    ring_ob = [bm.verts.new((r_out * math.cos(math.tau * i / n), r_out * math.sin(math.tau * i / n), z0)) for i in range(n)]
+    ring_it = [bm.verts.new((r_in * math.cos(math.tau * i / n), r_in * math.sin(math.tau * i / n), z1)) for i in range(n)]
+    ring_ot = [bm.verts.new((r_out * math.cos(math.tau * i / n), r_out * math.sin(math.tau * i / n), z1)) for i in range(n)]
+    for i in range(n):
+        j = (i + 1) % n
+        bm.faces.new((ring_ob[i], ring_ob[j], ring_ot[j], ring_ot[i]))  # outer face
+        bm.faces.new((ring_ib[j], ring_ib[i], ring_it[i], ring_it[j]))  # inner face
+        bm.faces.new((ring_it[i], ring_it[j], ring_ot[j], ring_ot[i]))  # top face
+        bm.faces.new((ring_ob[i], ring_ib[i], ring_ib[j], ring_ob[j]))  # bottom face
+
+
 def chandelier_gilt(chain_top=3.6):
-    """Hanging gold chandelier, GRAND: two gilt tiers of candles, curtain
-    chains between the rims, a pendant drop below, and ONE unbroken iron
-    chain running all the way up into the vault, crowned with a gilt boss
-    where it meets the ceiling. chain_top picks the ceiling: 3.6 reaches
-    the flat coffer lids; the dome variants run 6.3 / 8.3 so the great
-    ring hangs FROM the crown of its dome, visibly on the rope. Origin at
-    the great ring's centre."""
+    """Hanging gold wheel-chandelier (corona lucis), GRAND: two hollow gilt
+    tiers of cylindrical wax candles in moulded bobeche drip dishes, 6 radial
+    wheel spokes, 6 diagonal curtain chains between the rims, a pendant drop
+    below, and ONE unbroken iron chain running all the way up into the vault,
+    crowned with a gilt boss where it meets the ceiling. Origin at the great
+    ring's centre."""
     objs = []
-    n = 12
-    ring = V.loft_rings("chand_ring", [(1.3, -0.08, n, 0), (1.38, 0.0, n, 0),
-                                       (1.3, 0.08, n, 0)], "M_gild")
-    objs.append(ring)
-    ring2 = V.loft_rings("chand_ring2", [(0.72, 0.9, n, 0), (0.8, 0.98, n, 0),
-                                         (0.72, 1.06, n, 0)], "M_gild")
-    objs.append(ring2)
-    bm = bmesh.new()
-    # the long chain to the vault (top reaches +chain_top over the ring)
-    V.add_box(bm, (-0.035, -0.035, 1.0), (0.035, 0.035, chain_top))
-    # curtain chains: upper rim down to the great ring
+    bm_gild = bmesh.new()
+    # Hollow lower wheel-crown (r = 1.12..1.34) with stepped rim moulding
+    _add_hollow_wheel(bm_gild, 1.12, 1.34, -0.07, 0.07, n=20)
+    _add_hollow_wheel(bm_gild, 1.10, 1.38, -0.025, 0.025, n=20)
+    # Hollow upper wheel-crown (r = 0.52..0.72) with stepped rim moulding
+    _add_hollow_wheel(bm_gild, 0.52, 0.72, 0.91, 1.05, n=16)
+    _add_hollow_wheel(bm_gild, 0.50, 0.75, 0.96, 1.00, n=16)
+    # Central hub collar + 6 radial wheel spokes connecting hub to great ring
+    V.add_cyl(bm_gild, 0.0, 0.0, -0.10, 0.20, 0.14, n=12)
     for i in range(6):
         a = math.tau * i / 6
-        x0, y0 = math.cos(a) * 0.76, math.sin(a) * 0.76
-        x1, y1 = math.cos(a) * 1.3, math.sin(a) * 1.3
-        for t in (0.0, 0.5, 1.0):
+        ca, sa = math.cos(a), math.sin(a)
+        for s in range(7):
+            r_s = 0.12 + 1.02 * (s / 6.0)
+            V.add_box(bm_gild, (ca * r_s - 0.025, sa * r_s - 0.025, -0.022),
+                      (ca * r_s + 0.025, sa * r_s + 0.022, 0.022))
+    # Moulded gilt bobeche drip dishes under every candle
+    for i in range(12):
+        a = math.tau * (i + 0.5) / 12
+        cx, cy = math.cos(a) * 1.22, math.sin(a) * 1.22
+        V.add_cyl(bm_gild, cx, cy, 0.07, 0.025, 0.075, n=10)
+        V.add_cyl(bm_gild, cx, cy, 0.095, 0.015, 0.052, n=10)
+    for i in range(7):
+        a = math.tau * i / 7
+        cx, cy = math.cos(a) * 0.62, math.sin(a) * 0.62
+        V.add_cyl(bm_gild, cx, cy, 1.05, 0.025, 0.072, n=10)
+        V.add_cyl(bm_gild, cx, cy, 1.075, 0.015, 0.050, n=10)
+    objs.append(V.bm_to_object(bm_gild, "chand_ring", ("M_gild",)))
+
+    bm = bmesh.new()
+    # The long vertical chain to the vault (top reaches +chain_top over the ring)
+    V.add_cyl(bm, 0.0, 0.0, 0.98, chain_top - 0.98, 0.032, n=8)
+    for z_link in range(1, int(chain_top - 0.8)):
+        V.add_cyl(bm, 0.0, 0.0, z_link + 0.10, 0.07, 0.048, n=8)
+    # 6 diagonal curtain chains from upper wheel (r=0.70, z=0.98) to lower wheel (r=1.28, z=0.06)
+    for i in range(6):
+        a = math.tau * i / 6
+        x0, y0 = math.cos(a) * 0.68, math.sin(a) * 0.68
+        x1, y1 = math.cos(a) * 1.26, math.sin(a) * 1.26
+        for k in range(9):
+            t = k / 8.0
             cx, cy = x0 + (x1 - x0) * t, y0 + (y1 - y0) * t
-            cz = 0.94 - 0.94 * t
-            V.add_box(bm, (cx - 0.015, cy - 0.015, cz - 0.18), (cx + 0.015, cy + 0.015, cz + 0.18))
-    # the pendant drop under the great ring
-    V.add_box(bm, (-0.03, -0.03, -0.55), (0.03, 0.03, 0.0))
+            cz = 0.98 - 0.92 * t - 0.05 * math.sin(math.pi * t)
+            V.add_box(bm, (cx - 0.020, cy - 0.020, cz - 0.065), (cx + 0.020, cy + 0.020, cz + 0.065))
+    # The pendant drop rod under the great ring
+    V.add_cyl(bm, 0.0, 0.0, -0.55, 1.55, 0.028, n=8)
     objs.append(V.bm_to_object(bm, "chand_chain", ("M_iron",)))
-    drop = V.loft_rings("chand_drop", [(0.02, -0.55, 8, 0), (0.11, -0.42, 8, 0),
-                                       (0.02, -0.3, 8, 0)], "M_gild")
+
+    drop = V.loft_rings("chand_drop", [(0.02, -0.58, 10, 0), (0.12, -0.42, 10, 0),
+                                       (0.06, -0.26, 10, 0), (0.14, -0.16, 10, 0),
+                                       (0.03, -0.06, 10, 0)], "M_gild")
     objs.append(drop)
+
+    # Cylindrical wax candles on both tiers
     bm = bmesh.new()
     for i in range(12):
         a = math.tau * (i + 0.5) / 12
-        cx, cy = math.cos(a) * 1.2, math.sin(a) * 1.2
-        V.add_box(bm, (cx - 0.04, cy - 0.04, 0.02), (cx + 0.04, cy + 0.04, 0.34))
+        cx, cy = math.cos(a) * 1.22, math.sin(a) * 1.22
+        V.add_cyl(bm, cx, cy, 0.10, 0.28, 0.038, n=10)
     for i in range(7):
         a = math.tau * i / 7
-        cx, cy = math.cos(a) * 0.6, math.sin(a) * 0.6
-        V.add_box(bm, (cx - 0.04, cy - 0.04, 1.0), (cx + 0.04, cy + 0.04, 1.3))
+        cx, cy = math.cos(a) * 0.62, math.sin(a) * 0.62
+        V.add_cyl(bm, cx, cy, 1.08, 0.26, 0.036, n=10)
     objs.append(V.bm_to_object(bm, "chand_candles", ("M_wax",)))
+
     for i in range(12):
         a = math.tau * (i + 0.5) / 12
         f = _pflame("chand_flame%d" % i)
-        f.location = (math.cos(a) * 1.2, math.sin(a) * 1.2, 0.34)
+        f.location = (math.cos(a) * 1.22, math.sin(a) * 1.22, 0.38)
         objs.append(f)
     for i in range(7):
         a = math.tau * i / 7
         f = _pflame("chand_flame_u%d" % i)
-        f.location = (math.cos(a) * 0.6, math.sin(a) * 0.6, 1.3)
+        f.location = (math.cos(a) * 0.62, math.sin(a) * 0.62, 1.34)
         objs.append(f)
-    boss = V.loft_rings("chand_boss", [(0.16, chain_top - 0.16, 8, 0),
-                                       (0.19, chain_top - 0.05, 8, 0),
-                                       (0.08, chain_top + 0.02, 8, 0)], "M_gold")
+    boss = V.loft_rings("chand_boss", [(0.16, chain_top - 0.16, 10, 0),
+                                       (0.20, chain_top - 0.05, 10, 0),
+                                       (0.08, chain_top + 0.02, 10, 0)], "M_gold")
     objs.append(boss)
     return objs, {"size": [2.8, 2.8, chain_top + 0.6], "origin": "center"}
 

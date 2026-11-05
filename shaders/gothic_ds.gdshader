@@ -36,7 +36,7 @@ uniform int emission_gate = 0;
 uniform int state_mode = 0;
 uniform int albedo_from_vc = 0;
 
-instance uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
+uniform float death_diss : hint_range(0.0, 1.0) = 0.0;
 
 global uniform float vg_wave_r;
 global uniform vec3 vg_wave_origin;

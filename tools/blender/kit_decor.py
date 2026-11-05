@@ -368,39 +368,94 @@ def ivy_sheet(seed=31):
 
 
 def book_stack(seed=37):
+    """Stack of leather-bound monastic folios with overhanging cover boards,
+    recessed parchment page blocks, raised spine cords, and brass clasps."""
     rng = random.Random(seed)
-    bm = bmesh.new()
+    bm_cov = bmesh.new()
+    bm_pages = bmesh.new()
+    bm_brass = bmesh.new()
+
+    def _rot_box(bm, cx, cy, z0, z1, x0, x1, y0, y1, ca, sa):
+        pts = ((x0, y0), (x1, y0), (x1, y1), (x0, y1))
+        vb = [bm.verts.new((cx + px * ca - py * sa, cy + px * sa + py * ca, z0)) for (px, py) in pts]
+        vt = [bm.verts.new((cx + px * ca - py * sa, cy + px * sa + py * ca, z1)) for (px, py) in pts]
+        bm.faces.new(reversed(vb))
+        bm.faces.new(vt)
+        for k in range(4):
+            bm.faces.new((vb[k], vb[(k + 1) % 4], vt[(k + 1) % 4], vt[k]))
+
     z = 0.0
     for i in range(rng.randint(4, 6)):
         w = rng.uniform(0.16, 0.24)
         d = rng.uniform(0.12, 0.18)
-        h = rng.uniform(0.03, 0.055)
+        h = rng.uniform(0.036, 0.058)
+        bd = 0.006
         a = rng.uniform(-0.4, 0.4)
         ca, sa = math.cos(a), math.sin(a)
         cx, cy = rng.uniform(-0.02, 0.02), rng.uniform(-0.02, 0.02)
-        corners = []
-        for (dx, dy) in ((-w, -d), (w, -d), (w, d), (-w, d)):
-            corners.append((cx + dx * ca - dy * sa, cy + dx * sa + dy * ca))
-        vs_b = [bm.verts.new((x, y, z)) for (x, y) in corners]
-        vs_t = [bm.verts.new((x, y, z + h)) for (x, y) in corners]
-        bm.faces.new(reversed(vs_b))
-        bm.faces.new(vs_t)
-        for k in range(4):
-            bm.faces.new((vs_b[k], vs_b[(k + 1) % 4], vs_t[(k + 1) % 4], vs_t[k]))
+        # Bottom cover board, top cover board, and spine backstrip (-X side)
+        _rot_box(bm_cov, cx, cy, z, z + bd, -w, w, -d, d, ca, sa)
+        _rot_box(bm_cov, cx, cy, z + h - bd, z + h, -w, w, -d, d, ca, sa)
+        _rot_box(bm_cov, cx, cy, z + bd, z + h - bd, -w, -w + 0.018, -d, d, ca, sa)
+        # Raised spine bands
+        for sy in (-d * 0.55, 0.0, d * 0.55):
+            _rot_box(bm_cov, cx, cy, z + 0.002, z + h - 0.002, -w - 0.006, -w + 0.012, sy - 0.008, sy + 0.008, ca, sa)
+        # Recessed cream parchment page block
+        _rot_box(bm_pages, cx, cy, z + bd, z + h - bd, -w + 0.018, w - 0.012, -d + 0.010, d - 0.010, ca, sa)
+        # Brass fore-edge clasps on +X side
+        for sy in (-d * 0.45, d * 0.45):
+            _rot_box(bm_brass, cx, cy, z + 0.003, z + h - 0.003, w - 0.016, w + 0.004, sy - 0.010, sy + 0.010, ca, sa)
         z += h
-    obj = V.bm_to_object(bm, "books", ("M_leather",))
-    return [obj], {"size": [0.5, 0.4, 0.35], "origin": "bottom-center"}
+    objs = [
+        V.bm_to_object(bm_cov, "books", ("M_leather",)),
+        V.bm_to_object(bm_pages, "book_pages", ("M_wax",)),
+        V.bm_to_object(bm_brass, "book_clasps", ("M_brass",)),
+    ]
+    return objs, {"size": [0.5, 0.4, 0.35], "origin": "bottom-center"}
 
 
 def scroll_pile(seed=41):
+    """Pile of rolled parchment scrolls with turned wooden roller rods and
+    crimson ribbon bands."""
+    from mathutils import Matrix
     rng = random.Random(seed)
-    objs = []
+    bm_wax = bmesh.new()
+    bm_wood = bmesh.new()
+    bm_cloth = bmesh.new()
     for i in range(5):
         a = rng.uniform(0, math.pi)
-        sc = V.loft_rings("scroll", [(0.03, -0.16, 7, 0), (0.032, 0.16, 7, 0)], "M_wax")
-        sc.rotation_euler = (math.radians(90), 0, a)
-        sc.location = (rng.uniform(-0.1, 0.1), rng.uniform(-0.1, 0.1), 0.035 + (0.05 if i > 2 else 0))
-        objs.append(sc)
+        loc = Vector((rng.uniform(-0.1, 0.1), rng.uniform(-0.1, 0.1), 0.035 + (0.05 if i > 2 else 0)))
+        xf = Matrix.Translation(loc) @ Matrix.Rotation(a, 4, "Z") @ Matrix.Rotation(math.radians(90), 4, "X")
+        bm_tmp = bmesh.new()
+        V.add_cyl(bm_tmp, 0.0, 0.0, -0.16, 0.32, 0.031, n=10)
+        bmesh.ops.transform(bm_tmp, matrix=xf, verts=bm_tmp.verts)
+        for f in bm_tmp.faces:
+            bm_wax.faces.new([bm_wax.verts.new(v.co) for v in f.verts])
+        bm_tmp.free()
+
+        bm_tmp = bmesh.new()
+        V.add_cyl(bm_tmp, 0.0, 0.0, -0.21, 0.42, 0.011, n=8)
+        V.add_cyl(bm_tmp, 0.0, 0.0, -0.20, 0.025, 0.019, n=8)
+        V.add_cyl(bm_tmp, 0.0, 0.0, 0.175, 0.025, 0.019, n=8)
+        bmesh.ops.transform(bm_tmp, matrix=xf, verts=bm_tmp.verts)
+        for f in bm_tmp.faces:
+            bm_wood.faces.new([bm_wood.verts.new(v.co) for v in f.verts])
+        bm_tmp.free()
+
+        bm_tmp = bmesh.new()
+        V.add_cyl(bm_tmp, 0.0, 0.0, -0.022, 0.044, 0.034, n=10)
+        bmesh.ops.transform(bm_tmp, matrix=xf, verts=bm_tmp.verts)
+        for f in bm_tmp.faces:
+            bm_cloth.faces.new([bm_cloth.verts.new(v.co) for v in f.verts])
+        bm_tmp.free()
+    bmesh.ops.remove_doubles(bm_wax, verts=bm_wax.verts, dist=0.0005)
+    bmesh.ops.remove_doubles(bm_wood, verts=bm_wood.verts, dist=0.0005)
+    bmesh.ops.remove_doubles(bm_cloth, verts=bm_cloth.verts, dist=0.0005)
+    objs = [
+        V.bm_to_object(bm_wax, "scroll", ("M_wax",)),
+        V.bm_to_object(bm_wood, "scroll_rods", ("M_wood",)),
+        V.bm_to_object(bm_cloth, "scroll_bands", ("M_cloth",)),
+    ]
     return objs, {"size": [0.5, 0.5, 0.15], "origin": "bottom-center"}
 
 

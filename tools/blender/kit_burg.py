@@ -220,13 +220,29 @@ def roof_gable_7m():
 
 
 def chimney_stack():
+    """Masonry house chimney stack with stepped corbelled base, chamfered stone
+    cornice cap, and cylindrical dark terracotta flue pot."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.3, -0.3, 0.0), (0.3, 0.3, 2.0))
-    V.add_box(bm, (-0.4, -0.4, 2.0), (0.4, 0.4, 2.25))
-    V.add_box(bm, (-0.22, -0.22, 2.25), (0.22, 0.22, 2.4))
+    V.add_box(bm, (-0.34, -0.34, 0.0), (0.34, 0.34, 0.35))
+    V.add_box(bm, (-0.30, -0.30, 0.35), (0.30, 0.30, 1.96))
     objs.append(V.bm_to_object(bm, "stack", ("M_stone",)))
-    return objs, {"size": [0.8, 0.8, 2.4], "origin": "bottom-center"}
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-0.33, -0.33, 1.42), (0.33, 0.33, 1.50))
+    V.add_box(bm_trim, (-0.36, -0.36, 1.96), (0.36, 0.36, 2.06))
+    V.add_box(bm_trim, (-0.42, -0.42, 2.06), (0.42, 0.42, 2.22))
+    V.add_box(bm_trim, (-0.34, -0.34, 2.22), (0.34, 0.34, 2.28))
+    objs.append(V.bm_to_object(bm_trim, "stack_trim", ("M_stone_trim",)))
+
+    pot = V.loft_rings("stack_pot", [
+        (0.18, 2.28, 12, 0),
+        (0.16, 2.48, 12, 0),
+        (0.20, 2.52, 12, 0),
+        (0.17, 2.56, 12, 0),
+    ], "M_stone_dark", cap_bottom=False, cap_top=True)
+    objs.append(pot)
+    return objs, {"size": [0.84, 0.84, 2.56], "origin": "bottom-center"}
 
 
 def balcony_3m():
@@ -285,24 +301,81 @@ def stair_wood_3m():
 
 
 def barrel():
+    """Coopers' oak cask: 14-sided swelled stave body with recessed top/bottom
+    head lids inside raised chime rims, 4 wrought-iron hoops, and a belly bung."""
     objs = []
-    rings = [(0.26, 0.0, 10, 0), (0.32, 0.22, 10, 0), (0.34, 0.45, 10, 0),
-             (0.32, 0.68, 10, 0), (0.26, 0.9, 10, 0)]
-    objs.append(V.loft_rings("staves", rings, "M_wood"))
-    for z in (0.16, 0.72):
-        objs.append(V.loft_rings("hoop", [(0.345, z - 0.03, 10, 0), (0.345, z + 0.03, 10, 0)], "M_iron"))
+    n = 14
+    rings = [
+        (0.26, 0.0, n, 0),
+        (0.28, 0.06, n, 0),
+        (0.325, 0.24, n, 0),
+        (0.345, 0.45, n, 0),
+        (0.325, 0.66, n, 0),
+        (0.28, 0.84, n, 0),
+        (0.26, 0.90, n, 0),
+        (0.235, 0.90, n, 0),
+        (0.235, 0.86, n, 0),
+    ]
+    objs.append(V.loft_rings("staves", rings, "M_wood", cap_bottom=True, cap_top=True))
+    for idx, (z, r) in enumerate(((0.06, 0.284), (0.24, 0.330), (0.66, 0.330), (0.84, 0.284))):
+        nm = "hoop" if idx == 0 else ("hoop_%d" % idx)
+        objs.append(V.loft_rings(nm, [(r, z - 0.024, n, 0), (r, z + 0.024, n, 0)],
+                                 "M_iron", cap_bottom=False, cap_top=False))
+    bm_iron = bmesh.new()
+    V.add_cyl(bm_iron, 0.0, 0.335, 0.43, 0.04, 0.032, n=8)
+    objs.append(V.bm_to_object(bm_iron, "barrel_bung", ("M_iron",)))
     return objs, {"size": [0.7, 0.7, 0.9], "origin": "bottom-center"}
 
 
 def crate_stack():
+    """Two stacked merchant cargo crates with recessed plank sides, corner stiles,
+    top/bottom frame rails, diagonal timber cross-braces, slatted lids, and
+    wrought-iron corner brackets."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.45, -0.45, 0.0), (0.45, 0.45, 0.8))
-    V.add_box(bm, (-0.38, -0.05, 0.8), (0.42, 0.72, 1.44))
-    for z in (0.03, 0.75, 0.84, 1.4):
-        V.add_box(bm, (-0.47, -0.47, z), (0.47, 0.47, z + 0.05)) if z < 0.8 else \
-            V.add_box(bm, (-0.4, -0.07, z), (0.44, 0.74, z + 0.04))
+    bm_iron = bmesh.new()
+
+    def _build_crate(x0, x1, y0, y1, z0, z1, st=0.045):
+        # Recessed plank core
+        V.add_box(bm, (x0 + 0.02, y0 + 0.02, z0 + 0.02), (x1 - 0.02, y1 - 0.02, z1 - 0.02))
+        # Top and bottom perimeter frame bands + slatted top lid planks
+        for zb0, zb1 in ((z0, z0 + st), (z1 - st, z1)):
+            V.add_box(bm, (x0, y0, zb0), (x1, y0 + st, zb1))
+            V.add_box(bm, (x0, y1 - st, zb0), (x1, y1, zb1))
+            V.add_box(bm, (x0, y0 + st, zb0), (x0 + st, y1 - st, zb1))
+            V.add_box(bm, (x1 - st, y0 + st, zb0), (x1, y1 - st, zb1))
+        # 4 vertical corner stiles
+        for cx in (x0, x1 - st):
+            for cy in (y0, y1 - st):
+                V.add_box(bm, (cx, cy, z0 + st), (cx + st, cy + st, z1 - st))
+        # Diagonal cross-brace battens on all 4 vertical faces
+        for s in range(6):
+            u0, u1 = s / 6.0, (s + 1.0) / 6.0
+            xm0 = x0 + st + (x1 - x0 - 2 * st) * (u0 + u1) * 0.5
+            ym0 = y0 + st + (y1 - y0 - 2 * st) * (u0 + u1) * 0.5
+            zm0 = z0 + st + (z1 - z0 - 2 * st) * (u0 + u1) * 0.5
+            hw = 0.032
+            for fy in (y0, y1 - 0.022):
+                V.add_box(bm, (xm0 - hw, fy, zm0 - hw), (xm0 + hw, fy + 0.022, zm0 + hw))
+            for fx in (x0, x1 - 0.022):
+                V.add_box(bm, (fx, ym0 - hw, zm0 - hw), (fx + 0.022, ym0 + hw, zm0 + hw))
+        # Slatted top lid planks
+        n_planks = 4
+        pw = (x1 - x0 - 0.04) / n_planks
+        for pi in range(n_planks):
+            px0 = x0 + 0.02 + pi * pw + 0.006
+            px1 = x0 + 0.02 + (pi + 1) * pw - 0.006
+            V.add_box(bm, (px0, y0 + 0.02, z1 - 0.02), (px1, y1 - 0.02, z1 + 0.008))
+        # Wrought-iron corner straps
+        for cx in (x0 - 0.006, x1 - 0.054):
+            for cy in (y0 - 0.006, y1 - 0.054):
+                for cz in (z0 + 0.005, z1 - 0.045):
+                    V.add_box(bm_iron, (cx, cy, cz), (cx + 0.06, cy + 0.06, cz + 0.04))
+
+    _build_crate(-0.46, 0.46, -0.46, 0.46, 0.0, 0.80, st=0.05)
+    _build_crate(-0.39, 0.43, -0.06, 0.73, 0.80, 1.44, st=0.042)
     objs.append(V.bm_to_object(bm, "crates", ("M_wood",)))
+    objs.append(V.bm_to_object(bm_iron, "crate_iron", ("M_iron",)))
     return objs, {"size": [1.0, 1.0, 1.45], "origin": "bottom-center"}
 
 
@@ -428,8 +501,9 @@ def burg_wall_3m_ruin_b():
 
 
 def parish_window_4m():
-    """Parish nave bay: stone wall with a glowing twin lancet, matching
-    wall_4x4's module (4 x 4, bottom-center, 0.5 thick)."""
+    """Parish nave bay: stone wall with a glowing twin lancet, central stone
+    mullion colonnette, chamfered jambs, and wrought-iron glazing saddle-bars,
+    matching wall_4x4's module (4 x 4, bottom-center, 0.5 thick)."""
     objs = []
     y = 0.25
     bm = bmesh.new()
@@ -445,21 +519,36 @@ def parish_window_4m():
                   (s * 0.35 + (0.2 if s > 0 else 0), y, 3.45))
     objs.append(V.bm_to_object(bm, "wall", ("M_stone",)))
     bm = bmesh.new()
-    V.add_box(bm, (-1.4, -y - 0.06, 0.78), (1.4, y + 0.06, 0.94))  # sill
-    V.add_box(bm, (-1.4, -y - 0.06, 3.42), (1.4, y + 0.06, 3.58))  # hood
+    V.add_box(bm, (-1.42, -y - 0.06, 0.78), (1.42, y + 0.06, 0.94))  # sill
+    V.add_box(bm, (-1.42, -y - 0.06, 3.42), (1.42, y + 0.06, 3.58))  # hood
+    # Chamfered jamb stiles & central engaged mullion colonnettes on both faces
+    for sx in (-1.28, -0.32, 0.32, 1.28):
+        V.add_box(bm, (sx - 0.06, -y - 0.04, 0.94), (sx + 0.06, y + 0.04, 3.42))
+    for sy in (-y - 0.02, y + 0.02):
+        V.add_cyl(bm, 0.0, sy, 0.94, 2.48, 0.065, n=10)
+        V.add_cyl(bm, 0.0, sy, 0.94, 0.14, 0.095, n=10)
+        V.add_cyl(bm, 0.0, sy, 3.28, 0.14, 0.095, n=10)
     objs.append(V.bm_to_object(bm, "trim", ("M_stone_trim",)))
     bm = bmesh.new()
     for s in (-1, 1):
         V.add_box(bm, (s * 0.35, -0.04, 0.9), (s * 1.25, 0.04, 3.0))
         V.add_box(bm, (s * 0.55, -0.04, 3.0), (s * 1.05, 0.04, 3.42))
     objs.append(V.bm_to_object(bm, "panes", ("M_citywindow",)))
+    # Wrought-iron glazing muntins & saddle-bars across both lancets
+    bm_iron = bmesh.new()
+    for s in (-1, 1):
+        cx = s * 0.80
+        V.add_box(bm_iron, (cx - 0.018, -0.06, 0.92), (cx + 0.018, 0.06, 3.40))
+        for zb in (1.45, 2.00, 2.55, 3.00):
+            V.add_box(bm_iron, (s * 0.35, -0.06, zb - 0.016), (s * 1.25, 0.06, zb + 0.016))
+    objs.append(V.bm_to_object(bm_iron, "window_bars", ("M_iron",)))
     return objs, {"size": [4, 0.5, 4], "origin": "bottom-center"}
 
 
 def clock_tower():
     """The parish clocktower: stone shaft, pale dial stopped at nine on the
-    +Y face (engine: faces south when placed rot 180), dark belfry stage,
-    slate spire, gilt finial. Origin bottom-center."""
+    +Y face (engine: faces south when placed rot 180) with wrought-iron bezel,
+    12 radial hour markers, dark belfry stage, slate spire, and gilt finial."""
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-2, -2, 0.0), (2, 2, 7.6))                      # shaft
@@ -469,6 +558,8 @@ def clock_tower():
     for sx, sy in ((-1, -1), (-1, 1), (1, -1), (1, 1)):            # corner quoins
         V.add_box(bm, (sx * 2 - 0.14, sy * 2 - 0.14, 0.0),
                   (sx * 2 + 0.14, sy * 2 + 0.14, 7.75))
+    V.add_box(bm, (-2.08, -2.08, 4.4), (2.08, 2.08, 4.62))         # mid stringcourse
+    V.add_box(bm, (-2.06, -2.06, 7.45), (2.06, 2.06, 7.72))        # belfry stringcourse
     V.add_box(bm, (-1.95, -1.95, 9.6), (1.95, 1.95, 9.95))         # cornice
     objs.append(V.bm_to_object(bm, "trim", ("M_stone_trim",)))
     bm = bmesh.new()                                               # sound louvres
@@ -480,18 +571,28 @@ def clock_tower():
         V.add_box(bm, (min(lo[0], hi[0]), min(lo[1], hi[1]), 7.9),
                   (max(lo[0], hi[0]), max(lo[1], hi[1]), 9.3))
     objs.append(V.bm_to_object(bm, "louvres", ("M_stone_dark",)))
-    # the dial: pale disc, iron rim ticks, hands stopped at nine
-    dial = V.loft_rings("dial", [(0.95, -0.035, 18, 0), (0.95, 0.035, 18, 0)], "M_wax")
+    # the dial: pale disc, iron outer bezel ring, 12 hour markers, hands stopped at nine
+    dial = V.loft_rings("dial", [(0.95, -0.035, 20, 0), (0.95, 0.035, 20, 0)], "M_wax")
     dial.rotation_euler = (math.pi / 2, 0, 0)
     dial.location = (0, 2.06, 5.9)
     objs.append(dial)
+    bezel = V.loft_rings("dial_bezel", [
+        (1.04, -0.06, 20, 0), (1.04, 0.06, 20, 0),
+        (0.92, 0.06, 20, 0), (0.92, -0.06, 20, 0),
+    ], "M_iron", cap_bottom=False, cap_top=False)
+    bezel.rotation_euler = (math.pi / 2, 0, 0)
+    bezel.location = (0, 2.07, 5.9)
+    objs.append(bezel)
     bm = bmesh.new()
-    V.add_box(bm, (-0.05, 2.09, 5.9), (0.05, 2.15, 6.62))          # minute hand up
-    V.add_box(bm, (-0.62, 2.09, 5.85), (0.0, 2.15, 5.95))          # hour hand west
-    for tx, tz in ((0, 6.72), (0, 5.08), (-0.82, 5.9), (0.82, 5.9)):
-        V.add_box(bm, (tx - 0.06, 2.09, tz - 0.06), (tx + 0.06, 2.15, tz + 0.06))
+    V.add_box(bm, (-0.05, 2.09, 5.9), (0.05, 2.15, 6.64))          # minute hand up (12)
+    V.add_box(bm, (-0.64, 2.09, 5.85), (0.0, 2.15, 5.95))          # hour hand west (9)
+    for hr in range(12):
+        ang = math.tau * hr / 12.0
+        tx, tz = 0.80 * math.sin(ang), 5.9 + 0.80 * math.cos(ang)
+        hw = 0.055 if (hr % 3 == 0) else 0.034
+        V.add_box(bm, (tx - hw, 2.09, tz - hw), (tx + hw, 2.15, tz + hw))
     objs.append(V.bm_to_object(bm, "hands", ("M_iron",)))
-    # spire: four slate faces to an apex, gilt orb finial
+    # spire: four slate faces to an apex, gilt orb finial + central dial boss
     bm = bmesh.new()
     apex = bm.verts.new((0.0, 0.0, 13.4))
     ring = [bm.verts.new(p) for p in
@@ -505,6 +606,10 @@ def clock_tower():
     objs.append(V.bm_to_object(bm, "finial", ("M_iron",)))
     orb = V.loft_rings("orb", [(0.05, 14.05, 10, 0), (0.22, 14.22, 10, 0), (0.05, 14.4, 10, 0)], "M_gold")
     objs.append(orb)
+    hub = V.loft_rings("dial_hub", [(0.11, -0.02, 12, 0), (0.11, 0.05, 12, 0), (0.03, 0.09, 12, 0)], "M_gold")
+    hub.rotation_euler = (math.pi / 2, 0, 0)
+    hub.location = (0, 2.12, 5.9)
+    objs.append(hub)
     return objs, {"size": [4, 4, 14.4], "origin": "bottom-center"}
 
 

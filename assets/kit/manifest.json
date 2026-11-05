@@ -112,7 +112,7 @@
  "barrel": {
   "file": "assets/kit/barrel.glb",
   "origin": "bottom-center",
-  "polys": 66,
+  "polys": 180,
   "size": [
    0.7,
    0.7,
@@ -182,7 +182,7 @@
  "book_stack": {
   "file": "assets/kit/book_stack.glb",
   "origin": "bottom-center",
-  "polys": 36,
+  "polys": 324,
   "size": [
    0.5,
    0.4,
@@ -431,7 +431,7 @@
  "chandelier_dome_high": {
   "file": "assets/kit/chandelier_dome_high.glb",
   "origin": "center",
-  "polys": 816,
+  "polys": 2200,
   "size": [
    2.8,
    2.8,
@@ -441,7 +441,7 @@
  "chandelier_dome_low": {
   "file": "assets/kit/chandelier_dome_low.glb",
   "origin": "center",
-  "polys": 816,
+  "polys": 2180,
   "size": [
    2.8,
    2.8,
@@ -451,7 +451,7 @@
  "chandelier_gilt": {
   "file": "assets/kit/chandelier_gilt.glb",
   "origin": "center",
-  "polys": 816,
+  "polys": 2150,
   "size": [
    2.8,
    2.8,
@@ -541,11 +541,11 @@
  "chimney_stack": {
   "file": "assets/kit/chimney_stack.glb",
   "origin": "bottom-center",
-  "polys": 18,
+  "polys": 73,
   "size": [
-   0.8,
-   0.8,
-   2.4
+   0.84,
+   0.84,
+   2.56
   ]
  },
  "choir_stall": {
@@ -601,7 +601,7 @@
  "clock_tower": {
   "file": "assets/kit/clock_tower.glb",
   "origin": "bottom-center",
-  "polys": 162,
+  "polys": 310,
   "size": [
    4,
    4,
@@ -681,7 +681,7 @@
  "crate_stack": {
   "file": "assets/kit/crate_stack.glb",
   "origin": "bottom-center",
-  "polys": 36,
+  "polys": 588,
   "size": [
    1.0,
    1.0,
@@ -721,11 +721,11 @@
  "fence_iron_4m": {
   "file": "assets/kit/fence_iron_4m.glb",
   "origin": "bottom-center",
-  "polys": 168,
+  "polys": 894,
   "size": [
    4,
-   0.1,
-   2.1
+   0.18,
+   2.18
   ]
  },
  "ferry_boat": {
@@ -815,11 +815,11 @@
  "gate_iron": {
   "file": "assets/kit/gate_iron.glb",
   "origin": "bottom-center",
-  "polys": 144,
+  "polys": 636,
   "size": [
    2.4,
    0.1,
-   2.35
+   2.36
   ]
  },
  "gilt_finial": {
@@ -1163,7 +1163,7 @@
  "parish_window_4m": {
   "file": "assets/kit/parish_window_4m.glb",
   "origin": "bottom-center",
-  "polys": 90,
+  "polys": 246,
   "size": [
    4,
    0.5,
@@ -1427,7 +1427,7 @@
  "scroll_pile": {
   "file": "assets/kit/scroll_pile.glb",
   "origin": "bottom-center",
-  "polys": 45,
+  "polys": 270,
   "size": [
    0.5,
    0.5,
