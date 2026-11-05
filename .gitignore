@@ -1,6 +1,7 @@
 # Godot
 .godot/
 *.translation
+/build/
 # export_presets.cfg is committed on purpose: it carries no secrets here and
 # lets anyone package the game with tools/export.sh
 
