@@ -1511,7 +1511,7 @@
  "skel_herald": {
   "file": "assets/kit/skel_herald.glb",
   "origin": "feet",
-  "polys": 2512,
+  "polys": 2516,
   "size": [
    0.8,
    0.8,
@@ -1544,7 +1544,7 @@
  "skel_penitent": {
   "file": "assets/kit/skel_penitent.glb",
   "origin": "feet",
-  "polys": 2428,
+  "polys": 2678,
   "size": [
    0.8,
    0.8,
@@ -1577,7 +1577,7 @@
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",
-  "polys": 2174,
+  "polys": 2450,
   "size": [
    0.8,
    0.8,
@@ -1599,7 +1599,7 @@
  "skel_sister": {
   "file": "assets/kit/skel_sister.glb",
   "origin": "feet",
-  "polys": 2514,
+  "polys": 2642,
   "size": [
    0.8,
    0.8,

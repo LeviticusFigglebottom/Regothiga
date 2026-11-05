@@ -408,13 +408,13 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
         _tube(bm, h3 + Vector((0, -0.01, 0.01)), t3, 0.052 * g, 0.042 * g, 12, steps=3, squash=(1.0, 0.8))
     # neck + sculpted head + brow/jawline (closed-helm knights wear a dark mail
     # coif under the helm so pitching the head forward never exposes a pale chin)
-    head_under_mat = skin_mat if hood else (mail_mat or "M_chainmail")
+    head_under_mat = mail_mat if mail_mat else skin_mat
     bm = b.joint("chest", "head", under_mat)
     _tube(bm, Vector((0, 0, 1.42)), Vector((0, 0.01, 1.53)), 0.062 * g, 0.056 * g, 12, steps=3)
     bm = b.part("head", head_under_mat)
     _ball(bm, (0, 0.012 * g, 1.620), 0.100 * g, sub=2, scale=(0.90, 1.04, 1.04))
-    if hood and hood != "closed":
-        # Smooth ovoid lower face/chin & dark shadowed upper-brow veil under the cowl
+    if (hood and hood != "closed") or (not hood and not mail_mat):
+        # Smooth ovoid lower face/chin & dark shadowed upper-brow veil under the cowl / kettle-hat
         _ball(bm, (0, 0.026 * g, 1.568), 0.076 * g, sub=2, scale=(0.84, 1.06, 1.10))
         bm_eye = b.part("head", "M_iron")
         _ball(bm_eye, (0, 0.022 * g, 1.626), 0.096 * g, sub=2, scale=(0.91, 1.06, 0.42))
@@ -517,9 +517,10 @@ def penitent(arm):
     b = BodyBuilder("penitent")
     common_body(b, "M_robe", "M_wax", "M_leather", hood=True, skirt=True,
                 skirt_len=0.48, girth=1.00, mail_mat="M_chainmail")
-    # Tattered crimson penance scapular strip front & back + dark mantle
+    # Tattered crimson penance scapular contoured to the torso + dark mantle
     bm_sc = b.part("spine", "M_cloth")
-    V.add_box(bm_sc, (-0.11, -0.17, 0.68), (0.11, 0.17, 1.38))
+    _tube(bm_sc, Vector((0, 0, 0.88)), Vector((0, 0, 1.28)), 0.168, 0.176, n=14,
+          steps=3, flutes=6, flute_amp=0.04, squash=(0.86, 1.08), ridge_fwd=0.08)
     bm_m = b.part("chest", "M_robe")
     _tube(bm_m, Vector((0, 0, 1.26)), Vector((0, -0.01, 1.48)), 0.188, 0.158, n=14,
           steps=4, flutes=8, flute_amp=0.045, squash=(1.12, 0.92))
@@ -572,12 +573,15 @@ def giant(arm):
 
 def sister(arm):
     """Sister Aveline: Firekeeper / Shrine Maiden in finely pleated monastic
-    habit, leather scapular, silver blindfold fillet, and golden reliquary."""
+    habit, contoured scapular, silver blindfold fillet, and golden reliquary."""
     b = BodyBuilder("sister")
     common_body(b, "M_habit", "M_wax", "M_habit", hood=True, skirt=True, skirt_len=0.56)
-    # Scapular apron front & back
-    bm = b.part("spine", "M_leather")
-    V.add_box(bm, (-0.12, 0.13, 0.88), (0.12, 0.175, 1.32))
+    # Contoured monastic scapular + shoulder capelet + gilt pectoral clasp
+    bm = b.part("chest", "M_leather")
+    _tube(bm, Vector((0, 0, 1.18)), Vector((0, 0, 1.43)), 0.168, 0.146, n=16,
+          steps=3, flutes=8, flute_amp=0.025, squash=(0.94, 1.06), ridge_fwd=0.06)
+    bm_cl = b.part("chest", "M_gold")
+    _torus_ring(bm_cl, (0, 0.148, 1.36), 0.028, 0.007, n_major=14, n_minor=6)
     # Silver Firekeeper eye-fillet / crown band
     bm_f = b.part("head", "M_steel")
     _tube(bm_f, Vector((0, 0.02, 1.60)), Vector((0, 0.02, 1.645)), 0.112, 0.112, n=16, steps=2)
@@ -589,17 +593,22 @@ def sister(arm):
 
 def sexton(arm):
     """The Sexton: stout gravedigger of the Basilica. Iron kettle-cap, heavy
-    leather apron, muscular forearms with iron bracers, heavy boots."""
+    contoured leather jerkin/apron, cowl collar, muscular forearms with iron bracers."""
     b = BodyBuilder("sexton")
     common_body(b, "M_robe", "M_wax", "M_leather", hood=False, skirt=True,
                 skirt_len=0.28, girth=1.18)
-    # Heavy butcher/gravedigger leather apron
-    bm = b.part("spine", "M_leather")
-    V.add_box(bm, (-0.16, 0.13, 0.70), (0.16, 0.195, 1.34))
-    # Iron kettle-hat / brimmed gravedigger cap
+    # Contoured heavy leather work jerkin + draped cloth neck cowl
+    bm = b.part("chest", "M_leather")
+    _tube(bm, Vector((0, 0, 1.16)), Vector((0, 0, 1.43)), 0.212, 0.178, n=16,
+          bulge=1.05, steps=4, flutes=8, flute_amp=0.025, squash=(1.08, 0.94), ridge_fwd=0.10)
+    bm_c = b.part("chest", "M_robe")
+    _tube(bm_c, Vector((0, -0.01, 1.38)), Vector((0, 0, 1.49)), 0.195, 0.132, n=16,
+          steps=3, flutes=10, flute_amp=0.03, squash=(1.08, 0.94))
+    # Iron kettle-hat / brimmed gravedigger cap with nasal guard
     bm = b.part("head", "M_iron")
-    _tube(bm, Vector((0, 0.01, 1.65)), Vector((0, 0.015, 1.68)), 0.165, 0.135, n=16, steps=2)
-    _tube(bm, Vector((0, 0.015, 1.68)), Vector((0, 0.02, 1.76)), 0.128, 0.085, n=16, bulge=1.08, steps=3)
+    _tube(bm, Vector((0, 0.01, 1.64)), Vector((0, 0.015, 1.675)), 0.168, 0.138, n=16, steps=2)
+    _tube(bm, Vector((0, 0.015, 1.675)), Vector((0, 0.02, 1.76)), 0.130, 0.085, n=16, bulge=1.08, steps=3)
+    V.add_box(bm, (-0.011, 0.125, 1.585), (0.011, 0.146, 1.655))
     # Bare muscular forearms with iron wrist bracers
     for side in ("l", "r"):
         bm = b.part(f"farm_{side}", "M_wax")
@@ -718,9 +727,10 @@ def herald(arm):
     b = BodyBuilder("herald")
     common_body(b, "M_robe", "M_wax", "M_plate_dark", hood="closed", skirt=True,
                 skirt_len=0.64, girth=0.98, mail_mat="M_chainmail")
-    # Crimson heraldic tabard front & back
+    # Contoured crimson heraldic tabard over chest & spine
     bm = b.part("chest", "M_cloth")
-    V.add_box(bm, (-0.16, -0.20, 0.95), (0.16, 0.19, 1.45))
+    _tube(bm, Vector((0, 0, 1.18)), Vector((0, 0, 1.44)), 0.184, 0.156, n=16,
+          steps=3, flutes=8, flute_amp=0.03, squash=(1.06, 0.94), ridge_fwd=0.08)
     # Slung segmented bronze war-horn
     bm = b.part("chest", "M_bronze")
     _tube(bm, Vector((-0.21, -0.20, 1.04)), Vector((0.15, -0.26, 1.32)), 0.048, 0.095, n=14, steps=4, bulge=0.92)
