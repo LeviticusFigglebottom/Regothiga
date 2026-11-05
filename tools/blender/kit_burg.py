@@ -129,9 +129,12 @@ def _burg_wall(door=False, win=False):
             _frame_stick(bm, (sx, 0, 1.34), (sx, 0, 2.56))
         _frame_stick(bm, (-0.7, 0, 1.34), (0.7, 0, 1.34))
         _frame_stick(bm, (-0.7, 0, 2.56), (0.7, 0, 2.56))
-        # shutters swung open on the +Y face
+        # shutters swung open on the +Y face, with cross-battens and wrought-iron strap hinges
         V.add_box(bm, (-1.05, y, 1.42), (-0.62, y + 0.05, 2.48))
         V.add_box(bm, (0.62, y, 1.42), (1.05, y + 0.05, 2.48))
+        for zb in (1.56, 2.34):
+            V.add_box(bm, (-1.04, y + 0.04, zb - 0.03), (-0.63, y + 0.075, zb + 0.03))
+            V.add_box(bm, (0.63, y + 0.04, zb - 0.03), (1.04, y + 0.075, zb + 0.03))
     else:
         # decorative diagonal brace (two chunky segments, painted-fantasy)
         _frame_stick(bm, (-1.35, 0, 0.68), (-0.1, 0, 1.7))
@@ -141,6 +144,13 @@ def _burg_wall(door=False, win=False):
         bm = bmesh.new()
         V.add_box(bm, (-0.55, -0.03, 1.4), (0.55, 0.03, 2.5))
         objs.append(V.bm_to_object(bm, "pane", ("M_citywindow",)))
+        bm_munt = bmesh.new()
+        V.add_box(bm_munt, (-0.025, -0.05, 1.4), (0.025, 0.05, 2.5))
+        V.add_box(bm_munt, (-0.55, -0.05, 1.92), (0.55, 0.05, 1.97))
+        for zb in (1.56, 2.34):
+            V.add_box(bm_munt, (-0.82, y + 0.045, zb - 0.018), (-0.58, y + 0.082, zb + 0.018))
+            V.add_box(bm_munt, (0.58, y + 0.045, zb - 0.018), (0.82, y + 0.082, zb + 0.018))
+        objs.append(V.bm_to_object(bm_munt, "win_iron", ("M_iron",)))
     kind = "door" if door else ("win" if win else "plain")
     return objs, {"size": [3, WALL_T, 3], "origin": "bottom-center",
                   "opening": [1.2, 2.25] if door else None, "variant": kind}

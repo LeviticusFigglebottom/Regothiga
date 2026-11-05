@@ -76,22 +76,53 @@ def vigil_brazier():
 
 
 def half_arch_sunk(seed=7):
-    """A drowned processional arch: one standing jamb and a broken sweep
-    reaching over the water, barnacled low. Solid. Origin bottom-center of
+    """A drowned processional arch: one standing jamb with stepped plinth,
+    corner pilaster stiles, moulded impost capital, barnacled water-line crust,
+    and a broken sweep reaching over the water. Solid. Origin bottom-center of
     the jamb; the sweep reaches toward +X."""
     rng = random.Random(seed)
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.45, -0.45, -1.2), (0.45, 0.45, 3.4))          # jamb (roots below floor)
+    V.add_box(bm, (-0.54, -0.54, -1.2), (0.54, 0.54, 0.35))           # submerged plinth
+    V.add_box(bm, (-0.48, -0.48, 0.35), (0.48, 0.48, 0.65))           # water-line plinth step
+    V.add_box(bm, (-0.42, -0.42, 0.65), (0.42, 0.42, 3.12))           # shaft core
+    for sx in (-0.38, 0.38):
+        for sy in (-0.38, 0.38):
+            V.add_box(bm, (sx - 0.07, sy - 0.07, 0.65), (sx + 0.07, sy + 0.07, 3.12))
     obj = V.bm_to_object(bm, "arch_jamb", ("M_stone",))
-    obj.rotation_euler = (rng.uniform(-0.04, 0.04), rng.uniform(-0.02, 0.06), 0)
+    tilt = (rng.uniform(-0.04, 0.04), rng.uniform(-0.02, 0.06), 0)
+    obj.rotation_euler = tilt
     objs.append(obj)
-    arch = V.pointed_arch(3.6, 1.4, 10, 3.2)
+
+    # Moulded impost capital & mid stringcourse band
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-0.47, -0.47, 1.85), (0.47, 0.47, 1.98))
+    V.add_box(bm_trim, (-0.48, -0.48, 3.08), (0.48, 0.48, 3.24))
+    V.add_box(bm_trim, (-0.54, -0.54, 3.24), (0.54, 0.54, 3.42))
+    cap = V.bm_to_object(bm_trim, "arch_impost", ("M_stone_trim",))
+    cap.rotation_euler = tilt
+    objs.append(cap)
+
+    # Barnacle and dark silt encrustation at the water-line
+    bm_barn = bmesh.new()
+    for _ in range(14):
+        ang = rng.uniform(0, math.tau)
+        rad = rng.uniform(0.42, 0.54)
+        bx, by = math.cos(ang) * rad, math.sin(ang) * rad
+        bz = rng.uniform(-0.15, 0.72)
+        bw = rng.uniform(0.08, 0.16)
+        bh = rng.uniform(0.08, 0.22)
+        V.add_box(bm_barn, (bx - bw, by - bw, bz), (bx + bw, by + bw, bz + bh))
+    barn = V.bm_to_object(bm_barn, "arch_barnacles", ("M_stone_dark",))
+    barn.rotation_euler = tilt
+    objs.append(barn)
+
+    arch = V.pointed_arch(3.6, 1.4, 12, 3.2)
     path = []
     for (x, y) in arch:
         if x <= 0.6:                                                # broken: only the near half
             path.append((x + 1.8, 0.0, y))
-    prof = V.chamfer_rect_profile(0.34, 0.42, 0.06)
+    prof = V.chamfer_rect_profile(0.36, 0.44, 0.06)
     sweep = V.sweep_profile("arch_sweep", path, prof, "M_stone_trim",
                             up_hint=Vector((0, 1, 0)))
     objs.append(sweep)
@@ -197,7 +228,13 @@ def shrine_aedicule():
     objs.append(core)
     halo = V.loft_rings(
         "light_halo",
-        [(0.38, 1.49, 16, 0), (0.41, 1.53, 16, 0), (0.38, 1.57, 16, 0)],
+        [
+            (0.38, 1.49, 16, 0),
+            (0.41, 1.53, 16, 0),
+            (0.38, 1.57, 16, 0),
+            (0.35, 1.53, 16, 0),
+            (0.38, 1.49, 16, 0),
+        ],
         "M_gold",
         cap_bottom=False,
         cap_top=False,

@@ -126,14 +126,22 @@ def palace_wall_4x4():
 
 
 def palace_wall_low_4m():
-    """Marble parapet, 1.05 m, gold coping. Origin bottom-center."""
+    """Marble parapet, 1.05 m, recessed panels, gold base and coping. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-2, -0.17, 0), (2, 0.17, 0.86))
+    bm_field = bmesh.new()
+    bm_gild = bmesh.new()
+    V.add_box(bm, (-2, -0.17, 0.14), (2, 0.17, 0.86))
+    V.add_box(bm, (-2, -0.21, 0.0), (2, 0.21, 0.18))                # stepped plinth
+    for (yf, out) in ((-0.17, -1), (0.17, 1)):
+        for (px0, px1) in ((-1.84, -0.12), (0.12, 1.84)):
+            _panel_relief(bm, px0, px1, 0.24, 0.78, yf, out, inset=0.04, frame=0.09,
+                          bm_gild=bm_gild, bm_field=bm_field)
     objs.append(V.bm_to_object(bm, "palace_parapet", ("M_marble",)))
-    bm = bmesh.new()
-    V.add_box(bm, (-2, -0.23, 0.86), (2, 0.23, 1.02))
-    objs.append(V.bm_to_object(bm, "palace_parapet_gild", ("M_gild",)))
+    objs.append(V.bm_to_object(bm_field, "palace_parapet_panels", ("M_marble_floor",)))
+    V.add_box(bm_gild, (-2, -0.22, 0.84), (2, 0.22, 0.90))
+    V.add_box(bm_gild, (-2, -0.25, 0.90), (2, 0.25, 1.02))
+    objs.append(V.bm_to_object(bm_gild, "palace_parapet_gild", ("M_gild",)))
     return objs, {"size": [4, 0.5, 1.05], "origin": "bottom-center"}
 
 
@@ -270,34 +278,54 @@ def palace_arcade_4m():
 
 
 def palace_balustrade_4m():
-    """Marble balustrade with a gold handrail. Origin bottom-center."""
+    """Marble balustrade with corner newel posts and a gold handrail. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-2, -0.14, 0), (2, 0.14, 0.12))                 # base rail
+    for px in (-1.92, 1.92):
+        V.add_box(bm, (px - 0.10, -0.15, 0.12), (px + 0.10, 0.15, 0.90))
     objs.append(V.bm_to_object(bm, "palace_bal_base", ("M_marble",)))
     for i in range(9):
-        x = -1.78 + i * 0.445
-        rings = [(0.085, 0.12, 8, 0), (0.11, 0.3, 8, 0), (0.065, 0.55, 8, 0),
-                 (0.10, 0.78, 8, 0), (0.085, 0.9, 8, 0)]
+        x = -1.56 + i * 0.39
+        rings = [(0.085, 0.12, 10, 0), (0.11, 0.3, 10, 0), (0.065, 0.55, 10, 0),
+                 (0.10, 0.78, 10, 0), (0.085, 0.9, 10, 0)]
         b = V.loft_rings("palace_baluster", rings, "M_marble")
         b.location = (x, 0, 0)
         objs.append(b)
     bm = bmesh.new()
-    V.add_box(bm, (-2, -0.12, 0.9), (2, 0.12, 1.06))
+    V.add_box(bm, (-2, -0.15, 0.90), (2, 0.15, 0.95))
+    V.add_box(bm, (-2.02, -0.13, 0.95), (2.02, 0.13, 1.06))
+    for px in (-1.92, 1.92):
+        V.add_box(bm, (px - 0.12, -0.16, 0.10), (px + 0.12, 0.16, 0.15))
+        V.add_box(bm, (px - 0.12, -0.16, 0.87), (px + 0.12, 0.16, 0.91))
     objs.append(V.bm_to_object(bm, "palace_bal_rail", ("M_gild",)))
     return objs, {"size": [4, 0.3, 1.06], "origin": "bottom-center"}
 
 
 def palace_pier():
-    """Square marble corner pier, 4.1 m, gold base and capital bands, gilt
-    finial cap — makes wall junctions read deliberate. Origin bottom-center."""
+    """Square marble corner pier, 4.1 m, recessed vertical face panels, gold
+    base and capital bands, mid waist ring, and gilt finial cap — makes wall
+    junctions read deliberate. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-0.34, -0.34, 0.0), (0.34, 0.34, 4.1))
+    # Corner pilaster stiles framing all 4 faces
+    for sx in (-0.30, 0.30):
+        for sy in (-0.30, 0.30):
+            V.add_box(bm, (sx - 0.06, sy - 0.06, 0.50), (sx + 0.06, sy + 0.06, 3.70))
     objs.append(V.bm_to_object(bm, "palace_pier", ("M_marble",)))
+    bm_panels = bmesh.new()
+    for z0, z1 in ((0.64, 2.04), (2.36, 3.56)):
+        for sf in (-1, 1):
+            V.add_box(bm_panels, (-0.20, sf * 0.34 - 0.015, z0), (0.20, sf * 0.34 + 0.015, z1))
+            V.add_box(bm_panels, (sf * 0.34 - 0.015, -0.20, z0), (sf * 0.34 + 0.015, 0.20, z1))
+    objs.append(V.bm_to_object(bm_panels, "palace_pier_panels", ("M_marble_floor",)))
     bm = bmesh.new()
-    V.add_box(bm, (-0.4, -0.4, 0.0), (0.4, 0.4, 0.5))
-    V.add_box(bm, (-0.4, -0.4, 3.7), (0.4, 0.4, 3.95))
+    V.add_box(bm, (-0.42, -0.42, 0.0), (0.42, 0.42, 0.22))
+    V.add_box(bm, (-0.39, -0.39, 0.22), (0.39, 0.39, 0.50))
+    V.add_box(bm, (-0.38, -0.38, 2.14), (0.38, 0.38, 2.30))        # waist band matching palace_wall_4x4
+    V.add_box(bm, (-0.39, -0.39, 3.70), (0.39, 0.39, 3.86))
+    V.add_box(bm, (-0.43, -0.43, 3.86), (0.43, 0.43, 4.02))
     objs.append(V.bm_to_object(bm, "palace_pier_gild", ("M_gild",)))
     fin = _gilt_finial_obj(0.55)
     fin.location = (0, 0, 4.1)
@@ -306,9 +334,16 @@ def palace_pier():
 
 
 def _gilt_finial_obj(h):
-    n = 8
-    rings = [(0.16, 0.0, n, 0), (0.2, h * 0.18, n, 0), (0.11, h * 0.42, n, 0),
-             (0.14, h * 0.55, n, 0), (0.015, h, n, 0)]
+    n = 12
+    rings = [
+        (0.18, 0.0, n, 0),
+        (0.16, h * 0.10, n, 0),
+        (0.21, h * 0.22, n, 0),
+        (0.10, h * 0.40, n, 0),
+        (0.15, h * 0.56, n, 0),
+        (0.06, h * 0.76, n, 0),
+        (0.015, h, n, 0),
+    ]
     return V.loft_rings("gilt_finial", rings, "M_gild")
 
 

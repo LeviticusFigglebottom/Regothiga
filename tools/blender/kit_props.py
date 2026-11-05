@@ -1286,10 +1286,38 @@ def shroud_dead(seed=8):
 
 
 def watcher_base():
-    """Octagonal rotating plinth for the Watcher statues."""
-    b = V.loft_rings("watcher_base", [(0.62, 0, 8, 0), (0.56, 0.14, 8, 0),
-                                      (0.5, 0.2, 8, 0), (0.52, 0.34, 8, 0)], "M_stone_trim")
-    return [b], {"size": [1.3, 1.3, 0.36], "origin": "bottom-center"}
+    """Octagonal rotating plinth for the Watcher statues with recessed dark
+    stone core, carved corner pilasters, and bronze rotation collar."""
+    objs = []
+    b = V.loft_rings(
+        "watcher_base",
+        [
+            (0.64, 0.0, 8, 0),
+            (0.64, 0.09, 8, 0),
+            (0.56, 0.13, 8, 0),
+            (0.49, 0.13, 8, 0),
+            (0.49, 0.25, 8, 0),
+            (0.55, 0.28, 8, 0),
+            (0.55, 0.34, 8, 0),
+        ],
+        "M_stone_trim",
+    )
+    objs.append(b)
+    ring = V.loft_rings(
+        "watcher_ring",
+        [
+            (0.57, 0.09, 8, 0),
+            (0.57, 0.135, 8, 0),
+            (0.50, 0.135, 8, 0),
+            (0.50, 0.09, 8, 0),
+            (0.57, 0.09, 8, 0),
+        ],
+        "M_bronze",
+        cap_bottom=False,
+        cap_top=False,
+    )
+    objs.append(ring)
+    return objs, {"size": [1.3, 1.3, 0.36], "origin": "bottom-center"}
 
 
 def cobweb():
