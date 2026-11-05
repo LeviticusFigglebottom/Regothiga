@@ -39,7 +39,7 @@ func build(cfg: Dictionary) -> void:
 		shield_mount.position = Vector3(-0.06, 0.16, 0.0)
 		shield_mount.rotation_degrees = Vector3(0, 90, 0)
 		shield_mount.add_child(KitLib.instance(cfg["shield"]))
-	if cfg.has("helm"):
+	if cfg.has("helm") and not body_id.begins_with("skel_"):
 		head_mount = mount("head")
 		head_mount.position = Vector3(0, 0.14, 0.0)
 		head_mount.add_child(KitLib.instance(cfg["helm"]))

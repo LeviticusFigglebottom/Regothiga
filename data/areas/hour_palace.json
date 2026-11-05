@@ -7,7 +7,7 @@
    0.2,
    3
   ],
-  "yaw": 0
+  "yaw": 180
  },
  "no_gutter": true,
  "stub_label": "Keep vigil  (rest \u2014 the light here does not falter)",
@@ -216,7 +216,10 @@
     0,
     24
    ],
-   "band_mat": "M_marble"
+   "band_mat": "M_marble",
+   "skip_bands": [
+    "S"
+   ]
   },
   {
    "min": [
@@ -229,7 +232,10 @@
     0,
     28
    ],
-   "band_mat": "M_marble"
+   "band_mat": "M_marble",
+   "skip_bands": [
+    "N"
+   ]
   },
   {
    "min": [
@@ -259,6 +265,7 @@
     40
    ],
    "spring_top": 8,
+   "band_from": 8,
    "band_mat": "M_marble"
   },
   {
@@ -272,7 +279,10 @@
     0,
     24
    ],
-   "band_mat": "M_marble"
+   "band_mat": "M_marble",
+   "skip_bands": [
+    "S"
+   ]
   },
   {
    "min": [
@@ -285,7 +295,10 @@
     0,
     28
    ],
-   "band_mat": "M_marble"
+   "band_mat": "M_marble",
+   "skip_bands": [
+    "N"
+   ]
   },
   {
    "min": [
@@ -315,6 +328,7 @@
     40
    ],
    "spring_top": 8,
+   "band_from": 8,
    "band_mat": "M_marble"
   }
  ],
@@ -1200,7 +1214,7 @@
     0,
     52
    ],
-   "rot": 180
+   "rot": 0
   },
   {
    "kit": "statue_saint",
@@ -1209,7 +1223,7 @@
     0,
     52
    ],
-   "rot": 180
+   "rot": 0
   },
   {
    "kit": "palace_wall_4x4",
@@ -1571,7 +1585,7 @@
     0,
     70.4
    ],
-   "rot": 180
+   "rot": 0
   },
   {
    "kit": "statue_saint",
@@ -1580,7 +1594,7 @@
     0,
     70.5
    ],
-   "rot": 160
+   "rot": 20
   },
   {
    "kit": "statue_saint",
@@ -1589,7 +1603,7 @@
     0,
     70.5
    ],
-   "rot": -160
+   "rot": -20
   },
   {
    "kit": "palace_wall_4x4",
@@ -3556,7 +3570,7 @@
    "at": [
     34,
     0,
-    20
+    22.0
    ],
    "rot": -90,
    "tag": "base"
@@ -3666,7 +3680,7 @@
    "at": [
     -34,
     0,
-    25.5
+    22.0
    ],
    "rot": 90,
    "tag": "base"
@@ -3831,7 +3845,17 @@
     38.2
    ],
    "rot": 0,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    20,
+    0,
+    38.2
+   ],
+   "rot": 0,
+   "tag": "ruin"
   },
   {
    "kit": "candle_cluster",
@@ -3841,7 +3865,17 @@
     38.4
    ],
    "rot": 0,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    24,
+    0,
+    38.4
+   ],
+   "rot": 0,
+   "tag": "ruin"
   },
   {
    "kit": "book_stack",
@@ -3983,7 +4017,17 @@
     10.5
    ],
    "rot": 323.5,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -30.5,
+    0,
+    10.5
+   ],
+   "rot": 323.5,
+   "tag": "ruin"
   },
   {
    "kit": "candle_cluster",
@@ -3993,7 +4037,17 @@
     15.5
    ],
    "rot": 232.5,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -37.5,
+    0,
+    15.5
+   ],
+   "rot": 232.5,
+   "tag": "ruin"
   },
   {
    "kit": "candle_cluster",
@@ -4003,7 +4057,17 @@
     21
    ],
    "rot": 323.5,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -30.5,
+    0,
+    21
+   ],
+   "rot": 323.5,
+   "tag": "ruin"
   },
   {
    "kit": "candle_cluster",
@@ -4013,7 +4077,17 @@
     27
    ],
    "rot": 232.5,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -37.5,
+    0,
+    27
+   ],
+   "rot": 232.5,
+   "tag": "ruin"
   },
   {
    "kit": "candle_cluster",
@@ -4023,7 +4097,17 @@
     33
    ],
    "rot": 323.5,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -30.5,
+    0,
+    33
+   ],
+   "rot": 323.5,
+   "tag": "ruin"
   },
   {
    "kit": "candle_cluster",
@@ -4033,7 +4117,17 @@
     38
    ],
    "rot": 245.5,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -36.5,
+    0,
+    38
+   ],
+   "rot": 245.5,
+   "tag": "ruin"
   },
   {
    "kit": "altar",
@@ -4076,7 +4170,17 @@
     32.5
    ],
    "rot": 40,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -15.5,
+    0,
+    32.5
+   ],
+   "rot": 40,
+   "tag": "ruin"
   },
   {
    "kit": "candle_cluster",
@@ -4086,7 +4190,17 @@
     33
    ],
    "rot": -30,
-   "tag": "base"
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -21,
+    0,
+    33
+   ],
+   "rot": -30,
+   "tag": "ruin"
   },
   {
    "kit": "censer_hanging",
@@ -4394,11 +4508,11 @@
   },
   {
    "at": [
-    38.6,
+    33.6,
     0,
-    37.6
+    38.2
    ],
-   "rot": -140,
+   "rot": 0,
    "text": "THE BELL-STAIR\n\nDown, and down, and out by the Offices \u2014 the short way the ringers kept."
   }
  ],
@@ -4411,7 +4525,7 @@
     0,
     18
    ],
-   "face": 180,
+   "face": 0,
    "tag": "glory"
   },
   {
@@ -4499,7 +4613,7 @@
     0,
     24
    ],
-   "face": 180,
+   "face": 0,
    "tag": "glory"
   },
   {
@@ -4510,7 +4624,7 @@
     0,
     44
    ],
-   "face": 180,
+   "face": 0,
    "tag": "glory"
   },
   {
@@ -4521,7 +4635,7 @@
     0,
     62
    ],
-   "face": 160,
+   "face": -20,
    "tag": "glory"
   },
   {
@@ -4532,7 +4646,7 @@
     0,
     62
    ],
-   "face": -160,
+   "face": 20,
    "tag": "glory"
   }
  ],
@@ -4751,7 +4865,7 @@
    "at": [
     22,
     0,
-    38
+    34.2
    ],
    "orisons": 1400,
    "label": "Take up the ringers' tithe",

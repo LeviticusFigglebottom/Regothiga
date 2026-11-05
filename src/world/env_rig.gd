@@ -18,6 +18,7 @@ var overrides: Dictionary = {}
 ## 2 = Ultra (+ SSIL + SSR + SDFGI). Auto-detected on first boot.
 static var graphics_quality: int = -1
 static var active_instance: EnvRig = null
+static var _cached_profiles: Dictionary = {}
 
 static func get_graphics_quality() -> int:
 	if graphics_quality < 0:
@@ -45,8 +46,10 @@ func _profile(state_name: String) -> Dictionary:
 
 func _ready() -> void:
 	active_instance = self
-	var f := FileAccess.open("res://data/state_profiles.json", FileAccess.READ)
-	profiles = JSON.parse_string(f.get_as_text())
+	if _cached_profiles.is_empty():
+		var f := FileAccess.open("res://data/state_profiles.json", FileAccess.READ)
+		_cached_profiles = JSON.parse_string(f.get_as_text())
+	profiles = _cached_profiles
 
 	world_env = WorldEnvironment.new()
 	var e := Environment.new()
@@ -54,7 +57,8 @@ func _ready() -> void:
 	sky_mat = ShaderMaterial.new()
 	sky_mat.shader = preload("res://shaders/stylized_sky.gdshader")
 	var sky := Sky.new()
-	sky.radiance_size = Sky.RADIANCE_SIZE_256
+	sky.radiance_size = Sky.RADIANCE_SIZE_128
+	sky.process_mode = Sky.PROCESS_MODE_INCREMENTAL
 	sky.sky_material = sky_mat
 	e.sky = sky
 	e.ambient_light_source = Environment.AMBIENT_SOURCE_SKY

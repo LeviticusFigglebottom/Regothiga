@@ -1,1282 +1,1281 @@
 {
- "id": "basilica_porch",
- "name": "Basilica of Last Light \u2014 Porch",
- "start": {
-  "pos": [
-   0,
-   0.2,
-   6
-  ],
-  "yaw": 180
- },
- "fills": [
-  {
-   "kit": "floor_4x4",
-   "min": [
-    -8,
-    0,
-    -8
-   ],
-   "max": [
-    8,
-    0,
-    8
-   ]
-  },
-  {
-   "kit": "floor_4x4",
-   "min": [
-    -8,
-    -2.62,
-    8
-   ],
-   "max": [
-    8,
-    -2.62,
-    20
-   ]
-  }
- ],
- "vault_fields": [
-  {
-   "min": [
-    -8,
-    0,
-    -8
-   ],
-   "max": [
-    8,
-    0,
-    0
-   ]
-  }
- ],
- "open_air_regions": [
-  {
-   "min": [
-    -8,
-    0,
-    0
-   ],
-   "max": [
-    8,
-    0,
-    8
-   ]
-  },
-  {
-   "min": [
-    -8,
-    -2.62,
-    8
-   ],
-   "max": [
-    8,
-    -2.62,
-    20
-   ]
-  },
-  {
-   "min": [
-    -15.3,
-    -5.02,
-    7.7
-   ],
-   "max": [
-    -8,
-    -5.02,
-    12.3
-   ]
-  }
- ],
- "rows": [
-  {
-   "kit": "wall_4x4",
-   "from": [
-    -8,
-    0,
-    -6
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": 90,
-   "skip": []
-  },
-  {
-   "kit": "wall_4x4",
-   "from": [
-    8,
-    0,
-    -6
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 4,
-   "rot": -90,
-   "skip": [
-    1
-   ]
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    -6,
-    0,
-    7.8
-   ],
-   "dir": [
-    1,
-    0,
-    0
-   ],
-   "count": 4,
-   "rot": 0,
-   "skip": [
-    1,
-    2
-   ]
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    -6,
-    -2.62,
-    19.8
-   ],
-   "dir": [
-    1,
-    0,
-    0
-   ],
-   "count": 4,
-   "rot": 0,
-   "skip": [
-    1,
-    2
-   ]
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    -7.8,
-    -2.62,
-    14
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 2,
-   "rot": 90
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    7.8,
-    -2.62,
-    14
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 2,
-   "rot": -90
-  },
-  {
-   "kit": "balustrade_4m",
-   "from": [
-    7.8,
-    -2.62,
-    10
-   ],
-   "dir": [
-    0,
-    0,
-    1
-   ],
-   "count": 1,
-   "rot": -90
-  }
- ],
- "pieces": [
-  {
-   "kit": "portal_4m",
-   "at": [
-    0,
-    0,
-    -8
-   ],
-   "scale": [
-    1.6,
-    1.5,
-    1.4
-   ]
-  },
-  {
-   "kit": "door_leaf",
-   "at": [
-    0,
-    0,
-    -8
-   ],
-   "scale": [
-    1.6,
-    1.5,
-    1.4
-   ],
-   "tag": "base"
-  },
-  {
-   "kit": "window_lancet_4m",
-   "at": [
-    -4,
-    0,
-    -8
-   ]
-  },
-  {
-   "kit": "window_lancet_4m",
-   "at": [
-    4,
-    0,
-    -8
-   ]
-  },
-  {
-   "kit": "portal_4m",
-   "at": [
-    8,
-    0,
-    -2
-   ],
-   "rot": -90
-  },
-  {
-   "kit": "door_leaf",
-   "at": [
-    8,
-    0,
-    -2
-   ],
-   "rot": -90,
-   "tag": "base"
-  },
-  {
-   "kit": "buttress",
-   "at": [
-    -6,
-    0,
-    -8.2
-   ]
-  },
-  {
-   "kit": "buttress",
-   "at": [
-    6,
-    0,
-    -8.2
-   ]
-  },
-  {
-   "kit": "gargoyle",
-   "at": [
-    -6,
-    4.35,
-    -7.8
-   ]
-  },
-  {
-   "kit": "gargoyle",
-   "at": [
-    6,
-    4.35,
-    -7.8
-   ]
-  },
-  {
-   "kit": "rubble_s",
-   "at": [
-    -5,
-    0,
-    3
-   ],
-   "tag": "ruin",
-   "collide": false
-  },
-  {
-   "kit": "stair_grand_4m_r",
-   "at": [
-    -2,
-    -0.02,
-    8.2
-   ],
-   "rot": 180
-  },
-  {
-   "kit": "stair_grand_4m_l",
-   "at": [
-    2,
-    -0.02,
-    8.2
-   ],
-   "rot": 180
-  },
-  {
-   "kit": "urn",
-   "at": [
-    -4.6,
-    0,
-    7.6
-   ]
-  },
-  {
-   "kit": "urn",
-   "at": [
-    4.6,
-    0,
-    7.6
-   ]
-  },
-  {
-   "kit": "wall_4x4",
-   "at": [
-    -6,
-    -2.62,
-    8
-   ],
-   "rot": 180
-  },
-  {
-   "kit": "wall_4x4",
-   "at": [
-    6,
-    -2.62,
-    8
-   ],
-   "rot": 180
-  },
-  {
-   "kit": "arcade_4m",
-   "at": [
-    -4,
-    0,
-    0
-   ]
-  },
-  {
-   "kit": "arcade_4m",
-   "at": [
-    4,
-    0,
-    0
-   ]
-  },
-  {
-   "kit": "portal_4m",
-   "at": [
-    0,
-    0,
-    0
-   ],
-   "scale": [
-    1.6,
-    1.0,
-    1.4
-   ]
-  },
-  {
-   "kit": "portal_4m",
-   "at": [
-    -8,
-    -2.62,
-    10
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "stair_grand_4m",
-   "at": [
-    -8.2,
-    -2.6,
-    10
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "door_leaf",
-   "at": [
-    -14.8,
-    -5.44,
-    10
-   ],
-   "rot": 90,
-   "tag": "base"
-  },
-  {
-   "kit": "balustrade_4m",
-   "at": [
-    -2,
-    -2.62,
-    19.8
-   ],
-   "rot": 0,
-   "absent_flag": "reckoning_heard"
-  },
-  {
-   "kit": "balustrade_4m",
-   "at": [
-    2,
-    -2.62,
-    19.8
-   ],
-   "rot": 0,
-   "absent_flag": "reckoning_heard"
-  }
- ],
- "props": [
-  {
-   "kit": "glass_lancet",
-   "at": [
-    -4,
-    0,
-    -7.9
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "glass_lancet",
-   "at": [
-    4,
-    0,
-    -7.9
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "glass_lancet_broken",
-   "at": [
-    -4,
-    0,
-    -7.9
-   ],
-   "tag": "ruin"
-  },
-  {
-   "kit": "glass_lancet_broken",
-   "at": [
-    4,
-    0,
-    -7.9
-   ],
-   "tag": "ruin"
-  },
-  {
-   "kit": "candelabra",
-   "at": [
-    -2.6,
-    0,
-    -6.8
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "candelabra",
-   "at": [
-    2.6,
-    0,
-    -6.8
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "banner",
-   "at": [
-    -7.7,
-    0.4,
-    -4
-   ],
-   "rot": 90,
-   "tag": "glory"
-  },
-  {
-   "kit": "banner",
-   "at": [
-    -7.7,
-    0.4,
-    2
-   ],
-   "rot": 90,
-   "tag": "glory"
-  },
-  {
-   "kit": "statue_saint",
-   "at": [
-    -6.8,
-    0,
-    -6.8
-   ],
-   "rot": 45,
-   "tag": "glory"
-  },
-  {
-   "kit": "statue_saint",
-   "at": [
-    6.8,
-    0,
-    -6.8
-   ],
-   "rot": -45,
-   "tag": "glory"
-  },
-  {
-   "kit": "statue_orans",
-   "at": [
-    -6.2,
-    -2.62,
-    18.6
-   ],
-   "rot": -30,
-   "tag": "glory"
-  },
-  {
-   "kit": "statue_orans",
-   "at": [
-    6.5,
-    -2.62,
-    13.5
-   ],
-   "rot": -45,
-   "tag": "glory"
-  },
-  {
-   "kit": "candelabra",
-   "at": [
-    -4,
-    -2.62,
-    18.5
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "candelabra",
-   "at": [
-    4,
-    -2.62,
-    18.5
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "candle_cluster",
-   "at": [
-    -2.85,
-    0,
-    -7.35
-   ],
-   "rot": 60,
-   "tag": "glory"
-  },
-  {
-   "kit": "candle_cluster_dead",
-   "at": [
-    -2.85,
-    0,
-    -7.35
-   ],
-   "rot": 60,
-   "tag": "ruin"
-  },
-  {
-   "kit": "candle_cluster",
-   "at": [
-    2.85,
-    0,
-    -7.35
-   ],
-   "rot": 60,
-   "tag": "glory"
-  },
-  {
-   "kit": "candle_cluster_dead",
-   "at": [
-    2.85,
-    0,
-    -7.35
-   ],
-   "rot": 60,
-   "tag": "ruin"
-  },
-  {
-   "kit": "candle_cluster",
-   "at": [
-    -6.3,
-    0,
-    7.0
-   ],
-   "rot": 60,
-   "tag": "glory"
-  },
-  {
-   "kit": "candle_cluster_dead",
-   "at": [
-    -6.3,
-    0,
-    7.0
-   ],
-   "rot": 60,
-   "tag": "ruin"
-  },
-  {
-   "kit": "censer_hanging",
-   "at": [
-    -6,
-    5.44,
-    -4
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "censer_fallen",
-   "at": [
-    -6,
-    0,
-    -3.6
-   ],
-   "tag": "ruin"
-  },
-  {
-   "kit": "censer_hanging",
-   "at": [
-    6,
-    5.44,
-    -4
-   ],
-   "tag": "glory"
-  },
-  {
-   "kit": "censer_fallen",
-   "at": [
-    6,
-    0,
-    -3.6
-   ],
-   "tag": "ruin"
-  },
-  {
-   "kit": "garden_bed",
-   "at": [
-    -4.0,
-    -2.62,
-    15.0
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "garden_bed_dead",
-   "at": [
-    -4.0,
-    -2.62,
-    15.0
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "garden_bed",
-   "at": [
-    4.0,
-    -2.62,
-    15.0
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "garden_bed_dead",
-   "at": [
-    4.0,
-    -2.62,
-    15.0
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "ivy_sheet_a",
-   "at": [
-    -7.75,
-    0,
-    1.0
-   ],
-   "rot": 90,
-   "tag": "ruin"
-  },
-  {
-   "kit": "wax_husk",
-   "at": [
-    -6.8,
-    0,
-    -6.8
-   ],
-   "rot": 45,
-   "tag": "ruin"
-  },
-  {
-   "kit": "wax_husk",
-   "at": [
-    6.8,
-    0,
-    -6.8
-   ],
-   "rot": -45,
-   "tag": "ruin"
-  },
-  {
-   "kit": "mosaic_medallion",
-   "at": [
-    0,
-    0.01,
-    -4.6
-   ],
-   "tag": "base"
-  },
-  {
-   "kit": "cobweb",
-   "at": [
-    -7.6,
-    3.0,
-    -7.6
-   ],
-   "rot": 45,
-   "tag": "ruin"
-  },
-  {
-   "kit": "cobweb",
-   "at": [
-    7.6,
-    3.0,
-    -7.6
-   ],
-   "rot": 135,
-   "tag": "ruin"
-  },
-  {
-   "kit": "hand_cart",
-   "at": [
-    5.6,
-    0,
-    4.6
-   ],
-   "rot": -35,
-   "tag": "glory"
-  },
-  {
-   "kit": "barrel",
-   "at": [
-    6.7,
-    0,
-    3.6
-   ],
-   "rot": 10,
-   "tag": "glory"
-  },
-  {
-   "kit": "rubble_s",
-   "at": [
-    5.6,
-    0,
-    4.6
-   ],
-   "rot": -35,
-   "tag": "ruin"
-  }
- ],
- "lanterns": [
-  {
-   "id": "porch",
-   "name": "Porch Lantern",
-   "at": [
-    0,
-    0,
-    2
-   ],
-   "rot": 180
-  }
- ],
- "plaques": [
-  {
-   "at": [
-    1.9,
-    0,
-    -6.4
-   ],
-   "rot": -160,
-   "text": "BASILICA OF LAST LIGHT\n\nHere the great bell waits for the thirteenth hour, and the door does not open \u2014 not for grief, not for gold, not yet for you.\n\nBeyond this porch the kingdom goes on: the Ossuary Undercroft, the Larkspire, the Black Gate under its drowned sun. All of it kept. None of it quite as it seems.\n\nAnd above it all, past the rail and the long dark, the inner city keeps its heart: the temple of the final flame. No road runs there. Not yet."
-  },
-  {
-   "at": [
-    3.2,
-    0,
-    -5.6
-   ],
-   "rot": -60,
-   "text": "THE VESPER CHIMES\n\nThe door hears only the day rung in its dying order:\n\nthe morning office first \u2014 then the evening we kept \u2014 then the hour that never came."
-  },
-  {
-   "at": [
-    -3.4,
-    0,
-    6.9
-   ],
-   "rot": 25,
-   "tag": "ruin",
-   "require_flag": "reckoning_heard",
-   "text": "A NOTE, IN A KNIGHT'S HAND\n\nGone up to look at the road you made. If you read this in the dark, Latecomer, then the dark is where you chose to stand \u2014 AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nThen come back to the light, and ring what is owed.\n\n\u2014 A.",
-   "set_flag": "amend_sworn",
-   "flag_toast": "The Amend is sworn \u2014 seek the wardens you put to rest, in the light their quarters remember.",
-   "style": "note",
-   "absent_flag": "amend_sworn"
-  }
- ],
- "portals": [
-  {
-   "to": "gray_cloister",
-   "at": [
-    8,
-    0,
-    -2
-   ],
-   "rot": -90,
-   "spawn": [
-    25.5,
-    0.2,
-    -10
-   ],
-   "prompt": "Return to the Gray Cloister",
-   "spawn_yaw": 90
-  },
-  {
-   "to": "basilica_nave",
-   "at": [
-    0,
-    0,
-    -7.4
-   ],
-   "rot": 0,
-   "spawn": [
-    0,
-    0.2,
-    5
-   ],
-   "prompt": "Enter the Basilica",
-   "locked_flag": "vesper_chimes",
-   "locked_prompt": "The door waits on the vespers no one rang",
-   "spawn_yaw": 0
-  },
-  {
-   "to": "black_gate",
-   "at": [
-    -13.4,
-    -5.02,
-    10
-   ],
-   "rot": 90,
-   "spawn": [
-    0,
-    0.2,
-    21.5
-   ],
-   "spawn_yaw": 0,
-   "prompt": "Descend the pilgrim stair to the Black Gate"
-  }
- ],
- "skyline": [
-  {
-   "kit": "city_panorama",
-   "at": [
-    0,
-    -2.6,
-    6
-   ]
-  }
- ],
- "pickups": [
-  {
-   "id": "terrace_prayers",
-   "at": [
-    3.1,
-    -2.6,
-    18.2
-   ],
-   "orisons": 120,
-   "tag": "base",
-   "label": "Gather wax-sealed prayers"
-  }
- ],
- "blockers": [
-  {
-   "min": [
-    -3.2,
-    0,
-    -8.6
-   ],
-   "max": [
-    3.2,
-    4.2,
-    -7.6
-   ],
-   "tag": "base"
-  },
-  {
-   "min": [
-    7.6,
-    0,
-    -4.2
-   ],
-   "max": [
-    8.6,
-    3.4,
-    0.2
-   ],
-   "tag": "base"
-  }
- ],
- "chime_puzzles": [
-  {
-   "flag": "vesper_chimes",
-   "order": [
-    "prime",
-    "vespers",
-    "thirteenth"
-   ],
-   "chimes": [
-    {
-     "id": "prime",
-     "label": "the Prime chime",
-     "at": [
-      -6,
+  "id": "basilica_porch",
+  "name": "Basilica of Last Light — Porch",
+  "start": {
+    "pos": [
       0,
-      3.2
-     ],
-     "rot": 130
+      0.2,
+      6
+    ],
+    "yaw": 180
+  },
+  "fills": [
+    {
+      "kit": "floor_4x4",
+      "min": [
+        -8,
+        0,
+        -8
+      ],
+      "max": [
+        8,
+        0,
+        8
+      ]
     },
     {
-     "id": "vespers",
-     "label": "the Vesper chime",
-     "at": [
-      6,
-      0,
-      3.2
-     ],
-     "rot": -130
-    },
-    {
-     "id": "thirteenth",
-     "label": "the Thirteenth chime",
-     "at": [
-      -3.2,
-      0,
-      -5.6
-     ],
-     "rot": 60
+      "kit": "floor_4x4",
+      "min": [
+        -8,
+        -2.62,
+        8
+      ],
+      "max": [
+        8,
+        -2.62,
+        20
+      ]
     }
-   ]
-  }
- ],
- "boxes": [
-  {
-   "min": [
-    -8,
-    -40,
-    -8
-   ],
-   "max": [
-    8,
-    -0.1,
-    8
-   ],
-   "mat": "M_stone",
-   "tag": "base"
-  },
-  {
-   "min": [
-    -8,
-    -40,
-    8
-   ],
-   "max": [
-    8,
-    -2.72,
-    20
-   ],
-   "mat": "M_stone",
-   "tag": "base"
-  },
-  {
-   "min": [
-    -8,
-    0,
-    -8.25
-   ],
-   "max": [
-    -6,
-    4,
-    -7.75
-   ],
-   "mat": "M_stone",
-   "tag": "base"
-  },
-  {
-   "min": [
-    6,
-    0,
-    -8.25
-   ],
-   "max": [
-    8,
-    4,
-    -7.75
-   ],
-   "mat": "M_stone",
-   "tag": "base"
-  },
-  {
-   "min": [
-    -14.6,
-    -5.44,
-    8.2
-   ],
-   "max": [
-    -12.2,
-    -5.02,
-    11.8
-   ],
-   "mat": "M_stone",
-   "walkable": true
-  },
-  {
-   "min": [
-    -14.9,
-    -5.44,
-    7.7
-   ],
-   "max": [
-    -8,
-    1.6,
-    8.2
-   ],
-   "mat": "M_stone"
-  },
-  {
-   "min": [
-    -14.9,
-    -5.44,
-    11.8
-   ],
-   "max": [
-    -8,
-    1.6,
-    12.3
-   ],
-   "mat": "M_stone"
-  },
-  {
-   "min": [
-    -15.3,
-    -5.44,
-    7.7
-   ],
-   "max": [
-    -14.9,
-    1.6,
-    12.3
-   ],
-   "mat": "M_stone"
-  },
-  {
-   "min": [
-    -15.3,
-    -40,
-    7.7
-   ],
-   "max": [
-    -12.7,
-    -5.46,
-    12.3
-   ],
-   "mat": "M_stone"
-  },
-  {
-   "min": [
-    -12.7,
-    -40,
-    8.2
-   ],
-   "max": [
-    -11,
-    -5.35,
-    11.8
-   ],
-   "mat": "M_stone"
-  },
-  {
-   "min": [
-    -11,
-    -40,
-    8.2
-   ],
-   "max": [
-    -9.5,
-    -4.4,
-    11.8
-   ],
-   "mat": "M_stone"
-  },
-  {
-   "min": [
-    -9.5,
-    -40,
-    8.2
-   ],
-   "max": [
-    -8,
-    -3.5,
-    11.8
-   ],
-   "mat": "M_stone"
-  },
-  {
-   "min": [
-    -15.3,
-    1.38,
-    7.7
-   ],
-   "max": [
-    -8.05,
-    1.7,
-    12.3
-   ],
-   "mat": "M_stone"
-  }
- ],
- "npcs": [
-  {
-   "id": "knight_morrow",
-   "at": [
-    -3.4,
-    0,
-    6.9
-   ],
-   "rot": 190,
-   "tag": "glory",
-   "absent_flag": "reckoning_heard"
-  },
-  {
-   "id": "knight_crest",
-   "at": [
-    -3.4,
-    0,
-    6.9
-   ],
-   "rot": 155,
-   "tag": "ruin",
-   "absent_flag": "reckoning_heard"
-  },
-  {
-   "id": "knight_morrow_grim",
-   "at": [
-    -3.4,
-    0,
-    6.9
-   ],
-   "rot": 190,
-   "tag": "glory",
-   "require_flag": "reckoning_heard",
-   "face_flip": true
-  }
- ],
- "free_kindle": true,
- "scripted": [
-  {
-   "script": "res://src/world/light_bridge.gd",
-   "at": [
-    0,
-    -2.62,
-    20.0
-   ],
-   "rot": 180,
-   "require_flag": "reckoning_heard",
-   "params": {
-    "length": 44.0
-   }
-  },
-  {
-   "script": "res://src/world/ambient_life.gd",
-   "at": [
-    0,
-    0,
-    10
-   ],
-   "rot": 0,
-   "tag": "glory",
-   "params": {
-    "kind": "motes_gold",
-    "extent": [
-     16,
-     5,
-     14
-    ],
-    "count": 22
-   }
-  },
-  {
-   "script": "res://src/world/ambient_life.gd",
-   "at": [
-    0,
-    0,
-    12
-   ],
-   "rot": 0,
-   "tag": "glory",
-   "params": {
-    "kind": "birds",
-    "extent": [
-     12,
-     1,
-     10
-    ],
-    "count": 4
-   }
-  },
-  {
-   "script": "res://src/world/ambient_life.gd",
-   "at": [
-    0,
-    0,
-    10
-   ],
-   "rot": 0,
-   "tag": "ruin",
-   "params": {
-    "kind": "motes_ash",
-    "extent": [
-     16,
-     5,
-     14
-    ],
-    "count": 28
-   }
-  }
- ]
+  ],
+  "vault_fields": [
+    {
+      "min": [
+        -8,
+        0,
+        -8
+      ],
+      "max": [
+        8,
+        0,
+        0
+      ]
+    }
+  ],
+  "open_air_regions": [
+    {
+      "min": [
+        -8,
+        0,
+        0
+      ],
+      "max": [
+        8,
+        0,
+        8
+      ]
+    },
+    {
+      "min": [
+        -8,
+        -2.62,
+        8
+      ],
+      "max": [
+        8,
+        -2.62,
+        20
+      ]
+    },
+    {
+      "min": [
+        -15.3,
+        -5.02,
+        7.7
+      ],
+      "max": [
+        -8,
+        -5.02,
+        12.3
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "kit": "wall_4x4",
+      "from": [
+        -8,
+        0,
+        -6
+      ],
+      "dir": [
+        0,
+        0,
+        1
+      ],
+      "count": 4,
+      "rot": 90,
+      "skip": []
+    },
+    {
+      "kit": "wall_4x4",
+      "from": [
+        8,
+        0,
+        -6
+      ],
+      "dir": [
+        0,
+        0,
+        1
+      ],
+      "count": 4,
+      "rot": -90,
+      "skip": [
+        1
+      ]
+    },
+    {
+      "kit": "balustrade_4m",
+      "from": [
+        -6,
+        0,
+        7.8
+      ],
+      "dir": [
+        1,
+        0,
+        0
+      ],
+      "count": 4,
+      "rot": 0,
+      "skip": [
+        1,
+        2
+      ]
+    },
+    {
+      "kit": "balustrade_4m",
+      "from": [
+        -6,
+        -2.62,
+        19.8
+      ],
+      "dir": [
+        1,
+        0,
+        0
+      ],
+      "count": 4,
+      "rot": 0,
+      "skip": [
+        1,
+        2
+      ]
+    },
+    {
+      "kit": "balustrade_4m",
+      "from": [
+        -7.8,
+        -2.62,
+        14
+      ],
+      "dir": [
+        0,
+        0,
+        1
+      ],
+      "count": 2,
+      "rot": 90
+    },
+    {
+      "kit": "balustrade_4m",
+      "from": [
+        7.8,
+        -2.62,
+        14
+      ],
+      "dir": [
+        0,
+        0,
+        1
+      ],
+      "count": 2,
+      "rot": -90
+    },
+    {
+      "kit": "balustrade_4m",
+      "from": [
+        7.8,
+        -2.62,
+        10
+      ],
+      "dir": [
+        0,
+        0,
+        1
+      ],
+      "count": 1,
+      "rot": -90
+    }
+  ],
+  "pieces": [
+    {
+      "kit": "portal_4m",
+      "at": [
+        0,
+        0,
+        -8
+      ],
+      "scale": [
+        1.6,
+        1.5,
+        1.4
+      ]
+    },
+    {
+      "kit": "door_leaf",
+      "at": [
+        0,
+        0,
+        -8
+      ],
+      "scale": [
+        1.6,
+        1.5,
+        1.4
+      ],
+      "tag": "base"
+    },
+    {
+      "kit": "window_lancet_4m",
+      "at": [
+        -4,
+        0,
+        -8
+      ]
+    },
+    {
+      "kit": "window_lancet_4m",
+      "at": [
+        4,
+        0,
+        -8
+      ]
+    },
+    {
+      "kit": "portal_4m",
+      "at": [
+        8,
+        0,
+        -2
+      ],
+      "rot": -90
+    },
+    {
+      "kit": "door_leaf",
+      "at": [
+        8,
+        0,
+        -2
+      ],
+      "rot": -90,
+      "tag": "base"
+    },
+    {
+      "kit": "buttress",
+      "at": [
+        -6,
+        0,
+        -8.2
+      ]
+    },
+    {
+      "kit": "buttress",
+      "at": [
+        6,
+        0,
+        -8.2
+      ]
+    },
+    {
+      "kit": "gargoyle",
+      "at": [
+        -6,
+        4.35,
+        -7.8
+      ]
+    },
+    {
+      "kit": "gargoyle",
+      "at": [
+        6,
+        4.35,
+        -7.8
+      ]
+    },
+    {
+      "kit": "rubble_s",
+      "at": [
+        -5,
+        0,
+        3
+      ],
+      "tag": "ruin",
+      "collide": false
+    },
+    {
+      "kit": "stair_grand_4m_r",
+      "at": [
+        -2,
+        -0.02,
+        8.2
+      ],
+      "rot": 180
+    },
+    {
+      "kit": "stair_grand_4m_l",
+      "at": [
+        2,
+        -0.02,
+        8.2
+      ],
+      "rot": 180
+    },
+    {
+      "kit": "urn",
+      "at": [
+        -4.6,
+        0,
+        7.6
+      ]
+    },
+    {
+      "kit": "urn",
+      "at": [
+        4.6,
+        0,
+        7.6
+      ]
+    },
+    {
+      "kit": "wall_4x4",
+      "at": [
+        -6,
+        -2.62,
+        8
+      ],
+      "rot": 180
+    },
+    {
+      "kit": "wall_4x4",
+      "at": [
+        6,
+        -2.62,
+        8
+      ],
+      "rot": 180
+    },
+    {
+      "kit": "arcade_4m",
+      "at": [
+        -4,
+        0,
+        0
+      ]
+    },
+    {
+      "kit": "arcade_4m",
+      "at": [
+        4,
+        0,
+        0
+      ]
+    },
+    {
+      "kit": "portal_4m",
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1.6,
+        1.0,
+        1.4
+      ]
+    },
+    {
+      "kit": "portal_4m",
+      "at": [
+        -8,
+        -2.62,
+        10
+      ],
+      "rot": 90
+    },
+    {
+      "kit": "stair_grand_4m",
+      "at": [
+        -8.2,
+        -2.6,
+        10
+      ],
+      "rot": 90
+    },
+    {
+      "kit": "door_leaf",
+      "at": [
+        -14.8,
+        -5.44,
+        10
+      ],
+      "rot": 90,
+      "tag": "base"
+    },
+    {
+      "kit": "balustrade_4m",
+      "at": [
+        -2,
+        -2.62,
+        19.8
+      ],
+      "rot": 0,
+      "absent_flag": "reckoning_heard"
+    },
+    {
+      "kit": "balustrade_4m",
+      "at": [
+        2,
+        -2.62,
+        19.8
+      ],
+      "rot": 0,
+      "absent_flag": "reckoning_heard"
+    }
+  ],
+  "props": [
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -4,
+        0,
+        -7.9
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        4,
+        0,
+        -7.9
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -4,
+        0,
+        -7.9
+      ],
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        4,
+        0,
+        -7.9
+      ],
+      "tag": "ruin"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        -2.6,
+        0,
+        -6.8
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        2.6,
+        0,
+        -6.8
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "banner",
+      "at": [
+        -7.7,
+        0.4,
+        -4
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "banner",
+      "at": [
+        -7.7,
+        0.4,
+        2
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "statue_saint",
+      "at": [
+        -6.8,
+        0,
+        -6.8
+      ],
+      "rot": 45,
+      "tag": "glory"
+    },
+    {
+      "kit": "statue_saint",
+      "at": [
+        6.8,
+        0,
+        -6.8
+      ],
+      "rot": -45,
+      "tag": "glory"
+    },
+    {
+      "kit": "statue_orans",
+      "at": [
+        -6.2,
+        -2.62,
+        18.6
+      ],
+      "rot": -30,
+      "tag": "glory"
+    },
+    {
+      "kit": "statue_orans",
+      "at": [
+        6.5,
+        -2.62,
+        13.5
+      ],
+      "rot": -45,
+      "tag": "glory"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        -4,
+        -2.62,
+        18.5
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        4,
+        -2.62,
+        18.5
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "candle_cluster",
+      "at": [
+        -2.85,
+        0,
+        -7.35
+      ],
+      "rot": 60,
+      "tag": "glory"
+    },
+    {
+      "kit": "candle_cluster_dead",
+      "at": [
+        -2.85,
+        0,
+        -7.35
+      ],
+      "rot": 60,
+      "tag": "ruin"
+    },
+    {
+      "kit": "candle_cluster",
+      "at": [
+        2.85,
+        0,
+        -7.35
+      ],
+      "rot": 60,
+      "tag": "glory"
+    },
+    {
+      "kit": "candle_cluster_dead",
+      "at": [
+        2.85,
+        0,
+        -7.35
+      ],
+      "rot": 60,
+      "tag": "ruin"
+    },
+    {
+      "kit": "candle_cluster",
+      "at": [
+        -6.3,
+        0,
+        7.0
+      ],
+      "rot": 60,
+      "tag": "glory"
+    },
+    {
+      "kit": "candle_cluster_dead",
+      "at": [
+        -6.3,
+        0,
+        7.0
+      ],
+      "rot": 60,
+      "tag": "ruin"
+    },
+    {
+      "kit": "censer_hanging",
+      "at": [
+        -6,
+        5.44,
+        -4
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "censer_fallen",
+      "at": [
+        -6,
+        0,
+        -3.6
+      ],
+      "tag": "ruin"
+    },
+    {
+      "kit": "censer_hanging",
+      "at": [
+        6,
+        5.44,
+        -4
+      ],
+      "tag": "glory"
+    },
+    {
+      "kit": "censer_fallen",
+      "at": [
+        6,
+        0,
+        -3.6
+      ],
+      "tag": "ruin"
+    },
+    {
+      "kit": "garden_bed",
+      "at": [
+        -4.0,
+        -2.62,
+        15.0
+      ],
+      "rot": 0,
+      "tag": "glory"
+    },
+    {
+      "kit": "garden_bed_dead",
+      "at": [
+        -4.0,
+        -2.62,
+        15.0
+      ],
+      "rot": 0,
+      "tag": "ruin"
+    },
+    {
+      "kit": "garden_bed",
+      "at": [
+        4.0,
+        -2.62,
+        15.0
+      ],
+      "rot": 0,
+      "tag": "glory"
+    },
+    {
+      "kit": "garden_bed_dead",
+      "at": [
+        4.0,
+        -2.62,
+        15.0
+      ],
+      "rot": 0,
+      "tag": "ruin"
+    },
+    {
+      "kit": "ivy_sheet_a",
+      "at": [
+        -7.75,
+        0,
+        1.0
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "wax_husk",
+      "at": [
+        -6.8,
+        0,
+        -6.8
+      ],
+      "rot": 45,
+      "tag": "ruin"
+    },
+    {
+      "kit": "wax_husk",
+      "at": [
+        6.8,
+        0,
+        -6.8
+      ],
+      "rot": -45,
+      "tag": "ruin"
+    },
+    {
+      "kit": "mosaic_medallion",
+      "at": [
+        0,
+        0.01,
+        -4.6
+      ],
+      "tag": "base"
+    },
+    {
+      "kit": "cobweb",
+      "at": [
+        -7.6,
+        3.0,
+        -7.6
+      ],
+      "rot": 45,
+      "tag": "ruin"
+    },
+    {
+      "kit": "cobweb",
+      "at": [
+        7.6,
+        3.0,
+        -7.6
+      ],
+      "rot": 135,
+      "tag": "ruin"
+    },
+    {
+      "kit": "hand_cart",
+      "at": [
+        5.6,
+        0,
+        4.6
+      ],
+      "rot": -35,
+      "tag": "glory"
+    },
+    {
+      "kit": "barrel",
+      "at": [
+        6.7,
+        0,
+        3.6
+      ],
+      "rot": 10,
+      "tag": "glory"
+    },
+    {
+      "kit": "rubble_s",
+      "at": [
+        5.6,
+        0,
+        4.6
+      ],
+      "rot": -35,
+      "tag": "ruin"
+    }
+  ],
+  "lanterns": [
+    {
+      "id": "porch",
+      "name": "Porch Lantern",
+      "at": [
+        0,
+        0,
+        2
+      ],
+      "rot": 180
+    }
+  ],
+  "plaques": [
+    {
+      "at": [
+        1.9,
+        0,
+        -6.4
+      ],
+      "rot": -160,
+      "text": "BASILICA OF LAST LIGHT\n\nHere the great bell waits for the thirteenth hour, and the door does not open — not for grief, not for gold, not yet for you.\n\nBeyond this porch the kingdom goes on: the Ossuary Undercroft, the Larkspire, the Black Gate under its drowned sun. All of it kept. None of it quite as it seems.\n\nAnd above it all, past the rail and the long dark, the inner city keeps its heart: the temple of the final flame. No road runs there. Not yet."
+    },
+    {
+      "at": [
+        3.2,
+        0,
+        -5.6
+      ],
+      "rot": -60,
+      "text": "THE VESPER CHIMES\n\nThe door hears only the day rung in its dying order:\n\nthe morning office first — then the evening we kept — then the hour that never came."
+    },
+    {
+      "at": [
+        -3.4,
+        0,
+        6.9
+      ],
+      "rot": 25,
+      "tag": "ruin",
+      "require_flag": "reckoning_heard",
+      "text": "A NOTE, IN A KNIGHT'S HAND\n\nGone up to look at the road you made. If you read this in the dark, Latecomer, then the dark is where you chose to stand — AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nThen come back to the light, and ring what is owed.\n\n— A.",
+      "set_flag": "amend_sworn",
+      "flag_toast": "The Amend is sworn — seek the wardens you put to rest, in the light their quarters remember.",
+      "style": "note",
+      "absent_flag": "amend_sworn"
+    }
+  ],
+  "portals": [
+    {
+      "to": "gray_cloister",
+      "at": [
+        8,
+        0,
+        -2
+      ],
+      "rot": -90,
+      "spawn": [
+        25.5,
+        0.2,
+        -10
+      ],
+      "prompt": "Return to the Gray Cloister",
+      "spawn_yaw": 90
+    },
+    {
+      "to": "basilica_nave",
+      "at": [
+        0,
+        0,
+        -7.4
+      ],
+      "rot": 0,
+      "spawn": [
+        0,
+        0.2,
+        5
+      ],
+      "prompt": "Enter the Basilica",
+      "locked_flag": "vesper_chimes",
+      "locked_prompt": "The door waits on the vespers no one rang",
+      "spawn_yaw": 0
+    },
+    {
+      "to": "black_gate",
+      "at": [
+        -13.4,
+        -5.02,
+        10
+      ],
+      "rot": 90,
+      "spawn": [
+        0,
+        0.2,
+        21.5
+      ],
+      "spawn_yaw": 0,
+      "prompt": "Descend the pilgrim stair to the Black Gate"
+    }
+  ],
+  "skyline": [
+    {
+      "kit": "city_panorama",
+      "at": [
+        0,
+        -2.6,
+        6
+      ]
+    }
+  ],
+  "pickups": [
+    {
+      "id": "terrace_prayers",
+      "at": [
+        3.1,
+        -2.6,
+        18.2
+      ],
+      "orisons": 120,
+      "tag": "base",
+      "label": "Gather wax-sealed prayers"
+    }
+  ],
+  "blockers": [
+    {
+      "min": [
+        -3.2,
+        0,
+        -8.6
+      ],
+      "max": [
+        3.2,
+        4.2,
+        -7.6
+      ],
+      "tag": "base"
+    },
+    {
+      "min": [
+        7.6,
+        0,
+        -4.2
+      ],
+      "max": [
+        8.6,
+        3.4,
+        0.2
+      ],
+      "tag": "base"
+    }
+  ],
+  "chime_puzzles": [
+    {
+      "flag": "vesper_chimes",
+      "order": [
+        "prime",
+        "vespers",
+        "thirteenth"
+      ],
+      "chimes": [
+        {
+          "id": "prime",
+          "label": "the Prime chime",
+          "at": [
+            -6,
+            0,
+            3.2
+          ],
+          "rot": 130
+        },
+        {
+          "id": "vespers",
+          "label": "the Vesper chime",
+          "at": [
+            6,
+            0,
+            3.2
+          ],
+          "rot": -130
+        },
+        {
+          "id": "thirteenth",
+          "label": "the Thirteenth chime",
+          "at": [
+            -3.2,
+            0,
+            -5.6
+          ],
+          "rot": 60
+        }
+      ]
+    }
+  ],
+  "boxes": [
+    {
+      "min": [
+        -8,
+        -40,
+        -8
+      ],
+      "max": [
+        8,
+        -0.1,
+        8
+      ],
+      "mat": "M_stone",
+      "tag": "base"
+    },
+    {
+      "min": [
+        -8,
+        -40,
+        8
+      ],
+      "max": [
+        8,
+        -2.72,
+        20
+      ],
+      "mat": "M_stone",
+      "tag": "base"
+    },
+    {
+      "min": [
+        -8,
+        0,
+        -8.25
+      ],
+      "max": [
+        -6,
+        4,
+        -7.75
+      ],
+      "mat": "M_stone",
+      "tag": "base"
+    },
+    {
+      "min": [
+        6,
+        0,
+        -8.25
+      ],
+      "max": [
+        8,
+        4,
+        -7.75
+      ],
+      "mat": "M_stone",
+      "tag": "base"
+    },
+    {
+      "min": [
+        -14.6,
+        -5.44,
+        8.2
+      ],
+      "max": [
+        -12.2,
+        -5.02,
+        11.8
+      ],
+      "mat": "M_stone",
+      "walkable": true
+    },
+    {
+      "min": [
+        -14.9,
+        -5.44,
+        7.7
+      ],
+      "max": [
+        -8,
+        1.6,
+        8.2
+      ],
+      "mat": "M_stone"
+    },
+    {
+      "min": [
+        -14.9,
+        -5.44,
+        11.8
+      ],
+      "max": [
+        -8,
+        1.6,
+        12.3
+      ],
+      "mat": "M_stone"
+    },
+    {
+      "min": [
+        -15.3,
+        -5.44,
+        7.7
+      ],
+      "max": [
+        -14.9,
+        1.6,
+        12.3
+      ],
+      "mat": "M_stone"
+    },
+    {
+      "min": [
+        -15.3,
+        -40,
+        7.7
+      ],
+      "max": [
+        -12.7,
+        -5.46,
+        12.3
+      ],
+      "mat": "M_stone"
+    },
+    {
+      "min": [
+        -12.7,
+        -40,
+        8.2
+      ],
+      "max": [
+        -11,
+        -5.35,
+        11.8
+      ],
+      "mat": "M_stone"
+    },
+    {
+      "min": [
+        -11,
+        -40,
+        8.2
+      ],
+      "max": [
+        -9.5,
+        -4.4,
+        11.8
+      ],
+      "mat": "M_stone"
+    },
+    {
+      "min": [
+        -9.5,
+        -40,
+        8.2
+      ],
+      "max": [
+        -8,
+        -3.5,
+        11.8
+      ],
+      "mat": "M_stone"
+    },
+    {
+      "min": [
+        -15.3,
+        1.38,
+        7.7
+      ],
+      "max": [
+        -8.05,
+        1.7,
+        12.3
+      ],
+      "mat": "M_stone"
+    }
+  ],
+  "npcs": [
+    {
+      "id": "knight_morrow",
+      "at": [
+        -3.4,
+        0,
+        6.9
+      ],
+      "rot": -35,
+      "tag": "glory",
+      "absent_flag": "reckoning_heard"
+    },
+    {
+      "id": "knight_crest",
+      "at": [
+        -3.4,
+        0,
+        6.9
+      ],
+      "rot": -35,
+      "tag": "ruin",
+      "absent_flag": "reckoning_heard"
+    },
+    {
+      "id": "knight_morrow_grim",
+      "at": [
+        -3.4,
+        0,
+        6.9
+      ],
+      "rot": -35,
+      "tag": "glory",
+      "require_flag": "reckoning_heard"
+    }
+  ],
+  "free_kindle": true,
+  "scripted": [
+    {
+      "script": "res://src/world/light_bridge.gd",
+      "at": [
+        0,
+        -2.62,
+        20.0
+      ],
+      "rot": 180,
+      "require_flag": "reckoning_heard",
+      "params": {
+        "length": 44.0
+      }
+    },
+    {
+      "script": "res://src/world/ambient_life.gd",
+      "at": [
+        0,
+        0,
+        10
+      ],
+      "rot": 0,
+      "tag": "glory",
+      "params": {
+        "kind": "motes_gold",
+        "extent": [
+          16,
+          5,
+          14
+        ],
+        "count": 22
+      }
+    },
+    {
+      "script": "res://src/world/ambient_life.gd",
+      "at": [
+        0,
+        0,
+        12
+      ],
+      "rot": 0,
+      "tag": "glory",
+      "params": {
+        "kind": "birds",
+        "extent": [
+          12,
+          1,
+          10
+        ],
+        "count": 4
+      }
+    },
+    {
+      "script": "res://src/world/ambient_life.gd",
+      "at": [
+        0,
+        0,
+        10
+      ],
+      "rot": 0,
+      "tag": "ruin",
+      "params": {
+        "kind": "motes_ash",
+        "extent": [
+          16,
+          5,
+          14
+        ],
+        "count": 28
+      }
+    }
+  ]
 }

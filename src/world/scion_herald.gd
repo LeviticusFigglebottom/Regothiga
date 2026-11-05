@@ -265,6 +265,12 @@ func _abort_herald() -> void:
 	set_process_unhandled_input(false)
 	if _voice != null and is_instance_valid(_voice):
 		_voice.stop()
+	if _scion != null and is_instance_valid(_scion):
+		_scion.queue_free()
+		_scion = null
+	if _shaft != null and is_instance_valid(_shaft):
+		_shaft.queue_free()
+		_shaft = null
 	if _cine != null and is_instance_valid(_cine):
 		_cine.queue_free()
 		_cine = null
@@ -273,6 +279,7 @@ func _abort_herald() -> void:
 		_layer = null
 	if _player != null and is_instance_valid(_player):
 		_player.invulnerable = false
+		_player.lock_control(false)
 
 func _set_dissolve(root: Node, v: float) -> void:
 	VG.set_dissolve(root, v)

@@ -124,7 +124,7 @@ for x in (-14, -10, -6, 6, 10, 14):
 for x in (-15.7, 15.7):
     piece("palace_pier", (x, 2, -23.6), 0)
 for x in (-10, 10):
-    piece("statue_saint", (x, 2, -22.6), 0)
+    piece("statue_saint", (x, 2, -22.6), 180)
 # radiant spires crown the palace, unreachable
 piece("radiant_spire_a", (0, 2, -32), 0, collide=False)
 piece("radiant_spire_b", (-12, 2, -29), 40, collide=False)
@@ -220,6 +220,9 @@ for s in (1, -1):
     piece("palace_pier", (18 * s, 0, 10), 0)
     ax0, ax1 = (18, 22) if s > 0 else (-22, -18)
     B.append({"min": [ax0, 8.0, 6.0], "max": [ax1, 8.4, 10.0], "tag": "base", "mat": "M_marble", "collide": False})
+    wx0, wx1 = (9, 22) if s > 0 else (-22, -9)
+    B.append({"min": [wx0, 8.0, -12.0], "max": [wx1, 8.4, 0.0], "tag": "base", "mat": "M_marble", "collide": False})
+    B.append({"min": [wx0, 8.0, 12.0], "max": [wx1, 8.4, 30.0], "tag": "base", "mat": "M_marble", "collide": False})
 
 # ---------------------------------------------------------------- east court: the Offices of the Hour
 prop("brazier_lit", (16.2, 0, 5.4), 90, tag="glory")
@@ -341,7 +344,7 @@ PLQ.append({"at": [-15.4, 0, 6.4], "rot": 115, "text":
     "THE TWELVE'S GARDEN\n\nOne bed for each keeper who kept their hour. The soil remembers their names even here.\n\nThe thirteenth bed was never planted. There is still room."})
 PLQ.append({"at": [12.4, 0, 6.2], "rot": -120, "text":
     "THE OFFICES OF THE HOUR\n\nSound the offices as the day was kept aloft: the dawn office first, then the noon, then the dusk.\n\nKeep the order and the reliquary opens. Break it and begin the day again."})
-PLQ.append({"at": [-12.4, 0, 9.6], "rot": 25, "tag": "ruin", "text":
+PLQ.append({"at": [-11.5, 0, 6.4], "rot": 60, "tag": "ruin", "text":
     "A NOTE, IN A KNIGHT'S HAND\n\nGone to do what can still be done. If you read this, Latecomer, then do not follow — AMEND.\n\nSeek the wardens you put to rest, every one, in the light their quarters remember. Kneel at their vigils. Kindle the glory. Speak to them, and hear what the dark never let you hear.\n\nWhen every one of them has forgiven you — or refused to — come back to the light, and ring what is owed.\n\n— A."})
 
 # the Apostle's stall: UP ON THE TERRACE, east of the stair head, square
@@ -351,9 +354,11 @@ PR.append({"kit": "banquet_table_6m", "at": [9.4, 2, -16.8], "rot": 0, "tag": "g
 PR.append({"kit": "book_stack", "at": [8.4, 2.9, -16.7], "rot": 75, "tag": "glory", "collide": False})
 PR.append({"kit": "scroll_pile", "at": [10.4, 2.9, -16.9], "rot": -20, "tag": "glory", "collide": False})
 PR.append({"kit": "candle_cluster", "at": [7.0, 2, -15.2], "rot": 10, "tag": "glory"})
+PR.append({"kit": "candle_cluster_dead", "at": [7.0, 2, -15.2], "rot": 10, "tag": "ruin"})
 PR.append({"kit": "candle_cluster", "at": [11.8, 2, -18.3], "rot": -35, "tag": "glory"})
+PR.append({"kit": "candle_cluster_dead", "at": [11.8, 2, -18.3], "rot": -35, "tag": "ruin"})
 
-PLQ.append({"at": [-8.5, 0, 29.0], "rot": 175, "text":
+PLQ.append({"at": [-7.5, 0, 29.0], "rot": 175, "text":
     "THE PALACES BEYOND\n\nThe wards of the light: promised halls for every soul the wax was keeping.\n\nNo road runs to them. Roads are for the unfinished. When the hour rings, no one here will need one."})
 
 # ---------------------------------------------------------------- data
@@ -420,9 +425,9 @@ def main():
              "rot": 90, "tag": "base"},
         ],
         "pickups": [
-            {"id": "sanctum_reliquary", "at": [19.6, 0, 9.6], "orisons": 900,
+            {"id": "sanctum_reliquary", "at": [18.7, 0, 8.0], "orisons": 900,
              "label": "Take up the reliquary tithe", "tag": "base"},
-            {"id": "sanctum_chapel", "at": [-19.8, 0, 8.6], "orisons": 400,
+            {"id": "sanctum_chapel", "at": [-19.5, 0, 8.0], "orisons": 400,
              "item": "candleglass", "count": 2,
              "label": "Gather the keepers' candleglass", "tag": "base"},
         ],
@@ -431,17 +436,17 @@ def main():
              "spawn": [0, -2.42, 17.0], "spawn_yaw": 0,
              "prompt": "Descend the lightfall"},
             {"to": "hour_palace", "at": [0, 2, -23.0], "rot": 0,
-             "spawn": [0, 0.2, 3.0], "spawn_yaw": 0,
+             "spawn": [0, 0.2, 3.0], "spawn_yaw": 180,
              "prompt": "Enter the Door of the Hour",
              "locked_flag": "sanctum_hours",
              "locked_prompt": "The Door keeps its hour \u2014 sound the Offices"},
             {"to": "hour_palace", "at": [15, 0, 1.4], "rot": 180,
-             "spawn": [36, 0.2, 37.0], "spawn_yaw": 180,
+             "spawn": [36, 0.2, 37.0], "spawn_yaw": 0,
              "prompt": "Climb the bell-stair",
              "locked_flag": "scion_heard",
              "locked_prompt": "Barred from above"},
             {"to": "hour_palace", "at": [-15, 0, 1.4], "rot": 180,
-             "spawn": [-36, 0.2, 37.0], "spawn_yaw": 180,
+             "spawn": [-36, 0.2, 37.0], "spawn_yaw": 0,
              "prompt": "Climb the candle-stair",
              "locked_flag": "scion_heard",
              "locked_prompt": "Barred from above"},

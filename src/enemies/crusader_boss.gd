@@ -214,6 +214,9 @@ func _rite_abort() -> void:
 	if _rite_cine != null and is_instance_valid(_rite_cine):
 		_rite_cine.finish()
 		_rite_cine = null
+	var p = Game.player
+	if p != null and is_instance_valid(p):
+		p.lock_control(false)
 
 ## His words for the turn, wounded and low; the cine carries the caption.
 func _rite_line() -> void:
@@ -237,6 +240,8 @@ func _rite_line() -> void:
 ## The cutscene releases: control returns, and half a breath later the
 ## remembered light sweeps out from him across the parish.
 func _rite_end() -> void:
+	if Game.player_forgotten.is_connected(_rite_abort):
+		Game.player_forgotten.disconnect(_rite_abort)
 	if _rite_cine != null and is_instance_valid(_rite_cine):
 		_rite_cine.finish()
 		_rite_cine = null

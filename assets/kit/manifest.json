@@ -1467,7 +1467,7 @@
  "skel_bellox": {
   "file": "assets/kit/skel_bellox.glb",
   "origin": "feet",
-  "polys": 2810,
+  "polys": 3098,
   "size": [
    0.8,
    0.8,
@@ -1478,7 +1478,7 @@
  "skel_chorister": {
   "file": "assets/kit/skel_chorister.glb",
   "origin": "feet",
-  "polys": 2410,
+  "polys": 2698,
   "size": [
    0.8,
    0.8,
@@ -1489,7 +1489,7 @@
  "skel_echo": {
   "file": "assets/kit/skel_echo.glb",
   "origin": "feet",
-  "polys": 2542,
+  "polys": 2830,
   "size": [
    0.8,
    0.8,
@@ -1500,7 +1500,7 @@
  "skel_giant": {
   "file": "assets/kit/skel_giant.glb",
   "origin": "feet",
-  "polys": 4128,
+  "polys": 4728,
   "size": [
    0.8,
    0.8,
@@ -1511,7 +1511,7 @@
  "skel_herald": {
   "file": "assets/kit/skel_herald.glb",
   "origin": "feet",
-  "polys": 3928,
+  "polys": 4600,
   "size": [
    0.8,
    0.8,
@@ -1522,7 +1522,7 @@
  "skel_hero": {
   "file": "assets/kit/skel_hero.glb",
   "origin": "feet",
-  "polys": 3976,
+  "polys": 4648,
   "size": [
    0.8,
    0.8,
@@ -1533,7 +1533,7 @@
  "skel_mire": {
   "file": "assets/kit/skel_mire.glb",
   "origin": "feet",
-  "polys": 2642,
+  "polys": 2930,
   "size": [
    0.8,
    0.8,
@@ -1544,7 +1544,7 @@
  "skel_penitent": {
   "file": "assets/kit/skel_penitent.glb",
   "origin": "feet",
-  "polys": 2696,
+  "polys": 2984,
   "size": [
    0.8,
    0.8,
@@ -1555,7 +1555,7 @@
  "skel_precentress": {
   "file": "assets/kit/skel_precentress.glb",
   "origin": "feet",
-  "polys": 2698,
+  "polys": 2986,
   "size": [
    0.8,
    0.8,
@@ -1566,7 +1566,7 @@
  "skel_seraph": {
   "file": "assets/kit/skel_seraph.glb",
   "origin": "feet",
-  "polys": 4060,
+  "polys": 4732,
   "size": [
    0.8,
    0.8,
@@ -1577,7 +1577,7 @@
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",
-  "polys": 2370,
+  "polys": 2658,
   "size": [
    0.8,
    0.8,
@@ -1588,7 +1588,7 @@
  "skel_shroud": {
   "file": "assets/kit/skel_shroud.glb",
   "origin": "feet",
-  "polys": 2496,
+  "polys": 2784,
   "size": [
    0.8,
    0.8,
@@ -1599,7 +1599,7 @@
  "skel_sister": {
   "file": "assets/kit/skel_sister.glb",
   "origin": "feet",
-  "polys": 2562,
+  "polys": 2850,
   "size": [
    0.8,
    0.8,
@@ -1610,7 +1610,7 @@
  "skel_ward": {
   "file": "assets/kit/skel_ward.glb",
   "origin": "feet",
-  "polys": 3882,
+  "polys": 4554,
   "size": [
    0.8,
    0.8,
@@ -1621,7 +1621,7 @@
  "skel_wretch": {
   "file": "assets/kit/skel_wretch.glb",
   "origin": "feet",
-  "polys": 2560,
+  "polys": 2848,
   "size": [
    0.8,
    0.8,

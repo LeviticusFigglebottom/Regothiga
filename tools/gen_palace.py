@@ -156,12 +156,14 @@ VF.append(dict(_COFFER_RING, min=[-10, 0, 36], max=[10, 0, 56], skip_bands=["N"]
 for s in (1, -1):
     a, b = (10, 26) if s > 0 else (-26, -10)
     g0, g1 = (26, 42) if s > 0 else (-42, -26)
-    VF.append({"min": [a, 0, 8], "max": [b, 0, 24], "band_mat": "M_marble"})    # room 1
-    VF.append({"min": [a, 0, 24], "max": [b, 0, 28], "band_mat": "M_marble"})   # cross-corridor
+    VF.append({"min": [a, 0, 8], "max": [b, 0, 24], "band_mat": "M_marble",
+               "skip_bands": ["S"]})                                        # room 1
+    VF.append({"min": [a, 0, 24], "max": [b, 0, 28], "band_mat": "M_marble",
+               "skip_bands": ["N"]})                                        # cross-corridor
     VF.append({"min": [a, 0, 28], "max": [b, 0, 40], "flat": True,      # room 3:
                "coffer": True, "lid_mat": "M_marble", "beam_mat": "M_gold"})  # gilt coffers
     VF.append({"min": [g0, 0, 8], "max": [g1, 0, 40], "spring_top": 8,
-               "band_mat": "M_marble"})                                 # long gallery
+               "band_from": 8, "band_mat": "M_marble"})                 # long gallery
 
 # ---------------------------------------------------------------- the great nave
 # south wall + the way back out
@@ -206,7 +208,7 @@ for z in (12, 28, 44):
     prop("candelabra", (-6.5, 0, z), 20)
     prop("candelabra", (6.5, 0, z), -20)
 for s in (1, -1):
-    piece("statue_saint", (4 * s, 0, 52), 180)
+    piece("statue_saint", (4 * s, 0, 52), 0)
 for z in (20, 36):
     prop("candelabra", (-9.2, 0, z), 90)
     prop("candelabra", (9.2, 0, z), -90)
@@ -235,9 +237,9 @@ for a, r in [((-6.4, 0, 62), 40), ((6.4, 0, 62), -40), ((-6.4, 0, 70), 140), ((6
 prop("mosaic_medallion", (0, 0.02, 65), 0)
 prop("carpet_runner_8m", (0, 0.02, 59.2), 90)
 prop("chandelier_dome_high", (0, 5.2, 64), 0, collide=False)
-piece("statue_orans", (0, 0, 70.4), 180)
-piece("statue_saint", (-7.5, 0, 70.5), 160)
-piece("statue_saint", (7.5, 0, 70.5), -160)
+piece("statue_orans", (0, 0, 70.4), 0)
+piece("statue_saint", (-7.5, 0, 70.5), 20)
+piece("statue_saint", (7.5, 0, 70.5), -20)
 
 # ---------------------------------------------------------------- the wings
 for s in (1, -1):
@@ -269,7 +271,7 @@ for s in (1, -1):
     # shared wing dressing
     prop("candelabra", (18 * s, 0, 12), 0)
     prop("candelabra", (18 * s, 0, 36), 180)
-    prop("candelabra", (34 * s, 0, 25.5 if s < 0 else 20), rot_in)
+    prop("candelabra", (34 * s, 0, 22.0), rot_in)
     prop("mosaic_medallion", (18 * s, 0.02, 16), 0)
     prop("chandelier_gilt", (18 * s, 3.4, 16), 0, collide=False, scale=[0.6, 0.6, 0.6])
     prop("chandelier_gilt", (34 * s, 6.0, 16), 0, collide=False)
@@ -285,8 +287,10 @@ prop("censer_hanging", (18, 5.44, 12), 0, collide=False)
 prop("bell_great", (34, 5.4, 20), 0, collide=False)              # the mother bell
 prop("carpet_runner_8m", (18, 0.02, 33), 0)
 prop("shrine_aedicule", (22, 0, 36.5), 180)                      # reliquary shrine
-prop("candle_cluster", (20, 0, 38.2), 0)
-prop("candle_cluster", (24, 0, 38.4), 0)
+prop("candle_cluster", (20, 0, 38.2), 0, tag="glory")
+prop("candle_cluster_dead", (20, 0, 38.2), 0, tag="ruin")
+prop("candle_cluster", (24, 0, 38.4), 0, tag="glory")
+prop("candle_cluster_dead", (24, 0, 38.4), 0, tag="ruin")
 prop("book_stack", (12.5, 0, 30.5), 20)
 
 # ---- west wing character: the scribes' house and the wax
@@ -299,14 +303,17 @@ prop("banquet_bench_6m", (-18, 0, 14.6), 0)
 for sz in (12.5, 20, 27.5, 35):
     prop("scriptorium_shelf", (-41.5, 0, sz), 90)                # W2: books face the room (+X)
 for (cx, cz) in [(-30.5, 10.5), (-37.5, 15.5), (-30.5, 21), (-37.5, 27), (-30.5, 33), (-36.5, 38)]:
-    prop("candle_cluster", (cx, 0, cz), (cx * 13) % 360)         # the long watch burns
+    prop("candle_cluster", (cx, 0, cz), (cx * 13) % 360, tag="glory")         # the long watch burns
+    prop("candle_cluster_dead", (cx, 0, cz), (cx * 13) % 360, tag="ruin")
 prop("altar", (-18, 0, 30.5), 0)                                 # the waxworks
 prop("candle_cluster", (-18.55, 1.02, 30.4), 70, collide=False, flames=False)  # wax pooled on the slab
 # the chandler's ledger — the altar slab TOPS at 1.02 (0.92 body + 0.1
 # slab, measured from the kit, not the manifest's padded box)
 prop("book_stack", (-17.45, 1.02, 30.65), -25, collide=False)
-prop("candle_cluster", (-15.5, 0, 32.5), 40)
-prop("candle_cluster", (-21, 0, 33), -30)
+prop("candle_cluster", (-15.5, 0, 32.5), 40, tag="glory")
+prop("candle_cluster_dead", (-15.5, 0, 32.5), 40, tag="ruin")
+prop("candle_cluster", (-21, 0, 33), -30, tag="glory")
+prop("candle_cluster_dead", (-21, 0, 33), -30, tag="ruin")
 prop("censer_hanging", (-18, 4.84, 34), 0, collide=False)
 
 # ---- the regal ceilings: two coffered domes seated INTO the vault line —
@@ -331,14 +338,14 @@ for s_ in (1, -1):
     prop("pew_3m", (gx, 0, 32.6), 90)
 
 # guards of the morning: they hold every room once the Scion has spoken
-for (ex, ez, face) in [(6, 18, 180), (-6, 34, 0),
+for (ex, ez, face) in [(6, 18, 0), (-6, 34, 0),
                        (18, 16, 90), (34, 24, -90), (18, 34, 90),
                        (-22, 20, -90), (-34, 24, 90), (-16, 31.5, -90)]:
     SPAWN.append({"id": "guard_%d_%d" % (int(ex), int(ez)), "enemy": "gilded_echo",
                   "at": [ex, 0, ez], "face": face, "tag": "glory"})
 # the Wards of the Morning: white-gold elect holding the nave road and the
 # antechamber — the palace's answer once the Scion has spoken
-for (ex, ez, face) in [(0, 24, 180), (0, 44, 180), (-4.5, 62, 160), (4.5, 62, -160)]:
+for (ex, ez, face) in [(0, 24, 0), (0, 44, 0), (-4.5, 62, -20), (4.5, 62, 20)]:
     SPAWN.append({"id": "elect_%d_%d" % (int(ex), int(ez)), "enemy": "morning_ward",
                   "at": [ex, 0, ez], "face": face, "tag": "glory"})
 
@@ -353,7 +360,7 @@ PLQ.append({"at": [3.4, 0, 54.2], "rot": -160, "text":
     "THE HOUR GATE\n\nTwo rites unbar it: the day rung true, the watch lit whole.\n\nBeyond, the Hour itself is kept. Nothing in this house wants you past this door."})
 PLQ.append({"at": [0, 0, 66.5], "rot": 180, "text":
     "THE ANTECHAMBER\n\nA throne of light, empty. A floor swept for a duel no servant will name.\n\nWhoever keeps the Hour has not forgotten you are coming."})
-PLQ.append({"at": [38.6, 0, 37.6], "rot": -140, "text":
+PLQ.append({"at": [33.6, 0, 38.2], "rot": 0, "text":
     "THE BELL-STAIR\n\nDown, and down, and out by the Offices — the short way the ringers kept."})
 
 # ---------------------------------------------------------------- data
@@ -361,7 +368,7 @@ def main():
     data = {
         "id": "hour_palace",
         "name": "The Palace of the Hour",
-        "start": {"pos": [0, 0.2, 3], "yaw": 0},
+        "start": {"pos": [0, 0.2, 3], "yaw": 180},
         "no_gutter": True,
         "stub_label": "Keep vigil  (rest — the light here does not falter)",
         "env": {
@@ -417,7 +424,7 @@ def main():
                         "notice": "Far off, the Hour Gate grinds its bars open."}},
         ],
         "pickups": [
-            {"id": "palace_carillon", "at": [22, 0, 38], "orisons": 1400,
+            {"id": "palace_carillon", "at": [22, 0, 34.2], "orisons": 1400,
              "label": "Take up the ringers' tithe", "tag": "base"},
             {"id": "palace_scriptorium", "at": [-22, 0, 10], "orisons": 800,
              "item": "candleglass", "count": 3,

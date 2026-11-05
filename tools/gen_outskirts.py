@@ -178,7 +178,7 @@ def main():
     # ---------------- lower town (y0): plaza, Fisher Lane, north row
     # H1 warehouse on the plaza's east side (single tall storey, 6x9)
     house(12, -4, 18, 5, 0, 1,
-          {"S": ["pwp"], "N": ["pwp"], "E": ["pwp"], "W": [["p", "d", "p"]]},
+          {"S": ["pw"], "N": ["pw"], "E": ["pwp"], "W": [["p", "d", "p"]]},
           roof_rot=90)
     PR.append({"kit": "crate_stack", "at": [16.6, 0, 3.2], "rot": 15, "tag": "base"})
     PR.append({"kit": "barrel", "at": [16.9, 0, 1.4], "rot": 0, "tag": "base"})

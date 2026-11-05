@@ -970,7 +970,10 @@ func _begin_attack(m: Dictionary, heavy: bool) -> void:
 	if dir != Vector3.ZERO:
 		vis.rotation.y = atan2(-dir.x, -dir.z)
 	_lunge = float(m.get("lunge", 2.0))
-	vis.play(m.get("anim", "attack_l1"), 0.05)
+	var anim_name: String = m.get("anim", "attack_l1")
+	var contact := 0.48 if anim_name == "attack_h" else (0.42 if anim_name == "attack_l2" else 0.44)
+	var strike_t := maxf(float(m.get("windup", 0.30)) + float(m.get("active", 0.14)) * 0.45, 0.12)
+	vis.play(anim_name, 0.05, clampf(contact / strike_t, 0.55, 1.85))
 
 func _st_attack(dt: float) -> void:
 	var wind := float(_atk["windup"])

@@ -88,7 +88,14 @@ func _ring() -> void:
 		ft.tween_interval(0.8)
 		ft.tween_property(white, "color:a", 0.0, 3.0)
 		ft.tween_callback(func():
+			if Game.player != null and is_instance_valid(Game.player) and Game.lore_panel.get_connections().is_empty():
+				Game.player.lock_control(false)
 			layer.queue_free()
 			_busy = false
 			if _zone != null:
 				_zone.enabled = true))
+
+func _exit_tree() -> void:
+	if _busy and Game.player != null and is_instance_valid(Game.player):
+		Game.player.invulnerable = false
+		Game.player.lock_control(false)

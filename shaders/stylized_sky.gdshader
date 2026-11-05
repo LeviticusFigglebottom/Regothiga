@@ -88,27 +88,30 @@ void sky() {
 
 	// Multi-layered volumetric stratocumulus cloud deck with silver-lining rim
 	if (up > -0.04) {
-		vec2 cuv = dir.xz / (max(up, 0.0) + 0.24);
-		cuv += vec2(TIME * 0.008, TIME * 0.003);
 		float skyband = smoothstep(-0.03, 0.12, up) * smoothstep(0.92, 0.18, up);
-		float m1 = fbm(cuv * 0.65 + 1.7);
-		float m2 = fbm(cuv * 1.85 - 3.4);
-		float cloud_density = smoothstep(0.42, 0.78, m1 * 0.72 + m2 * 0.28) * skyband;
+		if (skyband > 0.001) {
+			vec2 cuv = dir.xz / (max(up, 0.0) + 0.24);
+			cuv += vec2(TIME * 0.008, TIME * 0.003);
+			float m1 = fbm(cuv * 0.65 + 1.7);
+			float m2 = fbm(cuv * 1.85 - 3.4);
+			float cloud_density = smoothstep(0.42, 0.78, m1 * 0.72 + m2 * 0.28) * skyband;
+			if (cloud_density > 0.001) {
+				// Directional thickness derivative toward the sun for realistic self-shadowing
+				vec2 sun_uv_step = sd.xz * 0.08;
+				float m_toward = fbm((cuv + sun_uv_step) * 0.65 + 1.7);
+				float self_shadow = clamp(1.0 - max(m_toward - m1, 0.0) * 3.8, 0.18, 1.0);
+				float phase_hg = 0.35 + 0.65 * pow(sun_prox, 3.2);
 
-		// Directional thickness derivative toward the sun for realistic self-shadowing
-		vec2 sun_uv_step = sd.xz * 0.08;
-		float m_toward = fbm((cuv + sun_uv_step) * 0.65 + 1.7);
-		float self_shadow = clamp(1.0 - max(m_toward - m1, 0.0) * 3.8, 0.18, 1.0);
-		float phase_hg = 0.35 + 0.65 * pow(sun_prox, 3.2);
+				vec3 cloud_dark = mix(top_color * 0.38, vec3(0.035, 0.045, 0.075), ruin);
+				vec3 cloud_lit = mix(sun_color * 1.35, vec3(0.38, 0.48, 0.68), ruin);
+				vec3 c_col = mix(cloud_dark, cloud_lit, self_shadow * phase_hg);
+				// Silver lining along thin cloud edges near the sun
+				float edge_lining = smoothstep(0.2, 0.55, cloud_density) * (1.0 - smoothstep(0.55, 0.88, cloud_density));
+				c_col += cloud_lit * edge_lining * pow(sun_prox, 4.0) * 1.4;
 
-		vec3 cloud_dark = mix(top_color * 0.38, vec3(0.035, 0.045, 0.075), ruin);
-		vec3 cloud_lit = mix(sun_color * 1.35, vec3(0.38, 0.48, 0.68), ruin);
-		vec3 c_col = mix(cloud_dark, cloud_lit, self_shadow * phase_hg);
-		// Silver lining along thin cloud edges near the sun
-		float edge_lining = smoothstep(0.2, 0.55, cloud_density) * (1.0 - smoothstep(0.55, 0.88, cloud_density));
-		c_col += cloud_lit * edge_lining * pow(sun_prox, 4.0) * 1.4;
-
-		col = mix(col, c_col, cloud_density * (0.90 - 0.18 * ruin));
+				col = mix(col, c_col, cloud_density * (0.90 - 0.18 * ruin));
+			}
+		}
 	}
 
 	// Ruin high-altitude starfield (occluded by clouds and horizon haze).

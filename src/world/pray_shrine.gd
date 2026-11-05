@@ -334,7 +334,8 @@ func _end() -> void:
 	set_process_unhandled_input(false)
 	if Game.player_forgotten.is_connected(_abort_prayer):
 		Game.player_forgotten.disconnect(_abort_prayer)
-	_sub.text = ""
+	if _sub != null and is_instance_valid(_sub):
+		_sub.text = ""
 	if _voice != null and is_instance_valid(_voice):
 		_voice.stop()
 	# she turns, and walks back into the dark she came from

@@ -160,6 +160,8 @@ func travel_to(area_id: String, spawn_pos: Vector3, spawn_yaw := 1e9) -> void:
 	player.velocity = Vector3.ZERO
 	if abs(spawn_yaw) < 720.0:
 		player.cam.yaw = deg_to_rad(spawn_yaw)
+		if player.get("vis") != null:
+			player.vis.rotation.y = deg_to_rad(spawn_yaw)
 	refresh_remembrance()
 	snapshot_player()
 	World.save_game()

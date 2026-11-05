@@ -53,22 +53,30 @@ func _ready() -> void:
 		add_child(zone)
 
 func _physics_process(dt: float) -> void:
+	if _vis == null or not is_visible_in_tree():
+		return
 	var p = Game.player
-	if p != null and global_position.distance_to(p.global_position) < 5.0:
+	if p == null:
+		return
+	var d2 := global_position.distance_squared_to(p.global_position)
+	if d2 < 81.0:
 		var to: Vector3 = p.global_position - global_position
-		# the WORLD bearing to the player, expressed in the node's LOCAL frame —
-		# an npc authored with any spec rot used to add that rot on top and
-		# face somewhere else entirely (the grim knight greeted the arch)
+		# World bearing to the player, expressed in the NPC node's local frame.
+		# All skel_* bodies face -Z at local rotation 0.
 		var ty := atan2(-to.x, -to.z) - global_rotation.y
-		# some bodies (char_ward) are authored turned about: flip so the
-		# knight greets you with his face, not his pack
-		if cfg.get("face_flip", false):
-			ty += PI
-		_vis.rotation.y = lerp_angle(_vis.rotation.y, ty, 1.0 - exp(-3.0 * dt))
+		_vis.rotation.y = lerp_angle(_vis.rotation.y, ty, 1.0 - exp(-5.5 * dt))
+	elif d2 > 121.0 and absf(_vis.rotation.y) > 0.01:
+		_vis.rotation.y = lerp_angle(_vis.rotation.y, 0.0, 1.0 - exp(-2.0 * dt))
 
 func _on_talk(player) -> void:
 	if player == null:
 		return
+	var to: Vector3 = player.global_position - global_position
+	if to.length_squared() > 0.001:
+		var ty := atan2(-to.x, -to.z) - global_rotation.y
+		_vis.rotation.y = ty
+		if player.get("vis") != null:
+			player.vis.rotation.y = atan2(to.x, to.z)
 	player.enter_dialogue()
 	_vis.play("talk", 0.4)
 	var ui := DialogueUI.new(cfg, self)

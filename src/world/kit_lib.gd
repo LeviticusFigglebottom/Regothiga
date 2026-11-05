@@ -120,6 +120,8 @@ static func add_collision(piece: Node3D, layer_bit: int, convex := false) -> voi
 			continue
 		if not convex and kit_id.begins_with("burg_wall_") and str(mi.name) == "timbers":
 			continue
+		if not convex and str(mi.name) == "palace_floor_inlay":
+			continue
 		var key := kit_id + "/" + str(mi.name) + ("/cvx" if convex else "")
 		var shape: Shape3D = _shape_cache.get(key)
 		if shape == null:

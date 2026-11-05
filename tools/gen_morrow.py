@@ -119,8 +119,8 @@ VF.append(dict(COFFER, min=[-6, 0, 0], max=[6, 0, 92], spring_top=8))     # hall
 # each trial room gets its own cozy coffer lid (wall_top 4 -> lid 4.85)
 for k in range(6):
     z0 = 6 + 14 * k
-    VF.append(dict(COFFER, min=[-18, 0, z0], max=[-6, 0, z0 + 12]))
-    VF.append(dict(COFFER, min=[6, 0, z0], max=[18, 0, z0 + 12]))
+    VF.append(dict(COFFER, min=[-18, 0, z0], max=[-6, 0, z0 + 12], skip_bands=["E"]))
+    VF.append(dict(COFFER, min=[6, 0, z0], max=[18, 0, z0 + 12], skip_bands=["W"]))
 # the spans between rooms (z0+12 .. z0+14) are outside the fills — no roof
 # needed; blockers seal them below. The bell chamber's ceiling is the dome.
 
@@ -184,16 +184,13 @@ for z in (8, 36, 64, 88):
 
 # ---------------------------------------------------------------- rooms
 # shells: outer walls + dividers; each room 12x12, door already cut in the
-# hall wall. Outer (x +-18) walls carry windows into the open sky.
+# hall wall.
 for k in range(6):
     z0 = 6 + 14 * k
     for s in (1, -1):
         xo = 18 * s
         rot_o = -90 if s > 0 else 90
         wall_run_z(xo, z0, z0 + 12, rot_o)
-        piece("palace_window_4m", (xo, 4, z0 + 2), rot_o)
-        piece("palace_window_4m", (xo, 4, z0 + 6), rot_o)
-        piece("palace_window_4m", (xo, 4, z0 + 10), rot_o)
         # south + north walls of each room
         x_in, x_out = (6, 18) if s > 0 else (-18, -6)
         wall_run_x(z0, x_in, x_out, 0)
@@ -305,10 +302,10 @@ WP.append({"flag": "morrow_trial_10", "target": 180, "watchers": [
     {"at": [c[0] - 3, 0, c[2] + 2.5]},
     {"at": [c[0] + 3, 0, c[2] + 2.5]},
     {"at": [c[0] - 3, 0, c[2] - 2.5]},
-    {"at": [c[0] + 3, 0, c[2] - 2.5]}],
-    "done_toast": "Four gates face the road home. The Tenth is satisfied."})
+    {"at": [c[0] + 3, 0, c[2] - 2.5], "rot": 90}],
+    "done_toast": "Four gates face the Bell. The Tenth is satisfied."})
 PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
-    "THE TENTH RINGER — GORE THE GATEWRIGHT\n\nHe rang the Tenth Bell with the same pull that shut the flood-gates, one rope in each fist, because the river and the hour came at once.\n\nHis fate: the town kept dry and never knew. Deemed worthy for facing every gate HOME before himself.\n\nTurn all four to face the road home — south, where you came from."})
+    "THE TENTH RINGER — GORE THE GATEWRIGHT\n\nHe rang the Tenth Bell with the same pull that shut the flood-gates, one rope in each fist, because the river and the hour came at once.\n\nHis fate: the town kept dry and never knew. Deemed worthy for facing every gate TOWARD THE BELL before himself.\n\nTurn all four to face north, toward the Bell."})
 
 # R11 (L,k5) — the Ferrywright: arena, the drowned crew
 c = room_c(5, -1)
@@ -418,7 +415,7 @@ DEF = {
     "open_air_regions": [{"min": [-10, 0, -12], "max": [10, 0, 0]}],
     "lanterns": [{"id": "morrow", "name": "The Morrow's Porch", "at": [-6.5, 0, -6], "rot": 120}],
     "portals": [{"to": "gilded_sanctum", "at": [0, 0, -11.2], "rot": 0,
-                 "spawn": [-11.5, 2.3, -18], "spawn_yaw": 90,
+                 "spawn": [-11.5, 2.3, -18], "spawn_yaw": -90,
                  "prompt": "Descend the Stair of Light"}],
 }
 

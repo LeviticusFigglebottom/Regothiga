@@ -122,8 +122,9 @@ void fragment() {
 	} else if (state_mode == 2) {
 		presence = ruin;
 	}
-	float diss_n = hash13(floor(v_world_pos * 8.0));
+	float diss_n = 0.0;
 	if (presence < 0.999) {
+		diss_n = hash13(floor(v_world_pos * 8.0));
 		if (presence < diss_n) {
 			discard;
 		}
@@ -212,7 +213,7 @@ void fragment() {
 	}
 
 	// Micro-grain surface normal perturbation for un-textured or weathered stone
-	vec3 micro_n = vec3(n2 - 0.5, vnoise(v_world_pos * detail_scale * 4.1 + 3.0) - 0.5, n1 - 0.5) * 0.16 * detail_strength;
+	vec3 micro_n = vec3(n2 - 0.5, fract(n1 + n2) - 0.5, n1 - 0.5) * 0.16 * detail_strength;
 	world_nrm = normalize(world_nrm + micro_n);
 	NORMAL = normalize((VIEW_MATRIX * vec4(world_nrm, 0.0)).xyz);
 
@@ -224,7 +225,7 @@ void fragment() {
 	float arch_grime = 0.0;
 	if (use_local_triplanar == 0 && albedo_from_vc == 0) {
 		float wall_mask = clamp(1.0 - abs(world_nrm.y) * 1.4, 0.0, 1.0);
-		float streak_n = vnoise(vec3(v_world_pos.x * 2.2, v_world_pos.y * 0.32, v_world_pos.z * 2.2));
+		float streak_n = (wall_mask > 0.001) ? vnoise(vec3(v_world_pos.x * 2.2, v_world_pos.y * 0.32, v_world_pos.z * 2.2)) : 1.0;
 		float ground_damp = (1.0 - smoothstep(0.0, 0.92, max(v_world_pos.y, 0.0))) * (0.55 + 0.45 * n_macro);
 		arch_grime = clamp(wall_mask * ((1.0 - streak_n) * 0.18 + ground_damp * 0.34) + ground_damp * 0.16, 0.0, 0.48);
 	}

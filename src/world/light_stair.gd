@@ -131,7 +131,7 @@ func _ready() -> void:
 	add_child(motes)
 	# one smooth ramp collider under the flight, one slab under the landing,
 	# plus side guardrail colliders so the pilgrim cannot slip into the void
-	var bit := AreaBuilder._tag_bit("glory")
+	var bit := AreaBuilder._tag_bit(String(get_meta("state_tag", "base")))
 	var ramp := StaticBody3D.new()
 	ramp.collision_layer = 1 << (bit - 1)
 	ramp.collision_mask = 0
@@ -222,8 +222,9 @@ func _ready() -> void:
 func _apply(on: bool) -> void:
 	_shown = on
 	visible = on
+	var bit := AreaBuilder._tag_bit(String(get_meta("state_tag", "base")))
 	for b in _bodies:
-		(b as StaticBody3D).collision_layer = (1 << (AreaBuilder._tag_bit("glory") - 1)) if on else 0
+		(b as StaticBody3D).collision_layer = (1 << (bit - 1)) if on else 0
 	if _portal != null:
 		_portal._zone.enabled = on
 	if on and get_parent() != null and get_parent().get_parent() != null:
@@ -235,5 +236,7 @@ func _apply(on: bool) -> void:
 					c.visible = false
 					if c is StaticBody3D:
 						(c as StaticBody3D).collision_layer = 0
+						c.set_meta("orig_layer", 0)
 					for sb in c.find_children("*", "StaticBody3D", true, false):
 						(sb as StaticBody3D).collision_layer = 0
+						sb.set_meta("orig_layer", 0)

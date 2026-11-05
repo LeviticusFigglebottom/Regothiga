@@ -227,42 +227,64 @@ def _gauntlet_and_couter(b, side, s, mat_plate, g=1.0):
 
 
 def _greave_and_sabaton(b, side, s, mat_plate, g=1.0):
-    """Articulated thigh cuisse, knee poleyn, anatomical shin greave, and laminated sabaton."""
+    """Articulated thigh cuisse, knee poleyn, anatomical shin greave, and grounded Gothic sabaton."""
     h, t = _bone_vec(f"thigh_{side}")
     bm_th = b.part(f"thigh_{side}", mat_plate)
     _tube(bm_th, h, t, 0.088 * g, 0.070 * g, n=14, steps=4, bulge=1.06, ridge_fwd=0.10)
     bm_k = b.joint(f"thigh_{side}", f"shin_{side}", mat_plate)
-    _ball(bm_k, tuple(t + Vector((0, 0.020, 0.01))), 0.072 * g, sub=2, scale=(0.96, 1.20, 1.06))
+    _ball(bm_k, tuple(t + Vector((0, 0.024, 0.008))), 0.072 * g, sub=2, scale=(1.00, 1.22, 1.08))
     bm_s = b.part(f"shin_{side}", mat_plate)
     h2, t2 = _bone_vec(f"shin_{side}")
-    _tube(bm_s, h2, t2, 0.076 * g, 0.060 * g, n=14, steps=5, bulge=1.10, squash=(0.96, 1.08), ridge_fwd=0.16)
-    _tube(bm_s, h2 + (t2 - h2) * 0.78, t2, 0.062 * g, 0.068 * g, n=14, steps=2, squash=(0.96, 1.10))
+    # Anatomical gastrocnemius calf swell tapering cleanly down to a trim ankle greave
+    _tube(bm_s, h2, h2 + (t2 - h2) * 0.62, 0.076 * g, 0.068 * g, n=14, steps=4,
+          bulge=1.10, squash=(0.94, 1.10), ridge_fwd=0.16)
+    _tube(bm_s, h2 + (t2 - h2) * 0.58, t2, 0.068 * g, 0.054 * g, n=14, steps=3,
+          squash=(0.94, 1.08), ridge_fwd=0.14)
+    # Malleolus ankle ball joint so foot flexion never gaps
+    bm_a = b.joint(f"shin_{side}", f"foot_{side}", mat_plate)
+    _ball(bm_a, tuple(t2 + Vector((0, 0.004, -0.005))), 0.055 * g, sub=2, scale=(1.02, 1.10, 0.94))
     bm_ft = b.part(f"foot_{side}", mat_plate)
     h3, t3 = _bone_vec(f"foot_{side}")
-    _tube(bm_ft, h3 + Vector((0, -0.02, 0.01)), t3 + Vector((0, 0.03, -0.005)),
-          0.062 * g, 0.046 * g, n=12, steps=4, squash=(1.0, 0.82), ridge_fwd=0.14)
+    # 1. Vertical heel counter planting the back of the boot solidly on z=0
+    _tube(bm_ft, Vector((h3.x, h3.y - 0.006, 0.112)), Vector((h3.x, h3.y - 0.012, 0.010)),
+          0.054 * g, 0.056 * g, n=12, steps=2, squash=(0.98, 1.12))
+    # 2. Horizontal planted boot sole & lower sabaton running flat along the ground from heel to toe
+    _tube(bm_ft, Vector((h3.x, h3.y - 0.052, 0.034)), Vector((t3.x, t3.y + 0.042, 0.028)),
+          0.056 * g, 0.048 * g, n=12, steps=4, bulge=1.06, squash=(1.14, 0.60), ridge_fwd=0.08)
+    # 3. Articulated dorsal sabaton arch & pointed Gothic toe lames
+    _tube(bm_ft, Vector((h3.x, h3.y + 0.005, 0.092)), Vector((t3.x, t3.y + 0.052, 0.024)),
+          0.054 * g, 0.032 * g, n=12, steps=4, flutes=6, flute_amp=0.025, squash=(1.08, 0.76), ridge_fwd=0.16)
 
 
-def _knight_helm(b, mat_plate, mat_visor="M_iron", g=1.0, crest=True):
-    """Sculpted Dark Souls knight bascinet/sallet with houndskull visor and eye slit."""
+def _knight_helm(b, mat_plate, mat_trim="M_iron", g=1.0, crest=True):
+    """Sculpted Dark Souls knight bascinet/sallet with shadowed eye-slit and bevelled visor."""
+    # Recessed dark gunmetal-iron visor interior (strictly smaller radius than outer plates)
+    bm_dark = b.part("head", "M_iron")
+    _tube(bm_dark, Vector((0, 0.022 * g, 1.592)), Vector((0, 0.022 * g, 1.628)),
+          0.106 * g, 0.106 * g, n=14, steps=2, squash=(0.94, 1.06), ridge_fwd=0.14)
     bm = b.part("head", mat_plate)
     # Skullcap dome
-    _ball(bm, (0, 0.01, 1.63), 0.118 * g, sub=2, scale=(0.96, 1.08, 1.08))
+    _ball(bm, (0, 0.01, 1.635), 0.118 * g, sub=2, scale=(0.96, 1.08, 1.08))
     # Gorget / bevelled neck guard
-    _tube(bm, Vector((0, -0.005, 1.46)), Vector((0, 0.008, 1.56)),
-          0.132 * g, 0.112 * g, n=16, steps=3, squash=(1.02, 1.06))
-    # Angled visor plate below the eye-slit
-    _tube(bm, Vector((0, 0.025, 1.53)), Vector((0, 0.045, 1.605)),
-          0.112 * g, 0.118 * g, n=14, steps=2, ridge_fwd=0.22)
-    # Brow plate above the eye-slit
-    _tube(bm, Vector((0, 0.02, 1.622)), Vector((0, 0.015, 1.67)),
-          0.118 * g, 0.112 * g, n=14, steps=2, ridge_fwd=0.14)
+    _tube(bm, Vector((0, -0.005, 1.46)), Vector((0, 0.008, 1.555)),
+          0.132 * g, 0.114 * g, n=16, steps=3, squash=(1.02, 1.06))
+    # Angled houndskull/bevor visor plate below the eye-slit (covers seamlessly up to z=1.606)
+    _tube(bm, Vector((0, 0.020, 1.520)), Vector((0, 0.040, 1.606)),
+          0.116 * g, 0.120 * g, n=14, steps=3, squash=(0.96, 1.08), ridge_fwd=0.22)
+    # Overhanging brow plate above the eye-slit (starts at z=1.615, leaving a crisp 9mm dark slit)
+    _tube(bm, Vector((0, 0.024, 1.615)), Vector((0, 0.014, 1.672)),
+          0.121 * g, 0.113 * g, n=14, steps=2, squash=(0.96, 1.08), ridge_fwd=0.16)
+    # Slender vertical nasal bar & cheek guards framing the visor slit
+    V.add_box(bm, (-0.007 * g, 0.118 * g, 1.598), (0.007 * g, 0.145 * g, 1.620))
+    for sx in (-1, 1):
+        V.add_box(bm, (sx * 0.068 * g - 0.012 * g, 0.065 * g, 1.598), (sx * 0.068 * g + 0.012 * g, 0.118 * g, 1.620))
     if crest:
         # Sagittal helm crest
-        V.add_box(bm, (-0.012 * g, -0.09 * g, 1.64), (0.012 * g, 0.11 * g, 1.765))
-    # Recessed dark visor slit
-    bm_v = b.part("head", mat_visor)
-    V.add_box(bm_v, (-0.068 * g, 0.088 * g, 1.602), (0.068 * g, 0.138 * g, 1.626))
+        V.add_box(bm, (-0.011 * g, -0.09 * g, 1.64), (0.011 * g, 0.105 * g, 1.762))
+    # Subtle metallic crown fillet around the upper temple
+    bm_tr = b.part("head", mat_trim)
+    _tube(bm_tr, Vector((0, 0.016, 1.662)), Vector((0, 0.014, 1.674)),
+          0.115 * g, 0.112 * g, n=14, steps=1, squash=(0.96, 1.08), ridge_fwd=0.14)
 
 
 def _bone_vec(name):
@@ -413,10 +435,17 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
         _ball(bm, tuple(t), 0.062 * g, sub=2)
         bm = b.part(f"shin_{side}", boot_mat)
         h2, t2 = _bone_vec(f"shin_{side}")
-        _tube(bm, h2, t2, 0.058 * g, 0.048 * g, 14, steps=4, bulge=1.05)
+        _tube(bm, h2, t2, 0.060 * g, 0.048 * g, 14, steps=4, bulge=1.06, squash=(0.94, 1.06))
+        bm = b.joint(f"shin_{side}", f"foot_{side}", boot_mat)
+        _ball(bm, tuple(t2 + Vector((0, 0.002, -0.004))), 0.048 * g, sub=2, scale=(1.0, 1.08, 0.92))
         bm = b.part(f"foot_{side}", boot_mat)
         h3, t3 = _bone_vec(f"foot_{side}")
-        _tube(bm, h3 + Vector((0, -0.01, 0.01)), t3, 0.052 * g, 0.042 * g, 12, steps=3, squash=(1.0, 0.8))
+        _tube(bm, Vector((h3.x, h3.y - 0.005, 0.108)), Vector((h3.x, h3.y - 0.010, 0.012)),
+              0.048 * g, 0.050 * g, 12, steps=2, squash=(0.96, 1.10))
+        _tube(bm, Vector((h3.x, h3.y - 0.045, 0.032)), Vector((t3.x, t3.y + 0.025, 0.026)),
+              0.050 * g, 0.042 * g, 12, steps=3, bulge=1.04, squash=(1.10, 0.60))
+        _tube(bm, h3 + Vector((0, 0.002, -0.008)), t3 + Vector((0, 0.032, -0.006)),
+              0.048 * g, 0.030 * g, 12, steps=3, squash=(1.04, 0.76))
     # neck + sculpted head + brow/jawline (closed-helm knights wear a dark mail
     # coif under the helm so pitching the head forward never exposes a pale chin)
     bm = b.joint("chest", "head", under_mat)
@@ -474,8 +503,8 @@ def hero(arm):
     bm_m = b.part("chest", "M_robe")
     _tube(bm_m, Vector((0, -0.01, 1.38)), Vector((0, -0.005, 1.445)), 0.192, 0.124, n=16,
           steps=3, flutes=10, flute_amp=0.03, squash=(1.12, 0.88))
-    # Gorget collar & brass chest trim
-    bm_g = b.part("chest", "M_brass")
+    # Gorget collar & steel chest trim
+    bm_g = b.part("chest", "M_steel")
     _tube(bm_g, Vector((0, 0, 1.43)), Vector((0, 0, 1.465)), 0.136, 0.114, n=16, steps=2, squash=(1.02, 0.92))
     # Armored besagew rondels guarding the shoulder joints
     bm_rd = b.part("chest", "M_plate_dark")
@@ -489,8 +518,8 @@ def hero(arm):
     _tube(bm_h, Vector((-0.185, 0.08, 1.08)), Vector((-0.205, -0.06, 0.88)), 0.020, 0.012, n=8, steps=2)
     bm_tass = b.part("hips", "M_plate_dark")
     _tube(bm_tass, Vector((0, 0, 0.94)), Vector((0, 0, 1.07)), 0.186, 0.172, n=16, steps=3, flutes=6, flute_amp=0.04, squash=(1.10, 0.92))
-    # Full Dark Souls Elite Knight bascinet helm with brass visor & crest
-    _knight_helm(b, "M_plate_dark", "M_brass", g=1.04, crest=True)
+    # Full Dark Souls Elite Knight bascinet helm with shadowed eye-slit, steel crown fillet & crest
+    _knight_helm(b, "M_plate_dark", "M_steel", g=1.04, crest=True)
     # Articulated 3-lame pauldrons, gauntlets, and greaves
     for side, s in (("r", 1), ("l", -1)):
         _pauldron(b, side, s, "M_plate_dark", "M_brass", r=0.094, z=1.41)

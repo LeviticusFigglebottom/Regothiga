@@ -436,11 +436,18 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
 	var cy := (band_from + ceil_h) * 0.5
 	var ch := maxf(ceil_h - band_from, 0.1)
+	var skip_bands := {}
+	for sb in spec.get("skip_bands", []):
+		skip_bands[String(sb)] = true
 	# north / south (span x), east / west (span z)
-	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
-	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
-	_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
-	_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+	if not skip_bands.has("N"):
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+	if not skip_bands.has("S"):
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+	if not skip_bands.has("W"):
+		_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+	if not skip_bands.has("E"):
+		_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
 
 ## A flat, sensibly-high coffered ceiling: a stone lid a little above the wall
 ## cornice, crossed by warm timber beams, with a short clerestory band sealing
@@ -521,13 +528,19 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 static func _state_mode(tag: String) -> int:
 	return 1 if tag == "glory" else (2 if tag == "ruin" else 0)
 
+static var _box_mesh_cache: Dictionary = {}
+
 ## A solid box of geometry (roof slab / clerestory strip) attached to a layer.
 static func _roof_box(area: Area, tag: String, mat: Material, center: Vector3, size: Vector3) -> void:
 	var mi := MeshInstance3D.new()
-	var bm := BoxMesh.new()
-	bm.size = size
+	var bm: BoxMesh = _box_mesh_cache.get(size)
+	if bm == null:
+		bm = BoxMesh.new()
+		bm.size = size
+		_box_mesh_cache[size] = bm
 	mi.mesh = bm
 	mi.material_override = mat
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	mi.position = center
 	area.attach(mi, tag)
 
