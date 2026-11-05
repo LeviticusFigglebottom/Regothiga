@@ -515,10 +515,11 @@ func _process(dt: float) -> void:
 		var it = Game.player.nearest_interactable()
 		var remote_cam := cam != null and cam.name == "ShotCam"
 		# a menu or cutscene owns the screen: the world's prompts wait outside it
-		if it == null or not Game.player.input_enabled or Game.player.busy_in_menu() or PauseUI.is_open() or remote_cam:
-			prompt_label.text = ""
-		else:
-			prompt_label.text = "[E]  %s" % it.prompt
+		var want_prompt := ""
+		if it != null and Game.player.input_enabled and not Game.player.busy_in_menu() and not PauseUI.is_open() and not remote_cam:
+			want_prompt = "[E]  %s" % it.prompt
+		if prompt_label.text != want_prompt:
+			prompt_label.text = want_prompt
 	if _prompt_plate != null:
 		_prompt_plate.visible = prompt_label.text != ""
 	# boss bar track

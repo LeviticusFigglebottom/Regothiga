@@ -119,6 +119,8 @@ func _ready() -> void:
 	p.emitting = true
 
 func _process(dt: float) -> void:
+	if not is_visible_in_tree():
+		return
 	_t += dt
 	for b in _blades:
 		var k: float = 0.65 + 0.35 * sin(_t * b["sp"] + b["ph"])

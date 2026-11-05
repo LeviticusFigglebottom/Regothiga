@@ -92,6 +92,10 @@ func dismiss() -> void:
 func _process(dt: float) -> void:
 	_show_t = maxf(0.0, _show_t - dt)
 	var want := 1.0 if (_show_t > 0.0 or _forced) else 0.0
+	if _alpha <= 0.001 and want <= 0.0 and absf(_ratio - _target) < 0.001 and absf(_ghost_ratio - _ratio) < 0.001:
+		if visible:
+			visible = false
+		return
 	_alpha = move_toward(_alpha, want, dt * _FADE)
 	_ratio = move_toward(_ratio, _target, dt * _DRAIN)
 	_ghost_ratio = maxf(_ratio, _ghost_ratio - dt * _GHOST)

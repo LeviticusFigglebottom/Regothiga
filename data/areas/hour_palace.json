@@ -251,7 +251,10 @@
    "flat": true,
    "coffer": true,
    "lid_mat": "M_marble",
-   "beam_mat": "M_gold"
+   "beam_mat": "M_gold",
+   "skip_bands": [
+    "N"
+   ]
   },
   {
    "min": [
@@ -314,7 +317,10 @@
    "flat": true,
    "coffer": true,
    "lid_mat": "M_marble",
-   "beam_mat": "M_gold"
+   "beam_mat": "M_gold",
+   "skip_bands": [
+    "N"
+   ]
   },
   {
    "min": [

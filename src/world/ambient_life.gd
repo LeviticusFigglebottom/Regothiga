@@ -81,6 +81,21 @@ func _build_motes(ash: bool) -> void:
 func _build_birds() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = int(global_position.x * 13 + global_position.z * 7)
+	var mat_a := StandardMaterial3D.new()
+	mat_a.albedo_color = Color(0.28, 0.25, 0.22)
+	mat_a.roughness = 0.88
+	var mat_b := StandardMaterial3D.new()
+	mat_b.albedo_color = Color(0.38, 0.34, 0.29)
+	mat_b.roughness = 0.88
+	var beak_mat := StandardMaterial3D.new()
+	beak_mat.albedo_color = Color(0.76, 0.62, 0.28)
+	beak_mat.roughness = 0.55
+	var bkm := CylinderMesh.new()
+	bkm.top_radius = 0.001
+	bkm.bottom_radius = 0.007
+	bkm.height = 0.022
+	bkm.radial_segments = 6
+	bkm.material = beak_mat
 	for i in count:
 		var home := Vector3(rng.randf_range(-extent[0] * 0.5, extent[0] * 0.5), 0.05,
 				rng.randf_range(-extent[2] * 0.5, extent[2] * 0.5))
@@ -88,13 +103,7 @@ func _build_birds() -> void:
 		add_child(bird)
 		bird.position = home
 		bird.rotation.y = rng.randf_range(0, TAU)
-		var mat := StandardMaterial3D.new()
-		mat.albedo_color = Color(0.28, 0.25, 0.22) if rng.randf() < 0.5 \
-				else Color(0.38, 0.34, 0.29)
-		mat.roughness = 0.88
-		var beak_mat := StandardMaterial3D.new()
-		beak_mat.albedo_color = Color(0.76, 0.62, 0.28)
-		beak_mat.roughness = 0.55
+		var mat := mat_a if rng.randf() < 0.5 else mat_b
 
 		# Plump ovoid songbird body + head + beak + fan tail
 		var body_root := Node3D.new()
@@ -127,12 +136,6 @@ func _build_birds() -> void:
 		body_root.add_child(head)
 
 		var beak := MeshInstance3D.new()
-		var bkm := CylinderMesh.new()
-		bkm.top_radius = 0.001
-		bkm.bottom_radius = 0.007
-		bkm.height = 0.022
-		bkm.radial_segments = 6
-		bkm.material = beak_mat
 		beak.mesh = bkm
 		beak.position = Vector3(0, 0.030, -0.074)
 		beak.rotation.x = deg_to_rad(-84)
@@ -180,6 +183,8 @@ func _build_birds() -> void:
 func _physics_process(_dt: float) -> void:
 	if kind != "birds":
 		set_physics_process(false)
+		return
+	if not is_visible_in_tree():
 		return
 	var p = Game.player
 	if p == null:

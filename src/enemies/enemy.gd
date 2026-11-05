@@ -368,7 +368,8 @@ func _pick_attack(dist: float) -> Dictionary:
 ## while damage followed the data windup, so slow attacks (the Bellkeeper's
 ## 1.1-1.5 s slams) visibly struck half a second before the damage arrived.
 const _CONTACT := {"atk_r": 0.56, "atk_thrust": 0.58, "atk_over": 0.58,
-		"atk_back": 0.5, "atk_spin": 0.5, "atk_double": 0.56, "atk_cast": 0.4}
+		"atk_back": 0.5, "atk_spin": 0.5, "atk_double": 0.56, "atk_cast": 0.4,
+		"atk_2h_cleave": 0.51, "atk_2h_sweep": 0.50, "atk_2h_thrust": 0.50}
 
 func _begin_attack(a: Dictionary) -> void:
 	_atk = a

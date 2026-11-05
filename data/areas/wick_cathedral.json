@@ -65,7 +65,10 @@
         -38
       ],
       "spring_top": 8.0,
-      "band_from": 8.0
+      "band_from": 8.0,
+      "skip_bands": [
+        "S"
+      ]
     }
   ],
   "rows": [

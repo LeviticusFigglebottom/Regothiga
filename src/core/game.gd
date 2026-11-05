@@ -248,6 +248,7 @@ func _exit_tree() -> void:
 	AudioDirector.shutdown()
 	KitLib._scene_cache.clear()
 	KitLib._shape_cache.clear()
+	AreaBuilder._box_mesh_cache.clear()
 	MaterialLib._cache.clear()
 	MaterialLib._tex_cache.clear()
 	AmbientLife._mote_tex = null

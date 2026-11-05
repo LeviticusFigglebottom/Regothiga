@@ -161,7 +161,8 @@ for s in (1, -1):
     VF.append({"min": [a, 0, 24], "max": [b, 0, 28], "band_mat": "M_marble",
                "skip_bands": ["N"]})                                        # cross-corridor
     VF.append({"min": [a, 0, 28], "max": [b, 0, 40], "flat": True,      # room 3:
-               "coffer": True, "lid_mat": "M_marble", "beam_mat": "M_gold"})  # gilt coffers
+               "coffer": True, "lid_mat": "M_marble", "beam_mat": "M_gold",
+               "skip_bands": ["N"]})                                    # gilt coffers
     VF.append({"min": [g0, 0, 8], "max": [g1, 0, 40], "spring_top": 8,
                "band_from": 8, "band_mat": "M_marble"})                 # long gallery
 

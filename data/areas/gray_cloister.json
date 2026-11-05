@@ -213,7 +213,10 @@
         0,
         0
       ],
-      "flat": true
+      "flat": true,
+      "skip_bands": [
+        "E"
+      ]
     },
     {
       "min": [
@@ -226,7 +229,11 @@
         0,
         -12
       ],
-      "flat": true
+      "flat": true,
+      "skip_bands": [
+        "E",
+        "S"
+      ]
     },
     {
       "min": [
@@ -239,7 +246,10 @@
         0,
         20
       ],
-      "flat": true
+      "flat": true,
+      "skip_bands": [
+        "N"
+      ]
     },
     {
       "min": [
@@ -252,7 +262,11 @@
         0,
         -12
       ],
-      "flat": true
+      "flat": true,
+      "skip_bands": [
+        "W",
+        "S"
+      ]
     }
   ],
   "open_air_regions": [
@@ -2114,7 +2128,7 @@
         0,
         -9.7
       ],
-      "rot": 45,
+      "rot": -135,
       "tag": "ruin"
     },
     {
@@ -2124,7 +2138,7 @@
         0,
         9.7
       ],
-      "rot": -135,
+      "rot": 45,
       "tag": "ruin"
     },
     {
