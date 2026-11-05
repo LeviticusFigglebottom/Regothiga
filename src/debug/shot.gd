@@ -76,6 +76,9 @@ func _process(_d: float) -> void:
 				get_tree().quit()
 	if _shot_path == "" or _frames_left < 0 or not _seq.is_empty():
 		return
+	if _cam_spec != "" and not _trigger_flask and Game.player != null and Game.player.hurtbox != null:
+		Game.player.hurtbox.monitorable = false
+		Game.player.hurtbox.monitoring = false
 	if _frames_left == 12 and _open_satchel and Game.player != null:
 		for wid in ["marsh_spear", "pilgrim_greatsword", "sexton_maul", "ward_halberd", "lark_bow"]:
 			Game.player.give_item(wid, 1)

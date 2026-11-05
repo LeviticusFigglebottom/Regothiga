@@ -513,8 +513,7 @@ func _process(dt: float) -> void:
 	# interact prompt
 	if Game.player != null and not Game.player.dead:
 		var it = Game.player.nearest_interactable()
-		var remote_cam := cam != null and cam.name == "ShotCam" \
-				and cam.global_position.distance_to(Game.player.global_position) > 5.0
+		var remote_cam := cam != null and cam.name == "ShotCam"
 		# a menu or cutscene owns the screen: the world's prompts wait outside it
 		if it == null or not Game.player.input_enabled or Game.player.busy_in_menu() or PauseUI.is_open() or remote_cam:
 			prompt_label.text = ""

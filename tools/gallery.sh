@@ -3,8 +3,8 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 SD=$(mktemp -d)
-shot() { # file area state cam
-  rm -rf "$SD/g"; tools/shot.sh "docs/gallery/$1" "--area=$2" "--state=$3" "--save-dir=$SD/g" "--shot-cam=$4" --shot-frames=55 2>&1 | tail -1
+shot() { # file area state cam [extra_args...]
+  rm -rf "$SD/g"; tools/shot.sh "docs/gallery/$1" "--area=$2" "--state=$3" "--save-dir=$SD/g" "--shot-cam=$4" --shot-frames=55 "${@:5}" 2>&1 | tail -1
 }
 shot porch_spawn.png       gray_cloister glory  "-18.5,1.7,-2,-90,-4,62"
 shot west_walk_glory.png   gray_cloister glory  "-10,1.7,10.5,0,-2,60"
@@ -63,7 +63,7 @@ shot wick_nave_glory.png       wick_cathedral glory "0,1.8,-4,0,4,66"
 # pass W: Gilded Sanctum, Palace of the Kept Hour, Morrow's Keep
 shot sanctum_avenue_glory.png  gilded_sanctum glory "0,2.2,8,0,4,70"
 shot sanctum_avenue_ruin.png   gilded_sanctum ruin  "0,2.2,8,0,4,70"
-shot palace_nave_glory.png     hour_palace glory    "0,2.2,-12,0,4,68"
-shot palace_waxworks_ruin.png  hour_palace ruin     "-18,2.2,-30,15,-4,68"
-shot morrow_hall_glory.png     morrow_keep glory    "0,2.2,-14,0,4,68"
+shot palace_nave_glory.png     hour_palace glory    "0,2.4,10,-180,4,68" --flag=scion_heard
+shot palace_waxworks_ruin.png  hour_palace ruin     "-18,2.0,28,-180,-4,75" --flag=scion_heard
+shot morrow_hall_glory.png     morrow_keep glory    "0,2.0,6,-180,4,68"
 echo "gallery done"

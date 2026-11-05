@@ -17,7 +17,7 @@ The Evening Kingdom fell on the night the sun set and did not rise. Its Vigil La
 
 ## The Kingdom
 
-Eleven regions, each authored in both states, each with its own warden:
+Thirteen regions, each authored in both states, each with its own warden:
 
 - **The Gray Cloister** — the teaching ground: garth, chandlery, bone garden, and the **Bellkeeper**'s yard.
 - **The Basilica Porch & Terrace** — the gilded city overlook, close-ring houses, services.
@@ -29,8 +29,16 @@ Eleven regions, each authored in both states, each with its own warden:
 - **Vigil's End** — the shrine at the kingdom's edge and the **First Vigilant**.
 - **The Old Outskirts** — the town beneath the parish: lamplit lanes, word-stones, the clocktower square.
 - **The Parish of the First Wick** — radiant by default, its congregation still praying; the Prior teaches the rites, and behind the lantern room waits **the Immortalized**, who fights the way you do — and does not stay down at half his wax.
+- **The Gilded Sanctum** — the white-marble upper terrace above the parish; the Offices of Light and the Bell-House flank the avenue to the Hour.
+- **The Palace of the Hour** — the coffered marble halls where the morning was kept; the Scion of Light reads your debt at the threshold, the Mother Bell and the Unlit Procession guard the Hour Gate, and in the antechamber the **Unlit Saint** answers prayer.
+- **Morrow's Keep** — the high seat above the clouds; three trials of the sworn unbar the sanctum where **Morrow, First of the Kept**, holds the last hour.
 
 ![The Parish of the First Wick](docs/gallery/wick_nave_glory.png)
+
+| | |
+|---|---|
+| ![The Gilded Sanctum in glory](docs/gallery/sanctum_avenue_glory.png) | ![The Gilded Sanctum in ruin](docs/gallery/sanctum_avenue_ruin.png) |
+| ![The Palace of the Hour](docs/gallery/palace_nave_glory.png) | ![Morrow's Keep](docs/gallery/morrow_hall_glory.png) |
 
 ## The Rites
 
@@ -40,7 +48,7 @@ Prior Anselm of the First Wick teaches magic for orisons. Learning your first ri
 - **Radiant Blast** — a thrown coal of remembered daylight.
 - **Radiant Burst** — the whole candle at once; everything nearby learns what noon was.
 
-Attune one rite in the satchel's **Rites** leaf (Tab) and cast it with **C**. Rest to rekindle the wick.
+Attune one rite in the satchel's **Rites** leaf (Tab) and cast it with **X**. Rest to rekindle the wick.
 
 ## Running the game
 
@@ -108,9 +116,10 @@ All assets are generated and committed; you only need these to *regenerate*:
 
 ```sh
 pip install bpy==4.5.11   # Blender 4.5 LTS as a Python module
-python3 tools/gen_assets.py      # gothic kit (157 pieces) + painterly maps -> assets/
-python3 tools/gen_ui_art.py      # hotbar/rite icons + splash -> assets/ui/
-python3 tools/audio/synth.py     # synthesized SFX/ambience -> assets/audio/*.wav
+python3 tools/gen_assets.py              # gothic kit (187 pieces) -> assets/kit/
+python3 tools/textures/gen_textures.py   # 1024x1024 PBR maps (albedo/normal/rough/ao) -> assets/textures/
+python3 tools/gen_ui_art.py              # hotbar/rite icons + splash -> assets/ui/
+python3 tools/audio/synth.py             # synthesized SFX/ambience -> assets/audio/*.wav
 ```
 
 Boss battle hymns (one per warden), NPC voice lines and the credits reel audio
