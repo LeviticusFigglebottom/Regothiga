@@ -307,28 +307,89 @@ def crate_stack():
 
 
 def hand_cart():
+    """Two-wheeled merchant hand-cart: planked bed with slatted side-rails and
+    corner stakes, iron-tired 8-spoke wooden wheels on an under-axle, resting
+    pull-shafts with prop legs, and a corded cloth cargo bale."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.55, -0.9, 0.5), (0.55, 0.9, 0.62))          # bed
-    for sy in (-0.85, 0.85):
-        V.add_box(bm, (-0.55, sy - 0.04, 0.62), (0.55, sy + 0.04, 0.95))
-    objs.append(V.bm_to_object(bm, "cart", ("M_wood",)))
-    # pull shafts: rooted under the bed, sloping to their resting grips
-    bm = bmesh.new()
-    for sx in (-0.5, 0.42):
-        a = bm.verts.new((sx, 0.6, 0.56))
-        b = bm.verts.new((sx, 2.0, 0.34))
-        c = bm.verts.new((sx, 2.0, 0.24))
-        d = bm.verts.new((sx, 0.6, 0.46))
+    # Planked cart bed + cross-bolsters
+    V.add_box(bm, (-0.55, -0.90, 0.50), (0.55, 0.90, 0.58))
+    for sy in (-0.85, 0.0, 0.85):
+        V.add_box(bm, (-0.56, sy - 0.05, 0.44), (0.56, sy + 0.05, 0.50))
+    # Corner and mid stake-posts + slatted side & end rails
+    for sx in (-0.53, 0.53):
+        for sy in (-0.86, 0.0, 0.86):
+            V.add_box(bm, (sx - 0.035, sy - 0.035, 0.56), (sx + 0.035, sy + 0.035, 0.96))
+        for rz in (0.68, 0.86):
+            V.add_box(bm, (sx - 0.025, -0.90, rz), (sx + 0.025, 0.90, rz + 0.06))
+    for sy in (-0.86, 0.86):
+        for rz in (0.66, 0.84):
+            V.add_box(bm, (-0.55, sy - 0.025, rz), (0.55, sy + 0.025, rz + 0.07))
+    # Pull shafts rooted under the bed, sloping to resting grips + front prop legs
+    for sx in (-0.46, 0.46):
+        a = bm.verts.new((sx - 0.035, 0.60, 0.54))
+        b = bm.verts.new((sx - 0.035, 2.00, 0.32))
+        c = bm.verts.new((sx - 0.035, 2.00, 0.24))
+        d = bm.verts.new((sx - 0.035, 0.60, 0.46))
         bm.faces.new((a, b, c, d))
-    bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.08)
-    objs.append(V.bm_to_object(bm, "shafts", ("M_wood",)))
+        V.add_box(bm, (sx - 0.03, 1.25, 0.0), (sx + 0.03, 1.31, 0.40))
+    bmesh.ops.solidify(bm, geom=[f for f in bm.faces if len(f.verts) == 4 and abs(f.normal.x) > 0.9], thickness=0.07)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    # Spokes for both wheels (8 radial spokes per wheel in X = +-0.62 plane)
     for sx in (-0.62, 0.62):
-        w = V.loft_rings("wheel", [(0.32, -0.03, 12, 0), (0.32, 0.03, 12, 0)], "M_wood")
-        w.rotation_euler = (0, math.pi / 2, 0)
-        w.location = (sx, 0.0, 0.32)
-        objs.append(w)
-    return objs, {"size": [1.4, 3.0, 0.95], "origin": "bottom-center"}
+        for k in range(4):
+            ang = k * math.pi / 4.0
+            cy, cz = math.cos(ang) * 0.28, math.sin(ang) * 0.28
+            py, pz = -math.sin(ang) * 0.022, math.cos(ang) * 0.022
+            vf = [
+                bm.verts.new((sx - 0.02, -cy - py, 0.34 - cz - pz)),
+                bm.verts.new((sx - 0.02, -cy + py, 0.34 - cz + pz)),
+                bm.verts.new((sx - 0.02, cy + py, 0.34 + cz + pz)),
+                bm.verts.new((sx - 0.02, cy - py, 0.34 + cz - pz)),
+            ]
+            vb = [bm.verts.new((sx + 0.02, v.co.y, v.co.z)) for v in vf]
+            bm.faces.new(tuple(reversed(vf)))
+            bm.faces.new(vb)
+            for i in range(4):
+                j = (i + 1) % 4
+                bm.faces.new((vf[i], vf[j], vb[j], vb[i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    objs.append(V.bm_to_object(bm, "cart", ("M_wood",)))
+
+    # Iron under-axle and wheel hubs/tires
+    bm_iron = bmesh.new()
+    V.add_box(bm_iron, (-0.70, -0.04, 0.30), (0.70, 0.04, 0.38))
+    objs.append(V.bm_to_object(bm_iron, "cart_axle", ("M_iron",)))
+
+    for sx in (-0.62, 0.62):
+        # Hollow wooden felloe rim
+        rim = V.loft_rings(
+            "wheel_rim",
+            [
+                (0.33, -0.035, 14, 0),
+                (0.33, 0.035, 14, 0),
+                (0.26, 0.035, 14, 0),
+                (0.26, -0.035, 14, 0),
+                (0.33, -0.035, 14, 0),
+            ],
+            "M_wood",
+            cap_bottom=False,
+            cap_top=False,
+        )
+        rim.rotation_euler = (0, math.pi / 2, 0)
+        rim.location = (sx, 0.0, 0.34)
+        objs.append(rim)
+        # Outer iron tire hoop + hub
+        tire = V.loft_rings("wheel_tire", [(0.34, -0.038, 14, 0), (0.34, 0.038, 14, 0)],
+                            "M_iron", cap_bottom=False, cap_top=False)
+        tire.rotation_euler = (0, math.pi / 2, 0)
+        tire.location = (sx, 0.0, 0.34)
+        objs.append(tire)
+        hub = V.loft_rings("wheel_hub", [(0.075, -0.06, 10, 0), (0.075, 0.06, 10, 0)], "M_wood")
+        hub.rotation_euler = (0, math.pi / 2, 0)
+        hub.location = (sx, 0.0, 0.34)
+        objs.append(hub)
+    return objs, {"size": [1.4, 3.0, 0.96], "origin": "bottom-center"}
 
 
 def _burg_wall_ruin(profile, posts, beam=None):

@@ -22,11 +22,11 @@
  "anvil": {
   "file": "assets/kit/anvil.glb",
   "origin": "bottom-center",
-  "polys": 24,
+  "polys": 147,
   "size": [
    0.8,
-   0.4,
-   0.72
+   0.5,
+   0.77
   ]
  },
  "arcade_4m": {
@@ -741,11 +741,11 @@
  "ferry_skiff": {
   "file": "assets/kit/ferry_skiff.glb",
   "origin": "bottom-center",
-  "polys": 24,
+  "polys": 108,
   "size": [
    3.4,
    1.3,
-   0.8
+   1.1
   ]
  },
  "floor_4x4": {
@@ -805,7 +805,7 @@
  "gate_black": {
   "file": "assets/kit/gate_black.glb",
   "origin": "bottom-center",
-  "polys": 258,
+  "polys": 1158,
   "size": [
    8.6,
    0.6,
@@ -895,11 +895,11 @@
  "hand_cart": {
   "file": "assets/kit/hand_cart.glb",
   "origin": "bottom-center",
-  "polys": 58,
+  "polys": 340,
   "size": [
    1.4,
    3.0,
-   0.95
+   0.96
   ]
  },
  "hanging_chain": {
@@ -1015,10 +1015,10 @@
  "organ_case": {
   "file": "assets/kit/organ_case.glb",
   "origin": "bottom-center",
-  "polys": 246,
+  "polys": 1068,
   "size": [
    2.8,
-   1.0,
+   1.05,
    4.3
   ]
  },
@@ -1173,11 +1173,11 @@
  "pell": {
   "file": "assets/kit/pell.glb",
   "origin": "bottom-center",
-  "polys": 64,
+  "polys": 304,
   "size": [
-   1.0,
-   0.4,
-   1.95
+   1.02,
+   0.84,
+   1.96
   ]
  },
  "penitent_arm": {

@@ -417,14 +417,70 @@ def bellkeeper_arm():
 
 
 def pell():
-    """Training pell for the combat sandbox."""
+    """Training pell for the combat sandbox: heavy timber post in a braced
+    cross-foot base, rope-lashed padded leather torso sack, iron-shod cross-spar
+    arms, practice target buckler, and battered iron kettle-helm crown."""
     objs = []
-    objs.append(V.loft_rings("post", [(0.09, 0, 12, 0), (0.08, 1.9, 12, 0)], "M_wood"))
-    objs.append(V.loft_rings("torso", [(0.16, 0.9, 14, 0), (0.22, 1.2, 14, 0), (0.18, 1.55, 14, 0), (0.08, 1.7, 14, 0)], "M_leather"))
-    bm = bmesh.new()
-    V.add_box(bm, (-0.5, -0.06, 1.32), (0.5, 0.06, 1.44))
-    objs.append(V.bm_to_object(bm, "arms", ("M_wood",)))
-    return objs, {"size": [1.0, 0.4, 1.95], "origin": "bottom-center"}
+    # Main vertical oak post
+    objs.append(V.loft_rings("post", [(0.095, 0.0, 12, 0), (0.088, 0.85, 12, 0), (0.082, 1.82, 12, 0)], "M_wood"))
+    # Crossed timber base sleepers + diagonal knee braces + cross-spar arms
+    bm_wood = bmesh.new()
+    V.add_box(bm_wood, (-0.42, -0.07, 0.0), (0.42, 0.07, 0.10))
+    V.add_box(bm_wood, (-0.07, -0.42, 0.0), (0.07, 0.42, 0.10))
+    for sx in (-1, 1):
+        V.add_box(bm_wood, (sx * 0.10, -0.045, 0.10), (sx * 0.28, 0.045, 0.34))
+    V.add_box(bm_wood, (-0.50, -0.055, 1.32), (0.50, 0.055, 1.43))
+    objs.append(V.bm_to_object(bm_wood, "arms", ("M_wood",)))
+
+    # Quilted/padded leather & burlap torso target sack
+    objs.append(V.loft_rings(
+        "torso",
+        [
+            (0.11, 0.84, 14, 0),
+            (0.19, 0.92, 14, 0),
+            (0.22, 1.15, 14, 0),
+            (0.20, 1.30, 14, 0),
+            (0.22, 1.46, 14, 0),
+            (0.18, 1.60, 14, 0),
+            (0.09, 1.68, 14, 0),
+        ],
+        "M_leather",
+    ))
+    # Hemp rope lashing bands cinching the sack
+    for z_rope, r_rope in ((0.94, 0.202), (1.28, 0.212), (1.56, 0.195)):
+        objs.append(V.loft_rings("rope_band", [(r_rope, z_rope, 14, 0), (r_rope, z_rope + 0.032, 14, 0)],
+                                 "M_bone", cap_bottom=False, cap_top=False))
+
+    # Iron base collar, spar end-ferrules, and battered kettle-helm on top of the post
+    bm_iron = bmesh.new()
+    V.add_box(bm_iron, (-0.11, -0.11, 0.10), (0.11, 0.11, 0.18))
+    for sx in (-0.51, 0.44):
+        V.add_box(bm_iron, (sx, -0.065, 1.31), (sx + 0.07, 0.065, 1.44))
+    objs.append(V.bm_to_object(bm_iron, "pell_iron", ("M_iron",)))
+
+    helm = V.loft_rings(
+        "pell_helm",
+        [
+            (0.17, 1.74, 14, 0),
+            (0.13, 1.78, 14, 0),
+            (0.12, 1.88, 14, 0),
+            (0.08, 1.94, 14, 0),
+            (0.01, 1.96, 14, 0),
+        ],
+        "M_iron",
+    )
+    objs.append(helm)
+
+    # Practice target buckler hung on the left cross-arm (-X, +Y front)
+    buckler = V.loft_rings(
+        "pell_buckler",
+        [(0.18, 0.0, 14, 0), (0.18, 0.025, 14, 0), (0.06, 0.05, 14, 0), (0.01, 0.065, 14, 0)],
+        "M_plate_dark",
+    )
+    buckler.rotation_euler = (-math.pi / 2, 0, 0)
+    buckler.location = (-0.34, 0.065, 1.36)
+    objs.append(buckler)
+    return objs, {"size": [1.02, 0.84, 1.96], "origin": "bottom-center"}
 
 
 def crook_warden():

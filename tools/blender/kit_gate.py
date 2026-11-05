@@ -33,29 +33,88 @@ def portcullis_4m():
 def gate_black():
     """The Black Gate itself: two towering iron-black leaves under a common
     lintel, studded and barred, standing a hand's breadth ajar — the veil
-    hangs in that breach. 8 m wide, 6 m tall. Origin bottom-center."""
+    hangs in that breach. Framed by heavy stone jamb piers, recessed coffer
+    panels, and tarnished gilt-bronze rivet bosses & ring-knockers so the
+    monumental doors read clearly against the dark stone. 8 m wide, 6 m tall.
+    Origin bottom-center."""
     objs = []
-    bm = bmesh.new()
-    # the breach between the leaves is a real 1.5 m opening — wide enough to
-    # walk once the portcullis is winched (the ruin veil hangs in it; in glory
-    # it is the way through). Leaf edges bevel back so it reads pushed-ajar.
-    for s, x0, x1 in ((-1, -3.9, -0.75), (1, 0.75, 3.9)):
-        V.add_box(bm, (x0, -0.14, 0.0), (x1, 0.14, 5.6))
-        # iron bands
-        for z in (0.9, 2.4, 3.9):
-            V.add_box(bm, (x0 - 0.03, -0.2, z - 0.14), (x1 + 0.03, 0.2, z + 0.14))
-        # studs
-        for zi in range(4):
-            for xi in range(4):
-                sx = x0 + 0.5 + xi * (abs(x1 - x0) - 1.0) / 3.0
-                V.add_box(bm, (sx - 0.05, -0.24, 0.5 + zi * 1.3), (sx + 0.05, -0.14, 0.6 + zi * 1.3))
-        # angled reveal on the breach edge (the leaf stands pushed inward)
+    bm_iron = bmesh.new()
+    bm_panel = bmesh.new()
+    bm_gild = bmesh.new()
+
+    # The breach between the leaves is a real 1.5 m opening (-0.75..0.75).
+    # Each leaf spans 3.10 m of width (x = -3.85..-0.75 and 0.75..3.85) and 5.6 m height.
+    for s, x0, x1 in ((-1, -3.85, -0.75), (1, 0.75, 3.85)):
+        # Core iron door slab
+        V.add_box(bm_iron, (x0, -0.12, 0.0), (x1, 0.12, 5.6))
+        # Raised outer stile, inner breach stile, and central vertical muntin
+        xm = 0.5 * (x0 + x1)
+        for sx0, sx1 in ((x0, x0 + 0.24), (xm - 0.11, xm + 0.11), (x1 - 0.24, x1)):
+            V.add_box(bm_iron, (sx0, -0.17, 0.0), (sx1, 0.17, 5.6))
+        # Heavy horizontal iron cross-bars (bottom rail, 3 intermediate bands, top rail)
+        rail_zs = (0.14, 1.35, 2.75, 4.15, 5.42)
+        for z in rail_zs:
+            V.add_box(bm_iron, (x0 - 0.02, -0.20, z - 0.13), (x1 + 0.02, 0.20, z + 0.13))
+        # Recessed bronze-plate coffer fields between stiles and rails (both faces)
+        bay_xs = ((x0 + 0.26, xm - 0.13), (xm + 0.13, x1 - 0.26))
+        bay_zs = ((0.29, 1.20), (1.50, 2.60), (2.90, 4.00), (4.30, 5.27))
+        for bx0, bx1 in bay_xs:
+            for bz0, bz1 in bay_zs:
+                V.add_box(bm_panel, (bx0, -0.145, bz0), (bx1, 0.145, bz1))
+                # Moulded gilt inner fillet rim around each coffer panel so light catches the grid
+                t = 0.028
+                V.add_box(bm_gild, (bx0, -0.16, bz0), (bx1, 0.16, bz0 + t))
+                V.add_box(bm_gild, (bx0, -0.16, bz1 - t), (bx1, 0.16, bz1))
+                V.add_box(bm_gild, (bx0, -0.16, bz0), (bx0 + t, 0.16, bz1))
+                V.add_box(bm_gild, (bx1 - t, -0.16, bz0), (bx1, 0.16, bz1))
+        # Tarnished gilt-bronze pyramid rivet studs along every cross-bar (both faces)
+        for z in rail_zs:
+            for xi in range(5):
+                sx = x0 + 0.20 + xi * (abs(x1 - x0) - 0.40) / 4.0
+                V.add_box(bm_gild, (sx - 0.048, -0.235, z - 0.048), (sx + 0.048, 0.235, z + 0.048))
+        # Wrought ring-knocker & rosette escutcheon mounted on the inner stile at z = 2.05
+        kx = x1 - 0.16 if s < 0 else x0 + 0.16
+        V.add_box(bm_gild, (kx - 0.09, -0.22, 1.98), (kx + 0.09, 0.22, 2.16))
+        # Hollow square/octagonal knocker ring hanging below the escutcheon (both faces)
+        for sy0, sy1 in ((-0.24, -0.18), (0.18, 0.24)):
+            V.add_box(bm_gild, (kx - 0.11, sy0, 1.66), (kx + 0.11, sy1, 1.71))
+            V.add_box(bm_gild, (kx - 0.11, sy0, 1.95), (kx + 0.11, sy1, 2.00))
+            V.add_box(bm_gild, (kx - 0.11, sy0, 1.66), (kx - 0.06, sy1, 2.00))
+            V.add_box(bm_gild, (kx + 0.06, sy0, 1.66), (kx + 0.11, sy1, 2.00))
+        # Angled reveal on the breach edge (the leaf stands pushed inward)
         ex = -0.75 if s < 0 else 0.75
-        V.add_box(bm, (ex - 0.08, 0.14, 0.0), (ex + 0.08, 0.5, 5.6))
-    objs.append(V.bm_to_object(bm, "gate_leaves", ("M_iron",)))
-    lin = bmesh.new()
-    V.add_box(lin, (-4.3, -0.3, 5.6), (4.3, 0.3, 6.4))
-    objs.append(V.bm_to_object(lin, "gate_lintel", ("M_stone_dark",)))
+        V.add_box(bm_iron, (ex - 0.09, 0.12, 0.0), (ex + 0.09, 0.50, 5.6))
+
+    objs.append(V.bm_to_object(bm_iron, "gate_leaves", ("M_iron",)))
+    objs.append(V.bm_to_object(bm_panel, "gate_panels", ("M_bronze",)))
+
+    # Monumental stone jamb piers framing the outer edges under the lintel
+    bm_stone = bmesh.new()
+    bm_trim = bmesh.new()
+    for s in (-1, 1):
+        px0, px1 = (s * 4.30, s * 3.82) if s < 0 else (s * 3.82, s * 4.30)
+        V.add_box(bm_stone, (px0, -0.28, 0.0), (px1, 0.28, 5.6))
+        # Stepped plinth base & impost capital on each jamb pier
+        V.add_box(bm_trim, (px0 - 0.04, -0.30, 0.0), (px1 + 0.04, 0.30, 0.45))
+        V.add_box(bm_trim, (px0 - 0.04, -0.30, 5.25), (px1 + 0.04, 0.30, 5.60))
+        for z_quoin in (1.2, 2.5, 3.8):
+            V.add_box(bm_trim, (px0 - 0.02, -0.29, z_quoin), (px1 + 0.02, 0.29, z_quoin + 0.32))
+    # Heavy stone lintel beam + moulded cornice + keystone block
+    V.add_box(bm_stone, (-4.30, -0.30, 5.60), (4.30, 0.30, 6.40))
+    V.add_box(bm_trim, (-4.34, -0.32, 5.56), (4.34, 0.32, 5.74))
+    V.add_box(bm_trim, (-4.36, -0.34, 6.22), (4.36, 0.34, 6.40))
+    V.add_box(bm_trim, (-0.52, -0.33, 5.54), (0.52, 0.33, 6.42))
+    # Carved eclipsed-sun ring on the lintel keystone (hollow gilt corona around dark stone disc)
+    V.add_box(bm_stone, (-0.20, -0.35, 5.80), (0.20, 0.35, 6.16))
+    for sy0, sy1 in ((-0.36, -0.32), (0.32, 0.36)):
+        V.add_box(bm_gild, (-0.26, sy0, 5.74), (0.26, sy1, 5.80))
+        V.add_box(bm_gild, (-0.26, sy0, 6.16), (0.26, sy1, 6.22))
+        V.add_box(bm_gild, (-0.26, sy0, 5.74), (-0.20, sy1, 6.22))
+        V.add_box(bm_gild, (0.20, sy0, 5.74), (0.26, sy1, 6.22))
+
+    objs.append(V.bm_to_object(bm_stone, "gate_lintel", ("M_stone_dark",)))
+    objs.append(V.bm_to_object(bm_trim, "gate_trim", ("M_stone_trim",)))
+    objs.append(V.bm_to_object(bm_gild, "gate_gild", ("M_gild",)))
     return objs, {"size": [8.6, 0.6, 6.4], "origin": "bottom-center"}
 
 

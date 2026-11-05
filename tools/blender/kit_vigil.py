@@ -121,20 +121,42 @@ def lantern_crook():
 
 
 def ferry_skiff():
-    """The Ferryman's flat skiff, moored and waiting: planked hull, thwart
-    bench, a shipped pole. Solid dressing at the jetties. Origin bottom-center."""
+    """The Ferryman's flat skiff, moored and waiting: recessed planked punt hull
+    with raked prow and stern, gunwale rails, floor duckboards, two thwart benches,
+    prow iron lantern hook, and a shipped iron-shod punt pole. Solid dressing at
+    the jetties. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
-    # hull: two lofted sections approximated by boxes with a raked bow
-    V.add_box(bm, (-1.7, -0.62, 0.16), (1.5, 0.62, 0.62))
-    V.add_box(bm, (-1.62, -0.5, 0.3), (1.42, 0.5, 0.7))
-    obj = V.bm_to_object(bm, "skiff_hull", ("M_wood",))
-    objs.append(obj)
-    bm = bmesh.new()
-    V.add_box(bm, (-0.2, -0.56, 0.55), (0.2, 0.56, 0.68))           # thwart
-    V.add_box(bm, (-1.55, -0.05, 0.66), (1.35, 0.05, 0.72))         # shipped pole
-    objs.append(V.bm_to_object(bm, "skiff_fittings", ("M_wood",)))
-    return objs, {"size": [3.4, 1.3, 0.8], "origin": "bottom-center"}
+    # Flat-bottomed recessed punt hull with raked bow (+X) and stern (-X)
+    V.add_box(bm, (-1.45, -0.58, 0.14), (1.25, 0.58, 0.26))           # bilge floor
+    V.add_box(bm, (-1.70, -0.46, 0.22), (-1.40, 0.46, 0.64))          # raked stern transom
+    V.add_box(bm, (1.20, -0.46, 0.22), (1.56, 0.46, 0.66))            # raked bow swim-head
+    V.add_box(bm, (1.52, -0.30, 0.30), (1.72, 0.30, 0.68))            # bow prow nose
+    # Port and starboard hull strakes + raised gunwale rubbing strips
+    for sy in (-1, 1):
+        y_in, y_out = (sy * 0.50, sy * 0.62) if sy > 0 else (sy * 0.62, sy * 0.50)
+        V.add_box(bm, (-1.50, y_in, 0.20), (1.35, y_out, 0.64))
+        V.add_box(bm, (-1.58, y_in - 0.02 * sy, 0.60), (1.45, y_out + 0.03 * sy, 0.68))
+    # Internal ribs & floor duckboards
+    for rx in (-1.05, -0.35, 0.35, 0.95):
+        V.add_box(bm, (rx - 0.04, -0.50, 0.26), (rx + 0.04, 0.50, 0.34))
+    objs.append(V.bm_to_object(bm, "skiff_hull", ("M_wood",)))
+
+    # Thwart benches & shipped ferryman's pole
+    bm_fit = bmesh.new()
+    for tx in (-0.65, 0.45):
+        V.add_box(bm_fit, (tx - 0.18, -0.54, 0.48), (tx + 0.18, 0.54, 0.56))
+    # Shipped punt pole resting diagonally across the thwarts
+    V.add_box(bm_fit, (-1.58, -0.08, 0.57), (1.42, -0.01, 0.63))
+    objs.append(V.bm_to_object(bm_fit, "skiff_fittings", ("M_wood",)))
+
+    # Iron prow mooring ring, pole shoe, and low bow lantern post
+    bm_iron = bmesh.new()
+    V.add_box(bm_iron, (1.40, -0.09, 0.56), (1.54, 0.0, 0.64))        # pole iron shoe
+    V.add_box(bm_iron, (1.58, -0.03, 0.66), (1.64, 0.03, 1.08))       # bow lantern post
+    V.add_box(bm_iron, (1.54, -0.08, 1.04), (1.72, 0.08, 1.10))       # lantern cap
+    objs.append(V.bm_to_object(bm_iron, "skiff_iron", ("M_iron",)))
+    return objs, {"size": [3.4, 1.3, 1.1], "origin": "bottom-center"}
 
 
 BUILDERS = {

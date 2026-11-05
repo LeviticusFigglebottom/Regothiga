@@ -8,8 +8,11 @@
   "black_gate",
   "drowned_marches",
   "vigils_end",
+  "old_outskirts",
+  "wick_cathedral",
   "gilded_sanctum",
-  "hour_palace"
+  "hour_palace",
+  "morrow_keep"
  ],
  "graph": {
   "gray_cloister": {
@@ -40,17 +43,29 @@
   },
   "drowned_marches": {
    "east": "black_gate",
-   "west": "vigils_end"
+   "west": "vigils_end",
+   "south": "old_outskirts"
   },
   "vigils_end": {
    "east": "drowned_marches"
+  },
+  "old_outskirts": {
+   "south": "drowned_marches",
+   "north": "wick_cathedral"
+  },
+  "wick_cathedral": {
+   "south": "old_outskirts"
   },
   "gilded_sanctum": {
    "down": "basilica_porch",
    "up": "hour_palace"
   },
   "hour_palace": {
-   "down": "gilded_sanctum"
+   "down": "gilded_sanctum",
+   "up": "morrow_keep"
+  },
+  "morrow_keep": {
+   "down": "hour_palace"
   }
  },
  "start_area": "gray_cloister"

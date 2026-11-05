@@ -476,16 +476,66 @@ def ferry_boat():
 
 
 def anvil():
-    """Reliquary smith's anvil."""
-    bm = bmesh.new()
-    V.add_box(bm, (-0.22, -0.2, 0.0), (0.22, 0.2, 0.45))
-    stump = V.bm_to_object(bm, "stump", ("M_wood",))
-    bm2 = bmesh.new()
-    V.add_box(bm2, (-0.16, -0.13, 0.45), (0.2, 0.13, 0.55))
-    V.add_box(bm2, (-0.2, -0.16, 0.55), (0.28, 0.16, 0.72))
-    V.add_box(bm2, (-0.4, -0.06, 0.6), (-0.2, 0.06, 0.72))
-    iron = V.bm_to_object(bm2, "anvil_iron", ("M_steel",))
-    return [stump, iron], {"size": [0.8, 0.4, 0.72], "origin": "bottom-center"}
+    """Reliquary smith's anvil: iron-hooped 12-sided oak stump bearing a
+    forged London-pattern steel anvil with conical bick (horn), stepped
+    cutting table, cantilevered heel, and a blacksmith's cross-peen hammer."""
+    objs = []
+    # 12-sided gnarled oak anvil block
+    stump = V.loft_rings(
+        "stump",
+        [
+            (0.28, 0.00, 12, 0),
+            (0.25, 0.08, 12, 0),
+            (0.24, 0.36, 12, 0),
+            (0.25, 0.44, 12, 0),
+        ],
+        "M_wood",
+        cap_bottom=True,
+        cap_top=True,
+    )
+    objs.append(stump)
+
+    # Wrought-iron hoops & hold-down staples on the oak stump + hammer head
+    bm_iron = bmesh.new()
+    for sx in (-0.16, 0.16):
+        V.add_box(bm_iron, (sx - 0.02, -0.18, 0.38), (sx + 0.02, 0.18, 0.48))
+    # Cross-peen blacksmith hammer head resting atop the anvil face
+    V.add_box(bm_iron, (-0.01, -0.055, 0.72), (0.06, 0.055, 0.77))
+    objs.append(V.bm_to_object(bm_iron, "anvil_hoops", ("M_iron",)))
+    for z_h, r_h in ((0.08, 0.258), (0.35, 0.248)):
+        objs.append(V.loft_rings("stump_hoop", [(r_h, z_h, 12, 0), (r_h, z_h + 0.035, 12, 0)],
+                                 "M_iron", cap_bottom=False, cap_top=False))
+
+    # Forged steel anvil body: splayed base feet, waisted core, step table, flat face, and cantilevered heel
+    bm_steel = bmesh.new()
+    V.add_box(bm_steel, (-0.21, -0.17, 0.44), (0.21, 0.17, 0.50))   # splayed foot
+    V.add_box(bm_steel, (-0.14, -0.11, 0.50), (0.15, 0.11, 0.59))   # waisted neck
+    V.add_box(bm_steel, (-0.19, -0.135, 0.59), (0.31, 0.135, 0.72)) # upper face + heel (+X)
+    V.add_box(bm_steel, (-0.25, -0.115, 0.58), (-0.18, 0.115, 0.69)) # cutting step (-X)
+    objs.append(V.bm_to_object(bm_steel, "anvil_iron", ("M_steel",)))
+
+    # Tapered conical bick (horn) projecting toward -X
+    horn = V.loft_rings(
+        "anvil_horn",
+        [
+            (0.085, 0.00, 12, 0),
+            (0.068, 0.09, 12, 0),
+            (0.042, 0.18, 12, 0),
+            (0.012, 0.25, 12, 0),
+        ],
+        "M_steel",
+        cap_bottom=False,
+        cap_top=True,
+    )
+    horn.rotation_euler = (0, -math.pi / 2, 0)
+    horn.location = (-0.24, 0.0, 0.645)
+    objs.append(horn)
+
+    # Ash hammer handle resting diagonally across the anvil face
+    bm_haft = bmesh.new()
+    V.add_box(bm_haft, (0.01, -0.22, 0.73), (0.04, 0.08, 0.755))
+    objs.append(V.bm_to_object(bm_haft, "hammer_haft", ("M_wood",)))
+    return objs, {"size": [0.8, 0.5, 0.77], "origin": "bottom-center"}
 
 
 def fence_iron_4m():
@@ -522,23 +572,74 @@ def bell_great():
 
 
 def organ_case():
-    """Basilica organ: timber case with a rising rank of bronze pipes."""
+    """Basilica organ: carved Gothic oak wainscot case with manual keyboard console,
+    pedalboard, side tower pilasters, gilt pipe-shade fretwork, and 15 graduated
+    bronze & steel flue pipes in a double-tower cathedral array."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-1.3, -0.35, 0.0), (1.3, 0.45, 1.15))
-    V.add_box(bm, (-1.36, -0.3, 1.1), (1.36, 0.5, 1.28))
+    # Main wainscot lower case + stepped plinth
+    V.add_box(bm, (-1.34, -0.38, 0.0), (1.34, 0.46, 0.12))
+    V.add_box(bm, (-1.30, -0.34, 0.12), (1.30, 0.44, 1.15))
+    # Recessed front panel stiles (5 gothic bays across the lower case)
+    for sx in (-1.28, -0.64, 0.0, 0.64, 1.28):
+        V.add_box(bm, (sx - 0.05, -0.38, 0.12), (sx + 0.05, 0.45, 1.15))
+    # Protruding manual keyboard desk + bench/pedalboard frame on -Y (front)
+    V.add_box(bm, (-0.58, -0.58, 0.76), (0.58, -0.32, 0.94))
+    V.add_box(bm, (-0.54, -0.56, 0.0), (-0.44, -0.34, 0.76))
+    V.add_box(bm, (0.44, -0.56, 0.0), (0.54, -0.34, 0.76))
+    # Upper pipe-chest cornice & outer wooden pipe-tower pilasters
+    V.add_box(bm, (-1.38, -0.38, 1.12), (1.38, 0.48, 1.28))
+    for sx in (-1.32, -0.78, 0.78, 1.32):
+        V.add_box(bm, (sx - 0.05, -0.34, 1.28), (sx + 0.05, 0.20, 3.65))
+    V.add_box(bm, (-1.40, -0.38, 3.60), (-0.72, 0.24, 3.78))
+    V.add_box(bm, (0.72, -0.38, 3.60), (1.40, 0.24, 3.78))
     objs.append(V.bm_to_object(bm, "organ_case", ("M_wood",)))
-    n = 9
+
+    # Bone manual keys + gilt pipe-shade fretwork bands
+    bm_keys = bmesh.new()
+    V.add_box(bm_keys, (-0.48, -0.56, 0.84), (0.48, -0.36, 0.89))
+    V.add_box(bm_keys, (-0.46, -0.50, 0.90), (0.46, -0.36, 0.95))
+    objs.append(V.bm_to_object(bm_keys, "organ_keys", ("M_bone",)))
+
+    bm_gild = bmesh.new()
+    V.add_box(bm_gild, (-1.39, -0.39, 1.24), (1.39, 0.49, 1.30))
+    V.add_box(bm_gild, (-1.30, -0.34, 3.45), (-0.80, -0.26, 3.60))
+    V.add_box(bm_gild, (0.80, -0.34, 3.45), (1.30, -0.26, 3.60))
+    V.add_box(bm_gild, (-0.76, -0.30, 2.75), (0.76, -0.22, 2.90))
+    objs.append(V.bm_to_object(bm_gild, "organ_gild", ("M_gold",)))
+
+    # 15 graduated bronze & steel flue pipes with conical feet and labium mouths
+    n = 15
     for i in range(n):
         t = i / (n - 1.0)
-        x = -1.05 + 2.1 * t
-        h = 1.5 + 1.5 * (1.0 - abs(t * 2 - 1)) ** 1.2 + 0.12 * ((i * 7) % 3)
-        r = 0.085 - 0.02 * abs(t * 2 - 1)
-        pipe = V.loft_rings("pipe%d" % i, [(r, 1.2, 12, 0), (r, 1.2 + h, 12, 0),
-                                           (r * 0.8, 1.26 + h, 12, 0)], "M_bronze")
-        pipe.location = (x, -0.12, 0)
+        x = -1.18 + 2.36 * t
+        in_tower = abs(x) > 0.78
+        if in_tower:
+            h = 2.15 + 0.35 * (1.0 - abs((abs(x) - 1.05) / 0.20))
+            r = 0.068
+            y_off = -0.14
+        else:
+            # Central V-mitre flat + rising center spire
+            u = abs(x) / 0.75
+            h = 1.45 + 1.35 * (1.0 - u) ** 1.15
+            r = 0.048 + 0.018 * (1.0 - u)
+            y_off = -0.06
+        mat = "M_bronze" if i % 3 != 1 else "M_steel"
+        pipe = V.loft_rings(
+            "pipe%d" % i,
+            [
+                (r * 0.35, 1.26, 12, 0),
+                (r * 1.02, 1.46, 12, 0),
+                (r * 0.92, 1.50, 12, 0),
+                (r, 1.54, 12, 0),
+                (r, 1.26 + h, 12, 0),
+                (r * 0.82, 1.32 + h, 12, 0),
+            ],
+            mat,
+        )
+        pipe.location = (x, y_off, 0)
         objs.append(pipe)
-    return objs, {"size": [2.8, 1.0, 4.3], "origin": "bottom-center"}
+    return objs, {"size": [2.8, 1.05, 4.3], "origin": "bottom-center"}
 
 
 def choir_stall():
