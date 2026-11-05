@@ -122,17 +122,17 @@
  "battlement_4m": {
   "file": "assets/kit/battlement_4m.glb",
   "origin": "bottom-center",
-  "polys": 24,
+  "polys": 48,
   "size": [
    4,
-   0.5,
-   1.5
+   0.54,
+   1.52
   ]
  },
  "beacon_brazier": {
   "file": "assets/kit/beacon_brazier.glb",
   "origin": "bottom-center",
-  "polys": 48,
+  "polys": 209,
   "size": [
    1.2,
    1.2,
@@ -311,7 +311,7 @@
  "cage_stand": {
   "file": "assets/kit/cage_stand.glb",
   "origin": "bottom-center",
-  "polys": 1001,
+  "polys": 1037,
   "size": [
    0.7,
    0.7,
@@ -371,7 +371,7 @@
  "capstan_bars": {
   "file": "assets/kit/capstan_bars.glb",
   "origin": "axle",
-  "polys": 52,
+  "polys": 68,
   "size": [
    2.4,
    2.4,
@@ -381,7 +381,7 @@
  "capstan_base": {
   "file": "assets/kit/capstan_base.glb",
   "origin": "bottom-center",
-  "polys": 70,
+  "polys": 146,
   "size": [
    1.6,
    3.0,
@@ -855,7 +855,7 @@
  "great_perch": {
   "file": "assets/kit/great_perch.glb",
   "origin": "bottom-center",
-  "polys": 54,
+  "polys": 232,
   "size": [
    2.2,
    2.2,
@@ -1193,20 +1193,20 @@
  "perch_rail": {
   "file": "assets/kit/perch_rail.glb",
   "origin": "bottom-center",
-  "polys": 507,
+  "polys": 537,
   "size": [
-   1.9,
-   0.3,
+   1.96,
+   0.36,
    1.45
   ]
  },
  "perch_rail_bare": {
   "file": "assets/kit/perch_rail_bare.glb",
   "origin": "bottom-center",
-  "polys": 26,
+  "polys": 56,
   "size": [
-   1.9,
-   0.3,
+   1.96,
+   0.36,
    1.45
   ]
  },
@@ -1257,7 +1257,7 @@
  "portcullis_4m": {
   "file": "assets/kit/portcullis_4m.glb",
   "origin": "bottom-center",
-  "polys": 120,
+  "polys": 399,
   "size": [
    4,
    0.3,
@@ -1307,7 +1307,7 @@
  "reed_clump": {
   "file": "assets/kit/reed_clump.glb",
   "origin": "bottom-center",
-  "polys": 70,
+  "polys": 166,
   "size": [
    1.1,
    1.1,
@@ -1874,10 +1874,10 @@
  "waystone": {
   "file": "assets/kit/waystone.glb",
   "origin": "bottom-center",
-  "polys": 16,
+  "polys": 107,
   "size": [
    0.8,
-   0.4,
+   0.45,
    1.8
   ]
  },

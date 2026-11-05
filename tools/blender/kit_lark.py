@@ -214,14 +214,24 @@ def lark_cage_dead(drop=1.6, seed=41):
 
 
 def cage_stand():
-    """Office-cage station: a waist-high stone pedestal bearing a gilded cage
-    with its lark. The Daily Offices puzzle interacts with these. Solid."""
+    """Office-cage station: a carved Gothic stone pedestal with stepped plinth,
+    corner pilasters, and moulded cornice bearing a gilded cage with its lark.
+    The Daily Offices puzzle interacts with these. Solid."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.34, -0.34, 0), (0.34, 0.34, 0.1))
-    V.add_box(bm, (-0.22, -0.22, 0.1), (0.22, 0.22, 0.92))
-    V.add_box(bm, (-0.3, -0.3, 0.92), (0.3, 0.3, 1.0))
+    V.add_box(bm, (-0.36, -0.36, 0.0), (0.36, 0.36, 0.10))
+    V.add_box(bm, (-0.30, -0.30, 0.10), (0.30, 0.30, 0.18))
+    V.add_box(bm, (-0.21, -0.21, 0.18), (0.21, 0.21, 0.86))
+    V.add_box(bm, (-0.28, -0.28, 0.86), (0.28, 0.28, 0.93))
+    V.add_box(bm, (-0.33, -0.33, 0.93), (0.33, 0.33, 1.00))
     objs.append(V.bm_to_object(bm, "stand", ("M_stone_dark",)))
+
+    bm_trim = bmesh.new()
+    for sx in (-0.21, 0.21):
+        for sy in (-0.21, 0.21):
+            V.add_box(bm_trim, (sx - 0.035, sy - 0.035, 0.18), (sx + 0.035, sy + 0.035, 0.86))
+    objs.append(V.bm_to_object(bm_trim, "stand_trim", ("M_stone_trim",)))
+
     gm = bmesh.new()
     tip = _cage_frame(gm, r=0.26, z0=1.0, h=0.46)
     V.add_box(gm, (-0.24, -0.015, 1.2), (0.24, 0.015, 1.23))     # perch
@@ -233,13 +243,16 @@ def cage_stand():
 
 
 def perch_rail():
-    """Aviary perch: a timber rail on two posts, three larks shoulder to
-    shoulder. Glory dressing. Origin bottom-center."""
+    """Aviary perch: a carved timber rail on two trestle-footed posts with
+    iron bracket straps, three larks shoulder to shoulder. Glory dressing."""
     objs = []
     bm = bmesh.new()
     for px in (-0.8, 0.8):
-        V.add_box(bm, (px - 0.05, -0.05, 0), (px + 0.05, 0.05, 1.15))
-    V.add_box(bm, (-0.95, -0.04, 1.15), (0.95, 0.04, 1.23))
+        V.add_box(bm, (px - 0.07, -0.18, 0.0), (px + 0.07, 0.18, 0.07))
+        V.add_box(bm, (px - 0.05, -0.05, 0.07), (px + 0.05, 0.05, 1.15))
+        V.add_box(bm, (px - 0.06, -0.06, 1.23), (px + 0.06, 0.06, 1.31))
+    V.add_box(bm, (-0.98, -0.04, 1.15), (0.98, 0.04, 1.23))
+    V.add_box(bm, (-0.80, -0.03, 0.26), (0.80, 0.03, 0.33))
     objs.append(V.bm_to_object(bm, "perch", ("M_wood",)))
     rng = random.Random(7)
     for i, px in enumerate((-0.55, 0.0, 0.5)):
@@ -247,7 +260,7 @@ def perch_rail():
             o.location = (px, 0, 1.23)
             o.rotation_euler = (0, 0, rng.uniform(-0.6, 0.6))
             objs.append(o)
-    return objs, {"size": [1.9, 0.3, 1.45], "origin": "bottom-center"}
+    return objs, {"size": [1.96, 0.36, 1.45], "origin": "bottom-center"}
 
 
 def perch_rail_bare(seed=17):
@@ -256,34 +269,61 @@ def perch_rail_bare(seed=17):
     objs = []
     bm = bmesh.new()
     for px in (-0.8, 0.8):
-        V.add_box(bm, (px - 0.05, -0.05, 0), (px + 0.05, 0.05, 1.15))
-    V.add_box(bm, (-0.95, -0.04, 1.15), (0.95, 0.04, 1.23))
+        V.add_box(bm, (px - 0.07, -0.18, 0.0), (px + 0.07, 0.18, 0.07))
+        V.add_box(bm, (px - 0.05, -0.05, 0.07), (px + 0.05, 0.05, 1.15))
+        V.add_box(bm, (px - 0.06, -0.06, 1.23), (px + 0.06, 0.06, 1.31))
+    V.add_box(bm, (-0.98, -0.04, 1.15), (0.98, 0.04, 1.23))
+    V.add_box(bm, (-0.80, -0.03, 0.26), (0.80, 0.03, 0.33))
     rail = V.bm_to_object(bm, "perch_b", ("M_wood",))
     rail.rotation_euler = (0, 0.06, 0)
     objs.append(rail)
     chain = V.loft_rings("perch_chain", [(0.02, 1.15, 6, 0), (0.016, 0.7, 6, 0)], "M_iron")
     chain.location = (rng.uniform(-0.4, 0.4), 0, 0)
     objs.append(chain)
-    return objs, {"size": [1.9, 0.3, 1.45], "origin": "bottom-center"}
+    return objs, {"size": [1.96, 0.36, 1.45], "origin": "bottom-center"}
 
 
 def great_perch():
     """The Larkwarden's roost: a tall gilded stand crowning the summit — stepped
-    stone base, iron-strapped pole, two crossbars and a crowning ring. Bare in
-    both states (the great lark is long flown); solid enough for boss cover."""
+    Gothic stone base with corner buttresses, iron-strapped pole, two finial-tipped
+    crossbars with scroll braces, and a crowning sun-ring. Solid boss cover."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.9, -0.9, 0), (0.9, 0.9, 0.22))
-    V.add_box(bm, (-0.62, -0.62, 0.22), (0.62, 0.62, 0.44))
+    V.add_box(bm, (-0.92, -0.92, 0.0), (0.92, 0.92, 0.18))
+    V.add_box(bm, (-0.72, -0.72, 0.18), (0.72, 0.72, 0.34))
+    V.add_box(bm, (-0.52, -0.52, 0.34), (0.52, 0.52, 0.52))
+    for sx, sy in ((-0.62, 0.0), (0.62, 0.0), (0.0, -0.62), (0.0, 0.62)):
+        wx = 0.16 if sx != 0 else 0.11
+        wy = 0.16 if sy != 0 else 0.11
+        V.add_box(bm, (sx - wx, sy - wy, 0.18), (sx + wx, sy + wy, 0.50))
     objs.append(V.bm_to_object(bm, "roost_base", ("M_stone_dark",)))
-    pole = V.loft_rings("roost_pole", [(0.14, 0.44, 8, 0), (0.11, 3.4, 8, 0)], "M_wood")
+    pole = V.loft_rings(
+        "roost_pole",
+        [
+            (0.18, 0.50, 12, 0),
+            (0.14, 0.66, 12, 0),
+            (0.12, 2.20, 12, 0),
+            (0.105, 3.40, 12, 0),
+        ],
+        "M_wood",
+    )
     objs.append(pole)
     gm = bmesh.new()
-    for (w, z) in ((1.1, 2.2), (0.7, 3.0)):
-        V.add_box(gm, (-w, -0.04, z), (w, 0.04, z + 0.08))
+    for (w, z) in ((1.12, 2.20), (0.72, 3.00)):
+        V.add_box(gm, (-w, -0.045, z), (w, 0.045, z + 0.085))
+        for sx in (-1, 1):
+            V.add_box(gm, (sx * w - 0.05, -0.06, z - 0.02), (sx * w + 0.05, 0.06, z + 0.14))
+            _add_rod(gm, (sx * 0.11, 0.0, z - 0.28), (sx * 0.42, 0.0, z + 0.02), 0.022, segs=6)
+    for z_band in (0.68, 1.45, 2.22, 3.02):
+        V.add_cyl(gm, 0.0, 0.0, z_band, 0.06, 0.135, n=12)
     objs.append(V.bm_to_object(gm, "roost_bars", ("M_gold",)))
-    ring = V.loft_rings("roost_ring", [(0.30, 3.4, 10, 0), (0.34, 3.52, 10, 0), (0.28, 3.62, 10, 0)], "M_gold",
-                        cap_bottom=False, cap_top=False)
+    ring = V.loft_rings(
+        "roost_ring",
+        [(0.30, 3.40, 14, 0), (0.35, 3.52, 14, 0), (0.28, 3.64, 14, 0)],
+        "M_gold",
+        cap_bottom=False,
+        cap_top=False,
+    )
     objs.append(ring)
     return objs, {"size": [2.2, 2.2, 3.7], "origin": "bottom-center"}
 

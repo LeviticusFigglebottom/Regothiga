@@ -10,22 +10,30 @@ import vglib as V
 
 
 def portcullis_4m():
-    """Iron portcullis filling a 4 m arch: crossed bars, spiked foot. Rises
-    when the capstans are turned (FlagGate open_dir=up). Origin bottom-center."""
+    """Iron portcullis filling a 4 m arch: crossed bars, rivet bosses at every
+    joint, capped spiked feet, and top hoist rings. Rises when the capstans are
+    turned (FlagGate open_dir=up). Origin bottom-center."""
     objs = []
     bm = bmesh.new()
-    for x in [-1.8 + i * 0.45 for i in range(9)]:                 # verticals
+    xs = [-1.8 + i * 0.45 for i in range(9)]
+    zs = (0.5, 1.3, 2.1, 2.9, 3.5)
+    for x in xs:                                                    # verticals
         V.add_box(bm, (x - 0.05, -0.05, 0.0), (x + 0.05, 0.05, 3.6))
-        # spiked foot
+        # Capped spiked foot
         tip = bmesh.new()
-        a = tip.verts.new((x - 0.07, -0.07, 0.0)); b = tip.verts.new((x + 0.07, -0.07, 0.0))
-        c = tip.verts.new((x + 0.07, 0.07, 0.0)); d = tip.verts.new((x - 0.07, 0.07, 0.0))
+        a = tip.verts.new((x - 0.07, -0.07, 0.0))
+        b = tip.verts.new((x + 0.07, -0.07, 0.0))
+        c = tip.verts.new((x + 0.07, 0.07, 0.0))
+        d = tip.verts.new((x - 0.07, 0.07, 0.0))
         p = tip.verts.new((x, 0.0, -0.28))
         for e0, e1 in ((a, b), (b, c), (c, d), (d, a)):
             tip.faces.new((e0, e1, p))
+        tip.faces.new((d, c, b, a))
         objs.append(V.bm_to_object(tip, "spike", ("M_iron",)))
-    for z in (0.5, 1.3, 2.1, 2.9, 3.5):                            # crossbars
+    for z in zs:                                                    # crossbars
         V.add_box(bm, (-2.0, -0.06, z - 0.06), (2.0, 0.06, z + 0.06))
+        for x in xs:
+            V.add_box(bm, (x - 0.075, -0.082, z - 0.075), (x + 0.075, 0.082, z + 0.075))
     objs.append(V.bm_to_object(bm, "grate", ("M_iron",)))
     return objs, {"size": [4, 0.3, 3.9], "origin": "bottom-center"}
 
@@ -119,28 +127,40 @@ def gate_black():
 
 
 def capstan_base():
-    """Winch drum housing: stepped stone base + iron drum wound with chain.
-    The bar cross (capstan_bars) rotates above it. Origin bottom-center."""
+    """Winch drum housing: stepped stone base + iron ratchet teeth + iron drum
+    wound with chain. The bar cross (capstan_bars) rotates above it."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.8, -0.8, 0.0), (0.8, 0.8, 0.18))
+    V.add_box(bm, (-0.82, -0.82, 0.0), (0.82, 0.82, 0.11))
+    V.add_box(bm, (-0.70, -0.70, 0.11), (0.70, 0.70, 0.18))
     objs.append(V.bm_to_object(bm, "cap_plinth", ("M_stone_dark",)))
-    drum = V.loft_rings("cap_drum", [(0.42, 0.18, 10, 0), (0.42, 0.85, 10, 0),
-                                     (0.5, 0.9, 10, 0), (0.5, 1.0, 10, 0)], "M_iron")
+    drum = V.loft_rings(
+        "cap_drum",
+        [
+            (0.48, 0.18, 12, 0),
+            (0.42, 0.26, 12, 0),
+            (0.42, 0.85, 12, 0),
+            (0.50, 0.90, 12, 0),
+            (0.50, 1.00, 12, 0),
+        ],
+        "M_iron",
+    )
     objs.append(drum)
-    # chain winding: two dark rings around the drum
-    for z in (0.4, 0.62):
-        ring = V.loft_rings("cap_chain", [(0.46, z, 10, 0), (0.46, z + 0.09, 10, 0)], "M_iron",
+    # chain winding: three dark rings around the drum
+    for z in (0.36, 0.52, 0.68):
+        ring = V.loft_rings("cap_chain", [(0.46, z, 12, 0), (0.46, z + 0.08, 12, 0)], "M_iron",
                             cap_bottom=False, cap_top=False)
         objs.append(ring)
     # the chain-LEAD: a taut run leaving the drum toward the gate it pulls
-    # (local -Y = Godot +Z). The puzzle reads by laying the gilded bar of
-    # capstan_bars along this lead — a fixed pointer the player can see.
     lead = bmesh.new()
     V.add_box(lead, (-0.06, -1.5, 0.30), (0.06, -0.42, 0.40))
+    for i in range(6):
+        a = math.tau * i / 6
+        V.add_box(lead, (0.50 * math.cos(a) - 0.04, 0.50 * math.sin(a) - 0.04, 0.18),
+                  (0.50 * math.cos(a) + 0.04, 0.50 * math.sin(a) + 0.04, 0.25))
     objs.append(V.bm_to_object(lead, "cap_lead", ("M_iron",)))
     guide = bmesh.new()
-    V.add_box(guide, (-0.16, -1.5, 0.0), (0.16, -1.16, 0.5))
+    V.add_box(guide, (-0.18, -1.52, 0.0), (0.18, -1.14, 0.50))
     objs.append(V.bm_to_object(guide, "cap_guide", ("M_stone_dark",)))
     return objs, {"size": [1.6, 3.0, 1.0], "origin": "bottom-center"}
 
@@ -155,30 +175,38 @@ def capstan_bars():
     for (x, y) in ((1.15, 0), (-1.15, 0), (0, 1.15)):               # worn grip knobs
         V.add_box(bm, (x - 0.11, y - 0.11, -0.03), (x + 0.11, y + 0.11, 0.17))
     objs.append(V.bm_to_object(bm, "cap_bars", ("M_wood",)))
-    # ONE bar is the chain-bar: gilt-capped and ridged (local -Y = Godot +Z at
-    # rot 0). The cross is otherwise 90-degree symmetric, so without this the
-    # capstan's bearing is unreadable — lay the gilded bar on the base's
-    # chain-lead and the wheel is set.
+    # ONE bar is the chain-bar: gilt-capped and ridged (local -Y = Godot +Z at rot 0).
     gild = bmesh.new()
     V.add_box(gild, (-0.13, -1.34, -0.05), (0.13, -1.02, 0.19))
     V.add_box(gild, (-0.05, -1.02, 0.14), (0.05, -0.2, 0.21))
     objs.append(V.bm_to_object(gild, "cap_goldbar", ("M_gold",)))
-    hub = V.loft_rings("cap_hub", [(0.16, -0.05, 8, 0), (0.14, 0.3, 8, 0)], "M_iron")
+    hub = V.loft_rings(
+        "cap_hub",
+        [(0.20, -0.05, 12, 0), (0.17, 0.18, 12, 0), (0.13, 0.32, 12, 0)],
+        "M_iron",
+    )
     objs.append(hub)
     return objs, {"size": [2.4, 2.4, 0.35], "origin": "axle"}
 
 
 def battlement_4m():
-    """Crenellated parapet strip for wall-tops: low wall + merlons. 4 m run,
-    origin bottom-center like the balustrade (seat ON the floor, INSIDE it)."""
+    """Crenellated parapet strip for wall-tops: low wall + merlons with chamfered
+    M_stone_trim coping slabs and arrow-slit reveals. 4 m run, bottom-center."""
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-2.0, -0.22, 0.0), (2.0, 0.22, 0.85))
     for i in range(3):
         x0 = -1.8 + i * 1.4
-        V.add_box(bm, (x0, -0.24, 0.85), (x0 + 0.75, 0.24, 1.5))
+        V.add_box(bm, (x0, -0.23, 0.85), (x0 + 0.75, 0.23, 1.46))
     objs.append(V.bm_to_object(bm, "battlement", ("M_stone",)))
-    return objs, {"size": [4, 0.5, 1.5], "origin": "bottom-center"}
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-2.02, -0.26, 0.79), (2.02, 0.26, 0.86))
+    for i in range(3):
+        x0 = -1.8 + i * 1.4
+        V.add_box(bm_trim, (x0 - 0.04, -0.27, 1.44), (x0 + 0.79, 0.27, 1.52))
+    objs.append(V.bm_to_object(bm_trim, "battlement_trim", ("M_stone_trim",)))
+    return objs, {"size": [4, 0.54, 1.52], "origin": "bottom-center"}
 
 
 def toll_maul():
