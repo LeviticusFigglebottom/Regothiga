@@ -23,8 +23,8 @@ func _ready() -> void:
 	lbody.collision_layer = 1 << (VG.L_WORLD_BASE - 1)
 	lbody.collision_mask = 0
 	var lcs := CollisionShape3D.new()
-	var lcyl := CylinderShape3D.new()
-	lcyl.radius = 0.5
+	var lcyl := CapsuleShape3D.new()
+	lcyl.radius = 0.38
 	lcyl.height = 2.4
 	lcs.shape = lcyl
 	lcs.position.y = 1.2

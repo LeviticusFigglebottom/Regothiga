@@ -32,7 +32,7 @@
  "arcade_4m": {
   "file": "assets/kit/arcade_4m.glb",
   "origin": "bottom-center",
-  "polys": 374,
+  "polys": 704,
   "size": [
    4,
    0.5,
@@ -651,7 +651,7 @@
  "column_4m": {
   "file": "assets/kit/column_4m.glb",
   "origin": "bottom-center",
-  "polys": 570,
+  "polys": 588,
   "size": [
    1,
    1,
@@ -661,7 +661,7 @@
  "column_broken": {
   "file": "assets/kit/column_broken.glb",
   "origin": "bottom-center",
-  "polys": 81,
+  "polys": 245,
   "size": [
    1,
    1,
@@ -1844,7 +1844,7 @@
  "wall_low_4m": {
   "file": "assets/kit/wall_low_4m.glb",
   "origin": "bottom-center",
-  "polys": 11,
+  "polys": 95,
   "size": [
    4,
    0.5,
@@ -1900,7 +1900,7 @@
    0
   ],
   "origin": "bottom-center",
-  "polys": 134,
+  "polys": 720,
   "size": [
    4,
    0.6,

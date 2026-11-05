@@ -85,32 +85,48 @@ def wall_4x4():
 
 
 def wall_low_4m():
-    """Parapet wall 1.0 m tall with coping, for garth edges. Origin bottom-center."""
+    """Parapet wall 1.0 m tall with stepped plinth, recessed dark-stone panels,
+    and chamfered M_stone_trim peaked coping, for garth edges. Origin bottom-center."""
     bm = bmesh.new()
-    V.add_box(bm, (-2, -0.18, 0), (2, 0.18, 0.86))
+    V.add_box(bm, (-2.0, -0.18, 0.10), (2.0, 0.18, 0.86))
+    body = V.bm_to_object(bm, "wall_low_4m", ("M_stone",))
+
+    bm_dark = bmesh.new()
+    for bx in (-1.45, -0.48, 0.48, 1.45):
+        for sy in (-1, 1):
+            py = sy * 0.182
+            V.add_box(bm_dark, (bx - 0.36, py - 0.010, 0.20), (bx + 0.36, py + 0.010, 0.76))
+    panels = V.bm_to_object(bm_dark, "wall_low_panels", ("M_stone_dark",))
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-2.0, -0.21, 0.0), (2.0, 0.21, 0.10))
+    for bx in (-1.94, -0.96, 0.0, 0.96, 1.94):
+        V.add_box(bm_trim, (bx - 0.06, -0.20, 0.10), (bx + 0.06, 0.20, 0.86))
     # coping: slightly wider cap with peaked top
     c0, c1 = -0.24, 0.24
     zs, zp = 0.86, 1.04
     vs = []
-    for x in (-2, 2):
-        a = bm.verts.new((x, c0, zs)); b = bm.verts.new((x, c1, zs))
-        m = bm.verts.new((x, 0.0, zp))
+    for x in (-2.0, 2.0):
+        a = bm_trim.verts.new((x, c0, zs))
+        b = bm_trim.verts.new((x, c1, zs))
+        m = bm_trim.verts.new((x, 0.0, zp))
         vs.append((a, b, m))
     (a0, b0, m0), (a1, b1, m1) = vs
-    bm.faces.new((a0, m0, m1, a1))
-    bm.faces.new((m0, b0, b1, m1))
-    bm.faces.new((a0, a1, b1, b0))  # underside of coping overhang
-    bm.faces.new((a0, b0, m0))
-    bm.faces.new((b1, a1, m1))
-    obj = V.bm_to_object(bm, "wall_low_4m", ("M_stone",))
-    return [obj], {"size": [4, 0.5, 1.05], "origin": "bottom-center"}
+    bm_trim.faces.new((a0, m0, m1, a1))
+    bm_trim.faces.new((m0, b0, b1, m1))
+    bm_trim.faces.new((a0, a1, b1, b0))  # underside of coping overhang
+    bm_trim.faces.new((a0, b0, m0))
+    bm_trim.faces.new((b1, a1, m1))
+    coping = V.bm_to_object(bm_trim, "wall_low_coping", ("M_stone_trim",))
+    return [body, panels, coping], {"size": [4, 0.5, 1.05], "origin": "bottom-center"}
 
 
 # ------------------------------------------------------------------ arcade
 
 def arcade_4m():
-    """Cloister arcade module: parapet with overhanging stone sill coping,
-    twin colonnettes, pointed arch. Open span faces the garth."""
+    """Cloister arcade module: panelled parapet with overhanging stone sill
+    coping, twin colonnettes, pointed arch, and moulded archivolt sweep.
+    Open span faces the garth."""
     objs = []
     # arch panel: opening 2.2 wide springing at 1.6 -> apex ~3.23 (below vault)
     panel = V.wall_panel_with_arch("arcade_panel", 4.0, 4.0, 0.34, 2.2, 1.6,
@@ -119,11 +135,32 @@ def arcade_4m():
     # parapet under the opening (arcades are windows onto the garth;
     # passage is at the portals)
     bm = bmesh.new()
-    V.add_box(bm, (-1.1, -0.15, 0), (1.1, 0.15, 0.84))
+    V.add_box(bm, (-1.1, -0.15, 0.10), (1.1, 0.15, 0.84))
     objs.append(V.bm_to_object(bm, "arcade_parapet", ("M_stone",)))
+    bm_dark = bmesh.new()
+    for bx in (-0.70, 0.0, 0.70):
+        for sy in (-1, 1):
+            py = sy * 0.152
+            V.add_box(bm_dark, (bx - 0.24, py - 0.008, 0.18), (bx + 0.24, py + 0.008, 0.76))
+    objs.append(V.bm_to_object(bm_dark, "arcade_panels", ("M_stone_dark",)))
     bm_sill = bmesh.new()
+    V.add_box(bm_sill, (-1.12, -0.19, 0.0), (1.12, 0.19, 0.10))
     V.add_box(bm_sill, (-1.12, -0.22, 0.84), (1.12, 0.22, 0.91))
+    for bx in (-1.04, -0.35, 0.35, 1.04):
+        V.add_box(bm_sill, (bx - 0.05, -0.17, 0.10), (bx + 0.05, 0.17, 0.84))
     objs.append(V.bm_to_object(bm_sill, "arcade_sill", ("M_stone_trim",)))
+    # Moulded archivolt sweep around the pointed arch opening
+    arch = V.pointed_arch(2.2, 0.8, 16, 1.6)
+    arch_path = [(x * 1.05, 0.0, y + 0.04) for (x, y) in arch]
+    objs.append(
+        V.sweep_profile(
+            "arcade_archivolt",
+            arch_path,
+            V.chamfer_rect_profile(0.11, 0.40, 0.03),
+            "M_stone_trim",
+            up_hint=Vector((0, 1, 0)),
+        )
+    )
     # colonnettes at the jambs
     for sx in (-1.1, 1.1):
         col = _colonnette(0.14, 1.72)
@@ -148,8 +185,14 @@ def _colonnette(r, h):
 
 
 def column_4m():
-    """Freestanding compound pier for cloister corners. Origin: base center."""
+    """Freestanding compound pier for cloister corners & church naves: stepped
+    square base plinth, central shaft, 4 attached colonnettes, and moulded abacus."""
     objs = []
+    bm_base = bmesh.new()
+    V.add_box(bm_base, (-0.48, -0.48, 0.0), (0.48, 0.48, 0.10))
+    V.add_box(bm_base, (-0.44, -0.44, 0.10), (0.44, 0.44, 0.16))
+    V.add_box(bm_base, (-0.48, -0.48, 3.90), (0.48, 0.48, 4.00))
+    objs.append(V.bm_to_object(bm_base, "pier_plinth", ("M_stone_dark",)))
     n = 16
     rings = [(0.46, 0, n, 0), (0.44, 0.10, n, 0), (0.34, 0.22, n, 0),
              (0.30, 0.3, n, 0), (0.28, 3.0, n, 0), (0.30, 3.55, n, 0),
@@ -270,15 +313,45 @@ def _lancet_outline(w, sill, spring, apex_sharp, segs=12):
 
 
 def window_lancet_4m():
-    """Wall panel 4x4 with a lancet window opening. Glass is a separate piece."""
+    """Wall panel 4x4 with a lancet window opening, stepped chamfered sill,
+    engaged jamb & central mullion colonnettes, moulded pointed hood-mold, and
+    wrought-iron glazing saddle-bars. Glass is a separate piece."""
+    objs = []
     panel = V.wall_panel_with_arch("window_wall", 4.0, 4.0, 0.4, 1.5, 2.35,
                                    sharpness=1.15, segments=14, sill_h=1.15)
-    # sill ledge
+    objs.append(panel)
+    # Stepped sill ledge + central stone mullion
     bm = bmesh.new()
-    V.add_box(bm, (-0.95, -0.3, 0.98), (0.95, 0.3, 1.15))
-    sill = V.bm_to_object(bm, "window_sill", ("M_stone_trim",))
-    return [panel, sill], {"size": [4, 0.6, 4], "origin": "bottom-center",
-                           "glass": "glass_lancet", "glass_pos": [0, 0, 0]}
+    V.add_box(bm, (-0.98, -0.32, 1.04), (0.98, 0.32, 1.16))
+    V.add_box(bm, (-0.90, -0.26, 0.96), (0.90, 0.26, 1.04))
+    objs.append(V.bm_to_object(bm, "window_sill", ("M_stone_trim",)))
+    # Moulded pointed hood-mold / archivolt around the lancet opening
+    arch = V.pointed_arch(1.5, 1.15, 14, 2.35)
+    arch_path = [(x * 1.08, 0.0, y + 0.05) for (x, y) in arch]
+    objs.append(
+        V.sweep_profile(
+            "window_archivolt",
+            arch_path,
+            V.chamfer_rect_profile(0.11, 0.46, 0.03),
+            "M_stone_trim",
+            up_hint=Vector((0, 1, 0)),
+        )
+    )
+    # Engaged jamb colonnettes + central stone mullion shaft
+    for sx in (-0.80, 0.80):
+        col = _colonnette(0.085, 1.22)
+        col.location = (sx, 0.0, 1.15)
+        objs.append(col)
+    mullion = _colonnette(0.052, 2.22)
+    mullion.location = (0.0, 0.0, 1.15)
+    objs.append(mullion)
+    # Wrought-iron glazing saddle-bars
+    bm_iron = bmesh.new()
+    for gz in (1.65, 2.15):
+        V.add_box(bm_iron, (-0.75, -0.018, gz - 0.016), (0.75, 0.018, gz + 0.016))
+    objs.append(V.bm_to_object(bm_iron, "window_bars", ("M_iron",)))
+    return objs, {"size": [4, 0.6, 4], "origin": "bottom-center",
+                  "glass": "glass_lancet", "glass_pos": [0, 0, 0]}
 
 
 def _clip_convex(poly, clip):
@@ -481,8 +554,14 @@ def buttress():
 
 
 def column_broken():
-    """Ruin: pier snapped at ~1.6 m with a jagged crown."""
+    """Ruin: compound pier snapped at ~1.6 m with stepped square base plinth,
+    jagged central shaft crown, and 4 broken colonnette stubs."""
     rng = random.Random(31)
+    objs = []
+    bm_base = bmesh.new()
+    V.add_box(bm_base, (-0.48, -0.48, 0.0), (0.48, 0.48, 0.10))
+    V.add_box(bm_base, (-0.44, -0.44, 0.10), (0.44, 0.44, 0.16))
+    objs.append(V.bm_to_object(bm_base, "pier_plinth_brk", ("M_stone_dark",)))
     n = 16
     rings = [(0.46, 0, n, 0), (0.44, 0.10, n, 0), (0.34, 0.22, n, 0), (0.30, 0.3, n, 0)]
     top = 1.0 + rng.random() * 0.9
@@ -510,8 +589,23 @@ def column_broken():
     center = bm.verts.new((0, 0, cz))
     for i in range(n):
         bm.faces.new((prev[i], prev[(i + 1) % n], center))
-    obj = V.bm_to_object(bm, "column_broken", ("M_stone",))
-    return [obj], {"size": [1, 1, 2.2], "origin": "bottom-center"}
+    objs.append(V.bm_to_object(bm, "column_broken", ("M_stone",)))
+    for a in range(4):
+        ang = a * math.pi / 2 + math.pi / 4
+        stub_h = rng.uniform(0.75, 1.35)
+        sh = V.loft_rings(
+            "stub_col",
+            [
+                (0.135, 0.0, 12, 0),
+                (0.130, 0.06, 12, 0),
+                (0.090, 0.14, 12, 0),
+                (0.084, stub_h, 12, 0.1),
+            ],
+            "M_stone_trim",
+        )
+        sh.location = (0.30 * math.cos(ang), 0.30 * math.sin(ang), 0.16)
+        objs.append(sh)
+    return objs, {"size": [1, 1, 2.2], "origin": "bottom-center"}
 
 
 def rubble(size_key):
