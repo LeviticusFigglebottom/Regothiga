@@ -695,15 +695,6 @@
    "rot": -90
   },
   {
-   "kit": "palace_cornice_4m",
-   "at": [
-    10,
-    8,
-    28
-   ],
-   "rot": -90
-  },
-  {
    "kit": "palace_wall_4x4",
    "at": [
     -10,
@@ -971,15 +962,6 @@
     -10,
     4,
     54.0
-   ],
-   "rot": 90
-  },
-  {
-   "kit": "palace_cornice_4m",
-   "at": [
-    -10,
-    8,
-    28
    ],
    "rot": 90
   },
@@ -1912,74 +1894,74 @@
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    10
+    10.0
    ],
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    14
+    14.0
    ],
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    18
+    18.0
    ],
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    22
+    22.0
    ],
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    26
+    26.0
    ],
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    30
+    30.0
    ],
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    34
+    34.0
    ],
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     26,
     4,
-    38
+    38.0
    ],
    "rot": -90
   },
@@ -2649,74 +2631,74 @@
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    10
+    10.0
    ],
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    14
+    14.0
    ],
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    18
+    18.0
    ],
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    22
+    22.0
    ],
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    26
+    26.0
    ],
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    30
+    30.0
    ],
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    34
+    34.0
    ],
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -26,
     4,
-    38
+    38.0
    ],
    "rot": 90
   },

@@ -56,7 +56,7 @@ func _ready() -> void:
 		elif arg == "--shot-seq-now":
 			_seq_t = 0.0   # sequence clock runs from boot (filming the intro)
 		elif arg.begins_with("--shot-multi="):
-			for entry in arg.get_slice("=", 1).split(";"):
+			for entry in arg.get_slice("=", 1).replace("+", ";").split(";"):
 				if entry.contains("@"):
 					_multi.append([entry.get_slice("@", 0), entry.get_slice("@", 1)])
 			if not _multi.is_empty() and _shot_path == "":

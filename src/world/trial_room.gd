@@ -27,8 +27,10 @@ var _left := 0
 var _prog := 0.0
 var _ring: MeshInstance3D = null
 var _fill: MeshInstance3D = null
+var _spawned: Array[Enemy] = []
 
 func _ready() -> void:
+	add_to_group(VG.GROUP_RESPAWN_ON_REST)
 	if mode == "vigil":
 		_build_circle()
 	if World.flag(flag):
@@ -36,6 +38,20 @@ func _ready() -> void:
 			_fill.scale = Vector3.ONE
 		set_physics_process(false)
 		return
+
+func respawn() -> void:
+	if World.flag(flag):
+		return
+	for e in _spawned:
+		if is_instance_valid(e):
+			e.queue_free()
+	_spawned.clear()
+	_begun = false
+	_left = 0
+	_prog = 0.0
+	if _fill != null:
+		_fill.scale = Vector3(0.001, 1.0, 0.001)
+	set_physics_process(true)
 
 func _physics_process(dt: float) -> void:
 	var p = Game.player
@@ -67,9 +83,19 @@ func _begin_fight() -> void:
 	Game.toast.emit("%s begins." % title.capitalize())
 	AudioDirector.sfx("res://assets/audio/bell_toll.wav", -10.0, 0.7)
 	for i in foes.size():
-		var e := Enemy.new()
-		e.setup(String(foes[i]))
+		var fid := String(foes[i])
+		var ecfg: Dictionary = DB.table("enemies").get(fid, {})
+		var e: Enemy = load(ecfg["class"]).new() if ecfg.has("class") else Enemy.new()
+		e.setup(fid)
 		get_parent().add_child(e)
+		if e.hpbar == null:
+			e.hpbar = EnemyHealthBar.new()
+			e.hpbar.name = "HPBar"
+			e.add_child(e.hpbar)
+			var vs := float(e.cfg.get("vis_scale", 1.0))
+			e.hpbar.build(clampf(float(e.cfg.get("hurt_r", 0.45)) * 2.6, 0.7, 1.7))
+			e.hpbar.position.y = maxf(float(e.cfg.get("hurt_h", 1.6)), 1.2) * vs + 0.42
+			e.hpbar.set_ratio(1.0)
 		var off := Vector3(0, 0, 0)
 		if i < spots.size():
 			var s: Array = spots[i]
@@ -78,6 +104,7 @@ func _begin_fight() -> void:
 		e.target = Game.player
 		e._set_state(Enemy.ES.ALERT)
 		e.died.connect(func(_e): _foe_down())
+		_spawned.append(e)
 
 func _foe_down() -> void:
 	_left -= 1

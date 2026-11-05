@@ -65,3 +65,5 @@ func _animate_open() -> void:
 	tw.tween_property(_piece, "position:y", 3.6 if open_dir == "up" else -3.2, 1.6) \
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.tween_callback(func(): _piece.visible = false)
+	if Game.current_area != null:
+		Game.current_area.bake_navmeshes.call_deferred()

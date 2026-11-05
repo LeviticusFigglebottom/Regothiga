@@ -11,6 +11,7 @@ instance uniform vec3 flame_tint = vec3(1.0, 0.76, 0.32);
 instance uniform float flame_energy = 3.8;
 instance uniform float flame_base_y = 0.0;
 instance uniform float flame_height = 0.16;
+instance uniform float keep_in_ruin = 0.0;
 uniform int state_mode = 0;
 
 global uniform float vg_wave_r;
@@ -51,6 +52,8 @@ void fragment() {
 	float presence = 1.0 - ruin;
 	if (state_mode == 2) {
 		presence = ruin;
+	} else if (keep_in_ruin > 0.5) {
+		presence = 1.0;
 	}
 	if (presence < 0.5) {
 		discard;

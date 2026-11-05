@@ -2,17 +2,17 @@
  "altar": {
   "file": "assets/kit/altar.glb",
   "origin": "bottom-center",
-  "polys": 208,
+  "polys": 462,
   "size": [
    2.2,
    1.2,
-   1.35
+   1.45
   ]
  },
  "altar_wick": {
   "file": "assets/kit/altar_wick.glb",
   "origin": "bottom-center",
-  "polys": 110,
+  "polys": 321,
   "size": [
    2.52,
    1.12,
@@ -22,7 +22,7 @@
  "anvil": {
   "file": "assets/kit/anvil.glb",
   "origin": "bottom-center",
-  "polys": 147,
+  "polys": 219,
   "size": [
    0.8,
    0.5,
@@ -32,7 +32,7 @@
  "arcade_4m": {
   "file": "assets/kit/arcade_4m.glb",
   "origin": "bottom-center",
-  "polys": 704,
+  "polys": 710,
   "size": [
    4,
    0.5,
@@ -72,7 +72,7 @@
  "banner": {
   "file": "assets/kit/banner.glb",
   "origin": "top-center",
-  "polys": 346,
+  "polys": 426,
   "size": [
    1.1,
    0.3,
@@ -82,7 +82,7 @@
  "banner_torn": {
   "file": "assets/kit/banner_torn.glb",
   "origin": "top-center",
-  "polys": 116,
+  "polys": 156,
   "size": [
    1.1,
    0.3,
@@ -172,7 +172,7 @@
  "bone_pile": {
   "file": "assets/kit/bone_pile.glb",
   "origin": "bottom-center",
-  "polys": 216,
+  "polys": 508,
   "size": [
    1.2,
    1.0,
@@ -202,7 +202,7 @@
  "brazier_cold": {
   "file": "assets/kit/brazier_cold.glb",
   "origin": "bottom-center",
-  "polys": 98,
+  "polys": 438,
   "size": [
    0.8,
    0.8,
@@ -212,7 +212,7 @@
  "brazier_lit": {
   "file": "assets/kit/brazier_lit.glb",
   "origin": "bottom-center",
-  "polys": 410,
+  "polys": 600,
   "size": [
    0.8,
    0.8,
@@ -280,7 +280,7 @@
   "file": "assets/kit/burg_wall_3m_win.glb",
   "opening": null,
   "origin": "bottom-center",
-  "polys": 96,
+  "polys": 156,
   "size": [
    3,
    0.24,
@@ -291,7 +291,7 @@
  "buttress": {
   "file": "assets/kit/buttress.glb",
   "origin": "bottom-center",
-  "polys": 30,
+  "polys": 33,
   "size": [
    1.1,
    1.2,
@@ -341,7 +341,7 @@
  "candelabra": {
   "file": "assets/kit/candelabra.glb",
   "origin": "bottom-center",
-  "polys": 524,
+  "polys": 584,
   "size": [
    0.5,
    0.5,
@@ -411,7 +411,7 @@
  "censer_fallen": {
   "file": "assets/kit/censer_fallen.glb",
   "origin": "bottom-center",
-  "polys": 71,
+  "polys": 130,
   "size": [
    1.2,
    0.4,
@@ -421,7 +421,7 @@
  "censer_hanging": {
   "file": "assets/kit/censer_hanging.glb",
   "origin": "ceiling-mount",
-  "polys": 174,
+  "polys": 324,
   "size": [
    0.3,
    0.3,
@@ -431,7 +431,7 @@
  "chandelier_dome_high": {
   "file": "assets/kit/chandelier_dome_high.glb",
   "origin": "center",
-  "polys": 2200,
+  "polys": 2008,
   "size": [
    2.8,
    2.8,
@@ -441,7 +441,7 @@
  "chandelier_dome_low": {
   "file": "assets/kit/chandelier_dome_low.glb",
   "origin": "center",
-  "polys": 2190,
+  "polys": 1998,
   "size": [
    2.8,
    2.8,
@@ -451,7 +451,7 @@
  "chandelier_gilt": {
   "file": "assets/kit/chandelier_gilt.glb",
   "origin": "center",
-  "polys": 2150,
+  "polys": 1958,
   "size": [
    2.8,
    2.8,
@@ -461,7 +461,7 @@
  "char_aveline": {
   "file": "assets/kit/char_aveline.glb",
   "origin": "bottom-center",
-  "polys": 412,
+  "polys": 452,
   "size": [
    0.8,
    0.8,
@@ -531,7 +531,7 @@
  "chime_stone": {
   "file": "assets/kit/chime_stone.glb",
   "origin": "bottom-center",
-  "polys": 56,
+  "polys": 188,
   "size": [
    0.5,
    1.3,
@@ -541,7 +541,7 @@
  "chimney_stack": {
   "file": "assets/kit/chimney_stack.glb",
   "origin": "bottom-center",
-  "polys": 73,
+  "polys": 97,
   "size": [
    0.84,
    0.84,
@@ -551,7 +551,7 @@
  "choir_stall": {
   "file": "assets/kit/choir_stall.glb",
   "origin": "bottom-center",
-  "polys": 36,
+  "polys": 270,
   "size": [
    2.4,
    0.7,
@@ -561,7 +561,7 @@
  "chrism_flask": {
   "file": "assets/kit/chrism_flask.glb",
   "origin": "bottom-center",
-  "polys": 164,
+  "polys": 316,
   "size": [
    0.17,
    0.17,
@@ -591,7 +591,7 @@
  "city_panorama": {
   "file": "assets/kit/city_panorama.glb",
   "origin": "center",
-  "polys": 56567,
+  "polys": 56587,
   "size": [
    500,
    500,
@@ -641,7 +641,7 @@
  "cobweb": {
   "file": "assets/kit/cobweb.glb",
   "origin": "corner",
-  "polys": 18,
+  "polys": 64,
   "size": [
    1.1,
    0.05,
@@ -681,7 +681,7 @@
  "crate_stack": {
   "file": "assets/kit/crate_stack.glb",
   "origin": "bottom-center",
-  "polys": 588,
+  "polys": 348,
   "size": [
    1.0,
    1.0,
@@ -765,7 +765,7 @@
    3.1
   ],
   "origin": "bottom-center",
-  "polys": 294,
+  "polys": 774,
   "size": [
    4,
    1,
@@ -775,7 +775,7 @@
  "garden_bed": {
   "file": "assets/kit/garden_bed.glb",
   "origin": "bottom-center",
-  "polys": 598,
+  "polys": 766,
   "size": [
    2.26,
    1.46,
@@ -785,7 +785,7 @@
  "garden_bed_dead": {
   "file": "assets/kit/garden_bed_dead.glb",
   "origin": "bottom-center",
-  "polys": 586,
+  "polys": 658,
   "size": [
    2.26,
    1.46,
@@ -795,7 +795,7 @@
  "gargoyle": {
   "file": "assets/kit/gargoyle.glb",
   "origin": "bottom-center",
-  "polys": 336,
+  "polys": 506,
   "size": [
    0.7,
    1.0,
@@ -825,7 +825,7 @@
  "gilt_finial": {
   "file": "assets/kit/gilt_finial.glb",
   "origin": "bottom-center",
-  "polys": 34,
+  "polys": 74,
   "size": [
    0.45,
    0.45,
@@ -835,7 +835,7 @@
  "glass_lancet": {
   "file": "assets/kit/glass_lancet.glb",
   "origin": "bottom-center",
-  "polys": 279,
+  "polys": 280,
   "size": [
    1.5,
    0.1,
@@ -845,7 +845,7 @@
  "glass_lancet_broken": {
   "file": "assets/kit/glass_lancet_broken.glb",
   "origin": "bottom-center",
-  "polys": 68,
+  "polys": 66,
   "size": [
    1.5,
    0.1,
@@ -855,11 +855,11 @@
  "great_perch": {
   "file": "assets/kit/great_perch.glb",
   "origin": "bottom-center",
-  "polys": 430,
+  "polys": 436,
   "size": [
    2.2,
    2.2,
-   3.86
+   4.02
   ]
  },
  "greatsword_pilgrim": {
@@ -885,7 +885,7 @@
  "half_arch_sunk": {
   "file": "assets/kit/half_arch_sunk.glb",
   "origin": "bottom-center",
-  "polys": 96,
+  "polys": 258,
   "size": [
    3.4,
    1.0,
@@ -905,9 +905,9 @@
  "hanging_chain": {
   "file": "assets/kit/hanging_chain.glb",
   "origin": "top-center",
-  "polys": 76,
+  "polys": 98,
   "size": [
-   0.2,
+   0.24,
    0.2,
    1.7
   ]
@@ -915,9 +915,9 @@
  "hanging_chain_bare": {
   "file": "assets/kit/hanging_chain_bare.glb",
   "origin": "top-center",
-  "polys": 54,
+  "polys": 64,
   "size": [
-   0.2,
+   0.24,
    0.2,
    1.7
   ]
@@ -985,17 +985,17 @@
  "maul_sexton": {
   "file": "assets/kit/maul_sexton.glb",
   "origin": "grip",
-  "polys": 88,
+  "polys": 150,
   "size": [
-   0.3,
-   0.3,
-   1.55
+   0.37,
+   0.25,
+   1.65
   ]
  },
  "mosaic_medallion": {
   "file": "assets/kit/mosaic_medallion.glb",
   "origin": "bottom-center",
-  "polys": 114,
+  "polys": 142,
   "size": [
    3.6,
    3.6,
@@ -1005,7 +1005,7 @@
  "oar_glaive": {
   "file": "assets/kit/oar_glaive.glb",
   "origin": "grip",
-  "polys": 21,
+  "polys": 89,
   "size": [
    0.7,
    0.12,
@@ -1025,7 +1025,7 @@
  "ossuary_wall_4m": {
   "file": "assets/kit/ossuary_wall_4m.glb",
   "origin": "bottom-center",
-  "polys": 458,
+  "polys": 1124,
   "size": [
    4,
    0.6,
@@ -1039,7 +1039,7 @@
    3.1
   ],
   "origin": "bottom-center",
-  "polys": 474,
+  "polys": 480,
   "size": [
    4,
    0.5,
@@ -1049,7 +1049,7 @@
  "palace_balustrade_4m": {
   "file": "assets/kit/palace_balustrade_4m.glb",
   "origin": "bottom-center",
-  "polys": 318,
+  "polys": 432,
   "size": [
    4,
    0.3,
@@ -1059,17 +1059,17 @@
  "palace_cornice_4m": {
   "file": "assets/kit/palace_cornice_4m.glb",
   "origin": "bottom-center",
-  "polys": 14,
+  "polys": 30,
   "size": [
    4,
-   0.3,
+   0.8,
    0.3
   ]
  },
  "palace_cove_dome": {
   "file": "assets/kit/palace_cove_dome.glb",
   "origin": "rim-center",
-  "polys": 2653,
+  "polys": 3310,
   "size": [
    20.0,
    16.0,
@@ -1079,7 +1079,7 @@
  "palace_dome_12m": {
   "file": "assets/kit/palace_dome_12m.glb",
   "origin": "rim-center",
-  "polys": 2112,
+  "polys": 2050,
   "size": [
    12.4,
    16.4,
@@ -1109,7 +1109,7 @@
  "palace_pier": {
   "file": "assets/kit/palace_pier.glb",
   "origin": "bottom-center",
-  "polys": 52,
+  "polys": 182,
   "size": [
    0.8,
    0.8,
@@ -1123,7 +1123,7 @@
    2.9
   ],
   "origin": "bottom-center",
-  "polys": 804,
+  "polys": 810,
   "size": [
    4,
    0.6,
@@ -1143,7 +1143,7 @@
  "palace_wall_low_4m": {
   "file": "assets/kit/palace_wall_low_4m.glb",
   "origin": "bottom-center",
-  "polys": 12,
+  "polys": 240,
   "size": [
    4,
    0.5,
@@ -1173,7 +1173,7 @@
  "pell": {
   "file": "assets/kit/pell.glb",
   "origin": "bottom-center",
-  "polys": 304,
+  "polys": 430,
   "size": [
    1.02,
    0.84,
@@ -1213,21 +1213,21 @@
  "pew": {
   "file": "assets/kit/pew.glb",
   "origin": "bottom-center",
-  "polys": 54,
+  "polys": 198,
   "size": [
    1.86,
    0.62,
-   1.1
+   1.18
   ]
  },
  "pew_3m": {
   "file": "assets/kit/pew_3m.glb",
   "origin": "bottom-center",
-  "polys": 30,
+  "polys": 204,
   "size": [
    3,
    0.9,
-   1.02
+   1.15
   ]
  },
  "plaque": {
@@ -1247,7 +1247,7 @@
    2.9
   ],
   "origin": "bottom-center",
-  "polys": 884,
+  "polys": 890,
   "size": [
    4,
    0.6,
@@ -1307,7 +1307,7 @@
  "reed_clump": {
   "file": "assets/kit/reed_clump.glb",
   "origin": "bottom-center",
-  "polys": 166,
+  "polys": 210,
   "size": [
    1.1,
    1.1,
@@ -1317,7 +1317,7 @@
  "reed_clump_dead": {
   "file": "assets/kit/reed_clump_dead.glb",
   "origin": "bottom-center",
-  "polys": 14,
+  "polys": 42,
   "size": [
    1.1,
    1.1,
@@ -1397,11 +1397,11 @@
  "sarcophagus": {
   "file": "assets/kit/sarcophagus.glb",
   "origin": "bottom-center",
-  "polys": 11,
+  "polys": 143,
   "size": [
    2.4,
    1.0,
-   1.0
+   1.02
   ]
  },
  "sconce_torch": {
@@ -1457,7 +1457,7 @@
  "shroud_dead": {
   "file": "assets/kit/shroud_dead.glb",
   "origin": "bottom-center",
-  "polys": 100,
+  "polys": 124,
   "size": [
    1.9,
    0.5,
@@ -1642,7 +1642,7 @@
  "spire_tower_a": {
   "file": "assets/kit/spire_tower_a.glb",
   "origin": "bottom-center",
-  "polys": 168,
+  "polys": 252,
   "size": [
    4.886140391501869,
    4.886140391501869,
@@ -1652,7 +1652,7 @@
  "spire_tower_b": {
   "file": "assets/kit/spire_tower_b.glb",
   "origin": "bottom-center",
-  "polys": 168,
+  "polys": 252,
   "size": [
    4.900847883424359,
    4.900847883424359,
@@ -1662,7 +1662,7 @@
  "spire_tower_c": {
   "file": "assets/kit/spire_tower_c.glb",
   "origin": "bottom-center",
-  "polys": 132,
+  "polys": 192,
   "size": [
    6.031889049542378,
    6.031889049542378,
@@ -1723,7 +1723,7 @@
  "statue_saint": {
   "file": "assets/kit/statue_saint.glb",
   "origin": "bottom-center",
-  "polys": 258,
+  "polys": 358,
   "size": [
    1,
    1,
@@ -1773,7 +1773,7 @@
  "urn": {
   "file": "assets/kit/urn.glb",
   "origin": "bottom-center",
-  "polys": 330,
+  "polys": 362,
   "size": [
    0.7,
    0.7,
@@ -1804,7 +1804,7 @@
  "vigil_lantern": {
   "file": "assets/kit/vigil_lantern.glb",
   "origin": "bottom-center",
-  "polys": 540,
+  "polys": 960,
   "size": [
    1.3,
    2.1,
@@ -1814,7 +1814,7 @@
  "votive_stand_cold": {
   "file": "assets/kit/votive_stand_cold.glb",
   "origin": "bottom-center",
-  "polys": 110,
+  "polys": 396,
   "size": [
    0.5,
    0.5,
@@ -1824,7 +1824,7 @@
  "votive_stand_lit": {
   "file": "assets/kit/votive_stand_lit.glb",
   "origin": "bottom-center",
-  "polys": 320,
+  "polys": 606,
   "size": [
    0.5,
    0.5,
@@ -1854,7 +1854,7 @@
  "watcher_base": {
   "file": "assets/kit/watcher_base.glb",
   "origin": "bottom-center",
-  "polys": 26,
+  "polys": 82,
   "size": [
    1.3,
    1.3,
@@ -1874,7 +1874,7 @@
  "waystone": {
   "file": "assets/kit/waystone.glb",
   "origin": "bottom-center",
-  "polys": 107,
+  "polys": 163,
   "size": [
    0.8,
    0.45,
@@ -1884,7 +1884,7 @@
  "wellhead": {
   "file": "assets/kit/wellhead.glb",
   "origin": "bottom-center",
-  "polys": 468,
+  "polys": 535,
   "size": [
    2.1,
    1.0,
@@ -1900,7 +1900,7 @@
    0
   ],
   "origin": "bottom-center",
-  "polys": 720,
+  "polys": 732,
   "size": [
    4,
    0.6,

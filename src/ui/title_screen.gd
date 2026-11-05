@@ -238,6 +238,13 @@ func _swap_stop() -> void:
 		_deck.shuffle()
 	var stop: Dictionary = _deck.pop_back()
 	var area = AreaBuilder.build(stop["id"])
+	for sp in area.find_children("*", "Spawner", true, false):
+		sp.queue_free()
+	for bc in area.find_children("*", "BellkeeperCameo", true, false):
+		bc.queue_free()
+	for sc in area.base.get_children():
+		if sc.get_script() != null and String(sc.get_script().resource_path).ends_with("bell_toller.gd"):
+			sc.queue_free()
 	_stage.add_child(area)
 	_area = area
 	# state dressing WITHOUT StateDirector.snap: the title track owns the

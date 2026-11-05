@@ -278,23 +278,46 @@ def statue_saint():
     objs.append(robe)
 
     # Draped stone sleeves clasping the sword hilt + carved stone halo disc + broadsword
+    for sx in (-1, 1):
+        arm = V.sweep_profile(
+            f"saint_sleeve_{sx}",
+            [
+                (sx * 0.22, 0.02, 1.94),
+                (sx * 0.21, 0.14, 1.74),
+                (sx * 0.12, 0.25, 1.64),
+                (sx * 0.04, 0.32, 1.62),
+            ],
+            V.chamfer_rect_profile(0.11, 0.13, 0.03),
+            "M_stone",
+            up_hint=Vector((0, 0, 1)),
+        )
+        objs.append(arm)
     bm2 = bmesh.new()
     for sx in (-1, 1):
-        V.add_box(bm2, (sx * 0.20 - 0.06, 0.04, 1.62), (sx * 0.20 + 0.06, 0.26, 1.96))
-        V.add_box(bm2, (sx * 0.08 - 0.05, 0.20, 1.56), (sx * 0.08 + 0.05, 0.36, 1.72))
+        V.add_box(bm2, (sx * 0.045 - 0.04, 0.29, 1.58), (sx * 0.045 + 0.04, 0.38, 1.70))
     # Tapered broadsword blade, arched quillons, grip, and wheel pommel
     V.add_box(bm2, (-0.042, 0.325, 0.55), (0.042, 0.355, 1.54))
-    V.add_box(bm2, (-0.018, 0.315, 0.55), (0.018, 0.365, 1.54))
-    V.add_box(bm2, (-0.19, 0.31, 1.52), (0.19, 0.37, 1.58))
+    V.add_box(bm2, (-0.018, 0.312, 0.55), (0.018, 0.368, 1.54))
+    V.add_box(bm2, (-0.21, 0.31, 1.52), (0.21, 0.37, 1.58))
+    for sx in (-1, 1):
+        V.add_box(bm2, (sx * 0.20 - 0.03, 0.305, 1.50), (sx * 0.20 + 0.03, 0.375, 1.59))
     V.add_box(bm2, (-0.028, 0.315, 1.58), (0.028, 0.365, 1.76))
-    V.add_box(bm2, (-0.055, 0.305, 1.76), (0.055, 0.375, 1.85))
+    V.add_box(bm2, (-0.058, 0.305, 1.76), (0.058, 0.375, 1.86))
     sw = V.bm_to_object(bm2, "saint_sword", ("M_stone_trim",))
     objs.append(sw)
 
     halo = V.loft_rings(
         "saint_halo",
-        [(0.02, -0.015, 16, 0), (0.28, 0.0, 16, 0), (0.02, 0.015, 16, 0)],
+        [
+            (0.02, -0.018, 20, 0),
+            (0.28, -0.018, 20, 0),
+            (0.30, 0.0, 20, 0),
+            (0.28, 0.018, 20, 0),
+            (0.02, 0.018, 20, 0),
+        ],
         "M_stone_trim",
+        cap_bottom=True,
+        cap_top=True,
     )
     halo.rotation_euler = (math.pi / 2, 0, 0)
     halo.location = (0, -0.10, 2.32)
@@ -306,6 +329,8 @@ def gargoyle():
     """Perched grotesque: hunched body, folded wings, horned skull."""
     objs = []
     bm = bmesh.new()
+    # Perched stone plinth block under talons
+    V.add_box(bm, (-0.24, -0.22, 0.0), (0.24, 0.50, 0.06))
     for (c, r, sq) in (((0, -0.05, 0.22), 0.20, 0.8), ((0, 0.16, 0.30), 0.16, 0.9),
                        ((0, 0.32, 0.38), 0.13, 1.0)):
         got = bmesh.ops.create_icosphere(bm, subdivisions=2, radius=r)
@@ -314,28 +339,43 @@ def gargoyle():
             v.co += Vector(c)
     body = V.bm_to_object(bm, "gargoyle_body", ("M_stone",))
     objs.append(body)
+    # Sculpted horned skull + snout + lower jaw + brow ridges
     bm2 = bmesh.new()
-    V.add_box(bm2, (-0.09, 0.36, 0.42), (0.09, 0.56, 0.56))
-    V.add_box(bm2, (-0.05, 0.52, 0.42), (0.05, 0.64, 0.50))
+    got_h = bmesh.ops.create_icosphere(bm2, subdivisions=2, radius=0.105)
+    for v in got_h["verts"]:
+        v.co.x *= 0.88
+        v.co.y *= 1.15
+        v.co.z *= 0.85
+        v.co += Vector((0.0, 0.44, 0.49))
+    V.add_box(bm2, (-0.055, 0.48, 0.43), (0.055, 0.65, 0.50))
+    V.add_box(bm2, (-0.042, 0.48, 0.39), (0.042, 0.62, 0.43))
+    for sx in (-1, 1):
+        V.add_box(bm2, (sx * 0.055 - 0.025, 0.46, 0.51), (sx * 0.055 + 0.025, 0.56, 0.55))
     head = V.bm_to_object(bm2, "gargoyle_head", ("M_stone",))
     objs.append(head)
     for sx in (-1, 1):
-        horn = V.sweep_profile("horn", [(sx * 0.07, 0.42, 0.56), (sx * 0.13, 0.36, 0.66), (sx * 0.15, 0.28, 0.72)],
-                               V.circle_profile(0.025, 8), "M_stone")
+        horn = V.sweep_profile("horn", [(sx * 0.07, 0.42, 0.54), (sx * 0.13, 0.34, 0.66), (sx * 0.16, 0.24, 0.74)],
+                               V.circle_profile(0.026, 8), "M_stone_trim")
         objs.append(horn)
         bmw = bmesh.new()
-        a = bmw.verts.new((sx * 0.16, 0.10, 0.42))
-        b = bmw.verts.new((sx * 0.34, -0.16, 0.60))
-        c = bmw.verts.new((sx * 0.30, -0.34, 0.24))
+        a = bmw.verts.new((sx * 0.15, 0.12, 0.42))
+        b = bmw.verts.new((sx * 0.36, -0.14, 0.64))
+        c = bmw.verts.new((sx * 0.34, -0.36, 0.26))
         d = bmw.verts.new((sx * 0.14, -0.18, 0.16))
         bmw.faces.new((a, b, c, d) if sx > 0 else (d, c, b, a))
-        bmesh.ops.solidify(bmw, geom=list(bmw.faces), thickness=0.03)
+        bmesh.ops.solidify(bmw, geom=list(bmw.faces), thickness=0.032)
         wing = V.bm_to_object(bmw, "wing", ("M_stone",))
         objs.append(wing)
+        rib = V.sweep_profile("wing_rib", [(sx * 0.15, 0.12, 0.42), (sx * 0.36, -0.14, 0.64), (sx * 0.34, -0.36, 0.26)],
+                              V.circle_profile(0.022, 8), "M_stone_trim")
+        objs.append(rib)
     for sx in (-1, 1):
-        leg = V.sweep_profile("leg", [(sx * 0.12, 0.30, 0.30), (sx * 0.15, 0.42, 0.12), (sx * 0.15, 0.46, 0.02)],
-                              V.circle_profile(0.035, 8), "M_stone")
+        leg = V.sweep_profile("leg", [(sx * 0.13, 0.26, 0.32), (sx * 0.16, 0.40, 0.16), (sx * 0.15, 0.44, 0.05)],
+                              V.circle_profile(0.038, 8), "M_stone")
         objs.append(leg)
+        hind = V.sweep_profile("hind", [(sx * 0.16, -0.04, 0.22), (sx * 0.19, 0.10, 0.12), (sx * 0.17, 0.18, 0.05)],
+                               V.circle_profile(0.044, 8), "M_stone")
+        objs.append(hind)
     return objs, {"size": [0.7, 1.0, 0.8], "origin": "bottom-center"}
 
 
@@ -762,8 +802,20 @@ def anvil():
     V.add_box(bm_iron, (-0.01, -0.055, 0.72), (0.06, 0.055, 0.77))
     objs.append(V.bm_to_object(bm_iron, "anvil_hoops", ("M_iron",)))
     for z_h, r_h in ((0.08, 0.258), (0.35, 0.248)):
-        objs.append(V.loft_rings("stump_hoop", [(r_h, z_h, 12, 0), (r_h, z_h + 0.035, 12, 0)],
-                                 "M_iron", cap_bottom=False, cap_top=False))
+        ri = r_h - 0.022
+        objs.append(V.loft_rings(
+            "stump_hoop",
+            [
+                (ri, z_h, 12, 0),
+                (r_h, z_h, 12, 0),
+                (r_h, z_h + 0.035, 12, 0),
+                (ri, z_h + 0.035, 12, 0),
+                (ri, z_h, 12, 0),
+            ],
+            "M_iron",
+            cap_bottom=False,
+            cap_top=False,
+        ))
 
     # Forged steel anvil body: splayed base feet, waisted core, step table, flat face, and cantilevered heel
     bm_steel = bmesh.new()
@@ -833,17 +885,26 @@ def fence_iron_4m():
 def bell_great():
     """The Bellkeeper's cracked great bell — also the tower bell. ~1.6 m tall."""
     n = 18
-    rings = [(0.02, 1.61, n, 0), (0.10, 1.62, n, 0), (0.16, 1.55, n, 0), (0.30, 1.45, n, 0),
-             (0.44, 1.2, n, 0), (0.52, 0.9, n, 0), (0.56, 0.55, n, 0),
-             (0.62, 0.28, n, 0), (0.72, 0.10, n, 0), (0.74, 0.0, n, 0),
-             (0.68, 0.03, n, 0), (0.55, 0.24, n, 0), (0.49, 0.55, n, 0),
-             (0.42, 0.9, n, 0), (0.32, 1.15, n, 0), (0.13, 1.38, n, 0),
-             (0.02, 1.40, n, 0)]
+    rings = list(reversed([
+        (0.02, 1.61, n, 0), (0.10, 1.62, n, 0), (0.16, 1.55, n, 0), (0.30, 1.45, n, 0),
+        (0.44, 1.2, n, 0), (0.52, 0.9, n, 0), (0.56, 0.55, n, 0),
+        (0.62, 0.28, n, 0), (0.72, 0.10, n, 0), (0.74, 0.0, n, 0),
+        (0.68, 0.03, n, 0), (0.55, 0.24, n, 0), (0.49, 0.55, n, 0),
+        (0.42, 0.9, n, 0), (0.32, 1.15, n, 0), (0.13, 1.38, n, 0),
+        (0.02, 1.40, n, 0),
+    ]))
     bell = V.loft_rings("bell_great", rings, "M_bell", cap_bottom=True, cap_top=True)
-    clapper = V.loft_rings("clapper", [(0.035, 1.38, 12, 0), (0.05, 0.42, 12, 0),
-                                       (0.115, 0.30, 12, 0), (0.12, 0.12, 12, 0),
-                                       (0.03, 0.05, 12, 0)], "M_iron",
-                           cap_bottom=True, cap_top=True)
+    clapper = V.loft_rings(
+        "clapper",
+        list(reversed([
+            (0.035, 1.38, 12, 0), (0.05, 0.42, 12, 0),
+            (0.115, 0.30, 12, 0), (0.12, 0.12, 12, 0),
+            (0.03, 0.05, 12, 0),
+        ])),
+        "M_iron",
+        cap_bottom=True,
+        cap_top=True,
+    )
     crown = V.loft_rings("crown", [(0.05, 1.6, 10, 0), (0.08, 1.74, 10, 0), (0.03, 1.82, 10, 0)], "M_bell")
     return [bell, clapper, crown], {"size": [1.5, 1.5, 1.85], "origin": "bottom-center"}
 
@@ -985,13 +1046,16 @@ def chime_stone():
     objs.append(post)
     bm = bmesh.new()
     V.add_box(bm, (-0.055, -0.66, 1.98), (0.055, 0.14, 2.08))
-    # Diagonal timber knee-brace supporting the gallows arm
-    for s in range(6):
-        u = s / 5.0
-        y0 = -0.06 - 0.34 * u
-        z0 = 1.64 + 0.34 * u
-        V.add_box(bm, (-0.038, y0 - 0.04, z0 - 0.04), (0.038, y0 + 0.04, z0 + 0.04))
     objs.append(V.bm_to_object(bm, "chime_arm", ("M_wood",)))
+    # Continuous angled timber knee-brace supporting the gallows arm
+    brace = V.sweep_profile(
+        "chime_brace",
+        [(0.0, -0.05, 1.62), (0.0, -0.23, 1.80), (0.0, -0.42, 1.99)],
+        V.chamfer_rect_profile(0.072, 0.076, 0.014),
+        "M_wood",
+        up_hint=Vector((1, 0, 0)),
+    )
+    objs.append(brace)
     # Cast-bronze cylindrical tubular bell ('chime_bar' animated by ChimePuzzle._swing)
     bm_bar = bmesh.new()
     V.add_cyl(bm_bar, 0.0, -0.51, 1.92, 0.06, 0.022, n=10)
@@ -1123,7 +1187,8 @@ def mosaic_medallion():
     """Flat inlaid mosaic roundel, 3.4 m across."""
     disc = V.loft_rings("mosaic_disc", [(1.7, 0.0, 28, 0), (1.7, 0.012, 28, 0)], "M_mosaic")
     rim = V.loft_rings("mosaic_rim", [(1.78, 0.0, 28, 0), (1.78, 0.016, 28, 0),
-                                      (1.7, 0.016, 28, 0), (1.7, 0.0, 28, 0)], "M_stone_trim",
+                                      (1.7, 0.016, 28, 0), (1.7, 0.0, 28, 0),
+                                      (1.78, 0.0, 28, 0)], "M_stone_trim",
                        cap_bottom=False, cap_top=False)
     return [disc, rim], {"size": [3.6, 3.6, 0.02], "origin": "bottom-center"}
 
@@ -1321,32 +1386,33 @@ def watcher_base():
 
 
 def cobweb():
-    """Corner cobweb: a quarter fan of silk with radial threads."""
+    """Corner cobweb: a quarter fan of silk with radial threads and concentric rings."""
     bm = bmesh.new()
     import math as _m
-    n = 6
+    n = 8
     R = 1.05
-    corner = bm.verts.new((0, 0, 0))
-    rim = []
-    for i in range(n + 1):
-        a = _m.pi * 0.5 * i / n
-        sag = 1.0 - 0.18 * _m.sin(_m.pi * i / n)
-        rim.append(bm.verts.new((R * _m.cos(a) * sag, 0, R * _m.sin(a) * sag)))
-    for band in (0.4, 0.72):
-        ring = []
-        for i in range(n + 1):
-            a = _m.pi * 0.5 * i / n
-            ring.append(bm.verts.new((R * band * _m.cos(a), 0.002, R * band * _m.sin(a))))
-        for i in range(n):
-            try:
-                bm.faces.new((ring[i], ring[i + 1], corner))
-            except ValueError:
-                pass
-    for i in range(n):
-        try:
-            bm.faces.new((corner, rim[i], rim[i + 1]))
-        except ValueError:
-            pass
+    bands = (0.0, 0.28, 0.54, 0.78, 1.0)
+    for flip in (False, True):
+        y_off = 0.002 if not flip else -0.002
+        rings = []
+        for b_idx, b in enumerate(bands):
+            ring = []
+            for i in range(n + 1):
+                a = _m.pi * 0.5 * i / n
+                sag = 1.0 - 0.14 * _m.sin(_m.pi * i / n) * b
+                rr = max(0.02, R * b * sag)
+                ring.append(bm.verts.new((rr * _m.cos(a), y_off, rr * _m.sin(a))))
+            rings.append(ring)
+        for b_idx in range(len(bands) - 1):
+            r0, r1 = rings[b_idx], rings[b_idx + 1]
+            for i in range(n):
+                quad = (r0[i], r1[i], r1[i + 1], r0[i + 1])
+                if flip:
+                    quad = tuple(reversed(quad))
+                try:
+                    bm.faces.new(quad)
+                except ValueError:
+                    pass
     obj = V.bm_to_object(bm, "cobweb", ("M_shroud",))
     return [obj], {"size": [1.1, 0.05, 1.1], "origin": "corner"}
 
@@ -1438,20 +1504,30 @@ def chrism_flask():
         (0.060, 0.148, n, 0.2),
         (0.028, 0.178, n, 0),
     ], "M_bronze", cap_bottom=True, cap_top=False))
-    # Uncapped filigree gold trim rings around base, belly, and flared spout
+    # Closed 3D filigree gold trim rings around base, belly, and flared spout
     objs.append(V.loft_rings("foot_band", [
-        (0.056, 0.016, n, 0),
-        (0.068, 0.028, n, 0),
+        (0.050, 0.016, n, 0),
+        (0.058, 0.016, n, 0),
+        (0.070, 0.028, n, 0),
+        (0.062, 0.028, n, 0),
+        (0.050, 0.016, n, 0),
     ], "M_gold", cap_bottom=False, cap_top=False))
     objs.append(V.loft_rings("belly_band", [
-        (0.084, 0.084, n, 0),
-        (0.085, 0.104, n, 0),
+        (0.078, 0.084, n, 0),
+        (0.085, 0.084, n, 0),
+        (0.086, 0.104, n, 0),
+        (0.079, 0.104, n, 0),
+        (0.078, 0.084, n, 0),
     ], "M_gold", cap_bottom=False, cap_top=False))
     objs.append(V.loft_rings("neck_lip", [
-        (0.031, 0.168, 14, 0),
-        (0.026, 0.195, 14, 0),
-        (0.036, 0.222, 14, 0.3),
-        (0.038, 0.235, 14, 0),
+        (0.025, 0.168, 14, 0),
+        (0.032, 0.168, 14, 0),
+        (0.028, 0.195, 14, 0),
+        (0.037, 0.222, 14, 0.3),
+        (0.039, 0.235, 14, 0),
+        (0.031, 0.235, 14, 0),
+        (0.023, 0.195, 14, 0),
+        (0.025, 0.168, 14, 0),
     ], "M_gold", cap_bottom=False, cap_top=False))
     # Warm golden liquid chrism glowing inside the open mouth
     objs.append(V.loft_rings("chrism_glow", [

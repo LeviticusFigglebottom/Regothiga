@@ -15,8 +15,21 @@ uniform float ripple_height = 1.25;
 uniform float flow_x = 1.0;
 
 global uniform float vg_state_blend;
+global uniform float vg_wave_r;
+global uniform vec3 vg_wave_origin;
+global uniform float vg_wave_dir;
+global uniform float vg_wave_band;
 
 varying vec3 wpos;
+
+float local_ruin(vec3 wp) {
+	if (vg_wave_r < -500.0) {
+		return clamp(vg_state_blend, 0.0, 1.0);
+	}
+	float d = distance(wp, vg_wave_origin);
+	float w = smoothstep(0.0, 1.0, clamp((vg_wave_r - d) / max(vg_wave_band, 0.01), 0.0, 1.0));
+	return clamp(mix(vg_state_blend, vg_wave_dir, w), 0.0, 1.0);
+}
 
 float hash13(vec3 p3) {
 	p3 = fract(p3 * 0.1031);
@@ -48,6 +61,13 @@ void vertex() {
 }
 
 void fragment() {
+	float ruin = local_ruin(wpos);
+	if (state_mode == 1 && ruin > 0.5) {
+		discard;
+	}
+	if (state_mode == 2 && ruin < 0.5) {
+		discard;
+	}
 	float t = TIME * ripple_speed * 10.0;
 	vec2 p = wpos.xz * ripple_scale;
 	float e = 0.22;
@@ -59,12 +79,12 @@ void fragment() {
 
 	float fres = pow(1.0 - clamp(dot(normalize(-VERTEX), NORMAL), 0.0, 1.0), 4.0);
 	vec3 col = mix(shallow_color.rgb, deep_color.rgb, clamp(0.42 + fres * 0.58, 0.0, 1.0));
-	col = mix(col * vec3(1.08, 1.0, 0.90), col * vec3(0.78, 0.88, 1.05), vg_state_blend);
+	col = mix(col * vec3(1.08, 1.0, 0.90), col * vec3(0.78, 0.88, 1.05), ruin);
 
 	float sheen = smoothstep(0.68, 0.92, h0);
 	col += vec3(0.08, 0.09, 0.09) * sheen * (0.3 + fres);
 	ALBEDO = col;
-	EMISSION = mix(vec3(0.06, 0.05, 0.03), vec3(0.025, 0.04, 0.055), vg_state_blend) * (sheen * 0.4 + fres * 0.45);
+	EMISSION = mix(vec3(0.06, 0.05, 0.03), vec3(0.025, 0.04, 0.055), ruin) * (sheen * 0.4 + fres * 0.45);
 	ROUGHNESS = clamp(0.025 + 0.12 * (1.0 - h0), 0.02, 0.25);
 	SPECULAR = 0.85;
 	METALLIC = 0.08;

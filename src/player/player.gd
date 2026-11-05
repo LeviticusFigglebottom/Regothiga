@@ -295,7 +295,7 @@ func _gilt_motes(at: Vector3) -> void:
 	get_parent().add_child(p)
 	p.global_position = at
 	p.emitting = true
-	get_tree().create_timer(1.2, false).timeout.connect(p.queue_free)
+	VG.free_after(p, 1.2)
 
 func recompute_derived() -> void:
 	var base: Dictionary = T["base"]
@@ -336,7 +336,8 @@ func _mouse_ok() -> bool:
 ## menu refuses to open over these; they close on their own terms.
 func busy_in_menu() -> bool:
 	return state == S.REST or state == S.TALK \
-			or not get_tree().get_nodes_in_group("inventory_ui").is_empty()
+			or not get_tree().get_nodes_in_group("inventory_ui").is_empty() \
+			or not get_tree().get_nodes_in_group("lore_open").is_empty()
 
 ## Mouse-look lives in _input (fires before any UI) so no Control can eat the
 ## motion. Guarded on capture + control so it never fires during menus/talk.
@@ -929,6 +930,8 @@ func try_attack(heavy: bool) -> bool:
 		return false
 	if state != S.MOVE and state != S.BLOCK:
 		return false
+	if not heavy and _riposte_target != null and try_riposte():
+		return true
 	return _chain_attack(heavy)
 
 ## Starts a swing regardless of current attack state (combo links use this).
@@ -1230,11 +1233,13 @@ func cast_spell(id: String) -> void:
 	_cast_cd = 0.7
 	# the shield rides the casting forearm; tucked away for the gesture or
 	# every rite reads as a guard-raise
-	if vis.shield_mount != null:
+	if vis != null and vis.shield_mount != null:
 		vis.shield_mount.visible = false
-		get_tree().create_timer(0.85, false).timeout.connect(func():
-			if vis != null and is_instance_valid(vis) and vis.shield_mount != null:
-				vis.shield_mount.visible = true)
+		var stw := create_tween()
+		stw.tween_interval(0.85)
+		stw.tween_callback(func():
+			if vis != null and is_instance_valid(vis) and vis.shield_mount != null and state != S.FLASK:
+				vis.shield_mount.visible = not bool(weapon_data().get("two_handed", false)))
 	var dev: float = 1.0 + float(attributes["devotion"]) * 0.025
 	match String(sp.get("type", "")):
 		"heal":
@@ -1326,11 +1331,11 @@ func _burst_nova(radius: float) -> void:
 	get_parent().add_child(ring)
 	ring.global_position = global_position + Vector3(0, 0.12, 0)
 	ring.scale = Vector3.ONE * 0.4
-	var tw := create_tween().set_parallel(true)
+	var tw := ring.create_tween().set_parallel(true)
 	tw.tween_property(ring, "scale", Vector3(radius, 0.9, radius), 0.5) \
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tw.tween_property(mat, "albedo_color:a", 0.0, 0.55)
-	get_tree().create_timer(0.8, false).timeout.connect(ring.queue_free)
+	VG.free_after(ring, 0.8)
 	var p := CPUParticles3D.new()
 	p.amount = 90
 	p.lifetime = 0.7
@@ -1353,7 +1358,7 @@ func _burst_nova(radius: float) -> void:
 	get_parent().add_child(p)
 	p.global_position = global_position + Vector3.UP * 0.5
 	p.emitting = true
-	get_tree().create_timer(1.4, false).timeout.connect(p.queue_free)
+	VG.free_after(p, 1.4)
 
 ## A brief kindled light on the Latecomer — every rite glows.
 func _radiant_flash(energy: float, rng: float) -> void:
@@ -1517,18 +1522,17 @@ func _spawn_chrism_heal_fx() -> void:
 		var y0 := 0.48 + float(i) * 0.22
 		ring.global_position = global_position + Vector3(0, y0, 0)
 		ring.scale = Vector3(0.82, 0.5, 0.82)
-		var tw := create_tween().set_parallel(true)
+		var tw := ring.create_tween().set_parallel(true)
 		tw.tween_property(ring, "global_position", global_position + Vector3(0, y0 + 1.05, 0), 0.65) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tw.tween_property(ring, "scale", Vector3(1.14, 0.5, 1.14), 0.65) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tw.tween_property(rmat, "albedo_color:a", 0.0, 0.68)
-		get_tree().create_timer(0.75, false).timeout.connect(ring.queue_free)
+		VG.free_after(ring, 0.75)
 
 ## The chrism gourd itself, mounted in the off-hand only while he drinks —
 ## held world-upright, tipped back toward the visor as the arm rises.
 var _flask_mount: Node3D = null
-var _flask_lips: Node3D = null   # head-bone anchor: the sip's true midline
 var _flask_base_basis := Basis.IDENTITY
 var _flask_tilt := 36.0   # drinking tilt; pivots around the belly center
 
@@ -1554,22 +1558,18 @@ func _show_flask(on: bool) -> void:
 			glow.shadow_enabled = false
 			glow.position = Vector3(0.0, 0.11, 0.0)
 			_flask_mount.add_child(glow)
-			_flask_lips = vis.mount("head")
 	elif _flask_mount != null:
 		var att := _flask_mount.get_parent()   # the BoneAttachment3D
 		_flask_mount = null
 		if att != null and is_instance_valid(att):
 			att.queue_free()
-		if _flask_lips != null:
-			var att2 := _flask_lips.get_parent()
-			_flask_lips = null
-			if att2 != null and is_instance_valid(att2):
-				att2.queue_free()
 
 # --- damage intake -----------------------------------------------------------
 # ---- the Vesper Ward: a skin of candlelight that spends itself first
 var _ward_hp := 0.0
 var _ward_until := 0.0
+var invulnerable := false
+var _stagger_dur := 0.6
 
 func _ward_active() -> bool:
 	return _ward_hp > 0.0 and Time.get_ticks_msec() / 1000.0 < _ward_until
@@ -1613,7 +1613,7 @@ func _lance_beam(from: Vector3, to: Vector3) -> void:
 	tw.tween_callback(beam.queue_free)
 
 func take_hit(packet: DamagePacket) -> void:
-	if dead:
+	if dead or invulnerable:
 		return
 	# the Vesper Ward takes the world's anger first
 	if _ward_active():
@@ -1644,15 +1644,16 @@ func take_hit(packet: DamagePacket) -> void:
 		_stagger(float(T["stagger_time"]))
 
 func _stagger(dur: float) -> void:
+	_stagger_dur = maxf(dur, 0.2)
 	_set_state(S.STAGGER)
 	_blocking = false
 	hitbox.end_swing()
-	vis.play("stagger", 0.03, 0.7 / maxf(dur, 0.2))
+	vis.play("stagger", 0.03, 0.7 / _stagger_dur)
 
 func _st_stagger(dt: float) -> void:
 	velocity.x = move_toward(velocity.x, 0, 8 * dt)
 	velocity.z = move_toward(velocity.z, 0, 8 * dt)
-	if state_t >= float(T["stagger_time"]):
+	if state_t >= _stagger_dur:
 		_set_state(S.MOVE)
 		vis.back_to_idle()
 
@@ -1687,14 +1688,30 @@ func exit_rest() -> void:
 func revive_at(pos: Vector3) -> void:
 	global_position = pos
 	dead = false
+	invulnerable = false
 	hp = max_hp
 	stamina = max_stamina
 	poise = max_poise
 	flasks = flask_max
+	mana = max_mana
+	_ward_hp = 0.0
+	_ward_until = 0.0
+	_winded = 0.0
+	_stam_delay = 0.0
+	_poise_delay = 0.0
+	_combo_i = 0
+	_blocking = false
+	_riposte_target = null
+	_riposte_t = 0.0
+	_show_flask(false)
+	_set_crosshair(false)
+	if vis != null and vis.trail != null:
+		vis.trail.visible = false
 	velocity = Vector3.ZERO
 	_set_state(S.MOVE)
 	vis.play("RESET")
 	vis.back_to_idle()
+	mana_changed.emit(mana, max_mana)
 	_emit_all()
 
 func heal_full() -> void:

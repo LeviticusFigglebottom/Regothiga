@@ -721,12 +721,17 @@ func _fade_splash(on: bool) -> void:
 func _on_transition(_a: String, to_state: VG.WState) -> void:
 	show_toast("The memory gutters." if to_state == VG.WState.RUIN else "The memory kindles.")
 
+var _toast_tw: Tween = null
+var _lore_opened_at := 0.0
+
 func show_toast(text: String) -> void:
 	toast_label.text = text
-	var tw := create_tween()
-	tw.tween_property(toast_label, "modulate:a", 1.0, 0.4)
-	tw.tween_interval(2.4)
-	tw.tween_property(toast_label, "modulate:a", 0.0, 0.8)
+	if _toast_tw != null and _toast_tw.is_valid():
+		_toast_tw.kill()
+	_toast_tw = create_tween()
+	_toast_tw.tween_property(toast_label, "modulate:a", 1.0, 0.4)
+	_toast_tw.tween_interval(2.4)
+	_toast_tw.tween_property(toast_label, "modulate:a", 0.0, 0.8)
 
 func show_lore(text: String) -> void:
 	lore_text.text = text
@@ -742,15 +747,25 @@ func show_lore(text: String) -> void:
 	_lore_panel.position = Vector2((vp.x - 900.0) * 0.5, maxf((vp.y - h) * 0.5, 40.0))
 	_lore_hint.position = Vector2(46, h - 60.0)
 	lore_root.visible = true
+	lore_root.add_to_group("lore_open")
+	_lore_opened_at = Time.get_ticks_msec() * 0.001
 	if Game.player:
 		Game.player.lock_control(true)
 	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -6.0)
 
 func _input(event: InputEvent) -> void:
-	if lore_root != null and lore_root.visible and (event is InputEventKey or event is InputEventJoypadButton) and event.is_pressed():
-		lore_root.visible = false
-		if Game.player:
-			Game.player.lock_control(false)
+	if lore_root != null and lore_root.visible:
+		if Time.get_ticks_msec() * 0.001 - _lore_opened_at < 0.25:
+			get_viewport().set_input_as_handled()
+			return
+		if ((event is InputEventKey and not event.is_echo()) or event is InputEventJoypadButton or event is InputEventMouseButton) and event.is_pressed():
+			lore_root.visible = false
+			lore_root.remove_from_group("lore_open")
+			if Game.player:
+				Game.player.lock_control(false)
+				if Game.player.has_method("suppress_interact"):
+					Game.player.suppress_interact(8)
+			get_viewport().set_input_as_handled()
 
 func show_boss(boss: Node) -> void:
 	_boss = boss

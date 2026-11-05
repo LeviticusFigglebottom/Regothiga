@@ -156,9 +156,13 @@ func _fill_satchel() -> void:
 			if id == player.weapon_id: nm += "   — in hand"
 			if int(player.weapon_level) > 0: nm += "  (+%d)" % int(player.weapon_level)
 			var tag := ""
-			if w.has("light") and w["light"] is Dictionary:
-				var ld: Dictionary = w["light"]
-				tag = "ATK %d   Poise %d" % [int(ld.get("damage", 0)), int(ld.get("poise", 0))]
+			if w.has("damage"):
+				var base_dmg := int(w.get("damage", 0))
+				var upg: Dictionary = w.get("upgrade", {})
+				var per_lvl := int(upg.get("per_level", 6))
+				var atk := base_dmg + int(player.weapon_level) * per_lvl
+				var poise := int(w.get("poise_damage", 0))
+				tag = "ATK %d   Poise %d" % [atk, poise]
 			_row(id, "arm", _icon_for(id), nm, tag, w.get("desc", ""))
 	_row("flask", "flask", "res://assets/ui/icons/flask.png", "Chrism Flask",
 		"✕%d / %d" % [player.flasks, player.flask_max], DB.item("chrism_flask").get("desc", ""))

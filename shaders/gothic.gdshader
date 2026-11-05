@@ -223,7 +223,7 @@ void fragment() {
 	// Architectural weathering: rising damp near floor (y=0..0.95m) & vertical water/soot streaks
 	float arch_grime = 0.0;
 	if (use_local_triplanar == 0 && albedo_from_vc == 0) {
-		float wall_mask = clamp(1.0 - abs(v_world_nrm.y) * 1.4, 0.0, 1.0);
+		float wall_mask = clamp(1.0 - abs(world_nrm.y) * 1.4, 0.0, 1.0);
 		float streak_n = vnoise(vec3(v_world_pos.x * 2.2, v_world_pos.y * 0.32, v_world_pos.z * 2.2));
 		float ground_damp = (1.0 - smoothstep(0.0, 0.92, max(v_world_pos.y, 0.0))) * (0.55 + 0.45 * n_macro);
 		arch_grime = clamp(wall_mask * ((1.0 - streak_n) * 0.18 + ground_damp * 0.34) + ground_damp * 0.16, 0.0, 0.48);
@@ -252,7 +252,7 @@ void fragment() {
 
 	// Damp sheen on flat horizontal floors in ruin (broad macro-scale puddles)
 	float floor_zone = smoothstep(0.14, 0.03, abs(v_local_pos.y));
-	float puddle = ruin * floor_zone * clamp((v_world_nrm.y - 0.88) * 8.0, 0.0, 1.0)
+	float puddle = ruin * floor_zone * clamp((world_nrm.y - 0.88) * 8.0, 0.0, 1.0)
 			* smoothstep(0.36, 0.74, n_macro * 0.80 + (1.0 - h_field) * 0.25) * (1.0 - metallic_v);
 	ruin_col = mix(ruin_col, ruin_col * 0.82, puddle * 0.38);
 
@@ -262,7 +262,7 @@ void fragment() {
 	vec3 view_dir = normalize(CAMERA_POSITION_WORLD - v_world_pos);
 	float ndv = clamp(dot(world_nrm, view_dir), 0.0, 1.0);
 	// Suppress grazing Fresnel & overhead sky_fill glare on thin horizontal mortar ledges on walls
-	float horiz_ledge = (1.0 - floor_zone) * smoothstep(0.75, 0.92, abs(v_world_nrm.y)) * (1.0 - smoothstep(0.08, 0.42, ndv));
+	float horiz_ledge = (1.0 - floor_zone) * smoothstep(0.75, 0.92, abs(world_nrm.y)) * (1.0 - smoothstep(0.08, 0.42, ndv));
 	float fres = pow(1.0 - ndv, 3.2) * (1.0 - horiz_ledge);
 	if (use_local_triplanar == 0 && albedo_from_vc == 0) {
 		final_albedo *= mix(1.0, 0.36, horiz_ledge);

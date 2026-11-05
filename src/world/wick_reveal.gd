@@ -21,6 +21,17 @@ var _voice: AudioStreamPlayer3D = null
 var _walk_tw: Tween = null
 var _skipped := false
 
+func _ready() -> void:
+	add_to_group(VG.GROUP_RESPAWN_ON_REST)
+
+func respawn() -> void:
+	var area = get_parent().get_parent() if get_parent() != null else Game.current_area
+	if area is Area and (area as Area).area_id == "wick_cathedral":
+		if World.get_area_state("wick_cathedral") == VG.WState.RUIN:
+			WickReveal.gutter(area)
+			StateDirector._set_g("vg_state_blend", 1.0)
+			StateDirector._set_g("vg_wave_r", -1000.0)
+
 func _physics_process(_dt: float) -> void:
 	# claim the veil once it exists (fog gates build after scripted nodes)
 	var area = get_parent().get_parent() if get_parent() != null else null

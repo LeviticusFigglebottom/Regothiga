@@ -140,7 +140,17 @@ func _begin() -> void:
 		World.save_game()
 	_player = Game.player
 	_player.lock_control(true)
+	_player.invulnerable = true
 	_player.velocity = Vector3.ZERO
+	# Pacify any nearby guards so no enemy can strike the kneeling penitent during the vision
+	for e in get_tree().get_nodes_in_group(VG.GROUP_ENEMIES):
+		if e is Enemy and not (e as Enemy).dead:
+			var en := e as Enemy
+			en.target = null
+			en._set_state(Enemy.ES.IDLE)
+			en.velocity = Vector3.ZERO
+	if not Game.player_forgotten.is_connected(_abort_prayer):
+		Game.player_forgotten.connect(_abort_prayer, CONNECT_ONE_SHOT)
 	# the penitent kneels facing the saint — the blade has no place in a
 	# prayer, so the fist empties for the length of the vision
 	var vis: Node3D = _player.get("vis")
@@ -193,7 +203,44 @@ func _begin() -> void:
 	_cam.look_at(pp + Vector3(-0.05, 1.0, 0.8))
 	_cam.make_current()
 	# a breath of stillness, then the light arrives at the penitent's back
-	get_tree().create_timer(2.1, false).timeout.connect(_scion_arrives)
+	var stw := create_tween()
+	stw.tween_interval(2.1)
+	stw.tween_callback(_scion_arrives)
+
+func _exit_tree() -> void:
+	if _busy and _player != null and is_instance_valid(_player):
+		_player.invulnerable = false
+		_player.lock_control(false)
+
+func _abort_prayer() -> void:
+	if not _busy:
+		return
+	set_process(false)
+	set_process_unhandled_input(false)
+	if _voice != null and is_instance_valid(_voice):
+		_voice.stop()
+		_voice.queue_free()
+		_voice = null
+	if _scion != null and is_instance_valid(_scion):
+		_scion.queue_free()
+		_scion = null
+	if _cine != null and is_instance_valid(_cine):
+		_cine.queue_free()
+		_cine = null
+	if _layer != null and is_instance_valid(_layer):
+		_layer.queue_free()
+		_layer = null
+	if _player != null and is_instance_valid(_player):
+		_player.invulnerable = false
+		var vis: Node3D = _player.get("vis")
+		if vis != null:
+			var wm: Node3D = vis.get("weapon_mount")
+			if wm != null:
+				wm.visible = true
+	_line = -1
+	_busy = false
+	if _zone != null:
+		_zone.enabled = true
 
 func _scion_arrives() -> void:
 	# she does not descend — she WALKS, out of the dark of the hall, and
@@ -237,6 +284,17 @@ func _scion_arrives() -> void:
 	ctw.tween_interval(1.2)   # she finishes the walk before she speaks
 	ctw.tween_callback(_advance)
 	set_process(true)
+	set_process_unhandled_input(true)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _line < 0 or _line >= _lines.size():
+		return
+	var pressed: bool = (event is InputEventKey and event.pressed and not event.is_echo()) \
+			or (event is InputEventMouseButton and event.pressed) \
+			or (event is InputEventJoypadButton and event.pressed)
+	if pressed and _line_t > 0.6:
+		get_viewport().set_input_as_handled()
+		_advance()
 
 func _process(dt: float) -> void:
 	if _line < 0:
@@ -273,6 +331,9 @@ func _advance() -> void:
 		_voice.play()
 
 func _end() -> void:
+	set_process_unhandled_input(false)
+	if Game.player_forgotten.is_connected(_abort_prayer):
+		Game.player_forgotten.disconnect(_abort_prayer)
 	_sub.text = ""
 	if _voice != null and is_instance_valid(_voice):
 		_voice.stop()
@@ -305,6 +366,7 @@ func _end() -> void:
 				var wm: Node3D = vis.get("weapon_mount")
 				if wm != null:
 					wm.visible = true
+			_player.invulnerable = false
 			_player.lock_control(false)
 		_line = -1
 		_busy = false

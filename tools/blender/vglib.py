@@ -213,6 +213,9 @@ def add_box(bm, min_co, max_co):
     """Axis-aligned box between two corners; returns its faces' verts."""
     x0, y0, z0 = min_co
     x1, y1, z1 = max_co
+    x0, x1 = min(x0, x1), max(x0, x1)
+    y0, y1 = min(y0, y1), max(y0, y1)
+    z0, z1 = min(z0, z1), max(z0, z1)
     vs = [bm.verts.new((x, y, z)) for x in (x0, x1) for y in (y0, y1) for z in (z0, z1)]
     # vs index: x*4 + y*2 + z
     faces = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4), (1, 5, 7, 3), (0, 4, 5, 1), (2, 3, 7, 6)]
@@ -304,21 +307,24 @@ def wall_panel_with_arch(name, width, height, thickness, opening_w, spring_h,
             pass  # duplicate face guard
 
     # Build as vertical slices: left jamb, opening span (above arch), right jamb.
-    # Left jamb: x from -hw to -ow, full height.
+    zs = [0.0] + ([sill_h] if sill_h > 0.0 else []) + [spring_h, height]
     for (x0, x1) in ((-hw, -ow), (ow, hw)):
-        f, b = face_ring([(x0, 0), (x1, 0), (x1, height), (x0, height)])
-        quad(f[0], f[1], f[2], f[3]); quad(b[3], b[2], b[1], b[0])
-        quad(f[3], f[2], b[2], b[3])   # top edge cap (merged later with center)
-        quad(b[0], b[1], f[1], f[0])   # bottom
-        # outer side edge
-        if x0 == -hw:
-            quad(f[0], f[3], b[3], b[0])
-        else:
-            quad(f[0], f[3], b[3], b[0])
-        if x1 == hw:
-            quad(f[2], f[1], b[1], b[2])
-        else:
-            quad(f[2], f[1], b[1], b[2])
+        for zi in range(len(zs) - 1):
+            za, zb = zs[zi], zs[zi + 1]
+            f, b = face_ring([(x0, za), (x1, za), (x1, zb), (x0, zb)])
+            quad(f[0], f[1], f[2], f[3]); quad(b[3], b[2], b[1], b[0])
+            if zi == len(zs) - 2:
+                quad(f[3], f[2], b[2], b[3])   # top edge cap
+            if zi == 0:
+                quad(b[0], b[1], f[1], f[0])   # bottom
+            if x0 == -hw:
+                quad(f[0], f[3], b[3], b[0])
+            elif za >= sill_h - 1e-4 and zb <= spring_h + 1e-4:
+                quad(f[0], f[3], b[3], b[0])
+            if x1 == hw:
+                quad(f[2], f[1], b[1], b[2])
+            elif za >= sill_h - 1e-4 and zb <= spring_h + 1e-4:
+                quad(f[2], f[1], b[1], b[2])
 
     # Center: below sill (if window), above arch curve.
     if sill_h > 0.0:

@@ -146,15 +146,17 @@ def palace_wall_low_4m():
 
 
 def palace_cornice_4m():
-    """Projecting marble cornice with a continuous gold bead. Bottom-center."""
-    prof = [(0.0, 0.0), (0.18, 0.02), (0.22, 0.10), (0.12, 0.16), (0.18, 0.26), (0.0, 0.3)]
-    path = [(-2, 0, 0), (2, 0, 0)]
-    body = V.sweep_profile("palace_cornice", path, prof, "M_marble",
-                           up_hint=Vector((0, 0, 1)))
+    """Projecting marble cornice with a continuous gold bead on both faces. Bottom-center."""
     bm = bmesh.new()
-    V.add_box(bm, (-2, 0.10, 0.02), (2, 0.24, 0.10))
-    bead = V.bm_to_object(bm, "palace_cornice_gild", ("M_gild",))
-    return [body, bead], {"size": [4, 0.3, 0.3], "origin": "bottom-center"}
+    V.add_box(bm, (-2, -0.26, 0.0), (2, 0.26, 0.08))
+    V.add_box(bm, (-2, -0.32, 0.08), (2, 0.32, 0.18))
+    V.add_box(bm, (-2, -0.38, 0.18), (2, 0.38, 0.30))
+    body = V.bm_to_object(bm, "palace_cornice", ("M_marble",))
+    bm_g = bmesh.new()
+    V.add_box(bm_g, (-2, -0.30, 0.03), (2, 0.30, 0.09))
+    V.add_box(bm_g, (-2, -0.40, 0.22), (2, 0.40, 0.29))
+    bead = V.bm_to_object(bm_g, "palace_cornice_gild", ("M_gild",))
+    return [body, bead], {"size": [4, 0.8, 0.3], "origin": "bottom-center"}
 
 
 def palace_portal_4m():
@@ -211,10 +213,10 @@ def palace_portal_4m():
     bm_jamb = bmesh.new()
     for sx in (-1, 1):                                             # jamb colonnettes + continuous impost capitals
         # Stepped gold impost capital & base plinth wrapping the jamb reveal and both colonnettes
-        x_in, x_out = (0.92, 1.18) if sx > 0 else (-1.18, -0.92)
-        V.add_box(bm_jamb, (x_in, -0.30, 0.0), (x_out, 0.30, 0.14))
-        V.add_box(bm_jamb, (x_in - 0.02 * sx, -0.28, 1.42), (x_out, 0.28, 1.50))
-        V.add_box(bm_jamb, (x_in - 0.03 * sx, -0.31, 1.50), (x_out + 0.02 * sx, 0.31, 1.60))
+        x_jamb, x_wall = sx * 0.92, sx * 1.18
+        V.add_box(bm_jamb, (x_jamb, -0.30, 0.0), (x_wall, 0.30, 0.14))
+        V.add_box(bm_jamb, (x_jamb - 0.02 * sx, -0.28, 1.42), (x_wall + 0.01 * sx, 0.28, 1.50))
+        V.add_box(bm_jamb, (x_jamb - 0.03 * sx, -0.31, 1.50), (x_wall + 0.02 * sx, 0.31, 1.60))
         for sy in (-0.24, 0.24):
             c = _marble_colonnette(0.085, 1.42)
             c.location = (sx * 1.03, sy, 0)
@@ -272,10 +274,10 @@ def palace_arcade_4m():
                                 up_hint=Vector((0, 1, 0))))
     bm_jamb = bmesh.new()
     for sx in (-1, 1):
-        x_in, x_out = (1.17, 1.42) if sx > 0 else (-1.42, -1.17)
-        V.add_box(bm_jamb, (x_in, -0.25, 0.0), (x_out, 0.25, 0.14))
-        V.add_box(bm_jamb, (x_in - 0.02 * sx, -0.24, 1.82), (x_out, 0.24, 1.90))
-        V.add_box(bm_jamb, (x_in - 0.03 * sx, -0.26, 1.90), (x_out + 0.02 * sx, 0.26, 2.00))
+        x_jamb, x_wall = sx * 1.17, sx * 1.42
+        V.add_box(bm_jamb, (x_jamb, -0.25, 0.0), (x_wall, 0.25, 0.14))
+        V.add_box(bm_jamb, (x_jamb - 0.02 * sx, -0.24, 1.82), (x_wall + 0.01 * sx, 0.24, 1.90))
+        V.add_box(bm_jamb, (x_jamb - 0.03 * sx, -0.26, 1.90), (x_wall + 0.02 * sx, 0.26, 2.00))
         for sy in (-0.19, 0.19):
             c = _marble_colonnette(0.085, 1.82)
             c.location = (sx * 1.28, sy, 0)
@@ -564,10 +566,11 @@ def palace_dome_12m():
     n = 32
     dz = 0.85
 
-    def _loft2(name, prof, mat):
-        rings = [(r, z, n, 0) for (r, z) in prof]
-        a = V.loft_rings(name, rings, mat, cap_bottom=False, cap_top=False)
-        b = V.loft_rings(name + "_in", list(reversed(rings)), mat,
+    def _loft2(name, prof, mat, dr=0.0, dz_off=0.012):
+        rings_a = [(r + dr, z + dz_off, n, 0) for (r, z) in prof]
+        rings_b = [(r, z, n, 0) for (r, z) in reversed(prof)]
+        a = V.loft_rings(name, rings_a, mat, cap_bottom=False, cap_top=False)
+        b = V.loft_rings(name + "_in", rings_b, mat,
                          cap_bottom=False, cap_top=False)
         return [a, b]
 
@@ -579,8 +582,10 @@ def palace_dome_12m():
     objs.append(V.loft_rings("dome_shell", list(reversed([(r, z, n, 0) for (r, z) in prof_in])),
                              "M_marble", cap_bottom=False, cap_top=False))
     # Pendentive collar bridging r=5.95 circle to the 12x16 crossing rectangle (r=10.4 covers corners)
-    objs += _loft2("dome_pendentive", [(5.95, dz + 0.02), (10.4, dz + 0.02)], "M_marble")
-    objs += _loft2("dome_pendentive_top", [(5.95, dz + 0.28), (10.4, dz + 0.28)], "M_marble")
+    objs.append(V.loft_rings("dome_pendentive", [(10.4, dz + 0.02, n, 0), (5.95, dz + 0.02, n, 0)],
+                             "M_marble", cap_bottom=False, cap_top=False))
+    objs.append(V.loft_rings("dome_pendentive_top", [(5.95, dz + 0.28, n, 0), (10.4, dz + 0.28, n, 0)],
+                             "M_marble", cap_bottom=False, cap_top=False))
 
     # Matching coffer beam segments on the pendentive soffit outside the circular drum (r >= 6.05)
     cbm = _bmesh.new()
@@ -618,7 +623,10 @@ def palace_dome_12m():
         objs.append(V.sweep_profile(f"dome_rib_{i}", rpath, rib_prof, "M_gold",
                                     up_hint=Vector((-sa, ca, 0))))
     objs += _loft2("dome_oculus", [(1.25, 3.25 + dz), (1.3, 3.45 + dz), (1.1, 3.58 + dz)], "M_gold")
-    objs += _loft2("dome_eye_disc", [(1.14, 3.5 + dz), (0.5, 3.6 + dz), (0.08, 3.64 + dz)], "M_stone_dark")
+    objs.append(V.loft_rings("dome_eye_disc", [(1.14, 3.52 + dz, n, 0), (0.5, 3.62 + dz, n, 0), (0.08, 3.66 + dz, n, 0)],
+                             "M_stone_dark", cap_bottom=False, cap_top=True))
+    objs.append(V.loft_rings("dome_eye_disc_in", [(0.08, 3.64 + dz, n, 0), (0.5, 3.6 + dz, n, 0), (1.14, 3.5 + dz, n, 0)],
+                             "M_stone_dark", cap_bottom=True, cap_top=False))
     sbm = _bmesh.new()
     srng = random.Random(23)
     for _ in range(16):
@@ -654,14 +662,25 @@ def palace_cove_dome():
     def _ring(t):
         # equal inset all around (true cloister groins), blending to a
         # circle near the crown so the round oculus seats cleanly
-        m_in = (D - CROWN) * _ease(t)
+        e = _ease(t)
+        m_in = (D - CROWN) * e
         rx = W - m_in
         rz = D - m_in
-        blend = 0.0 if t < 0.6 else ((t - 0.6) / 0.4) ** 2
-        z = RISE * _ease(t)
+        blend = 0.0 if t < 0.45 else min(1.0, (t - 0.45) / 0.50) ** 1.6
+        z = RISE * e
+        # Warp angle so i in (6, 18, 30, 42) land on the exact rectangle groin corners
+        a_corn = math.atan2(rz, rx)
+        anchors_in = [0.0, math.pi * 0.25, math.pi * 0.5, math.pi * 0.75,
+                      math.pi, math.pi * 1.25, math.pi * 1.5, math.pi * 1.75, math.tau]
+        anchors_out = [0.0, a_corn, math.pi * 0.5, math.pi - a_corn,
+                       math.pi, math.pi + a_corn, math.pi * 1.5, math.tau - a_corn, math.tau]
         pts = []
         for i in range(N):
-            a = math.tau * i / N
+            a_raw = math.tau * i / N
+            seg = min(int(i // 6), 7)
+            u = (a_raw - anchors_in[seg]) / (anchors_in[seg + 1] - anchors_in[seg])
+            a_rect = anchors_out[seg] + u * (anchors_out[seg + 1] - anchors_out[seg])
+            a = a_rect + (a_raw - a_rect) * blend
             c, s = math.cos(a), math.sin(a)
             # ray-to-rectangle-boundary point
             th = 1.0 / max(abs(c) / max(rx, 1e-3), abs(s) / max(rz, 1e-3))
@@ -672,61 +691,51 @@ def palace_cove_dome():
                                py + (qy - py) * blend, z)))
         return pts
 
-    def _sheet(name, rings, mat, scale=1.0, drop=0.0):
-        """Bridge consecutive rings into a quad shell — BOTH windings."""
-        out = []
-        for rev in (False, True):
-            bm = _bmesh.new()
-            rows = []
-            for pts in rings:
-                row = [bm.verts.new(Vector((p.x * scale, p.y * scale, p.z + drop)))
-                       for p in pts]
-                rows.append(row)
-            bm.verts.ensure_lookup_table()
-            for j in range(len(rows) - 1):
-                a, b = rows[j], rows[j + 1]
-                for i in range(N):
-                    k = (i + 1) % N
-                    q = [a[i], a[k], b[k], b[i]]
-                    bm.faces.new(reversed(q) if rev else q)
-            out.append(V.bm_to_object(bm, name + ("_in" if rev else ""), (mat,)))
-        return out
+    def _sheet_one(name, rings, mat, scale=1.0, drop=0.0, rev=False):
+        """Bridge consecutive rings into a single-winding quad shell."""
+        bm = _bmesh.new()
+        rows = []
+        for pts in rings:
+            row = [bm.verts.new(Vector((p.x * scale, p.y * scale, p.z + drop)))
+                   for p in pts]
+            rows.append(row)
+        bm.verts.ensure_lookup_table()
+        for j in range(len(rows) - 1):
+            a, b = rows[j], rows[j + 1]
+            for i in range(N):
+                k = (i + 1) % N
+                q = [a[i], a[k], b[k], b[i]]
+                bm.faces.new(reversed(q) if rev else q)
+        return V.bm_to_object(bm, name, (mat,))
 
     rings = [_ring(j / (STEPS - 1.0)) for j in range(STEPS)]
-    objs += _sheet("cove_shell", rings, "M_marble")
-    # base cornice: a gold course where the bowl leaves the walls
-    objs += _sheet("cove_cornice", rings[0:2], "M_gold", scale=1.004, drop=-0.02)
-    # latitude bands: gilt courses riding the bowl
-    for j in (4, 7, 10):
-        objs += _sheet("cove_band", rings[j:j + 2], "M_gold", scale=0.992, drop=-0.03)
-    # meridian ribs: CONTINUOUS gilt runs following the slope — dashed
-    # segments read as stitching, not structure
-    bm = _bmesh.new()
-    for i in range(0, N, 4):
-        for j in range(1, STEPS - 1):
-            p = rings[j][i]
-            q = rings[j - 1][i]
-            seg = p - q
-            d = seg.normalized()
-            c = (p + q) * 0.5
-            hl = seg.length * 0.5 + 0.05
-            side = d.cross(Vector((0, 0, 1)))
-            if side.length < 0.01:
-                side = Vector((1, 0, 0))
-            side = side.normalized() * 0.12
-            nrm = d.cross(side).normalized() * 0.09
-            vs = []
-            for sa in (-1, 1):
-                for sb in (-1, 1):
-                    for sc_ in (-1, 1):
-                        vs.append(bm.verts.new(c + d * (hl * sa) + side * sb + nrm * sc_))
-            for q4 in ((0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4),
-                       (1, 5, 7, 3), (0, 4, 5, 1), (2, 3, 7, 6)):
-                try:
-                    bm.faces.new([vs[k] for k in q4])
-                except ValueError:
-                    pass
-    objs.append(V.bm_to_object(bm, "cove_ribs", ("M_gold",)))
+    # Separate outer and inner shells so backfaces never z-fight or poke through bands
+    objs.append(_sheet_one("cove_shell_out", rings, "M_marble", scale=1.015, drop=0.06, rev=False))
+    objs.append(_sheet_one("cove_shell_in", rings, "M_marble", scale=1.0, drop=0.0, rev=True))
+    # Proud 3D rectangular perimeter entablature/cornice around the 20x16 m wall top
+    cbm = _bmesh.new()
+    for sx in (-1, 1):
+        # East/West 16 m wall-top cornice beams
+        V.add_box(cbm, (sx * (W - 0.28), -D - 0.16, -0.16), (sx * (W + 0.16), D + 0.16, 0.14))
+    for sy in (-1, 1):
+        # North/South 20 m wall-top cornice beams
+        V.add_box(cbm, (-W - 0.16, sy * (D - 0.28), -0.16), (W + 0.16, sy * (D + 0.16), 0.14))
+    objs.append(V.bm_to_object(cbm, "cove_perimeter_cornice", ("M_gold",)))
+    # Interior lower gold springing course + latitude bands riding proud of the inner shell
+    objs.append(_sheet_one("cove_cornice_in", rings[0:2], "M_gold", scale=0.988, drop=-0.028, rev=True))
+    for j in (4, 7):
+        objs.append(_sheet_one(f"cove_band_{j}", rings[j:j + 2], "M_gold", scale=0.986, drop=-0.032, rev=True))
+    # Continuous gold crown collar spanning rings[10..12] right into the oculus ring
+    objs.append(_sheet_one("cove_crown_collar", rings[10:13], "M_gold", scale=0.985, drop=-0.032, rev=True))
+    # Continuous swept meridian ribs along all 4 cardinal midpoints + 4 diagonal cloister groins + intermediates
+    rib_prof = V.chamfer_rect_profile(0.20, 0.14, 0.03)
+    for i in range(0, N, 3):
+        a = math.tau * i / N
+        ca, sa = math.cos(a), math.sin(a)
+        path = [(rings[j][i].x * 0.988, rings[j][i].y * 0.988, rings[j][i].z - 0.025)
+                for j in range(STEPS)]
+        objs.append(V.sweep_profile(f"cove_rib_{i}", path, rib_prof, "M_gold",
+                                    up_hint=Vector((-sa, ca, 0))))
     # the oculus: gold ring + starred eye sealing the crown
     zc = RISE
     objs.append(V.loft_rings("cove_oculus", [(1.52, zc - 0.06, 24, 0), (1.58, zc + 0.1, 24, 0),
@@ -737,12 +746,12 @@ def palace_cove_dome():
                              cap_bottom=False, cap_top=False))
     # the eye: a deep night disc behind the ring, sown with gilt stars —
     # an emissive orange plate read as a hovering sun, not an oculus
-    objs.append(V.loft_rings("cove_eye", [(1.32, zc + 0.14, 24, 0), (0.6, zc + 0.3, 24, 0),
-                                          (0.08, zc + 0.36, 24, 0)], "M_stone_dark",
-                             cap_bottom=True, cap_top=False))
+    objs.append(V.loft_rings("cove_eye", [(1.32, zc + 0.16, 24, 0), (0.6, zc + 0.32, 24, 0),
+                                          (0.08, zc + 0.38, 24, 0)], "M_stone_dark",
+                             cap_bottom=False, cap_top=True))
     objs.append(V.loft_rings("cove_eye_in", [(0.08, zc + 0.36, 24, 0), (0.6, zc + 0.3, 24, 0),
                                              (1.32, zc + 0.14, 24, 0)], "M_stone_dark",
-                             cap_bottom=False, cap_top=False))
+                             cap_bottom=True, cap_top=False))
     sbm = _bmesh.new()
     srng = random.Random(11)
     for _ in range(22):
@@ -787,15 +796,15 @@ def chandelier_gilt(chain_top=3.6):
     # Hollow upper wheel-crown (r = 0.52..0.72) with stepped rim moulding
     _add_hollow_wheel(bm_gild, 0.52, 0.72, 0.91, 1.05, n=16)
     _add_hollow_wheel(bm_gild, 0.50, 0.75, 0.96, 1.00, n=16)
-    # Central hub collar + 6 radial wheel spokes connecting hub to great ring
+    # Central hub collar + 6 continuous radial wheel spokes connecting hub to great ring
     V.add_cyl(bm_gild, 0.0, 0.0, -0.10, 0.20, 0.14, n=12)
+    spoke_prof = V.chamfer_rect_profile(0.048, 0.044, 0.01)
     for i in range(6):
         a = math.tau * i / 6
         ca, sa = math.cos(a), math.sin(a)
-        for s in range(7):
-            r_s = 0.12 + 1.02 * (s / 6.0)
-            V.add_box(bm_gild, (ca * r_s - 0.025, sa * r_s - 0.025, -0.022),
-                      (ca * r_s + 0.025, sa * r_s + 0.022, 0.022))
+        objs.append(V.sweep_profile(f"chand_spoke_{i}",
+                                    [(ca * 0.12, sa * 0.12, 0.0), (ca * 1.15, sa * 1.15, 0.0)],
+                                    spoke_prof, "M_gild", up_hint=Vector((0, 0, 1))))
     # Moulded gilt bobeche drip dishes under every candle
     for i in range(12):
         a = math.tau * (i + 0.5) / 12

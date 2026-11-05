@@ -208,10 +208,18 @@ for s in (1, -1):
     # ---- the sealed reward alcove (x 18..22 mirrored), gate is the ONLY way
     piece("palace_wall_4x4", (20 * s, 0, 6), 0)
     piece("palace_wall_4x4", (20 * s, 0, 10), 180)
+    piece("palace_window_4m", (20 * s, 4, 6), 0)
+    piece("palace_window_4m", (20 * s, 4, 10), 180)
+    piece("palace_cornice_4m", (20 * s, 8, 6), 0)
+    piece("palace_cornice_4m", (20 * s, 8, 10), 180)
     piece("palace_wall_4x4", (18 * s, 0, 6.4), ra, scale=[0.2, 1, 1])
     piece("palace_wall_4x4", (18 * s, 0, 9.6), ra, scale=[0.2, 1, 1])
+    piece("palace_window_4m", (18 * s, 4, 8), ra)
+    piece("palace_cornice_4m", (18 * s, 8, 8), ra)
     piece("palace_pier", (18 * s, 0, 6), 0)
     piece("palace_pier", (18 * s, 0, 10), 0)
+    ax0, ax1 = (18, 22) if s > 0 else (-22, -18)
+    B.append({"min": [ax0, 8.0, 6.0], "max": [ax1, 8.4, 10.0], "tag": "base", "mat": "M_marble", "collide": False})
 
 # ---------------------------------------------------------------- east court: the Offices of the Hour
 prop("brazier_lit", (16.2, 0, 5.4), 90, tag="glory")

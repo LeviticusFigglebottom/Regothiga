@@ -25,6 +25,7 @@ func _init(cfg: Dictionary, node: Node3D) -> void:
 
 func _ready() -> void:
 	layer = 20
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(root)
@@ -194,6 +195,16 @@ func _render_options() -> void:
 		var selected := i == _opt_i
 		l.label_settings = _ls(24, Color(0.98, 0.88, 0.58) if selected else Color(0.74, 0.69, 0.60), selected)
 		l.text = ("◆  " if selected else "    ") + _option_label(o)
+		l.mouse_filter = Control.MOUSE_FILTER_STOP
+		var idx := i
+		l.mouse_entered.connect(func():
+			if _opt_i != idx:
+				_opt_i = idx
+				_render_options())
+		l.gui_input.connect(func(ev: InputEvent):
+			if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
+				choose(idx)
+				get_viewport().set_input_as_handled())
 		options_box.add_child(l)
 
 func _option_label(o: Dictionary) -> String:
@@ -365,6 +376,8 @@ func close() -> void:
 	_closing = true
 	if Game.player != null:
 		Game.player.exit_dialogue()
+		if not Game.player.sim_active:
+			Game.player._grab_mouse(true)
 	closed.emit()
 	World.save_game()
 	queue_free()

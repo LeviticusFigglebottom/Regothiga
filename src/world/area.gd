@@ -27,6 +27,19 @@ func _init() -> void:
 func state() -> VG.WState:
 	return World.get_area_state(area_id)
 
+func default_spawn() -> Vector3:
+	var def: Dictionary = get_meta("def", {})
+	var st: Dictionary = def.get("start", {})
+	var p: Array = st.get("pos", [])
+	if p.size() >= 3:
+		return Vector3(float(p[0]), float(p[1]), float(p[2]))
+	var lanterns: Array = def.get("lanterns", [])
+	if not lanterns.is_empty():
+		var lp: Array = lanterns[0].get("at", [0, 0.2, 0])
+		if lp.size() >= 3:
+			return Vector3(float(lp[0]), float(lp[1]) + 0.2, float(lp[2]) + 1.4)
+	return Vector3(0, 0.3, 0)
+
 ## Attach a kit piece (or any node) to a layer. state_tag: "base"|"glory"|"ruin"
 func attach(node: Node3D, state_tag := "base") -> void:
 	match state_tag:

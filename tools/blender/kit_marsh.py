@@ -10,18 +10,31 @@ import vglib as V
 
 
 def _blade(bm, x, y, h, lean_x, lean_y, w=0.03):
-    """One reed blade: a thin tapering triangle leaning off vertical.
+    """One reed blade: a curved 3-segment tapering stalk leaning off vertical.
     Emitted in BOTH windings (fresh verts — bmesh refuses twin faces on
-    shared ones) so the stem reads from every bank; one-sided blades left
-    the seed heads floating when seen from the culled side."""
-    a = bm.verts.new((x - w, y, 0.0))
-    b = bm.verts.new((x + w, y, 0.0))
-    tip = bm.verts.new((x + lean_x, y + lean_y, h))
-    bm.faces.new((a, b, tip))
-    a2 = bm.verts.new((x - w, y, 0.0))
-    b2 = bm.verts.new((x + w, y, 0.0))
-    tip2 = bm.verts.new((x + lean_x, y + lean_y, h))
-    bm.faces.new((tip2, b2, a2))
+    shared ones) so the stem reads from every bank."""
+    segs = 3
+    for flip in (False, True):
+        rings = []
+        for s in range(segs + 1):
+            t = s / float(segs)
+            # Quadratic bend so reed curves gracefully toward its tip
+            bx = x + lean_x * (t * t)
+            by = y + lean_y * (t * t)
+            bz = h * t
+            hw = w * (1.0 - 0.85 * t)
+            if s == segs:
+                rings.append([bm.verts.new((bx, by, bz))])
+            else:
+                rings.append([bm.verts.new((bx - hw, by, bz)), bm.verts.new((bx + hw, by, bz))])
+        for s in range(segs):
+            r0, r1 = rings[s], rings[s + 1]
+            if len(r1) == 1:
+                tri = (r0[0], r0[1], r1[0]) if not flip else (r1[0], r0[1], r0[0])
+                bm.faces.new(tri)
+            else:
+                quad = (r0[0], r0[1], r1[1], r1[0]) if not flip else (r0[0], r1[0], r1[1], r0[1])
+                bm.faces.new(quad)
 
 
 def reed_clump(seed=5):
@@ -195,13 +208,29 @@ def waystone(seed=13):
     bm_trim = bmesh.new()
     for sx in (-0.28, 0.28):
         V.add_box(bm_trim, (sx - 0.035, -0.165, 0.16), (sx + 0.035, 0.165, 1.48))
-    for i in range(12):
-        a0 = math.tau * i / 12
-        a1 = math.tau * (i + 1) / 12
-        xm = 0.18 * math.cos(0.5 * (a0 + a1))
-        zm = 1.18 + 0.18 * math.sin(0.5 * (a0 + a1))
-        V.add_box(bm_trim, (xm - 0.03, -0.175, zm - 0.03), (xm + 0.03, 0.175, zm + 0.03))
-    V.add_box(bm_trim, (-0.04, -0.175, 1.14), (0.04, 0.175, 1.22))
+    # Continuous 16-sided relief sun-ring in X-Z plane at z=1.18
+    n_seg = 16
+    r_in, r_out = 0.145, 0.205
+    for sy in (-1, 1):
+        y0, y1 = (-0.178, -0.148) if sy < 0 else (0.148, 0.178)
+        ring_v = []
+        for i in range(n_seg):
+            a = math.tau * i / n_seg
+            ca, sa = math.cos(a), math.sin(a)
+            ring_v.append((
+                bm_trim.verts.new((r_in * ca, y0, 1.18 + r_in * sa)),
+                bm_trim.verts.new((r_out * ca, y0, 1.18 + r_out * sa)),
+                bm_trim.verts.new((r_out * ca, y1, 1.18 + r_out * sa)),
+                bm_trim.verts.new((r_in * ca, y1, 1.18 + r_in * sa)),
+            ))
+        for i in range(n_seg):
+            v0 = ring_v[i]
+            v1 = ring_v[(i + 1) % n_seg]
+            bm_trim.faces.new((v0[0], v0[1], v1[1], v1[0]))
+            bm_trim.faces.new((v0[3], v1[3], v1[2], v0[2]))
+            bm_trim.faces.new((v0[1], v0[2], v1[2], v1[1]))
+            bm_trim.faces.new((v0[0], v1[0], v1[3], v0[3]))
+    V.add_box(bm_trim, (-0.045, -0.178, 1.135), (0.045, 0.178, 1.225))
     ring = V.bm_to_object(bm_trim, "way_ring", ("M_stone_trim",))
     ring.rotation_euler = (rx, ry, rz)
     objs.append(ring)

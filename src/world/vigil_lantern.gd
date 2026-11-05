@@ -31,6 +31,8 @@ func _ready() -> void:
 	lbody.add_child(lcs)
 	vis.add_child(lbody)
 	_flame = _find_flame(vis)
+	if _flame != null:
+		_flame.set_instance_shader_parameter("keep_in_ruin", 1.0)
 	var lights := KitLib.add_flame_lights(vis, 3.2, 8.8)
 	if lights.size() > 0:
 		_light = lights[0]

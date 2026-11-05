@@ -41,12 +41,25 @@ def _spire(bm, cx, cy, base_z, w, h, tip_w=0.02):
 
 
 def _niche_face(bm, x0, x1, y, z0, z1, count, depth=0.35):
-    """Row of dark lancet-ish inset panels on a wall face at y (facing -Y)."""
+    """Row of dark lancet-ish inset panels on a wall face at y (facing ±Y)."""
     w = (x1 - x0) / count
+    y_lo = y - depth * 0.5 if y < 0 else y - 0.01
+    y_hi = y + 0.01 if y < 0 else y + depth * 0.5
     for i in range(count):
         nx0 = x0 + i * w + w * 0.25
         nx1 = x0 + (i + 1) * w - w * 0.25
-        _box(bm, nx0, y - depth * 0.5, z0, nx1, y + 0.01, z1)
+        _box(bm, nx0, y_lo, z0, nx1, y_hi, z1)
+
+
+def _niche_face_x(bm, y0, y1, x, z0, z1, count, depth=0.35):
+    """Row of dark lancet-ish inset panels on a wall face at x (facing ±X)."""
+    w = (y1 - y0) / count
+    x_lo = x - depth * 0.5 if x < 0 else x - 0.01
+    x_hi = x + 0.01 if x < 0 else x + depth * 0.5
+    for i in range(count):
+        ny0 = y0 + i * w + w * 0.25
+        ny1 = y0 + (i + 1) * w - w * 0.25
+        _box(bm, x_lo, ny0, z0, x_hi, ny1, z1)
 
 
 def spire_tower(seed=1):
@@ -63,11 +76,11 @@ def spire_tower(seed=1):
         _box(bm, -w, -w, z, w, w, z + h)
         # string course
         _box(bm, -w - 0.3, -w - 0.3, z + h, w + 0.3, w + 0.3, z + h + 0.5)
-        for face in range(4):
-            # niches on each face via rotated helper: bake onto ±X/±Y by symmetry
-            pass
-        _niche_face(nbm, -w * 0.8, w * 0.8, -w, z + h * 0.25, z + h * 0.82, 2 + t % 2)
-        _niche_face(nbm, -w * 0.8, w * 0.8, w, z + h * 0.25, z + h * 0.82, 2 + t % 2)
+        cnt = 2 + t % 2
+        _niche_face(nbm, -w * 0.8, w * 0.8, -w, z + h * 0.25, z + h * 0.82, cnt)
+        _niche_face(nbm, -w * 0.8, w * 0.8, w, z + h * 0.25, z + h * 0.82, cnt)
+        _niche_face_x(nbm, -w * 0.8, w * 0.8, -w, z + h * 0.25, z + h * 0.82, cnt)
+        _niche_face_x(nbm, -w * 0.8, w * 0.8, w, z + h * 0.25, z + h * 0.82, cnt)
         z += h + 0.5
         w *= rng.uniform(0.8, 0.88)
     # crown pinnacles + spire
@@ -103,7 +116,7 @@ def cathedral_mass(seed=5):
         y = 6 + i * 6.5
         for sx in (-1, 1):
             x0 = sx * (nave_w / 2 + 4)
-            _box(bm, x0 - 0.5 * sx if sx > 0 else x0, y - 0.5, 0, x0 + 0.5 if sx > 0 else x0 + 0.5 * -sx, y + 0.5, aisle_h + 3.5)
+            _box(bm, x0 - 0.5, y - 0.5, 0, x0 + 0.5, y + 0.5, aisle_h + 3.5)
     # west towers
     for sx in (-1, 1):
         tx = sx * (nave_w / 2 + 6.5)
@@ -292,11 +305,22 @@ def urn():
     bm = bmesh.new()
     _box(bm, -0.24, -0.24, 0.0, 0.24, 0.24, 0.06)
     _box(bm, -0.20, -0.20, 0.06, 0.20, 0.20, 0.10)
-    for sx in (-1, 1):
-        _box(bm, sx * 0.29 - 0.035, -0.028, 0.56, sx * 0.29 + 0.035, 0.028, 0.88)
-        _box(bm, sx * 0.23 - 0.045, -0.028, 0.84, sx * 0.23 + 0.045, 0.028, 0.90)
-        _box(bm, sx * 0.27 - 0.045, -0.028, 0.54, sx * 0.27 + 0.045, 0.028, 0.60)
     objs.append(V.bm_to_object(bm, "urn_plinth", ("M_stone_dark",)))
+    for sx in (-1, 1):
+        h_pts = [
+            (sx * 0.19, 0.0, 0.86),
+            (sx * 0.28, 0.0, 0.90),
+            (sx * 0.34, 0.0, 0.78),
+            (sx * 0.33, 0.0, 0.62),
+            (sx * 0.27, 0.0, 0.52),
+        ]
+        objs.append(V.sweep_profile(
+            f"urn_handle_{sx}",
+            h_pts,
+            V.chamfer_rect_profile(0.036, 0.044, 0.008),
+            "M_stone_dark",
+            up_hint=Vector((0, 1, 0)),
+        ))
     u = V.loft_rings(
         "urn",
         [
@@ -366,17 +390,38 @@ def wellhead():
         )
         collar.location = (sx, 0, 0)
         objs.append(collar)
-    bar = V.box_object("well_bar", [2.0, 0.14, 0.14], "M_wood", origin="center")
-    bar.location = (0, 0, 1.5)
+    # Cylindrical oak windlass drum + iron axle journals
+    bar = V.sweep_profile(
+        "well_bar",
+        [(-0.88, 0.0, 1.50), (0.88, 0.0, 1.50)],
+        V.circle_profile(0.075, 12),
+        "M_wood",
+        up_hint=Vector((0, 0, 1)),
+    )
     objs.append(bar)
-    # an iron crank handle off one post
-    crank = V.box_object("well_crank", [0.34, 0.06, 0.06], "M_iron", origin="center")
-    crank.location = (1.0, -0.24, 1.5)
+    axle = V.sweep_profile(
+        "well_axle",
+        [(-1.02, 0.0, 1.50), (1.04, 0.0, 1.50)],
+        V.circle_profile(0.032, 10),
+        "M_iron",
+        up_hint=Vector((0, 0, 1)),
+    )
+    objs.append(axle)
+    # Continuous wrought-iron S-crank handle off the +X post
+    crank = V.sweep_profile(
+        "well_crank",
+        [
+            (1.02, 0.0, 1.50),
+            (1.02, -0.24, 1.50),
+            (1.02, -0.24, 1.26),
+            (1.20, -0.24, 1.26),
+        ],
+        V.chamfer_rect_profile(0.042, 0.042, 0.008),
+        "M_iron",
+        up_hint=Vector((1, 0, 0)),
+    )
     objs.append(crank)
-    handle = V.box_object("well_handle", [0.06, 0.06, 0.24], "M_iron", origin="center")
-    handle.location = (1.15, -0.24, 1.28)
-    objs.append(handle)
-    # Closed double-walled wooden bucket + 3D iron hoops
+    # Closed double-walled wooden bucket + 3D iron hoops + arched iron bail + chain
     bucket = V.loft_rings(
         "bucket",
         [
@@ -408,6 +453,20 @@ def wellhead():
         )
         hoop.location = (0, 0, 1.06)
         objs.append(hoop)
+    bail = V.sweep_profile(
+        "well_bail",
+        [
+            (-0.185, 0.0, 1.35),
+            (-0.14, 0.0, 1.46),
+            (0.0, 0.0, 1.50),
+            (0.14, 0.0, 1.46),
+            (0.185, 0.0, 1.35),
+        ],
+        V.circle_profile(0.016, 8),
+        "M_iron",
+        up_hint=Vector((0, 1, 0)),
+    )
+    objs.append(bail)
     chain = V.box_object("well_chain", [0.04, 0.04, 0.16], "M_iron", origin="center")
     chain.location = (0, 0, 1.44)
     objs.append(chain)
@@ -587,6 +646,12 @@ def _in_avenue(ang, r, pad=1.0):
 
 
 def _tbox(bm, place, x0, y0, z0, x1, y1, z1):
+    if x0 > x1:
+        x0, x1 = x1, x0
+    if y0 > y1:
+        y0, y1 = y1, y0
+    if z0 > z1:
+        z0, z1 = z1, z0
     c = [(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0),
          (x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)]
     v = [bm.verts.new(place(*p)) for p in c]
@@ -896,16 +961,22 @@ def _arc_wall(bm, rin, rout, a0, a1, z0, z1, seg):
     """Thick ring wall between radii, from z0 up to z1 (retaining/city wall)."""
     n = max(2, int(seg * (a1 - a0) / math.tau))
     prev = None
+    first = None
     for i in range(n + 1):
         a = a0 + (a1 - a0) * i / n
         ca, sa = math.cos(a), math.sin(a)
         quad = (bm.verts.new((rin * ca, rin * sa, z0)), bm.verts.new((rout * ca, rout * sa, z0)),
                 bm.verts.new((rout * ca, rout * sa, z1)), bm.verts.new((rin * ca, rin * sa, z1)))
+        if first is None:
+            first = quad
         if prev:
             bm.faces.new((prev[0], quad[0], quad[3], prev[3]))          # inner face
             bm.faces.new((quad[1], prev[1], prev[2], quad[2]))          # outer face
             bm.faces.new((prev[3], quad[3], quad[2], prev[2]))          # top
         prev = quad
+    if first is not None and prev is not None and abs((a1 - a0) - math.tau) > 1e-3:
+        bm.faces.new((first[0], first[3], first[2], first[1]))          # start cap at a0
+        bm.faces.new((prev[0], prev[1], prev[2], prev[3]))              # end cap at a1
 
 
 def city_panorama(seed=3):

@@ -88,6 +88,10 @@ func stage_now() -> void:
 		var face: Vector3 = land - pp
 		(_player.get("vis") as Node3D).rotation.y = atan2(-face.x, -face.z)
 	_cine_begin()
+	if _player != null and is_instance_valid(_player):
+		_player.invulnerable = true
+	if not Game.player_forgotten.is_connected(_abort_herald):
+		Game.player_forgotten.connect(_abort_herald, CONNECT_ONE_SHOT)
 	AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -2.0, 0.9)
 	_scion.play("idle", 0.2)
 	var tw := create_tween()
@@ -229,6 +233,10 @@ func _end() -> void:
 
 func _cine_end() -> void:
 	set_process(false)
+	if Game.player_forgotten.is_connected(_abort_herald):
+		Game.player_forgotten.disconnect(_abort_herald)
+	if _player != null and is_instance_valid(_player):
+		_player.invulnerable = false
 	if _layer != null and is_instance_valid(_layer):
 		var l := _layer
 		var b := _black
@@ -245,6 +253,26 @@ func _cine_end() -> void:
 	_cine = null
 	_cam = null
 	_layer = null
+
+func _exit_tree() -> void:
+	if _player != null and is_instance_valid(_player):
+		_player.invulnerable = false
+		if _cine != null:
+			_player.lock_control(false)
+
+func _abort_herald() -> void:
+	set_process(false)
+	set_process_unhandled_input(false)
+	if _voice != null and is_instance_valid(_voice):
+		_voice.stop()
+	if _cine != null and is_instance_valid(_cine):
+		_cine.queue_free()
+		_cine = null
+	if _layer != null and is_instance_valid(_layer):
+		_layer.queue_free()
+		_layer = null
+	if _player != null and is_instance_valid(_player):
+		_player.invulnerable = false
 
 func _set_dissolve(root: Node, v: float) -> void:
 	VG.set_dissolve(root, v)

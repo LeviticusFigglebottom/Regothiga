@@ -179,7 +179,6 @@ for s in (1, -1):
     wall_run_z(x, 28, 40, rot)                              # room 3 shares this wall
     wall_run_z(x, 40, 56, rot)
     window_run_z(x, 0, 56, rot)                             # glowing clerestory
-    piece("palace_cornice_4m", (x, 8, 28), rot)
 # the colonnade: stacked piers make full-height columns
 for s in (1, -1):
     for z in (8, 16, 24, 32, 40, 48):
@@ -255,10 +254,7 @@ for s in (1, -1):
     wall_run_z(xo, 8, 40, rot_out)
     window_run_z(xo, 8, 40, rot_out)                         # gallery glazing
     # gallery upper band on its inner wall + ends
-    z = 8
-    while z < 40 - 0.01:
-        piece("palace_wall_4x4", (xm, 4, z + 2), rot_in)
-        z += 4
+    window_run_z(xm, 8, 40, rot_in)
     window_run_x(8, min(xm, xo), max(xm, xo), 0)
     window_run_x(40, min(xm, xo), max(xm, xo), 180)
     # mid partition with three doors (room1, corridor, room3 into the gallery)

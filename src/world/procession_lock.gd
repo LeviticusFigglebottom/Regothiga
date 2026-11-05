@@ -16,6 +16,7 @@ var _lit: Array = []
 var _flames: Array = []
 var _lights: Array = []
 var _tongues: Array = []
+var _zones: Array = []
 
 func _ready() -> void:
 	var solved := World.flag(flag)
@@ -73,6 +74,7 @@ func _ready() -> void:
 			var idx := i
 			z.activated.connect(func(_p): _touch(idx))
 			holder.add_child(z)
+			_zones.append(z)
 		_lit.append(solved)
 		_flames.append(flame)
 		_lights.append(l)
@@ -102,6 +104,10 @@ func _touch(i: int) -> void:
 			burning += 1
 	if burning == n:
 		World.set_flag(flag)
+		World.save_game()
+		for z in _zones:
+			if z != null and is_instance_valid(z):
+				(z as Interactable).enabled = false
 		Game.toast.emit("The procession burns whole — the watch is kept.")
 		AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -2.0, 0.7)
 	elif burning > 0:

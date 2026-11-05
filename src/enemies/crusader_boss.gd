@@ -9,17 +9,25 @@ extends Enemy
 
 var _iframes := 0.0
 var _dodge_cd := 0.0
+var _roll_t := 0.0
 var _block_t := 0.0
 var _retreat_t := 0.0
 var _hits_recent := 0.0
 var _seppuku := false          # mid-rite: untouchable, unmoving
 var _phase2 := false
+var _dropped_shield: Node3D = null
 
 func _ready() -> void:
 	super()
 	cfg = cfg.duplicate(true)   # phase 2 rewrites his damage; never the table's
 	# he arrives as the kingdom kept him: radiant, not yet yours
 	_radiant.call_deferred()
+
+func _exit_tree() -> void:
+	super()
+	if _dropped_shield != null and is_instance_valid(_dropped_shield):
+		_dropped_shield.queue_free()
+		_dropped_shield = null
 
 func _physics_process(dt: float) -> void:
 	_iframes = maxf(_iframes - dt, 0.0)
@@ -29,6 +37,12 @@ func _physics_process(dt: float) -> void:
 	_hits_recent = maxf(_hits_recent - dt * 0.4, 0.0)
 	if _seppuku:
 		velocity = Vector3.ZERO
+		move_and_slide()
+		return
+	if _roll_t > 0.0:
+		_roll_t = maxf(_roll_t - dt, 0.0)
+		if not is_on_floor():
+			velocity.y -= 22.0 * dt
 		move_and_slide()
 		return
 	super(dt)
@@ -75,6 +89,7 @@ func _st_combat(dt: float) -> void:
 func _do_roll(pl: Player) -> void:
 	_dodge_cd = 2.0 + randf() * 1.6
 	_iframes = 0.42
+	_roll_t = 0.42
 	var lat := (global_position - pl.global_position).cross(Vector3.UP).normalized()
 	if randf() < 0.5:
 		lat = -lat
@@ -133,6 +148,11 @@ var _rite_tw: Tween = null
 
 func _enrage() -> void:
 	if _phase2 or _seppuku:
+		return
+	if Game.current_area == null or Game.current_area_id != "wick_cathedral":
+		_end_all_swings()
+		_lay_down_shield()
+		_kindle_dark()
 		return
 	_seppuku = true
 	set_physics_process(false)      # the rite owns him: no gravity, no AI
@@ -240,6 +260,9 @@ func _lay_down_shield() -> void:
 	var s := KitLib.instance("shield_kite")
 	if s == null:
 		return
+	if _dropped_shield != null and is_instance_valid(_dropped_shield):
+		_dropped_shield.queue_free()
+	_dropped_shield = s
 	get_parent().add_child(s)
 	var at := global_position + vis.global_transform.basis * Vector3(0.6, 0.0, -0.2)
 	var from := global_position + Vector3.UP * 0.5
@@ -343,7 +366,7 @@ func _gilt_motes(at: Vector3) -> void:
 	get_parent().add_child(p)
 	p.global_position = at
 	p.emitting = true
-	get_tree().create_timer(1.2, false).timeout.connect(p.queue_free)
+	VG.free_after(p, 1.2)
 
 ## Insurance against the same renderer bug on his death: the private lights
 ## sleep before the corpse's layers ever churn.
@@ -353,7 +376,8 @@ func _die() -> void:
 			if l is Light3D:
 				(l as Light3D).visible = false
 	super()
-	_light_passes.call_deferred()
+	if Game.current_area != null and Game.current_area_id == "wick_cathedral":
+		_light_passes.call_deferred()
 
 ## The moment he falls, the truth arrives: the radiance he was holding over
 ## the parish drains back out of it — the ash-blue wave from his corpse, the
@@ -361,12 +385,17 @@ func _die() -> void:
 ## crosses to the last living holder of the oath: the Latecomer's armour
 ## kindles gold as the church around them both goes dark for good.
 func _light_passes() -> void:
+	var pos := global_position
 	await get_tree().create_timer(1.4, false).timeout
+	if not is_instance_valid(self) or not is_inside_tree():
+		return
 	var area = Game.current_area
 	if area == null or not is_instance_valid(area):
 		return
-	WickReveal.gutter_wave(area, global_position)   # coroutine; sweeps on its own
+	WickReveal.gutter_wave(area, pos)   # coroutine; sweeps on its own
 	await get_tree().create_timer(0.9, false).timeout
+	if not is_instance_valid(self) or not is_inside_tree():
+		return
 	var p = Game.player
 	if p != null and is_instance_valid(p) and p.has_method("become_radiant"):
 		p.become_radiant()

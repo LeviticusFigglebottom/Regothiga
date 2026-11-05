@@ -233,7 +233,7 @@ func _st_idle(dt: float) -> void:
 	var pick: Node3D = null
 	var best := 1e9
 	var cands: Array = []
-	if p != null and not p.get("dead"):
+	if p != null and not p.get("dead") and p.get("state") != Player.S.REST:
 		cands.append(p)
 	cands.append_array(get_tree().get_nodes_in_group("allies"))
 	for c in cands:
@@ -526,6 +526,12 @@ func _fire_projectiles() -> void:
 ## Summons: raise minions around the caster, capped alive.
 var _minions: Array = []
 
+func _exit_tree() -> void:
+	for m in _minions:
+		if is_instance_valid(m):
+			m.queue_free()
+	_minions.clear()
+
 func _summon() -> void:
 	_minions = _minions.filter(func(m): return is_instance_valid(m) and not m.dead)
 	var max_alive := int(_atk.get("max_alive", 2))
@@ -550,6 +556,8 @@ func _summon() -> void:
 func _shockwave(radius: float) -> void:
 	# ring burst on slam attacks (boss): damages if close to ground zero
 	await get_tree().create_timer(0.05, false).timeout
+	if not is_instance_valid(self) or not is_inside_tree() or dead:
+		return
 	var p := _player()
 	if p != null and not p.get("dead"):
 		var d := global_position.distance_to(p.global_position)

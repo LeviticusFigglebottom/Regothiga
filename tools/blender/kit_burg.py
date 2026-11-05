@@ -250,6 +250,8 @@ def chimney_stack():
         (0.16, 2.48, 12, 0),
         (0.20, 2.52, 12, 0),
         (0.17, 2.56, 12, 0),
+        (0.125, 2.56, 12, 0),
+        (0.115, 2.38, 12, 0),
     ], "M_stone_dark", cap_bottom=False, cap_top=True)
     objs.append(pot)
     return objs, {"size": [0.84, 0.84, 2.56], "origin": "bottom-center"}
@@ -395,17 +397,11 @@ def crate_stack():
         for cx in (x0, x1 - st):
             for cy in (y0, y1 - st):
                 V.add_box(bm, (cx, cy, z0 + st), (cx + st, cy + st, z1 - st))
-        # Diagonal cross-brace battens on all 4 vertical faces
-        for s in range(6):
-            u0, u1 = s / 6.0, (s + 1.0) / 6.0
-            xm0 = x0 + st + (x1 - x0 - 2 * st) * (u0 + u1) * 0.5
-            ym0 = y0 + st + (y1 - y0 - 2 * st) * (u0 + u1) * 0.5
-            zm0 = z0 + st + (z1 - z0 - 2 * st) * (u0 + u1) * 0.5
-            hw = 0.032
-            for fy in (y0, y1 - 0.022):
-                V.add_box(bm, (xm0 - hw, fy, zm0 - hw), (xm0 + hw, fy + 0.022, zm0 + hw))
-            for fx in (x0, x1 - 0.022):
-                V.add_box(bm, (fx, ym0 - hw, zm0 - hw), (fx + 0.022, ym0 + hw, zm0 + hw))
+        # Continuous diagonal cross-brace battens on all 4 vertical faces
+        for fy in (y0 + 0.011, y1 - 0.011):
+            _frame_stick(bm, (x0 + st, fy, z0 + st), (x1 - st, fy, z1 - st), 0.044)
+        for fx in (x0 + 0.011, x1 - 0.011):
+            _frame_stick(bm, (fx, y0 + st, z0 + st), (fx, y1 - st, z1 - st), 0.044)
         # Slatted top lid planks
         n_planks = 4
         pw = (x1 - x0 - 0.04) / n_planks

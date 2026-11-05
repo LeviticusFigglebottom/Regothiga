@@ -8,9 +8,13 @@ extends Node3D
 var flag := "nave_votives"
 var _lit: Dictionary = {}      # idx -> bool
 var _stands: Array = []
+var _zones: Array = []
+var _tag_bit: int = VG.L_WORLD_BASE
 
-func setup(spec: Dictionary) -> void:
+func setup(spec: Dictionary, tag_bit: int = VG.L_WORLD_BASE) -> void:
 	flag = spec.get("flag", "nave_votives")
+	_tag_bit = tag_bit
+	var solved := World.flag(flag)
 	var i := 0
 	for v in spec.get("votives", []):
 		var idx := i
@@ -24,9 +28,11 @@ func setup(spec: Dictionary) -> void:
 		var zone := Interactable.new()
 		zone.prompt = "Kindle the votive"
 		zone.setup_zone(1.5, 1.5)
+		zone.enabled = not solved
 		zone.activated.connect(func(_p): _try_light(idx))
 		root.add_child(zone)
-		_rebuild(idx, World.flag(flag))
+		_zones.append(zone)
+		_rebuild(idx, solved)
 		i += 1
 
 func _rebuild(idx: int, lit: bool) -> void:
@@ -36,10 +42,12 @@ func _rebuild(idx: int, lit: bool) -> void:
 			c.queue_free()
 	var piece := KitLib.instance("votive_stand_lit" if lit else "votive_stand_cold")
 	root.add_child(piece)
-	KitLib.add_collision(piece, VG.L_WORLD_BASE)
+	KitLib.add_collision(piece, _tag_bit)
 	if lit:
 		KitLib.add_flame_lights(piece, 1.4, 4.0)
 	_lit[idx] = lit
+	if lit and idx < _zones.size() and _zones[idx] != null:
+		(_zones[idx] as Interactable).enabled = false
 
 func _try_light(idx: int) -> void:
 	if _lit[idx]:

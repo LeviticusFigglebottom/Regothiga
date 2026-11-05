@@ -201,7 +201,9 @@ func _ready() -> void:
 	_apply(World.flag(flag))
 	if _shown and not World.flag("morrow_stair_seen"):
 		World.set_flag("morrow_stair_seen")
-		get_tree().create_timer(0.6, false).timeout.connect(func():
+		var stw := create_tween()
+		stw.tween_interval(0.6)
+		stw.tween_callback(func():
 			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -4.0, 1.15)
 			Game.toast.emit("To the west, a stair of light climbs over the Sanctum parapet."))
 	elif not _shown:

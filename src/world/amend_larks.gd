@@ -83,7 +83,9 @@ func _free(i: int) -> void:
 	var at := st.global_position
 	_open_cage(st, at)
 	# the lark waits half a breath for the door, then goes
-	get_tree().create_timer(0.25, false).timeout.connect(func(): _bird(at))
+	var btw := create_tween()
+	btw.tween_interval(0.25)
+	btw.tween_callback(_bird.bind(at))
 	var freed := 0
 	for v in _opened:
 		if v:
@@ -128,7 +130,7 @@ func _open_cage(st: Node3D, at: Vector3) -> void:
 	get_parent().add_child(puff)
 	puff.global_position = at + Vector3(0, 1.25, 0)
 	puff.emitting = true
-	get_tree().create_timer(1.6, false).timeout.connect(puff.queue_free)
+	VG.free_after(puff, 1.6)
 
 ## a remembered lark: it hops from the cage mouth, beats its wings, and
 ## flies a true climbing arc away over the rail — banking, flapping, gone

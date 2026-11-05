@@ -271,7 +271,7 @@ func _ferry_rested(_e) -> void:
 		get_parent().add_child(motes)
 		motes.global_position = _fight.global_position + Vector3.UP * 1.2
 		motes.emitting = true
-		get_tree().create_timer(3.0, false).timeout.connect(motes.queue_free)
+		VG.free_after(motes, 3.0)
 	if Game.player != null:
 		Game.player.give_item("radiant_token", 1)
 	Game.toast.emit("The Ferryman rests — his amend is made, and yours with it.")

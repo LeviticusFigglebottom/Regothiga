@@ -50,6 +50,17 @@ func _on_player_died() -> void:
 
 func respawn_player() -> void:
 	# return to the last vigil kept
+	var vigil_area: String = String(World.last_vigil.get("area", ""))
+	if vigil_area != "" and vigil_area != current_area_id and world_root != null:
+		arena_locked = false
+		var old := current_area
+		var next := AreaBuilder.build(vigil_area)
+		if next != null:
+			world_root.add_child(next)
+			register_area(next, vigil_area)
+			if old != null:
+				VG.free_gently(old)
+			StateDirector.snap(next, World.get_area_state(vigil_area))
 	var pos: Vector3 = player.global_position
 	var lantern := find_lantern(World.last_vigil.get("lantern", ""))
 	if lantern != null:
@@ -210,16 +221,17 @@ func vigil_flow(lantern: VigilLantern, p, choice := "auto") -> void:
 	if p != null:
 		p.lock_control(true)
 		p.enter_rest()
+		p.heal_full()
 	AudioDirector.sfx("res://assets/audio/rest_chime.wav", -4.0)
-
-	# the dead return as the world turns
-	get_tree().call_group(VG.GROUP_RESPAWN_ON_REST, "respawn")
 
 	if target != cur and area != null:
 		await get_tree().create_timer(1.3).timeout   # kneel beat first
 		await StateDirector.transition(area, target, lantern.global_position)
 	else:
 		await get_tree().create_timer(1.6).timeout
+
+	# the dead return as the world settles into its new state
+	get_tree().call_group(VG.GROUP_RESPAWN_ON_REST, "respawn")
 
 	if p != null:
 		p.heal_full()

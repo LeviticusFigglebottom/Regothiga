@@ -42,4 +42,6 @@ func _physics_process(dt: float) -> void:
 
 func _toll() -> void:
 	await get_tree().create_timer(1.5, false).timeout
+	if not is_instance_valid(self) or not is_inside_tree():
+		return
 	AudioDirector.sfx_at("res://assets/audio/bell_toll.wav", global_position, -6.0, 1.0)

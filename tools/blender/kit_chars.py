@@ -106,11 +106,17 @@ def char_sleeve(side):
     flares, hand closes. Origin at shoulder, hanging along -Z (blender)."""
     n = 12
     objs = []
-    upper = V.loft_rings(f"sleeve_{side}", [(0.088, 0.0, n, 0), (0.078, -0.13, n, 0),
-                                            (0.072, -0.24, n, 0)], "M_robe")
+    upper = V.loft_rings(
+        f"sleeve_{side}",
+        [(0.072, -0.24, n, 0), (0.078, -0.13, n, 0), (0.088, 0.0, n, 0)],
+        "M_robe",
+    )
     objs.append(upper)
-    pauld = V.loft_rings("pauldron", [(0.115, 0.03, n, 0), (0.125, -0.03, n, 0),
-                                      (0.09, -0.1, n, 0)], "M_plate_dark")
+    pauld = V.loft_rings(
+        "pauldron",
+        [(0.09, -0.1, n, 0), (0.125, -0.03, n, 0), (0.115, 0.03, n, 0)],
+        "M_plate_dark",
+    )
     objs.append(pauld)
     fore_pts = []
     for (r, t) in ((0.07, 0.0), (0.082, 0.45), (0.105, 0.85), (0.112, 1.0)):
@@ -126,13 +132,17 @@ def char_sleeve(side):
             ring.append(bm.verts.new((r * math.cos(a), y + r * math.sin(a) * 0.9, z)))
         if prev:
             for i in range(n):
-                bm.faces.new((prev[i], prev[(i + 1) % n], ring[(i + 1) % n], ring[i]))
+                bm.faces.new((prev[i], ring[i], ring[(i + 1) % n], prev[(i + 1) % n]))
         prev = ring
     bm.verts.ensure_lookup_table()
-    bm.faces.new(reversed(bm.verts[:n]))
-    bm.faces.new(prev)
+    bm.faces.new(bm.verts[:n])
+    bm.faces.new(list(reversed(prev)))
     objs.append(V.bm_to_object(bm, "forearm", ("M_robe",)))
-    hand = V.loft_rings("hand", [(0.048, -0.46, n, 0), (0.052, -0.52, n, 0), (0.02, -0.575, n, 0)], "M_wax")
+    hand = V.loft_rings(
+        "hand",
+        [(0.02, -0.575, n, 0), (0.052, -0.52, n, 0), (0.048, -0.46, n, 0)],
+        "M_wax",
+    )
     hand.location = (0, 0.105, 0)
     objs.append(hand)
     return objs, {"size": [0.26, 0.3, 0.62], "origin": "shoulder"}
@@ -368,7 +378,7 @@ def char_penitent():
         a = rng.uniform(0, 2 * math.pi)
         z = rng.choice((0.15, 0.2, 1.0, 1.1))
         r0 = 0.31 if z > 0.5 else 0.41
-        drip = V.loft_rings("drip", [(0.028, z, 8, 0), (0.012, z - rng.uniform(0.1, 0.3), 8, 0)], "M_wax")
+        drip = V.loft_rings("drip", [(0.012, z - rng.uniform(0.1, 0.3), 8, 0), (0.028, z, 8, 0)], "M_wax")
         drip.location = (r0 * math.cos(a), r0 * math.sin(a), 0)
         objs.append(drip)
     return objs, {"size": [0.9, 0.9, 1.6], "origin": "bottom-center"}
@@ -377,8 +387,11 @@ def char_penitent():
 def penitent_arm():
     """Fused arm-club for the Penitent, origin at shoulder, hangs -Z."""
     n = 12
-    arm = V.loft_rings("pen_arm", [(0.085, 0.0, n, 0), (0.11, -0.28, n, 0),
-                                   (0.13, -0.5, n, 0), (0.06, -0.62, n, 0)], "M_wax")
+    arm = V.loft_rings(
+        "pen_arm",
+        [(0.06, -0.62, n, 0), (0.13, -0.5, n, 0), (0.11, -0.28, n, 0), (0.085, 0.0, n, 0)],
+        "M_wax",
+    )
     return [arm], {"size": [0.3, 0.3, 0.65], "origin": "shoulder"}
 
 
@@ -387,7 +400,19 @@ def char_aveline():
     objs = []
     body = _robe_body("aveline", 1.66, 0.29, "M_habit", hood=True, hood_lean=0.04)
     objs.append(body)
-    crown = V.loft_rings("crown", [(0.145, 1.52, 14, 0), (0.15, 1.60, 14, 0)], "M_wax")
+    crown = V.loft_rings(
+        "crown",
+        [
+            (0.115, 1.52, 14, 0),
+            (0.148, 1.52, 14, 0),
+            (0.152, 1.60, 14, 0),
+            (0.118, 1.60, 14, 0),
+            (0.115, 1.52, 14, 0),
+        ],
+        "M_wax",
+        cap_bottom=False,
+        cap_top=False,
+    )
     objs.append(crown)
     rng = random.Random(5)
     for i in range(6):
@@ -422,9 +447,16 @@ def char_bellkeeper():
 def bellkeeper_arm():
     """Massive sleeve arm for the Bellkeeper. Origin shoulder, hangs -Z."""
     n = 14
-    arm = V.loft_rings("bk_arm", [(0.16, 0.0, n, 0), (0.14, -0.35, n, 0),
-                                  (0.19, -0.7, n, 0), (0.23, -0.95, n, 0)], "M_robe_boss")
-    fist = V.loft_rings("bk_fist", [(0.1, -0.95, n, 0), (0.11, -1.1, n, 0), (0.04, -1.2, n, 0)], "M_wax")
+    arm = V.loft_rings(
+        "bk_arm",
+        [(0.23, -0.95, n, 0), (0.19, -0.7, n, 0), (0.14, -0.35, n, 0), (0.16, 0.0, n, 0)],
+        "M_robe_boss",
+    )
+    fist = V.loft_rings(
+        "bk_fist",
+        [(0.04, -1.2, n, 0), (0.11, -1.1, n, 0), (0.1, -0.95, n, 0)],
+        "M_wax",
+    )
     return [arm, fist], {"size": [0.5, 0.5, 1.25], "origin": "shoulder"}
 
 
@@ -460,8 +492,20 @@ def pell():
     ))
     # Hemp rope lashing bands cinching the sack
     for z_rope, r_rope in ((0.94, 0.202), (1.28, 0.212), (1.56, 0.195)):
-        objs.append(V.loft_rings("rope_band", [(r_rope, z_rope, 14, 0), (r_rope, z_rope + 0.032, 14, 0)],
-                                 "M_bone", cap_bottom=False, cap_top=False))
+        ri = r_rope - 0.024
+        objs.append(V.loft_rings(
+            "rope_band",
+            [
+                (ri, z_rope, 14, 0),
+                (r_rope, z_rope, 14, 0),
+                (r_rope, z_rope + 0.032, 14, 0),
+                (ri, z_rope + 0.032, 14, 0),
+                (ri, z_rope, 14, 0),
+            ],
+            "M_bone",
+            cap_bottom=False,
+            cap_top=False,
+        ))
 
     # Iron base collar, spar end-ferrules, and battered kettle-helm on top of the post
     bm_iron = bmesh.new()

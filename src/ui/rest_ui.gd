@@ -42,6 +42,7 @@ func _ls(size: int, color: Color, bold := false) -> LabelSettings:
 
 func _ready() -> void:
 	layer = 20
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(root)
@@ -180,6 +181,16 @@ func _render() -> void:
 		var sel := i == _opt_i
 		l.label_settings = _ls(23, Color(0.98, 0.88, 0.58) if sel else Color(0.74, 0.69, 0.60), sel)
 		l.text = ("◆  " if sel else "    ") + _options[i]["label"]
+		l.mouse_filter = Control.MOUSE_FILTER_STOP
+		var idx := i
+		l.mouse_entered.connect(func():
+			if _opt_i != idx:
+				_opt_i = idx
+				_render())
+		l.gui_input.connect(func(ev: InputEvent):
+			if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
+				choose(idx)
+				get_viewport().set_input_as_handled())
 		list_box.add_child(l)
 	_fit_panel()
 
@@ -243,4 +254,6 @@ func close() -> void:
 	if player != null:
 		player.lock_control(false)
 		player.suppress_interact()   # don't let the closing key-press re-open us
+		if not player.sim_active:
+			player._grab_mouse(true)
 	queue_free()

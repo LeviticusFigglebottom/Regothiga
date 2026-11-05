@@ -29,7 +29,9 @@ func _ready() -> void:
 	add_child(t)
 	t.start()
 	# the first toll comes early: the house announces itself
-	get_tree().create_timer(randf_range(4.0, 8.0), false).timeout.connect(_toll)
+	var ftw := create_tween()
+	ftw.tween_interval(randf_range(4.0, 8.0))
+	ftw.tween_callback(_toll)
 
 func _toll() -> void:
 	if _bell == null or not is_instance_valid(_bell):

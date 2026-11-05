@@ -247,15 +247,19 @@ def garden_bed(alive=True, seed=23):
         tip_z = oz + length * math.sin(pitch) - 0.02
         r_mid = length * 0.52 * math.cos(pitch)
         r_tip = length * math.cos(pitch)
-        v0 = bm2.verts.new((ox, oy, oz))
-        v1 = bm2.verts.new((ox + dx * r_mid + px * width, oy + dy * r_mid + py * width, mid_z))
-        v2 = bm2.verts.new((ox + dx * r_tip, oy + dy * r_tip, tip_z))
-        v3 = bm2.verts.new((ox + dx * r_mid - px * width, oy + dy * r_mid - py * width, mid_z))
-        try:
-            f = bm2.faces.new((v0, v1, v2, v3))
-            face_cols.append(col)
-        except ValueError:
-            pass
+        pts = (
+            (ox, oy, oz),
+            (ox + dx * r_mid - px * width, oy + dy * r_mid - py * width, mid_z),
+            (ox + dx * r_tip, oy + dy * r_tip, tip_z),
+            (ox + dx * r_mid + px * width, oy + dy * r_mid + py * width, mid_z),
+        )
+        for wind in ((0, 1, 2, 3), (3, 2, 1, 0)):
+            try:
+                vs = [bm2.verts.new(pts[idx]) for idx in wind]
+                bm2.faces.new(vs)
+                face_cols.append(col)
+            except ValueError:
+                pass
 
     if alive:
         # Lush layered cloister boxwood/fern rosettes + white/gold/lavender lilies

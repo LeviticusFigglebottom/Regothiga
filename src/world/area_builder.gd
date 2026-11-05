@@ -139,16 +139,19 @@ static func build(area_id: String) -> Area:
 		_place(c, spec)
 	for spec in def.get("chime_puzzles", []):
 		var ch := ChimePuzzle.new()
-		area.attach(ch, spec.get("tag", "base"))
-		ch.setup(spec)
+		var ctag: String = spec.get("tag", "base")
+		area.attach(ch, ctag)
+		ch.setup(spec, _tag_bit(ctag))
 	for spec in def.get("votive_locks", []):
 		var vl := VotiveLock.new()
-		area.attach(vl, spec.get("tag", "glory"))
-		vl.setup(spec)
+		var vtag: String = spec.get("tag", "glory")
+		area.attach(vl, vtag)
+		vl.setup(spec, _tag_bit(vtag))
 	for spec in def.get("watcher_puzzles", []):
 		var wp := WatcherPuzzle.new()
-		area.attach(wp, spec.get("tag", "base"))
-		wp.setup(spec)
+		var wtag: String = spec.get("tag", "base")
+		area.attach(wp, wtag)
+		wp.setup(spec, _tag_bit(wtag))
 	for spec in def.get("flag_gates", []):
 		var fgate := FlagGate.new()
 		var gtag: String = spec.get("tag", "base")

@@ -17,7 +17,8 @@ var sequences: Array = [
 	["midnight", "dawn", "dusk", "noon"],
 ]
 
-var _nodes := {}          # id -> {light, pitch}
+var _nodes := {}          # id -> {light, pitch, zone}
+var _bell_zone: Interactable = null
 var _seq: Array = []
 var _progress := 0
 var _asked := 0
@@ -35,6 +36,7 @@ func _ready() -> void:
 		bell.activated.connect(func(_p): _demonstrate())
 		add_child(bell)
 		bell.position = Vector3(bell_at[0], bell_at[1], bell_at[2]) - position
+		_bell_zone = bell
 	var i := 0
 	for spec in chimes:
 		var id := String(spec.get("id", "c%d" % i))
@@ -51,13 +53,14 @@ func _ready() -> void:
 		l.shadow_enabled = false
 		l.position.y = 1.6
 		holder.add_child(l)
+		var z: Interactable = null
 		if not solved:
-			var z := Interactable.new()
+			z = Interactable.new()
 			z.prompt = "Answer on %s" % String(spec.get("label", id))
 			z.setup_zone(1.5, 2.0)
 			z.activated.connect(func(_p): _answer(id))
 			holder.add_child(z)
-		_nodes[id] = {"light": l, "pitch": 0.8 + 0.14 * i}
+		_nodes[id] = {"light": l, "pitch": 0.8 + 0.14 * i, "zone": z}
 		i += 1
 
 func _demonstrate() -> void:
@@ -100,6 +103,16 @@ func _answer(id: String) -> void:
 		_progress += 1
 		if _progress >= _seq.size():
 			World.set_flag(flag)
+			World.save_game()
+			if _bell_zone != null:
+				_bell_zone.enabled = false
+			for k in _nodes:
+				var zn: Interactable = _nodes[k].get("zone")
+				if zn != null:
+					zn.enabled = false
+				var lt: OmniLight3D = _nodes[k].get("light")
+				if lt != null:
+					lt.light_energy = 1.2
 			Game.toast.emit("The echo answers true — the day is rung.")
 			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -3.0, 0.8)
 	else:

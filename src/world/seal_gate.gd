@@ -21,6 +21,7 @@ func _physics_process(_dt: float) -> void:
 		if not World.flag(String(f)):
 			return
 	World.set_flag(target)
+	World.save_game()
 	Game.toast.emit(notice)
 	AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -4.0, 0.7)
 	_done = true

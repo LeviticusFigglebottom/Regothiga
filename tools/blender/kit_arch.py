@@ -50,12 +50,13 @@ def _block_wall(bm, x0, x1, z0, z1, y_front, depth, rng, block_w=1.0, block_h=0.
         offset = (block_w / 2) if r % 2 else 0.0
         x = x0 - offset
         while x < x1 - 0.01:
-            bw = min(block_w, x1 - x)
             xs = max(x, x0)
-            proud = rng.uniform(0.02, 0.055)
-            g = 0.012
-            V.add_box(bm, (xs + g, y_front - proud, zb0 + g),
-                      (xs + bw - g, y_front + depth, zb0 + bh - g))
+            xe = min(x + block_w, x1)
+            if xe - xs > 0.04:
+                proud = rng.uniform(0.02, 0.055)
+                g = 0.012
+                V.add_box(bm, (xs + g, y_front - proud, zb0 + g),
+                          (xe - g, y_front + depth, zb0 + bh - g))
             x += block_w
 
 
@@ -74,11 +75,12 @@ def wall_4x4():
         offset = 0.5 if r % 2 else 0.0
         x = -2 - offset
         while x < 2 - 0.01:
-            bw = min(1.0, 2 - max(x, -2))
             xs = max(x, -2)
-            proud = rng2.uniform(0.02, 0.055)
-            g = 0.012
-            V.add_box(bm, (xs + g, -0.02, zb0 + g), (xs + bw - g, 0.16 + proud, zb0 + 0.5 - g))
+            xe = min(x + 1.0, 2)
+            if xe - xs > 0.04:
+                proud = rng2.uniform(0.02, 0.055)
+                g = 0.012
+                V.add_box(bm, (xs + g, -0.02, zb0 + g), (xe - g, 0.16 + proud, zb0 + 0.5 - g))
             x += 1.0
     obj = V.bm_to_object(bm, "wall_4x4", ("M_stone",))
     return [obj], {"size": [4, 0.5, 4], "origin": "bottom-center"}
@@ -102,7 +104,7 @@ def wall_low_4m():
     V.add_box(bm_trim, (-2.0, -0.21, 0.0), (2.0, 0.21, 0.10))
     for bx in (-1.94, -0.96, 0.0, 0.96, 1.94):
         V.add_box(bm_trim, (bx - 0.06, -0.20, 0.10), (bx + 0.06, 0.20, 0.86))
-    # coping: slightly wider cap with peaked top
+    # coping: slightly wider cap with peaked top (outward normals)
     c0, c1 = -0.24, 0.24
     zs, zp = 0.86, 1.04
     vs = []
@@ -112,11 +114,11 @@ def wall_low_4m():
         m = bm_trim.verts.new((x, 0.0, zp))
         vs.append((a, b, m))
     (a0, b0, m0), (a1, b1, m1) = vs
-    bm_trim.faces.new((a0, m0, m1, a1))
-    bm_trim.faces.new((m0, b0, b1, m1))
-    bm_trim.faces.new((a0, a1, b1, b0))  # underside of coping overhang
-    bm_trim.faces.new((a0, b0, m0))
-    bm_trim.faces.new((b1, a1, m1))
+    bm_trim.faces.new((a0, a1, m1, m0))
+    bm_trim.faces.new((m0, m1, b1, b0))
+    bm_trim.faces.new((a0, b0, b1, a1))  # underside of coping overhang (-Z)
+    bm_trim.faces.new((a0, m0, b0))      # -X end cap
+    bm_trim.faces.new((a1, b1, m1))      # +X end cap
     coping = V.bm_to_object(bm_trim, "wall_low_coping", ("M_stone_trim",))
     return [body, panels, coping], {"size": [4, 0.5, 1.05], "origin": "bottom-center"}
 
@@ -475,8 +477,10 @@ def glass_lancet():
     shards = _mosaic(outline, 0.20, rng, (0.0, 2.35), 0.42)
     glass = _glass_from_shards("glass_lancet", shards)
     bm = bmesh.new()
-    verts = [bm.verts.new((x, -0.035, y)) for (x, y) in reversed(outline)]
-    bm.faces.new(verts)
+    verts_f = [bm.verts.new((x, 0.0, y)) for (x, y) in reversed(outline)]
+    bm.faces.new(verts_f)
+    verts_b = [bm.verts.new((x, 0.0, y)) for (x, y) in outline]
+    bm.faces.new(verts_b)
     back = V.new_object("glass_backing", bmesh_to_mesh(bm, "glass_backing"))
     back.data.materials.append(V.material("M_iron"))
     return [glass, back], {"size": [1.5, 0.1, 4], "origin": "bottom-center"}
@@ -541,14 +545,19 @@ def buttress():
     V.add_box(bm, (-0.38, -0.7, 3.0), (0.38, 0.0, 3.98))
     obj = V.bm_to_object(bm, "buttress_body", ("M_stone",))
     bm2 = bmesh.new()
-    for (w, y_out, z0, rise) in ((0.45, -0.95, 1.6, 0.34), (0.38, -0.7, 3.0, 0.3), (0.34, -0.62, 3.98, 0.5)):
+    for (w, y_out, y_in, z0, rise) in (
+        (0.58, -1.18, -0.94, 1.6, 0.34),
+        (0.48, -0.98, -0.69, 3.0, 0.30),
+        (0.41, -0.73, 0.0, 3.98, 0.48),
+    ):
         a = bm2.verts.new((-w, y_out, z0)); b = bm2.verts.new((w, y_out, z0))
-        c = bm2.verts.new((w, 0.0, z0 + rise)); d = bm2.verts.new((-w, 0.0, z0 + rise))
-        e = bm2.verts.new((-w, 0.0, z0)); f = bm2.verts.new((w, 0.0, z0))
+        c = bm2.verts.new((w, y_in, z0 + rise)); d = bm2.verts.new((-w, y_in, z0 + rise))
+        e = bm2.verts.new((-w, y_in, z0)); f = bm2.verts.new((w, y_in, z0))
         bm2.faces.new((a, b, c, d))
         bm2.faces.new((a, d, e))
         bm2.faces.new((b, f, c))
         bm2.faces.new((a, e, f, b))
+        bm2.faces.new((d, c, f, e))
     slopes = V.bm_to_object(bm2, "buttress_slopes", ("M_stone_trim",))
     return [obj, slopes], {"size": [1.1, 1.2, 4.4], "origin": "bottom-center"}
 

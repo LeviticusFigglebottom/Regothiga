@@ -20,7 +20,7 @@ var _swing_name := "chime_bar"
 var _sfx_ring := "res://assets/audio/bell_toll.wav"
 var _sfx_wrong := "res://assets/audio/impact_blocked.wav"
 
-func setup(spec: Dictionary) -> void:
+func setup(spec: Dictionary, tag_bit: int = VG.L_WORLD_BASE) -> void:
 	flag = spec.get("flag", "vesper_chimes")
 	order.assign(spec.get("order", []))
 	_kit = spec.get("kit", "chime_stone")
@@ -37,7 +37,7 @@ func setup(spec: Dictionary) -> void:
 		root.rotation.y = deg_to_rad(float(c.get("rot", 0)))
 		var piece := KitLib.instance(c.get("kit", _kit))
 		root.add_child(piece)
-		KitLib.add_collision(piece, VG.L_WORLD_BASE)
+		KitLib.add_collision(piece, tag_bit)
 		var zone := Interactable.new()
 		zone.prompt = "%s %s" % [_verb, c.get("label", id)]
 		zone.setup_zone(1.6, 1.5)

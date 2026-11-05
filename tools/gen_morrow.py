@@ -408,7 +408,10 @@ DEF = {
         },
     },
     "free_kindle": True,
-    "boxes": [{"min": [-2.6, 9.15, 99.7], "max": [2.6, 9.75, 100.3], "mat": "M_gold"}],
+    "boxes": [
+        {"min": [-0.95, 9.15, 99.72], "max": [0.95, 9.60, 100.28], "mat": "M_gold"},
+        {"min": [-0.16, 9.50, 99.84], "max": [0.16, 13.65, 100.16], "mat": "M_gold"},
+    ],
     "fills": F, "pieces": P, "props": PR, "vault_fields": VF, "blockers": BL,
     "plaques": PLQ, "scripted": SC, "chime_puzzles": CH, "votive_locks": VL,
     "watcher_puzzles": WP, "flag_gates": FG, "skyline": SKY,

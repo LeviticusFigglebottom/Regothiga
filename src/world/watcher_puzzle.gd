@@ -10,9 +10,10 @@ var target_deg := -90.0
 var _statues: Array = []   # [{root, statue, deg}]
 var _toast := "The watchers face the morning that is owed them."
 
-func setup(spec: Dictionary) -> void:
+func setup(spec: Dictionary, tag_bit: int = VG.L_WORLD_BASE) -> void:
 	flag = spec.get("flag", "watchers_east")
 	target_deg = float(spec.get("target", -90))
+	var solved := World.flag(flag)
 	# data-driven station: the Watchers turn statues on plinths, the Black
 	# Gate turns capstan bar-crosses on winch drums — same machinery
 	var base_kit: String = spec.get("base_kit", "watcher_base")
@@ -26,17 +27,19 @@ func setup(spec: Dictionary) -> void:
 		root.position = AreaBuilder._v3(w.get("at", [0, 0, 0]))
 		var base := KitLib.instance(base_kit)
 		root.add_child(base)
-		KitLib.add_collision(base, VG.L_WORLD_BASE)
+		KitLib.add_collision(base, tag_bit)
 		var statue := KitLib.instance(turn_kit)
 		statue.position.y = turn_y
-		statue.rotation.y = deg_to_rad(float(w.get("rot", 0)))
+		var r0 := target_deg if solved else float(w.get("rot", 0))
+		statue.rotation.y = deg_to_rad(r0)
 		root.add_child(statue)
-		var entry := {"root": root, "statue": statue, "deg": float(w.get("rot", 0))}
-		_statues.append(entry)
-		var idx := _statues.size() - 1
 		var zone := Interactable.new()
 		zone.prompt = verb
 		zone.setup_zone(1.5, 1.6)
+		zone.enabled = not solved
+		var entry := {"root": root, "statue": statue, "deg": r0, "zone": zone}
+		_statues.append(entry)
+		var idx := _statues.size() - 1
 		zone.activated.connect(func(_p): _turn(idx))
 		root.add_child(zone)
 
@@ -49,15 +52,24 @@ func _turn(idx: int) -> void:
 	tw.tween_property(e["statue"], "rotation:y", deg_to_rad(e["deg"]), 0.55) \
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	AudioDirector.sfx_at("res://assets/audio/ui_tick.wav", e["root"].global_position, -6.0, 0.7)
-	_check.call_deferred()
-
-func _check() -> void:
-	await get_tree().create_timer(0.6, false).timeout
-	for e in _statues:
-		var d := fmod(fmod(e["deg"] - target_deg, 360.0) + 360.0, 360.0)
+	var all_aligned := true
+	for st in _statues:
+		var d := fmod(fmod(float(st["deg"]) - target_deg, 360.0) + 360.0, 360.0)
 		if d > 1.0 and d < 359.0:
-			return
-	World.set_flag(flag)
-	World.save_game()
+			all_aligned = false
+			break
+	if all_aligned:
+		World.set_flag(flag)
+		World.save_game()
+		for st in _statues:
+			var zn: Interactable = st.get("zone")
+			if zn != null:
+				zn.enabled = false
+		_announce_solved.call_deferred()
+
+func _announce_solved() -> void:
+	await get_tree().create_timer(0.6, false).timeout
+	if not is_instance_valid(self) or not is_inside_tree():
+		return
 	AudioDirector.sfx("res://assets/audio/remembrance.wav", -2.0, 0.9)
 	Game.toast.emit(_toast)

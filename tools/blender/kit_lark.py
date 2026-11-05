@@ -166,12 +166,12 @@ def lark_cage(drop=1.6):
     """Gilded hanging lark cage on a chain from a ceiling plate; a lark sits on
     the inner perch. Glory dressing for the spire shaft. Origin: ceiling-mount."""
     objs = []
-    plate = V.loft_rings("mount", [(0.12, 0.04, 8, 0), (0.12, -0.02, 8, 0), (0.03, -0.09, 8, 0)], "M_iron")
+    plate = V.loft_rings("mount", [(0.03, -0.09, 8, 0), (0.12, -0.02, 8, 0), (0.12, 0.04, 8, 0)], "M_iron")
     objs.append(plate)
     n = max(4, int(drop / 0.14))
     for i in range(n):
         z = -0.09 - i * 0.14
-        link = V.loft_rings("link", [(0.028, z, 6, 0), (0.02, z - 0.1, 6, 0)], "M_iron")
+        link = V.loft_rings("link", [(0.02, z - 0.1, 6, 0), (0.028, z, 6, 0)], "M_iron")
         objs.append(link)
     cz = -0.09 - n * 0.14          # cage crown hangs here
     bm = bmesh.new()
@@ -193,12 +193,12 @@ def lark_cage_dead(drop=1.6, seed=41):
     nothing inside. Origin: ceiling-mount."""
     rng = random.Random(seed)
     objs = []
-    plate = V.loft_rings("mount_d", [(0.12, 0.04, 8, 0), (0.12, -0.02, 8, 0), (0.03, -0.09, 8, 0)], "M_iron")
+    plate = V.loft_rings("mount_d", [(0.03, -0.09, 8, 0), (0.12, -0.02, 8, 0), (0.12, 0.04, 8, 0)], "M_iron")
     objs.append(plate)
     n = max(4, int(drop / 0.14))
     for i in range(n):
         z = -0.09 - i * 0.14
-        link = V.loft_rings("link_d", [(0.028, z, 6, 0), (0.02, z - 0.1, 6, 0)], "M_iron")
+        link = V.loft_rings("link_d", [(0.02, z - 0.1, 6, 0), (0.028, z, 6, 0)], "M_iron")
         objs.append(link)
     cz = -0.09 - n * 0.14
     bm = bmesh.new()
@@ -304,7 +304,7 @@ def perch_rail_bare(seed=17):
     iron = V.bm_to_object(bm_iron, "perch_b_iron", ("M_iron",))
     iron.rotation_euler = (0, 0.06, 0)
     objs.append(iron)
-    chain = V.loft_rings("perch_chain", [(0.02, 1.15, 6, 0), (0.016, 0.7, 6, 0)], "M_iron")
+    chain = V.loft_rings("perch_chain", [(0.016, 0.7, 6, 0), (0.02, 1.15, 6, 0)], "M_iron")
     chain.location = (rng.uniform(-0.4, 0.4), 0, 0)
     objs.append(chain)
     return objs, {"size": [1.96, 0.40, 1.45], "origin": "bottom-center"}
@@ -337,7 +337,7 @@ def great_perch():
             (0.18, 0.50, 14, 0),
             (0.14, 0.66, 14, 0),
             (0.12, 2.20, 14, 0),
-            (0.105, 3.42, 14, 0),
+            (0.105, 3.30, 14, 0),
         ],
         "M_wood",
     )
@@ -349,33 +349,34 @@ def great_perch():
             V.add_box(gm, (sx * w - 0.05, -0.06, z - 0.02), (sx * w + 0.05, 0.06, z + 0.14))
             V.add_box(gm, (sx * w - 0.03, -0.03, z + 0.14), (sx * w + 0.03, 0.03, z + 0.22))
             _add_rod(gm, (sx * 0.11, 0.0, z - 0.28), (sx * 0.42, 0.0, z + 0.02), 0.022, segs=6)
-    for z_band in (0.68, 1.45, 2.22, 3.02):
+    for z_band in (0.68, 1.45, 2.22, 3.02, 3.24):
         V.add_cyl(gm, 0.0, 0.0, z_band, 0.06, 0.135, n=14)
-    # 8 radial sun-rays inside the crowning sun-ring + central apex spire
+    # Central sun-boss disc and 8 radial sun-rays inside the upright X-Z crowning sun-ring
+    V.add_box(gm, (-0.06, -0.035, 3.46), (0.06, 0.035, 3.58))
     for i in range(8):
         ang = math.tau * i / 8
         ca, sa = math.cos(ang), math.sin(ang)
-        _add_rod(gm, (0.04 * ca, 0.0, 3.52 + 0.04 * sa), (0.28 * ca, 0.0, 3.52 + 0.28 * sa), 0.012, segs=6)
-    _add_rod(gm, (0.0, 0.0, 3.62), (0.0, 0.0, 3.86), 0.022, segs=8)
+        _add_rod(gm, (0.04 * ca, 0.0, 3.52 + 0.04 * sa), (0.29 * ca, 0.0, 3.52 + 0.29 * sa), 0.014, segs=6)
+    _add_rod(gm, (0.0, 0.0, 3.80), (0.0, 0.0, 4.02), 0.024, segs=8)
     objs.append(V.bm_to_object(gm, "roost_bars", ("M_gold",)))
-    # Closed 3D hollow sun-ring (outer + inner return wall)
+    # Closed 3D hollow sun-ring standing upright in the X-Z plane around (0, 0, 3.52)
     ring = V.loft_rings(
         "roost_ring",
         [
-            (0.26, 3.38, 16, 0),
-            (0.34, 3.40, 16, 0),
-            (0.37, 3.52, 16, 0),
-            (0.32, 3.64, 16, 0),
-            (0.25, 3.62, 16, 0),
-            (0.28, 3.52, 16, 0),
-            (0.26, 3.38, 16, 0),
+            (0.27, -0.035, 20, 0),
+            (0.35, -0.035, 20, 0),
+            (0.35, 0.035, 20, 0),
+            (0.27, 0.035, 20, 0),
+            (0.27, -0.035, 20, 0),
         ],
         "M_gold",
         cap_bottom=False,
         cap_top=False,
     )
+    ring.rotation_euler = (math.pi / 2, 0, 0)
+    ring.location = (0, 0, 3.52)
     objs.append(ring)
-    return objs, {"size": [2.2, 2.2, 3.86], "origin": "bottom-center"}
+    return objs, {"size": [2.2, 2.2, 4.02], "origin": "bottom-center"}
 
 
 def aviary_screen():

@@ -1714,6 +1714,42 @@
    "rot": 180
   },
   {
+   "kit": "palace_window_4m",
+   "at": [
+    20,
+    4,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    20,
+    4,
+    10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    20,
+    8,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    20,
+    8,
+    10
+   ],
+   "rot": 180
+  },
+  {
    "kit": "palace_wall_4x4",
    "at": [
     18,
@@ -1740,6 +1776,24 @@
     1,
     1
    ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    18,
+    4,
+    8
+   ],
+   "rot": -90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    18,
+    8,
+    8
+   ],
+   "rot": -90
   },
   {
    "kit": "palace_pier",
@@ -2935,6 +2989,42 @@
    "rot": 180
   },
   {
+   "kit": "palace_window_4m",
+   "at": [
+    -20,
+    4,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -20,
+    4,
+    10
+   ],
+   "rot": 180
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -20,
+    8,
+    6
+   ],
+   "rot": 0
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -20,
+    8,
+    10
+   ],
+   "rot": 180
+  },
+  {
    "kit": "palace_wall_4x4",
    "at": [
     -18,
@@ -2961,6 +3051,24 @@
     1,
     1
    ]
+  },
+  {
+   "kit": "palace_window_4m",
+   "at": [
+    -18,
+    4,
+    8
+   ],
+   "rot": 90
+  },
+  {
+   "kit": "palace_cornice_4m",
+   "at": [
+    -18,
+    8,
+    8
+   ],
+   "rot": 90
   },
   {
    "kit": "palace_pier",
@@ -3380,6 +3488,36 @@
    ],
    "tag": "base",
    "mat": "M_marble"
+  },
+  {
+   "min": [
+    18,
+    8.0,
+    6.0
+   ],
+   "max": [
+    22,
+    8.4,
+    10.0
+   ],
+   "tag": "base",
+   "mat": "M_marble",
+   "collide": false
+  },
+  {
+   "min": [
+    -22,
+    8.0,
+    6.0
+   ],
+   "max": [
+    -18,
+    8.4,
+    10.0
+   ],
+   "tag": "base",
+   "mat": "M_marble",
+   "collide": false
   },
   {
    "min": [

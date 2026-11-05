@@ -29,8 +29,8 @@ def portcullis_4m():
         d = tip.verts.new((x - 0.07, 0.07, 0.0))
         p = tip.verts.new((x, 0.0, -0.28))
         for e0, e1 in ((a, b), (b, c), (c, d), (d, a)):
-            tip.faces.new((e0, e1, p))
-        tip.faces.new((d, c, b, a))
+            tip.faces.new((e1, e0, p))
+        tip.faces.new((a, b, c, d))
         objs.append(V.bm_to_object(tip, "spike", ("M_iron",)))
     # Top header beam and 3 forged hoist rings + chain links at (-1.35, 0.0, 1.35)
     V.add_box(bm, (-2.0, -0.075, 3.56), (2.0, 0.075, 3.68))
