@@ -29,11 +29,13 @@ var _ring: MeshInstance3D = null
 var _fill: MeshInstance3D = null
 
 func _ready() -> void:
-	if World.flag(flag):
-		set_physics_process(false)
-		return
 	if mode == "vigil":
 		_build_circle()
+	if World.flag(flag):
+		if _fill != null:
+			_fill.scale = Vector3.ONE
+		set_physics_process(false)
+		return
 
 func _physics_process(dt: float) -> void:
 	var p = Game.player

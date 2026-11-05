@@ -273,12 +273,12 @@ for s in (1, -1):
     # shared wing dressing
     prop("candelabra", (18 * s, 0, 12), 0)
     prop("candelabra", (18 * s, 0, 36), 180)
-    prop("candelabra", (34 * s, 0, 20), rot_in)
+    prop("candelabra", (34 * s, 0, 25.5 if s < 0 else 20), rot_in)
     prop("mosaic_medallion", (18 * s, 0.02, 16), 0)
     prop("chandelier_gilt", (18 * s, 3.4, 16), 0, collide=False, scale=[0.6, 0.6, 0.6])
     prop("chandelier_gilt", (34 * s, 6.0, 16), 0, collide=False)
     prop("chandelier_gilt", (34 * s, 6.0, 32), 0, collide=False)
-    prop("carpet_runner_8m", (34 * s, 0.02, 24), 90)
+    prop("carpet_runner_8m", (34 * s, 0.02, 29 if s < 0 else 24), 90)
     prop("banner", (41.55 * s, 4.4, 16), rot_out, collide=False)
     prop("banner", (41.55 * s, 4.4, 32), rot_out, collide=False)
 
@@ -322,15 +322,16 @@ prop("palace_cove_dome", (0, 8.0, 64), 0, collide=False, flames=False, glow=[3.0
 
 # the long galleries were promenades once: saints at either end, urns
 # against the piers, a bench mid-walk to take the light from the windows
+prop("mosaic_medallion", (-33.8, 0.02, 16.2), 0, collide=False)
 for s_ in (1, -1):
     gx = 34 * s_
-    prop("statue_saint", (30 * s_, 0, 10.5), 180)
-    prop("statue_saint", (38 * s_, 0, 10.5), 180)
+    prop("statue_saint", (30 * s_, 0, 9.2), 180)
+    prop("statue_saint", (39.2 * s_, 0, 9.2), 180)
     prop("statue_saint", (30 * s_, 0, 37.5), 0)
     prop("statue_saint", (38 * s_, 0, 37.5), 0)
     prop("urn", (27.2 * s_, 0, 16), 0)
     prop("urn", (40.8 * s_, 0, 30), 0)
-    prop("pew_3m", (gx, 0, 15.4), 90)
+    prop("pew_3m", (gx, 0, 26.5 if s_ < 0 else 15.4), 90)
     prop("pew_3m", (gx, 0, 32.6), 90)
 
 # guards of the morning: they hold every room once the Scion has spoken
@@ -378,6 +379,10 @@ def main():
                      "music": "res://assets/audio/theme_sanctum.mp3"},
         },
         "fills": F,
+        "boxes": [
+            {"min": [31.6, 7.25, 19.7], "max": [36.4, 7.80, 20.3], "mat": "M_gold"},
+            {"min": [33.85, 7.75, 19.85], "max": [34.15, 9.8, 20.15], "mat": "M_gold"},
+        ],
         "vault_fields": VF,
         "pieces": P,
         "props": PR,

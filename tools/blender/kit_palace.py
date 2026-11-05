@@ -208,14 +208,18 @@ def palace_portal_4m():
             bm.faces.new((df[i], df[j], db[j], db[i]))
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     objs.append(V.bm_to_object(bm, "palace_sunburst", ("M_gild",)))
-    for sx in (-1.05, 1.05):                                       # jambs
-        for sy in (-0.21, 0.21):
-            c = _marble_colonnette(0.10, 1.42)
-            c.location = (sx, sy, 0)
+    bm_jamb = bmesh.new()
+    for sx in (-1, 1):                                             # jamb colonnettes + continuous impost capitals
+        # Stepped gold impost capital & base plinth wrapping the jamb reveal and both colonnettes
+        x_in, x_out = (0.92, 1.18) if sx > 0 else (-1.18, -0.92)
+        V.add_box(bm_jamb, (x_in, -0.30, 0.0), (x_out, 0.30, 0.14))
+        V.add_box(bm_jamb, (x_in - 0.02 * sx, -0.28, 1.42), (x_out, 0.28, 1.50))
+        V.add_box(bm_jamb, (x_in - 0.03 * sx, -0.31, 1.50), (x_out + 0.02 * sx, 0.31, 1.60))
+        for sy in (-0.24, 0.24):
+            c = _marble_colonnette(0.085, 1.42)
+            c.location = (sx * 1.03, sy, 0)
             objs.append(c)
-            cap = _gilt_cap(0.10, 0, h=0.18)
-            cap.location = (sx, sy, 1.42)
-            objs.append(cap)
+    objs.append(V.bm_to_object(bm_jamb, "palace_portal_imposts", ("M_gild",)))
     return objs, {"size": [4, 0.6, 4], "origin": "bottom-center", "opening": [1.9, 2.9]}
 
 
@@ -266,14 +270,17 @@ def palace_arcade_4m():
     prof = V.chamfer_rect_profile(0.14, 0.46, 0.035)
     objs.append(V.sweep_profile("palace_arcade_gild", path, prof, "M_gild",
                                 up_hint=Vector((0, 1, 0))))
-    for sx in (-1.28, 1.28):
-        for sy in (-0.16, 0.16):
-            c = _marble_colonnette(0.10, 1.80)
-            c.location = (sx, sy, 0)
+    bm_jamb = bmesh.new()
+    for sx in (-1, 1):
+        x_in, x_out = (1.17, 1.42) if sx > 0 else (-1.42, -1.17)
+        V.add_box(bm_jamb, (x_in, -0.25, 0.0), (x_out, 0.25, 0.14))
+        V.add_box(bm_jamb, (x_in - 0.02 * sx, -0.24, 1.82), (x_out, 0.24, 1.90))
+        V.add_box(bm_jamb, (x_in - 0.03 * sx, -0.26, 1.90), (x_out + 0.02 * sx, 0.26, 2.00))
+        for sy in (-0.19, 0.19):
+            c = _marble_colonnette(0.085, 1.82)
+            c.location = (sx * 1.28, sy, 0)
             objs.append(c)
-            cap = _gilt_cap(0.10, 0, h=0.20)
-            cap.location = (sx, sy, 1.80)
-            objs.append(cap)
+    objs.append(V.bm_to_object(bm_jamb, "palace_arcade_imposts", ("M_gild",)))
     return objs, {"size": [4, 0.5, 4], "origin": "bottom-center", "opening": [2.4, 3.1]}
 
 
@@ -564,9 +571,13 @@ def palace_dome_12m():
                          cap_bottom=False, cap_top=False)
         return [a, b]
 
-    prof = [(6.0, 0.0 + dz), (5.85, 0.62 + dz), (5.4, 1.3 + dz), (4.6, 2.05 + dz),
-            (3.5, 2.7 + dz), (2.2, 3.2 + dz), (1.1, 3.42 + dz)]
-    objs += _loft2("dome_shell", prof, "M_marble")
+    prof_in = [(6.0, 0.0 + dz), (5.85, 0.62 + dz), (5.4, 1.3 + dz), (4.6, 2.05 + dz),
+               (3.5, 2.7 + dz), (2.2, 3.2 + dz), (1.1, 3.42 + dz)]
+    prof_out = [(r + 0.12, z + 0.10) for (r, z) in prof_in]
+    objs.append(V.loft_rings("dome_shell_out", [(r, z, n, 0) for (r, z) in prof_out],
+                             "M_marble", cap_bottom=False, cap_top=False))
+    objs.append(V.loft_rings("dome_shell", list(reversed([(r, z, n, 0) for (r, z) in prof_in])),
+                             "M_marble", cap_bottom=False, cap_top=False))
     # Pendentive collar bridging r=5.95 circle to the 12x16 crossing rectangle (r=10.4 covers corners)
     objs += _loft2("dome_pendentive", [(5.95, dz + 0.02), (10.4, dz + 0.02)], "M_marble")
     objs += _loft2("dome_pendentive_top", [(5.95, dz + 0.28), (10.4, dz + 0.28)], "M_marble")
@@ -595,30 +606,17 @@ def palace_dome_12m():
     objs += _loft2("dome_drum", [(6.38, 0.36), (6.46, 0.62), (6.35, 0.90)], "M_gold")
     objs += _loft2("dome_drum_in", [(5.95, 0.36), (5.92, 0.62), (6.00, 0.90)], "M_gold")
     objs += _loft2("dome_drum_seal", [(5.92, 0.36), (6.40, 0.36)], "M_gold")
-    for (r, z) in ((5.63, 0.95 + dz), (4.75, 1.9 + dz), (2.9, 2.92 + dz)):
-        objs += _loft2("dome_band", [(r + 0.05, z - 0.08), (r + 0.09, z), (r + 0.05, z + 0.08)], "M_gold")
-    # eight meridian ribs: chains of gilt blocks following the profile
-    bm = _bmesh.new()
-    seg_pts = [(5.92, 0.3 + dz), (5.62, 0.97 + dz), (5.0, 1.7 + dz),
-               (4.05, 2.4 + dz), (2.85, 2.95 + dz), (1.6, 3.32 + dz)]
+    # Three interior latitude gilt bands seated proud on the inner surface of the dome bowl
+    for (r, z) in ((5.55, 1.00 + dz), (4.60, 2.00 + dz), (2.85, 2.95 + dz)):
+        objs += _loft2("dome_band", [(r, z - 0.06), (r - 0.08, z - 0.02), (r - 0.04, z + 0.06)], "M_gold")
+    # Eight continuous curved meridian ribs swept along the inner dome profile
+    rib_prof = V.chamfer_rect_profile(0.16, 0.14, 0.03)
     for i in range(8):
         a = math.tau * i / 8
-        rot = _M.Rotation(a, 3, "Z")
-        for (r, z) in seg_pts:
-            c = rot @ Vector((r, 0, z))
-            half = rot @ Vector((0.14, 0.14, 0))
-            up = 0.34
-            vs = []
-            for sx in (-1, 1):
-                for sy in (-1, 1):
-                    for sz in (-up / 2, up / 2):
-                        vs.append(bm.verts.new(Vector((c.x + sx * abs(half.x),
-                                                       c.y + sx * half.y, c.z + sz))))
-            bm.verts.ensure_lookup_table()
-            f = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4), (1, 5, 7, 3), (0, 4, 5, 1), (2, 3, 7, 6)]
-            for q in f:
-                bm.faces.new([vs[j] for j in q])
-    objs.append(V.bm_to_object(bm, "dome_ribs", ("M_gold",)))
+        ca, sa = math.cos(a), math.sin(a)
+        rpath = [((r - 0.04) * ca, (r - 0.04) * sa, z - 0.02) for (r, z) in prof_in]
+        objs.append(V.sweep_profile(f"dome_rib_{i}", rpath, rib_prof, "M_gold",
+                                    up_hint=Vector((-sa, ca, 0))))
     objs += _loft2("dome_oculus", [(1.25, 3.25 + dz), (1.3, 3.45 + dz), (1.1, 3.58 + dz)], "M_gold")
     objs += _loft2("dome_eye_disc", [(1.14, 3.5 + dz), (0.5, 3.6 + dz), (0.08, 3.64 + dz)], "M_stone_dark")
     sbm = _bmesh.new()

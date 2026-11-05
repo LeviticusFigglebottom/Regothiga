@@ -192,7 +192,7 @@ for k in range(6):
         rot_o = -90 if s > 0 else 90
         wall_run_z(xo, z0, z0 + 12, rot_o)
         piece("palace_window_4m", (xo, 4, z0 + 2), rot_o)
-        piece("palace_wall_4x4", (xo, 4, z0 + 6), rot_o)
+        piece("palace_window_4m", (xo, 4, z0 + 6), rot_o)
         piece("palace_window_4m", (xo, 4, z0 + 10), rot_o)
         # south + north walls of each room
         x_in, x_out = (6, 18) if s > 0 else (-18, -6)
@@ -329,12 +329,18 @@ SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "bas
 PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
     "THE TWELFTH RINGER — UNNAMED, THE LAST HAND\n\nThe Twelfth gave up their name at the rope, so the bell would carry NOTHING of them but the ring.\n\nTheir fate: no grave, no ballad, no face in the glass. Deemed worthy because nothing was kept back.\n\nWhat is left of them keeps this room. Give them rest, Thirteenth."})
 
-# room dressing: a candle and a banner in every trial room
+# room dressing: chandelier, flanking candelabras, corner urn, medallion & banner in every trial room
 for k in range(6):
     for s in (1, -1):
         cx, _, cz = room_c(k, s)
-        prop("candelabra", (cx - 3.8 * s, 0, cz + 4.6), 20 * s)
-        prop("banner", (cx + 5.6 * s, 1.1, cz), 90 if s > 0 else -90, collide=False)
+        prop("chandelier_gilt", (cx, 3.2, cz), 0, collide=False, scale=[0.55, 0.55, 0.55])
+        prop("candelabra", (cx - 4.2 * s, 0, cz + 4.6), 20 * s)
+        prop("candelabra", (cx + 4.6 * s, 0, cz - 2.0), -110 * s)
+        prop("candelabra", (cx + 4.6 * s, 0, cz + 4.4), 150 * s)
+        prop("urn", (cx - 4.6 * s, 0, cz + 2.8), 0)
+        prop("banner", (cx + 5.6 * s, 1.1, cz), -90 if s > 0 else 90, collide=False)
+        if not (s < 0 and k in (0, 4)):
+            prop("mosaic_medallion", (cx, 0.02, cz), 0, collide=False)
 
 # the keep's air: gold adrift the length of the processional
 SC.append({"script": "res://src/world/ambient_life.gd", "at": [0, 1, 46], "rot": 0,

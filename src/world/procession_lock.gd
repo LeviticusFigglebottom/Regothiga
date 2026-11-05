@@ -18,8 +18,7 @@ var _lights: Array = []
 var _tongues: Array = []
 
 func _ready() -> void:
-	if World.flag(flag):
-		return
+	var solved := World.flag(flag)
 	for i in stands.size():
 		var at: Array = stands[i]
 		var holder := Node3D.new()
@@ -67,13 +66,14 @@ func _ready() -> void:
 		ttw.set_loops(0)
 		ttw.tween_property(tongue, "scale", Vector3(1.15, 1.25, 1.15), 0.5).set_trans(Tween.TRANS_SINE)
 		ttw.tween_property(tongue, "scale", Vector3(0.9, 0.92, 0.9), 0.5).set_trans(Tween.TRANS_SINE)
-		var z := Interactable.new()
-		z.prompt = "Kindle the flame"
-		z.setup_zone(1.4, 1.9)
-		var idx := i
-		z.activated.connect(func(_p): _touch(idx))
-		holder.add_child(z)
-		_lit.append(false)
+		if not solved:
+			var z := Interactable.new()
+			z.prompt = "Kindle the flame"
+			z.setup_zone(1.4, 1.9)
+			var idx := i
+			z.activated.connect(func(_p): _touch(idx))
+			holder.add_child(z)
+		_lit.append(solved)
 		_flames.append(flame)
 		_lights.append(l)
 		_tongues.append(tongue)

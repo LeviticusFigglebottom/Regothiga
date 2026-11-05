@@ -27,14 +27,14 @@ const RING := "res://assets/audio/bell_toll.wav"
 const WRONG := "res://assets/audio/impact_blocked.wav"
 
 func _ready() -> void:
-	if World.flag(flag):
-		return
-	var bell := Interactable.new()
-	bell.prompt = "Ask the mother bell for the phrase"
-	bell.setup_zone(2.2, 2.4)
-	bell.activated.connect(func(_p): _demonstrate())
-	add_child(bell)
-	bell.position = Vector3(bell_at[0], bell_at[1], bell_at[2]) - position
+	var solved := World.flag(flag)
+	if not solved:
+		var bell := Interactable.new()
+		bell.prompt = "Ask the mother bell for the phrase"
+		bell.setup_zone(2.2, 2.4)
+		bell.activated.connect(func(_p): _demonstrate())
+		add_child(bell)
+		bell.position = Vector3(bell_at[0], bell_at[1], bell_at[2]) - position
 	var i := 0
 	for spec in chimes:
 		var id := String(spec.get("id", "c%d" % i))
@@ -46,16 +46,17 @@ func _ready() -> void:
 			holder.add_child(KitLib.instance("chime_stone"))
 		var l := OmniLight3D.new()
 		l.light_color = Color(1.0, 0.88, 0.5)
-		l.light_energy = 0.0
+		l.light_energy = 1.2 if solved else 0.0
 		l.omni_range = 4.0
 		l.shadow_enabled = false
 		l.position.y = 1.6
 		holder.add_child(l)
-		var z := Interactable.new()
-		z.prompt = "Answer on %s" % String(spec.get("label", id))
-		z.setup_zone(1.5, 2.0)
-		z.activated.connect(func(_p): _answer(id))
-		holder.add_child(z)
+		if not solved:
+			var z := Interactable.new()
+			z.prompt = "Answer on %s" % String(spec.get("label", id))
+			z.setup_zone(1.5, 2.0)
+			z.activated.connect(func(_p): _answer(id))
+			holder.add_child(z)
 		_nodes[id] = {"light": l, "pitch": 0.8 + 0.14 * i}
 		i += 1
 

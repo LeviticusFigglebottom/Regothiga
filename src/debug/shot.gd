@@ -21,6 +21,9 @@ var _vigil_frame := -1
 var _seq: Array = []      # seconds after the vigil trigger
 var _seq_t := -1.0
 var _seq_i := 0
+var _multi: Array = []    # Array of [path, cam_spec]
+var _multi_i := 0
+var _multi_step := 0
 
 func _ready() -> void:
 	# the shot harness must keep ticking while the tree is paused (e.g. to
@@ -52,6 +55,13 @@ func _ready() -> void:
 				_seq.append(float(part))
 		elif arg == "--shot-seq-now":
 			_seq_t = 0.0   # sequence clock runs from boot (filming the intro)
+		elif arg.begins_with("--shot-multi="):
+			for entry in arg.get_slice("=", 1).split(";"):
+				if entry.contains("@"):
+					_multi.append([entry.get_slice("@", 0), entry.get_slice("@", 1)])
+			if not _multi.is_empty() and _shot_path == "":
+				_shot_path = String(_multi[0][0])
+				_cam_spec = String(_multi[0][1])
 	if _shot_path != "" and _frames_left < 0:
 		_frames_left = 30
 
@@ -116,6 +126,29 @@ func _process(_d: float) -> void:
 		_frames_left = min(_frames_left, 2)
 	if _frames_left == 10 and _cam_spec != "":
 		_spawn_cam()
+	if not _multi.is_empty() and _frames_left <= 8:
+		if _multi_step == 0:
+			_cam_spec = String(_multi[_multi_i][1])
+			_spawn_cam()
+			_multi_step = 1
+			return
+		elif _multi_step == 1:
+			_multi_step = 2
+			return
+		else:
+			var mpath := String(_multi[_multi_i][0])
+			var mimg := get_viewport().get_texture().get_image()
+			var mdir := mpath.get_base_dir()
+			if mdir != "" and not DirAccess.dir_exists_absolute(mdir):
+				DirAccess.make_dir_recursive_absolute(mdir)
+			mimg.save_png(mpath)
+			print("[shot] saved ", mpath)
+			_multi_i += 1
+			_multi_step = 0
+			if _multi_i >= _multi.size():
+				AudioDirector.shutdown()
+				get_tree().quit()
+			return
 	if _frames_left == 2:
 		AudioDirector.shutdown()
 	_frames_left -= 1
@@ -132,9 +165,11 @@ func _spawn_cam() -> void:
 	var parts := _cam_spec.split(",")
 	if parts.size() < 5:
 		return
-	var cam := Camera3D.new()
-	cam.name = "ShotCam"
-	get_tree().current_scene.add_child(cam)
+	var cam := get_tree().current_scene.find_child("ShotCam", false, false) as Camera3D
+	if cam == null:
+		cam = Camera3D.new()
+		cam.name = "ShotCam"
+		get_tree().current_scene.add_child(cam)
 	cam.global_position = Vector3(float(parts[0]), float(parts[1]), float(parts[2]))
 	cam.rotation_degrees = Vector3(float(parts[4]), float(parts[3]), 0.0)
 	if parts.size() >= 6:

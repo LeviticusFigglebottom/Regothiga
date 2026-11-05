@@ -1725,7 +1725,7 @@
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     18,
     4,
@@ -1833,7 +1833,7 @@
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -18,
     4,
@@ -1941,7 +1941,7 @@
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     18,
     4,
@@ -2049,7 +2049,7 @@
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -18,
     4,
@@ -2157,7 +2157,7 @@
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     18,
     4,
@@ -2265,7 +2265,7 @@
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -18,
     4,
@@ -2373,7 +2373,7 @@
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     18,
     4,
@@ -2481,7 +2481,7 @@
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -18,
     4,
@@ -2589,7 +2589,7 @@
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     18,
     4,
@@ -2697,7 +2697,7 @@
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -18,
     4,
@@ -2805,7 +2805,7 @@
    "rot": -90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     18,
     4,
@@ -2913,7 +2913,7 @@
    "rot": 90
   },
   {
-   "kit": "palace_wall_4x4",
+   "kit": "palace_window_4m",
    "at": [
     -18,
     4,
@@ -3415,13 +3415,59 @@
    "tag": "base"
   },
   {
+   "kit": "chandelier_gilt",
+   "at": [
+    12,
+    3.2,
+    12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    8.2,
+    7.8,
     0,
     16.6
    ],
    "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    10.0
+   ],
+   "rot": -110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    16.4
+   ],
+   "rot": 150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.4,
+    0,
+    14.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3431,18 +3477,75 @@
     1.1,
     12
    ],
-   "rot": 90,
+   "rot": -90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    12,
+    0.02,
+    12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -12,
+    3.2,
+    12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    -8.2,
+    -7.8,
     0,
     16.6
    ],
    "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    10.0
+   ],
+   "rot": 110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    16.4
+   ],
+   "rot": -150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.4,
+    0,
+    14.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3452,18 +3555,64 @@
     1.1,
     12
    ],
-   "rot": -90,
+   "rot": 90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "chandelier_gilt",
+   "at": [
+    12,
+    3.2,
+    26
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    8.2,
+    7.8,
     0,
     30.6
    ],
    "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    24.0
+   ],
+   "rot": -110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    30.4
+   ],
+   "rot": 150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.4,
+    0,
+    28.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3473,18 +3622,75 @@
     1.1,
     26
    ],
-   "rot": 90,
+   "rot": -90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    12,
+    0.02,
+    26
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -12,
+    3.2,
+    26
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    -8.2,
+    -7.8,
     0,
     30.6
    ],
    "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    24.0
+   ],
+   "rot": 110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    30.4
+   ],
+   "rot": -150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.4,
+    0,
+    28.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3494,18 +3700,75 @@
     1.1,
     26
    ],
-   "rot": -90,
+   "rot": 90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    -12,
+    0.02,
+    26
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    12,
+    3.2,
+    40
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    8.2,
+    7.8,
     0,
     44.6
    ],
    "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    38.0
+   ],
+   "rot": -110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    44.4
+   ],
+   "rot": 150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.4,
+    0,
+    42.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3515,18 +3778,75 @@
     1.1,
     40
    ],
-   "rot": 90,
+   "rot": -90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    12,
+    0.02,
+    40
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -12,
+    3.2,
+    40
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    -8.2,
+    -7.8,
     0,
     44.6
    ],
    "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    38.0
+   ],
+   "rot": 110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    44.4
+   ],
+   "rot": -150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.4,
+    0,
+    42.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3536,18 +3856,75 @@
     1.1,
     40
    ],
-   "rot": -90,
+   "rot": 90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    -12,
+    0.02,
+    40
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    12,
+    3.2,
+    54
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    8.2,
+    7.8,
     0,
     58.6
    ],
    "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    52.0
+   ],
+   "rot": -110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    58.4
+   ],
+   "rot": 150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.4,
+    0,
+    56.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3557,18 +3934,75 @@
     1.1,
     54
    ],
-   "rot": 90,
+   "rot": -90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    12,
+    0.02,
+    54
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -12,
+    3.2,
+    54
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    -8.2,
+    -7.8,
     0,
     58.6
    ],
    "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    52.0
+   ],
+   "rot": 110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    58.4
+   ],
+   "rot": -150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.4,
+    0,
+    56.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3578,18 +4012,75 @@
     1.1,
     54
    ],
-   "rot": -90,
+   "rot": 90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    -12,
+    0.02,
+    54
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    12,
+    3.2,
+    68
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    8.2,
+    7.8,
     0,
     72.6
    ],
    "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    66.0
+   ],
+   "rot": -110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    72.4
+   ],
+   "rot": 150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.4,
+    0,
+    70.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3599,18 +4090,75 @@
     1.1,
     68
    ],
-   "rot": 90,
+   "rot": -90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    12,
+    0.02,
+    68
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -12,
+    3.2,
+    68
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    -8.2,
+    -7.8,
     0,
     72.6
    ],
    "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    66.0
+   ],
+   "rot": 110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    72.4
+   ],
+   "rot": -150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.4,
+    0,
+    70.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3620,18 +4168,64 @@
     1.1,
     68
    ],
-   "rot": -90,
+   "rot": 90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "chandelier_gilt",
+   "at": [
+    12,
+    3.2,
+    82
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    8.2,
+    7.8,
     0,
     86.6
    ],
    "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    80.0
+   ],
+   "rot": -110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    16.6,
+    0,
+    86.4
+   ],
+   "rot": 150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    7.4,
+    0,
+    84.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3641,18 +4235,75 @@
     1.1,
     82
    ],
-   "rot": 90,
+   "rot": -90,
    "tag": "base",
    "collide": false
   },
   {
+   "kit": "mosaic_medallion",
+   "at": [
+    12,
+    0.02,
+    82
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -12,
+    3.2,
+    82
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false,
+   "scale": [
+    0.55,
+    0.55,
+    0.55
+   ]
+  },
+  {
    "kit": "candelabra",
    "at": [
-    -8.2,
+    -7.8,
     0,
     86.6
    ],
    "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    80.0
+   ],
+   "rot": 110,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -16.6,
+    0,
+    86.4
+   ],
+   "rot": -150,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -7.4,
+    0,
+    84.8
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
@@ -3662,7 +4313,18 @@
     1.1,
     82
    ],
-   "rot": -90,
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    -12,
+    0.02,
+    82
+   ],
+   "rot": 0,
    "tag": "base",
    "collide": false
   },
