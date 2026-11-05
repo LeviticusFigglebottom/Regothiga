@@ -62,11 +62,11 @@
  "balustrade_4m": {
   "file": "assets/kit/balustrade_4m.glb",
   "origin": "bottom-center",
-  "polys": 816,
+  "polys": 804,
   "size": [
    4,
    0.4,
-   1.1
+   1.12
   ]
  },
  "banner": {
@@ -192,7 +192,7 @@
  "bow_lark": {
   "file": "assets/kit/bow_lark.glb",
   "origin": "grip",
-  "polys": 190,
+  "polys": 296,
   "size": [
    0.08,
    0.4,
@@ -351,7 +351,7 @@
  "candle_cluster": {
   "file": "assets/kit/candle_cluster.glb",
   "origin": "bottom-center",
-  "polys": 384,
+  "polys": 640,
   "size": [
    0.55,
    0.55,
@@ -361,7 +361,7 @@
  "candle_cluster_dead": {
   "file": "assets/kit/candle_cluster_dead.glb",
   "origin": "bottom-center",
-  "polys": 132,
+  "polys": 430,
   "size": [
    0.55,
    0.55,
@@ -691,21 +691,21 @@
  "crook_great": {
   "file": "assets/kit/crook_great.glb",
   "origin": "grip",
-  "polys": 90,
+  "polys": 298,
   "size": [
    0.9,
    0.14,
-   3.0
+   3.04
   ]
  },
  "crook_warden": {
   "file": "assets/kit/crook_warden.glb",
   "origin": "grip",
-  "polys": 76,
+  "polys": 280,
   "size": [
    0.5,
    0.1,
-   2.2
+   2.24
   ]
  },
  "door_leaf": {
@@ -1407,7 +1407,7 @@
  "sconce_torch": {
   "file": "assets/kit/sconce_torch.glb",
   "origin": "wall-mount",
-  "polys": 96,
+  "polys": 232,
   "size": [
    0.2,
    0.4,

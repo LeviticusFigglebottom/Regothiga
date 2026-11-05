@@ -171,24 +171,36 @@ def city_cluster(seed=9):
 # ---------------------------------------------------------------- terrace
 
 def balustrade_4m():
-    """Stone balustrade: rail, plinth, turned balusters. Origin bottom-center."""
+    """Stone balustrade: moulded rail, plinth, panelled end newel posts, and
+    turned balusters. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
-    _box(bm, -2, -0.14, 0, 2, 0.14, 0.14)
-    _box(bm, -2, -0.16, 0.92, 2, 0.16, 1.1)
-    for px in (-2.0, 2.0):
-        _box(bm, px - 0.14, -0.18, 0, px + 0.14, 0.18, 1.1)
+    bm_dark = bmesh.new()
+    # Stepped base plinth + moulded top handrail
+    _box(bm, -2.0, -0.16, 0.0, 2.0, 0.16, 0.06)
+    _box(bm, -2.0, -0.14, 0.06, 2.0, 0.14, 0.15)
+    _box(bm, -2.0, -0.14, 0.90, 2.0, 0.14, 0.96)
+    _box(bm, -2.0, -0.17, 0.96, 2.0, 0.17, 1.10)
+    # Panelled end newel posts with stepped plinth and capital collars
+    for px in (-1.88, 1.88):
+        _box(bm, px - 0.17, -0.20, 0.0, px + 0.17, 0.20, 0.16)
+        _box(bm, px - 0.14, -0.17, 0.16, px + 0.14, 0.17, 0.92)
+        _box(bm, px - 0.17, -0.20, 0.92, px + 0.17, 0.20, 1.12)
+        for sy in (-1, 1):
+            py = sy * 0.172
+            _box(bm_dark, px - 0.08, py - 0.008, 0.24, px + 0.08, py + 0.008, 0.84)
     frame = V.bm_to_object(bm, "balustrade_frame", ("M_stone_trim",))
     objs.append(frame)
-    x = -1.7
-    while x < 1.9:
+    objs.append(V.bm_to_object(bm_dark, "balustrade_panels", ("M_stone_dark",)))
+    x = -1.53
+    while x < 1.65:
         b = V.loft_rings("baluster", [(0.095, 0.14, 14, 0), (0.055, 0.28, 14, 0),
                                       (0.085, 0.42, 14, 0), (0.105, 0.54, 14, 0),
                                       (0.048, 0.76, 14, 0), (0.092, 0.92, 14, 0)], "M_stone_trim")
         b.location = (x, 0, 0)
         objs.append(b)
         x += 0.34
-    return objs, {"size": [4, 0.4, 1.1], "origin": "bottom-center"}
+    return objs, {"size": [4, 0.4, 1.12], "origin": "bottom-center"}
 
 
 def _stringer(bm, x, run, rise, w=0.14, guard=1.02):
@@ -346,25 +358,72 @@ def wellhead():
 
 
 def sconce_torch():
-    """Wall sconce: wrought-iron wall plate + scrolled bracket + cresset cup + candle + flame."""
+    """Wall sconce: stepped wrought-iron Gothic backplate with brass rivets +
+    scrolled arm & S-strut + flared cresset drip dish + concave-cupped candle + flame."""
     objs = []
-    plate = V.box_object("sconce_plate", [0.09, 0.025, 0.26], "M_iron", origin="center")
-    plate.location = (0, -0.01, 0.02)
-    objs.append(plate)
-    arm = V.sweep_profile("bracket", [(0, 0.0, 0), (0, -0.22, 0.05), (0, -0.3, 0.12)],
-                          V.circle_profile(0.022, 10), "M_iron", up_hint=Vector((1, 0, 0)))
+    bm_iron = bmesh.new()
+    # Stepped wrought-iron backplate + gothic trefoil finials + collar tie
+    _box(bm_iron, -0.052, -0.024, -0.12, 0.052, 0.004, 0.16)
+    _box(bm_iron, -0.032, -0.028, 0.16, 0.032, 0.004, 0.21)
+    _box(bm_iron, -0.032, -0.028, -0.17, 0.032, 0.004, -0.12)
+    _box(bm_iron, -0.026, -0.19, 0.01, 0.026, -0.15, 0.07)
+    # Charred candle wick inside top cup
+    V.add_cyl(bm_iron, 0.0, -0.30, 0.325, 0.030, 0.004, n=6)
+    objs.append(V.bm_to_object(bm_iron, "sconce_plate", ("M_iron",)))
+
+    bm_br = bmesh.new()
+    for rx in (-0.034, 0.034):
+        for rz in (-0.09, 0.13):
+            _box(bm_br, rx - 0.008, -0.032, rz - 0.008, rx + 0.008, -0.018, rz + 0.008)
+    objs.append(V.bm_to_object(bm_br, "sconce_rivets", ("M_brass",)))
+
+    arm = V.sweep_profile(
+        "bracket",
+        [(0, 0.0, 0.02), (0, -0.16, 0.04), (0, -0.26, 0.08), (0, -0.30, 0.12)],
+        V.circle_profile(0.022, 10),
+        "M_iron",
+        up_hint=Vector((1, 0, 0)),
+    )
     objs.append(arm)
-    strut = V.sweep_profile("strut", [(0, -0.01, -0.09), (0, -0.16, -0.02), (0, -0.25, 0.08)],
-                            V.circle_profile(0.014, 8), "M_iron", up_hint=Vector((1, 0, 0)))
+    strut = V.sweep_profile(
+        "strut",
+        [(0, -0.01, -0.10), (0, -0.10, -0.06), (0, -0.20, 0.02), (0, -0.27, 0.09)],
+        V.circle_profile(0.015, 8),
+        "M_iron",
+        up_hint=Vector((1, 0, 0)),
+    )
     objs.append(strut)
-    cup = V.loft_rings("cup", [(0.055, 0.10, 12, 0), (0.078, 0.16, 12, 0)], "M_iron")
-    cup.location = (0, -0.3, 0)
+    cup = V.loft_rings(
+        "cup",
+        [
+            (0.032, 0.08, 14, 0),
+            (0.056, 0.11, 14, 0),
+            (0.092, 0.15, 14, 0),
+            (0.084, 0.17, 14, 0),
+            (0.052, 0.15, 14, 0),
+        ],
+        "M_iron",
+    )
+    cup.location = (0, -0.30, 0)
     objs.append(cup)
-    c = V.loft_rings("candle", [(0.046, 0.16, 12, 0), (0.040, 0.34, 12, 0)], "M_wax")
-    c.location = (0, -0.3, 0)
+    c = V.loft_rings(
+        "candle",
+        [
+            (0.048, 0.15, 12, 0),
+            (0.044, 0.26, 12, 0.10),
+            (0.041, 0.34, 12, 0),
+            (0.024, 0.325, 12, 0),
+        ],
+        "M_wax",
+    )
+    c.location = (0, -0.30, 0)
     objs.append(c)
-    f = V.loft_rings("sconce_flame", [(0.022, 0.0, 10, 0), (0.038, 0.05, 10, 0.3), (0.003, 0.14, 10, 0.6)], "M_flame")
-    f.location = (0, -0.3, 0.35)
+    f = V.loft_rings(
+        "sconce_flame",
+        [(0.022, 0.0, 10, 0), (0.038, 0.05, 10, 0.3), (0.003, 0.14, 10, 0.6)],
+        "M_flame",
+    )
+    f.location = (0, -0.30, 0.35)
     objs.append(f)
     return objs, {"size": [0.2, 0.4, 0.5], "origin": "wall-mount"}
 

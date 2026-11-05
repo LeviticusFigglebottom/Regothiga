@@ -498,23 +498,131 @@ def pell():
 def crook_warden():
     """Cage-warden's crook: a long haft curling into an iron shepherd's hook —
     the tool that dragged larks (and worse) back to their cages. Origin grip."""
-    objs = [V.loft_rings("haft", [(0.02, -0.85, 12, 0), (0.024, 1.0, 12, 0)], "M_wood")]
-    pts = [(0, 0, 0.96), (-0.02, 0, 1.18), (-0.10, 0, 1.30), (-0.20, 0, 1.32),
-           (-0.27, 0, 1.24), (-0.28, 0, 1.12), (-0.22, 0, 1.05)]
-    objs.append(V.sweep_profile("hook", pts, V.circle_profile(0.022, 10), "M_iron",
-                                up_hint=Vector((0, 1, 0))))
-    return objs, {"size": [0.5, 0.1, 2.2], "origin": "grip"}
+    objs = [
+        V.loft_rings(
+            "haft",
+            [(0.019, -0.82, 12, 0), (0.022, -0.25, 12, 0), (0.024, 0.92, 12, 0)],
+            "M_wood",
+        ),
+        V.loft_rings(
+            "crook_grip",
+            [
+                (0.025, -0.22, 12, 0),
+                (0.027, -0.08, 12, 0),
+                (0.025, 0.0, 12, 0),
+                (0.027, 0.10, 12, 0),
+                (0.025, 0.22, 12, 0),
+            ],
+            "M_leather",
+        ),
+        V.loft_rings(
+            "crook_butt",
+            [(0.006, -0.92, 10, 0), (0.026, -0.84, 10, 0), (0.022, -0.78, 10, 0)],
+            "M_iron",
+        ),
+        V.loft_rings(
+            "crook_socket",
+            [
+                (0.026, 0.86, 12, 0),
+                (0.032, 0.94, 12, 0),
+                (0.030, 1.00, 12, 0),
+            ],
+            "M_iron",
+        ),
+    ]
+    pts = [
+        (0, 0, 0.96),
+        (-0.02, 0, 1.18),
+        (-0.10, 0, 1.30),
+        (-0.20, 0, 1.32),
+        (-0.27, 0, 1.24),
+        (-0.28, 0, 1.12),
+        (-0.21, 0, 1.04),
+        (-0.16, 0, 1.08),
+    ]
+    objs.append(
+        V.sweep_profile(
+            "hook",
+            pts,
+            V.circle_profile(0.022, 12),
+            "M_iron",
+            up_hint=Vector((0, 1, 0)),
+        )
+    )
+    bm_br = bmesh.new()
+    for gz in (-0.22, 0.0, 0.22, 0.90, 0.97):
+        V.add_cyl(bm_br, 0.0, 0.0, gz - 0.010, 0.020, 0.030, n=12)
+    objs.append(V.bm_to_object(bm_br, "crook_bands", ("M_brass",)))
+    return objs, {"size": [0.5, 0.1, 2.24], "origin": "grip"}
 
 
 def crook_great():
     """The Larkwarden's great crook: a two-hand cage-hook, gilt at the curl."""
-    objs = [V.loft_rings("haft_g", [(0.03, -1.1, 12, 0), (0.035, 1.35, 12, 0)], "M_wood")]
-    pts = [(0, 0, 1.30), (-0.03, 0, 1.60), (-0.16, 0, 1.78), (-0.34, 0, 1.80),
-           (-0.45, 0, 1.68), (-0.46, 0, 1.50), (-0.36, 0, 1.40)]
-    objs.append(V.sweep_profile("hook_g", pts, V.circle_profile(0.035, 10), "M_gold",
-                                up_hint=Vector((0, 1, 0))))
-    objs.append(V.loft_rings("ferrule", [(0.045, 1.3, 12, 0), (0.04, 1.42, 12, 0)], "M_gold"))
-    return objs, {"size": [0.9, 0.14, 3.0], "origin": "grip"}
+    objs = [
+        V.loft_rings(
+            "haft_g",
+            [(0.028, -1.08, 12, 0), (0.032, -0.30, 12, 0), (0.035, 1.32, 12, 0)],
+            "M_wood",
+        ),
+        V.loft_rings(
+            "grip_g",
+            [
+                (0.035, -0.32, 12, 0),
+                (0.038, -0.14, 12, 0),
+                (0.034, 0.0, 12, 0),
+                (0.038, 0.16, 12, 0),
+                (0.035, 0.32, 12, 0),
+            ],
+            "M_leather",
+        ),
+        V.loft_rings(
+            "butt_g",
+            [
+                (0.008, -1.22, 12, 0),
+                (0.038, -1.12, 12, 0),
+                (0.044, -1.08, 12, 0),
+                (0.032, -1.02, 12, 0),
+            ],
+            "M_gold",
+        ),
+        V.loft_rings(
+            "ferrule",
+            [
+                (0.038, 1.22, 12, 0),
+                (0.052, 1.30, 12, 0),
+                (0.044, 1.36, 12, 0),
+                (0.050, 1.40, 12, 0),
+                (0.040, 1.44, 12, 0),
+            ],
+            "M_gold",
+        ),
+    ]
+    pts = [
+        (0, 0, 1.30),
+        (-0.03, 0, 1.60),
+        (-0.16, 0, 1.78),
+        (-0.34, 0, 1.80),
+        (-0.45, 0, 1.68),
+        (-0.46, 0, 1.50),
+        (-0.35, 0, 1.39),
+        (-0.27, 0, 1.45),
+    ]
+    objs.append(
+        V.sweep_profile(
+            "hook_g",
+            pts,
+            V.circle_profile(0.035, 12),
+            "M_gold",
+            up_hint=Vector((0, 1, 0)),
+        )
+    )
+    bm_g = bmesh.new()
+    for gz in (-0.32, 0.0, 0.32):
+        V.add_cyl(bm_g, 0.0, 0.0, gz - 0.014, 0.028, 0.042, n=12)
+    # Inner catch-spur on the lower throat of the great gilt hook
+    V.add_box(bm_g, (-0.16, -0.018, 1.44), (-0.02, 0.018, 1.50))
+    objs.append(V.bm_to_object(bm_g, "crook_g_trim", ("M_gold",)))
+    return objs, {"size": [0.9, 0.14, 3.04], "origin": "grip"}
 
 
 def oar_glaive():
@@ -581,26 +689,57 @@ def greatsword_pilgrim():
 
 
 def bow_lark():
-    """Larkbow: a birdkeeper's recurve of pale ash. Origin at grip."""
+    """Larkbow: a birdkeeper's recurve of pale ash with contoured leather riser
+    grip, brass sight/arrow-shelf collars, bone horn nocks, and taut bowstring.
+    Origin at grip."""
     objs = []
     path = []
-    n = 18
+    n = 22
     for i in range(n + 1):
         k = i / float(n) * 2.0 - 1.0
         z = k * 0.78
         y = 0.17 * (1.0 - k * k)
-        if abs(k) > 0.82:
-            y += 0.05 * (abs(k) - 0.82) / 0.18
+        if abs(k) > 0.80:
+            y += 0.055 * (abs(k) - 0.80) / 0.20
         path.append((0.0, y, z))
-    prof = V.chamfer_rect_profile(0.021, 0.03, 0.006)
+    prof = V.chamfer_rect_profile(0.022, 0.032, 0.006)
     objs.append(V.sweep_profile("stave", path, prof, "M_wood", up_hint=Vector((1, 0, 0))))
     bm = bmesh.new()
     ty = path[0][1] - 0.005
     V.add_box(bm, (-0.0035, ty - 0.0035, -0.775), (0.0035, ty + 0.0035, 0.775))
     objs.append(V.bm_to_object(bm, "string", ("M_bone",)))
-    objs.append(V.loft_rings("wrap", [(0.028, -0.09, 12, 0), (0.03, 0.09, 12, 0)], "M_leather"))
+    # Contoured leather riser grip + central bowstring serving wrap
+    objs.append(
+        V.loft_rings(
+            "wrap",
+            [
+                (0.026, -0.13, 12, 0),
+                (0.031, -0.06, 12, 0),
+                (0.028, 0.0, 12, 0),
+                (0.031, 0.06, 12, 0),
+                (0.026, 0.13, 12, 0),
+            ],
+            "M_leather",
+        )
+    )
+    bm_br = bmesh.new()
+    for sz in (-0.14, 0.14):
+        V.add_box(bm_br, (-0.016, 0.145, sz - 0.012), (0.016, 0.195, sz + 0.012))
+    # Arrow rest shelf on upper riser
+    V.add_box(bm_br, (0.010, 0.150, 0.055), (0.026, 0.190, 0.085))
+    objs.append(V.bm_to_object(bm_br, "bow_brass", ("M_brass",)))
     for sgn in (-1, 1):
-        objs.append(V.loft_rings("nock", [(0.012, sgn * 0.76, 10, 0), (0.008, sgn * 0.8, 10, 0)], "M_bone"))
+        nock = V.loft_rings(
+            "nock",
+            [
+                (0.015, sgn * 0.73, 10, 0),
+                (0.012, sgn * 0.77, 10, 0),
+                (0.006, sgn * 0.81, 10, 0),
+            ],
+            "M_bone",
+        )
+        nock.location = (0.0, path[0][1] - 0.01, 0.0)
+        objs.append(nock)
     return objs, {"size": [0.08, 0.4, 1.62], "origin": "grip"}
 
 

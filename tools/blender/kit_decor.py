@@ -18,32 +18,48 @@ from kit_props import _flame, _robe
 
 
 def candle_cluster(lit=True, seed=7):
-    """Votive puddle: 7-9 candles of ragged heights fused in a drip mass."""
+    """Votive puddle: 7-9 concave-cupped candles of ragged heights fused in an
+    organic multi-lobed wax drip mass, with charred wicks and wax drip ridges."""
     rng = random.Random(seed)
     objs = []
-    # drip base
+    # Pooled multi-lobed wax drip base
     bm = bmesh.new()
-    got = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=0.22)
+    got = bmesh.ops.create_icosphere(bm, subdivisions=2, radius=0.23)
     for v in got["verts"]:
-        v.co.z *= 0.22
-        v.co.x *= rng.uniform(0.85, 1.3)
-        v.co.y *= rng.uniform(0.85, 1.3)
-        if v.co.z < 0:
-            v.co.z = 0
+        v.co.z = max(0.0, v.co.z * 0.20)
+        ang = math.atan2(v.co.y, v.co.x)
+        lobe = 1.0 + 0.14 * math.sin(ang * 4.0 + 0.4) + 0.08 * math.cos(ang * 7.0)
+        v.co.x *= rng.uniform(0.90, 1.22) * lobe
+        v.co.y *= rng.uniform(0.90, 1.22) * lobe
     objs.append(V.bm_to_object(bm, "drip_base", ("M_wax",)))
+
+    bm_wicks = bmesh.new()
     n = rng.randint(7, 9)
     for i in range(n):
         a = 2 * math.pi * i / n + rng.uniform(-0.3, 0.3)
         r = rng.uniform(0.02, 0.16)
-        h = rng.uniform(0.05, 0.3) if lit else rng.uniform(0.02, 0.12)
+        h = rng.uniform(0.06, 0.30) if lit else rng.uniform(0.03, 0.13)
         cx, cy = r * math.cos(a), r * math.sin(a)
-        c = V.loft_rings("votive", [(0.032, 0.0, 7, 0), (0.028, h * 0.85, 7, 0.2), (0.022, h, 7, 0)], "M_wax")
-        c.location = (cx, cy, 0.02)
+        c = V.loft_rings(
+            "votive",
+            [
+                (0.034, 0.0, 10, 0),
+                (0.029, h * 0.65, 10, 0.18),
+                (0.025, h * 0.96, 10, 0.12),
+                (0.024, h, 10, 0),
+                (0.014, max(0.015, h - 0.014), 10, 0),
+            ],
+            "M_wax",
+        )
+        c.location = (cx, cy, 0.015)
         objs.append(c)
+        # Charred cord wick inside each candle cup
+        V.add_cyl(bm_wicks, cx, cy, 0.015 + max(0.01, h - 0.016), 0.024, 0.004, n=6)
         if lit and rng.random() < 0.85:
             f = _flame("cluster_flame", 0.022, 0.075)
-            f.location = (cx, cy, h + 0.03)
+            f.location = (cx, cy, h + 0.028)
             objs.append(f)
+    objs.append(V.bm_to_object(bm_wicks, "cluster_wicks", ("M_iron",)))
     return objs, {"size": [0.55, 0.55, 0.42], "origin": "bottom-center"}
 
 
