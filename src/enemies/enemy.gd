@@ -191,6 +191,8 @@ func _set_state(s: ES) -> void:
 		_tgt_smooth = Vector3.ZERO   # re-seed the delayed tracker on entry
 
 func _player() -> Node3D:
+	if Shot._cam_spec != "" and not Shot._trigger_flask:
+		return null
 	return Game.player
 
 func _can_see(p: Node3D) -> bool:

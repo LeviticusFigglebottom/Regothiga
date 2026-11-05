@@ -55,11 +55,11 @@ shot vigils_arrival.png      vigils_end glory "24,1.7,1,-95,2,72"
 shot vigils_shrine.png       vigils_end glory "-13,1.8,2,80,10,70"
 shot vigils_crown_ruin.png   vigils_end ruin  "-19.5,3.9,-5,-35,-6,70"
 # pass U: the Old Outskirts + the Parish of the First Wick
-# (wick_immortalized.png is hand-staged with a probe scene, not regenerated here)
 shot outskirts_square.png      old_outskirts glory  "0,2.0,2,0,6,76"
 shot outskirts_square_ruin.png old_outskirts ruin   "0,2.0,2,0,6,76"
 shot outskirts_parish.png      old_outskirts glory  "0,6.3,-36,0,10,72"
 shot wick_nave_glory.png       wick_cathedral glory "0,1.8,-4,0,4,66"
+shot wick_immortalized.png     wick_cathedral ruin  "0,1.55,-14.6,0,-4,52" --shot-immortalized
 # pass W: Gilded Sanctum, Palace of the Kept Hour, Morrow's Keep
 shot sanctum_avenue_glory.png  gilded_sanctum glory "0,2.2,8,0,4,70"
 shot sanctum_avenue_ruin.png   gilded_sanctum ruin  "0,2.2,8,0,4,70"

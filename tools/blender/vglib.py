@@ -220,6 +220,20 @@ def add_box(bm, min_co, max_co):
         bm.faces.new([vs[i] for i in f])
     return vs
 
+def add_cyl(bm, cx, cy, z0, h, r, n=12):
+    """Vertical cylinder centered at (cx, cy) from z0 to z0 + h with radius r."""
+    z1 = z0 + h
+    r0 = [bm.verts.new((cx + r * math.cos(math.tau * i / n),
+                        cy + r * math.sin(math.tau * i / n), z0)) for i in range(n)]
+    r1 = [bm.verts.new((cx + r * math.cos(math.tau * i / n),
+                        cy + r * math.sin(math.tau * i / n), z1)) for i in range(n)]
+    for i in range(n):
+        j = (i + 1) % n
+        bm.faces.new((r0[i], r0[j], r1[j], r1[i]))
+    bm.faces.new(list(reversed(r0)))
+    bm.faces.new(r1)
+    return r0 + r1
+
 def box_object(name, size, mat="M_stone", origin='corner'):
     """Simple box; origin at floor center or corner."""
     bm = bmesh.new()

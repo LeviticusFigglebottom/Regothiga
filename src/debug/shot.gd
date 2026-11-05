@@ -14,6 +14,7 @@ var _quit_after := -1
 var _cam_spec := ""
 var _open_satchel := false
 var _trigger_flask := false
+var _stage_immortalized := false
 var forced_state := ""   # read by boot/world setup
 var forced_flags: Array = []   # world flags applied before the area builds
 var _vigil_frame := -1
@@ -36,6 +37,8 @@ func _ready() -> void:
 			_open_satchel = true
 		elif arg == "--shot-flask":
 			_trigger_flask = true
+		elif arg == "--shot-immortalized":
+			_stage_immortalized = true
 		elif arg.begins_with("--state="):
 			forced_state = arg.get_slice("=", 1)
 		elif arg.begins_with("--flag="):
@@ -79,6 +82,16 @@ func _process(_d: float) -> void:
 	if _cam_spec != "" and not _trigger_flask and Game.player != null and Game.player.hurtbox != null:
 		Game.player.hurtbox.monitorable = false
 		Game.player.hurtbox.monitoring = false
+	if _frames_left == 12 and _stage_immortalized and Game.player != null:
+		Game.player.global_position = Vector3(-1.35, 0.08, -18.4)
+		Game.player.velocity = Vector3.ZERO
+		Game.player.vis.rotation.y = deg_to_rad(-68.0)
+		for e in get_tree().get_nodes_in_group(VG.GROUP_ENEMIES):
+			if e is Enemy and (e as Enemy).id == "wick_crusader":
+				var b := e as Enemy
+				b.global_position = Vector3(1.15, 0.08, -19.2)
+				b.velocity = Vector3.ZERO
+				b.vis.rotation.y = deg_to_rad(125.0)
 	if _frames_left == 12 and _open_satchel and Game.player != null:
 		for wid in ["marsh_spear", "pilgrim_greatsword", "sexton_maul", "ward_halberd", "lark_bow"]:
 			Game.player.give_item(wid, 1)

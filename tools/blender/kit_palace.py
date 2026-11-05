@@ -492,13 +492,21 @@ def banquet_table_6m():
 
 
 def banquet_bench_6m():
-    """Long bench for the feast table. Origin bottom-center. Solid."""
+    """Long marble-and-gold bench for the feast table. Origin bottom-center. Solid."""
+    objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-3.0, -0.19, 0.4), (3.0, 0.19, 0.5))
-    for sx in (-2.6, 2.6):
-        V.add_box(bm, (sx - 0.08, -0.15, 0.0), (sx + 0.08, 0.15, 0.4))
-    obj = V.bm_to_object(bm, "bench", ("M_wood",))
-    return [obj], {"size": [6, 0.4, 0.5], "origin": "bottom-center"}
+    V.add_box(bm, (-3.0, -0.20, 0.40), (3.0, 0.20, 0.49))             # marble seat slab
+    V.add_box(bm, (-2.6, -0.05, 0.16), (2.6, 0.05, 0.25))             # stretcher rail
+    for sx in (-2.6, 0.0, 2.6):
+        V.add_box(bm, (sx - 0.11, -0.18, 0.0), (sx + 0.11, 0.18, 0.07))  # plinth foot
+        V.add_box(bm, (sx - 0.08, -0.14, 0.07), (sx + 0.08, 0.14, 0.40)) # carved standard
+    objs.append(V.bm_to_object(bm, "bench", ("M_marble",)))
+    bm_g = bmesh.new()
+    V.add_box(bm_g, (-3.02, -0.21, 0.44), (3.02, 0.21, 0.47))         # gilt molding band
+    for sx in (-2.6, 0.0, 2.6):
+        V.add_box(bm_g, (sx - 0.12, -0.19, 0.0), (sx + 0.12, 0.19, 0.03))
+    objs.append(V.bm_to_object(bm_g, "bench_gild", ("M_gild",)))
+    return objs, {"size": [6, 0.4, 0.5], "origin": "bottom-center"}
 
 
 def palace_dome_12m():
@@ -784,15 +792,22 @@ def carpet_runner_8m():
 def scriptorium_shelf():
     """Tall book-press for the west wing: carved case, three laden shelves.
     Origin bottom-center against a wall (back at +Y). Solid."""
-    rng = random.Random(23)
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-1.2, 0.16, 0.0), (1.2, 0.24, 2.3))             # back board
-    for sx in (-1.2, 1.2):
-        V.add_box(bm, (sx - 0.05, -0.2, 0.0), (sx + 0.05, 0.24, 2.3))
+    V.add_box(bm, (-1.26, -0.24, 0.0), (1.26, 0.25, 0.10))         # base plinth
+    V.add_box(bm, (-1.28, -0.26, 2.22), (1.28, 0.25, 2.34))        # crown cornice
+    for sx in (-1.2, 0.0, 1.2):
+        w_stile = 0.04 if sx == 0.0 else 0.06
+        V.add_box(bm, (sx - w_stile, -0.22, 0.08), (sx + w_stile, 0.24, 2.24))
     for z in (0.08, 0.78, 1.48, 2.18):
         V.add_box(bm, (-1.2, -0.2, z), (1.2, 0.24, z + 0.06))
     objs.append(V.bm_to_object(bm, "shelf_case", ("M_wood",)))
+    bm_g = bmesh.new()
+    V.add_box(bm_g, (-1.29, -0.27, 2.28), (1.29, 0.25, 2.32))      # gilt cornice band
+    for z in (0.10, 0.80, 1.50, 2.20):
+        V.add_box(bm_g, (-1.21, -0.21, z), (1.21, -0.19, z + 0.025))
+    objs.append(V.bm_to_object(bm_g, "shelf_gild", ("M_gild",)))
     for (mat, jitter) in (("M_leather", 0), ("M_cloth", 1)):
         bm = bmesh.new()
         r2 = random.Random(31 + jitter)
@@ -801,11 +816,11 @@ def scriptorium_shelf():
             while x < 1.0:
                 w = r2.uniform(0.08, 0.16)
                 h = r2.uniform(0.4, 0.58)
-                if r2.random() < 0.5:
-                    V.add_box(bm, (x, -0.12, z), (x + w, 0.2, z + h))
+                if abs(x + w * 0.5) > 0.06 and r2.random() < 0.5:
+                    V.add_box(bm, (x, -0.12, z), (x + w, 0.16, z + h))
                 x += w + 0.015
         objs.append(V.bm_to_object(bm, "books_%d" % jitter, (mat,)))
-    return objs, {"size": [2.5, 0.5, 2.3], "origin": "bottom-center"}
+    return objs, {"size": [2.5, 0.5, 2.35], "origin": "bottom-center"}
 
 
 BUILDERS = {

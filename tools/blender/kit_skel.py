@@ -167,7 +167,7 @@ def _arc_tube(bm, p0, p1, r0, r1, n=14, gap=1.0, steps=5):
 
 
 def _pauldron(b, side, s, mat_plate, mat_trim=None, r=0.095, z=1.41):
-    """Articulated 3-lame Dark Souls knight pauldron weighted to uarm."""
+    """Articulated 3-lame Dark Souls knight pauldron + upper-arm rerebrace weighted to uarm."""
     bm = b.part(f"uarm_{side}", mat_plate)
     # Main upper dome
     _ball(bm, (s * 0.238, 0.0, z), r, sub=2, scale=(1.08, 1.05, 0.88))
@@ -176,6 +176,9 @@ def _pauldron(b, side, s, mat_plate, mat_trim=None, r=0.095, z=1.41):
           r * 0.98, r * 0.88, n=14, steps=2, ridge_fwd=0.08)
     _tube(bm, Vector((s * 0.248, -0.005, z - 0.068)), Vector((s * 0.260, -0.01, z - 0.125)),
           r * 0.92, r * 0.78, n=14, steps=2, ridge_fwd=0.08)
+    # Fitted upper-arm rerebrace cannon down to the elbow couter
+    uh, ut = _bone_vec(f"uarm_{side}")
+    _tube(bm, uh + (ut - uh) * 0.36, ut, r * 0.74, r * 0.64, n=14, steps=3, bulge=1.04)
     # Upright haute-piece neck guard ridge on the inner shoulder
     V.add_box(bm, (s * 0.165 - 0.012, -0.045, z + 0.02), (s * 0.165 + 0.012, 0.045, z + 0.085))
     if mat_trim:
@@ -219,17 +222,20 @@ def _gauntlet_and_couter(b, side, s, mat_plate, g=1.0):
 
 
 def _greave_and_sabaton(b, side, s, mat_plate, g=1.0):
-    """Articulated knee poleyn, anatomical shin greave, and laminated sabaton."""
+    """Articulated thigh cuisse, knee poleyn, anatomical shin greave, and laminated sabaton."""
     h, t = _bone_vec(f"thigh_{side}")
+    bm_th = b.part(f"thigh_{side}", mat_plate)
+    _tube(bm_th, h, t, 0.088 * g, 0.070 * g, n=14, steps=4, bulge=1.06, ridge_fwd=0.10)
     bm_k = b.joint(f"thigh_{side}", f"shin_{side}", mat_plate)
-    _ball(bm_k, tuple(t + Vector((0, 0.018, 0.01))), 0.066 * g, sub=2, scale=(0.95, 1.18, 1.05))
+    _ball(bm_k, tuple(t + Vector((0, 0.020, 0.01))), 0.072 * g, sub=2, scale=(0.96, 1.20, 1.06))
     bm_s = b.part(f"shin_{side}", mat_plate)
     h2, t2 = _bone_vec(f"shin_{side}")
-    _tube(bm_s, h2, t2, 0.064 * g, 0.052 * g, n=14, steps=5, bulge=1.06, ridge_fwd=0.14)
+    _tube(bm_s, h2, t2, 0.076 * g, 0.060 * g, n=14, steps=5, bulge=1.10, squash=(0.96, 1.08), ridge_fwd=0.16)
+    _tube(bm_s, h2 + (t2 - h2) * 0.78, t2, 0.062 * g, 0.068 * g, n=14, steps=2, squash=(0.96, 1.10))
     bm_ft = b.part(f"foot_{side}", mat_plate)
     h3, t3 = _bone_vec(f"foot_{side}")
     _tube(bm_ft, h3 + Vector((0, -0.02, 0.01)), t3 + Vector((0, 0.03, -0.005)),
-          0.056 * g, 0.042 * g, n=12, steps=4, squash=(1.0, 0.8), ridge_fwd=0.12)
+          0.062 * g, 0.046 * g, n=12, steps=4, squash=(1.0, 0.82), ridge_fwd=0.14)
 
 
 def _knight_helm(b, mat_plate, mat_visor="M_iron", g=1.0, crest=True):
@@ -408,16 +414,18 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
         _tube(bm, h3 + Vector((0, -0.01, 0.01)), t3, 0.052 * g, 0.042 * g, 12, steps=3, squash=(1.0, 0.8))
     # neck + sculpted head + brow/jawline (closed-helm knights wear a dark mail
     # coif under the helm so pitching the head forward never exposes a pale chin)
-    head_under_mat = mail_mat if mail_mat else skin_mat
     bm = b.joint("chest", "head", under_mat)
     _tube(bm, Vector((0, 0, 1.42)), Vector((0, 0.01, 1.53)), 0.062 * g, 0.056 * g, 12, steps=3)
-    bm = b.part("head", head_under_mat)
-    _ball(bm, (0, 0.012 * g, 1.620), 0.100 * g, sub=2, scale=(0.90, 1.04, 1.04))
     if (hood and hood != "closed") or (not hood and not mail_mat):
-        # Smooth ovoid lower face/chin & dark shadowed upper-brow veil under the cowl / kettle-hat
-        _ball(bm, (0, 0.026 * g, 1.568), 0.076 * g, sub=2, scale=(0.84, 1.06, 1.10))
+        # Deep shadowed upper cranium under the cowl/hat crown + sculpted lower face below the brow
         bm_eye = b.part("head", "M_iron")
-        _ball(bm_eye, (0, 0.022 * g, 1.626), 0.096 * g, sub=2, scale=(0.91, 1.06, 0.42))
+        _ball(bm_eye, (0, 0.014 * g, 1.636), 0.098 * g, sub=2, scale=(0.91, 1.05, 0.88))
+        bm = b.part("head", skin_mat)
+        _ball(bm, (0, 0.022 * g, 1.566), 0.078 * g, sub=2, scale=(0.86, 1.08, 0.96))
+    else:
+        head_under_mat = mail_mat if mail_mat else skin_mat
+        bm = b.part("head", head_under_mat)
+        _ball(bm, (0, 0.012 * g, 1.620), 0.100 * g, sub=2, scale=(0.90, 1.04, 1.04))
     if hood == "closed":
         # sealed wax cone — the faceless penitents
         bm = b.part("head", robe_mat)
@@ -772,21 +780,21 @@ def seraph(arm):
     encrusted with gold, winged pauldrons, royal helm, and floating halo."""
     b = BodyBuilder("seraph")
     common_body(b, "M_marble", "M_wax", "M_marble", hood=False, skirt=True,
-                skirt_len=0.46, girth=1.10, mail_mat="M_gold")
+                skirt_len=0.46, girth=1.10, mail_mat="M_brass")
     # Fluted ivory-marble cuirass banded in gold
     bm = b.part("chest", "M_marble")
-    _tube(bm, Vector((0, 0, 1.20)), Vector((0, 0, 1.50)), 0.202, 0.168, n=16, bulge=1.06,
+    _tube(bm, Vector((0, 0, 1.20)), Vector((0, 0, 1.47)), 0.202, 0.148, n=16, bulge=1.06,
           steps=5, flutes=10, flute_amp=0.025, squash=(1.12, 0.92), ridge_fwd=0.15)
     bm = b.part("chest", "M_gold")
     _tube(bm, Vector((0, 0, 1.31)), Vector((0, 0, 1.37)), 0.208, 0.204, n=16, steps=2, squash=(1.12, 0.92))
-    _tube(bm, Vector((0, 0, 1.47)), Vector((0, -0.01, 1.52)), 0.172, 0.182, n=16, steps=2)
+    _tube(bm, Vector((0, 0, 1.43)), Vector((0, 0, 1.465)), 0.152, 0.132, n=16, steps=2, squash=(1.04, 0.94))
     # Royal paladin helm
-    _knight_helm(b, "M_marble", "M_gold", g=1.08, crest=True)
+    _knight_helm(b, "M_marble", "M_gold", g=1.10, crest=True)
     # Articulated ivory-and-gold pauldrons, gauntlets, and greaves
     for side, s in (("r", 1), ("l", -1)):
         _pauldron(b, side, s, "M_marble", "M_gold", r=0.106, z=1.43)
-        _gauntlet_and_couter(b, side, s, "M_marble", g=1.08)
-        _greave_and_sabaton(b, side, s, "M_marble", g=1.08)
+        _gauntlet_and_couter(b, side, s, "M_marble", g=1.10)
+        _greave_and_sabaton(b, side, s, "M_marble", g=1.10)
     # Gold girdle
     bm = b.part("hips", "M_gold")
     _tube(bm, Vector((0, 0, 0.99)), Vector((0, 0, 1.05)), 0.184, 0.184, n=16, steps=2)

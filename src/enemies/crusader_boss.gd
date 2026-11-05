@@ -506,6 +506,13 @@ func _light_him() -> void:
 	fill.light_cull_mask = GOLD_BIT
 	fill.position = Vector3(-1.3, 1.9, -1.5)
 	_key_rig.add_child(fill)
+	var low := OmniLight3D.new()
+	low.light_color = Color(1.0, 0.90, 0.64)
+	low.light_energy = 2.0
+	low.omni_range = 4.0
+	low.light_cull_mask = GOLD_BIT
+	low.position = Vector3(0.6, 0.45, 1.5)
+	_key_rig.add_child(low)
 
 ## Body meshes only — the blade rides a bone under the body tree, so it must
 ## be excluded when the armour alone is regilded.
