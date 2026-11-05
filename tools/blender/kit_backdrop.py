@@ -182,8 +182,9 @@ def balustrade_4m():
     objs.append(frame)
     x = -1.7
     while x < 1.9:
-        b = V.loft_rings("baluster", [(0.09, 0.14, 8, 0), (0.055, 0.3, 8, 0), (0.1, 0.52, 8, 0),
-                                      (0.05, 0.74, 8, 0), (0.09, 0.92, 8, 0)], "M_stone_trim")
+        b = V.loft_rings("baluster", [(0.095, 0.14, 14, 0), (0.055, 0.28, 14, 0),
+                                      (0.085, 0.42, 14, 0), (0.105, 0.54, 14, 0),
+                                      (0.048, 0.76, 14, 0), (0.092, 0.92, 14, 0)], "M_stone_trim")
         b.location = (x, 0, 0)
         objs.append(b)
         x += 0.34
@@ -248,28 +249,40 @@ def stair_grand_4m_r():
 
 
 def urn():
-    u = V.loft_rings("urn", [(0.16, 0, 10, 0), (0.13, 0.05, 10, 0), (0.3, 0.34, 10, 0),
-                             (0.34, 0.6, 10, 0), (0.2, 0.86, 10, 0), (0.26, 0.95, 10, 0)], "M_stone_trim")
-    return [u], {"size": [0.7, 0.7, 1.0], "origin": "bottom-center"}
+    objs = []
+    u = V.loft_rings("urn", [(0.19, 0, 20, 0), (0.18, 0.04, 20, 0), (0.12, 0.09, 20, 0),
+                             (0.15, 0.15, 20, 0), (0.31, 0.36, 20, 0), (0.35, 0.58, 20, 0),
+                             (0.32, 0.70, 20, 0), (0.19, 0.85, 20, 0), (0.27, 0.94, 20, 0),
+                             (0.24, 0.98, 20, 0)], "M_stone_trim")
+    objs.append(u)
+    gilt = V.loft_rings("urn_band", [(0.345, 0.54, 20, 0), (0.36, 0.58, 20, 0),
+                                     (0.345, 0.62, 20, 0)], "M_gold")
+    objs.append(gilt)
+    return objs, {"size": [0.7, 0.7, 1.0], "origin": "bottom-center"}
 
 
 def wellhead():
-    """Octagonal garth draw-well: a stone rim with a coping ring, a timber
-    windlass on two short posts, an iron crank, and a bucket on a chain over the
-    mouth. Open (no canopy) — the classic cloister-garth centrepiece, and nothing
-    broad enough to read as a flat grey plate from below."""
+    """High-detail garth draw-well: a 16-sided stone masonry rim with moulded
+    coping ring, timber windlass on twin carved posts, iron bands & crank, and
+    iron-hooped bucket suspended over the mouth."""
     objs = []
-    objs.append(V.loft_rings("well_wall", [(1.05, 0, 8, 0), (1.05, 0.85, 8, 0), (0.85, 0.85, 8, 0),
-                                           (0.85, 0.0, 8, 0)], "M_stone", cap_bottom=False, cap_top=False))
-    # a chamfered stone coping crowning the rim
-    objs.append(V.loft_rings("well_coping", [(1.12, 0.85, 8, 0), (1.14, 0.9, 8, 0), (1.1, 0.99, 8, 0),
-                                             (0.8, 0.99, 8, 0), (0.8, 0.85, 8, 0)], "M_stone_trim",
+    objs.append(V.loft_rings("well_wall", [(1.06, 0, 16, 0), (1.03, 0.12, 16, 0),
+                                           (1.03, 0.84, 16, 0), (0.84, 0.84, 16, 0),
+                                           (0.84, 0.0, 16, 0)], "M_stone", cap_bottom=False, cap_top=False))
+    # a stepped stone coping crowning the rim
+    objs.append(V.loft_rings("well_coping", [(1.12, 0.84, 16, 0), (1.16, 0.90, 16, 0),
+                                             (1.12, 0.99, 16, 0), (0.80, 0.99, 16, 0),
+                                             (0.80, 0.84, 16, 0)], "M_stone_trim",
                              cap_bottom=False, cap_top=False))
-    # two short posts + a wooden windlass roller-bar
+    # two carved posts + iron collars + wooden windlass roller-bar
     for sx in (-0.9, 0.9):
-        p = V.loft_rings("post", [(0.08, 0.95, 6, 0), (0.07, 1.62, 6, 0)], "M_wood")
+        p = V.loft_rings("post", [(0.095, 0.95, 10, 0), (0.08, 1.30, 10, 0),
+                                  (0.09, 1.50, 10, 0), (0.075, 1.66, 10, 0)], "M_wood")
         p.location = (sx, 0, 0)
         objs.append(p)
+        collar = V.loft_rings("post_iron", [(0.10, 0.96, 10, 0), (0.10, 1.05, 10, 0)], "M_iron")
+        collar.location = (sx, 0, 0)
+        objs.append(collar)
     bar = V.box_object("well_bar", [2.0, 0.14, 0.14], "M_wood", origin="center")
     bar.location = (0, 0, 1.5)
     objs.append(bar)
@@ -280,37 +293,42 @@ def wellhead():
     handle = V.box_object("well_handle", [0.06, 0.06, 0.24], "M_iron", origin="center")
     handle.location = (1.15, -0.24, 1.28)
     objs.append(handle)
-    # chain + bucket: the bucket hangs CENTRED over the mouth and clearly
-    # ABOVE the coping (0.99) — sunk below the rim it read as a cut-off
-    # shard inside the well. The cup carries an inner shell so its open
-    # top never backface-culls, and the chain spans lip to bar, no gap.
-    bucket = V.loft_rings("bucket", [(0.16, 0, 8, 0), (0.19, 0.3, 8, 0)], "M_wood",
+    bucket = V.loft_rings("bucket", [(0.16, 0, 14, 0), (0.195, 0.30, 14, 0)], "M_wood",
                           cap_bottom=True, cap_top=False)
     bucket.location = (0, 0, 1.06)
     objs.append(bucket)
-    bucket_in = V.loft_rings("bucket_in", [(0.185, 0.295, 8, 0), (0.155, 0.01, 8, 0)],
+    bucket_in = V.loft_rings("bucket_in", [(0.188, 0.295, 14, 0), (0.155, 0.01, 14, 0)],
                              "M_wood", cap_bottom=True, cap_top=False)
     bucket_in.location = (0, 0, 1.06)
     objs.append(bucket_in)
+    hoop = V.loft_rings("bucket_hoop", [(0.196, 0.24, 14, 0), (0.20, 0.28, 14, 0)], "M_iron")
+    hoop.location = (0, 0, 1.06)
+    objs.append(hoop)
     chain = V.box_object("well_chain", [0.04, 0.04, 0.16], "M_iron", origin="center")
-    chain.location = (0, 0, 1.44)   # bucket lip (1.36) to the roller-bar (1.5)
+    chain.location = (0, 0, 1.44)
     objs.append(chain)
     return objs, {"size": [2.1, 1.0, 1.72], "origin": "bottom-center"}
 
 
 def sconce_torch():
-    """Wall sconce: bracket + candle + flame. Mount against wall (-Y face)."""
+    """Wall sconce: wrought-iron wall plate + scrolled bracket + cresset cup + candle + flame."""
     objs = []
+    plate = V.box_object("sconce_plate", [0.09, 0.025, 0.26], "M_iron", origin="center")
+    plate.location = (0, -0.01, 0.02)
+    objs.append(plate)
     arm = V.sweep_profile("bracket", [(0, 0.0, 0), (0, -0.22, 0.05), (0, -0.3, 0.12)],
-                          V.circle_profile(0.02, 6), "M_iron")
+                          V.circle_profile(0.022, 10), "M_iron", up_hint=Vector((1, 0, 0)))
     objs.append(arm)
-    cup = V.loft_rings("cup", [(0.06, 0.1, 8, 0), (0.07, 0.16, 8, 0)], "M_iron")
+    strut = V.sweep_profile("strut", [(0, -0.01, -0.09), (0, -0.16, -0.02), (0, -0.25, 0.08)],
+                            V.circle_profile(0.014, 8), "M_iron", up_hint=Vector((1, 0, 0)))
+    objs.append(strut)
+    cup = V.loft_rings("cup", [(0.055, 0.10, 12, 0), (0.078, 0.16, 12, 0)], "M_iron")
     cup.location = (0, -0.3, 0)
     objs.append(cup)
-    c = V.loft_rings("candle", [(0.045, 0.16, 8, 0), (0.04, 0.34, 8, 0)], "M_wax")
+    c = V.loft_rings("candle", [(0.046, 0.16, 12, 0), (0.040, 0.34, 12, 0)], "M_wax")
     c.location = (0, -0.3, 0)
     objs.append(c)
-    f = V.loft_rings("sconce_flame", [(0.02, 0.0, 6, 0), (0.035, 0.05, 6, 0.3), (0.003, 0.13, 6, 0.6)], "M_flame")
+    f = V.loft_rings("sconce_flame", [(0.022, 0.0, 10, 0), (0.038, 0.05, 10, 0.3), (0.003, 0.14, 10, 0.6)], "M_flame")
     f.location = (0, -0.3, 0.35)
     objs.append(f)
     return objs, {"size": [0.2, 0.4, 0.5], "origin": "wall-mount"}

@@ -67,6 +67,8 @@ func _ring(id: String) -> void:
 		_progress = 1 if id == order[0] else 0
 
 func _swing(root: Node3D) -> void:
+	if _swing_name.is_empty():
+		return
 	var bar := root.find_child(_swing_name, true, false)
 	if bar == null:
 		return
@@ -89,18 +91,13 @@ func _fanfare() -> void:
 		burst.gravity = Vector3(0, -2.0, 0)
 		burst.scale_amount_min = 0.02
 		burst.scale_amount_max = 0.06
-		var q := QuadMesh.new()
-		q.size = Vector2(0.2, 0.2)
-		var qm := StandardMaterial3D.new()
-		qm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		qm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		qm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-		qm.albedo_color = Color(1.0, 0.85, 0.45, 0.8)
-		q.material = qm
-		burst.mesh = q
+		burst.color = Color(1.0, 0.85, 0.45, 0.85)
+		burst.mesh = AreaPortal.make_mote_quad(1.8)
 		_stones[id].add_child(burst)
 		burst.position.y = 2.0
 		burst.emitting = true
+		VG.free_after(burst, 1.8)
 	AudioDirector.sfx("res://assets/audio/remembrance.wav", 0.0, 0.8)
-	await get_tree().create_timer(0.5, false).timeout
-	AudioDirector.sfx("res://assets/audio/bell_toll.wav", -2.0, 1.5)
+	var tw := create_tween()
+	tw.tween_interval(0.5)
+	tw.tween_callback(AudioDirector.sfx.bind("res://assets/audio/bell_toll.wav", -2.0, 1.5))

@@ -47,7 +47,7 @@ def half_arch_sunk(seed=7):
             path.append((x + 1.8, 0.0, y))
     prof = V.chamfer_rect_profile(0.34, 0.42, 0.06)
     sweep = V.sweep_profile("arch_sweep", path, prof, "M_stone_trim",
-                            up_hint=Vector((0, 0, 1)))
+                            up_hint=Vector((0, 1, 0)))
     objs.append(sweep)
     return objs, {"size": [3.4, 1.0, 4.8], "origin": "bottom-center"}
 
@@ -98,23 +98,24 @@ def lantern_crook():
     objs = []
     staff = V.loft_rings("crook_staff", [(0.045, -0.55, 7, 0), (0.04, 1.55, 7, 0)], "M_iron")
     objs.append(staff)
-    # the hook: a swept curve breaking off the staff head
-    path = [(0.0, 0, 1.55), (0.05, 0, 1.72), (0.17, 0, 1.8), (0.3, 0, 1.74), (0.34, 0, 1.6)]
+    # the hook: a swept curve breaking off the staff head (curling toward -X so
+    # in hand_r it hangs outward away from the wielder's body)
+    path = [(0.0, 0, 1.50), (-0.05, 0, 1.72), (-0.17, 0, 1.80), (-0.30, 0, 1.74), (-0.34, 0, 1.58)]
     prof = V.circle_profile(0.035, 7)
     objs.append(V.sweep_profile("crook_hook", path, prof, "M_iron",
                                 up_hint=Vector((0, 1, 0))))
     # caged lantern hanging from the hook tip
     bm = bmesh.new()
-    V.add_box(bm, (0.31, -0.015, 1.44), (0.37, 0.015, 1.6))         # hanger link
-    V.add_box(bm, (0.24, -0.1, 1.06), (0.44, 0.1, 1.14))            # cage base
-    V.add_box(bm, (0.24, -0.1, 1.38), (0.44, 0.1, 1.44))            # cage top
-    for cx in (0.25, 0.42):
+    V.add_box(bm, (-0.37, -0.015, 1.42), (-0.31, 0.015, 1.60))        # hanger link
+    V.add_box(bm, (-0.44, -0.1, 1.06), (-0.24, 0.1, 1.14))            # cage base
+    V.add_box(bm, (-0.44, -0.1, 1.38), (-0.24, 0.1, 1.44))            # cage top
+    for cx in (-0.42, -0.25):
         for cy in (-0.09, 0.09):
             V.add_box(bm, (cx - 0.012, cy - 0.012, 1.14), (cx + 0.012, cy + 0.012, 1.38))
     objs.append(V.bm_to_object(bm, "crook_cage", ("M_iron",)))
     flame = V.loft_rings("crook_flame", [(0.05, 1.14, 6, 0), (0.08, 1.22, 6, 0.3),
                                          (0.02, 1.34, 6, 0.7)], "M_ember")
-    flame.location = (0.34, 0, 0)
+    flame.location = (-0.34, 0, 0)
     objs.append(flame)
     return objs, {"size": [0.5, 0.25, 2.4], "origin": "grip"}
 

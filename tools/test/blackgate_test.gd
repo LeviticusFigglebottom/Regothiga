@@ -147,6 +147,9 @@ func _run() -> void:
 
 	for kit in ["portcullis_4m", "gate_black", "capstan_base", "capstan_bars",
 			"battlement_4m", "toll_maul"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()

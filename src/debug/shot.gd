@@ -5,12 +5,15 @@ extends Node
 ##   --shot-frames=N        frames to wait before capture (default 30)
 ##   --shot-cam=x,y,z,yaw_deg,pitch_deg[,fov]   spawn a free camera for the shot
 ##   --state=glory|ruin     force initial world state for the loaded area
+##   --shot-satchel         populate sample gear/relics and open InventoryUI
 ##   --quit-after=N         quit after N frames (no capture)
 
 var _shot_path := ""
 var _frames_left := -1
 var _quit_after := -1
 var _cam_spec := ""
+var _open_satchel := false
+var _trigger_flask := false
 var forced_state := ""   # read by boot/world setup
 var forced_flags: Array = []   # world flags applied before the area builds
 var _vigil_frame := -1
@@ -29,12 +32,13 @@ func _ready() -> void:
 			_frames_left = int(arg.get_slice("=", 1))
 		elif arg.begins_with("--shot-cam="):
 			_cam_spec = arg.get_slice("=", 1)
+		elif arg == "--shot-satchel":
+			_open_satchel = true
+		elif arg == "--shot-flask":
+			_trigger_flask = true
 		elif arg.begins_with("--state="):
 			forced_state = arg.get_slice("=", 1)
 		elif arg.begins_with("--flag="):
-			# applied by world_root right before the area builds, so
-			# flag-conditional geometry sees them (load_game would wipe
-			# anything set this early)
 			forced_flags.append(arg.get_slice("=", 1))
 		elif arg.begins_with("--quit-after="):
 			_quit_after = int(arg.get_slice("=", 1))
@@ -50,6 +54,8 @@ func _ready() -> void:
 
 func _process(_d: float) -> void:
 	if _quit_after > 0:
+		if _quit_after == 2:
+			AudioDirector.shutdown()
 		_quit_after -= 1
 		if _quit_after == 0:
 			get_tree().quit()
@@ -70,8 +76,32 @@ func _process(_d: float) -> void:
 				get_tree().quit()
 	if _shot_path == "" or _frames_left < 0 or not _seq.is_empty():
 		return
+	if _frames_left == 12 and _open_satchel and Game.player != null:
+		for wid in ["marsh_spear", "pilgrim_greatsword", "sexton_maul", "ward_halberd", "lark_bow"]:
+			Game.player.give_item(wid, 1)
+		for rid in ["candleglass", "sun_creed_charm", "tallow_heart", "choir_seal", "radiant_token"]:
+			Game.player.inventory[rid] = 1
+		Game.player.set_hotbar_slot(1, "sexton_maul")
+		Game.player.set_hotbar_slot(2, "ward_halberd")
+		Game.player.set_hotbar_slot(3, "pilgrim_greatsword")
+		InventoryUI.open_for(Game.player)
+	if _frames_left == 120 and _trigger_flask and Game.player != null:
+		Game.player.global_position = Vector3(0.0, 0.2, 3.2)
+		Game.player.velocity = Vector3.ZERO
+		Game.player.hp = Game.player.max_hp * 0.55
+		Game.player.health_changed.emit(Game.player.hp, Game.player.max_hp)
+		Game.player.vis.rotation.y = PI
+		Game.player.try_flask()
+		if _cam_spec == "":
+			var ppos: Vector3 = Game.player.global_position
+			_cam_spec = "%.2f,%.2f,%.2f,-8,-6,42" % [ppos.x - 0.28, ppos.y + 1.38, ppos.z + 2.25]
+			_spawn_cam()
+	if _trigger_flask and Game.player != null and Game.player.state == Player.S.FLASK and Game.player.state_t >= 0.76:
+		_frames_left = min(_frames_left, 2)
 	if _frames_left == 10 and _cam_spec != "":
 		_spawn_cam()
+	if _frames_left == 2:
+		AudioDirector.shutdown()
 	_frames_left -= 1
 	if _frames_left == 0:
 		var img := get_viewport().get_texture().get_image()
@@ -104,3 +134,8 @@ func _trigger_vigil() -> void:
 	Game.player.vis.rotation.y = PI
 	Game.vigil_flow(lantern, Game.player)
 	_seq_t = 0.0
+
+func _exit_tree() -> void:
+	AmbientLife._mote_tex = null
+	SummonGlyph._sign_shader = null
+	EnvRig.active_instance = null

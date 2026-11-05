@@ -6,6 +6,7 @@ var _music_a: AudioStreamPlayer
 var _music_b: AudioStreamPlayer
 var _ambience: AudioStreamPlayer
 var _active_music := ""
+var _shutting_down := false
 
 func _ready() -> void:
 	_music_a = AudioStreamPlayer.new(); _music_a.bus = "Music"; add_child(_music_a)
@@ -35,12 +36,13 @@ func _make_looping(stream: AudioStream) -> void:
 
 ## Crossfade to a music track (by res path); pass "" to fade out.
 func play_music(path: String, fade := 2.0) -> void:
-	if _active_music == path:
+	if _shutting_down or _active_music == path:
 		return
 	_active_music = path
 	var incoming := _music_b if _music_a.playing else _music_a
 	var outgoing := _music_a if incoming == _music_b else _music_b
 	var stream := _stream(path)
+	incoming.stop()
 	if stream:
 		_make_looping(stream)
 		incoming.stream = stream
@@ -85,18 +87,25 @@ func duck_ambience(on: bool) -> void:
 			AudioServer.get_bus_volume_db(idx), target, 0.9)
 
 func play_ambience(path: String, fade := 2.0) -> void:
+	if _shutting_down:
+		return
 	var stream := _stream(path)
 	if stream == null:
 		_ambience.stop()
+		_ambience.stream = null
 		return
+	if _ambience.stream == stream and _ambience.playing:
+		return
+	_ambience.stop()
 	_make_looping(stream)
 	_ambience.stream = stream
 	_ambience.volume_db = -10.0
-	if not _ambience.playing:
-		_ambience.play()
+	_ambience.play()
 
 ## Fire-and-forget positional SFX.
 func sfx_at(path: String, pos: Vector3, volume_db := 0.0, pitch := 1.0) -> void:
+	if _shutting_down:
+		return
 	var stream := _stream(path)
 	if stream == null:
 		return
@@ -106,12 +115,14 @@ func sfx_at(path: String, pos: Vector3, volume_db := 0.0, pitch := 1.0) -> void:
 	p.volume_db = volume_db
 	p.pitch_scale = pitch
 	p.finished.connect(p.queue_free)
-	get_tree().current_scene.add_child(p)
+	add_child(p)
 	p.global_position = pos
 	p.play()
 
 ## Non-positional SFX (UI, stingers).
 func sfx(path: String, volume_db := 0.0, pitch := 1.0, bus := "SFX") -> void:
+	if _shutting_down:
+		return
 	var stream := _stream(path)
 	if stream == null:
 		return
@@ -123,3 +134,26 @@ func sfx(path: String, volume_db := 0.0, pitch := 1.0, bus := "SFX") -> void:
 	p.finished.connect(p.queue_free)
 	add_child(p)
 	p.play()
+
+func shutdown() -> void:
+	_shutting_down = true
+	var roots: Array[Node] = [self]
+	if is_inside_tree() and get_tree() != null and get_tree().root != null:
+		roots = [get_tree().root]
+	var stack: Array[Node] = roots.duplicate()
+	while not stack.is_empty():
+		var n: Node = stack.pop_back()
+		if n is AudioStreamPlayer:
+			var p := n as AudioStreamPlayer
+			p.stop()
+			p.stream = null
+		elif n is AudioStreamPlayer3D:
+			var p3 := n as AudioStreamPlayer3D
+			p3.stop()
+			p3.stream = null
+		for c in n.get_children():
+			stack.append(c)
+	OS.delay_msec(60)
+
+func _exit_tree() -> void:
+	shutdown()

@@ -172,7 +172,9 @@ func _next_line() -> void:
 				advance())
 		a.play()
 		watchdog = maxf(float(a.stream.get_length()) + 0.8, 3.0)
-	get_tree().create_timer(watchdog, false).timeout.connect(func():
+	var wtw := create_tween()
+	wtw.tween_interval(watchdog)
+	wtw.tween_callback(func():
 		if _line == idx:
 			advance())
 
@@ -207,6 +209,7 @@ func _end() -> void:
 		motes.scale_amount_min = 0.02
 		motes.scale_amount_max = 0.06
 		motes.color = Color(1.0, 0.9, 0.6)
+		motes.mesh = AreaPortal.make_mote_quad(1.8)
 		add_child(motes)
 		motes.global_position = k.global_position + Vector3.UP * 1.2
 		motes.emitting = true

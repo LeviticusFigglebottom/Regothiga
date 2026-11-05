@@ -1,22 +1,24 @@
 extends CanvasLayer
 ## PauseUI — the Esc menu. Pauses the world (music keeps breathing), frees the
-## cursor, and offers: return, settings (audio / mouse / view, persisted to
-## user://settings.cfg), beginning the pilgrimage anew (a TRUE new game: the
-## save is destroyed and the world rebuilt, not a respawn-in-place), and quit.
-## Registered as an autoload; owns the Esc key. RestUI/dialogue keep their own
-## input — the menu refuses to open over them.
+## cursor, and offers: return, settings (audio / mouse / view / graphics quality,
+## persisted to user://settings.cfg), beginning the pilgrimage anew (a TRUE new
+## game: the save is destroyed and the world rebuilt, not a respawn-in-place),
+## and quit. Registered as an autoload; owns the Esc key. RestUI/dialogue keep
+## their own input — the menu refuses to open over them.
 
 const CFG_PATH := "user://settings.cfg"
 const GOLD := Color(0.9, 0.78, 0.55)
 const GOLD_DIM := Color(0.65, 0.56, 0.4)
 const PARCHMENT := Color(0.82, 0.78, 0.68)
 const ASH := Color(0.55, 0.52, 0.46)
+const QUALITY_NAMES := ["Low", "High", "Ultra"]
 
 var settings := {
 	"master": 1.0, "music": 1.0, "sfx": 1.0, "ambience": 1.0,
 	"sensitivity": 5.0,          # 1..10 -> cam.sensitivity = v * 0.0007
 	"fov": 62.0,
 	"fullscreen": false,
+	"graphics_quality": -1,      # -1 = auto (High on software renderer, Ultra on GPU)
 }
 
 var _dim: ColorRect
@@ -34,6 +36,7 @@ func _ready() -> void:
 	_load_settings()
 	_apply_audio()
 	_apply_video()
+	_apply_graphics()
 	Game.player_registered.connect(func(_p): _apply_camera())
 	_build()
 	visible = false
@@ -126,9 +129,9 @@ func _ls(size: int, color: Color) -> LabelSettings:
 func _button(text: String, on_press := Callable()) -> Button:
 	var b := Button.new()
 	b.text = text
-	b.custom_minimum_size = Vector2(0, 52)
+	b.custom_minimum_size = Vector2(0, 48)
 	b.add_theme_font_override("font", load("res://assets/fonts/DejaVuSerif.ttf"))
-	b.add_theme_font_size_override("font_size", 25)
+	b.add_theme_font_size_override("font_size", 24)
 	b.add_theme_color_override("font_color", PARCHMENT)
 	b.add_theme_color_override("font_hover_color", GOLD)
 	b.add_theme_color_override("font_focus_color", GOLD)
@@ -161,11 +164,11 @@ func _slider(label: String, minv: float, maxv: float, step: float, get_v: Callab
 	row.add_theme_constant_override("separation", 2)
 	var top := HBoxContainer.new()
 	var l := Label.new()
-	l.label_settings = _ls(20, PARCHMENT)
+	l.label_settings = _ls(19, PARCHMENT)
 	l.text = label
 	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var val := Label.new()
-	val.label_settings = _ls(20, GOLD_DIM)
+	val.label_settings = _ls(19, GOLD_DIM)
 	top.add_child(l)
 	top.add_child(val)
 	row.add_child(top)
@@ -174,7 +177,7 @@ func _slider(label: String, minv: float, maxv: float, step: float, get_v: Callab
 	s.max_value = maxv
 	s.step = step
 	s.value = get_v.call()
-	s.custom_minimum_size = Vector2(0, 24)
+	s.custom_minimum_size = Vector2(0, 22)
 	val.text = _fmt(s.value, step)
 	s.value_changed.connect(func(v):
 		val.text = _fmt(v, step)
@@ -185,6 +188,10 @@ func _slider(label: String, minv: float, maxv: float, step: float, get_v: Callab
 
 func _fmt(v: float, step: float) -> String:
 	return ("%d" % int(v)) if step >= 1.0 else ("%d%%" % int(round(v * 100)))
+
+func _quality_label() -> String:
+	var q := EnvRig.get_graphics_quality()
+	return QUALITY_NAMES[clampi(q, 0, 2)]
 
 func _build() -> void:
 	var root := Control.new()
@@ -254,6 +261,15 @@ func _build() -> void:
 	st.add_child(_slider("Breadth of Vision  (field of view)", 55.0, 85.0, 1.0,
 		func(): return settings["fov"],
 		func(v): settings["fov"] = v; _apply_camera()))
+	var gq := _button("Graphics Quality: %s" % _quality_label())
+	gq.pressed.connect(func():
+		var cur := EnvRig.get_graphics_quality()
+		var nxt := (cur + 1) % 3
+		settings["graphics_quality"] = nxt
+		_apply_graphics()
+		_save_settings()
+		gq.text = "Graphics Quality: %s" % _quality_label())
+	st.add_child(gq)
 	var fs := _button("Fullscreen: —")
 	fs.pressed.connect(func():
 		settings["fullscreen"] = not settings["fullscreen"]
@@ -265,7 +281,7 @@ func _build() -> void:
 	st.add_child(_button("Credits", _open_credits))
 	st.add_child(_button("Return", func(): close() if _solo else _show_page("main")))
 	_pages["settings"] = st
-	_first_button["settings"] = fs
+	_first_button["settings"] = gq
 
 	# ---- begin-anew confirmation
 	var cf := _page_box()
@@ -286,9 +302,9 @@ func _build() -> void:
 
 func _page_box() -> VBoxContainer:
 	var box := VBoxContainer.new()
-	box.position = Vector2(48, 156)
-	box.size = Vector2(484, 640)
-	box.add_theme_constant_override("separation", 14)
+	box.position = Vector2(48, 150)
+	box.size = Vector2(484, 680)
+	box.add_theme_constant_override("separation", 11)
 	box.visible = false
 	return box
 
@@ -296,8 +312,7 @@ func _show_page(name_: String) -> void:
 	_page = name_
 	for k in _pages:
 		_pages[k].visible = (k == name_)
-	# the sheet wears its page: header + contents + a hem, no dead vellum
-	var h: float = 156.0 + _pages[name_].get_combined_minimum_size().y + 46.0
+	var h: float = 150.0 + _pages[name_].get_combined_minimum_size().y + 42.0
 	_panel.offset_top = -h * 0.5
 	_panel.offset_bottom = h * 0.5
 	var fb: Control = _first_button.get(name_)
@@ -344,6 +359,15 @@ func _apply_video() -> void:
 		DisplayServer.WINDOW_MODE_FULLSCREEN if settings["fullscreen"]
 		else DisplayServer.WINDOW_MODE_WINDOWED)
 
+func _apply_graphics() -> void:
+	var gq := int(settings.get("graphics_quality", -1))
+	if gq >= 0:
+		EnvRig.set_graphics_quality(gq)
+		if Game.current_area != null and is_instance_valid(Game.current_area):
+			var er := Game.current_area.find_child("EnvRig", true, false) as EnvRig
+			if er != null:
+				er.apply_quality_tier()
+
 func _save_settings() -> void:
 	var cfg := ConfigFile.new()
 	for k in settings:
@@ -356,7 +380,6 @@ func _load_settings() -> void:
 		return
 	for k in settings:
 		settings[k] = cfg.get_value("settings", k, settings[k])
-	# sanitize: a stale/corrupt cfg (old slider scales, hand edits) must never
-	# zero the camera — a sensitivity of 0 reads as "mouse look is dead"
 	settings["sensitivity"] = clampf(float(settings["sensitivity"]), 1.0, 10.0)
 	settings["fov"] = clampf(float(settings.get("fov", 75.0)), 50.0, 110.0)
+	settings["graphics_quality"] = clampi(int(settings.get("graphics_quality", -1)), -1, 2)

@@ -220,6 +220,9 @@ func _run() -> void:
 			"roof_gable_7m", "chimney_stack", "balcony_3m", "stair_wood_3m",
 			"barrel", "crate_stack", "hand_cart", "burg_wall_3m_ruin_a",
 			"burg_wall_3m_ruin_b", "parish_window_4m", "clock_tower", "word_stone"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()

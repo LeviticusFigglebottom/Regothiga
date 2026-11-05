@@ -31,7 +31,7 @@ func _ready() -> void:
 	lbody.add_child(lcs)
 	vis.add_child(lbody)
 	_flame = _find_flame(vis)
-	var lights := KitLib.add_flame_lights(vis, 2.6, 7.0)
+	var lights := KitLib.add_flame_lights(vis, 3.2, 8.8)
 	if lights.size() > 0:
 		_light = lights[0]
 	zone = Interactable.new()
@@ -72,17 +72,17 @@ func _tint_for(s: VG.WState) -> void:
 	if _flame == null:
 		return
 	if s == VG.WState.RUIN:
-		_flame.set_instance_shader_parameter("flame_tint", Vector3(0.45, 0.65, 1.0))
-		_flame.set_instance_shader_parameter("flame_energy", 2.4)
-		if _light:
-			_light.light_color = Color(0.5, 0.68, 1.0)
-			_light.light_energy = 2.0
-	else:
-		_flame.set_instance_shader_parameter("flame_tint", Vector3(1.0, 0.72, 0.30))
+		_flame.set_instance_shader_parameter("flame_tint", Vector3(0.45, 0.68, 1.0))
 		_flame.set_instance_shader_parameter("flame_energy", 3.4)
 		if _light:
-			_light.light_color = Color(1.0, 0.72, 0.38)
-			_light.light_energy = 2.6
+			_light.light_color = Color(0.48, 0.68, 1.0)
+			_light.light_energy = 2.8
+	else:
+		_flame.set_instance_shader_parameter("flame_tint", Vector3(1.0, 0.72, 0.28))
+		_flame.set_instance_shader_parameter("flame_energy", 3.8)
+		if _light:
+			_light.light_color = Color(1.0, 0.68, 0.32)
+			_light.light_energy = 3.4
 
 func respawn_point() -> Vector3:
 	return global_position + global_transform.basis.z * 1.4

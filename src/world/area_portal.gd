@@ -53,8 +53,13 @@ func _add_marker() -> void:
 
 static func _radial_tex() -> GradientTexture2D:
 	var grad := Gradient.new()
-	grad.set_color(0, Color(1, 1, 1, 0.85))
-	grad.set_color(1, Color(1, 1, 1, 0.0))
+	grad.offsets = PackedFloat32Array([0.0, 0.38, 0.75, 1.0])
+	grad.colors = PackedColorArray([
+		Color(1.0, 1.0, 1.0, 0.95),
+		Color(1.0, 0.95, 0.85, 0.65),
+		Color(1.0, 0.85, 0.65, 0.20),
+		Color(1.0, 0.80, 0.55, 0.0),
+	])
 	var gt := GradientTexture2D.new()
 	gt.gradient = grad
 	gt.fill = GradientTexture2D.FILL_RADIAL
@@ -63,6 +68,21 @@ static func _radial_tex() -> GradientTexture2D:
 	gt.width = 48
 	gt.height = 48
 	return gt
+
+static func make_mote_quad(sz := 1.6, col := Color.WHITE) -> QuadMesh:
+	var qm := QuadMesh.new()
+	qm.size = Vector2(sz, sz)
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	mat.billboard_keep_scale = true
+	mat.vertex_color_use_as_albedo = true
+	mat.albedo_color = col
+	mat.albedo_texture = _radial_tex()
+	qm.material = mat
+	return qm
 
 func _unlocked() -> bool:
 	if locked_flag != "":

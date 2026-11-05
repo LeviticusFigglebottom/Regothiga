@@ -44,6 +44,12 @@ static func remap_materials(node: Node, state_mode := 0) -> void:
 			# glTF import may suffix duplicated materials ("M_stone.001")
 			fam = fam.get_slice(".", 0)
 			mi.set_surface_override_material(s, MaterialLib.get_mat(fam, state_mode))
+			if fam == "M_flame":
+				var aabb := mesh.get_aabb()
+				mi.set_instance_shader_parameter("flame_base_y", aabb.position.y)
+				mi.set_instance_shader_parameter("flame_height", maxf(aabb.size.y, 0.05))
+				mi.set_instance_shader_parameter("flame_tint", Vector3(1.0, 0.76, 0.32))
+				mi.set_instance_shader_parameter("flame_energy", 3.6)
 
 static func _mesh_instances(node: Node) -> Array[MeshInstance3D]:
 	var out: Array[MeshInstance3D] = []
@@ -56,23 +62,45 @@ static func _mesh_instances(node: Node) -> Array[MeshInstance3D]:
 			stack.append(c)
 	return out
 
-## Attach OmniLight3Ds at every flame mesh so candles genuinely light rooms.
-static func add_flame_lights(piece: Node3D, energy := 1.8, range_m := 5.0,
-		color := Color(1.0, 0.72, 0.38)) -> Array[OmniLight3D]:
+## Attach a consolidated OmniLight3D per flame-bearing prop so multi-candle
+## pieces (candelabras, votive stands, candle clusters, altars) don't stack 3-5
+## overlapping dynamic lights onto the same wax & floor surfaces.
+static func add_flame_lights(piece: Node3D, energy := 2.15, range_m := 7.6,
+		color := Color(1.0, 0.68, 0.32)) -> Array[OmniLight3D]:
 	var lights: Array[OmniLight3D] = []
+	var flame_meshes: Array[MeshInstance3D] = []
 	for mi in _mesh_instances(piece):
 		if String(mi.name).to_lower().contains("flame"):
-			var l := OmniLight3D.new()
-			# the light breathes like the flame it serves
-			l.set_script(load("res://src/world/flame_flicker.gd"))
-			l.light_color = color
-			l.light_energy = energy
-			l.omni_range = range_m
-			l.omni_attenuation = 1.6
-			l.shadow_enabled = false
-			l.position = Vector3(0, 0.06, 0)
-			mi.add_child(l)
-			lights.append(l)
+			flame_meshes.append(mi)
+	if flame_meshes.is_empty():
+		return lights
+	# Compute average flame tip position in piece-local space
+	var avg_pos := Vector3.ZERO
+	for mi in flame_meshes:
+		var aabb := mi.get_aabb()
+		var tip_local := aabb.position + Vector3(aabb.size.x * 0.5, aabb.size.y * 0.85, aabb.size.z * 0.5)
+		avg_pos += mi.transform * tip_local
+	avg_pos /= float(flame_meshes.size())
+	var count_boost := 1.0 + minf(float(flame_meshes.size() - 1) * 0.18, 0.54)
+	var dy := 0.08
+	if avg_pos.y < 0.55:
+		count_boost = 0.52
+		range_m = minf(range_m, 4.8)
+		dy = 0.24
+	var l := OmniLight3D.new()
+	# the light breathes like the flame it serves
+	l.set_script(load("res://src/world/flame_flicker.gd"))
+	l.light_color = color
+	l.light_energy = energy * count_boost
+	l.omni_range = range_m
+	l.omni_attenuation = 1.45
+	l.shadow_enabled = false
+	l.distance_fade_enabled = true
+	l.distance_fade_begin = 28.0
+	l.distance_fade_length = 10.0
+	l.position = avg_pos + Vector3(0, dy, 0)
+	piece.add_child(l)
+	lights.append(l)
 	return lights
 
 ## Wrap a piece's meshes in a StaticBody3D collider.
@@ -86,10 +114,13 @@ static func add_flame_lights(piece: Node3D, energy := 1.8, range_m := 5.0,
 static var _shape_cache: Dictionary = {}
 
 static func add_collision(piece: Node3D, layer_bit: int, convex := false) -> void:
+	var kit_id := str(piece.get_meta("kit_id", "?"))
 	for mi in _mesh_instances(piece):
 		if mi.mesh == null:
 			continue
-		var key := str(piece.get_meta("kit_id", "?")) + "/" + str(mi.name) + ("/cvx" if convex else "")
+		if not convex and kit_id.begins_with("burg_wall_") and str(mi.name) == "timbers":
+			continue
+		var key := kit_id + "/" + str(mi.name) + ("/cvx" if convex else "")
 		var shape: Shape3D = _shape_cache.get(key)
 		if shape == null:
 			shape = mi.mesh.create_convex_shape() if convex else mi.mesh.create_trimesh_shape()

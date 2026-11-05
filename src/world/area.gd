@@ -138,31 +138,90 @@ func _ambient_emitter(size: Vector3, color: Color, scale_max: float, drift: Vect
 	p.mesh = quad
 	return p
 
+func _exit_tree() -> void:
+	retire()
+	if get_tree() != null:
+		for n in get_tree().get_nodes_in_group("nav_src"):
+			if n != self and n is Area:
+				var other := n as Area
+				if other._applied >= 0:
+					if other.nav_glory != null:
+						other.nav_glory.enabled = other._applied != VG.WState.RUIN
+					if other.nav_ruin != null:
+						other.nav_ruin.enabled = other._applied == VG.WState.RUIN
+				break
+
 ## Bake both navmeshes from the current geometry (on load, and again when
 ## base routes change — an opened gate, cleared rubble).
 func bake_navmeshes() -> void:
+	# retire the old regions BEFORE freeing: queue_free leaves them enabled in
+	# the shared map for the rest of the frame, overlapping the fresh bake
+	# ("Navigation map synchronization had N edge errors")
 	if nav_glory != null:
+		nav_glory.enabled = false
+		NavigationServer3D.region_set_map(nav_glory.get_rid(), RID())
 		nav_glory.queue_free()
 	if nav_ruin != null:
+		nav_ruin.enabled = false
+		NavigationServer3D.region_set_map(nav_ruin.get_rid(), RID())
 		nav_ruin.queue_free()
+	if not is_in_group("nav_src"):
+		return   # a retired area never bakes again
+	# If another Area is still sitting in the tree at the same origin (e.g. a
+	# test inspecting two areas side by side), keep its geometry and regions out
+	# of this bake and out of the shared navigation map so their polygons never
+	# collide in the same rasterizer cells.
+	var siblings: Array[Area] = []
+	if is_inside_tree():
+		for n in get_tree().get_nodes_in_group("nav_src"):
+			if n != self and n is Area:
+				var other := n as Area
+				siblings.append(other)
+				other.remove_from_group("nav_src")
+				if other.nav_glory != null:
+					other.nav_glory.enabled = false
+				if other.nav_ruin != null:
+					other.nav_ruin.enabled = false
 	nav_glory = _bake_nav("NavGlory", false)
 	nav_ruin = _bake_nav("NavRuin", true)
+	for other in siblings:
+		if is_instance_valid(other):
+			other.add_to_group("nav_src")
 	if _applied >= 0:
 		nav_glory.enabled = _applied != VG.WState.RUIN
 		nav_ruin.enabled = _applied == VG.WState.RUIN
 		_set_layer_collision(glory_layer, _applied != VG.WState.RUIN)
 		_set_layer_collision(ruin_layer, _applied == VG.WState.RUIN)
 
+## Called when the area is being left (VG.free_gently): it lingers a few
+## frames to quench its lights, and in that window it must not take part in
+## the world. Leave the nav_src group so the next area's bake can't parse
+## this geometry, shut both navmeshes off so they don't overlap the new
+## area's in the shared map, and drop all collision so the arriving player
+## never lands on the old area's floors.
+func retire() -> void:
+	remove_from_group("nav_src")
+	if nav_glory != null:
+		nav_glory.enabled = false
+	if nav_ruin != null:
+		nav_ruin.enabled = false
+	for layer in [base, glory_layer, ruin_layer]:
+		_set_layer_collision(layer, false)
+
 func _bake_nav(name_: String, ruin_world: bool) -> NavigationRegion3D:
 	var region := NavigationRegion3D.new()
 	region.name = name_
+	region.enabled = false
 	add_child(region)
+	var map_rid := get_world_3d().navigation_map
+	NavigationServer3D.map_set_cell_size(map_rid, 0.20)
+	NavigationServer3D.map_set_cell_height(map_rid, 0.20)
 	var mesh := NavigationMesh.new()
 	mesh.agent_radius = 0.4
 	mesh.agent_height = 1.8
-	mesh.agent_max_climb = 0.42
-	mesh.cell_size = 0.22
-	mesh.cell_height = 0.2
+	mesh.agent_max_climb = 0.4
+	mesh.cell_size = 0.20
+	mesh.cell_height = 0.20
 	mesh.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
 	mesh.geometry_source_geometry_mode = NavigationMesh.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
 	mesh.geometry_source_group_name = "nav_src"

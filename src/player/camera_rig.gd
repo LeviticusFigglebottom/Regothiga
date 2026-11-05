@@ -14,7 +14,38 @@ var sensitivity := 0.0035
 
 var _shake_t := 0.0
 var _shake_strength := 0.0
+var _shake_clock := 0.0
 var _fov_base := 62.0
+var _fov_punch := 0.0
+var _lock_reticle: MeshInstance3D = null
+
+const LOCK_RETICLE_SHADER := """
+shader_type spatial;
+render_mode unshaded, blend_add, depth_draw_never, depth_test_disabled, cull_disabled;
+
+void vertex() {
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
+		INV_VIEW_MATRIX[0],
+		INV_VIEW_MATRIX[1],
+		INV_VIEW_MATRIX[2],
+		MODEL_MATRIX[3]
+	);
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+}
+
+void fragment() {
+	vec2 p = UV * 2.0 - 1.0;
+	float r = length(p);
+	float pulse = 0.92 + 0.08 * sin(TIME * 5.5);
+	float core = exp(-r * r * 22.0) * 1.15;
+	float ring = exp(-pow((r - 0.52 * pulse) * 9.5, 2.0)) * 0.85;
+	float diamond = exp(-((abs(p.x) + abs(p.y)) * 4.2)) * 0.45;
+	float a = clamp(core + ring + diamond, 0.0, 1.0) * smoothstep(1.0, 0.72, r);
+	vec3 col = mix(vec3(1.0, 0.82, 0.42), vec3(1.0, 0.97, 0.86), clamp(core, 0.0, 1.0));
+	ALBEDO = col * a;
+	ALPHA = a;
+}
+"""
 
 func _ready() -> void:
 	position = Vector3(0, 1.55, 0)
@@ -41,10 +72,28 @@ func _ready() -> void:
 	sensitivity = float(DB.tuning("camera/sensitivity", 0.0035))
 	Juice.shake_requested.connect(_on_shake)
 	set_as_top_level(false)
+	_build_lock_reticle()
+
+func _build_lock_reticle() -> void:
+	_lock_reticle = MeshInstance3D.new()
+	_lock_reticle.name = "LockReticle"
+	_lock_reticle.top_level = true
+	_lock_reticle.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var qm := QuadMesh.new()
+	qm.size = Vector2(0.42, 0.42)
+	var sh := Shader.new()
+	sh.code = LOCK_RETICLE_SHADER
+	var sm := ShaderMaterial.new()
+	sm.shader = sh
+	qm.material = sm
+	_lock_reticle.mesh = qm
+	_lock_reticle.visible = false
+	add_child(_lock_reticle)
 
 func _on_shake(strength: float, time: float) -> void:
 	_shake_strength = maxf(_shake_strength, strength)
 	_shake_t = maxf(_shake_t, time)
+	_fov_punch = maxf(_fov_punch, strength * 3.8)
 
 ## Settings-menu seams (PauseUI persists these across runs).
 func set_sensitivity(v: float) -> void:
@@ -116,30 +165,42 @@ func _physics_process(dt: float) -> void:
 		var flat := Vector2(to.x, to.z)
 		var target_yaw := atan2(-flat.x, -flat.y)
 		yaw = lerp_angle(yaw, target_yaw, 1.0 - exp(-8.0 * dt))
-		# aim at the target's CHEST from a comfortable over-shoulder line: the
-		# old math aimed at its feet with an extra downward bias, which slammed
-		# the camera toward the floor at close range. Distance is floored so a
-		# point-blank foe can't fold the pitch either.
+		# aim at the target's CHEST from a comfortable over-shoulder line
 		var target_pitch := clampf(atan2(to.y + 1.1, maxf(flat.length(), 2.6)) - 0.14, -0.42, 0.22)
 		pitch = lerpf(pitch, target_pitch, 1.0 - exp(-6.0 * dt))
+		if _lock_reticle != null:
+			_lock_reticle.visible = true
+			_lock_reticle.global_position = locked_target.global_position + Vector3(0, 1.18, 0)
+	elif _lock_reticle != null:
+		_lock_reticle.visible = false
+
 	rotation.y = yaw
 	pitch_node.rotation.x = pitch
-	# shake
+	_fov_punch = move_toward(_fov_punch, 0.0, dt * 16.0)
+	# 3-axis rotational trauma + positional micro-shake
 	if _shake_t > 0.0:
 		_shake_t -= dt
+		_shake_clock += dt * 42.0
 		var s := _shake_strength * minf(_shake_t * 3.0, 1.0)
-		cam.h_offset = (randf() - 0.5) * s * 0.3
-		cam.v_offset = (randf() - 0.5) * s * 0.3
+		var s2 := s * s
+		cam.h_offset = (randf() - 0.5) * s * 0.24
+		cam.v_offset = (randf() - 0.5) * s * 0.24
+		cam.rotation = Vector3(
+			sin(_shake_clock * 1.3) * s2 * 0.065,
+			cos(_shake_clock * 0.9) * s2 * 0.055,
+			sin(_shake_clock * 1.7 + 1.1) * s2 * 0.095
+		)
 		if _shake_t <= 0.0:
 			cam.h_offset = 0.0
 			cam.v_offset = 0.0
+			cam.rotation = Vector3.ZERO
 			_shake_strength = 0.0
 
 ## Bow sight: RMB narrows the eye while the Larkbow is in hand.
 var zoomed := false
 
 func set_sprinting(on: bool, dt: float) -> void:
-	var target := _fov_base + (6.0 if on else 0.0) - (26.0 if zoomed else 0.0)
+	var target := _fov_base + (6.0 if on else 0.0) - (26.0 if zoomed else 0.0) - _fov_punch
 	cam.fov = lerpf(cam.fov, target, 1.0 - exp(-(9.0 if zoomed else 6.0) * dt))
 
 ## Camera-relative movement basis on the ground plane.

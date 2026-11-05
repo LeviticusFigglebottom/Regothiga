@@ -150,6 +150,9 @@ func _run() -> void:
 			"palace_pier", "gilt_finial", "palace_pediment_8m",
 			"radiant_spire_a", "radiant_spire_b", "radiant_castle_a", "radiant_castle_b",
 			"cloud_bank_a", "cloud_bank_b", "cloud_bank_c"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()

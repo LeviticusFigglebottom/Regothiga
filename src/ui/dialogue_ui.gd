@@ -17,6 +17,7 @@ var text_label: Label
 var name_label: Label
 var options_box: VBoxContainer
 var panel: Panel
+var _next_glyph: Label = null
 
 func _init(cfg: Dictionary, node: Node3D) -> void:
 	npc_cfg = cfg
@@ -29,9 +30,12 @@ func _ready() -> void:
 	add_child(root)
 	panel = Panel.new()
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.04, 0.035, 0.03, 0.92)
-	sb.border_color = Color(0.6, 0.5, 0.32)
-	sb.set_border_width_all(1)
+	sb.bg_color = Color(0.038, 0.033, 0.028, 0.94)
+	sb.border_color = Color(0.76, 0.64, 0.40)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(3)
+	sb.shadow_color = Color(0, 0, 0, 0.75)
+	sb.shadow_size = 14
 	panel.add_theme_stylebox_override("panel", sb)
 	panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	panel.offset_left = -600
@@ -40,18 +44,36 @@ func _ready() -> void:
 	panel.offset_bottom = -70
 	root.add_child(panel)
 	name_label = Label.new()
-	name_label.label_settings = _ls(26, Color(0.9, 0.78, 0.55))
-	name_label.position = Vector2(24, 14)
+	name_label.label_settings = _ls(26, Color(0.95, 0.82, 0.52), true)
+	name_label.position = Vector2(28, 12)
 	panel.add_child(name_label)
+	var nrule := ColorRect.new()
+	nrule.color = Color(0.72, 0.60, 0.36, 0.65)
+	nrule.position = Vector2(28, 48)
+	nrule.size = Vector2(1144, 1)
+	panel.add_child(nrule)
 	text_label = Label.new()
-	text_label.label_settings = _ls(24, Color(0.92, 0.9, 0.84))
-	text_label.position = Vector2(24, 58)
-	text_label.size = Vector2(1150, 120)
+	text_label.label_settings = _ls(24, Color(0.94, 0.90, 0.82))
+	text_label.position = Vector2(28, 60)
+	text_label.size = Vector2(1144, 120)
 	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(text_label)
+	_next_glyph = Label.new()
+	_next_glyph.label_settings = _ls(18, Color(0.86, 0.74, 0.46))
+	_next_glyph.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_next_glyph.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_next_glyph.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_next_glyph.offset_left = -180
+	_next_glyph.offset_right = -24
+	_next_glyph.offset_top = -36
+	_next_glyph.offset_bottom = -12
+	_next_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_next_glyph.text = "[E]  Continue ▾"
+	panel.add_child(_next_glyph)
 	options_box = VBoxContainer.new()
-	options_box.position = Vector2(24, 60)
-	options_box.size = Vector2(1150, 160)
+	options_box.position = Vector2(28, 60)
+	options_box.size = Vector2(1144, 160)
+	options_box.add_theme_constant_override("separation", 4)
 	panel.add_child(options_box)
 
 	name_label.text = npc_cfg.get("name", "???")
@@ -88,16 +110,21 @@ func _grant_gift(g: Dictionary) -> void:
 	Game.toast.emit(g.get("toast", "Received %s x%d" % [item, count]))
 	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -6.0)
 
-func _ls(size: int, color: Color) -> LabelSettings:
+func _ls(size: int, color: Color, bold := false) -> LabelSettings:
 	var ls := LabelSettings.new()
-	ls.font = load("res://assets/fonts/DejaVuSerif.ttf")
+	ls.font = load("res://assets/fonts/DejaVuSerif-Bold.ttf" if bold else "res://assets/fonts/DejaVuSerif.ttf")
 	ls.font_size = size
 	ls.font_color = color
+	ls.shadow_color = Color(0, 0, 0, 0.85)
+	ls.shadow_size = 3
+	ls.shadow_offset = Vector2(1, 2)
 	return ls
 
 func _show_line() -> void:
 	options_box.visible = false
 	text_label.visible = true
+	if _next_glyph != null:
+		_next_glyph.visible = true
 	if _line_i < _lines.size():
 		text_label.text = String(_lines[_line_i])
 		_speak(String(_lines[_line_i]))
@@ -148,6 +175,8 @@ func _enter_options() -> void:
 		_options.append(o)
 	_options.append({"id": "leave", "label": "Leave"})
 	text_label.visible = false
+	if _next_glyph != null:
+		_next_glyph.visible = false
 	options_box.visible = true
 	_opt_i = 0
 	# a long stock list must not spill past the panel: grow the panel upward
@@ -163,8 +192,8 @@ func _render_options() -> void:
 		var o: Dictionary = _options[i]
 		var l := Label.new()
 		var selected := i == _opt_i
-		l.label_settings = _ls(24, Color(0.98, 0.88, 0.6) if selected else Color(0.7, 0.66, 0.58))
-		l.text = ("»  " if selected else "    ") + _option_label(o)
+		l.label_settings = _ls(24, Color(0.98, 0.88, 0.58) if selected else Color(0.74, 0.69, 0.60), selected)
+		l.text = ("◆  " if selected else "    ") + _option_label(o)
 		options_box.add_child(l)
 
 func _option_label(o: Dictionary) -> String:
@@ -324,6 +353,8 @@ func _flash_line() -> void:
 	_lines = [text_label.text]
 	_line_i = 0
 	text_label.visible = true
+	if _next_glyph != null:
+		_next_glyph.visible = true
 	options_box.visible = false
 
 var _closing := false

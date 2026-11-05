@@ -1,8 +1,8 @@
 class_name HUD
 extends CanvasLayer
-## The Latecomer's HUD: vitals top-left, flask bottom-left, orisons bottom-
-## right, interact prompt center, boss bar bottom-center, death splash,
-## diegetic toasts. Gothic restraint: thin serif, dark panels, gold accents.
+## The Latecomer's HUD: covenant crest + vitals top-left, chrism bottom-left,
+## orisons plaque bottom-right, interact prompt center, boss bar with trailing
+## damage ghost bottom-center, death splash, diegetic toasts.
 
 const SERIF := "res://assets/fonts/DejaVuSerif.ttf"
 const SERIF_B := "res://assets/fonts/DejaVuSerif-Bold.ttf"
@@ -25,6 +25,15 @@ var boss_root: Control
 var boss_fill: ColorRect
 var boss_name: Label
 
+var _post_mat: ShaderMaterial = null
+var _flash_strength := 0.0
+var _hp_edge: ColorRect = null
+var _st_edge: ColorRect = null
+var _mana_edge: ColorRect = null
+var _boss_ghost: ColorRect = null
+var _boss_ghost_ratio := 1.0
+var _prompt_plate: Panel = null
+var _crest_icon: TextureRect = null
 var _hp_ratio := 1.0
 var _ghost_ratio := 1.0
 var _st_ratio := 1.0
@@ -32,6 +41,7 @@ var _boss: Node = null
 
 const HP_W := 420.0
 const ST_W := 340.0
+const BAR_X := 92.0
 
 var lore_root: Control
 var lore_text: Label
@@ -51,6 +61,8 @@ const SLOT_ICON := {
 	"marsh_spear": "res://assets/ui/icons/spear.png",
 	"lark_bow": "res://assets/ui/icons/bow.png",
 	"pilgrim_greatsword": "res://assets/ui/icons/greatsword.png",
+	"sexton_maul": "res://assets/ui/icons/maul.png",
+	"ward_halberd": "res://assets/ui/icons/halberd.png",
 	"flask": "res://assets/ui/icons/flask.png",
 	"torch": "res://assets/ui/icons/torch.png",
 }
@@ -90,6 +102,7 @@ func _ready() -> void:
 	Game.remembrance_reclaimed.connect(func(n): show_toast("Remembrance reclaimed — %d orisons." % n))
 	Game.toast.connect(show_toast)
 	Game.area_title.connect(show_area_title)
+	Juice.post_flash_requested.connect(_on_post_flash)
 	StateDirector.transition_started.connect(_on_transition)
 	if Game.player != null:
 		_bind_player(Game.player)
@@ -97,14 +110,15 @@ func _ready() -> void:
 		Game.player_registered.connect(_bind_player)
 
 func _bind_player(p) -> void:
-	p.health_changed.connect(_on_hp)
-	p.stamina_changed.connect(_on_stamina)
-	p.mana_changed.connect(_on_mana)
-	p.flasks_changed.connect(_on_flasks)
-	p.weapon_changed.connect(func(_id): _refresh_hotbar())
-	p.inventory_changed.connect(_refresh_hotbar)
-	p.attune_changed.connect(func(_id): _refresh_rite())
-	p.hotbar_changed.connect(_refresh_hotbar)
+	if not p.health_changed.is_connected(_on_hp):
+		p.health_changed.connect(_on_hp)
+		p.stamina_changed.connect(_on_stamina)
+		p.mana_changed.connect(_on_mana)
+		p.flasks_changed.connect(_on_flasks)
+		p.weapon_changed.connect(func(_id): _refresh_hotbar())
+		p.inventory_changed.connect(_refresh_hotbar)
+		p.attune_changed.connect(func(_id): _refresh_rite())
+		p.hotbar_changed.connect(_refresh_hotbar)
 	_on_hp(p.hp, p.max_hp)
 	_on_stamina(p.stamina, p.max_stamina)
 	_on_mana(p.mana, p.max_mana)
@@ -118,7 +132,7 @@ func _font(path: String, size: int, color: Color, shadow := true) -> LabelSettin
 	ls.font_size = size
 	ls.font_color = color
 	if shadow:
-		ls.shadow_color = Color(0, 0, 0, 0.8)
+		ls.shadow_color = Color(0, 0, 0, 0.85)
 		ls.shadow_size = 3
 		ls.shadow_offset = Vector2(1, 2)
 	return ls
@@ -127,15 +141,17 @@ func _bar(parent: Control, y: float, w: float, h: float, back: Color) -> Array:
 	var panel := Panel.new()
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = back
-	sb.border_color = Color(0.62, 0.52, 0.34, 0.85)
-	sb.set_border_width_all(1)
-	sb.set_corner_radius_all(2)
+	sb.border_color = Color(0.76, 0.64, 0.40, 0.94)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(1)
+	sb.shadow_color = Color(0, 0, 0, 0.55)
+	sb.shadow_size = 4
 	panel.add_theme_stylebox_override("panel", sb)
-	panel.position = Vector2(24, y)
+	panel.position = Vector2(BAR_X, y)
 	panel.size = Vector2(w, h)
 	parent.add_child(panel)
 	var ghost := ColorRect.new()
-	ghost.color = Color(0.85, 0.72, 0.5, 0.55)
+	ghost.color = Color(0.92, 0.76, 0.44, 0.72)
 	ghost.position = Vector2(2, 2)
 	ghost.size = Vector2(w - 4, h - 4)
 	panel.add_child(ghost)
@@ -143,7 +159,19 @@ func _bar(parent: Control, y: float, w: float, h: float, back: Color) -> Array:
 	fill.position = Vector2(2, 2)
 	fill.size = Vector2(w - 4, h - 4)
 	panel.add_child(fill)
-	return [panel, fill, ghost]
+	var sheen := ColorRect.new()
+	sheen.color = Color(1.0, 0.96, 0.86, 0.20)
+	sheen.position = Vector2(2, 2)
+	sheen.size = Vector2(w - 4, maxf(2.0, (h - 4) * 0.35))
+	sheen.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(sheen)
+	var edge := ColorRect.new()
+	edge.color = Color(1.0, 0.95, 0.78, 0.88)
+	edge.position = Vector2(w - 4, 2)
+	edge.size = Vector2(2, h - 4)
+	edge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(edge)
+	return [panel, fill, ghost, edge]
 
 func _build() -> void:
 	var root := Control.new()
@@ -155,41 +183,104 @@ func _build() -> void:
 	vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
 	vignette.color = Color(0.5, 0.05, 0.05, 0.0)
 	vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var psh := load("res://shaders/post_souls.gdshader") as Shader
+	if psh != null:
+		_post_mat = ShaderMaterial.new()
+		_post_mat.shader = psh
+		vignette.material = _post_mat
 	root.add_child(vignette)
 
-	var r1 := _bar(root, 26, HP_W, 16, Color(0.07, 0.05, 0.05, 0.88))
-	hp_panel = r1[0]; hp_fill = r1[1]; hp_ghost = r1[2]
-	hp_fill.color = Color(0.55, 0.12, 0.1)
-	var r2 := _bar(root, 48, ST_W, 12, Color(0.05, 0.07, 0.05, 0.88))
-	st_panel = r2[0]; st_fill = r2[1]
-	st_fill.color = Color(0.35, 0.5, 0.25)
+	# Covenant / Vigil Medallion at top-left anchor beside the vitals bars
+	var crest_path := "res://assets/ui/icons/crest.png"
+	if ResourceLoader.exists(crest_path):
+		_crest_icon = TextureRect.new()
+		_crest_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_crest_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_crest_icon.texture = load(crest_path)
+		_crest_icon.position = Vector2(18, 18)
+		_crest_icon.size = Vector2(64, 64)
+		_crest_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(_crest_icon)
+
+	var r1 := _bar(root, 26, HP_W, 16, Color(0.07, 0.045, 0.045, 0.90))
+	hp_panel = r1[0]; hp_fill = r1[1]; hp_ghost = r1[2]; _hp_edge = r1[3]
+	hp_fill.color = Color(0.62, 0.13, 0.11)
+	var r2 := _bar(root, 48, ST_W, 12, Color(0.045, 0.07, 0.045, 0.90))
+	st_panel = r2[0]; st_fill = r2[1]; _st_edge = r2[3]
+	st_fill.color = Color(0.32, 0.54, 0.26)
 	(r2[2] as ColorRect).color = Color(0, 0, 0, 0)
 	# the wick-bar: mana, kindled only once a rite is learned
-	var r3 := _bar(root, 66, ST_W * 0.8, 10, Color(0.08, 0.065, 0.03, 0.88))
-	mana_panel = r3[0]; mana_fill = r3[1]
-	mana_fill.color = Color(0.92, 0.74, 0.3)
+	var r3 := _bar(root, 66, ST_W * 0.8, 10, Color(0.08, 0.065, 0.03, 0.90))
+	mana_panel = r3[0]; mana_fill = r3[1]; _mana_edge = r3[3]
+	mana_fill.color = Color(0.94, 0.76, 0.32)
 	(r3[2] as ColorRect).color = Color(0, 0, 0, 0)
 	mana_panel.visible = false
 
+	# Bottom-left Chrism plaque backing
+	var flask_plate := Panel.new()
+	var fsb := StyleBoxFlat.new()
+	fsb.bg_color = Color(0.04, 0.035, 0.03, 0.78)
+	fsb.border_color = Color(0.62, 0.52, 0.34, 0.72)
+	fsb.set_border_width_all(1)
+	fsb.set_corner_radius_all(2)
+	flask_plate.add_theme_stylebox_override("panel", fsb)
+	flask_plate.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	flask_plate.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	flask_plate.offset_left = 20
+	flask_plate.offset_right = 198
+	flask_plate.offset_top = -94
+	flask_plate.offset_bottom = -48
+	flask_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(flask_plate)
+
 	flask_label = Label.new()
-	flask_label.label_settings = _font(SERIF_B, 26, Color(0.92, 0.86, 0.72))
+	flask_label.label_settings = _font(SERIF_B, 25, Color(0.94, 0.88, 0.74))
 	flask_label.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	flask_label.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	flask_label.offset_left = 28
+	flask_label.offset_left = 32
 	flask_label.offset_top = -90
 	flask_label.offset_bottom = -50
 	flask_label.text = "Chrism ✕3"
 	root.add_child(flask_label)
 
+	# Bottom-right Orisons plaque backing + soul-flame emblem
+	var orison_plate := Panel.new()
+	var osb := StyleBoxFlat.new()
+	osb.bg_color = Color(0.04, 0.035, 0.03, 0.82)
+	osb.border_color = Color(0.72, 0.60, 0.38, 0.80)
+	osb.set_border_width_all(1)
+	osb.set_corner_radius_all(2)
+	orison_plate.add_theme_stylebox_override("panel", osb)
+	orison_plate.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	orison_plate.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	orison_plate.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	orison_plate.offset_left = -256
+	orison_plate.offset_right = -20
+	orison_plate.offset_top = -96
+	orison_plate.offset_bottom = -50
+	orison_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(orison_plate)
+
+	var orison_icon_path := "res://assets/ui/icons/orisons.png"
+	if ResourceLoader.exists(orison_icon_path):
+		var oi := TextureRect.new()
+		oi.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		oi.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		oi.texture = load(orison_icon_path)
+		oi.position = Vector2(10, 8)
+		oi.size = Vector2(30, 30)
+		oi.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		orison_plate.add_child(oi)
+
 	orisons_label = Label.new()
-	orisons_label.label_settings = _font(SERIF_B, 26, Color(0.95, 0.8, 0.45))
+	orisons_label.label_settings = _font(SERIF_B, 25, Color(0.96, 0.82, 0.48))
 	orisons_label.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	orisons_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	orisons_label.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	orisons_label.offset_left = -300
-	orisons_label.offset_top = -95
-	orisons_label.offset_right = -30
-	orisons_label.offset_bottom = -55
+	orisons_label.offset_top = -92
+	orisons_label.offset_right = -32
+	orisons_label.offset_bottom = -52
 	orisons_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	orisons_label.text = "0 orisons"
 
@@ -210,8 +301,25 @@ func _build() -> void:
 	root.add_child(pose_label)
 	root.add_child(orisons_label)
 
+	# Interact prompt plate
+	_prompt_plate = Panel.new()
+	var psb := StyleBoxFlat.new()
+	psb.bg_color = Color(0.035, 0.03, 0.025, 0.86)
+	psb.border_color = Color(0.76, 0.64, 0.40, 0.85)
+	psb.set_border_width_all(1)
+	psb.set_corner_radius_all(2)
+	_prompt_plate.add_theme_stylebox_override("panel", psb)
+	_prompt_plate.set_anchors_preset(Control.PRESET_CENTER)
+	_prompt_plate.offset_left = -210
+	_prompt_plate.offset_top = 96
+	_prompt_plate.offset_right = 210
+	_prompt_plate.offset_bottom = 142
+	_prompt_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_prompt_plate.visible = false
+	root.add_child(_prompt_plate)
+
 	prompt_label = Label.new()
-	prompt_label.label_settings = _font(SERIF, 24, Color(0.95, 0.92, 0.84))
+	prompt_label.label_settings = _font(SERIF, 24, Color(0.96, 0.92, 0.84))
 	prompt_label.set_anchors_preset(Control.PRESET_CENTER)
 	prompt_label.offset_left = -200
 	prompt_label.offset_top = 100
@@ -222,7 +330,7 @@ func _build() -> void:
 	root.add_child(prompt_label)
 
 	toast_label = Label.new()
-	toast_label.label_settings = _font(SERIF, 28, Color(0.92, 0.88, 0.78))
+	toast_label.label_settings = _font(SERIF, 28, Color(0.95, 0.90, 0.78))
 	toast_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	toast_label.offset_left = -400
 	toast_label.offset_top = 120
@@ -234,40 +342,62 @@ func _build() -> void:
 
 	_build_hotbar(root)
 
-	# boss bar
+	# boss bar with ornate gold rule and trailing damage-ghost bar
 	boss_root = Control.new()
 	boss_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	boss_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	boss_root.visible = false
 	root.add_child(boss_root)
 	boss_name = Label.new()
-	boss_name.label_settings = _font(SERIF_B, 30, Color(0.93, 0.88, 0.8))
+	boss_name.label_settings = _font(SERIF_B, 30, Color(0.95, 0.90, 0.80))
 	boss_name.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	boss_name.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	boss_name.offset_left = -400
-	boss_name.offset_top = -174
+	boss_name.offset_top = -178
 	boss_name.offset_right = 400
-	boss_name.offset_bottom = -134
+	boss_name.offset_bottom = -138
 	boss_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	boss_root.add_child(boss_name)
+	var brule := ColorRect.new()
+	brule.color = Color(0.78, 0.66, 0.42, 0.75)
+	brule.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	brule.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	brule.offset_left = -360
+	brule.offset_right = 360
+	brule.offset_top = -138
+	brule.offset_bottom = -137
+	boss_root.add_child(brule)
 	var bp := Panel.new()
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.06, 0.04, 0.04, 0.9)
-	sb.border_color = Color(0.62, 0.52, 0.34, 0.9)
-	sb.set_border_width_all(1)
+	sb.bg_color = Color(0.055, 0.038, 0.038, 0.92)
+	sb.border_color = Color(0.76, 0.64, 0.40, 0.94)
+	sb.set_border_width_all(2)
+	sb.shadow_color = Color(0, 0, 0, 0.65)
+	sb.shadow_size = 5
 	bp.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	bp.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	bp.offset_left = -500
 	bp.offset_top = -132
 	bp.offset_right = 500
-	bp.offset_bottom = -118
+	bp.offset_bottom = -116
 	bp.add_theme_stylebox_override("panel", sb)
 	boss_root.add_child(bp)
+	_boss_ghost = ColorRect.new()
+	_boss_ghost.color = Color(0.92, 0.76, 0.42, 0.72)
+	_boss_ghost.position = Vector2(2, 2)
+	_boss_ghost.size = Vector2(996, 12)
+	bp.add_child(_boss_ghost)
 	boss_fill = ColorRect.new()
-	boss_fill.color = Color(0.6, 0.14, 0.1)
+	boss_fill.color = Color(0.64, 0.14, 0.11)
 	boss_fill.position = Vector2(2, 2)
-	boss_fill.size = Vector2(996, 10)
+	boss_fill.size = Vector2(996, 12)
 	bp.add_child(boss_fill)
+	var bsheen := ColorRect.new()
+	bsheen.color = Color(1.0, 0.94, 0.84, 0.18)
+	bsheen.position = Vector2(2, 2)
+	bsheen.size = Vector2(996, 4)
+	bsheen.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bp.add_child(bsheen)
 
 	# lore panel (plaques, item descriptions)
 	lore_root = Control.new()
@@ -276,25 +406,27 @@ func _build() -> void:
 	root.add_child(lore_root)
 	var ldim := ColorRect.new()
 	ldim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	ldim.color = Color(0, 0, 0, 0.55)
+	ldim.color = Color(0, 0, 0, 0.62)
 	lore_root.add_child(ldim)
 	_lore_panel = Panel.new()
 	var lsb := StyleBoxFlat.new()
-	lsb.bg_color = Color(0.05, 0.045, 0.04, 0.96)
-	lsb.border_color = Color(0.6, 0.5, 0.32)
-	lsb.set_border_width_all(1)
+	lsb.bg_color = Color(0.045, 0.04, 0.035, 0.97)
+	lsb.border_color = Color(0.74, 0.62, 0.38)
+	lsb.set_border_width_all(2)
+	lsb.shadow_color = Color(0, 0, 0, 0.75)
+	lsb.shadow_size = 12
 	_lore_panel.add_theme_stylebox_override("panel", lsb)
 	_lore_panel.position = Vector2(510, 330)
 	_lore_panel.size = Vector2(900, 400)
 	lore_root.add_child(_lore_panel)
 	lore_text = Label.new()
-	lore_text.label_settings = _font(SERIF, 26, Color(0.9, 0.87, 0.78), false)
+	lore_text.label_settings = _font(SERIF, 26, Color(0.92, 0.88, 0.78), false)
 	lore_text.position = Vector2(46, 46)
 	lore_text.size = Vector2(808, 260)
 	lore_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_lore_panel.add_child(lore_text)
 	_lore_hint = Label.new()
-	_lore_hint.label_settings = _font(SERIF, 18, Color(0.6, 0.55, 0.45), false)
+	_lore_hint.label_settings = _font(SERIF, 18, Color(0.68, 0.60, 0.46), false)
 	_lore_hint.position = Vector2(46, 340)
 	_lore_hint.text = "— press any key —"
 	_lore_panel.add_child(_lore_hint)
@@ -307,10 +439,25 @@ func _build() -> void:
 	root.add_child(splash)
 	var dim := ColorRect.new()
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dim.color = Color(0, 0, 0, 0.72)
+	dim.color = Color(0, 0, 0, 0.65)
 	splash.add_child(dim)
+	var band := ColorRect.new()
+	band.anchor_left = 0.0
+	band.anchor_right = 1.0
+	band.anchor_top = 0.42
+	band.anchor_bottom = 0.58
+	band.color = Color(0.012, 0.010, 0.009, 0.90)
+	splash.add_child(band)
+	for ry in [0.42, 0.58]:
+		var srule := ColorRect.new()
+		srule.anchor_left = 0.12
+		srule.anchor_right = 0.88
+		srule.anchor_top = ry
+		srule.anchor_bottom = ry + 0.002
+		srule.color = Color(0.72, 0.58, 0.34, 0.62)
+		splash.add_child(srule)
 	splash_label = Label.new()
-	splash_label.label_settings = _font(SERIF_B, 84, Color(0.62, 0.1, 0.08), false)
+	splash_label.label_settings = _font(SERIF_B, 84, Color(0.66, 0.11, 0.09), false)
 	splash_label.set_anchors_preset(Control.PRESET_CENTER)
 	splash_label.offset_left = -500
 	splash_label.offset_top = -60
@@ -349,19 +496,39 @@ func _process(dt: float) -> void:
 	_ghost_ratio = maxf(_hp_ratio, _ghost_ratio - dt * 0.25)
 	hp_ghost.size.x = (HP_W - 4) * _ghost_ratio
 	st_fill.size.x = (ST_W - 4) * _st_ratio
+	if _hp_edge != null:
+		_hp_edge.position.x = 2.0 + maxf(0.0, hp_fill.size.x - 2.0)
+		_hp_edge.visible = _hp_ratio > 0.01
+	if _st_edge != null:
+		_st_edge.position.x = 2.0 + maxf(0.0, st_fill.size.x - 2.0)
+		_st_edge.visible = _st_ratio > 0.01
 	if vignette.color.a > 0.0:
 		vignette.color.a = maxf(0.0, vignette.color.a - dt * 1.6)
+	if _post_mat != null:
+		_flash_strength = move_toward(_flash_strength, 0.0, dt * 2.6)
+		var low_hp := clampf((0.35 - _hp_ratio) / 0.35, 0.0, 1.0)
+		_post_mat.set_shader_parameter("low_hp_amount", maxf(low_hp, vignette.color.a * 2.0))
+		_post_mat.set_shader_parameter("ruin_amount", (1.0 if Game.area_state() == VG.WState.RUIN else 0.0))
+		_post_mat.set_shader_parameter("flash_strength", _flash_strength)
 	# interact prompt
 	if Game.player != null and not Game.player.dead:
 		var it = Game.player.nearest_interactable()
-		# a menu owns the screen: the world's prompts wait outside it
-		if it == null or Game.player.busy_in_menu() or PauseUI.is_open():
+		var remote_cam := cam != null and cam.name == "ShotCam" \
+				and cam.global_position.distance_to(Game.player.global_position) > 5.0
+		# a menu or cutscene owns the screen: the world's prompts wait outside it
+		if it == null or not Game.player.input_enabled or Game.player.busy_in_menu() or PauseUI.is_open() or remote_cam:
 			prompt_label.text = ""
 		else:
 			prompt_label.text = "[E]  %s" % it.prompt
+	if _prompt_plate != null:
+		_prompt_plate.visible = prompt_label.text != ""
 	# boss bar track
 	if _boss != null and is_instance_valid(_boss) and boss_root.visible:
-		boss_fill.size.x = 996.0 * clampf(_boss.hp / _boss.max_hp, 0.0, 1.0)
+		var br := clampf(_boss.hp / _boss.max_hp, 0.0, 1.0)
+		boss_fill.size.x = 996.0 * br
+		_boss_ghost_ratio = maxf(br, _boss_ghost_ratio - dt * 0.22)
+		if _boss_ghost != null:
+			_boss_ghost.size.x = 996.0 * _boss_ghost_ratio
 		if _boss.dead:
 			hide_boss()
 
@@ -395,42 +562,44 @@ func _build_hotbar(root: Control) -> void:
 	for i in 5:
 		var panel := Panel.new()
 		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(0.05, 0.045, 0.04, 0.85)
-		sb.border_color = Color(0.45, 0.38, 0.26, 0.8)
+		sb.bg_color = Color(0.045, 0.04, 0.035, 0.88)
+		sb.border_color = Color(0.52, 0.44, 0.30, 0.85)
 		sb.set_border_width_all(1)
 		sb.set_corner_radius_all(3)
+		sb.shadow_color = Color(0, 0, 0, 0.5)
+		sb.shadow_size = 3
 		panel.add_theme_stylebox_override("panel", sb)
 		panel.position = Vector2(i * 70, 4)
 		panel.size = Vector2(60, 60)
 		panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		hotbar_root.add_child(panel)
 		var icon := TextureRect.new()
-		icon.position = Vector2(6, 6)
-		icon.size = Vector2(48, 48)
+		icon.position = Vector2(4, 4)
+		icon.size = Vector2(52, 52)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_SCALE
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		panel.add_child(icon)
 		var num := Label.new()
-		num.label_settings = _font(SERIF_B, 13, Color(0.75, 0.66, 0.5))
-		num.position = Vector2(4, 0)
+		num.label_settings = _font(SERIF_B, 13, Color(0.82, 0.72, 0.52))
+		num.position = Vector2(5, 1)
 		num.text = str(i + 1)
 		panel.add_child(num)
 		var count := Label.new()
-		count.label_settings = _font(SERIF_B, 15, Color(0.95, 0.88, 0.7))
+		count.label_settings = _font(SERIF_B, 15, Color(0.98, 0.90, 0.72))
 		count.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 		count.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 		count.grow_vertical = Control.GROW_DIRECTION_BEGIN
 		count.offset_left = -34
 		count.offset_top = -22
-		count.offset_right = -4
+		count.offset_right = -5
 		count.offset_bottom = -2
 		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		count.text = ""
 		panel.add_child(count)
 		_slots.append({"panel": panel, "style": sb, "icon": icon, "count": count})
 	arrows_chip = Label.new()
-	arrows_chip.label_settings = _font(SERIF_B, 20, Color(0.92, 0.87, 0.72))
+	arrows_chip.label_settings = _font(SERIF_B, 20, Color(0.94, 0.88, 0.72))
 	arrows_chip.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	arrows_chip.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	arrows_chip.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -441,43 +610,45 @@ func _build_hotbar(root: Control) -> void:
 	arrows_chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	arrows_chip.visible = false
 	root.add_child(arrows_chip)
-	# the attuned rite: a gilt slot to the LEFT of the girdle, marked C
+	# the attuned rite: a gilt slot to the LEFT of the girdle, marked X
 	rite_panel = Panel.new()
 	rite_panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	rite_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	rite_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	rite_panel.offset_left = -250
 	rite_panel.offset_right = -190
-	rite_panel.offset_top = -84
-	rite_panel.offset_bottom = -24
+	rite_panel.offset_top = -82
+	rite_panel.offset_bottom = -22
 	var rsb := StyleBoxFlat.new()
-	rsb.bg_color = Color(0.1, 0.085, 0.045, 0.9)
-	rsb.border_color = Color(0.9, 0.75, 0.4, 0.9)
-	rsb.set_border_width_all(1)
+	rsb.bg_color = Color(0.09, 0.075, 0.04, 0.92)
+	rsb.border_color = Color(0.92, 0.78, 0.42, 0.94)
+	rsb.set_border_width_all(2)
 	rsb.set_corner_radius_all(3)
+	rsb.shadow_color = Color(0, 0, 0, 0.55)
+	rsb.shadow_size = 4
 	rite_panel.add_theme_stylebox_override("panel", rsb)
 	rite_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(rite_panel)
 	rite_icon = TextureRect.new()
-	rite_icon.position = Vector2(6, 6)
-	rite_icon.size = Vector2(48, 48)
+	rite_icon.position = Vector2(4, 4)
+	rite_icon.size = Vector2(52, 52)
 	rite_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	rite_icon.stretch_mode = TextureRect.STRETCH_SCALE
 	rite_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rite_panel.add_child(rite_icon)
 	var rkey := Label.new()
-	rkey.label_settings = _font(SERIF_B, 13, Color(0.95, 0.82, 0.45))
-	rkey.position = Vector2(4, 0)
+	rkey.label_settings = _font(SERIF_B, 13, Color(0.96, 0.84, 0.48))
+	rkey.position = Vector2(5, 1)
 	rkey.text = "X"
 	rite_panel.add_child(rkey)
 	rite_cost = Label.new()
-	rite_cost.label_settings = _font(SERIF_B, 14, Color(0.92, 0.82, 0.5))
+	rite_cost.label_settings = _font(SERIF_B, 14, Color(0.94, 0.84, 0.52))
 	rite_cost.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	rite_cost.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	rite_cost.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	rite_cost.offset_left = -34
 	rite_cost.offset_top = -22
-	rite_cost.offset_right = -4
+	rite_cost.offset_right = -5
 	rite_cost.offset_bottom = -2
 	rite_cost.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	rite_panel.add_child(rite_cost)
@@ -509,11 +680,11 @@ func _refresh_hotbar() -> void:
 		(slot["icon"] as TextureRect).texture = tex
 		var owned: bool = id != "" and (id == "flask" or p.owns_weapon(id))
 		var selected: bool = id == p.weapon_id
-		(slot["icon"] as TextureRect).modulate.a = 0.95 if owned else 0.22
+		(slot["icon"] as TextureRect).modulate.a = 0.98 if owned else 0.22
 		var sb: StyleBoxFlat = slot["style"]
-		sb.border_color = Color(0.95, 0.8, 0.45, 0.95) if selected else Color(0.45, 0.38, 0.26, 0.8)
+		sb.border_color = Color(0.98, 0.84, 0.48, 0.98) if selected else Color(0.52, 0.44, 0.30, 0.85)
 		sb.set_border_width_all(2 if selected else 1)
-		sb.bg_color = Color(0.09, 0.075, 0.05, 0.9) if selected else Color(0.05, 0.045, 0.04, 0.85)
+		sb.bg_color = Color(0.11, 0.09, 0.055, 0.94) if selected else Color(0.045, 0.04, 0.035, 0.88)
 		var c: Label = slot["count"]
 		if id == "flask":
 			c.text = str(p.flasks)
@@ -530,10 +701,13 @@ func _on_mana(v: float, mx: float) -> void:
 	mana_panel.visible = mx > 0.0
 	if mx > 0.0:
 		mana_fill.size.x = maxf((mana_panel.size.x - 4.0) * v / mx, 0.0)
+		if _mana_edge != null:
+			_mana_edge.position.x = 2.0 + maxf(0.0, mana_fill.size.x - 2.0)
+			_mana_edge.visible = v > 0.5
 	var p = Game.player
 	if rite_cost != null and p != null and is_instance_valid(p) and p.attuned_spell != "":
 		var cost := float(DB.spell(p.attuned_spell).get("mana", 0))
-		rite_cost.label_settings.font_color = Color(0.92, 0.82, 0.5) if v >= cost else Color(0.7, 0.35, 0.3)
+		rite_cost.label_settings.font_color = Color(0.94, 0.84, 0.52) if v >= cost else Color(0.72, 0.35, 0.30)
 
 func _on_orisons(n: int) -> void:
 	orisons_label.text = "%d orisons" % n
@@ -581,6 +755,7 @@ func _input(event: InputEvent) -> void:
 
 func show_boss(boss: Node) -> void:
 	_boss = boss
+	_boss_ghost_ratio = 1.0
 	boss_name.text = boss.cfg.get("name", "???")
 	boss_root.visible = true
 
@@ -598,19 +773,45 @@ func show_area_title(text: String) -> void:
 	if _title_layer != null and is_instance_valid(_title_layer):
 		_title_layer.queue_free()
 	_title_layer = CanvasLayer.new()
-	_title_layer.layer = 22
+	_title_layer.layer = 11
 	add_child(_title_layer)
 	var box := Control.new()
 	box.set_anchors_preset(Control.PRESET_FULL_RECT)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_title_layer.add_child(box)
+	var tband := TextureRect.new()
+	tband.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tband.stretch_mode = TextureRect.STRETCH_SCALE
+	var bgrad := Gradient.new()
+	bgrad.offsets = PackedFloat32Array([0.0, 0.22, 0.50, 0.78, 1.0])
+	bgrad.colors = PackedColorArray([
+		Color(0.012, 0.010, 0.008, 0.0),
+		Color(0.012, 0.010, 0.008, 0.54),
+		Color(0.012, 0.010, 0.008, 0.72),
+		Color(0.012, 0.010, 0.008, 0.54),
+		Color(0.012, 0.010, 0.008, 0.0),
+	])
+	var btex := GradientTexture2D.new()
+	btex.gradient = bgrad
+	btex.fill_from = Vector2(0.0, 0.5)
+	btex.fill_to = Vector2(1.0, 0.5)
+	btex.width = 256
+	btex.height = 16
+	tband.texture = btex
+	tband.anchor_left = 0.12
+	tband.anchor_right = 0.88
+	tband.anchor_top = 0.292
+	tband.anchor_bottom = 0.422
+	tband.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(tband)
 	var name_l := Label.new()
 	var ls := LabelSettings.new()
 	ls.font = load("res://assets/fonts/DejaVuSerif.ttf")
 	ls.font_size = 52
-	ls.font_color = Color(0.96, 0.9, 0.74)
-	ls.shadow_color = Color(0, 0, 0, 0.85)
+	ls.font_color = Color(0.96, 0.90, 0.74)
+	ls.shadow_color = Color(0, 0, 0, 0.92)
 	ls.shadow_size = 6
+	ls.shadow_offset = Vector2(1, 2)
 	name_l.label_settings = ls
 	name_l.text = text
 	name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -619,12 +820,30 @@ func show_area_title(text: String) -> void:
 	name_l.anchor_top = 0.30
 	name_l.anchor_bottom = 0.40
 	box.add_child(name_l)
-	var rule := ColorRect.new()
-	rule.color = Color(0.85, 0.72, 0.42, 0.9)
-	rule.anchor_left = 0.38
-	rule.anchor_right = 0.62
-	rule.anchor_top = 0.405
+	var rule := TextureRect.new()
+	rule.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rule.stretch_mode = TextureRect.STRETCH_SCALE
+	var rgrad := Gradient.new()
+	rgrad.offsets = PackedFloat32Array([0.0, 0.25, 0.50, 0.75, 1.0])
+	rgrad.colors = PackedColorArray([
+		Color(0.86, 0.74, 0.44, 0.0),
+		Color(0.86, 0.74, 0.44, 0.78),
+		Color(0.98, 0.88, 0.58, 0.98),
+		Color(0.86, 0.74, 0.44, 0.78),
+		Color(0.86, 0.74, 0.44, 0.0),
+	])
+	var rtex := GradientTexture2D.new()
+	rtex.gradient = rgrad
+	rtex.fill_from = Vector2(0.0, 0.5)
+	rtex.fill_to = Vector2(1.0, 0.5)
+	rtex.width = 256
+	rtex.height = 4
+	rule.texture = rtex
+	rule.anchor_left = 0.28
+	rule.anchor_right = 0.72
+	rule.anchor_top = 0.404
 	rule.anchor_bottom = 0.408
+	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(rule)
 	box.modulate.a = 0.0
 	var tw := box.create_tween()
@@ -637,3 +856,14 @@ func show_area_title(text: String) -> void:
 	tw.tween_callback(func():
 		if is_instance_valid(layer_ref):
 			layer_ref.queue_free())
+
+
+func _on_post_flash(kind: String, strength: float) -> void:
+	_flash_strength = clampf(strength, 0.0, 1.0)
+	if _post_mat != null:
+		var col := Color(0.85, 0.14, 0.10)
+		if kind == "parry":
+			col = Color(1.0, 0.90, 0.55)
+		elif kind == "spark":
+			col = Color(1.0, 0.76, 0.36)
+		_post_mat.set_shader_parameter("flash_color", Vector3(col.r, col.g, col.b))

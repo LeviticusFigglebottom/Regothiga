@@ -366,7 +366,7 @@ func _pick_attack(dist: float) -> Dictionary:
 ## while damage followed the data windup, so slow attacks (the Bellkeeper's
 ## 1.1-1.5 s slams) visibly struck half a second before the damage arrived.
 const _CONTACT := {"atk_r": 0.56, "atk_thrust": 0.58, "atk_over": 0.58,
-		"atk_back": 0.5, "atk_spin": 0.5, "atk_double": 0.56}
+		"atk_back": 0.5, "atk_spin": 0.5, "atk_double": 0.56, "atk_cast": 0.4}
 
 func _begin_attack(a: Dictionary) -> void:
 	_atk = a
@@ -587,7 +587,7 @@ func _radiant_nova(radius: float) -> void:
 			pk.can_be_parried = false
 			if hb != null:
 				hb.receive(pk)
-	_ring_vfx(radius)
+	_ring_vfx(radius, true)
 	# the ring itself burns gold, and a breath of light rides it out
 	var flash := OmniLight3D.new()
 	flash.light_color = Color(1.0, 0.9, 0.6)
@@ -602,35 +602,52 @@ func _radiant_nova(radius: float) -> void:
 	Juice.shake(0.4, 0.28)
 	AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, -2.0, 1.15)
 
-func _ring_vfx(radius: float) -> void:
+func _ring_vfx(radius: float, is_radiant := false) -> void:
+	var rcol := Color(1.0, 0.86, 0.48, 0.85) if is_radiant else Color(0.78, 0.84, 0.96, 0.72)
+	var ring := MeshInstance3D.new()
+	var tm := TorusMesh.new()
+	tm.inner_radius = 0.86
+	tm.outer_radius = 1.0
+	var rmat := StandardMaterial3D.new()
+	rmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	rmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	rmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	rmat.albedo_color = rcol
+	tm.material = rmat
+	ring.mesh = tm
+	ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	get_parent().add_child(ring)
+	ring.global_position = global_position + Vector3(0, 0.12, 0)
+	ring.scale = Vector3.ONE * 0.42
+	var rtw := ring.create_tween().set_parallel(true)
+	rtw.tween_property(ring, "scale", Vector3(radius, 0.85, radius), 0.48) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	rtw.tween_property(rmat, "albedo_color:a", 0.0, 0.52)
+	VG.free_after(ring, 0.75)
+
 	var p := CPUParticles3D.new()
-	p.amount = 160
-	p.lifetime = 0.7
+	p.amount = 110
+	p.lifetime = 0.72
 	p.one_shot = true
 	p.explosiveness = 1.0
 	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_RING
 	p.emission_ring_axis = Vector3.UP
 	p.emission_ring_radius = 0.8
-	p.emission_ring_inner_radius = 0.6
+	p.emission_ring_inner_radius = 0.55
 	p.emission_ring_height = 0.1
 	p.direction = Vector3.UP
-	p.initial_velocity_min = 2.0
-	p.initial_velocity_max = 4.0
-	p.gravity = Vector3(0, -8, 0)
-	p.scale_amount_min = 0.05
-	p.scale_amount_max = 0.16
-	var mesh := SphereMesh.new()
-	mesh.radius = 0.05
-	mesh.height = 0.1
-	var mm := StandardMaterial3D.new()
-	mm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mm.albedo_color = Color(0.8, 0.85, 1.0)
-	mesh.material = mm
-	p.mesh = mesh
+	p.spread = 48.0
+	p.initial_velocity_min = 2.2
+	p.initial_velocity_max = 4.6
+	p.gravity = Vector3(0, -6.5, 0)
+	p.scale_amount_min = 0.04
+	p.scale_amount_max = 0.11
+	p.color = rcol
+	p.mesh = AreaPortal.make_mote_quad(1.6)
 	get_parent().add_child(p)
-	p.global_position = global_position + Vector3.UP * 0.2
+	p.global_position = global_position + Vector3.UP * 0.25
 	p.emitting = true
-	get_tree().create_timer(1.6).timeout.connect(p.queue_free)
+	VG.free_after(p, 1.6)
 
 func _on_hit_contact(_hb: Area3D, result: String) -> void:
 	if result == "hit":
@@ -671,7 +688,9 @@ func is_blocking_toward(from_pos: Vector3) -> bool:
 	var fwd := -vis.global_transform.basis.z
 	return fwd.angle_to(to.normalized()) < deg_to_rad(float(cfg["block_arc"]) * 0.5)
 
-func on_blocked_hit(_packet: DamagePacket) -> void:
+func on_blocked_hit(packet: DamagePacket) -> void:
+	var bdir := (global_position - packet.origin).normalized() if packet != null and packet.origin != Vector3.ZERO else vis.global_transform.basis.z
+	vis.flinch(bdir, 0.65)
 	AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -6.0)
 	AudioDirector.sfx_at("res://assets/audio/shield_ding.wav", global_position, -6.0,
 			randf_range(0.92, 1.1))
@@ -688,6 +707,8 @@ func take_hit(packet: DamagePacket) -> void:
 		return
 	hp -= packet.amount
 	poise -= packet.poise_damage / stagger_resist
+	var hdir := (global_position - packet.origin).normalized() if packet.origin != Vector3.ZERO else vis.global_transform.basis.z
+	vis.flinch(hdir, 1.0)
 	if hpbar != null:
 		hpbar.hit(hp / max_hp)
 	# aggro on pain even if unseen; a phantom's blade turns heads exactly

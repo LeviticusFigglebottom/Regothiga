@@ -5,9 +5,9 @@ extends CanvasLayer
 ## spells; click or drop one to attune it to X). Fully mouse-driven — click
 ## rows, click slots, or drag between them — with W/S + 1-5 + Q/E still live.
 
-const GOLD := Color(0.95, 0.8, 0.45)
-const PARCH := Color(0.92, 0.88, 0.78)
-const DIM := Color(0.6, 0.55, 0.45)
+const GOLD := Color(0.95, 0.82, 0.48)
+const PARCH := Color(0.94, 0.90, 0.80)
+const DIM := Color(0.64, 0.58, 0.46)
 
 var player: Node
 var _scroll: ScrollContainer
@@ -15,7 +15,7 @@ var _list: VBoxContainer
 var _tab := "satchel"           # "satchel" | "rites"
 var _tab_btns := {}
 var _slots: Array = []          # hand-slot drop targets (satchel)
-var _attune_slot: Panel = null  # the C-rite drop target (rites)
+var _attune_slot: Panel = null  # the X-rite drop target (rites)
 var _rows: Array = []           # [{id, kind, panel, head}] in view order
 var _sel := 0
 var _hint: Label = null
@@ -40,39 +40,58 @@ func _ready() -> void:
 	add_child(root)
 	var dim := ColorRect.new()
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dim.color = Color(0, 0, 0, 0.5)
+	dim.color = Color(0.01, 0.008, 0.006, 0.62)
 	root.add_child(dim)
 
 	var panel := Panel.new()
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.045, 0.04, 0.035, 0.97)
-	sb.border_color = Color(0.6, 0.5, 0.32)
-	sb.set_border_width_all(1)
+	sb.bg_color = Color(0.04, 0.035, 0.03, 0.97)
+	sb.border_color = Color(0.76, 0.64, 0.40)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(3)
+	sb.shadow_color = Color(0, 0, 0, 0.78)
+	sb.shadow_size = 16
 	panel.add_theme_stylebox_override("panel", sb)
 	panel.set_anchors_preset(Control.PRESET_CENTER)
-	panel.offset_left = -490; panel.offset_right = 490
-	panel.offset_top = -360; panel.offset_bottom = 360
+	panel.offset_left = -500; panel.offset_right = 500
+	panel.offset_top = -368; panel.offset_bottom = 368
 	root.add_child(panel)
+
+	# Inner hairline gold frame
+	var inner := Panel.new()
+	var isb := StyleBoxFlat.new()
+	isb.bg_color = Color(0, 0, 0, 0)
+	isb.border_color = Color(0.56, 0.46, 0.28, 0.45)
+	isb.set_border_width_all(1)
+	inner.add_theme_stylebox_override("panel", isb)
+	inner.position = Vector2(8, 8)
+	inner.size = Vector2(984, 720)
+	inner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(inner)
 
 	# ---- tab bar
 	_add_tab(panel, "satchel", "The Satchel", 30)
 	_add_tab(panel, "rites", "The Rites", 250)
 	var rule := ColorRect.new()
-	rule.color = Color(0.6, 0.5, 0.32, 0.6)
-	rule.position = Vector2(30, 64); rule.size = Vector2(920, 1)
+	rule.color = Color(0.74, 0.62, 0.38, 0.72)
+	rule.position = Vector2(30, 64); rule.size = Vector2(940, 2)
 	panel.add_child(rule)
 
 	# ---- scrolling list
 	_scroll = ScrollContainer.new()
-	_scroll.position = Vector2(30, 78); _scroll.size = Vector2(920, 520)
+	_scroll.position = Vector2(30, 78); _scroll.size = Vector2(940, 520)
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	panel.add_child(_scroll)
 	_list = VBoxContainer.new()
-	_list.custom_minimum_size = Vector2(900, 0)
-	_list.add_theme_constant_override("separation", 8)
+	_list.custom_minimum_size = Vector2(920, 0)
+	_list.add_theme_constant_override("separation", 10)
 	_scroll.add_child(_list)
 
 	# ---- hand-slot rail (satchel) + attune slot (rites) share the footer band
+	var frule := ColorRect.new()
+	frule.color = Color(0.58, 0.48, 0.30, 0.45)
+	frule.position = Vector2(30, 608); frule.size = Vector2(940, 1)
+	panel.add_child(frule)
 	_build_hand_rail(panel)
 	_build_attune_slot(panel)
 
@@ -80,7 +99,7 @@ func _ready() -> void:
 	_hint.label_settings = _ls(16, DIM)
 	_hint.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	_hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_hint.offset_left = 30; _hint.offset_top = -30; _hint.offset_bottom = -10
+	_hint.offset_left = 30; _hint.offset_top = -32; _hint.offset_bottom = -12
 	panel.add_child(_hint)
 
 	_show_tab("satchel")
@@ -136,7 +155,11 @@ func _fill_satchel() -> void:
 			var nm: String = w.get("name", id)
 			if id == player.weapon_id: nm += "   — in hand"
 			if int(player.weapon_level) > 0: nm += "  (+%d)" % int(player.weapon_level)
-			_row(id, "arm", _icon_for(id), nm, "", w.get("desc", ""))
+			var tag := ""
+			if w.has("light") and w["light"] is Dictionary:
+				var ld: Dictionary = w["light"]
+				tag = "ATK %d   Poise %d" % [int(ld.get("damage", 0)), int(ld.get("poise", 0))]
+			_row(id, "arm", _icon_for(id), nm, tag, w.get("desc", ""))
 	_row("flask", "flask", "res://assets/ui/icons/flask.png", "Chrism Flask",
 		"✕%d / %d" % [player.flasks, player.flask_max], DB.item("chrism_flask").get("desc", ""))
 	_section("RELICS & GOODS")
@@ -176,18 +199,24 @@ func _row(id: String, kind: String, icon_path: String, nm: String, tag: String, 
 	var idx := _rows.size()
 	var pc := PanelContainer.new()
 	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0, 0, 0, 0)
+	st.bg_color = Color(0.055, 0.048, 0.04, 0.45)
+	st.border_color = Color(0.42, 0.35, 0.24, 0.35)
+	st.set_border_width_all(1)
 	st.set_corner_radius_all(3)
+	st.content_margin_left = 8
+	st.content_margin_right = 8
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
 	pc.add_theme_stylebox_override("panel", st)
 	pc.mouse_filter = Control.MOUSE_FILTER_STOP
 	pc.set_meta("box", st)
 	pc.gui_input.connect(_on_row_input.bind(idx))
 	pc.set_drag_forwarding(_drag_row.bind(pc, id, kind), Callable(), Callable())
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
+	row.add_theme_constant_override("separation", 16)
 	pc.add_child(row)
 	var icon := TextureRect.new()
-	icon.custom_minimum_size = Vector2(40, 40)
+	icon.custom_minimum_size = Vector2(52, 52)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -203,7 +232,7 @@ func _row(id: String, kind: String, icon_path: String, nm: String, tag: String, 
 	head.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	col.add_child(head)
 	var body := Label.new()
-	body.label_settings = _ls(16, Color(0.66, 0.62, 0.54))
+	body.label_settings = _ls(16, Color(0.70, 0.66, 0.56))
 	body.text = desc
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size = Vector2(820, 0)
@@ -214,11 +243,23 @@ func _row(id: String, kind: String, icon_path: String, nm: String, tag: String, 
 
 func _relic_row(icon_path: String, nm: String, tag: String, desc: String) -> void:
 	# unbindable lore items — no selection, no drag
+	var pc := PanelContainer.new()
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.05, 0.044, 0.036, 0.38)
+	st.border_color = Color(0.38, 0.32, 0.22, 0.30)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(3)
+	st.content_margin_left = 8
+	st.content_margin_right = 8
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	pc.add_theme_stylebox_override("panel", st)
+	_list.add_child(pc)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
-	_list.add_child(row)
+	row.add_theme_constant_override("separation", 16)
+	pc.add_child(row)
 	var icon := TextureRect.new()
-	icon.custom_minimum_size = Vector2(40, 40)
+	icon.custom_minimum_size = Vector2(52, 52)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	if ResourceLoader.exists(icon_path): icon.texture = load(icon_path)
@@ -231,7 +272,7 @@ func _relic_row(icon_path: String, nm: String, tag: String, desc: String) -> voi
 	head.text = nm + ("      " + tag if tag != "" else "")
 	col.add_child(head)
 	var body := Label.new()
-	body.label_settings = _ls(16, Color(0.66, 0.62, 0.54))
+	body.label_settings = _ls(16, Color(0.70, 0.66, 0.56))
 	body.text = desc
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size = Vector2(820, 0)
@@ -239,8 +280,8 @@ func _relic_row(icon_path: String, nm: String, tag: String, desc: String) -> voi
 
 func _section(text: String) -> void:
 	var l := Label.new()
-	l.label_settings = _ls(19, Color(0.72, 0.6, 0.4), "res://assets/fonts/DejaVuSerif-Bold.ttf")
-	l.text = text
+	l.label_settings = _ls(19, Color(0.80, 0.68, 0.44), "res://assets/fonts/DejaVuSerif-Bold.ttf")
+	l.text = "◆  " + text
 	_list.add_child(l)
 
 func _note(text: String) -> void:
@@ -273,21 +314,21 @@ func _build_hand_rail(panel: Panel) -> void:
 	for i in 5:
 		var pnl := Panel.new()
 		var st := StyleBoxFlat.new()
-		st.bg_color = Color(0.08, 0.07, 0.05, 0.9)
-		st.border_color = Color(0.45, 0.38, 0.26)
+		st.bg_color = Color(0.08, 0.07, 0.05, 0.92)
+		st.border_color = Color(0.54, 0.45, 0.30)
 		st.set_border_width_all(1); st.set_corner_radius_all(3)
 		pnl.add_theme_stylebox_override("panel", st)
-		pnl.position = Vector2(30 + i * 72, 620); pnl.size = Vector2(60, 60)
+		pnl.position = Vector2(30 + i * 72, 622); pnl.size = Vector2(60, 60)
 		pnl.set_drag_forwarding(Callable(), _can_drop_hand, _drop_hand.bind(i))
 		pnl.gui_input.connect(_on_hand_input.bind(i))
 		panel.add_child(pnl)
 		var num := Label.new()
-		num.label_settings = _ls(13, Color(0.75, 0.66, 0.5))
-		num.position = Vector2(4, 0); num.text = str(i + 1)
+		num.label_settings = _ls(13, Color(0.82, 0.72, 0.52))
+		num.position = Vector2(5, 1); num.text = str(i + 1)
 		num.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		pnl.add_child(num)
 		var icon := TextureRect.new()
-		icon.position = Vector2(8, 10); icon.size = Vector2(44, 44)
+		icon.position = Vector2(6, 6); icon.size = Vector2(48, 48)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -296,7 +337,7 @@ func _build_hand_rail(panel: Panel) -> void:
 	var lbl := Label.new()
 	lbl.label_settings = _ls(15, DIM)
 	lbl.text = "the girdle"
-	lbl.position = Vector2(408, 640)
+	lbl.position = Vector2(408, 642)
 	panel.add_child(lbl)
 	_girdle_lbl = lbl
 	_refresh_hand()
@@ -330,11 +371,11 @@ func _bind_hand(i: int, id: String) -> void:
 func _build_attune_slot(panel: Panel) -> void:
 	_attune_slot = Panel.new()
 	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0.1, 0.085, 0.04, 0.9)
+	st.bg_color = Color(0.10, 0.085, 0.04, 0.94)
 	st.border_color = GOLD
-	st.set_border_width_all(1); st.set_corner_radius_all(3)
+	st.set_border_width_all(2); st.set_corner_radius_all(3)
 	_attune_slot.add_theme_stylebox_override("panel", st)
-	_attune_slot.position = Vector2(30, 620); _attune_slot.size = Vector2(60, 60)
+	_attune_slot.position = Vector2(30, 622); _attune_slot.size = Vector2(60, 60)
 	_attune_slot.set_drag_forwarding(Callable(), _can_drop_attune, _drop_attune)
 	panel.add_child(_attune_slot)
 	var c := Label.new()
@@ -345,7 +386,7 @@ func _build_attune_slot(panel: Panel) -> void:
 	var lbl := Label.new()
 	lbl.label_settings = _ls(15, DIM)
 	lbl.text = "the rite on your tongue  —  drop a spell here, or click it"
-	lbl.position = Vector2(104, 640)
+	lbl.position = Vector2(104, 642)
 	panel.add_child(lbl)
 	_attune_lbl = lbl
 
@@ -401,7 +442,8 @@ func _input(event: InputEvent) -> void:
 func _mark_selected() -> void:
 	for i in _rows.size():
 		var st: StyleBoxFlat = _rows[i]["panel"].get_meta("box")
-		st.bg_color = Color(0.16, 0.13, 0.07, 0.92) if i == _sel else Color(0, 0, 0, 0)
+		st.bg_color = Color(0.16, 0.13, 0.07, 0.92) if i == _sel else Color(0.055, 0.048, 0.04, 0.45)
+		st.border_color = Color(0.92, 0.78, 0.44, 0.85) if i == _sel else Color(0.42, 0.35, 0.24, 0.35)
 		(_rows[i]["head"] as Label).label_settings.font_color = GOLD if i == _sel else PARCH
 
 # ------------------------------------------------------------------ helpers
@@ -415,10 +457,15 @@ func _name_of(id: String) -> String:
 func _icon_for(id: String) -> String:
 	var by := {
 		"cloistersword": "sword", "marsh_spear": "spear", "lark_bow": "bow",
-		"pilgrim_greatsword": "greatsword", "arrows": "arrows", "torch": "torch",
-		"flask": "flask", "sexton_maul": "greatsword", "ward_halberd": "spear",
+		"pilgrim_greatsword": "greatsword", "sexton_maul": "maul", "ward_halberd": "halberd",
+		"arrows": "arrows", "torch": "torch", "flask": "flask",
 		"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst",
 		"morrow_lance": "lance", "vesper_ward": "ward",
+		"candleglass": "candleglass", "sun_creed_charm": "sun_creed_charm",
+		"tallow_heart": "tallow_heart", "lark_plume": "lark_plume",
+		"choir_seal": "choir_seal", "bell_fragment": "bell_fragment",
+		"morrow_anthem": "morrow_anthem", "penance_writ": "penance_writ",
+		"radiant_token": "radiant_token",
 	}
 	return "res://assets/ui/icons/%s.png" % by.get(id, "relic")
 

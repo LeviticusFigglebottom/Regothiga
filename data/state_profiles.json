@@ -1,89 +1,97 @@
 {
 	"glory": {
 		"sun_rot": [
-			-13,
-			-63
+			-38,
+			-54
 		],
 		"sun_color": [
 			1.0,
-			0.72,
-			0.38
+			0.84,
+			0.58
 		],
-		"sun_energy": 2.7,
+		"sun_energy": 2.05,
 		"ambient": [
-			0.42,
-			0.33,
-			0.36
+			0.32,
+			0.29,
+			0.28
 		],
-		"ambient_energy": 0.55,
+		"ambient_energy": 0.48,
+		"sky_contribution": 0.22,
+		"ssao_intensity": 1.65,
 		"bg_top": [
-			0.46,
-			0.22,
-			0.16
+			0.24,
+			0.16,
+			0.14
 		],
 		"bg_horizon": [
-			1.0,
+			0.88,
 			0.58,
-			0.22
+			0.30
 		],
 		"fog_color": [
-			1.0,
-			0.66,
+			0.78,
+			0.56,
 			0.34
 		],
-		"fog_density": 0.0011,
-		"vol_density": 0.006,
+		"fog_density": 0.0018,
+		"vol_density": 0.0075,
 		"vol_albedo": [
 			0.95,
-			0.82,
-			0.62
+			0.80,
+			0.58
 		],
-		"exposure": 1.02,
-		"glow": 0.7,
+		"exposure": 0.98,
+		"contrast": 1.09,
+		"saturation": 1.02,
+		"glow": 0.65,
 		"music": "res://assets/audio/theme_glory.wav",
 		"ambience": "res://assets/audio/amb_glory.wav"
 	},
 	"ruin": {
 		"sun_rot": [
-			-54,
+			-52,
 			-36
 		],
 		"sun_color": [
-			0.6,
-			0.71,
-			0.98
+			0.76,
+			0.84,
+			0.96
 		],
-		"sun_energy": 1.15,
+		"sun_energy": 1.55,
 		"ambient": [
-			0.2,
-			0.24,
-			0.34
+			0.38,
+			0.43,
+			0.52
 		],
-		"ambient_energy": 0.6,
+		"ambient_energy": 0.88,
+		"sky_contribution": 0.18,
+		"ssao_intensity": 1.70,
 		"bg_top": [
-			0.012,
-			0.016,
-			0.035
+			0.035,
+			0.048,
+			0.088
 		],
 		"bg_horizon": [
-			0.07,
-			0.09,
-			0.15
-		],
-		"fog_color": [
-			0.16,
-			0.2,
+			0.14,
+			0.18,
 			0.28
 		],
-		"fog_density": 0.0035,
-		"vol_density": 0.012,
-		"vol_albedo": [
-			0.5,
-			0.58,
-			0.75
+		"fog_color": [
+			0.15,
+			0.19,
+			0.28
 		],
-		"exposure": 0.95,
-		"glow": 0.45,
+		"fog_density": 0.0038,
+		"vol_density": 0.011,
+		"vol_albedo": [
+			0.54,
+			0.62,
+			0.78
+		],
+		"exposure": 1.16,
+		"contrast": 1.08,
+		"saturation": 0.92,
+		"glow": 0.58,
 		"music": "res://assets/audio/theme_ruin.wav",
 		"ambience": "res://assets/audio/amb_ruin.wav"
 	}

@@ -17,18 +17,39 @@ var _blades: Array = []
 var _t := 0.0
 
 static func _fade_tex() -> GradientTexture2D:
-	# bright waist, transparent ends — the shaft dissolves into the air
+	# Soft vertical beam falloff so shafts dissolve into the air
 	var grad := Gradient.new()
-	grad.set_color(0, Color(1, 1, 1, 0.0))
-	grad.set_color(1, Color(1, 1, 1, 0.0))
-	grad.add_point(0.28, Color(1, 1, 1, 1.0))
-	grad.add_point(0.62, Color(1, 1, 1, 0.85))
+	grad.offsets = PackedFloat32Array([0.0, 0.22, 0.58, 1.0])
+	grad.colors = PackedColorArray([
+		Color(1, 1, 1, 0.0),
+		Color(1, 0.96, 0.86, 0.95),
+		Color(1, 0.92, 0.76, 0.78),
+		Color(1, 1, 1, 0.0),
+	])
 	var gt := GradientTexture2D.new()
 	gt.gradient = grad
 	gt.fill_from = Vector2(0.5, 0.0)
 	gt.fill_to = Vector2(0.5, 1.0)
-	gt.width = 4
+	gt.width = 8
 	gt.height = 128
+	return gt
+
+static func _mote_tex() -> GradientTexture2D:
+	var grad := Gradient.new()
+	grad.offsets = PackedFloat32Array([0.0, 0.35, 0.70, 1.0])
+	grad.colors = PackedColorArray([
+		Color(1, 1, 1, 1.0),
+		Color(1, 0.95, 0.82, 0.55),
+		Color(1, 0.92, 0.76, 0.12),
+		Color(1, 0.90, 0.70, 0.0),
+	])
+	var gt := GradientTexture2D.new()
+	gt.gradient = grad
+	gt.fill = GradientTexture2D.FILL_RADIAL
+	gt.fill_from = Vector2(0.5, 0.5)
+	gt.fill_to = Vector2(0.5, 0.0)
+	gt.width = 32
+	gt.height = 32
 	return gt
 
 func _ready() -> void:
@@ -43,7 +64,7 @@ func _ready() -> void:
 	var zb := xb.cross(beam)
 	var fade := _fade_tex()
 	for i in count:
-		var w := rng.randf_range(1.0, 2.8)
+		var w := rng.randf_range(1.2, 3.2)
 		var h := rng.randf_range(46.0, 64.0)
 		var blade := MeshInstance3D.new()
 		var qm := QuadMesh.new()
@@ -54,7 +75,7 @@ func _ready() -> void:
 		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 		m.cull_mode = BaseMaterial3D.CULL_DISABLED
-		m.albedo_color = Color(1.0, 0.94, 0.74, rng.randf_range(0.05, 0.09))
+		m.albedo_color = Color(1.0, 0.92, 0.68, rng.randf_range(0.045, 0.085))
 		m.albedo_texture = fade
 		blade.material_override = m
 		# quad faces +Z with height along Y: stand Y along the beam, keep all
@@ -70,16 +91,29 @@ func _ready() -> void:
 	var p := CPUParticles3D.new()
 	p.amount = 90
 	p.lifetime = 7.0
+	p.preprocess = 3.5
 	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
 	p.emission_box_extents = Vector3(span_x, 9.0, span_z)
 	p.direction = Vector3(0.2, -1, 0.1)
 	p.spread = 30.0
-	p.initial_velocity_min = 0.1
-	p.initial_velocity_max = 0.4
+	p.initial_velocity_min = 0.06
+	p.initial_velocity_max = 0.22
 	p.gravity = Vector3.ZERO
-	p.scale_amount_min = 0.015
-	p.scale_amount_max = 0.04
-	p.color = Color(1.0, 0.92, 0.68, 0.75)
+	p.scale_amount_min = 0.5
+	p.scale_amount_max = 1.2
+	var pm := QuadMesh.new()
+	pm.size = Vector2(0.05, 0.05)
+	var pmat := StandardMaterial3D.new()
+	pmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	pmat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	pmat.billboard_keep_scale = true
+	pmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	pmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	pmat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	pmat.albedo_texture = _mote_tex()
+	pmat.albedo_color = Color(1.0, 0.90, 0.62, 0.55)
+	pm.material = pmat
+	p.mesh = pm
 	p.position = Vector3(0, 9.0, 0)
 	add_child(p)
 	p.emitting = true

@@ -273,6 +273,9 @@ func _run() -> void:
 	porch.queue_free()
 
 	for kit in ["pew_3m", "altar_wick"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()

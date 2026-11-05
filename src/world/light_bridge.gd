@@ -181,6 +181,7 @@ func _motes() -> void:
 	p.scale_amount_min = 0.015
 	p.scale_amount_max = 0.045
 	p.color = Color(1.0, 0.88, 0.55, 0.8)
+	p.mesh = AreaPortal.make_mote_quad(1.8)
 	p.position = Vector3(0, 0.1, -full * 0.5)
 	add_child(p)
 	p.emitting = true
@@ -224,6 +225,7 @@ func _beacon() -> void:
 	p.scale_amount_min = 0.02
 	p.scale_amount_max = 0.05
 	p.color = Color(1.0, 0.9, 0.6)
+	p.mesh = AreaPortal.make_mote_quad(1.8)
 	p.position = Vector3(0, 0.5, -length - 2.0)
 	add_child(p)
 	p.emitting = true

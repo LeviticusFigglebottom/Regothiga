@@ -201,7 +201,9 @@ cast_spell={
 
 [rendering]
 
-lights_and_shadows/directional_shadow/size=2048
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=3
+textures/default_filters/anisotropic_filtering_level=4
 environment/defaults/default_clear_color=Color(0.04, 0.045, 0.06, 1)
 anti_aliasing/quality/screen_space_aa=1
 

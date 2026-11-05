@@ -121,7 +121,7 @@ func _spawn_wave_particles(area: Area, origin: Vector3, duration: float, max_r: 
 	p.position = origin + Vector3(0, 0.4, 0)
 	area.add_child(p)
 	p.emitting = true
-	var tw := create_tween()
+	var tw := p.create_tween()
 	tw.tween_method(func(r: float): p.emission_ring_radius = maxf(r, 0.4); p.emission_ring_inner_radius = maxf(r - 1.5, 0.1),
 			0.0, max_r, duration).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
 	tw.tween_callback(func(): p.emitting = false)

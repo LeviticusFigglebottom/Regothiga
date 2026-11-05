@@ -12,90 +12,116 @@ const GOTHIC_DS := preload("res://shaders/gothic_ds.gdshader")
 const DOUBLE_SIDED := {}
 
 const TEXTURES := {
-	"M_stone":      ["T_stone", 0.5, 0.62],
-	"M_stone_trim": ["T_trim", 0.7, 0.5],
-	"M_stone_dark": ["T_floor", 0.5, 0.66],
-	"M_wood":       ["T_wood", 0.9, 0.6],
-	"M_roof":       ["T_roof", 0.5, 0.75],
-	"M_cloth":      ["T_cloth", 1.4, 0.32],
-	"M_iron":       ["T_iron", 1.2, 0.45],
-	"M_wax":        ["T_wax", 1.1, 0.4],
-	"M_bell":       ["T_bronze", 0.8, 0.6],
-	"M_bronze":     ["T_bronze", 1.0, 0.55],
-	"M_mosaic":     ["T_mosaic", 0.55, 0.72],
-	"M_bone":       ["T_bone", 0.9, 0.7],
-	"M_shroud":     ["T_cloth", 2.0, 0.35],
-	"M_leather":    ["T_wax", 1.6, 0.35],
-	"M_robe":       ["T_cloth", 1.8, 0.4],
-	"M_robe_boss":  ["T_cloth", 1.4, 0.45],
-	"M_habit":      ["T_cloth", 1.8, 0.45],
-	"M_wraith":     ["T_cloth", 1.6, 0.3],
-	"M_backdrop":   ["T_stone", 0.16, 0.5],
-	"M_terrain":    ["T_stone", 0.45, 0.55],
-	"M_steel":      ["T_iron", 1.4, 0.35],
-	"M_marble":       ["T_marble", 0.4, 0.5],
-	"M_marble_floor": ["T_marble_floor", 0.5, 0.55],
+	"M_stone":        ["T_stone", 0.5, 0.62],
+	"M_stone_trim":   ["T_trim", 0.7, 0.52],
+	"M_stone_dark":   ["T_floor", 0.5, 0.66],
+	"M_wood":         ["T_wood", 0.9, 0.60],
+	"M_roof":         ["T_roof", 0.5, 0.75],
+	"M_cloth":        ["T_cloth", 1.4, 0.36],
+	"M_iron":         ["T_iron", 1.2, 0.48],
+	"M_wax":          ["T_wax", 1.1, 0.42],
+	"M_bell":         ["T_bronze", 0.8, 0.60],
+	"M_bronze":       ["T_bronze", 1.0, 0.55],
+	"M_brass":        ["T_bronze", 1.2, 0.50],
+	"M_gold":         ["T_bronze", 1.1, 0.40],
+	"M_gild":         ["T_bronze", 0.9, 0.38],
+	"M_mosaic":       ["T_mosaic", 0.55, 0.72],
+	"M_bone":         ["T_bone", 0.9, 0.70],
+	"M_shroud":       ["T_cloth", 2.0, 0.38],
+	"M_leather":      ["T_wax", 1.6, 0.40],
+	"M_robe":         ["T_cloth", 1.8, 0.42],
+	"M_robe_boss":    ["T_cloth", 1.4, 0.46],
+	"M_habit":        ["T_cloth", 1.8, 0.45],
+	"M_wraith":       ["T_cloth", 1.6, 0.34],
+	"M_backdrop":     ["T_stone", 0.16, 0.50],
+	"M_terrain":      ["T_stone", 0.45, 0.58],
+	"M_marsh":        ["T_floor", 0.45, 0.52],
+	"M_steel":        ["T_plate", 1.4, 0.45],
+	"M_plate_dark":   ["T_plate", 1.4, 0.55],
+	"M_chainmail":    ["T_chainmail", 2.8, 0.72],
+	"M_marble":       ["T_marble", 0.4, 0.52],
+	"M_marble_floor": ["T_marble_floor", 0.5, 0.56],
 }
 const GLASS := preload("res://shaders/glass.gdshader")
 const FLAME := preload("res://shaders/flame.gdshader")
 const WATER := preload("res://shaders/water.gdshader")
 
-## family -> {albedo, rough, rim, extras...}
+## family -> {albedo, rough, metallic, specular, normal_scale, rim, sss, sheen, local_uv, extras...}
 const FAMILIES := {
-	"M_stone":      {"albedo": Color(0.62, 0.57, 0.47), "rough": 0.93, "rim": 0.3},
-	"M_stone_trim": {"albedo": Color(0.71, 0.66, 0.55), "rough": 0.9, "rim": 0.4},
-	"M_stone_dark": {"albedo": Color(0.42, 0.40, 0.36), "rough": 0.95, "rim": 0.22, "moss": 1.0},
-	"M_iron":       {"albedo": Color(0.10, 0.105, 0.13), "rough": 0.55, "rim": 0.9, "wear": 0.25, "moss": 0.0, "crack": 0.0},
-	"M_wood":       {"albedo": Color(0.23, 0.15, 0.09), "rough": 0.85, "rim": 0.25, "moss": 0.3},
-	"M_gold":       {"albedo": Color(0.78, 0.55, 0.18), "rough": 0.35, "rim": 1.1, "moss": 0.0, "crack": 0.0,
-					 "emission": Color(1.0, 0.75, 0.3), "emission_energy": 0.35, "emission_gate": 1},
-	"M_ember":      {"albedo": Color(0.5, 0.14, 0.05), "rough": 0.8, "rim": 0.3, "moss": 0.0, "crack": 0.0,
-					 "emission": Color(1.0, 0.42, 0.12), "emission_energy": 2.6, "emission_gate": 1},
-	"M_wax":        {"albedo": Color(0.85, 0.79, 0.62), "rough": 0.6, "rim": 0.8, "moss": 0.0, "crack": 0.0},
-	"M_cloth":      {"albedo": Color(0.44, 0.07, 0.10), "rough": 0.95, "rim": 0.5, "moss": 0.0, "crack": 0.0},
-	"M_bell":       {"albedo": Color(0.38, 0.27, 0.13), "rough": 0.48, "rim": 0.85, "moss": 0.15, "crack": 0.0},
-	"M_bronze":     {"albedo": Color(0.34, 0.24, 0.12), "rough": 0.45, "rim": 1.0, "moss": 0.0, "crack": 0.0,
-					 "emission": Color(0.45, 0.3, 0.1), "emission_energy": 0.06},
-	"M_mosaic":     {"albedo": Color(0.58, 0.46, 0.28), "rough": 0.7, "rim": 0.5, "moss": 0.15, "crack": 0.2},
-	"M_bone":       {"albedo": Color(0.72, 0.68, 0.56), "rough": 0.85, "rim": 0.6, "moss": 0.1, "crack": 0.25},
-	"M_shroud":     {"albedo": Color(0.62, 0.6, 0.54), "rough": 0.98, "rim": 0.4, "moss": 0.0, "crack": 0.0},
-	"M_wraith":     {"albedo": Color(0.20, 0.24, 0.33), "rough": 0.75, "rim": 1.5, "moss": 0.0, "crack": 0.0,
-					 "emission": Color(0.25, 0.38, 0.62), "emission_energy": 0.1},
-	"M_robe":       {"albedo": Color(0.23, 0.24, 0.28), "rough": 0.95, "rim": 0.5, "moss": 0.0, "crack": 0.0},
-	"M_robe_boss":  {"albedo": Color(0.24, 0.19, 0.26), "rough": 0.95, "rim": 1.1, "moss": 0.0, "crack": 0.0},
-	"M_habit":      {"albedo": Color(0.55, 0.51, 0.44), "rough": 0.95, "rim": 0.45, "moss": 0.0, "crack": 0.0},
-	"M_leather":    {"albedo": Color(0.30, 0.20, 0.12), "rough": 0.8, "rim": 0.35, "moss": 0.0, "crack": 0.0},
+	"M_stone":        {"albedo": Color(0.60, 0.55, 0.46), "rough": 0.88, "metallic": 0.0, "specular": 0.48, "normal_scale": 1.30, "rim": 0.28},
+	"M_stone_trim":   {"albedo": Color(0.69, 0.64, 0.53), "rough": 0.82, "metallic": 0.0, "specular": 0.52, "normal_scale": 1.20, "rim": 0.36},
+	"M_stone_dark":   {"albedo": Color(0.40, 0.38, 0.34), "rough": 0.90, "metallic": 0.0, "specular": 0.46, "normal_scale": 1.35, "rim": 0.22, "moss": 1.0},
+	"M_iron":         {"albedo": Color(0.14, 0.145, 0.17), "rough": 0.44, "metallic": 0.86, "specular": 0.72, "normal_scale": 1.15, "rim": 0.85, "wear": 0.28, "moss": 0.0, "crack": 0.0},
+	"M_wood":         {"albedo": Color(0.23, 0.15, 0.09), "rough": 0.80, "metallic": 0.0, "specular": 0.42, "normal_scale": 1.20, "rim": 0.24, "moss": 0.3},
+	"M_gold":         {"albedo": Color(0.82, 0.60, 0.22), "rough": 0.28, "metallic": 0.92, "specular": 0.85, "normal_scale": 0.90, "rim": 1.05, "moss": 0.0, "crack": 0.0,
+					   "emission": Color(1.0, 0.75, 0.3), "emission_energy": 0.35, "emission_gate": 1},
+	"M_ember":        {"albedo": Color(0.5, 0.14, 0.05), "rough": 0.78, "metallic": 0.0, "specular": 0.40, "rim": 0.3, "moss": 0.0, "crack": 0.0,
+					   "emission": Color(1.0, 0.42, 0.12), "emission_energy": 2.6, "emission_gate": 1},
+	"M_wax":          {"albedo": Color(0.85, 0.79, 0.62), "rough": 0.54, "metallic": 0.0, "specular": 0.55, "normal_scale": 0.95, "rim": 0.75, "sss": 0.68, "moss": 0.0, "crack": 0.0},
+	"M_cloth":        {"albedo": Color(0.44, 0.07, 0.10), "rough": 0.90, "metallic": 0.0, "specular": 0.32, "normal_scale": 1.10, "rim": 0.48, "sheen": 0.58, "local_uv": 1, "moss": 0.0, "crack": 0.0},
+	"M_bell":         {"albedo": Color(0.42, 0.30, 0.15), "rough": 0.42, "metallic": 0.85, "specular": 0.72, "normal_scale": 1.15, "rim": 0.85, "moss": 0.15, "crack": 0.0},
+	"M_bronze":       {"albedo": Color(0.38, 0.27, 0.14), "rough": 0.38, "metallic": 0.88, "specular": 0.75, "normal_scale": 1.10, "rim": 0.95, "moss": 0.0, "crack": 0.0,
+					   "emission": Color(0.45, 0.3, 0.1), "emission_energy": 0.06},
+	"M_brass":        {"albedo": Color(0.64, 0.48, 0.22), "rough": 0.34, "metallic": 0.88, "specular": 0.78, "normal_scale": 1.00, "rim": 0.95, "local_uv": 1, "moss": 0.0, "crack": 0.0},
+	"M_mosaic":       {"albedo": Color(0.58, 0.46, 0.28), "rough": 0.58, "metallic": 0.12, "specular": 0.62, "normal_scale": 1.25, "rim": 0.5, "moss": 0.15, "crack": 0.2},
+	"M_bone":         {"albedo": Color(0.72, 0.68, 0.56), "rough": 0.78, "metallic": 0.0, "specular": 0.48, "normal_scale": 1.15, "rim": 0.55, "sss": 0.22, "moss": 0.1, "crack": 0.25},
+	"M_shroud":       {"albedo": Color(0.62, 0.6, 0.54), "rough": 0.92, "metallic": 0.0, "specular": 0.30, "normal_scale": 1.10, "rim": 0.4, "sheen": 0.48, "local_uv": 1, "moss": 0.0, "crack": 0.0},
+	"M_wraith":       {"albedo": Color(0.20, 0.24, 0.33), "rough": 0.72, "metallic": 0.15, "specular": 0.55, "normal_scale": 1.05, "rim": 1.5, "sheen": 0.65, "local_uv": 1, "moss": 0.0, "crack": 0.0,
+					   "emission": Color(0.25, 0.38, 0.62), "emission_energy": 0.1},
+	"M_robe":         {"albedo": Color(0.23, 0.24, 0.28), "rough": 0.90, "metallic": 0.0, "specular": 0.32, "normal_scale": 1.10, "rim": 0.5, "sheen": 0.52, "local_uv": 1, "moss": 0.0, "crack": 0.0},
+	"M_robe_boss":    {"albedo": Color(0.24, 0.19, 0.26), "rough": 0.88, "metallic": 0.08, "specular": 0.42, "normal_scale": 1.15, "rim": 1.1, "sheen": 0.62, "local_uv": 1, "moss": 0.0, "crack": 0.0},
+	"M_habit":        {"albedo": Color(0.55, 0.51, 0.44), "rough": 0.90, "metallic": 0.0, "specular": 0.32, "normal_scale": 1.10, "rim": 0.45, "sheen": 0.46, "local_uv": 1, "moss": 0.0, "crack": 0.0},
+	"M_leather":      {"albedo": Color(0.30, 0.20, 0.12), "rough": 0.68, "metallic": 0.0, "specular": 0.52, "normal_scale": 1.10, "rim": 0.38, "sheen": 0.22, "local_uv": 1, "moss": 0.0, "crack": 0.0},
 	# deep slate: lit slopes must stay dark enough to sit INTO the dusk grade
 	# (the old 0.33-0.40 albedo read as flat white once lit sides became visible)
-	"M_roof":       {"albedo": Color(0.14, 0.13, 0.14), "rough": 0.95, "rim": 0.25, "moss": 0.5, "crack": 0.0},
-	"M_backdrop":   {"albedo": Color(0.72, 0.60, 0.47), "rough": 1.0, "rim": 0.15, "moss": 0.0, "crack": 0.0, "wear": 0.15},
-	"M_backdrop_dark": {"albedo": Color(0.16, 0.12, 0.10), "rough": 1.0, "rim": 0.0, "moss": 0.0, "crack": 0.0},
+	"M_roof":         {"albedo": Color(0.14, 0.13, 0.14), "rough": 0.86, "metallic": 0.0, "specular": 0.48, "normal_scale": 1.30, "rim": 0.25, "moss": 0.5, "crack": 0.0},
+	"M_backdrop":     {"albedo": Color(0.72, 0.60, 0.47), "rough": 0.96, "metallic": 0.0, "specular": 0.35, "normal_scale": 0.85, "rim": 0.15, "moss": 0.0, "crack": 0.0, "wear": 0.15},
+	"M_backdrop_dark": {"albedo": Color(0.16, 0.12, 0.10), "rough": 1.0, "metallic": 0.0, "specular": 0.25, "rim": 0.0, "moss": 0.0, "crack": 0.0},
 	# city gilding: gold ridges/finials/domes on the panorama. Faint glory-gated
 	# glow so the kingdom reads gilded at dusk; in ruin the gate kills it and the
 	# cold grade tarnishes the albedo.
-	"M_gild":       {"albedo": Color(0.92, 0.68, 0.25), "rough": 0.3, "rim": 1.15, "moss": 0.0, "crack": 0.0,
-					 "emission": Color(1.0, 0.78, 0.32), "emission_energy": 0.3, "emission_gate": 1},
+	"M_gild":         {"albedo": Color(0.92, 0.68, 0.25), "rough": 0.28, "metallic": 0.92, "specular": 0.85, "normal_scale": 0.85, "rim": 1.15, "moss": 0.0, "crack": 0.0,
+					   "emission": Color(1.0, 0.78, 0.32), "emission_energy": 0.3, "emission_gate": 1},
 	# lit dwelling windows across the city — warm lamplight in glory, dead dark
 	# panes in ruin (same gate the votive gold uses).
-	"M_citywindow": {"albedo": Color(0.14, 0.10, 0.08), "rough": 0.9, "rim": 0.1, "moss": 0.0, "crack": 0.0,
-					 "emission": Color(1.0, 0.66, 0.28), "emission_energy": 1.7, "emission_gate": 1},
+	"M_citywindow":   {"albedo": Color(0.14, 0.10, 0.08), "rough": 0.9, "metallic": 0.0, "specular": 0.5, "rim": 0.1, "moss": 0.0, "crack": 0.0,
+					   "emission": Color(1.0, 0.66, 0.28), "emission_energy": 1.7, "emission_gate": 1},
 	# the drowned flats: near-black wet peat with a low-rough sheen
-	"M_marsh":      {"albedo": Color(0.10, 0.13, 0.11), "rough": 0.3, "rim": 0.5, "moss": 1.0, "crack": 0.0},
+	"M_marsh":        {"albedo": Color(0.10, 0.13, 0.11), "rough": 0.26, "metallic": 0.0, "specular": 0.65, "normal_scale": 1.10, "rim": 0.5, "moss": 1.0, "crack": 0.0},
 	# the valley floor between the panorama's terraces: dark packed earth, so
 	# exposed ground reads as ground — not as a bright hole in the map
-	"M_terrain":    {"albedo": Color(0.15, 0.12, 0.09), "rough": 1.0, "rim": 0.05, "moss": 0.45, "crack": 0.0},
-	"M_steel":      {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.35, "rim": 1.0, "moss": 0.0, "crack": 0.0, "wear": 0.3},
-	"M_foliage":    {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.95, "rim": 0.55, "moss": 0.0, "crack": 0.0, "vc": 1},
+	"M_terrain":      {"albedo": Color(0.15, 0.12, 0.09), "rough": 0.95, "metallic": 0.0, "specular": 0.35, "normal_scale": 1.15, "rim": 0.05, "moss": 0.45, "crack": 0.0},
+	"M_steel":        {"albedo": Color(0.62, 0.65, 0.70), "rough": 0.30, "metallic": 0.90, "specular": 0.80, "normal_scale": 1.10, "rim": 1.0, "local_uv": 1, "moss": 0.0, "crack": 0.0, "wear": 0.3},
+	"M_plate_dark":   {"albedo": Color(0.24, 0.26, 0.31), "rough": 0.34, "metallic": 0.88, "specular": 0.76, "normal_scale": 1.15, "rim": 0.95, "local_uv": 1, "moss": 0.0, "crack": 0.0, "wear": 0.32},
+	"M_chainmail":    {"albedo": Color(0.38, 0.40, 0.45), "rough": 0.42, "metallic": 0.82, "specular": 0.68, "normal_scale": 1.35, "rim": 0.85, "local_uv": 1, "moss": 0.0, "crack": 0.0, "wear": 0.25},
+	"M_foliage":      {"albedo": Color(0.2, 0.32, 0.16), "rough": 0.88, "metallic": 0.0, "specular": 0.40, "rim": 0.55, "sss": 0.35, "moss": 0.0, "crack": 0.0, "vc": 1},
 	# the Sanctum's palace stone: polished ivory marble, no moss (nothing decays
 	# above the hours), light cracking only. Gold trim rides M_gild.
-	"M_marble":       {"albedo": Color(0.88, 0.86, 0.79), "rough": 0.45, "rim": 0.55, "moss": 0.0, "crack": 0.12, "wear": 0.18},
-	"M_marble_floor": {"albedo": Color(0.78, 0.76, 0.70), "rough": 0.4, "rim": 0.45, "moss": 0.0, "crack": 0.1, "wear": 0.15},
+	"M_marble":       {"albedo": Color(0.88, 0.86, 0.79), "rough": 0.38, "metallic": 0.0, "specular": 0.62, "normal_scale": 0.90, "rim": 0.55, "moss": 0.0, "crack": 0.12, "wear": 0.18},
+	"M_marble_floor": {"albedo": Color(0.78, 0.76, 0.70), "rough": 0.32, "metallic": 0.0, "specular": 0.66, "normal_scale": 0.85, "rim": 0.45, "moss": 0.0, "crack": 0.1, "wear": 0.15},
 	# the sanctum's cloud banks: near-white, sun-kissed tops, strong rim so
 	# the edges catch the gold — no weathering of any kind
-	"M_cloud":        {"albedo": Color(0.96, 0.93, 0.87), "rough": 1.0, "rim": 0.9, "moss": 0.0, "crack": 0.0, "wear": 0.0},
+	"M_cloud":        {"albedo": Color(0.96, 0.93, 0.87), "rough": 1.0, "metallic": 0.0, "specular": 0.25, "rim": 0.9, "sss": 0.45, "moss": 0.0, "crack": 0.0, "wear": 0.0},
 }
 
 static var _cache: Dictionary = {}
+static var _tex_cache: Dictionary = {}
+
+static func _load_tex(res_path: String) -> Texture2D:
+	if _tex_cache.has(res_path):
+		return _tex_cache[res_path]
+	var tex: Texture2D = null
+	if ResourceLoader.exists(res_path):
+		tex = load(res_path)
+	if tex == null:
+		var abs_path := ProjectSettings.globalize_path(res_path)
+		if FileAccess.file_exists(abs_path):
+			var img := Image.load_from_file(abs_path)
+			if img != null and not img.is_empty():
+				img.generate_mipmaps()
+				tex = ImageTexture.create_from_image(img)
+	_tex_cache[res_path] = tex
+	return tex
 
 static func get_mat(family: String, state_mode := 0) -> Material:
 	var key := "%s|%d" % [family, state_mode]
@@ -115,8 +141,14 @@ static func get_mat(family: String, state_mode := 0) -> Material:
 		mat.shader = GOTHIC_DS if DOUBLE_SIDED.has(family) else GOTHIC
 		var f: Dictionary = FAMILIES.get(family, FAMILIES["M_stone"])
 		mat.set_shader_parameter("albedo", f["albedo"])
-		mat.set_shader_parameter("roughness_v", f.get("rough", 0.9))
+		mat.set_shader_parameter("roughness_v", f.get("rough", 0.88))
+		mat.set_shader_parameter("metallic_v", f.get("metallic", 0.0))
+		mat.set_shader_parameter("specular_v", f.get("specular", 0.5))
+		mat.set_shader_parameter("normal_scale", f.get("normal_scale", 1.15))
 		mat.set_shader_parameter("rim_strength", f.get("rim", 0.35))
+		mat.set_shader_parameter("sss_strength", f.get("sss", 0.0))
+		mat.set_shader_parameter("sheen_strength", f.get("sheen", 0.0))
+		mat.set_shader_parameter("use_local_triplanar", f.get("local_uv", 0))
 		mat.set_shader_parameter("wear_strength", f.get("wear", 0.5))
 		mat.set_shader_parameter("moss_strength", f.get("moss", 0.85))
 		mat.set_shader_parameter("crack_strength", f.get("crack", 0.45))
@@ -127,10 +159,17 @@ static func get_mat(family: String, state_mode := 0) -> Material:
 		mat.set_shader_parameter("albedo_from_vc", f.get("vc", 0))
 		if TEXTURES.has(family):
 			var spec: Array = TEXTURES[family]
-			var tex := load("res://assets/textures/%s.png" % spec[0])
+			var base_name: String = spec[0]
+			var tex := _load_tex("res://assets/textures/%s.png" % base_name)
 			if tex != null:
 				mat.set_shader_parameter("detail_tex", tex)
 				mat.set_shader_parameter("tex_scale", spec[1])
 				mat.set_shader_parameter("tex_strength", spec[2])
+			var n_tex := _load_tex("res://assets/textures/%s_n.png" % base_name)
+			if n_tex != null:
+				mat.set_shader_parameter("normal_tex", n_tex)
+			var orm_tex := _load_tex("res://assets/textures/%s_orm.png" % base_name)
+			if orm_tex != null:
+				mat.set_shader_parameter("orm_tex", orm_tex)
 	_cache[key] = mat
 	return mat

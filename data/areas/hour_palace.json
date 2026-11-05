@@ -3489,7 +3489,7 @@
    "at": [
     0,
     0.02,
-    61
+    59.2
    ],
    "rot": 90,
    "tag": "base"
@@ -4023,12 +4023,13 @@
    "kit": "candle_cluster",
    "at": [
     -18.55,
-    1.16,
+    1.02,
     30.4
    ],
    "rot": 70,
    "tag": "base",
-   "collide": false
+   "collide": false,
+   "flames": false
   },
   {
    "kit": "book_stack",

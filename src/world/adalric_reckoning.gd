@@ -63,9 +63,8 @@ func stage_now() -> void:
 	_knight = CharVisual.new()
 	add_child(_knight)
 	_knight.build_body("skel_ward", 0.9, 0.9)
-	var m := _knight.mount_weapon_hand()
 	if KitLib.has_piece("sword_cloister"):
-		m.add_child(KitLib.instance("sword_cloister"))
+		_knight.set_weapon("sword_cloister")
 	var lamp := OmniLight3D.new()
 	lamp.light_color = Color(1.0, 0.86, 0.55)
 	lamp.light_energy = 1.1
@@ -173,7 +172,9 @@ func _next_line() -> void:
 		a.play()
 		watchdog = maxf(float(a.stream.get_length()) + 0.8, 3.0)
 	# headless and belt-and-braces: the line never hangs the scene
-	get_tree().create_timer(watchdog, false).timeout.connect(func():
+	var wtw := create_tween()
+	wtw.tween_interval(watchdog)
+	wtw.tween_callback(func():
 		if _line == idx:
 			advance())
 

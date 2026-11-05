@@ -42,9 +42,8 @@ func _ready() -> void:
 	vis.name = "Vis"
 	add_child(vis)
 	vis.build_body("skel_ward", 1.0, 1.0)
-	var m := vis.mount("hand_r")
 	if KitLib.has_piece("sword_cloister"):
-		m.add_child(KitLib.instance("sword_cloister"))
+		vis.set_weapon("sword_cloister")
 	_set_ghost(0.35)
 	_light = OmniLight3D.new()
 	_light.light_color = Color(1.0, 0.86, 0.55)

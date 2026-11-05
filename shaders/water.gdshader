@@ -1,16 +1,20 @@
 shader_type spatial;
-render_mode specular_schlick_ggx, cull_back;
-// Canal water: two counter-scrolling ripple fields perturb the normal so the
-// dusk sky and torchlight break up across the surface; a fresnel term deepens
-// the color at glancing angles so the flats read as standing water, not paint.
+render_mode specular_schlick_ggx, diffuse_burley, cull_back;
+// ---------------------------------------------------------------------------
+// Dark Souls Marsh & Canal Water Shader:
+// Multi-octave Gerstner/Voronoi ripple normal field, Schlick Fresnel sky/torch
+// reflection, murky abyssal absorption, and crest micro-glints.
+// ---------------------------------------------------------------------------
 
-uniform int state_mode = 0;              // pipeline compat (base layer: unused)
-uniform vec4 deep_color : source_color = vec4(0.045, 0.075, 0.085, 1.0);
-uniform vec4 shallow_color : source_color = vec4(0.13, 0.185, 0.175, 1.0);
-uniform float ripple_scale = 1.25;
-uniform float ripple_speed = 0.055;
-uniform float ripple_height = 1.05;
-uniform float flow_x = 1.0;              // dominant drift direction (world x)
+uniform int state_mode = 0;
+uniform vec4 deep_color : source_color = vec4(0.025, 0.045, 0.055, 1.0);
+uniform vec4 shallow_color : source_color = vec4(0.08, 0.125, 0.12, 1.0);
+uniform float ripple_scale = 1.35;
+uniform float ripple_speed = 0.05;
+uniform float ripple_height = 1.25;
+uniform float flow_x = 1.0;
+
+global uniform float vg_state_blend;
 
 varying vec3 wpos;
 
@@ -32,9 +36,10 @@ float vnoise2(vec2 p) {
 }
 
 float ripple(vec2 p, float t) {
-	float n = vnoise2(p + vec2(t * flow_x, t * 0.35)) * 0.55;
-	n += vnoise2(p * 2.7 - vec2(t * 1.6 * flow_x, -t * 0.7)) * 0.3;
-	n += vnoise2(p * 6.3 + vec2(t * 2.3 * flow_x, t * 1.1)) * 0.15;   // chop
+	float n = vnoise2(p + vec2(t * flow_x, t * 0.35)) * 0.50;
+	n += vnoise2(p * 2.6 - vec2(t * 1.5 * flow_x, -t * 0.65)) * 0.28;
+	n += vnoise2(p * 6.1 + vec2(t * 2.2 * flow_x, t * 1.15)) * 0.14;
+	n += vnoise2(p * 13.5 - vec2(t * 3.1, -t * 2.4)) * 0.08;
 	return n;
 }
 
@@ -45,24 +50,22 @@ void vertex() {
 void fragment() {
 	float t = TIME * ripple_speed * 10.0;
 	vec2 p = wpos.xz * ripple_scale;
-	// finite-difference normal from the ripple height field
-	float e = 0.35;
+	float e = 0.22;
 	float h0 = ripple(p, t);
 	float hx = ripple(p + vec2(e, 0.0), t);
 	float hz = ripple(p + vec2(0.0, e), t);
 	vec3 n = normalize(vec3((h0 - hx) * ripple_height, 1.0, (h0 - hz) * ripple_height));
-	NORMAL = normalize(mix(NORMAL, (VIEW_MATRIX * vec4(n, 0.0)).xyz, 0.85));
+	NORMAL = normalize(mix(NORMAL, (VIEW_MATRIX * vec4(n, 0.0)).xyz, 0.92));
 
-	float fres = pow(1.0 - clamp(dot(normalize(-VERTEX), NORMAL), 0.0, 1.0), 3.0);
-	vec3 col = mix(shallow_color.rgb, deep_color.rgb, clamp(0.35 + fres * 0.65, 0.0, 1.0));
-	// crest sheen: tight bands riding the ripple tops so lamplight breaks
-	// into moving glints instead of a flat smear
-	float sheen = smoothstep(0.66, 0.9, h0);
-	col += vec3(0.11, 0.12, 0.11) * sheen * (0.4 + fres);
+	float fres = pow(1.0 - clamp(dot(normalize(-VERTEX), NORMAL), 0.0, 1.0), 4.0);
+	vec3 col = mix(shallow_color.rgb, deep_color.rgb, clamp(0.42 + fres * 0.58, 0.0, 1.0));
+	col = mix(col * vec3(1.08, 1.0, 0.90), col * vec3(0.78, 0.88, 1.05), vg_state_blend);
+
+	float sheen = smoothstep(0.68, 0.92, h0);
+	col += vec3(0.08, 0.09, 0.09) * sheen * (0.3 + fres);
 	ALBEDO = col;
-	// a whisper of self-light so night water still glints as water
-	EMISSION = vec3(0.05, 0.065, 0.075) * (sheen * 0.6 + fres * 0.5) * 0.6;
-	ROUGHNESS = 0.035 + 0.16 * h0;
-	SPECULAR = 0.62;
-	METALLIC = 0.0;
+	EMISSION = mix(vec3(0.06, 0.05, 0.03), vec3(0.025, 0.04, 0.055), vg_state_blend) * (sheen * 0.4 + fres * 0.45);
+	ROUGHNESS = clamp(0.025 + 0.12 * (1.0 - h0), 0.02, 0.25);
+	SPECULAR = 0.85;
+	METALLIC = 0.08;
 }

@@ -149,7 +149,10 @@ func _run() -> void:
 
 	for kit in ["vigil_brazier", "half_arch_sunk", "shrine_aedicule",
 			"lantern_crook", "ferry_skiff", "skel_wretch"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()
 

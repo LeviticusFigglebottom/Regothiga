@@ -122,6 +122,9 @@ func _run() -> void:
 		check(absf(gy - 0.0) < 0.35, "returning lands in the courtyard (y=%.2f)" % gy)
 
 	for kit in ["reed_clump", "reed_clump_dead", "beacon_brazier", "waystone", "oar_glaive"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()

@@ -52,20 +52,64 @@ def wax_husk(seed=13):
     Place in ruin where a saint stands in glory."""
     rng = random.Random(seed)
     objs = []
-    body = _robe("husk", 1.02, 0.34, hood=True, mat="M_wax")
+    # Pooled melted wax base around the kneeling robe hem
+    bm_base = bmesh.new()
+    got = bmesh.ops.create_icosphere(bm_base, subdivisions=2, radius=0.44)
+    for v in got["verts"]:
+        v.co.z = max(0.0, v.co.z * 0.18)
+        ang = math.atan2(v.co.y, v.co.x)
+        lobe = 1.0 + 0.15 * math.sin(ang * 3.0 + 0.6) + 0.10 * math.cos(ang * 5.0)
+        v.co.x *= lobe
+        v.co.y *= lobe
+    objs.append(V.bm_to_object(bm_base, "husk_pool", ("M_wax",)))
+
+    body = _robe("husk", 1.04, 0.32, hood=True, mat="M_wax")
     me = body.data
     for v in me.vertices:
-        v.co.z *= 0.92
-        w = V.value_noise(v.co * 2.4 + Vector((3, 1, 4)))
-        v.co.x += (w - 0.5) * 0.16 * (0.2 + v.co.z)
-        v.co.y += (V.value_noise(v.co * 2.0) - 0.5) * 0.12
-        if v.co.z > 0.7:
-            v.co.y += 0.16   # bowed head
+        v.co.z *= 0.94
+        zt = max(0.0, min(1.0, (v.co.z - 0.20) / 0.80))
+        bow = zt * zt * (3.0 - 2.0 * zt)
+        w = V.value_noise(v.co * 2.0 + Vector((3, 1, 4)))
+        v.co.x += (w - 0.5) * 0.05 * (0.2 + zt * 0.6)
+        v.co.y += 0.16 * bow + (V.value_noise(v.co * 1.8) - 0.5) * 0.04
+    me.update()
     objs.append(body)
-    for i in range(6):
-        a = rng.uniform(0, 2 * math.pi)
-        drip = V.loft_rings("drip", [(0.03, 0.14, 6, 0), (0.012, 0.0, 6, 0)], "M_wax")
-        drip.location = (0.4 * math.cos(a), 0.4 * math.sin(a), 0)
+
+    # Clasped praying sleeves folded across the chest
+    for sx in (-1, 1):
+        arm = V.sweep_profile(
+            "husk_arm",
+            [
+                (sx * 0.24, 0.06, 0.68),
+                (sx * 0.18, 0.22, 0.54),
+                (sx * 0.05, 0.28, 0.58),
+            ],
+            V.circle_profile(0.072, 10, squash=0.85),
+            "M_wax",
+        )
+        objs.append(arm)
+
+    # Charred dead candle wick protruding from the bowed hood crown
+    wick = V.sweep_profile(
+        "husk_wick",
+        [(0.0, 0.22, 0.96), (0.01, 0.26, 1.03), (0.02, 0.29, 1.06)],
+        V.circle_profile(0.008, 6),
+        "M_iron",
+    )
+    objs.append(wick)
+
+    # Upright melted wax candle stubs & drip ridges fused around the base
+    for i in range(7):
+        a = 2.0 * math.pi * i / 7.0 + rng.uniform(-0.2, 0.2)
+        dist = rng.uniform(0.28, 0.38)
+        dh = rng.uniform(0.12, 0.26)
+        dr = rng.uniform(0.026, 0.042)
+        drip = V.loft_rings(
+            "drip",
+            [(dr * 1.35, 0.0, 8, 0), (dr, dh * 0.7, 8, 0.2), (dr * 0.65, dh, 8, 0)],
+            "M_wax",
+        )
+        drip.location = (dist * math.cos(a), dist * math.sin(a), 0.0)
         objs.append(drip)
     return objs, {"size": [0.9, 0.9, 1.1], "origin": "bottom-center"}
 
@@ -109,70 +153,139 @@ def banner_torn():
 
 
 def garden_bed(alive=True, seed=23):
-    """Stone-curbed garth bed: blooming in glory, withered twigs in ruin."""
+    """Stone-curbed cloister garth planter: carved Gothic coping & corner finials,
+    mounded dark earth, woody shrub stems, layered fern/boxwood fronds & cloister lilies
+    in Glory; gnarled skeletal briar bushes & dead bramble leaves in Ruin."""
     rng = random.Random(seed)
     objs = []
+    # 1. Carved stone curb base
     bm = bmesh.new()
-    for (x0, x1) in ((-1.1, 1.1),):
-        V.add_box(bm, (-1.1, -0.7, 0), (1.1, -0.56, 0.22))
-        V.add_box(bm, (-1.1, 0.56, 0), (1.1, 0.7, 0.22))
-        V.add_box(bm, (-1.1, -0.7, 0), (-0.96, 0.7, 0.22))
-        V.add_box(bm, (0.96, -0.7, 0), (1.1, 0.7, 0.22))
-        V.add_box(bm, (-1.0, -0.6, 0), (1.0, 0.6, 0.13))   # soil
+    V.add_box(bm, (-1.10, -0.70, 0.0), (1.10, -0.56, 0.20))
+    V.add_box(bm, (-1.10, 0.56, 0.0), (1.10, 0.70, 0.20))
+    V.add_box(bm, (-1.10, -0.56, 0.0), (-0.96, 0.56, 0.20))
+    V.add_box(bm, (0.96, -0.56, 0.0), (1.10, 0.56, 0.20))
     objs.append(V.bm_to_object(bm, "bed_curb", ("M_stone_dark",)))
+
+    # 2. Chamfered limestone coping lip & 4 carved corner bollards
+    bm_t = bmesh.new()
+    V.add_box(bm_t, (-1.13, -0.73, 0.20), (1.13, -0.54, 0.25))
+    V.add_box(bm_t, (-1.13, 0.54, 0.20), (1.13, 0.73, 0.25))
+    V.add_box(bm_t, (-1.13, -0.54, 0.20), (-0.94, 0.54, 0.25))
+    V.add_box(bm_t, (0.94, -0.54, 0.20), (1.13, 0.54, 0.25))
+    for cx in (-1.03, 1.03):
+        for cy in (-0.63, 0.63):
+            V.add_box(bm_t, (cx - 0.11, cy - 0.11, 0.0), (cx + 0.11, cy + 0.11, 0.30))
+            V.add_box(bm_t, (cx - 0.08, cy - 0.08, 0.30), (cx + 0.08, cy + 0.08, 0.35))
+    objs.append(V.bm_to_object(bm_t, "bed_coping", ("M_stone_trim",)))
+
+    # 3. Mounded organic soil bed + gnarled woody shrub stems
+    bm_w = bmesh.new()
+    nx, ny = 8, 5
+    grid = {}
+    for ix in range(nx + 1):
+        for iy in range(ny + 1):
+            u = ix / float(nx) * 2.0 - 1.0
+            v = iy / float(ny) * 2.0 - 1.0
+            dome = max(0.0, (1.0 - u * u * 0.85) * (1.0 - v * v * 0.85))
+            hz = 0.11 + 0.09 * dome + rng.uniform(-0.012, 0.012)
+            grid[(ix, iy)] = bm_w.verts.new((u * 0.96, v * 0.56, hz))
+    for ix in range(nx):
+        for iy in range(ny):
+            bm_w.faces.new((grid[(ix, iy)], grid[(ix + 1, iy)], grid[(ix + 1, iy + 1)], grid[(ix, iy + 1)]))
+    objs.append(V.bm_to_object(bm_w, "bed_soil", ("M_wood",)))
+
+    # Woody twisted stems/branches in both Glory and Ruin
+    n_shrubs = 7 if alive else 9
+    shrub_centers = []
+    for i in range(n_shrubs):
+        sx = -0.75 + 1.50 * (i / max(n_shrubs - 1, 1)) + rng.uniform(-0.08, 0.08)
+        sy = rng.uniform(-0.32, 0.32)
+        shrub_centers.append((sx, sy))
+        for b_idx in range(3):
+            ang = rng.uniform(0, 2 * math.pi)
+            reach = rng.uniform(0.10, 0.22)
+            top_z = rng.uniform(0.28, 0.44)
+            pts = [
+                (sx, sy, 0.14),
+                (sx + reach * 0.45 * math.cos(ang), sy + reach * 0.45 * math.sin(ang), 0.22),
+                (sx + reach * math.cos(ang + 0.3), sy + reach * math.sin(ang + 0.3), top_z),
+            ]
+            stem = V.sweep_profile(f"stem_{i}_{b_idx}", pts, V.circle_profile(0.014, 6), "M_wood")
+            objs.append(stem)
+
+    # 4. Foliage & blossoms mesh (vertex-colored M_foliage)
     bm2 = bmesh.new()
-    col_layer = []
+    face_cols = []
+
+    def _add_leaf(origin, dir_xy, pitch, length, width, col):
+        ox, oy, oz = origin
+        dx, dy = dir_xy
+        px, py = -dy, dx
+        mid_z = oz + length * 0.55 * math.sin(pitch)
+        tip_z = oz + length * math.sin(pitch) - 0.02
+        r_mid = length * 0.52 * math.cos(pitch)
+        r_tip = length * math.cos(pitch)
+        v0 = bm2.verts.new((ox, oy, oz))
+        v1 = bm2.verts.new((ox + dx * r_mid + px * width, oy + dy * r_mid + py * width, mid_z))
+        v2 = bm2.verts.new((ox + dx * r_tip, oy + dy * r_tip, tip_z))
+        v3 = bm2.verts.new((ox + dx * r_mid - px * width, oy + dy * r_mid - py * width, mid_z))
+        try:
+            f = bm2.faces.new((v0, v1, v2, v3))
+            face_cols.append(col)
+        except ValueError:
+            pass
+
     if alive:
-        # leaf tufts + flower specks as vertex-colored fans
-        for i in range(26):
-            cx = rng.uniform(-0.85, 0.85)
-            cy = rng.uniform(-0.45, 0.45)
-            hh = rng.uniform(0.12, 0.3)
-            green = (rng.uniform(0.12, 0.2), rng.uniform(0.3, 0.45), rng.uniform(0.12, 0.2))
-            for k in range(3):
-                a = rng.uniform(0, 2 * math.pi)
-                p0 = bm2.verts.new((cx, cy, 0.12))
-                p1 = bm2.verts.new((cx + 0.05 * math.cos(a), cy + 0.05 * math.sin(a), 0.12 + hh))
-                p2 = bm2.verts.new((cx + 0.11 * math.cos(a + 0.5), cy + 0.11 * math.sin(a + 0.5), 0.12 + hh * 0.55))
-                f = bm2.faces.new((p0, p1, p2))
-                col_layer.append((f, green))
-            if rng.random() < 0.6:
-                fl = rng.choice([(0.9, 0.85, 0.4), (0.85, 0.5, 0.6), (0.9, 0.9, 0.85), (0.6, 0.5, 0.85)])
-                q = bmesh.ops.create_icosphere(bm2, subdivisions=0, radius=0.035)
-                for v in q["verts"]:
-                    v.co += Vector((cx, cy, 0.12 + hh + 0.02))
-                for face in bm2.faces[-len(q["verts"]):] if False else []:
-                    pass
-                # color the last created faces
-                for f in bm2.faces:
-                    if f.material_index == 0 and not any(f is ff for ff, _ in col_layer) and all((v.co - Vector((cx, cy, 0.12 + hh + 0.02))).length < 0.08 for v in f.verts):
-                        col_layer.append((f, fl))
+        # Lush layered cloister boxwood/fern rosettes + white/gold/lavender lilies
+        for sx, sy in shrub_centers:
+            for k in range(14):
+                a = k * (2 * math.pi / 14.0) + rng.uniform(-0.15, 0.15)
+                pitch = rng.uniform(0.25, 0.95)
+                length = rng.uniform(0.14, 0.26)
+                width = rng.uniform(0.035, 0.058)
+                g_val = rng.uniform(0.75, 1.15)
+                col = (0.11 * g_val, 0.24 * g_val, 0.10 * g_val)
+                _add_leaf((sx + rng.uniform(-0.06, 0.06), sy + rng.uniform(-0.06, 0.06), rng.uniform(0.16, 0.28)),
+                          (math.cos(a), math.sin(a)), pitch, length, width, col)
+            # Sculpted 5-petal cloister lily clusters atop the foliage
+            for fl_i in range(2):
+                fx = sx + rng.uniform(-0.10, 0.10)
+                fy = sy + rng.uniform(-0.10, 0.10)
+                fz = rng.uniform(0.30, 0.42)
+                petal_col = rng.choice([
+                    (0.92, 0.88, 0.74),  # ivory cloister lily
+                    (0.94, 0.80, 0.42),  # golden vesper marigold
+                    (0.76, 0.68, 0.88),  # pale bellflower
+                ])
+                for p_i in range(5):
+                    pa = p_i * (2 * math.pi / 5.0) + fl_i * 0.4
+                    _add_leaf((fx, fy, fz), (math.cos(pa), math.sin(pa)), 0.35, 0.065, 0.024, petal_col)
     else:
-        for i in range(14):
-            cx = rng.uniform(-0.85, 0.85)
-            cy = rng.uniform(-0.45, 0.45)
-            hh = rng.uniform(0.1, 0.34)
-            a = rng.uniform(0, 2 * math.pi)
-            p0 = bm2.verts.new((cx, cy, 0.12))
-            p1 = bm2.verts.new((cx + 0.16 * math.cos(a), cy + 0.16 * math.sin(a), 0.12 + hh))
-            p2 = bm2.verts.new((cx + 0.02 * math.cos(a), cy + 0.02 * math.sin(a), 0.12 + hh * 0.5))
-            f = bm2.faces.new((p0, p1, p2))
-            col_layer.append((f, (0.16, 0.12, 0.09)))
+        # Withered dark bramble leaves & fallen dead foliage around the skeletal stems
+        for sx, sy in shrub_centers:
+            for k in range(8):
+                a = rng.uniform(0, 2 * math.pi)
+                pitch = rng.uniform(-0.15, 0.55)
+                length = rng.uniform(0.10, 0.20)
+                width = rng.uniform(0.025, 0.042)
+                w_val = rng.uniform(0.75, 1.15)
+                col = (0.16 * w_val, 0.13 * w_val, 0.09 * w_val)
+                _add_leaf((sx + rng.uniform(-0.08, 0.08), sy + rng.uniform(-0.08, 0.08), rng.uniform(0.15, 0.26)),
+                          (math.cos(a), math.sin(a)), pitch, length, width, col)
+
     mesh = __import__("bpy").data.meshes.new("growth")
     bm2.normal_update()
     bm2.to_mesh(mesh)
     bm2.free()
     attr = mesh.color_attributes.new(name="Col", type='BYTE_COLOR', domain='CORNER')
     mesh.color_attributes.active_color = attr
-    # paint by nearest recorded face color via polygon order
-    cols = [c for _, c in col_layer]
     for pi, poly in enumerate(mesh.polygons):
-        c = cols[pi % len(cols)] if cols else (0.2, 0.3, 0.2)
+        c = face_cols[pi % len(face_cols)] if face_cols else (0.14, 0.24, 0.10)
         for li in poly.loop_indices:
             attr.data[li].color = (c[0], c[1], c[2], 1.0)
     growth = V.new_object("growth", mesh)
     growth.data.materials.append(V.material("M_foliage"))
-    return objs + [growth], {"size": [2.2, 1.4, 0.5], "origin": "bottom-center"}
+    return objs + [growth], {"size": [2.26, 1.46, 0.5], "origin": "bottom-center"}
 
 
 def censer_hanging(drop=1.5):

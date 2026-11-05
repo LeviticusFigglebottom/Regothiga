@@ -2,7 +2,7 @@
  "altar": {
   "file": "assets/kit/altar.glb",
   "origin": "bottom-center",
-  "polys": 144,
+  "polys": 208,
   "size": [
    2.2,
    1.2,
@@ -12,11 +12,11 @@
  "altar_wick": {
   "file": "assets/kit/altar_wick.glb",
   "origin": "bottom-center",
-  "polys": 66,
+  "polys": 110,
   "size": [
    2.52,
    1.12,
-   1.84
+   1.85
   ]
  },
  "anvil": {
@@ -32,7 +32,7 @@
  "arcade_4m": {
   "file": "assets/kit/arcade_4m.glb",
   "origin": "bottom-center",
-  "polys": 230,
+  "polys": 374,
   "size": [
    4,
    0.5,
@@ -62,7 +62,7 @@
  "balustrade_4m": {
   "file": "assets/kit/balustrade_4m.glb",
   "origin": "bottom-center",
-  "polys": 398,
+  "polys": 816,
   "size": [
    4,
    0.4,
@@ -72,7 +72,7 @@
  "banner": {
   "file": "assets/kit/banner.glb",
   "origin": "top-center",
-  "polys": 238,
+  "polys": 346,
   "size": [
    1.1,
    0.3,
@@ -102,11 +102,11 @@
  "banquet_table_6m": {
   "file": "assets/kit/banquet_table_6m.glb",
   "origin": "bottom-center",
-  "polys": 60,
+  "polys": 156,
   "size": [
    6,
    1.25,
-   1.1
+   1.15
   ]
  },
  "barrel": {
@@ -152,7 +152,7 @@
  "bell_great": {
   "file": "assets/kit/bell_great.glb",
   "origin": "bottom-center",
-  "polys": 242,
+  "polys": 362,
   "size": [
    1.5,
    1.5,
@@ -162,7 +162,7 @@
  "bellkeeper_arm": {
   "file": "assets/kit/bellkeeper_arm.glb",
   "origin": "shoulder",
-  "polys": 54,
+  "polys": 74,
   "size": [
    0.5,
    0.5,
@@ -192,7 +192,7 @@
  "bow_lark": {
   "file": "assets/kit/bow_lark.glb",
   "origin": "grip",
-  "polys": 146,
+  "polys": 190,
   "size": [
    0.08,
    0.4,
@@ -202,7 +202,7 @@
  "brazier_cold": {
   "file": "assets/kit/brazier_cold.glb",
   "origin": "bottom-center",
-  "polys": 65,
+  "polys": 98,
   "size": [
    0.8,
    0.8,
@@ -212,7 +212,7 @@
  "brazier_lit": {
   "file": "assets/kit/brazier_lit.glb",
   "origin": "bottom-center",
-  "polys": 181,
+  "polys": 410,
   "size": [
    0.8,
    0.8,
@@ -311,7 +311,7 @@
  "cage_stand": {
   "file": "assets/kit/cage_stand.glb",
   "origin": "bottom-center",
-  "polys": 273,
+  "polys": 1001,
   "size": [
    0.7,
    0.7,
@@ -321,7 +321,7 @@
  "canal_vault_8m": {
   "file": "assets/kit/canal_vault_8m.glb",
   "origin": "bottom-center",
-  "polys": 48,
+  "polys": 60,
   "size": [
    8,
    40,
@@ -331,7 +331,7 @@
  "canal_vault_8m_win": {
   "file": "assets/kit/canal_vault_8m_win.glb",
   "origin": "bottom-center",
-  "polys": 214,
+  "polys": 226,
   "size": [
    8,
    40,
@@ -341,7 +341,7 @@
  "candelabra": {
   "file": "assets/kit/candelabra.glb",
   "origin": "bottom-center",
-  "polys": 268,
+  "polys": 524,
   "size": [
    0.5,
    0.5,
@@ -351,7 +351,7 @@
  "candle_cluster": {
   "file": "assets/kit/candle_cluster.glb",
   "origin": "bottom-center",
-  "polys": 288,
+  "polys": 384,
   "size": [
    0.55,
    0.55,
@@ -421,7 +421,7 @@
  "censer_hanging": {
   "file": "assets/kit/censer_hanging.glb",
   "origin": "ceiling-mount",
-  "polys": 158,
+  "polys": 174,
   "size": [
    0.3,
    0.3,
@@ -461,7 +461,7 @@
  "char_aveline": {
   "file": "assets/kit/char_aveline.glb",
   "origin": "bottom-center",
-  "polys": 334,
+  "polys": 412,
   "size": [
    0.8,
    0.8,
@@ -471,7 +471,7 @@
  "char_bellkeeper": {
   "file": "assets/kit/char_bellkeeper.glb",
   "origin": "bottom-center",
-  "polys": 236,
+  "polys": 282,
   "size": [
    1.4,
    1.4,
@@ -481,7 +481,7 @@
  "char_latecomer": {
   "file": "assets/kit/char_latecomer.glb",
   "origin": "bottom-center",
-  "polys": 212,
+  "polys": 246,
   "size": [
    0.8,
    0.8,
@@ -491,7 +491,7 @@
  "char_penitent": {
   "file": "assets/kit/char_penitent.glb",
   "origin": "bottom-center",
-  "polys": 178,
+  "polys": 230,
   "size": [
    0.9,
    0.9,
@@ -501,7 +501,7 @@
  "char_sleeve_l": {
   "file": "assets/kit/char_sleeve_l.glb",
   "origin": "shoulder",
-  "polys": 80,
+  "polys": 116,
   "size": [
    0.26,
    0.3,
@@ -511,7 +511,7 @@
  "char_sleeve_r": {
   "file": "assets/kit/char_sleeve_r.glb",
   "origin": "shoulder",
-  "polys": 80,
+  "polys": 116,
   "size": [
    0.26,
    0.3,
@@ -521,7 +521,7 @@
  "char_ward": {
   "file": "assets/kit/char_ward.glb",
   "origin": "bottom-center",
-  "polys": 246,
+  "polys": 296,
   "size": [
    0.9,
    0.9,
@@ -531,7 +531,7 @@
  "chime_stone": {
   "file": "assets/kit/chime_stone.glb",
   "origin": "bottom-center",
-  "polys": 41,
+  "polys": 56,
   "size": [
    0.5,
    1.3,
@@ -561,7 +561,7 @@
  "chrism_flask": {
   "file": "assets/kit/chrism_flask.glb",
   "origin": "bottom-center",
-  "polys": 70,
+  "polys": 164,
   "size": [
    0.17,
    0.17,
@@ -651,7 +651,7 @@
  "column_4m": {
   "file": "assets/kit/column_4m.glb",
   "origin": "bottom-center",
-  "polys": 290,
+  "polys": 570,
   "size": [
    1,
    1,
@@ -661,7 +661,7 @@
  "column_broken": {
   "file": "assets/kit/column_broken.glb",
   "origin": "bottom-center",
-  "polys": 41,
+  "polys": 81,
   "size": [
    1,
    1,
@@ -691,7 +691,7 @@
  "crook_great": {
   "file": "assets/kit/crook_great.glb",
   "origin": "grip",
-  "polys": 58,
+  "polys": 90,
   "size": [
    0.9,
    0.14,
@@ -701,7 +701,7 @@
  "crook_warden": {
   "file": "assets/kit/crook_warden.glb",
   "origin": "grip",
-  "polys": 48,
+  "polys": 76,
   "size": [
    0.5,
    0.1,
@@ -765,7 +765,7 @@
    3.1
   ],
   "origin": "bottom-center",
-  "polys": 262,
+  "polys": 294,
   "size": [
    4,
    1,
@@ -775,27 +775,27 @@
  "garden_bed": {
   "file": "assets/kit/garden_bed.glb",
   "origin": "bottom-center",
-  "polys": 428,
+  "polys": 598,
   "size": [
-   2.2,
-   1.4,
+   2.26,
+   1.46,
    0.5
   ]
  },
  "garden_bed_dead": {
   "file": "assets/kit/garden_bed_dead.glb",
   "origin": "bottom-center",
-  "polys": 44,
+  "polys": 586,
   "size": [
-   2.2,
-   1.4,
+   2.26,
+   1.46,
    0.5
   ]
  },
  "gargoyle": {
   "file": "assets/kit/gargoyle.glb",
   "origin": "bottom-center",
-  "polys": 132,
+  "polys": 336,
   "size": [
    0.7,
    1.0,
@@ -845,7 +845,7 @@
  "glass_lancet_broken": {
   "file": "assets/kit/glass_lancet_broken.glb",
   "origin": "bottom-center",
-  "polys": 70,
+  "polys": 68,
   "size": [
    1.5,
    0.1,
@@ -865,17 +865,17 @@
  "greatsword_pilgrim": {
   "file": "assets/kit/greatsword_pilgrim.glb",
   "origin": "grip",
-  "polys": 71,
+  "polys": 227,
   "size": [
-   0.52,
+   0.54,
    0.05,
-   1.86
+   1.88
   ]
  },
  "halberd_ward": {
   "file": "assets/kit/halberd_ward.glb",
   "origin": "grip",
-  "polys": 25,
+  "polys": 83,
   "size": [
    0.5,
    0.1,
@@ -905,7 +905,7 @@
  "hanging_chain": {
   "file": "assets/kit/hanging_chain.glb",
   "origin": "top-center",
-  "polys": 72,
+  "polys": 76,
   "size": [
    0.2,
    0.2,
@@ -925,7 +925,7 @@
  "helm_ward": {
   "file": "assets/kit/helm_ward.glb",
   "origin": "neck",
-  "polys": 70,
+  "polys": 110,
   "size": [
    0.55,
    0.3,
@@ -965,7 +965,7 @@
  "lark_cage": {
   "file": "assets/kit/lark_cage.glb",
   "origin": "ceiling-mount",
-  "polys": 375,
+  "polys": 1103,
   "size": [
    0.55,
    0.55,
@@ -975,7 +975,7 @@
  "lark_cage_dead": {
   "file": "assets/kit/lark_cage_dead.glb",
   "origin": "ceiling-mount",
-  "polys": 340,
+  "polys": 933,
   "size": [
    0.55,
    0.55,
@@ -985,7 +985,7 @@
  "maul_sexton": {
   "file": "assets/kit/maul_sexton.glb",
   "origin": "grip",
-  "polys": 28,
+  "polys": 88,
   "size": [
    0.3,
    0.3,
@@ -995,17 +995,17 @@
  "mosaic_medallion": {
   "file": "assets/kit/mosaic_medallion.glb",
   "origin": "bottom-center",
-  "polys": 90,
+  "polys": 114,
   "size": [
    3.6,
    3.6,
-   0.03
+   0.02
   ]
  },
  "oar_glaive": {
   "file": "assets/kit/oar_glaive.glb",
   "origin": "grip",
-  "polys": 17,
+  "polys": 21,
   "size": [
    0.7,
    0.12,
@@ -1015,7 +1015,7 @@
  "organ_case": {
   "file": "assets/kit/organ_case.glb",
   "origin": "bottom-center",
-  "polys": 174,
+  "polys": 246,
   "size": [
    2.8,
    1.0,
@@ -1039,7 +1039,7 @@
    3.1
   ],
   "origin": "bottom-center",
-  "polys": 422,
+  "polys": 542,
   "size": [
    4,
    0.5,
@@ -1099,7 +1099,7 @@
  "palace_pediment_8m": {
   "file": "assets/kit/palace_pediment_8m.glb",
   "origin": "bottom-center",
-  "polys": 113,
+  "polys": 203,
   "size": [
    8,
    0.9,
@@ -1123,7 +1123,7 @@
    2.9
   ],
   "origin": "bottom-center",
-  "polys": 664,
+  "polys": 872,
   "size": [
    4,
    0.6,
@@ -1133,7 +1133,7 @@
  "palace_wall_4x4": {
   "file": "assets/kit/palace_wall_4x4.glb",
   "origin": "bottom-center",
-  "polys": 360,
+  "polys": 600,
   "size": [
    4,
    0.5,
@@ -1173,7 +1173,7 @@
  "pell": {
   "file": "assets/kit/pell.glb",
   "origin": "bottom-center",
-  "polys": 48,
+  "polys": 64,
   "size": [
    1.0,
    0.4,
@@ -1183,7 +1183,7 @@
  "penitent_arm": {
   "file": "assets/kit/penitent_arm.glb",
   "origin": "shoulder",
-  "polys": 26,
+  "polys": 38,
   "size": [
    0.3,
    0.3,
@@ -1193,7 +1193,7 @@
  "perch_rail": {
   "file": "assets/kit/perch_rail.glb",
   "origin": "bottom-center",
-  "polys": 81,
+  "polys": 507,
   "size": [
    1.9,
    0.3,
@@ -1233,9 +1233,9 @@
  "plaque": {
   "file": "assets/kit/plaque.glb",
   "origin": "bottom-center",
-  "polys": 12,
+  "polys": 170,
   "size": [
-   0.7,
+   0.74,
    0.6,
    1.2
   ]
@@ -1247,7 +1247,7 @@
    2.9
   ],
   "origin": "bottom-center",
-  "polys": 612,
+  "polys": 884,
   "size": [
    4,
    0.6,
@@ -1327,7 +1327,7 @@
  "roof_gable_7m": {
   "file": "assets/kit/roof_gable_7m.glb",
   "origin": "eave-center",
-  "polys": 52,
+  "polys": 88,
   "size": [
    7.1,
    7.16,
@@ -1347,7 +1347,7 @@
  "rose_window": {
   "file": "assets/kit/rose_window.glb",
   "origin": "hub-center",
-  "polys": 894,
+  "polys": 926,
   "size": [
    4.4,
    0.3,
@@ -1407,7 +1407,7 @@
  "sconce_torch": {
   "file": "assets/kit/sconce_torch.glb",
   "origin": "wall-mount",
-  "polys": 48,
+  "polys": 96,
   "size": [
    0.2,
    0.4,
@@ -1437,10 +1437,10 @@
  "shield_kite": {
   "file": "assets/kit/shield_kite.glb",
   "origin": "strap",
-  "polys": 46,
+  "polys": 300,
   "size": [
    0.42,
-   0.2,
+   0.14,
    0.85
   ]
  },
@@ -1467,7 +1467,7 @@
  "skel_bellox": {
   "file": "assets/kit/skel_bellox.glb",
   "origin": "feet",
-  "polys": 779,
+  "polys": 2722,
   "size": [
    0.8,
    0.8,
@@ -1478,7 +1478,7 @@
  "skel_chorister": {
   "file": "assets/kit/skel_chorister.glb",
   "origin": "feet",
-  "polys": 772,
+  "polys": 2278,
   "size": [
    0.8,
    0.8,
@@ -1489,7 +1489,7 @@
  "skel_echo": {
   "file": "assets/kit/skel_echo.glb",
   "origin": "feet",
-  "polys": 830,
+  "polys": 2410,
   "size": [
    0.8,
    0.8,
@@ -1500,7 +1500,7 @@
  "skel_giant": {
   "file": "assets/kit/skel_giant.glb",
   "origin": "feet",
-  "polys": 766,
+  "polys": 3732,
   "size": [
    0.8,
    0.8,
@@ -1511,7 +1511,7 @@
  "skel_herald": {
   "file": "assets/kit/skel_herald.glb",
   "origin": "feet",
-  "polys": 771,
+  "polys": 2512,
   "size": [
    0.8,
    0.8,
@@ -1522,7 +1522,7 @@
  "skel_hero": {
   "file": "assets/kit/skel_hero.glb",
   "origin": "feet",
-  "polys": 780,
+  "polys": 3712,
   "size": [
    0.8,
    0.8,
@@ -1533,7 +1533,7 @@
  "skel_mire": {
   "file": "assets/kit/skel_mire.glb",
   "origin": "feet",
-  "polys": 768,
+  "polys": 2220,
   "size": [
    0.8,
    0.8,
@@ -1544,7 +1544,7 @@
  "skel_penitent": {
   "file": "assets/kit/skel_penitent.glb",
   "origin": "feet",
-  "polys": 739,
+  "polys": 2428,
   "size": [
    0.8,
    0.8,
@@ -1555,7 +1555,7 @@
  "skel_precentress": {
   "file": "assets/kit/skel_precentress.glb",
   "origin": "feet",
-  "polys": 820,
+  "polys": 2566,
   "size": [
    0.8,
    0.8,
@@ -1566,7 +1566,7 @@
  "skel_seraph": {
   "file": "assets/kit/skel_seraph.glb",
   "origin": "feet",
-  "polys": 933,
+  "polys": 3796,
   "size": [
    0.8,
    0.8,
@@ -1577,7 +1577,7 @@
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",
-  "polys": 779,
+  "polys": 2174,
   "size": [
    0.8,
    0.8,
@@ -1588,7 +1588,7 @@
  "skel_shroud": {
   "file": "assets/kit/skel_shroud.glb",
   "origin": "feet",
-  "polys": 826,
+  "polys": 2296,
   "size": [
    0.8,
    0.8,
@@ -1599,7 +1599,7 @@
  "skel_sister": {
   "file": "assets/kit/skel_sister.glb",
   "origin": "feet",
-  "polys": 740,
+  "polys": 2302,
   "size": [
    0.8,
    0.8,
@@ -1610,7 +1610,7 @@
  "skel_ward": {
   "file": "assets/kit/skel_ward.glb",
   "origin": "feet",
-  "polys": 747,
+  "polys": 3618,
   "size": [
    0.8,
    0.8,
@@ -1621,7 +1621,7 @@
  "skel_wretch": {
   "file": "assets/kit/skel_wretch.glb",
   "origin": "feet",
-  "polys": 757,
+  "polys": 2142,
   "size": [
    0.8,
    0.8,
@@ -1632,7 +1632,7 @@
  "spear_fen": {
   "file": "assets/kit/spear_fen.glb",
   "origin": "grip",
-  "polys": 43,
+  "polys": 85,
   "size": [
    0.11,
    0.05,
@@ -1713,7 +1713,7 @@
  "statue_orans": {
   "file": "assets/kit/statue_orans.glb",
   "origin": "bottom-center",
-  "polys": 132,
+  "polys": 186,
   "size": [
    1,
    1,
@@ -1723,7 +1723,7 @@
  "statue_saint": {
   "file": "assets/kit/statue_saint.glb",
   "origin": "bottom-center",
-  "polys": 122,
+  "polys": 176,
   "size": [
    1,
    1,
@@ -1733,9 +1733,9 @@
  "sword_cloister": {
   "file": "assets/kit/sword_cloister.glb",
   "origin": "grip",
-  "polys": 43,
+  "polys": 239,
   "size": [
-   0.32,
+   0.35,
    0.05,
    1.15
   ]
@@ -1743,17 +1743,17 @@
  "toll_maul": {
   "file": "assets/kit/toll_maul.glb",
   "origin": "grip",
-  "polys": 28,
+  "polys": 130,
   "size": [
-   0.72,
-   0.72,
+   0.48,
+   0.74,
    2.9
   ]
  },
  "tomb_slab": {
   "file": "assets/kit/tomb_slab.glb",
   "origin": "bottom-center",
-  "polys": 104,
+  "polys": 158,
   "size": [
    1.2,
    2.3,
@@ -1763,17 +1763,17 @@
  "torch_held": {
   "file": "assets/kit/torch_held.glb",
   "origin": "grip-center",
-  "polys": 48,
+  "polys": 124,
   "size": [
-   0.16,
-   0.16,
+   0.14,
+   0.14,
    1.02
   ]
  },
  "urn": {
   "file": "assets/kit/urn.glb",
   "origin": "bottom-center",
-  "polys": 52,
+  "polys": 224,
   "size": [
    0.7,
    0.7,
@@ -1784,7 +1784,7 @@
   "apex": 1.3583519426128121,
   "file": "assets/kit/vault_bay_4x4.glb",
   "origin": "spring-center",
-  "polys": 586,
+  "polys": 658,
   "size": [
    4,
    4,
@@ -1804,7 +1804,7 @@
  "vigil_lantern": {
   "file": "assets/kit/vigil_lantern.glb",
   "origin": "bottom-center",
-  "polys": 204,
+  "polys": 540,
   "size": [
    1.3,
    2.1,
@@ -1814,7 +1814,7 @@
  "votive_stand_cold": {
   "file": "assets/kit/votive_stand_cold.glb",
   "origin": "bottom-center",
-  "polys": 74,
+  "polys": 110,
   "size": [
    0.5,
    0.5,
@@ -1824,7 +1824,7 @@
  "votive_stand_lit": {
   "file": "assets/kit/votive_stand_lit.glb",
   "origin": "bottom-center",
-  "polys": 204,
+  "polys": 320,
   "size": [
    0.5,
    0.5,
@@ -1864,7 +1864,7 @@
  "wax_husk": {
   "file": "assets/kit/wax_husk.glb",
   "origin": "bottom-center",
-  "polys": 140,
+  "polys": 410,
   "size": [
    0.9,
    0.9,
@@ -1884,7 +1884,7 @@
  "wellhead": {
   "file": "assets/kit/wellhead.glb",
   "origin": "bottom-center",
-  "polys": 114,
+  "polys": 286,
   "size": [
    2.1,
    1.0,
@@ -1900,7 +1900,7 @@
    0
   ],
   "origin": "bottom-center",
-  "polys": 102,
+  "polys": 134,
   "size": [
    4,
    0.6,

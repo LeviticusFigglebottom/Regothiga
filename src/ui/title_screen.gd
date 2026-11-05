@@ -8,9 +8,9 @@ signal done(choice: String, slot: int)
 
 var has_save := false
 
-const GOLD := Color(0.9, 0.78, 0.55)
-const PARCHMENT := Color(0.82, 0.78, 0.68)
-const ASH := Color(0.55, 0.52, 0.46)
+const GOLD := Color(0.95, 0.82, 0.52)
+const PARCHMENT := Color(0.86, 0.82, 0.72)
+const ASH := Color(0.62, 0.58, 0.50)
 
 ## One stop per quarter: a slow dolly from -> to, eyes fixed on look.
 const STOPS := [
@@ -38,6 +38,7 @@ var _look := Vector3.ZERO
 var _dipping := false
 var _layer: CanvasLayer
 var _veil: ColorRect
+var _post_mat: ShaderMaterial = null
 var _done := false
 var _credits: Node = null
 # the vigil picker: which playthrough to resume or begin
@@ -65,6 +66,18 @@ func _build_ui() -> void:
 	_layer = CanvasLayer.new()
 	_layer.layer = 20
 	add_child(_layer)
+
+	# Filmic Dark Souls post-process grading over the title dolly
+	var psh := load("res://shaders/post_souls.gdshader") as Shader
+	if psh != null:
+		var post := ColorRect.new()
+		post.set_anchors_preset(Control.PRESET_FULL_RECT)
+		post.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_post_mat = ShaderMaterial.new()
+		_post_mat.shader = psh
+		post.material = _post_mat
+		_layer.add_child(post)
+
 	_veil = ColorRect.new()
 	_veil.color = Color(0, 0, 0, 0)
 	_veil.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -73,7 +86,7 @@ func _build_ui() -> void:
 	# a soft dark gradient behind the words so they read on bright stops
 	var shade := TextureRect.new()
 	var grad := Gradient.new()
-	grad.set_color(0, Color(0, 0, 0, 0.5))
+	grad.set_color(0, Color(0, 0, 0, 0.68))
 	grad.set_color(1, Color(0, 0, 0, 0.0))
 	var gt := GradientTexture2D.new()
 	gt.gradient = grad
@@ -84,28 +97,47 @@ func _build_ui() -> void:
 	shade.texture = gt
 	shade.stretch_mode = TextureRect.STRETCH_SCALE
 	shade.set_anchors_preset(Control.PRESET_LEFT_WIDE)
-	shade.offset_right = 760
+	shade.offset_right = 820
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_layer.add_child(shade)
+
+	var crest_path := "res://assets/ui/icons/crest.png"
+	if ResourceLoader.exists(crest_path):
+		var ci := TextureRect.new()
+		ci.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ci.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ci.texture = load(crest_path)
+		ci.position = Vector2(88, 92)
+		ci.size = Vector2(78, 78)
+		ci.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_layer.add_child(ci)
 
 	var title := Label.new()
 	title.text = "VESPERGARD"
 	var tls := LabelSettings.new()
 	tls.font = load("res://assets/fonts/DejaVuSerif.ttf")
-	tls.font_size = 88
+	tls.font_size = 86
 	tls.font_color = GOLD
-	tls.shadow_color = Color(0, 0, 0, 0.9)
+	tls.shadow_color = Color(0, 0, 0, 0.92)
+	tls.shadow_size = 6
 	tls.shadow_offset = Vector2(2, 3)
 	title.label_settings = tls
-	title.position = Vector2(88, 96)
+	title.position = Vector2(180, 82)
 	_layer.add_child(title)
+
+	var trule := ColorRect.new()
+	trule.color = Color(0.84, 0.70, 0.42, 0.78)
+	trule.position = Vector2(92, 194)
+	trule.size = Vector2(640, 2)
+	_layer.add_child(trule)
+
 	var sub := Label.new()
-	sub.text = "a vigil for the thirteenth hour"
+	sub.text = "A   V I G I L   F O R   T H E   T H I R T E E N T H   H O U R"
 	var sls := LabelSettings.new()
 	sls.font = load("res://assets/fonts/DejaVuSerif.ttf")
-	sls.font_size = 22
+	sls.font_size = 18
 	sls.font_color = ASH
-	sls.shadow_color = Color(0, 0, 0, 0.85)
+	sls.shadow_color = Color(0, 0, 0, 0.88)
 	sls.shadow_offset = Vector2(1, 2)
 	sub.label_settings = sls
 	sub.position = Vector2(94, 208)
@@ -157,7 +189,7 @@ func _button(text: String, on_press: Callable) -> Button:
 	b.text = text
 	b.flat = true
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	b.custom_minimum_size = Vector2(360, 44)
+	b.custom_minimum_size = Vector2(420, 46)
 	b.add_theme_font_override("font", load("res://assets/fonts/DejaVuSerif.ttf"))
 	b.add_theme_font_size_override("font_size", 30)
 	b.add_theme_color_override("font_color", PARCHMENT)
@@ -165,8 +197,15 @@ func _button(text: String, on_press: Callable) -> Button:
 	b.add_theme_color_override("font_focus_color", GOLD)
 	b.add_theme_color_override("font_pressed_color", GOLD)
 	var empty := StyleBoxEmpty.new()
-	for st in ["normal", "hover", "pressed", "focus"]:
+	var focus_sb := StyleBoxFlat.new()
+	focus_sb.bg_color = Color(0.14, 0.11, 0.06, 0.55)
+	focus_sb.border_color = Color(0.86, 0.72, 0.42, 0.85)
+	focus_sb.border_width_left = 3
+	focus_sb.content_margin_left = 12
+	for st in ["normal", "pressed"]:
 		b.add_theme_stylebox_override(st, empty)
+	b.add_theme_stylebox_override("hover", focus_sb)
+	b.add_theme_stylebox_override("focus", focus_sb)
 	b.pressed.connect(on_press)
 	return b
 
@@ -208,6 +247,8 @@ func _swap_stop() -> void:
 	area.env.snap(st)
 	StateDirector._set_g("vg_state_blend", 1.0 if st == VG.WState.RUIN else 0.0)
 	StateDirector._set_g("vg_wave_r", -1000.0)
+	if _post_mat != null:
+		_post_mat.set_shader_parameter("ruin_amount", 1.0 if st == VG.WState.RUIN else 0.0)
 	_from = stop["from"]
 	_to = stop["to"]
 	_look = stop["look"]

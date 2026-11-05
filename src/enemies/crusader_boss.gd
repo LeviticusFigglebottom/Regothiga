@@ -299,16 +299,13 @@ func _kindle_cascade() -> void:
 	var step: float = 1.25 / maxf(float(meshes.size()), 1.0)
 	for i in meshes.size():
 		var mi: MeshInstance3D = meshes[i]
-		get_tree().create_timer(0.15 + step * i, false).timeout.connect(func() -> void:
-			if not is_instance_valid(mi) or mi.mesh == null:
-				return
-			for si in mi.mesh.get_surface_count():
-				var key := "%d:%d" % [mi.get_instance_id(), si]
-				if _orig.has(key):
-					mi.set_surface_override_material(si, _orig[key])
-			mi.layers &= ~GOLD_BIT
-			_gilt_motes(mi.global_transform * mi.get_aabb().get_center()))
-	get_tree().create_timer(0.15 + 1.25 + 0.25, false).timeout.connect(func() -> void:
+		# self-owned tween: dies with the boss, never calls into a freed mesh
+		var ctw := create_tween()
+		ctw.tween_interval(0.15 + step * i)
+		ctw.tween_callback(_ungild_piece.bind(mi))
+	var dtw := create_tween()
+	dtw.tween_interval(0.15 + 1.25 + 0.25)
+	dtw.tween_callback(func() -> void:
 		if dead or not is_instance_valid(vis):
 			return
 		if vis.weapon_mount != null:
@@ -316,6 +313,16 @@ func _kindle_cascade() -> void:
 		_paint_weapon(Color(1.0, 0.82, 0.4), Color(1.0, 0.72, 0.28), 1.6)
 		vis.play("twohand_idle", 0.5)
 		AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, -6.0, 1.3))
+
+func _ungild_piece(mi: MeshInstance3D) -> void:
+	if not is_instance_valid(mi) or mi.mesh == null:
+		return
+	for si in mi.mesh.get_surface_count():
+		var key := "%d:%d" % [mi.get_instance_id(), si]
+		if _orig.has(key):
+			mi.set_surface_override_material(si, _orig[key])
+	mi.layers &= ~GOLD_BIT
+	_gilt_motes(mi.global_transform * mi.get_aabb().get_center())
 
 ## A small breath of gold leaving a piece of armour as it goes dark.
 func _gilt_motes(at: Vector3) -> void:
@@ -332,6 +339,7 @@ func _gilt_motes(at: Vector3) -> void:
 	p.scale_amount_min = 0.02
 	p.scale_amount_max = 0.05
 	p.color = Color(1.0, 0.83, 0.45)
+	p.mesh = AreaPortal.make_mote_quad(1.8)
 	get_parent().add_child(p)
 	p.global_position = at
 	p.emitting = true

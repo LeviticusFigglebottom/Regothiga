@@ -19,6 +19,17 @@ func ticks(n: int):
 		await get_tree().physics_frame
 
 func finish() -> void:
+	AudioDirector.shutdown()
 	print("")
 	print("RESULT: %d checks, %d failures" % [checks, fails])
 	get_tree().quit(1 if fails > 0 else 0)
+
+func _exit_tree() -> void:
+	AudioDirector.shutdown()
+	KitLib._scene_cache.clear()
+	KitLib._shape_cache.clear()
+	MaterialLib._cache.clear()
+	MaterialLib._tex_cache.clear()
+	AmbientLife._mote_tex = null
+	SummonGlyph._sign_shader = null
+	EnvRig.active_instance = null

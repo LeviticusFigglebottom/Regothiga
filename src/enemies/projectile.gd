@@ -8,6 +8,7 @@ var packet: DamagePacket
 var velocity := Vector3.ZERO
 var team := "enemy"
 var _ttl := 6.0
+var _tint := Color(0.62, 0.75, 1.0)
 
 static func launch(parent: Node, from: Vector3, dir: Vector3, speed: float,
 		pk: DamagePacket, color := Color(0.62, 0.75, 1.0)) -> Projectile:
@@ -90,19 +91,34 @@ func _init() -> void:
 	add_child(cs)
 
 func _dress(color: Color) -> void:
+	_tint = color
 	var mi := MeshInstance3D.new()
 	var m := SphereMesh.new()
-	m.radius = 0.14
-	m.height = 0.28
+	m.radius = 0.11
+	m.height = 0.22
 	var mat := StandardMaterial3D.new()
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.albedo_color = color
+	mat.albedo_color = color.lerp(Color.WHITE, 0.45)
 	mat.emission_enabled = true
 	mat.emission = color
-	mat.emission_energy_multiplier = 2.4
+	mat.emission_energy_multiplier = 2.6
 	m.material = mat
 	mi.mesh = m
 	add_child(mi)
+	var halo := MeshInstance3D.new()
+	var hq := QuadMesh.new()
+	hq.size = Vector2(0.54, 0.54)
+	var hmat := StandardMaterial3D.new()
+	hmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	hmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	hmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	hmat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	hmat.albedo_color = Color(color.r, color.g, color.b, 0.72)
+	hmat.albedo_texture = AreaPortal._radial_tex()
+	hq.material = hmat
+	halo.mesh = hq
+	halo.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(halo)
 	var l := OmniLight3D.new()
 	l.light_color = color
 	l.light_energy = 1.4
@@ -120,16 +136,8 @@ func _dress(color: Color) -> void:
 	tr.initial_velocity_max = 0.3
 	tr.scale_amount_min = 0.02
 	tr.scale_amount_max = 0.05
-	var q := QuadMesh.new()
-	q.size = Vector2(0.16, 0.16)
-	var qm := StandardMaterial3D.new()
-	qm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	qm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	qm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	qm.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
-	qm.albedo_color = Color(color, 0.5)
-	q.material = qm
-	tr.mesh = q
+	tr.color = Color(color.r, color.g, color.b, 0.65)
+	tr.mesh = AreaPortal.make_mote_quad(1.8)
 	add_child(tr)
 
 func _physics_process(dt: float) -> void:
@@ -172,18 +180,13 @@ func _poof(at: Vector3) -> void:
 	burst.gravity = Vector3.ZERO
 	burst.scale_amount_min = 0.02
 	burst.scale_amount_max = 0.06
-	var q := QuadMesh.new()
-	q.size = Vector2(0.14, 0.14)
-	var qm := StandardMaterial3D.new()
-	qm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	qm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	qm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	qm.albedo_color = Color(0.7, 0.8, 1.0, 0.7)
-	q.material = qm
-	burst.mesh = q
+	burst.color = Color(_tint.r, _tint.g, _tint.b, 0.82)
+	burst.mesh = AreaPortal.make_mote_quad(1.8)
 	get_parent().add_child(burst)
 	burst.global_position = at
 	burst.emitting = true
-	get_tree().create_timer(1.0).timeout.connect(burst.queue_free)
+	var btw := burst.create_tween()
+	btw.tween_interval(1.0)
+	btw.tween_callback(burst.queue_free)
 	AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", at, -14.0, 1.6)
 	queue_free()

@@ -52,6 +52,8 @@ def audit(area_id):
     cells = set()
     cell_y = {}
     for f in def_.get("fills", []):
+        if f.get("kit") == "burg_floor_3m":
+            continue   # 3m interior rowhouse upper floors sit above the walkable plateau
         mn, mx = f["min"], f["max"]
         for x in range(int(mn[0]), int(mx[0])):
             for z in range(int(mn[2]), int(mx[2])):

@@ -19,14 +19,63 @@ TIMBER = 0.09     # frame stick cross-section
 
 
 def _frame_stick(bm, a, b, t=TIMBER):
-    """Axis-aligned timber from a to b, square cross-section t, proud of
-    the plaster on both faces."""
+    """Timber beam from a to b, cross-section t, proud of the plaster on both
+    faces when placed on the wall plane (y=0), and properly oriented when
+    diagonal (wall braces or balcony struts)."""
+    dx, dy, dz = b[0] - a[0], b[1] - a[1], b[2] - a[2]
+    on_wall_plane = (abs(a[1]) < 0.001 and abs(b[1]) < 0.001 and abs(a[0]) < 2.0 and abs(b[0]) < 2.0)
+    y_half = WALL_T * 0.5 if on_wall_plane else t * 0.5
+
+    # Diagonal brace in X-Z plane (e.g. half-timber wall braces)
+    if abs(dx) > 0.001 and abs(dz) > 0.001 and abs(dy) < 0.001:
+        L = math.hypot(dx, dz)
+        nx, nz = -dz / L * (t * 0.5), dx / L * (t * 0.5)
+        y0, y1 = a[1] - y_half, a[1] + y_half
+        pts_xz = [
+            (a[0] - nx, a[2] - nz),
+            (a[0] + nx, a[2] + nz),
+            (b[0] + nx, b[2] + nz),
+            (b[0] - nx, b[2] - nz),
+        ]
+        vf = [bm.verts.new((px, y0, pz)) for (px, pz) in pts_xz]
+        vb = [bm.verts.new((px, y1, pz)) for (px, pz) in pts_xz]
+        new_faces = [bm.faces.new(vf), bm.faces.new(tuple(reversed(vb)))]
+        for i in range(4):
+            j = (i + 1) % 4
+            new_faces.append(bm.faces.new((vf[i], vf[j], vb[j], vb[i])))
+        # winding depends on the brace's slope sign: let bmesh orient the
+        # closed prism outward, or the broad faces cull and only the thin
+        # sides render (a hairline brace)
+        bmesh.ops.recalc_face_normals(bm, faces=new_faces)
+        return
+
+    # Diagonal strut in Y-Z plane (e.g. balcony under-struts)
+    if abs(dy) > 0.001 and abs(dz) > 0.001 and abs(dx) < 0.001:
+        L = math.hypot(dy, dz)
+        ny, nz = -dz / L * (t * 0.5), dy / L * (t * 0.5)
+        x0, x1 = a[0] - t * 0.5, a[0] + t * 0.5
+        pts_yz = [
+            (a[1] - ny, a[2] - nz),
+            (a[1] + ny, a[2] + nz),
+            (b[1] + ny, b[2] + nz),
+            (b[1] - ny, b[2] - nz),
+        ]
+        vf = [bm.verts.new((x0, py, pz)) for (py, pz) in pts_yz]
+        vb = [bm.verts.new((x1, py, pz)) for (py, pz) in pts_yz]
+        new_faces = [bm.faces.new(tuple(reversed(vf))), bm.faces.new(vb)]
+        for i in range(4):
+            j = (i + 1) % 4
+            new_faces.append(bm.faces.new((vf[i], vf[j], vb[j], vb[i])))
+        bmesh.ops.recalc_face_normals(bm, faces=new_faces)
+        return
+
     lo = [min(a[i], b[i]) for i in range(3)]
     hi = [max(a[i], b[i]) for i in range(3)]
     for i in range(3):
         if hi[i] - lo[i] < 0.001:
-            lo[i] -= t * 0.5
-            hi[i] += t * 0.5
+            half = y_half if i == 1 else t * 0.5
+            lo[i] -= half
+            hi[i] += half
     V.add_box(bm, tuple(lo), tuple(hi))
 
 
@@ -135,8 +184,9 @@ def roof_gable_7m():
         b = bm.verts.new((3.5, sgn * 3.5, -0.12))
         c = bm.verts.new((3.5, 0.0, 2.4))
         d = bm.verts.new((-3.5, 0.0, 2.4))
-        f = bm.faces.new((a, b, c, d) if sgn > 0 else (d, c, b, a))
+        bm.faces.new((a, b, c, d) if sgn > 0 else (d, c, b, a))
         bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.1)
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
         objs.append(V.bm_to_object(bm, "slope", ("M_roof",)))
     # ridge beam + eave fascias
     bm = bmesh.new()
@@ -144,18 +194,27 @@ def roof_gable_7m():
     for sgn in (-1, 1):
         V.add_box(bm, (-3.5, sgn * 3.5 - 0.08, -0.3), (3.5, sgn * 3.5 + 0.08, -0.06))
     objs.append(V.bm_to_object(bm, "ridge", ("M_wood",)))
-    # gable-end infill: plastered triangles with a king post
+    # gable-end infill: plastered triangles recessed inside the half-timber frame
     bm = bmesh.new()
-    for ex in (-3.06, 3.06):
-        v0 = bm.verts.new((ex, -3.0, 0.0))
-        v1 = bm.verts.new((ex, 3.0, 0.0))
-        v2 = bm.verts.new((ex, 0.0, 2.32))
-        bm.faces.new((v0, v1, v2))
-    bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.16)
-    objs.append(V.bm_to_object(bm, "gables", ("M_wax",)))
-    bm = bmesh.new()
+    px = WALL_T * 0.5 - 0.02
     for ex in (-3.0, 3.0):
-        _frame_stick(bm, (ex, 0, 0.1), (ex, 0, 2.2), 0.11)
+        vf = [bm.verts.new((ex - px, -3.0, 0.0)), bm.verts.new((ex - px, 3.0, 0.0)), bm.verts.new((ex - px, 0.0, 2.32))]
+        vb = [bm.verts.new((ex + px, -3.0, 0.0)), bm.verts.new((ex + px, 3.0, 0.0)), bm.verts.new((ex + px, 0.0, 2.32))]
+        bm.faces.new(vf)
+        bm.faces.new(tuple(reversed(vb)))
+        for i in range(3):
+            j = (i + 1) % 3
+            bm.faces.new((vf[i], vf[j], vb[j], vb[i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    objs.append(V.bm_to_object(bm, "gables", ("M_wax",)))
+    # half-timber gable framing (proud of plaster on both faces): kingpost, collar beam, queen posts
+    bm = bmesh.new()
+    tx = WALL_T * 0.5
+    for ex in (-3.0, 3.0):
+        V.add_box(bm, (ex - tx, -0.055, 0.0), (ex + tx, 0.055, 2.30))
+        V.add_box(bm, (ex - tx, -1.62, 1.00), (ex + tx, 1.62, 1.09))
+        for sy in (-1.35, 1.35):
+            V.add_box(bm, (ex - tx, sy - 0.045, 0.0), (ex + tx, sy + 0.045, 1.24))
     objs.append(V.bm_to_object(bm, "kingposts", ("M_wood",)))
     return objs, {"size": [7.1, 7.16, 2.62], "origin": "eave-center"}
 
@@ -435,31 +494,56 @@ def altar_wick():
     bm = bmesh.new()
     V.add_box(bm, (-0.28, -0.2, 1.06), (0.28, 0.2, 1.5))
     objs.append(V.bm_to_object(bm, "reliquary", ("M_gold",)))
-    for sx in (-0.85, 0.85):
-        c = V.loft_rings("candle", [(0.09, 1.06, 8, 0), (0.08, 1.62, 8, 0)], "M_wax")
+    for i, sx in enumerate((-0.85, 0.85)):
+        c = V.loft_rings("candle%d" % i, [(0.095, 1.06, 10, 0), (0.082, 1.62, 10, 0)], "M_wax")
         c.location = (sx, 0.0, 0.0)
         objs.append(c)
-        f = V.loft_rings("flame", [(0.01, 1.62, 6, 0), (0.05, 1.72, 6, 0), (0.005, 1.84, 6, 0)], "M_gold")
+        f = V.loft_rings("flame%d" % i, [
+            (0.012, 1.62, 8, 0),
+            (0.042, 1.67, 8, 0.15),
+            (0.030, 1.74, 8, 0.30),
+            (0.014, 1.80, 8, 0.45),
+            (0.002, 1.85, 8, 0.60),
+        ], "M_flame")
         f.location = (sx, 0.0, 0.0)
         objs.append(f)
-    return objs, {"size": [2.52, 1.12, 1.84], "origin": "bottom-center"}
+    return objs, {"size": [2.52, 1.12, 1.85], "origin": "bottom-center"}
 
 
 def torch_held():
-    """A hand torch: shaft up +Z from the grip origin (engine: blade +Y),
-    iron collar, waxed head, a fat flame knot."""
+    """A hand torch: tapered wooden shaft through the grip origin (engine: blade +Y),
+    wrought-iron cresset collar & ribs, pitch-soaked head, and living flame."""
     objs = []
+    shaft = V.loft_rings("shaft", [
+        (0.020, -0.14, 10, 0),
+        (0.024, 0.0, 10, 0),
+        (0.028, 0.38, 10, 0),
+        (0.034, 0.56, 10, 0),
+    ], "M_wood")
+    objs.append(shaft)
     bm = bmesh.new()
-    V.add_box(bm, (-0.03, -0.03, 0.0), (0.03, 0.03, 0.6))
-    objs.append(V.bm_to_object(bm, "shaft", ("M_wood",)))
-    bm = bmesh.new()
-    V.add_box(bm, (-0.05, -0.05, 0.52), (0.05, 0.05, 0.6))
+    V.add_box(bm, (-0.044, -0.044, 0.50), (0.044, 0.044, 0.57))
+    V.add_box(bm, (-0.052, -0.052, 0.68), (0.052, 0.052, 0.72))
+    for a in range(4):
+        ang = a * math.pi * 0.5 + math.pi * 0.25
+        cx, cy = math.cos(ang) * 0.044, math.sin(ang) * 0.044
+        V.add_box(bm, (cx - 0.008, cy - 0.008, 0.54), (cx + 0.008, cy + 0.008, 0.74))
     objs.append(V.bm_to_object(bm, "collar", ("M_iron",)))
-    head = V.loft_rings("head", [(0.05, 0.6, 8, 0), (0.075, 0.72, 8, 0), (0.05, 0.8, 8, 0)], "M_wax")
+    head = V.loft_rings("head", [
+        (0.036, 0.55, 10, 0),
+        (0.054, 0.66, 10, 0),
+        (0.042, 0.75, 10, 0),
+    ], "M_charred")
     objs.append(head)
-    flame = V.loft_rings("flame", [(0.02, 0.78, 8, 0), (0.075, 0.88, 8, 0), (0.01, 1.02, 8, 0)], "M_gold")
+    flame = V.loft_rings("flame", [
+        (0.018, 0.73, 8, 0),
+        (0.052, 0.80, 8, 0.15),
+        (0.038, 0.88, 8, 0.30),
+        (0.018, 0.95, 8, 0.45),
+        (0.003, 1.01, 8, 0.60),
+    ], "M_flame")
     objs.append(flame)
-    return objs, {"size": [0.16, 0.16, 1.02], "origin": "grip-center"}
+    return objs, {"size": [0.14, 0.14, 1.02], "origin": "grip-center"}
 
 
 BUILDERS = {

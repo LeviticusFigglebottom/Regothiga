@@ -9,7 +9,7 @@ Conventions (see DECISIONS.md D-004):
     B = ambient occlusion approximation, A = 1.
   * Material names are the contract with Godot's MaterialLib: M_stone,
     M_stone_trim, M_stone_dark, M_iron, M_wood, M_glass, M_gold, M_wax,
-    M_cloth, M_flame, M_bell.
+    M_cloth, M_flame, M_bell, M_chainmail, M_plate_dark, M_brass, M_steel, etc.
 """
 import math
 import random
@@ -35,22 +35,38 @@ def _ensure_material(name: str, color=(0.8, 0.8, 0.8, 1.0)):
     return mat
 
 MATERIAL_COLORS = {
-    "M_stone":      (0.72, 0.68, 0.60, 1.0),
-    "M_stone_trim": (0.78, 0.74, 0.66, 1.0),
-    "M_stone_dark": (0.45, 0.43, 0.40, 1.0),
-    "M_iron":       (0.10, 0.10, 0.12, 1.0),
-    "M_wood":       (0.26, 0.17, 0.10, 1.0),
-    "M_glass":      (0.30, 0.40, 0.70, 1.0),
-    "M_gold":       (0.85, 0.65, 0.25, 1.0),
-    "M_wax":        (0.88, 0.84, 0.72, 1.0),
-    "M_cloth":      (0.35, 0.08, 0.10, 1.0),
-    "M_flame":      (1.00, 0.75, 0.30, 1.0),
-    "M_bell":       (0.35, 0.28, 0.16, 1.0),
-    "M_ember":      (0.90, 0.35, 0.12, 1.0),
-    "M_gild":       (0.82, 0.60, 0.22, 1.0),
-    "M_citywindow": (0.95, 0.62, 0.25, 1.0),
-    "M_marsh":      (0.10, 0.13, 0.11, 1.0),
-    "M_habit":      (0.55, 0.51, 0.44, 1.0),
+    "M_stone":        (0.72, 0.68, 0.60, 1.0),
+    "M_stone_trim":   (0.78, 0.74, 0.66, 1.0),
+    "M_stone_dark":   (0.45, 0.43, 0.40, 1.0),
+    "M_iron":         (0.14, 0.14, 0.17, 1.0),
+    "M_steel":        (0.62, 0.65, 0.70, 1.0),
+    "M_plate_dark":   (0.24, 0.26, 0.31, 1.0),
+    "M_chainmail":    (0.38, 0.40, 0.45, 1.0),
+    "M_brass":        (0.64, 0.48, 0.22, 1.0),
+    "M_bronze":       (0.38, 0.27, 0.14, 1.0),
+    "M_wood":         (0.26, 0.17, 0.10, 1.0),
+    "M_glass":        (0.30, 0.40, 0.70, 1.0),
+    "M_gold":         (0.85, 0.65, 0.25, 1.0),
+    "M_wax":          (0.88, 0.84, 0.72, 1.0),
+    "M_cloth":        (0.35, 0.08, 0.10, 1.0),
+    "M_flame":        (1.00, 0.75, 0.30, 1.0),
+    "M_bell":         (0.35, 0.28, 0.16, 1.0),
+    "M_ember":        (0.90, 0.35, 0.12, 1.0),
+    "M_gild":         (0.82, 0.60, 0.22, 1.0),
+    "M_citywindow":   (0.95, 0.62, 0.25, 1.0),
+    "M_marsh":        (0.10, 0.13, 0.11, 1.0),
+    "M_habit":        (0.55, 0.51, 0.44, 1.0),
+    "M_robe":         (0.23, 0.24, 0.28, 1.0),
+    "M_robe_boss":    (0.24, 0.19, 0.26, 1.0),
+    "M_shroud":       (0.62, 0.60, 0.54, 1.0),
+    "M_wraith":       (0.20, 0.24, 0.33, 1.0),
+    "M_leather":      (0.30, 0.20, 0.12, 1.0),
+    "M_bone":         (0.72, 0.68, 0.56, 1.0),
+    "M_mosaic":       (0.58, 0.46, 0.28, 1.0),
+    "M_roof":         (0.14, 0.13, 0.14, 1.0),
+    "M_marble":       (0.88, 0.86, 0.79, 1.0),
+    "M_marble_floor": (0.78, 0.76, 0.70, 1.0),
+    "M_cloud":        (0.96, 0.93, 0.87, 1.0),
 }
 
 def material(name: str):
@@ -104,10 +120,60 @@ def value_noise(p: Vector, freq=1.0):
         lerp(lerp(c[0][0][0], c[0][0][1], zf), lerp(c[0][1][0], c[0][1][1], zf), yf),
         lerp(lerp(c[1][0][0], c[1][0][1], zf), lerp(c[1][1][0], c[1][1][1], zf), yf), xf)
 
+# smooth normals + sharp edge split + box UVs ----------------------------
+
+def finalize_mesh_shading(obj, angle_deg=42.0):
+    """Enable smooth shading across curved surfaces while splitting sharp edges
+    (> angle_deg) and generating box-projected UVs for MikkTSpace tangents.
+    Returns a set of quantized (x,y,z) coordinates that lie on sharp edges so
+    paint_masks can boost edge wear there."""
+    if obj.type != 'MESH' or len(obj.data.polygons) == 0:
+        return set()
+    mesh = obj.data
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.normal_update()
+
+    # Generate box-projected UVs so glTF exports valid tangent frames
+    uv_layer = bm.loops.layers.uv.verify()
+    for f in bm.faces:
+        f.smooth = True
+        n = f.normal
+        ax, ay, az = abs(n.x), abs(n.y), abs(n.z)
+        for loop in f.loops:
+            co = loop.vert.co
+            if ax >= ay and ax >= az:
+                loop[uv_layer].uv = (co.y * 0.5, co.z * 0.5)
+            elif ay >= ax and ay >= az:
+                loop[uv_layer].uv = (co.x * 0.5, co.z * 0.5)
+            else:
+                loop[uv_layer].uv = (co.x * 0.5, co.y * 0.5)
+
+    thresh = math.radians(angle_deg)
+    sharp_edges = []
+    sharp_coords = set()
+    for e in bm.edges:
+        if len(e.link_faces) == 2:
+            n0 = e.link_faces[0].normal
+            n1 = e.link_faces[1].normal
+            if n0.length > 1e-5 and n1.length > 1e-5:
+                if n0.angle(n1, 0.0) > thresh:
+                    sharp_edges.append(e)
+                    for v in e.verts:
+                        sharp_coords.add((round(v.co.x, 3), round(v.co.y, 3), round(v.co.z, 3)))
+
+    if sharp_edges:
+        bmesh.ops.split_edges(bm, edges=sharp_edges)
+
+    bm.normal_update()
+    bm.to_mesh(mesh)
+    bm.free()
+    return sharp_coords
+
 # vertex color masks ------------------------------------------------------
 
 def paint_masks(obj, wear_freq=0.9, wear_amount=1.0, moss_below=0.5, moss_fade=1.8,
-                ao_cavity=None, seed=0):
+                ao_cavity=None, seed=0, sharp_coords=None):
     """Paint (wear, moss-zone, AO, 1) into the vertex color attribute.
 
     AO approximation: downward-facing and low-in-piece vertices darker;
@@ -131,6 +197,8 @@ def paint_masks(obj, wear_freq=0.9, wear_amount=1.0, moss_below=0.5, moss_fade=1
         co = v.co
         wear = value_noise(co + Vector((jitter, jitter, jitter)), wear_freq)
         wear = max(0.0, min(1.0, (wear - 0.35) * 1.6)) * wear_amount
+        if sharp_coords and (round(co.x, 3), round(co.y, 3), round(co.z, 3)) in sharp_coords:
+            wear = min(1.0, wear + 0.24 * wear_amount)
         moss = max(0.0, 1.0 - max(co.z - moss_below, 0.0) / moss_fade)
         moss *= 0.4 + 0.6 * value_noise(co + Vector((5 + jitter, 0, 3)), 1.3)
         ao = 0.62 + 0.38 * max(n.z, -0.2)                    # under-surfaces darker
@@ -164,7 +232,7 @@ def box_object(name, size, mat="M_stone", origin='corner'):
 
 # arch curves --------------------------------------------------------------
 
-def pointed_arch(width, sharpness=1.0, segments=14, spring_y=0.0):
+def pointed_arch(width, sharpness=1.0, segments=16, spring_y=0.0):
     """Polyline of a pointed arch intrados from left springer to right.
 
     sharpness: 1.0 = equilateral; >1 = steeper lancet. Radius = width*sharpness.
@@ -187,7 +255,7 @@ def pointed_arch(width, sharpness=1.0, segments=14, spring_y=0.0):
         pts.append((-x, y))
     return pts
 
-def round_arch(width, segments=16, spring_y=0.0):
+def round_arch(width, segments=18, spring_y=0.0):
     R = width / 2
     return [(R * math.cos(math.pi - math.pi * i / segments),
              spring_y + R * math.sin(math.pi - math.pi * i / segments))
@@ -196,7 +264,7 @@ def round_arch(width, segments=16, spring_y=0.0):
 # panel builders -----------------------------------------------------------
 
 def wall_panel_with_arch(name, width, height, thickness, opening_w, spring_h,
-                         sharpness=1.0, mat="M_stone", segments=12, sill_h=0.0):
+                         sharpness=1.0, mat="M_stone", segments=16, sill_h=0.0):
     """A wall panel (width x height x thickness, origin bottom-center,
     thickness along Y) pierced by a pointed-arch opening. Clean quad topology:
     jamb strips beside the opening, radial-projected quads above the arch.
@@ -256,6 +324,7 @@ def wall_panel_with_arch(name, width, height, thickness, opening_w, spring_h,
         quad(af[i + 1], af[i], ab[i], ab[i + 1])          # intrados (arch soffit)
         quad(tf[i], tf[i + 1], tb[i + 1], tb[i])          # top cap strip
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0005)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     obj = bm_to_object(bm, name, (mat,))
     return obj
 
@@ -313,15 +382,16 @@ def sweep_profile(name, path_pts, profile, mat="M_stone_trim", close_caps=True,
     m = len(profile)
     for i in range(n - 1):
         for j in range(m):
-            bm.faces.new((rings[i][j], rings[i][(j + 1) % m],
-                          rings[i + 1][(j + 1) % m], rings[i + 1][j]))
+            bm.faces.new((rings[i][j], rings[i + 1][j],
+                          rings[i + 1][(j + 1) % m], rings[i][(j + 1) % m]))
     if close_caps:
-        bm.faces.new(reversed(rings[0]))
-        bm.faces.new(rings[-1])
+        bm.faces.new(rings[0])
+        bm.faces.new(reversed(rings[-1]))
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0005)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     return bm_to_object(bm, name, (mat,))
 
-def circle_profile(r, n=8, squash=1.0):
+def circle_profile(r, n=12, squash=1.0):
     return [(r * math.cos(2 * math.pi * i / n), r * squash * math.sin(2 * math.pi * i / n))
             for i in range(n)]
 
@@ -340,11 +410,13 @@ def apply_all(obj):
     obj.select_set(False)
 
 def export_glb(objs, filepath, paint=True, seed=0, **paint_kw):
-    """Select objs, paint masks if not already painted, export one .glb."""
+    """Select objs, compute smooth normals + sharp edge split + box UVs,
+    paint masks if not already painted, and export one .glb."""
     bpy.ops.object.select_all(action='DESELECT')
     for i, o in enumerate(objs):
+        sharp_coords = finalize_mesh_shading(o, angle_deg=42.0)
         if paint and not o.data.color_attributes:
-            paint_masks(o, seed=seed + i, **paint_kw)
+            paint_masks(o, seed=seed + i, sharp_coords=sharp_coords, **paint_kw)
         o.select_set(True)
     bpy.context.view_layer.objects.active = objs[0]
     bpy.ops.export_scene.gltf(

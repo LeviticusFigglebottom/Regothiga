@@ -3,6 +3,7 @@
 plus assets/kit/manifest.json. Deterministic (fixed seeds).
 
 Usage: python3 tools/gen_assets.py [piece ...]
+   or: blender --background --python tools/gen_assets.py [-- piece ...]
 """
 import json
 import os
@@ -37,7 +38,22 @@ PAINT_OVERRIDES = {
 
 
 def main():
-    only = set(sys.argv[1:])
+    if "--" in sys.argv:
+        args = sys.argv[sys.argv.index("--") + 1:]
+    else:
+        args = []
+        skip_next = False
+        for a in sys.argv[1:]:
+            if skip_next:
+                skip_next = False
+                continue
+            if a in ("-P", "--python"):
+                skip_next = True
+                continue
+            if a.startswith("-") or a.endswith(".py"):
+                continue
+            args.append(a)
+    only = set(args)
     os.makedirs(OUT, exist_ok=True)
     manifest_path = os.path.join(OUT, "manifest.json")
     manifest = {}

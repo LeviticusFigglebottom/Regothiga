@@ -23,16 +23,21 @@ var panel: Panel
 var title_label: Label
 var list_box: VBoxContainer
 var info_label: Label
+var _top_rule: ColorRect
+var _bot_rule: ColorRect
 
 func _init(l: VigilLantern, p) -> void:
 	lantern = l
 	player = p
 
-func _ls(size: int, color: Color) -> LabelSettings:
+func _ls(size: int, color: Color, bold := false) -> LabelSettings:
 	var ls := LabelSettings.new()
-	ls.font = load("res://assets/fonts/DejaVuSerif.ttf")
+	ls.font = load("res://assets/fonts/DejaVuSerif-Bold.ttf" if bold else "res://assets/fonts/DejaVuSerif.ttf")
 	ls.font_size = size
 	ls.font_color = color
+	ls.shadow_color = Color(0, 0, 0, 0.85)
+	ls.shadow_size = 3
+	ls.shadow_offset = Vector2(1, 2)
 	return ls
 
 func _ready() -> void:
@@ -40,11 +45,19 @@ func _ready() -> void:
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(root)
+	var dim := ColorRect.new()
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.color = Color(0.015, 0.010, 0.006, 0.42)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(dim)
 	panel = Panel.new()
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.04, 0.035, 0.03, 0.94)
-	sb.border_color = Color(0.6, 0.5, 0.32)
-	sb.set_border_width_all(1)
+	sb.bg_color = Color(0.04, 0.035, 0.028, 0.96)
+	sb.border_color = Color(0.78, 0.66, 0.40)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(3)
+	sb.shadow_color = Color(0, 0, 0, 0.78)
+	sb.shadow_size = 16
 	panel.add_theme_stylebox_override("panel", sb)
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 	panel.offset_left = -385
@@ -52,17 +65,38 @@ func _ready() -> void:
 	panel.offset_top = -210
 	panel.offset_bottom = 210
 	root.add_child(panel)
+	var crest_path := "res://assets/ui/icons/crest.png"
+	if ResourceLoader.exists(crest_path):
+		var ci := TextureRect.new()
+		ci.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ci.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ci.texture = load(crest_path)
+		ci.position = Vector2(24, 14)
+		ci.size = Vector2(38, 38)
+		ci.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		panel.add_child(ci)
 	title_label = Label.new()
-	title_label.label_settings = _ls(28, Color(0.9, 0.78, 0.55))
-	title_label.position = Vector2(28, 18)
+	title_label.label_settings = _ls(28, Color(0.95, 0.82, 0.52), true)
+	title_label.position = Vector2(72, 16)
 	title_label.text = lantern.display_name
 	panel.add_child(title_label)
+	_top_rule = ColorRect.new()
+	_top_rule.color = Color(0.74, 0.62, 0.38, 0.68)
+	_top_rule.position = Vector2(28, 60)
+	_top_rule.size = Vector2(710, 1)
+	panel.add_child(_top_rule)
 	list_box = VBoxContainer.new()
 	list_box.position = Vector2(28, 74)
 	list_box.size = Vector2(710, 260)
+	list_box.add_theme_constant_override("separation", 6)
 	panel.add_child(list_box)
+	_bot_rule = ColorRect.new()
+	_bot_rule.color = Color(0.56, 0.46, 0.28, 0.48)
+	_bot_rule.position = Vector2(28, 348)
+	_bot_rule.size = Vector2(710, 1)
+	panel.add_child(_bot_rule)
 	info_label = Label.new()
-	info_label.label_settings = _ls(20, Color(0.65, 0.6, 0.5))
+	info_label.label_settings = _ls(19, Color(0.70, 0.64, 0.52))
 	info_label.position = Vector2(28, 360)
 	info_label.size = Vector2(710, 50)
 	info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -122,15 +156,21 @@ func _enter_level() -> void:
 ## long line and never swimming around a short menu.
 func _fit_panel() -> void:
 	var need := list_box.get_combined_minimum_size()
-	var half_w: float = (maxf(need.x, 520.0) + 88.0) * 0.5
+	var half_w: float = (maxf(need.x, 540.0) + 88.0) * 0.5
 	var h: float = 74.0 + need.y + 118.0
 	panel.offset_left = -half_w
 	panel.offset_right = half_w
 	panel.offset_top = -h * 0.5
 	panel.offset_bottom = h * 0.5
-	list_box.size = Vector2(half_w * 2.0 - 56.0, need.y)
+	var inner_w := half_w * 2.0 - 56.0
+	list_box.size = Vector2(inner_w, need.y)
+	if _top_rule != null:
+		_top_rule.size = Vector2(inner_w, 1)
+	if _bot_rule != null:
+		_bot_rule.position = Vector2(28, 74.0 + need.y + 12.0)
+		_bot_rule.size = Vector2(inner_w, 1)
 	info_label.position = Vector2(28, 74.0 + need.y + 22.0)
-	info_label.size = Vector2(half_w * 2.0 - 56.0, 64)
+	info_label.size = Vector2(inner_w, 64)
 
 func _render() -> void:
 	for c in list_box.get_children():
@@ -138,8 +178,8 @@ func _render() -> void:
 	for i in _options.size():
 		var l := Label.new()
 		var sel := i == _opt_i
-		l.label_settings = _ls(23, Color(0.98, 0.88, 0.6) if sel else Color(0.7, 0.66, 0.58))
-		l.text = ("»  " if sel else "    ") + _options[i]["label"]
+		l.label_settings = _ls(23, Color(0.98, 0.88, 0.58) if sel else Color(0.74, 0.69, 0.60), sel)
+		l.text = ("◆  " if sel else "    ") + _options[i]["label"]
 		list_box.add_child(l)
 	_fit_panel()
 

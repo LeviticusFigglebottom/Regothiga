@@ -123,17 +123,33 @@ def battlement_4m():
 
 
 def toll_maul():
-    """The Tollkeeper's maul: a long dark haft into a massive square iron
-    head, gilt-banded — the hammer that rang the toll. Origin at grip."""
-    objs = [V.loft_rings("maul_haft", [(0.035, -1.0, 8, 0), (0.04, 1.15, 8, 0)], "M_wood")]
+    """The Tollkeeper's maul: a long dark haft into a massive iron bell-hammer
+    head with flared striking faces, socket langets, and gilt bronze straps. Origin at grip."""
+    objs = [V.loft_rings("maul_haft", [
+        (0.038, -1.02, 10, 0), (0.030, -0.92, 10, 0),
+        (0.034, 0.85, 10, 0), (0.042, 1.15, 10, 0),
+        (0.028, 1.80, 10, 0), (0.006, 1.92, 10, 0),
+    ], "M_wood")]
     bm = bmesh.new()
-    V.add_box(bm, (-0.34, -0.34, 1.05), (0.34, 0.34, 1.75))
+    # Reinforced iron haft socket + langets + top pommel collar
+    V.add_box(bm, (-0.055, -0.055, 0.88), (0.055, 0.055, 1.16))
+    V.add_box(bm, (-0.050, -0.050, 1.64), (0.050, 0.050, 1.78))
+    # Waisted central block + flared striking heads along +-Y
+    V.add_box(bm, (-0.18, -0.24, 1.16), (0.18, 0.24, 1.64))
+    for sy in (-1, 1):
+        V.add_box(bm, (-0.22, sy * 0.22, 1.12), (0.22, sy * 0.34, 1.68))
+        V.add_box(bm, (-0.19, sy * 0.33, 1.15), (0.19, sy * 0.37, 1.65))
     objs.append(V.bm_to_object(bm, "maul_head", ("M_iron",)))
     gm = bmesh.new()
-    for z in (1.12, 1.66):
-        V.add_box(gm, (-0.36, -0.36, z - 0.045), (0.36, 0.36, z + 0.045))
+    # Gilt bronze bands wrapping both striking necks and waist cross-straps
+    for sy in (-1, 1):
+        V.add_box(gm, (-0.235, sy * 0.21, 1.105), (0.235, sy * 0.255, 1.695))
+    for z in (1.20, 1.60):
+        V.add_box(gm, (-0.195, -0.245, z - 0.032), (0.195, 0.245, z + 0.032))
+    V.add_box(gm, (-0.065, -0.065, 0.86), (0.065, 0.065, 0.92))
+    V.add_box(gm, (-0.062, -0.062, 1.74), (0.062, 0.062, 1.80))
     objs.append(V.bm_to_object(gm, "maul_bands", ("M_gold",)))
-    return objs, {"size": [0.72, 0.72, 2.9], "origin": "grip"}
+    return objs, {"size": [0.48, 0.74, 2.9], "origin": "grip"}
 
 
 BUILDERS = {

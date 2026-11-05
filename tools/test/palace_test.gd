@@ -255,6 +255,9 @@ func _run() -> void:
 	for kit in ["palace_wall_4x4", "palace_portal_4m", "palace_arcade_4m",
 			"palace_pier", "chime_stone", "votive_stand_lit", "candle_cluster",
 			"door_leaf", "wellhead", "gate_iron"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()

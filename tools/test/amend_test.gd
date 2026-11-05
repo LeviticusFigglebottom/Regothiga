@@ -340,7 +340,10 @@ func _run() -> void:
 			has_versicle = true
 	check(has_nova and has_versicle, "and carries the radiant offices to battle")
 	check(int(DB.table("enemies")["gilded_echo"]["hp"]) >= 60, "the palace guards stand bolstered")
-	check(KitLib.instance("skel_seraph") != null, "the seraph body resolves")
+	var ser := KitLib.instance("skel_seraph")
+	check(ser != null, "the seraph body resolves")
+	if ser != null:
+		ser.free()
 	World.set_flag("palace_hostile")
 	var pal := AreaBuilder.build("hour_palace")
 	add_child(pal)

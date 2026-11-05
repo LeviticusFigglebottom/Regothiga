@@ -239,7 +239,9 @@ func _end() -> void:
 			if is_instance_valid(sc):
 				VG.free_gently(sc))
 	AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -6.0, 1.3)
-	get_tree().create_timer(1.1, false).timeout.connect(func():
+	var end_tw := create_tween()
+	end_tw.tween_interval(1.1)
+	end_tw.tween_callback(func():
 		if _cine != null and is_instance_valid(_cine):
 			_cine.queue_free()
 		if _layer != null and is_instance_valid(_layer):

@@ -234,7 +234,7 @@ window_run_x(72, -10, 10, 180)
 for a, r in [((-6.4, 0, 62), 40), ((6.4, 0, 62), -40), ((-6.4, 0, 70), 140), ((6.4, 0, 70), -140)]:
     prop("candelabra", a, r)
 prop("mosaic_medallion", (0, 0.02, 65), 0)
-prop("carpet_runner_8m", (0, 0.02, 61), 90)
+prop("carpet_runner_8m", (0, 0.02, 59.2), 90)
 prop("chandelier_dome_high", (0, 5.2, 64), 0, collide=False)
 piece("statue_orans", (0, 0, 70.4), 180)
 piece("statue_saint", (-7.5, 0, 70.5), 160)
@@ -305,7 +305,7 @@ for sz in (12.5, 20, 27.5, 35):
 for (cx, cz) in [(-30.5, 10.5), (-37.5, 15.5), (-30.5, 21), (-37.5, 27), (-30.5, 33), (-36.5, 38)]:
     prop("candle_cluster", (cx, 0, cz), (cx * 13) % 360)         # the long watch burns
 prop("altar", (-18, 0, 30.5), 0)                                 # the waxworks
-prop("candle_cluster", (-18.55, 1.16, 30.4), 70, collide=False)  # wax pooled on the slab
+prop("candle_cluster", (-18.55, 1.02, 30.4), 70, collide=False, flames=False)  # wax pooled on the slab
 # the chandler's ledger — the altar slab TOPS at 1.02 (0.92 body + 0.1
 # slab, measured from the kit, not the manifest's padded box)
 prop("book_stack", (-17.45, 1.02, 30.65), -25, collide=False)

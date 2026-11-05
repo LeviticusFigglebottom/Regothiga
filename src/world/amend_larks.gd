@@ -123,14 +123,8 @@ func _open_cage(st: Node3D, at: Vector3) -> void:
 	puff.initial_velocity_max = 1.6
 	puff.scale_amount_min = 0.02
 	puff.scale_amount_max = 0.05
-	var pm := SphereMesh.new()
-	pm.radius = 0.03
-	pm.height = 0.06
-	var pmat := StandardMaterial3D.new()
-	pmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	pmat.albedo_color = Color(1.0, 0.9, 0.6)
-	pm.material = pmat
-	puff.mesh = pm
+	puff.color = Color(1.0, 0.9, 0.6)
+	puff.mesh = AreaPortal.make_mote_quad(1.6)
 	get_parent().add_child(puff)
 	puff.global_position = at + Vector3(0, 1.25, 0)
 	puff.emitting = true
@@ -150,23 +144,43 @@ func _bird(at: Vector3) -> void:
 	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	mat.albedo_color = Color(1.0, 0.9, 0.55, 0.95)
 	var body := MeshInstance3D.new()
-	var bm := PrismMesh.new()
-	bm.size = Vector3(0.16, 0.11, 0.32)
+	var bm := SphereMesh.new()
+	bm.radius = 0.048
+	bm.height = 0.15
+	bm.radial_segments = 10
+	bm.rings = 6
 	bm.material = mat
 	body.mesh = bm
+	body.rotation.x = deg_to_rad(74)
+	body.scale = Vector3(0.86, 1.0, 0.78)
 	body.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	bird.add_child(body)
+	var head := MeshInstance3D.new()
+	var hm := SphereMesh.new()
+	hm.radius = 0.032
+	hm.height = 0.064
+	hm.radial_segments = 8
+	hm.rings = 5
+	hm.material = mat
+	head.mesh = hm
+	head.position = Vector3(0, 0.035, -0.068)
+	head.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	bird.add_child(head)
 	var wings: Array = []
 	for s in [-1.0, 1.0]:
 		var pivot := Node3D.new()
-		pivot.position = Vector3(s * 0.08, 0.03, 0)
+		pivot.position = Vector3(s * 0.04, 0.02, -0.01)
 		bird.add_child(pivot)
 		var wing := MeshInstance3D.new()
-		var wm := PrismMesh.new()
-		wm.size = Vector3(0.34, 0.02, 0.18)
+		var wm := SphereMesh.new()
+		wm.radius = 0.095
+		wm.height = 0.018
+		wm.radial_segments = 8
+		wm.rings = 4
 		wm.material = mat
 		wing.mesh = wm
-		wing.position = Vector3(s * 0.19, 0, 0)
+		wing.scale = Vector3(1.25, 1.0, 0.45)
+		wing.position = Vector3(s * 0.11, 0, 0.01)
 		wing.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		pivot.add_child(wing)
 		wings.append(pivot)

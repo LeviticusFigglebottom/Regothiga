@@ -12,6 +12,35 @@ var trail: MeshInstance3D
 var weapon_mount: Node3D
 var shield_mount: Node3D
 var head_mount: Node3D
+var weapon_kit := ""
+
+## How each weapon kit rides the fist outside active attack swings.
+## In relaxed stances (idle/walk/run), hand_r's +Y points ~36 deg forward of
+## straight down (-Y world) at y ~ 0.87 m. Rotating +X on weapon_mount pitches
+## the blade/shaft upward so weapons never stab into the floor at rest.
+const CARRY_POSE := {
+	"sword_cloister": Vector3(38, 0, 0),
+	"maul_sexton": Vector3(95, 0, 0),
+	"halberd_ward": Vector3(95, 0, 0),
+	"spear_fen": Vector3(110, 0, 0),
+	"greatsword_pilgrim": Vector3(105, 0, 0),
+	"crook_warden": Vector3(98, 0, 0),
+	"crook_great": Vector3(96, 0, 0),
+	"oar_glaive": Vector3(96, 0, 0),
+	"toll_maul": Vector3(96, 0, 0),
+	"lantern_crook": Vector3(125, 0, 0),
+	"torch_held": Vector3(135, 0, 0),
+	"candle_cluster": Vector3(135, 0, 0),
+	"bell_great": Vector3.ZERO,
+}
+
+## Clips authored with the blade extending straight along hand_r +Y.
+const ZERO_MOUNT_CLIPS := [
+	"attack_l1", "attack_l2", "attack_h", "riposte",
+	"atk_r", "atk_double", "atk_thrust", "atk_over", "atk_back", "atk_spin",
+	"atk_2h_cleave", "atk_2h_sweep", "atk_2h_thrust",
+	"twohand_idle", "twohand_walk", "kneel", "seppuku",
+]
 
 ## ground speed (m/s) at which the walk / run cycles play at 1x
 var stride := 2.6
@@ -21,6 +50,9 @@ var step_volume := -14.0
 
 var _step_i := 0
 var _lean := Vector2.ZERO
+var _flinch_amp := 0.0
+var _flinch_phase := 0.0
+var _flinch_axis := Vector3(1, 0, 0)
 
 ## Locomotion clip substitutions (e.g. the Immortalized's two-handed carry:
 ## {"idle": "twohand_idle", "walk": "twohand_walk", "run": "twohand_walk"}).
@@ -47,6 +79,29 @@ func build_body(skel_id: String, amp := 1.0, sway := 1.0, vis_scale := 1.0) -> v
 	anim.play("idle")
 	anim.advance(randf() * 1.7)   # desync crowds
 
+## Upper-body / rig hit-flinch impulse on melee impact or block.
+func flinch(world_dir: Vector3, strength := 1.0) -> void:
+	var local_dir := global_transform.basis.inverse() * world_dir
+	local_dir.y = 0.0
+	if local_dir.length_squared() < 0.001:
+		local_dir = Vector3(0, 0, 1)
+	else:
+		local_dir = local_dir.normalized()
+	_flinch_axis = Vector3(local_dir.z, 0.22 * signf(local_dir.x), -local_dir.x).normalized()
+	_flinch_amp = clampf(_flinch_amp + 0.24 * strength, 0.0, 0.38)
+	_flinch_phase = 0.0
+
+func _process(dt: float) -> void:
+	if body == null:
+		return
+	if _flinch_amp > 0.0005:
+		_flinch_phase += dt * 24.0
+		_flinch_amp = move_toward(_flinch_amp, 0.0, dt * 1.35)
+		var wave := sin(_flinch_phase) * _flinch_amp
+		body.rotation = _flinch_axis * wave
+	elif body.rotation != Vector3.ZERO:
+		body.rotation = Vector3.ZERO
+
 ## A gear mount that rides a bone. Returned node is a child of the
 ## BoneAttachment3D; offset/orient it freely, then parent kit pieces to it.
 func mount(bone: String) -> Node3D:
@@ -72,8 +127,22 @@ func set_weapon(kit_id: String) -> void:
 		mount_weapon_hand()
 	for c in weapon_mount.get_children():
 		c.queue_free()
+	weapon_kit = kit_id
 	if kit_id != "":
 		weapon_mount.add_child(KitLib.instance(kit_id))
+	var cur: String = anim.current_animation if anim != null else "idle"
+	apply_carry_pose(cur)
+
+func apply_carry_pose(clip := "") -> void:
+	if weapon_mount == null:
+		return
+	var c: String = clip
+	if c == "" and anim != null:
+		c = anim.current_animation
+	if c in ZERO_MOUNT_CLIPS:
+		weapon_mount.rotation_degrees = Vector3.ZERO
+	else:
+		weapon_mount.rotation_degrees = Vector3(CARRY_POSE.get(weapon_kit, Vector3.ZERO))
 
 const _SWING_TRAIL := preload("res://src/chars/swing_trail.gd")
 
@@ -91,12 +160,15 @@ func play(clip: String, blend := 0.12, speed := 1.0) -> void:
 	anim.speed_scale = 1.0
 	if anim.has_animation(clip):
 		anim.play(clip, blend, speed)
+	apply_carry_pose(clip)
 
 func back_to_idle(blend := 0.2) -> void:
 	if anim == null:
 		return
 	anim.speed_scale = 1.0
-	anim.play(String(loco_override.get("idle", "idle")), blend)
+	var clip := String(loco_override.get("idle", "idle"))
+	anim.play(clip, blend)
+	apply_carry_pose(clip)
 
 func idle(blend := 0.25) -> void:
 	back_to_idle(blend)
@@ -116,6 +188,7 @@ func locomotion(dt: float, ground_speed: float, accel_lean := Vector2.ZERO, grou
 	var want := String(loco_override.get(base, base))
 	if want != cur:
 		anim.play(want, 0.3)
+		apply_carry_pose(want)
 	match base:
 		"walk":
 			anim.speed_scale = clampf(ground_speed / stride, 0.55, 1.75)

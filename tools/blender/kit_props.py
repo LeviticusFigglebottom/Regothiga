@@ -9,117 +9,149 @@ import vglib as V
 from kit_arch import bmesh_to_mesh
 
 
-def _flame(name="flame", r=0.035, h=0.14):
-    """Stylized teardrop flame; M_flame is emissive + flickers in-shader."""
-    n = 6
-    rings = [(r * 0.4, 0.0, n, 0), (r, h * 0.28, n, 0.2), (r * 0.55, h * 0.62, n, 0.4),
-             (r * 0.18, h * 0.86, n, 0.6), (0.004, h, n, 0.8)]
+def _flame(name="flame", r=0.020, h=0.11, z0=0.0):
+    """Stylized slender teardrop flame; M_flame is emissive + flickers in-shader."""
+    n = 10
+    rings = [
+        (r * 0.32, z0, n, 0),
+        (r * 0.92, z0 + h * 0.22, n, 0.15),
+        (r * 0.68, z0 + h * 0.50, n, 0.30),
+        (r * 0.32, z0 + h * 0.78, n, 0.45),
+        (0.002, z0 + h, n, 0.60),
+    ]
     return V.loft_rings(name, rings, "M_flame")
 
 
 def _candle(h=0.22, r=0.035, lit=True):
     objs = []
-    n = 8
-    drip = V.loft_rings("candle", [(r * 1.25, 0, n, 0), (r * 1.1, 0.02, n, 0.3),
-                                   (r, 0.05, n, 0), (r, h - 0.01, n, 0), (r * 0.8, h, n, 0)],
-                        "M_wax")
+    n = 12
+    # Melted wax column with recessed concave wax cup at top
+    drip = V.loft_rings(
+        "candle",
+        [
+            (r * 1.25, 0, n, 0),
+            (r * 1.10, 0.02, n, 0.3),
+            (r, 0.05, n, 0),
+            (r * 0.96, h - 0.008, n, 0),
+            (r * 0.88, h, n, 0),
+            (r * 0.45, h - 0.012, n, 0),
+        ],
+        "M_wax",
+    )
     objs.append(drip)
+    wick = V.loft_rings("wick", [(0.0035, h - 0.012, 6, 0), (0.0025, h + 0.014, 6, 0)], "M_iron")
+    objs.append(wick)
     if lit:
-        f = _flame()
-        f.location = (0, 0, h + 0.01)
+        f = _flame(z0=h + 0.006)
         objs.append(f)
     return objs
 
 
 def vigil_lantern():
-    """THE rest site. Stone socle, wrought twisted post, caged lantern with a
-    votive flame, kneeling step. Flame mesh named 'vigil_flame' so the state
-    system can retint it (gold in glory, blue in ruin)."""
+    """THE rest site. Ornate stepped octagonal stone socle, wrought twisted post
+    with brass collars, caged lantern with filigree bands and a votive flame,
+    and carved kneeling step. Flame mesh named 'vigil_flame'."""
     objs = []
-    # socle: two octagonal steps
-    objs.append(V.loft_rings("socle", [(0.62, 0, 8, 0), (0.62, 0.14, 8, 0),
-                                       (0.46, 0.14, 8, 0), (0.46, 0.3, 8, 0),
-                                       (0.3, 0.3, 8, 0), (0.3, 0.42, 8, 0)],
+    # socle: stepped octagonal pedestal with cornice moulding
+    objs.append(V.loft_rings("socle", [(0.64, 0, 12, 0), (0.64, 0.12, 12, 0),
+                                       (0.58, 0.15, 12, 0), (0.48, 0.15, 12, 0),
+                                       (0.48, 0.28, 12, 0), (0.42, 0.31, 12, 0),
+                                       (0.32, 0.31, 12, 0), (0.32, 0.42, 12, 0)],
                              "M_stone_dark", cap_top=True))
-    # twisted iron post: square rings rotating with height
+    # Gilt brass base collar
+    objs.append(V.loft_rings("post_collar_low", [(0.14, 0.42, 14, 0), (0.11, 0.48, 14, 0),
+                                                 (0.07, 0.52, 14, 0)], "M_gold"))
+    # twisted iron post: 12-sided fluted iron rings rotating with height
     rings = []
     for i in range(13):
         z = 0.42 + i * 0.10
-        rings.append((0.052, z, 4, i * 0.42))
-    rings.append((0.14, 1.72, 4, 13 * 0.42))       # flare under the cage
+        r_mod = 0.056 + (0.014 if i == 6 else 0.0)
+        rings.append((r_mod, z, 12, i * 0.42))
+    rings.append((0.15, 1.72, 12, 13 * 0.42))       # flare under the cage
     objs.append(V.loft_rings("post", rings, "M_iron"))
-    # cage: 4 corner ribs + roof pyramid + finial ring
-    cage_r, cage_h0, cage_h1 = 0.24, 1.78, 2.3
-    for k in range(4):
-        a = k * math.pi / 2 + math.pi / 4
+    # Mid-shaft gilt ring
+    objs.append(V.loft_rings("post_collar_mid", [(0.082, 1.00, 14, 0), (0.095, 1.03, 14, 0),
+                                                 (0.082, 1.06, 14, 0)], "M_gold"))
+    # cage: 8 corner ribs + roof pyramid + finial ring
+    cage_r, cage_h0, cage_h1 = 0.24, 1.78, 2.30
+    for k in range(8):
+        a = k * math.pi / 4 + math.pi / 8
+        rad = 0.016 if k % 2 == 0 else 0.010
         p0 = (cage_r * math.cos(a), cage_r * math.sin(a), cage_h0)
         p1 = (cage_r * math.cos(a), cage_r * math.sin(a), cage_h1)
-        objs.append(V.sweep_profile("cage_rib", [p0, p1], V.circle_profile(0.016, 5),
+        objs.append(V.sweep_profile("cage_rib", [p0, p1], V.circle_profile(rad, 8),
                                     "M_iron", up_hint=Vector((math.cos(a + 1.57), math.sin(a + 1.57), 0))))
-    objs.append(V.loft_rings("cage_base", [(0.30, cage_h0 - 0.05, 8, 0), (0.24, cage_h0, 8, 0)], "M_iron"))
-    objs.append(V.loft_rings("cage_roof", [(0.31, cage_h1, 8, 0), (0.02, cage_h1 + 0.26, 8, 0.4)], "M_iron"))
-    # finial: the Vespergard sigil — a half-sunk sun disc over a bar
-    objs.append(V.loft_rings("finial_disc", [(0.005, cage_h1 + 0.26, 8, 0), (0.07, cage_h1 + 0.34, 8, 0),
-                                             (0.005, cage_h1 + 0.42, 8, 0)], "M_gold"))
+    objs.append(V.loft_rings("cage_base", [(0.31, cage_h0 - 0.05, 16, 0), (0.25, cage_h0, 16, 0)], "M_iron"))
+    objs.append(V.loft_rings("cage_roof", [(0.32, cage_h1, 16, 0), (0.18, cage_h1 + 0.14, 16, 0.2),
+                                           (0.02, cage_h1 + 0.28, 16, 0.4)], "M_iron"))
+    # finial: the Vespergard sigil — an eclipsed sun ring & spire in burnished gold
+    objs.append(V.loft_rings("finial_disc", [(0.01, cage_h1 + 0.26, 16, 0), (0.085, cage_h1 + 0.35, 16, 0),
+                                             (0.01, cage_h1 + 0.44, 16, 0)], "M_gold"))
     # votive flame inside the cage
-    f = _flame("vigil_flame", 0.075, 0.3)
+    f = _flame("vigil_flame", 0.072, 0.30)
     f.location = (0, 0, cage_h0 + 0.02)
     objs.append(f)
     # candle stub under it
-    stub = V.loft_rings("stub", [(0.09, cage_h0 - 0.04, 8, 0), (0.08, cage_h0 + 0.02, 8, 0)], "M_wax")
+    stub = V.loft_rings("stub", [(0.095, cage_h0 - 0.04, 14, 0), (0.085, cage_h0 + 0.02, 14, 0)], "M_wax")
     objs.append(stub)
-    # kneel step
+    # Clustered melted votive candles around the stepped stone socle (shrine offerings)
+    for ang, rad_c, hc in ((0.4, 0.38, 0.16), (1.1, 0.41, 0.12), (2.3, 0.37, 0.18),
+                           (3.6, 0.40, 0.14), (4.8, 0.39, 0.15), (5.5, 0.42, 0.11)):
+        for c in _candle(hc, 0.030, lit=False):
+            c.location = (rad_c * math.cos(ang), rad_c * math.sin(ang), 0.31)
+            objs.append(c)
+    # kneel step with bevelled coping
     bm = bmesh.new()
-    V.add_box(bm, (-0.4, 0.55, 0), (0.4, 1.05, 0.09))
+    V.add_box(bm, (-0.42, 0.54, 0), (0.42, 1.06, 0.08))
+    V.add_box(bm, (-0.38, 0.58, 0.08), (0.38, 1.02, 0.11))
     objs.append(V.bm_to_object(bm, "kneel_step", ("M_stone_dark",)))
     return objs, {"size": [1.3, 2.1, 2.8], "origin": "bottom-center"}
 
 
 def candelabra():
-    """Standing candelabra, three lit candles. Glory furniture."""
+    """Standing cathedral candelabra, three lit candles with scrolled ironwork & gilt cups."""
     objs = []
-    objs.append(V.loft_rings("stand", [(0.22, 0, 8, 0), (0.2, 0.03, 8, 0), (0.05, 0.06, 8, 0),
-                                       (0.028, 1.16, 8, 0), (0.06, 1.2, 8, 0)], "M_iron"))
-    for (dx, h) in ((-0.18, 1.18), (0.0, 1.3), (0.18, 1.18)):
+    objs.append(V.loft_rings("stand", [(0.24, 0, 16, 0), (0.21, 0.04, 16, 0), (0.07, 0.09, 16, 0),
+                                       (0.032, 0.58, 16, 0), (0.055, 0.62, 16, 0), (0.030, 0.66, 16, 0),
+                                       (0.028, 1.15, 16, 0), (0.065, 1.2, 16, 0)], "M_iron"))
+    for (dx, h) in ((-0.19, 1.18), (0.0, 1.31), (0.19, 1.18)):
         if dx != 0.0:
-            arm = V.sweep_profile("arm", [(0, 0, 1.14), (dx * 0.6, 0, 1.1 + abs(dx) * 0.1), (dx, 0, h - 0.06)],
-                                  V.circle_profile(0.014, 5), "M_iron")
+            arm = V.sweep_profile("arm", [(0, 0, 1.12), (dx * 0.55, 0, 1.08 + abs(dx) * 0.12), (dx, 0, h - 0.05)],
+                                  V.circle_profile(0.015, 10), "M_iron")
             objs.append(arm)
-        cup = V.loft_rings("cup", [(0.05, h - 0.02, 8, 0), (0.055, h, 8, 0)], "M_iron")
+        cup = V.loft_rings("cup", [(0.025, h - 0.04, 14, 0), (0.062, h - 0.01, 14, 0), (0.058, h + 0.01, 14, 0)], "M_gold")
+        cup.location = (dx, 0, 0)
         objs.append(cup)
-        for c in _candle(0.16):
+        for c in _candle(0.17):
             c.location = (dx, 0, h)
             objs.append(c)
     return objs, {"size": [0.5, 0.5, 1.6], "origin": "bottom-center"}
 
 
 def brazier(lit=True):
-    name = "brazier_lit" if lit else "brazier_cold"
     objs = []
-    objs.append(V.loft_rings("bowl", [(0.12, 0.52, 10, 0), (0.34, 0.62, 10, 0),
-                                      (0.38, 0.78, 10, 0), (0.30, 0.84, 10, 0)], "M_iron"))
+    objs.append(V.loft_rings("bowl", [(0.10, 0.48, 20, 0), (0.16, 0.54, 20, 0), (0.35, 0.63, 20, 0),
+                                      (0.40, 0.78, 20, 0), (0.43, 0.81, 20, 0), (0.32, 0.85, 20, 0)], "M_iron"))
+    objs.append(V.loft_rings("bowl_rim", [(0.40, 0.78, 20, 0), (0.435, 0.815, 20, 0), (0.39, 0.84, 20, 0)], "M_gold"))
     for k in range(3):
         a = k * 2 * math.pi / 3
-        leg = V.sweep_profile("leg", [(0.26 * math.cos(a), 0.26 * math.sin(a), 0),
+        leg = V.sweep_profile("leg", [(0.28 * math.cos(a), 0.28 * math.sin(a), 0),
+                                      (0.22 * math.cos(a), 0.22 * math.sin(a), 0.28),
                                       (0.16 * math.cos(a), 0.16 * math.sin(a), 0.56)],
-                              V.circle_profile(0.02, 5), "M_iron")
+                              V.circle_profile(0.024, 10), "M_iron")
         objs.append(leg)
     if lit:
-        # a heaped mound of glowing embers (warm-emissive stone via the GOTHIC
-        # shader — reliably bright; the flame shader renders dark at this scale)
-        # crowns the bowl, so the brazier always reads as lit coals, not a cone
-        embers = V.loft_rings("brazier_embers", [(0.34, 0.58, 12, 0), (0.33, 0.66, 12, 0),
-                                                 (0.26, 0.76, 12, 0), (0.14, 0.85, 12, 0),
-                                                 (0.04, 0.9, 12, 0)], "M_ember")
+        embers = V.loft_rings("brazier_embers", [(0.34, 0.58, 18, 0), (0.33, 0.66, 18, 0),
+                                                 (0.26, 0.76, 18, 0), (0.14, 0.85, 18, 0),
+                                                 (0.04, 0.9, 18, 0)], "M_ember")
         objs.append(embers)
-        # small candle-scale flames licking up from the coals (these DO glow)
         for k in range(3):
             a = k * 2.094 + 0.4
-            ff = _flame("brazier_flame%d" % k, 0.05, 0.2)
+            ff = _flame("brazier_flame%d" % k, 0.055, 0.22)
             ff.location = (0.1 * math.cos(a), 0.1 * math.sin(a), 0.88)
             objs.append(ff)
     else:
-        ash = V.loft_rings("ash", [(0.26, 0.72, 10, 0), (0.1, 0.78, 10, 0)], "M_stone_dark")
+        ash = V.loft_rings("ash", [(0.26, 0.72, 18, 0), (0.1, 0.78, 18, 0)], "M_stone_dark")
         objs.append(ash)
     return objs, {"size": [0.8, 0.8, 1.1], "origin": "bottom-center"}
 
@@ -127,7 +159,7 @@ def brazier(lit=True):
 def _robe(name, height=1.8, girth=0.34, hood=True, mat="M_stone"):
     """The shared robed-figure silhouette (statues, and the base of every
     character archetype). Returns a single object."""
-    n = 10
+    n = 16
     h = height
     rings = [
         (girth * 1.25, 0.0, n, 0),          # hem spread
@@ -139,30 +171,24 @@ def _robe(name, height=1.8, girth=0.34, hood=True, mat="M_stone"):
     ]
     if hood:
         rings += [
-            (girth * 0.52, h * 0.84, n, 0),   # neck cinch
-            (girth * 0.62, h * 0.90, n, 0),   # hood bulge
-            (girth * 0.40, h * 0.985, n, 0),  # hood crown
-            (girth * 0.10, h * 1.06, n, 0),   # hood peak, slightly forward
+            (girth * 0.62, h * 0.84, n, 0),   # neck / collar
+            (girth * 0.64, h * 0.90, n, 0),   # hood bulge
+            (girth * 0.46, h * 0.985, n, 0),  # hood crown
+            (girth * 0.14, h * 1.05, n, 0),   # hood peak, slightly forward
         ]
     obj = V.loft_rings(name, rings, mat)
     if hood:
-        # lean the hood peak forward
         me = obj.data
-        zs = sorted({round(v.co.z, 4) for v in me.vertices})
-        top = zs[-2:]
         for v in me.vertices:
-            if round(v.co.z, 4) in top:
-                v.co.y += 0.09
-        # carve the face shadow: push front-upper verts inward
-        for v in me.vertices:
-            if v.co.z > h * 0.86 and v.co.y > 0:
-                v.co.y *= 0.4
+            if v.co.z > h * 0.82:
+                ht = max(0.0, min(1.0, (v.co.z - h * 0.82) / (h * 0.23)))
+                v.co.y += 0.045 * (ht * ht)
+        me.update()
     return obj
 
 
 def statue_saint():
-    """Hooded saint with a downward sword, on a plinth. Kit reuse: the robe
-    silhouette is the character family silhouette in stone."""
+    """Hooded saint with a downward sword, on a plinth."""
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-0.42, -0.42, 0), (0.42, 0.42, 0.55))
@@ -171,7 +197,6 @@ def statue_saint():
     robe = _robe("saint", 1.9, 0.34, True, "M_stone")
     robe.location = (0, 0, 0.55)
     objs.append(robe)
-    # sword held point-down before the figure
     bm2 = bmesh.new()
     V.add_box(bm2, (-0.035, -0.012, 0.62), (0.035, 0.012, 1.55))    # blade
     V.add_box(bm2, (-0.16, -0.03, 1.52), (0.16, 0.03, 1.60))        # cross
@@ -183,20 +208,17 @@ def statue_saint():
 
 
 def gargoyle():
-    """Perched grotesque: hunched body, folded wings, horned skull — chunky
-    silhouette for cornice lines and the bell tower."""
+    """Perched grotesque: hunched body, folded wings, horned skull."""
     objs = []
     bm = bmesh.new()
-    # haunches + body: overlapping deformed spheres
     for (c, r, sq) in (((0, -0.05, 0.22), 0.20, 0.8), ((0, 0.16, 0.30), 0.16, 0.9),
                        ((0, 0.32, 0.38), 0.13, 1.0)):
-        got = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=r)
+        got = bmesh.ops.create_icosphere(bm, subdivisions=2, radius=r)
         for v in got["verts"]:
             v.co.z *= sq
             v.co += Vector(c)
     body = V.bm_to_object(bm, "gargoyle_body", ("M_stone",))
     objs.append(body)
-    # head: box skull + muzzle + horns
     bm2 = bmesh.new()
     V.add_box(bm2, (-0.09, 0.36, 0.42), (0.09, 0.56, 0.56))
     V.add_box(bm2, (-0.05, 0.52, 0.42), (0.05, 0.64, 0.50))
@@ -204,23 +226,20 @@ def gargoyle():
     objs.append(head)
     for sx in (-1, 1):
         horn = V.sweep_profile("horn", [(sx * 0.07, 0.42, 0.56), (sx * 0.13, 0.36, 0.66), (sx * 0.15, 0.28, 0.72)],
-                               V.circle_profile(0.025, 5), "M_stone")
+                               V.circle_profile(0.025, 8), "M_stone")
         objs.append(horn)
-        # folded wing: bent plane
         bmw = bmesh.new()
         a = bmw.verts.new((sx * 0.16, 0.10, 0.42))
         b = bmw.verts.new((sx * 0.34, -0.16, 0.60))
         c = bmw.verts.new((sx * 0.30, -0.34, 0.24))
         d = bmw.verts.new((sx * 0.14, -0.18, 0.16))
         bmw.faces.new((a, b, c, d) if sx > 0 else (d, c, b, a))
-        # thickness
-        res = bmesh.ops.solidify(bmw, geom=list(bmw.faces), thickness=0.03)
+        bmesh.ops.solidify(bmw, geom=list(bmw.faces), thickness=0.03)
         wing = V.bm_to_object(bmw, "wing", ("M_stone",))
         objs.append(wing)
-    # forelegs
     for sx in (-1, 1):
         leg = V.sweep_profile("leg", [(sx * 0.12, 0.30, 0.30), (sx * 0.15, 0.42, 0.12), (sx * 0.15, 0.46, 0.02)],
-                              V.circle_profile(0.035, 5), "M_stone")
+                              V.circle_profile(0.035, 8), "M_stone")
         objs.append(leg)
     return objs, {"size": [0.7, 1.0, 0.8], "origin": "bottom-center"}
 
@@ -229,7 +248,7 @@ def banner():
     """Hanging cloth banner with the setting-sun sigil zone. Glory-only."""
     bm = bmesh.new()
     w, h = 0.85, 2.3
-    nx, nz = 6, 14
+    nx, nz = 8, 16
     grid = {}
     for i in range(nx + 1):
         for j in range(nz + 1):
@@ -240,35 +259,27 @@ def banner():
     for i in range(nx):
         for j in range(nz):
             bm.faces.new((grid[(i, j)], grid[(i + 1, j)], grid[(i + 1, j + 1)], grid[(i, j + 1)]))
-    # double-side the cloth so it reads from both faces
     bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.012)
     obj = V.bm_to_object(bm, "banner_cloth", ("M_cloth",))
     obj.location = (0, 0, 2.5)
-    # rod + finials
     rod = V.sweep_profile("rod", [(-w / 2 - 0.12, 0, 2.52), (w / 2 + 0.12, 0, 2.52)],
-                          V.circle_profile(0.02, 6), "M_iron")
-    # sun-disc appliqué
-    disc = V.loft_rings("sigil", [(0.005, 1.55, 10, 0), (0.16, 1.62, 10, 0), (0.005, 1.69, 10, 0)], "M_gold")
-    disc.location = (0, -0.06, 0)
+                          V.circle_profile(0.02, 10), "M_iron")
+    disc = V.loft_rings("sigil", [(0.005, -0.015, 14, 0), (0.16, 0.0, 14, 0), (0.005, 0.015, 14, 0)], "M_gold")
+    disc.location = (0, -0.025, 1.62)
     disc.rotation_euler = (math.pi / 2, 0, 0)
     return [obj, rod, disc], {"size": [1.1, 0.3, 2.6], "origin": "top-center"}
 
 
 def pew():
-    """Same silhouette it always had — plus the joiner's touches: scrolled
-    end caps, a back rail cap, and a kneeler rail at the feet."""
     bm = bmesh.new()
     V.add_box(bm, (-0.9, -0.22, 0.0), (0.9, 0.22, 0.06))
     V.add_box(bm, (-0.9, -0.20, 0.40), (0.9, 0.02, 0.46))     # seat
     V.add_box(bm, (-0.9, 0.16, 0.40), (0.9, 0.24, 1.02))      # back
     V.add_box(bm, (-0.9, -0.20, 0.06), (-0.82, 0.22, 0.42))
     V.add_box(bm, (0.82, -0.20, 0.06), (0.9, 0.22, 0.42))
-    # scrolled end caps on the armrest line
     V.add_box(bm, (-0.93, -0.24, 0.42), (-0.79, 0.26, 0.52))
     V.add_box(bm, (0.79, -0.24, 0.42), (0.93, 0.26, 0.52))
-    # a rounded-read cap rail along the back's head
     V.add_box(bm, (-0.92, 0.14, 1.02), (0.92, 0.26, 1.08))
-    # the kneeler: a low rail the faithful actually used
     V.add_box(bm, (-0.86, -0.34, 0.10), (0.86, -0.26, 0.16))
     obj = V.bm_to_object(bm, "pew", ("M_wood",))
     return [obj], {"size": [1.86, 0.62, 1.1], "origin": "bottom-center"}
@@ -281,8 +292,6 @@ def altar():
     V.add_box(bm, (-1.08, -0.58, 0.92), (1.08, 0.58, 1.02))
     V.add_box(bm, (-1.06, -0.56, 0), (1.06, 0.56, 0.1))
     objs.append(V.bm_to_object(bm, "altar_body", ("M_stone_trim",)))
-    # the same table, kept: a gilt edge course under the slab lip — quiet
-    # dignity; a full cloth runner read as a striped tent from the aisle
     gm = bmesh.new()
     V.add_box(gm, (-1.085, -0.585, 0.89), (1.085, 0.585, 0.925))
     objs.append(V.bm_to_object(gm, "altar_gilt", ("M_gold",)))
@@ -296,17 +305,59 @@ def altar():
 
 
 def plaque():
-    """Lore plaque: lectern stand with an engraved slab face."""
-    bm = bmesh.new()
-    V.add_box(bm, (-0.28, -0.16, 0), (0.28, 0.16, 0.85))
-    obj = V.bm_to_object(bm, "plaque_post", ("M_stone_dark",))
+    """Lore plaque: carved Gothic octagonal stone lectern with stepped moulded plinth,
+    fluted shaft, wrought-iron scroll brackets, angled limestone desk, and inset bronze tablet."""
+    objs = []
+    # Stepped octagonal plinth & fluted column shaft + flared capital
+    pedestal = V.loft_rings(
+        "plaque_post",
+        [
+            (0.32, 0.00, 8, math.pi / 8),
+            (0.32, 0.08, 8, math.pi / 8),
+            (0.25, 0.12, 8, math.pi / 8),
+            (0.25, 0.18, 8, math.pi / 8),
+            (0.16, 0.22, 8, math.pi / 8),
+            (0.14, 0.72, 8, math.pi / 8),
+            (0.22, 0.80, 8, math.pi / 8),
+            (0.28, 0.88, 8, math.pi / 8),
+        ],
+        "M_stone_dark",
+        cap_bottom=True,
+        cap_top=True,
+    )
+    objs.append(pedestal)
+    # Wrought-iron gothic corbel brackets under the reading desk
+    for sx in (-0.18, 0.18):
+        brk = V.sweep_profile(
+            "plaque_bracket",
+            [(sx, -0.02, 0.58), (sx, -0.14, 0.72), (sx, -0.18, 0.88), (sx, 0.14, 0.92)],
+            V.chamfer_rect_profile(0.018, 0.024, 0.004),
+            "M_iron",
+            up_hint=Vector((1, 0, 0)),
+        )
+        objs.append(brk)
+    # Angled carved limestone desk with raised side bolsters
     bm2 = bmesh.new()
-    vs = [(-0.34, -0.02, 0.82), (0.34, -0.02, 0.82), (0.34, 0.3, 1.18), (-0.34, 0.3, 1.18)]
-    vv = [bm2.verts.new(v) for v in vs]
-    bm2.faces.new(vv)
-    bmesh.ops.solidify(bm2, geom=list(bm2.faces), thickness=0.05)
+    lean = Matrix.Translation((0, 0.06, 0.98)) @ Matrix.Rotation(math.radians(32), 4, "X")
+    V.add_box(bm2, (-0.34, -0.24, -0.035), (0.34, 0.24, 0.025))
+    # Raised stone border frame & bottom book-stop lip
+    V.add_box(bm2, (-0.36, -0.26, -0.02), (-0.30, 0.26, 0.055))
+    V.add_box(bm2, (0.30, -0.26, -0.02), (0.36, 0.26, 0.055))
+    V.add_box(bm2, (-0.36, -0.26, -0.02), (0.36, -0.20, 0.065))
+    V.add_box(bm2, (-0.36, 0.20, -0.02), (0.36, 0.26, 0.050))
+    bmesh.ops.transform(bm2, matrix=lean, verts=bm2.verts)
     slab = V.bm_to_object(bm2, "plaque_slab", ("M_stone_trim",))
-    return [obj, slab], {"size": [0.7, 0.6, 1.2], "origin": "bottom-center"}
+    objs.append(slab)
+    # Inset engraved bronze inscription plate + brass corner bosses
+    bm3 = bmesh.new()
+    V.add_box(bm3, (-0.27, -0.17, 0.022), (0.27, 0.17, 0.040))
+    for cx in (-0.23, 0.23):
+        for cy in (-0.13, 0.13):
+            V.add_box(bm3, (cx - 0.022, cy - 0.022, 0.038), (cx + 0.022, cy + 0.022, 0.052))
+    bmesh.ops.transform(bm3, matrix=lean, verts=bm3.verts)
+    plate = V.bm_to_object(bm3, "plaque_bronze", ("M_bronze",))
+    objs.append(plate)
+    return objs, {"size": [0.74, 0.6, 1.2], "origin": "bottom-center"}
 
 
 def tomb_slab():
@@ -322,18 +373,15 @@ def tomb_slab():
 
 
 def gate_iron():
-    """Two-leaf wrought gate for a 2.4 m opening. Named leaves let the game
-    swing them. Spiked, with a lock plate."""
+    """Two-leaf wrought gate for a 2.4 m opening."""
     objs = []
     for leaf, sgn in (("gate_leaf_l", -1), ("gate_leaf_r", 1)):
         bm = bmesh.new()
         x0, x1 = (0.02, 1.18) if sgn > 0 else (-1.18, -0.02)
-        # frame
         for x in (x0, x1):
             V.add_box(bm, (x - 0.022, -0.022, 0.02), (x + 0.022, 0.022, 2.2))
         for z in (0.09, 1.05, 2.05):
             V.add_box(bm, (x0, -0.018, z - 0.028), (x1, 0.018, z + 0.028))
-        # bars + spike tips
         x = x0 + 0.12
         while x < x1 - 0.05:
             V.add_box(bm, (x - 0.014, -0.014, 0.04), (x + 0.014, 0.014, 2.3))
@@ -344,11 +392,8 @@ def gate_iron():
 
 
 def canal_vault(win: bool):
-    """One 8 m segment of the great canal vault over the Drowned Marches: a
-    semicircular barrel roof (r=20, sprung at z=2) with skirts running below
-    the waterline. Faces point INWARD (it is only ever seen from inside).
-    The window variant opens a barred 4 m light in both flanks."""
-    R, CY, L, SEG = 20.0, 2.0, 8.0, 14
+    """One 8 m segment of the great canal vault over the Drowned Marches."""
+    R, CY, L, SEG = 20.0, 2.0, 8.0, 18
     prof = [(-20.0, -3.2), (-20.0, CY)]
     for i in range(1, SEG):
         a = math.pi * i / SEG
@@ -364,15 +409,12 @@ def canal_vault(win: bool):
             zm = (z0 + z1) * 0.5
             flank = abs((y0 + y1) * 0.5) > 17.0
             if win and mid_col and flank and 3.2 <= zm <= 6.8:
-                continue   # the barred light
+                continue
             a, b = grid[c][i], grid[c][i + 1]
             d, e = grid[c + 1][i], grid[c + 1][i + 1]
             bm.faces.new((a, b, e, d))
     objs = [V.bm_to_object(bm, "canal_vault", ("M_stone_dark",))]
     if win:
-        # the aperture runs from the springing (z=2.0) up to the first arc
-        # chord (~z 6.45): the grate must cover the WHOLE opening, sill to
-        # crown — a short grate leaves a bare gap under the bars
         bb = bmesh.new()
         for sgn in (-1, 1):
             for k in range(7):
@@ -383,70 +425,65 @@ def canal_vault(win: bool):
             V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 4.35), (2.1, sgn * 19.0 + 0.05, 4.6))
             V.add_box(bb, (-2.1, sgn * 19.0 - 0.05, 6.8), (2.1, sgn * 19.0 + 0.05, 7.1))
         objs.append(V.bm_to_object(bb, "vault_bars", ("M_iron",)))
-        # dressed stone reveal: closes the slit between the sloped vault
-        # face and the vertical grate plane, so the ironwork sits flush
         rv = bmesh.new()
         for sgn in (-1, 1):
             lo, hi = min(sgn * 18.9, sgn * 20.2), max(sgn * 18.9, sgn * 20.2)
-            V.add_box(rv, (-2.15, lo, 1.85), (2.15, hi, 2.2))     # sill
-            V.add_box(rv, (-2.15, lo, 6.3), (2.15, hi, 6.75))    # head
-            V.add_box(rv, (-2.15, lo, 1.85), (-1.85, hi, 6.75))  # jamb
-            V.add_box(rv, (1.85, lo, 1.85), (2.15, hi, 6.75))    # jamb
+            V.add_box(rv, (-2.15, lo, 1.85), (2.15, hi, 2.2))
+            V.add_box(rv, (-2.15, lo, 6.3), (2.15, hi, 6.75))
+            V.add_box(rv, (-2.15, lo, 1.85), (-1.85, hi, 6.75))
+            V.add_box(rv, (1.85, lo, 1.85), (2.15, hi, 6.75))
         objs.append(V.bm_to_object(rv, "vault_reveal", ("M_stone_dark",)))
     return objs, {"size": [8, 40, 25.2], "origin": "bottom-center"}
 
 
 def ferry_boat():
-    """A working mini ferry for the waterworks passage: raked bow, planked
-    deck, bulwarks, an aft rail, a steering sweep and a caged bow lantern.
-    Bow points +X. Origin bottom-center; deck top at z=0.40."""
+    """A working mini ferry for the waterworks passage."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-2.1, -0.85, 0.08), (1.7, 0.85, 0.34))            # bottom
-    V.add_box(bm, (-2.1, -0.85, 0.34), (-1.95, 0.85, 0.82))          # transom
-    V.add_box(bm, (-2.1, -0.85, 0.34), (1.7, -0.7, 0.78))            # port bulwark
-    V.add_box(bm, (-2.1, 0.7, 0.34), (1.7, 0.85, 0.78))              # starboard bulwark
-    V.add_box(bm, (1.7, -0.62, 0.12), (2.15, 0.62, 0.74))            # bow rake step 1
-    V.add_box(bm, (2.15, -0.34, 0.18), (2.52, 0.34, 0.68))           # bow rake step 2
+    V.add_box(bm, (-2.1, -0.85, 0.08), (1.7, 0.85, 0.34))
+    V.add_box(bm, (-2.1, -0.85, 0.34), (-1.95, 0.85, 0.82))
+    V.add_box(bm, (-2.1, -0.85, 0.34), (1.7, -0.7, 0.78))
+    V.add_box(bm, (-2.1, 0.7, 0.34), (1.7, 0.85, 0.78))
+    V.add_box(bm, (1.7, -0.62, 0.12), (2.15, 0.62, 0.74))
+    V.add_box(bm, (2.15, -0.34, 0.18), (2.52, 0.34, 0.68))
     objs.append(V.bm_to_object(bm, "ferry_hull", ("M_wood",)))
     bm = bmesh.new()
     x = -1.92
-    while x < 1.6:                                                    # deck planking
+    while x < 1.6:
         V.add_box(bm, (x, -0.68, 0.34), (x + 0.31, 0.68, 0.40))
         x += 0.36
-    V.add_box(bm, (1.7, -0.5, 0.32), (2.12, 0.5, 0.40))              # bow step
+    V.add_box(bm, (1.7, -0.5, 0.32), (2.12, 0.5, 0.40))
     objs.append(V.bm_to_object(bm, "ferry_deck", ("M_wood",)))
     bm = bmesh.new()
-    for py in (-0.72, 0.72):                                          # aft posts
+    for py in (-0.72, 0.72):
         V.add_box(bm, (-1.99, py - 0.05, 0.78), (-1.89, py + 0.05, 1.44))
-    V.add_box(bm, (-1.98, -0.74, 1.32), (-1.9, 0.74, 1.42))          # aft rail
-    V.add_box(bm, (1.82, -0.05, 0.68), (1.92, 0.05, 1.5))            # lantern post
-    V.add_box(bm, (1.74, -0.13, 1.5), (2.0, 0.13, 1.58))             # lantern base
-    V.add_box(bm, (1.72, -0.15, 1.86), (2.02, 0.15, 1.94))           # lantern cap
-    for py in (-0.11, 0.11):                                          # cage bars
+    V.add_box(bm, (-1.98, -0.74, 1.32), (-1.9, 0.74, 1.42))
+    V.add_box(bm, (1.82, -0.05, 0.68), (1.92, 0.05, 1.5))
+    V.add_box(bm, (1.74, -0.13, 1.5), (2.0, 0.13, 1.58))
+    V.add_box(bm, (1.72, -0.15, 1.86), (2.02, 0.15, 1.94))
+    for py in (-0.11, 0.11):
         V.add_box(bm, (1.75, py - 0.015, 1.58), (1.78, py + 0.015, 1.86))
         V.add_box(bm, (1.96, py - 0.015, 1.58), (1.99, py + 0.015, 1.86))
     objs.append(V.bm_to_object(bm, "ferry_iron", ("M_iron",)))
     bm = bmesh.new()
-    V.add_box(bm, (1.79, -0.08, 1.6), (1.95, 0.08, 1.82))            # the flame
+    V.add_box(bm, (1.79, -0.08, 1.6), (1.95, 0.08, 1.82))
     objs.append(V.bm_to_object(bm, "ferry_flame", ("M_ember",)))
     bm = bmesh.new()
-    V.add_box(bm, (-2.78, 0.30, 0.30), (-2.05, 0.42, 0.44))          # sweep blade
-    V.add_box(bm, (-2.1, 0.30, 0.44), (-1.5, 0.38, 0.92))            # sweep loom
+    V.add_box(bm, (-2.78, 0.30, 0.30), (-2.05, 0.42, 0.44))
+    V.add_box(bm, (-2.1, 0.30, 0.44), (-1.5, 0.38, 0.92))
     objs.append(V.bm_to_object(bm, "ferry_sweep", ("M_wood",)))
     return objs, {"size": [5.3, 1.7, 1.94], "origin": "bottom-center"}
 
 
 def anvil():
-    """Reliquary smith's anvil: forged block with a squared horn, set on an
-    oak stump so the working face lands at a smith's hip."""
+    """Reliquary smith's anvil."""
     bm = bmesh.new()
     V.add_box(bm, (-0.22, -0.2, 0.0), (0.22, 0.2, 0.45))
     stump = V.bm_to_object(bm, "stump", ("M_wood",))
     bm2 = bmesh.new()
-    V.add_box(bm2, (-0.16, -0.13, 0.45), (0.2, 0.13, 0.55))    # waist
-    V.add_box(bm2, (-0.2, -0.16, 0.55), (0.28, 0.16, 0.72))    # body + face
-    V.add_box(bm2, (-0.4, -0.06, 0.6), (-0.2, 0.06, 0.72))     # horn
+    V.add_box(bm2, (-0.16, -0.13, 0.45), (0.2, 0.13, 0.55))
+    V.add_box(bm2, (-0.2, -0.16, 0.55), (0.28, 0.16, 0.72))
+    V.add_box(bm2, (-0.4, -0.06, 0.6), (-0.2, 0.06, 0.72))
     iron = V.bm_to_object(bm2, "anvil_iron", ("M_steel",))
     return [stump, iron], {"size": [0.8, 0.4, 0.72], "origin": "bottom-center"}
 
@@ -467,31 +504,25 @@ def fence_iron_4m():
 
 
 def bell_great():
-    """The Bellkeeper's cracked great bell — also the tower bell. ~1.6 m tall.
-    The loft rolls under the lip and climbs back up to the crown as a true
-    inner wall, so the shell reads CLOSED from every angle (the old open loft
-    showed through itself and read as a hollow tent from below). A clapper
-    hangs into the mouth for anyone who peers under the lip."""
-    n = 12
+    """The Bellkeeper's cracked great bell — also the tower bell. ~1.6 m tall."""
+    n = 18
     rings = [(0.02, 1.61, n, 0), (0.10, 1.62, n, 0), (0.16, 1.55, n, 0), (0.30, 1.45, n, 0),
              (0.44, 1.2, n, 0), (0.52, 0.9, n, 0), (0.56, 0.55, n, 0),
              (0.62, 0.28, n, 0), (0.72, 0.10, n, 0), (0.74, 0.0, n, 0),
-             # rolled lip turns under, then the inner wall climbs home
              (0.68, 0.03, n, 0), (0.55, 0.24, n, 0), (0.49, 0.55, n, 0),
              (0.42, 0.9, n, 0), (0.32, 1.15, n, 0), (0.13, 1.38, n, 0),
              (0.02, 1.40, n, 0)]
     bell = V.loft_rings("bell_great", rings, "M_bell", cap_bottom=True, cap_top=True)
-    clapper = V.loft_rings("clapper", [(0.035, 1.38, 8, 0), (0.05, 0.42, 8, 0),
-                                       (0.115, 0.30, 8, 0), (0.12, 0.12, 8, 0),
-                                       (0.03, 0.05, 8, 0)], "M_iron",
+    clapper = V.loft_rings("clapper", [(0.035, 1.38, 12, 0), (0.05, 0.42, 12, 0),
+                                       (0.115, 0.30, 12, 0), (0.12, 0.12, 12, 0),
+                                       (0.03, 0.05, 12, 0)], "M_iron",
                            cap_bottom=True, cap_top=True)
-    crown = V.loft_rings("crown", [(0.05, 1.6, 6, 0), (0.08, 1.74, 6, 0), (0.03, 1.82, 6, 0)], "M_bell")
+    crown = V.loft_rings("crown", [(0.05, 1.6, 10, 0), (0.08, 1.74, 10, 0), (0.03, 1.82, 10, 0)], "M_bell")
     return [bell, clapper, crown], {"size": [1.5, 1.5, 1.85], "origin": "bottom-center"}
 
 
 def organ_case():
-    """Basilica organ: timber case with a rising rank of bronze pipes.
-    ~2.6 m wide. Origin bottom-center, pipes face -Y (Godot +Z... interior)."""
+    """Basilica organ: timber case with a rising rank of bronze pipes."""
     objs = []
     bm = bmesh.new()
     V.add_box(bm, (-1.3, -0.35, 0.0), (1.3, 0.45, 1.15))
@@ -503,8 +534,8 @@ def organ_case():
         x = -1.05 + 2.1 * t
         h = 1.5 + 1.5 * (1.0 - abs(t * 2 - 1)) ** 1.2 + 0.12 * ((i * 7) % 3)
         r = 0.085 - 0.02 * abs(t * 2 - 1)
-        pipe = V.loft_rings("pipe%d" % i, [(r, 1.2, 8, 0), (r, 1.2 + h, 8, 0),
-                                           (r * 0.8, 1.26 + h, 8, 0)], "M_bronze")
+        pipe = V.loft_rings("pipe%d" % i, [(r, 1.2, 12, 0), (r, 1.2 + h, 12, 0),
+                                           (r * 0.8, 1.26 + h, 12, 0)], "M_bronze")
         pipe.location = (x, -0.12, 0)
         objs.append(pipe)
     return objs, {"size": [2.8, 1.0, 4.3], "origin": "bottom-center"}
@@ -514,22 +545,21 @@ def choir_stall():
     """High-backed choir stall bench, faces -Y like the pews."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-1.15, -0.24, 0.42), (1.15, 0.12, 0.5))      # seat
-    V.add_box(bm, (-1.15, 0.12, 0.0), (1.15, 0.3, 1.55))        # tall back
-    V.add_box(bm, (-1.15, 0.24, 1.55), (1.15, 0.38, 1.72))      # canopy rail
-    V.add_box(bm, (-1.15, -0.3, 0.0), (-1.02, 0.12, 0.86))      # arms
+    V.add_box(bm, (-1.15, -0.24, 0.42), (1.15, 0.12, 0.5))
+    V.add_box(bm, (-1.15, 0.12, 0.0), (1.15, 0.3, 1.55))
+    V.add_box(bm, (-1.15, 0.24, 1.55), (1.15, 0.38, 1.72))
+    V.add_box(bm, (-1.15, -0.3, 0.0), (-1.02, 0.12, 0.86))
     V.add_box(bm, (1.02, -0.3, 0.0), (1.15, 0.12, 0.86))
-    V.add_box(bm, (-1.15, -0.26, 0.16), (1.15, -0.18, 0.2))     # kneeler
+    V.add_box(bm, (-1.15, -0.26, 0.16), (1.15, -0.18, 0.2))
     objs.append(V.bm_to_object(bm, "choir_stall", ("M_wood",)))
     return objs, {"size": [2.4, 0.7, 1.75], "origin": "bottom-center"}
 
 
 def chime_stone():
-    """Vesper chime: a standing stone gallows with a hanging bronze bar.
-    Interactable puzzle prop. Origin bottom-center."""
+    """Vesper chime: a standing stone gallows with a hanging bronze bar."""
     objs = []
-    post = V.loft_rings("chime_post", [(0.17, 0, 7, 0), (0.13, 0.2, 7, 0),
-                                       (0.11, 1.9, 7, 0), (0.15, 2.05, 7, 0)], "M_stone_trim")
+    post = V.loft_rings("chime_post", [(0.17, 0, 12, 0), (0.13, 0.2, 12, 0),
+                                       (0.11, 1.9, 12, 0), (0.15, 2.05, 12, 0)], "M_stone_trim")
     objs.append(post)
     bm = bmesh.new()
     V.add_box(bm, (-0.05, -0.62, 1.98), (0.05, 0.1, 2.08))
@@ -546,16 +576,16 @@ def chime_stone():
 def votive_stand_tall(lit=True):
     """Tall iron votive stand with a wax crown; lit variant carries flames."""
     objs = []
-    objs.append(V.loft_rings("votive_col", [(0.2, 0, 8, 0), (0.06, 0.12, 8, 0),
-                                            (0.05, 1.16, 8, 0), (0.17, 1.24, 8, 0),
-                                            (0.19, 1.3, 8, 0)], "M_iron"))
+    objs.append(V.loft_rings("votive_col", [(0.2, 0, 12, 0), (0.06, 0.12, 12, 0),
+                                            (0.05, 1.16, 12, 0), (0.17, 1.24, 12, 0),
+                                            (0.19, 1.3, 12, 0)], "M_iron"))
     import random as _random
     rng = _random.Random(9 if lit else 10)
     for i in range(5):
         a = 2 * math.pi * i / 5
         r = 0.11
         h = 0.14 + 0.1 * rng.random()
-        c = V.loft_rings("cand%d" % i, [(0.035, 1.3, 6, 0), (0.033, 1.3 + h, 6, 0)], "M_wax")
+        c = V.loft_rings("cand%d" % i, [(0.035, 1.3, 10, 0), (0.033, 1.3 + h, 10, 0)], "M_wax")
         c.location = (r * math.cos(a), r * math.sin(a), 0)
         objs.append(c)
         if lit:
@@ -566,9 +596,7 @@ def votive_stand_tall(lit=True):
 
 
 def bell_fragment():
-    """A broken arc of the Bellkeeper's bell: three bronze staves bent round
-    a lost circumference, the sound-bow lip still on them, the break ragged.
-    Quest relic — stands upright, half-leaned, waiting to be carried home."""
+    """A broken arc of the Bellkeeper's bell."""
     import bmesh as _bmesh
     from mathutils import Matrix as _M
     R = 0.34
@@ -587,7 +615,6 @@ def bell_fragment():
                     for sz in (z0, top):
                         v = rot @ Vector((sx, sy, sz))
                         corners.append((v.x + cx, v.y + cy, v.z))
-            # emit as its own convex box: 8 verts, 6 faces
             vs = [bm.verts.new(lean @ Vector(c)) for c in corners]
             bm.verts.ensure_lookup_table()
             faces = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 2, 6, 4),
@@ -606,18 +633,16 @@ def bell_fragment():
 
 
 def mosaic_medallion():
-    """Flat inlaid mosaic roundel, 3.4 m across — floor charm for garths,
-    thresholds and crossings. Passable (no collision policy)."""
-    disc = V.loft_rings("mosaic_disc", [(1.7, 0.0, 22, 0), (1.7, 0.028, 22, 0)], "M_mosaic")
-    rim = V.loft_rings("mosaic_rim", [(1.78, 0.0, 22, 0), (1.78, 0.02, 22, 0),
-                                      (1.7, 0.02, 22, 0), (1.7, 0.0, 22, 0)], "M_stone_trim",
+    """Flat inlaid mosaic roundel, 3.4 m across."""
+    disc = V.loft_rings("mosaic_disc", [(1.7, 0.0, 28, 0), (1.7, 0.012, 28, 0)], "M_mosaic")
+    rim = V.loft_rings("mosaic_rim", [(1.78, 0.0, 28, 0), (1.78, 0.016, 28, 0),
+                                      (1.7, 0.016, 28, 0), (1.7, 0.0, 28, 0)], "M_stone_trim",
                        cap_bottom=False, cap_top=False)
-    return [disc, rim], {"size": [3.6, 3.6, 0.03], "origin": "bottom-center"}
+    return [disc, rim], {"size": [3.6, 3.6, 0.02], "origin": "bottom-center"}
 
 
 def ossuary_wall_4m():
-    """Crypt wall: stone frame with two shelf bands of stacked skulls.
-    4x4 face, same footprint as wall_4x4."""
+    """Crypt wall: stone frame with two shelf bands of stacked skulls."""
     import random as _random
     rng = _random.Random(5)
     objs = []
@@ -634,7 +659,7 @@ def ossuary_wall_4m():
         for i in range(n):
             x = -1.75 + 3.5 * i / (n - 1) + (rng.random() - 0.5) * 0.06
             z = band_z + (rng.random() - 0.5) * 0.08
-            got = bmesh.ops.create_icosphere(bm, subdivisions=0, radius=0.14 + rng.random() * 0.03)
+            got = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=0.14 + rng.random() * 0.03)
             for v in got["verts"]:
                 v.co = Vector((v.co.x * 0.9 + x, v.co.y * 0.75 - 0.3, v.co.z * 0.8 + z))
     objs.append(V.bm_to_object(bm, "oss_skulls", ("M_bone",)))
@@ -647,9 +672,8 @@ def bone_pile(seed=3):
     rng = _random.Random(seed)
     bm = bmesh.new()
     for i in range(9):
-        a = rng.random() * math.pi
         x, y = (rng.random() - 0.5) * 0.9, (rng.random() - 0.5) * 0.7
-        got = bmesh.ops.create_icosphere(bm, subdivisions=0, radius=0.1 + rng.random() * 0.05)
+        got = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=0.1 + rng.random() * 0.05)
         for v in got["verts"]:
             v.co = Vector((v.co.x + x, v.co.y + y, v.co.z * 0.7 + 0.09 + i * 0.04))
     for i in range(6):
@@ -682,14 +706,12 @@ def sarcophagus():
 
 def shroud_dead(seed=8):
     """A wrapped body at rest on the floor — undercroft set dressing."""
-    import random as _random
-    rng = _random.Random(seed)
     bm = bmesh.new()
     L = 1.7
     for t4 in range(5):
         t = t4 / 4.0
         r = 0.16 * (1.0 - 0.55 * abs(t * 2 - 1)) + 0.04
-        got = bmesh.ops.create_icosphere(bm, subdivisions=0, radius=r)
+        got = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=r)
         for v in got["verts"]:
             v.co = Vector((v.co.x * 1.6 + (t - 0.5) * L, v.co.y, v.co.z * 0.72 + r * 0.7))
     obj = V.bm_to_object(bm, "shroud_dead", ("M_shroud",))
@@ -704,8 +726,7 @@ def watcher_base():
 
 
 def cobweb():
-    """Corner cobweb: a quarter fan of silk with radial threads. Hangs in a
-    wall corner (ruin dressing). Passable. Origin at the corner."""
+    """Corner cobweb: a quarter fan of silk with radial threads."""
     bm = bmesh.new()
     import math as _m
     n = 6
@@ -714,12 +735,9 @@ def cobweb():
     rim = []
     for i in range(n + 1):
         a = _m.pi * 0.5 * i / n
-        # web sags: pull the rim inward slightly toward the middle angles
         sag = 1.0 - 0.18 * _m.sin(_m.pi * i / n)
         rim.append(bm.verts.new((R * _m.cos(a) * sag, 0, R * _m.sin(a) * sag)))
-    # concentric silk arcs (thin quads between two radii)
     for band in (0.4, 0.72):
-        prev = None
         ring = []
         for i in range(n + 1):
             a = _m.pi * 0.5 * i / n
@@ -739,28 +757,25 @@ def cobweb():
 
 
 def hanging_chain(with_hook=True):
-    """A length of iron chain dropping from a vault, ~1.6 m, with an optional
-    ring hook at the bottom. Ambient verticality. Passable."""
+    """A length of iron chain dropping from a vault, ~1.6 m."""
     objs = []
     bm = bmesh.new()
     z = 0.0
     for i in range(9):
-        # alternate link orientation for a real chain read
         wx = 0.05 if i % 2 else 0.02
         wy = 0.02 if i % 2 else 0.05
         V.add_box(bm, (-wx, -wy, z - 0.09), (wx, wy, z))
         z -= 0.16
     objs.append(V.bm_to_object(bm, "chain", ("M_iron",)))
     if with_hook:
-        hook = V.loft_rings("hook", [(0.09, z - 0.02, 8, 0), (0.11, z - 0.1, 8, 0),
-                                     (0.09, z - 0.18, 8, 0)], "M_iron")
+        hook = V.loft_rings("hook", [(0.09, z - 0.02, 10, 0), (0.11, z - 0.1, 10, 0),
+                                     (0.09, z - 0.18, 10, 0)], "M_iron")
         objs.append(hook)
     return objs, {"size": [0.2, 0.2, 1.7], "origin": "top-center"}
 
 
 def door_leaf():
-    """A shut double door of banded oak for a 1.9-wide portal opening. Solid.
-    Origin bottom-center, faces +Y (drops into a portal_4m transform)."""
+    """A shut double door of banded oak for a 1.9-wide portal opening."""
     objs = []
     bm = bmesh.new()
     for sx in (-1, 1):
@@ -770,18 +785,11 @@ def door_leaf():
         V.add_box(bm, (lo, -0.06, 0.02), (hi, 0.06, 2.82))
     objs.append(V.bm_to_object(bm, "door_oak", ("M_wood",)))
     bm = bmesh.new()
-    # iron cross-bands + ring handles
     for z in (0.5, 1.4, 2.3):
         V.add_box(bm, (-0.9, -0.08, z - 0.05), (0.9, 0.08, z + 0.05))
     for sx in (-1, 1):
         V.add_box(bm, (sx * 0.9 - 0.05, -0.08, 0.1), (sx * 0.9 + 0.05, 0.08, 2.75))
-    import math as _m
-    for sx in (-1, 1):
-        ring = V.loft_rings("ring", [(0.02, 0, 8, 0), (0.03, 0.0, 8, 0)], "M_iron")
     objs.append(V.bm_to_object(bm, "door_bands", ("M_iron",)))
-    # stone tympanum backing the pointed arch above the leaves — a portal_4m
-    # opening runs to a ~3.2 m point, so bare doors leave a sliver of sky/city
-    # showing at the tip; this panel seals it (edges buried in the arch jambs)
     tbm = bmesh.new()
     V.add_box(tbm, (-1.0, -0.07, 2.66), (1.0, 0.1, 3.98))
     objs.append(V.bm_to_object(tbm, "door_tympanum", ("M_stone",)))
@@ -789,15 +797,39 @@ def door_leaf():
 
 
 def chrism_flask():
-    """The pilgrim's chrism flask: a dark leather gourd with a gilt stopper.
-    Rides the off-hand while the Latecomer actually drinks."""
+    """The pilgrim's chrism flask: a fluted dark-bronze & leather liturgical
+    vessel banded in filigree gold with a glowing golden chrism lip."""
     objs = []
-    n = 10
-    objs.append(V.loft_rings("body", [(0.035, 0, n, 0), (0.075, 0.03, n, 0.3),
-                                      (0.085, 0.09, n, 0), (0.06, 0.15, n, 0.2),
-                                      (0.028, 0.18, n, 0), (0.03, 0.21, n, 0)], "M_wax"))
-    objs.append(V.loft_rings("stopper", [(0.032, 0.21, 8, 0), (0.034, 0.24, 8, 0.4),
-                                         (0.012, 0.26, 8, 0)], "M_gold"))
+    n = 16
+    # Dark oiled leather & bronze belly vessel (capped at bottom in dark bronze)
+    objs.append(V.loft_rings("body", [
+        (0.036, 0.00, n, 0),
+        (0.072, 0.035, n, 0.25),
+        (0.082, 0.095, n, 0),
+        (0.060, 0.148, n, 0.2),
+        (0.028, 0.178, n, 0),
+    ], "M_bronze", cap_bottom=True, cap_top=False))
+    # Uncapped filigree gold trim rings around base, belly, and flared spout
+    objs.append(V.loft_rings("foot_band", [
+        (0.056, 0.016, n, 0),
+        (0.068, 0.028, n, 0),
+    ], "M_gold", cap_bottom=False, cap_top=False))
+    objs.append(V.loft_rings("belly_band", [
+        (0.084, 0.084, n, 0),
+        (0.085, 0.104, n, 0),
+    ], "M_gold", cap_bottom=False, cap_top=False))
+    objs.append(V.loft_rings("neck_lip", [
+        (0.031, 0.168, 14, 0),
+        (0.026, 0.195, 14, 0),
+        (0.036, 0.222, 14, 0.3),
+        (0.038, 0.235, 14, 0),
+    ], "M_gold", cap_bottom=False, cap_top=False))
+    # Warm golden liquid chrism glowing inside the open mouth
+    objs.append(V.loft_rings("chrism_glow", [
+        (0.024, 0.220, 12, 0),
+        (0.030, 0.236, 12, 0),
+        (0.008, 0.244, 12, 0),
+    ], "M_ember", cap_bottom=False, cap_top=True))
     return objs, {"size": [0.17, 0.17, 0.26], "origin": "bottom-center"}
 
 

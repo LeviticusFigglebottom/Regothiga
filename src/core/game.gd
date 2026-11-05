@@ -23,7 +23,10 @@ var _death_flow_running := false
 var arena_locked := false
 
 func _ready() -> void:
-	player_registered.connect(func(p): p.died.connect(_on_player_died))
+	player_registered.connect(func(p):
+		if not p.died.is_connected(_on_player_died):
+			p.died.connect(_on_player_died)
+	)
 
 func _process(dt: float) -> void:
 	# the vigil clock: hours walked, shown on the title's slot ledger
@@ -226,3 +229,13 @@ func vigil_flow(lantern: VigilLantern, p, choice := "auto") -> void:
 	if p != null:
 		p.exit_rest()
 		p.lock_control(false)
+
+func _exit_tree() -> void:
+	AudioDirector.shutdown()
+	KitLib._scene_cache.clear()
+	KitLib._shape_cache.clear()
+	MaterialLib._cache.clear()
+	MaterialLib._tex_cache.clear()
+	AmbientLife._mote_tex = null
+	SummonGlyph._sign_shader = null
+	EnvRig.active_instance = null

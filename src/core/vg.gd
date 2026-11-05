@@ -24,9 +24,28 @@ static func free_gently(node: Node) -> void:
 	if node == null or not is_instance_valid(node):
 		return
 	quench_lights(node)
-	node.get_tree().create_timer(0.06, false).timeout.connect(func():
-		if is_instance_valid(node):
-			node.queue_free())
+	if node.has_method("retire"):
+		node.call("retire")   # areas leave nav/collision before the grace frames
+	free_after(node, 0.06)
+
+## queue_free `node` after `secs`, on a tween the node itself owns. A SceneTree
+## timer + lambda outlives its capture when the node dies early with its
+## parent (area rebuilt, puzzle freed) and fires "Lambda capture was freed";
+## a node-bound tween simply dies with the node. Pausable like the tree.
+static func free_after(node: Node, secs: float) -> void:
+	if node == null or not is_instance_valid(node) or not node.is_inside_tree():
+		return
+	var tw := node.create_tween()
+	tw.tween_interval(secs)
+	tw.tween_callback(node.queue_free)
+
+## Stop a particle emitter after `secs` (same node-owned lifetime rule).
+static func stop_emitting_after(p: Node, secs: float) -> void:
+	if p == null or not is_instance_valid(p) or not p.is_inside_tree():
+		return
+	var tw := p.create_tween()
+	tw.tween_interval(secs)
+	tw.tween_callback(p.set.bind("emitting", false))
 ## Global constants and enums for Vespergard.
 
 enum WState { GLORY, RUIN }

@@ -14,7 +14,7 @@ func build(weapon_kit := "sword_cloister") -> void:
 	add_trail()
 
 	shield_mount = mount("farm_l")
-	shield_mount.position = Vector3(-0.06, 0.16, 0.0)
+	shield_mount.position = Vector3(-0.085, 0.18, 0.015)
 	shield_mount.rotation_degrees = Vector3(0, 90, 0)   # face out from the forearm
 	shield_mount.add_child(KitLib.instance("shield_kite"))
 

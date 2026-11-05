@@ -71,6 +71,7 @@ func _run() -> void:
 	motes.scale_amount_min = 0.02
 	motes.scale_amount_max = 0.06
 	motes.color = Color(1.0, 0.88, 0.55)
+	motes.mesh = AreaPortal.make_mote_quad(1.8)
 	add_child(motes)
 	motes.global_position = base + Vector3.UP * 0.4
 	motes.emitting = true

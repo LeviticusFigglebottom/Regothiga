@@ -43,6 +43,54 @@ func _ready() -> void:
 			["stagger", 0.12], ["kneel", 1.15], ["roll", 0.3], ["roll", 0.5], ["death", 1.45]]:
 		_cell(x, 13.4, "%s %.2f" % [spec[0], spec[1]], _player_vis(), spec[0], spec[1]); x += 2.2
 
+	# row 5: boss line-up (only built when --row=5)
+	if _row == 5:
+		x = 0.0
+		for bid in ["bellkeeper", "precentress", "bellox", "larkwarden", "tollkeeper", "ferryman", "first_vigilant"]:
+			_cell(x, 17.0, bid, _enemy_vis(bid), "idle", 0.0)
+			x += 3.2
+		# Immortalized phase 1 (gold armour, kite shield + sword)
+		var ip1 := _enemy_vis("wick_crusader")
+		var gold := MaterialLib.get_mat("M_gold", 0)
+		for n in ip1.body.find_children("*", "MeshInstance3D", true, false):
+			if ip1.weapon_mount != null and ip1.weapon_mount.is_ancestor_of(n):
+				continue
+			var mi := n as MeshInstance3D
+			for s in (mi.mesh.get_surface_count() if mi.mesh != null else 0):
+				mi.set_surface_override_material(s, gold)
+		_cell(x, 17.0, "immortal_p1", ip1, "idle", 0.0); x += 2.4
+		# Immortalized phase 2 (dark armour, two-handed golden sword)
+		var ip2 := _enemy_vis("wick_crusader")
+		if ip2.shield_mount != null:
+			ip2.shield_mount.visible = false
+		if ip2.weapon_mount != null:
+			for n in ip2.weapon_mount.find_children("*", "MeshInstance3D", true, false):
+				var mi := n as MeshInstance3D
+				for s in (mi.mesh.get_surface_count() if mi.mesh != null else 0):
+					mi.set_surface_override_material(s, gold)
+		_cell(x, 17.0, "immortal_p2", ip2, "twohand_idle", 0.0); x += 2.4
+		# Scion of Light
+		var scion := CharVisual.new()
+		add_child(scion)
+		scion.build_body("skel_ward", 0.96, 1.04)
+		for n in scion.find_children("*", "MeshInstance3D", true, false):
+			var mi := n as MeshInstance3D
+			for s in (mi.mesh.get_surface_count() if mi.mesh != null else 0):
+				mi.set_surface_override_material(s, gold)
+		_cell(x, 17.0, "scion", scion, "idle", 0.0); x += 2.2
+		var tp := _player_vis()
+		tp.apply_loadout("torch_held", true)
+		_cell(x, 17.0, "torch", tp, "idle", 0.0)
+
+	# row 6: regular enemies line-up (only built when --row=6)
+	if _row == 6:
+		x = 0.0
+		for eid in ["penitent", "ward", "chorister", "shroudbound", "cage_warden",
+				"gilded_echo", "drowned_herald", "mirebound", "lantern_wretch",
+				"vigilant_husk", "morning_ward"]:
+			_cell(x, 21.0, eid, _enemy_vis(eid), "idle", 0.0)
+			x += 2.2
+
 	_dress()
 
 func _player_vis() -> CharVisual:
@@ -63,7 +111,7 @@ func _npc_vis() -> CharVisual:
 	v.build_body("skel_sister", 0.8, 0.9)
 	return v
 
-const ROW_Z := {0: 0.0, 1: 3.2, 2: 6.6, 3: 10.0, 4: 13.4}
+const ROW_Z := {0: 0.0, 1: 3.2, 2: 6.6, 3: 10.0, 4: 13.4, 5: 17.0, 6: 21.0}
 
 func _cell(x: float, z: float, label: String, v: CharVisual, clip: String, t: float) -> void:
 	if _row >= 0 and absf(z - float(ROW_Z.get(_row, -99.0))) > 0.1:
@@ -74,6 +122,20 @@ func _cell(x: float, z: float, label: String, v: CharVisual, clip: String, t: fl
 	v.play(clip, 0.0)
 	v.anim.advance(t)
 	v.anim.pause()
+	if clip == "flask" and v is PlayerVisual:
+		var pv := v as PlayerVisual
+		if pv.shield_mount != null:
+			pv.shield_mount.visible = false
+		if KitLib.has_piece("chrism_flask"):
+			var fm := pv.mount("hand_l")
+			fm.position = Vector3(0.0, 0.05, -0.02)
+			var vessel := KitLib.instance("chrism_flask")
+			vessel.position = Vector3(0.0, -0.03, 0.0)
+			fm.add_child(vessel)
+			await get_tree().process_frame
+			await get_tree().process_frame
+			if is_instance_valid(fm) and is_instance_valid(pv):
+				fm.global_transform.basis = pv.global_transform.basis * Basis.from_euler(Vector3(deg_to_rad(8.0), deg_to_rad(-12.0), deg_to_rad(-34.0)))
 	var l := Label3D.new()
 	l.text = label
 	l.font_size = 34

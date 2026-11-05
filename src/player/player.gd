@@ -114,6 +114,7 @@ var hitbox: Hitbox
 var hitbox_shape: CollisionShape3D
 var hurtbox: Hurtbox
 var _interact_scan: Area3D
+var _nadir_light: OmniLight3D
 
 var sim_move := Vector3.ZERO      # sim driver writes camera-space intent here
 var sim_active := false
@@ -177,6 +178,16 @@ func _ready() -> void:
 	_interact_scan.add_child(ics)
 	add_child(_interact_scan)
 
+	_nadir_light = OmniLight3D.new()
+	_nadir_light.name = "NadirLight"
+	_nadir_light.position = Vector3(0, 1.25, 0)
+	_nadir_light.omni_range = 3.8
+	_nadir_light.omni_attenuation = 1.65
+	_nadir_light.light_energy = 0.32
+	_nadir_light.light_color = Color(1.0, 0.76, 0.46)
+	_nadir_light.shadow_enabled = false
+	add_child(_nadir_light)
+
 	recompute_derived()
 	hp = max_hp
 	stamina = max_stamina
@@ -223,12 +234,16 @@ func become_radiant(cascade := true) -> void:
 	meshes.sort_custom(func(a, b) -> bool:
 		return (a as MeshInstance3D).get_aabb().get_center().y < (b as MeshInstance3D).get_aabb().get_center().y)
 	var step: float = 1.1 / maxf(float(meshes.size()), 1.0)
+	# self-owned tweens: they die with the Latecomer (area rebuilt mid-cascade)
+	# instead of firing a lambda whose captured mesh is already gone
 	for i in meshes.size():
 		var mi: MeshInstance3D = meshes[i]
-		get_tree().create_timer(0.1 + step * i, false).timeout.connect(func() -> void:
-			if is_instance_valid(mi):
-				_gild_mesh(mi, gold, true))
-	get_tree().create_timer(0.1 + 1.1 + 0.2, false).timeout.connect(func() -> void:
+		var gtw := create_tween()
+		gtw.tween_interval(0.1 + step * i)
+		gtw.tween_callback(_gild_mesh.bind(mi, gold, true))
+	var ltw := create_tween()
+	ltw.tween_interval(0.1 + 1.1 + 0.2)
+	ltw.tween_callback(func() -> void:
 		if not dead:
 			_light_gold()
 			AudioDirector.sfx_at("res://assets/audio/swell_kindle.wav", global_position, -4.0, 1.2))
@@ -276,6 +291,7 @@ func _gilt_motes(at: Vector3) -> void:
 	p.scale_amount_min = 0.02
 	p.scale_amount_max = 0.05
 	p.color = Color(1.0, 0.83, 0.45)
+	p.mesh = AreaPortal.make_mote_quad(1.6)
 	get_parent().add_child(p)
 	p.global_position = at
 	p.emitting = true
@@ -476,6 +492,10 @@ func _physics_process(dt: float) -> void:
 	# held poses (kneel at rest, death) must not blend back to idle
 	if state != S.DEAD and state != S.REST and state != S.TALK:
 		vis.locomotion(dt, gs, lean, is_on_floor())
+	if _nadir_light != null:
+		var bt: float = (1.0 if Game.area_state() == VG.WState.RUIN else 0.0)
+		_nadir_light.light_color = Color(1.0, 0.76, 0.46).lerp(Color(0.90, 0.78, 0.58), bt * 0.55)
+		_nadir_light.light_energy = lerpf(0.28, 0.48, bt)
 	if not sim_active:
 		cam.stick_look(Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down"), dt)
 
@@ -657,6 +677,7 @@ func _try_roll(dir: Vector3) -> bool:
 		_iframe_from = float(R["backstep_iframe_start"])
 		_iframe_to = float(R["backstep_iframe_end"])
 		vis.play("backstep", 0.05)
+		Juice.spawn_hit_fx(global_position + Vector3(0, 0.08, 0), -_roll_dir, "dust")
 		return true
 	_set_state(S.ROLL)
 	_roll_dir = dir.normalized()
@@ -665,6 +686,7 @@ func _try_roll(dir: Vector3) -> bool:
 	_iframe_to = float(R["iframe_end"])
 	vis.rotation.y = atan2(-_roll_dir.x, -_roll_dir.z)
 	vis.play("roll", 0.03, float(vis.anim.get_animation("roll").length) / float(R["duration"]))
+	Juice.spawn_hit_fx(global_position + Vector3(0, 0.08, 0), -_roll_dir, "dust")
 	AudioDirector.sfx_at("res://assets/audio/roll.wav", global_position, -6.0, randf_range(0.95, 1.05))
 	return true
 
@@ -767,8 +789,7 @@ func _refresh_weapon_visual() -> void:
 		vis.weapon_mount.add_child(_torch_light)
 
 func apply_carry_pose() -> void:
-	if vis.weapon_mount != null:
-		vis.weapon_mount.rotation_degrees = CARRY_POSE.get(weapon_id, Vector3.ZERO)
+	vis.apply_carry_pose()
 
 func give_item(item: String, count := 1) -> void:
 	inventory[item] = int(inventory.get(item, 0)) + count
@@ -1021,13 +1042,17 @@ func _open_hitbox(m: Dictionary) -> void:
 
 func _on_hit_contact(_hb: Area3D, result: String) -> void:
 	hit_landed.emit(_hb.owner, result)
+	var fx_pos := _hb.global_position + Vector3(0, 1.05, 0) if _hb != null else (global_position + Vector3(0, 1.1, 0))
+	var fx_dir := (global_position - fx_pos).normalized()
 	match result:
 		"hit":
 			Juice.hitstop(0.09 if _atk_is_heavy else 0.06)
 			Juice.shake(0.35 if _atk_is_heavy else 0.2, 0.18)
+			Juice.spawn_hit_fx(fx_pos, fx_dir, "heavy" if _atk_is_heavy else "blood")
 			AudioDirector.sfx_at("res://assets/audio/slash.wav", global_position, -4.0, randf_range(0.9, 1.1))
 		"blocked":
 			Juice.hitstop(0.05)
+			Juice.spawn_hit_fx(fx_pos, fx_dir, "spark")
 			AudioDirector.sfx_at("res://assets/audio/impact_blocked.wav", global_position, -4.0)
 			AudioDirector.sfx_at("res://assets/audio/shield_ding.wav", global_position, -5.0,
 					randf_range(0.95, 1.12))
@@ -1081,6 +1106,9 @@ func on_blocked_hit(packet: DamagePacket) -> void:
 	hp = maxf(hp - packet.amount * float(b.get("chip", 0.14)) * Game.dmg_in_mult(), 1.0)
 	health_changed.emit(hp, max_hp)
 	Juice.shake(0.18, 0.12)
+	var bdir := (global_position - packet.origin).normalized() if packet.origin != Vector3.ZERO else vis.global_transform.basis.z
+	vis.flinch(bdir, 0.75)
+	Juice.spawn_hit_fx(global_position + Vector3(0, 1.15, 0) - bdir * 0.35, -bdir, "spark")
 	if stamina <= 0.0:
 		_guard_break()
 
@@ -1122,6 +1150,8 @@ func on_parry_success(enemy: Node3D) -> void:
 	_riposte_t = 2.6   # matches the parried foe's long stagger breath
 	Juice.hitstop(0.14, 0.03)
 	Juice.shake(0.4, 0.2)
+	var ppos := (global_position + enemy.global_position) * 0.5 + Vector3(0, 1.15, 0) if enemy != null else (global_position + Vector3(0, 1.15, 0))
+	Juice.spawn_hit_fx(ppos, Vector3.UP, "parry")
 	AudioDirector.sfx_at("res://assets/audio/parry.wav", global_position, 0.0)
 
 ## Riposte / backstab entry (crit states).
@@ -1151,6 +1181,7 @@ func _do_riposte_damage(target: Node3D) -> void:
 		target.receive_riposte(pk)
 		Juice.hitstop(0.12, 0.04)
 		Juice.shake(0.5, 0.25)
+		Juice.spawn_hit_fx(target.global_position + Vector3(0, 1.1, 0), (global_position - target.global_position).normalized(), "heavy")
 
 func _st_riposte(dt: float) -> void:
 	velocity.x = 0
@@ -1160,11 +1191,14 @@ func _st_riposte(dt: float) -> void:
 		vis.back_to_idle()
 
 # --- flask -------------------------------------------------------------------
+var _flask_fx_fired := false
+
 func try_flask() -> bool:
 	if flasks <= 0 or dead or state != S.MOVE:
 		return false
 	flasks -= 1
 	flasks_changed.emit(flasks, flask_max)
+	_flask_fx_fired = false
 	_set_state(S.FLASK)
 	vis.play("flask", 0.08)
 	_show_flask(true)
@@ -1210,6 +1244,7 @@ func cast_spell(id: String) -> void:
 			Juice.shake(0.08, 0.1)
 			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -8.0, 1.3)
 			_radiant_flash(1.4, 4.0)
+			_spawn_chrism_heal_fx()
 		"blast":
 			vis.play("cast", 0.08)
 			var from := global_position + Vector3.UP * 1.45
@@ -1314,6 +1349,7 @@ func _burst_nova(radius: float) -> void:
 	p.scale_amount_min = 0.03
 	p.scale_amount_max = 0.09
 	p.color = Color(1.0, 0.86, 0.5)
+	p.mesh = AreaPortal.make_mote_quad(1.6)
 	get_parent().add_child(p)
 	p.global_position = global_position + Vector3.UP * 0.5
 	p.emitting = true
@@ -1334,46 +1370,190 @@ func _radiant_flash(energy: float, rng: float) -> void:
 func _st_flask(dt: float) -> void:
 	velocity.x = move_toward(velocity.x, 0, 12 * dt)
 	velocity.z = move_toward(velocity.z, 0, 12 * dt)
-	# the gourd stays world-upright with a sip-tilt toward the visor — the
-	# raised fist's bone frame flips "up", so a fixed mount angle reads
-	# inverted no matter which constant it is
-	if _flask_mount != null and is_instance_valid(_flask_mount):
-		var k := clampf(state_t / (float(T["flask"]["use_time"]) * 0.7), 0.0, 1.0)
-		var s := k * k * (3.0 - 2.0 * k)
-		var tip := lerpf(16.0, _flask_tilt, s)
-		_flask_mount.global_transform.basis = vis.global_transform.basis \
-				* Basis.from_euler(Vector3(deg_to_rad(tip), 0, 0))
-		# the sip lands CENTERED on the visor: the gourd blends off the
-		# fist's line to a point squarely before the mouth — the head bone
-		# is the midline, so this cannot drift beside the face
-		if _flask_lips != null and is_instance_valid(_flask_lips):
-			var lips: Vector3 = _flask_lips.global_position \
-					+ vis.global_transform.basis * Vector3(0, -0.06, -0.17)
-			_flask_mount.global_position = _flask_mount.global_position.lerp(lips, s)
 	var use_time := float(T["flask"]["use_time"])
-	if state_t >= use_time * 0.62 and hp < max_hp and state_t - get_physics_process_delta_time() < use_time * 0.62:
-		hp = minf(hp + float(T["flask"]["heal"]), max_hp)
-		health_changed.emit(hp, max_hp)
+	if _flask_mount != null and is_instance_valid(_flask_mount):
+		# Keep _flask_mount anchored in the gauntleted left hand (hand_l) while
+		# orienting the gourd in character space so its golden spout tips directly
+		# into the visor slit (matching posegrid flask 0.50).
+		_flask_mount.position = Vector3(0.0, 0.05, -0.02)
+		var u := clampf(state_t / maxf(use_time, 0.01), 0.0, 1.0)
+		var sip_pulse := 0.0
+		if u >= 0.24 and u <= 0.84:
+			sip_pulse = pow(sin(((u - 0.24) / 0.60) * PI * 2.0 - PI * 0.35) * 0.5 + 0.5, 1.4) * 6.0
+		_flask_mount.global_transform.basis = vis.global_transform.basis * Basis.from_euler(Vector3(
+			deg_to_rad(8.0),
+			deg_to_rad(-12.0),
+			deg_to_rad(-34.0 - sip_pulse)
+		))
+	if not _flask_fx_fired and state_t >= use_time * 0.62:
+		_flask_fx_fired = true
+		if hp < max_hp:
+			hp = minf(hp + float(T["flask"]["heal"]), max_hp)
+			health_changed.emit(hp, max_hp)
+		_spawn_chrism_heal_fx()
 	if state_t >= use_time:
 		_show_flask(false)
 		_set_state(S.MOVE)
 		vis.back_to_idle()
 
+## Golden chrism restoration aura: warm amber bloom, ascending bokeh motes,
+## vertical golden light-wisps, and delicate rising filament rings.
+func _spawn_chrism_heal_fx() -> void:
+	_radiant_flash(1.85, 4.2)
+	var parent_node := get_parent() if get_parent() != null else self
+	var grad := Gradient.new()
+	grad.offsets = PackedFloat32Array([0.0, 0.35, 0.72, 1.0])
+	grad.colors = PackedColorArray([
+		Color(1.0, 0.96, 0.80, 0.98),
+		Color(1.0, 0.84, 0.42, 0.78),
+		Color(0.94, 0.62, 0.20, 0.28),
+		Color(0.85, 0.48, 0.14, 0.0),
+	])
+	var gt := GradientTexture2D.new()
+	gt.gradient = grad
+	gt.fill = GradientTexture2D.FILL_RADIAL
+	gt.fill_from = Vector2(0.5, 0.5)
+	gt.fill_to = Vector2(0.5, 0.0)
+	gt.width = 48
+	gt.height = 48
+
+	var life_grad := Gradient.new()
+	life_grad.offsets = PackedFloat32Array([0.0, 0.15, 0.70, 1.0])
+	life_grad.colors = PackedColorArray([
+		Color(1.0, 1.0, 1.0, 0.65),
+		Color(1.0, 0.95, 0.82, 1.0),
+		Color(1.0, 0.82, 0.48, 0.80),
+		Color(0.8, 0.45, 0.15, 0.0),
+	])
+
+	# 1. Ascending golden bokeh motes from waist to crown
+	var motes := CPUParticles3D.new()
+	var qm := QuadMesh.new()
+	qm.size = Vector2(0.15, 0.15)
+	var mmat := StandardMaterial3D.new()
+	mmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mmat.vertex_color_use_as_albedo = true
+	mmat.albedo_texture = gt
+	mmat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	mmat.billboard_keep_scale = true
+	mmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	qm.material = mmat
+	motes.mesh = qm
+	motes.amount = 42
+	motes.lifetime = 0.85
+	motes.preprocess = 0.28
+	motes.explosiveness = 0.35
+	motes.emission_shape = CPUParticles3D.EMISSION_SHAPE_RING
+	motes.emission_ring_axis = Vector3.UP
+	motes.emission_ring_radius = 0.46
+	motes.emission_ring_inner_radius = 0.18
+	motes.emission_ring_height = 0.85
+	motes.direction = Vector3.UP
+	motes.spread = 16.0
+	motes.initial_velocity_min = 0.95
+	motes.initial_velocity_max = 1.95
+	motes.gravity = Vector3(0, 0.65, 0)
+	motes.scale_amount_min = 0.75
+	motes.scale_amount_max = 1.45
+	motes.color_ramp = life_grad
+	parent_node.add_child(motes)
+	motes.global_position = global_position + Vector3(0, 0.85, 0)
+	VG.stop_emitting_after(motes, 0.65)
+	VG.free_after(motes, 1.55)
+
+	# 2. Vertical golden light-wisps (Y-billboarded streaks rising around the torso)
+	var wisps := CPUParticles3D.new()
+	var wqm := QuadMesh.new()
+	wqm.size = Vector2(0.065, 0.38)
+	var wmat := StandardMaterial3D.new()
+	wmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	wmat.vertex_color_use_as_albedo = true
+	wmat.albedo_texture = gt
+	wmat.billboard_mode = BaseMaterial3D.BILLBOARD_FIXED_Y
+	wmat.billboard_keep_scale = true
+	wmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	wmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	wqm.material = wmat
+	wisps.mesh = wqm
+	wisps.amount = 20
+	wisps.lifetime = 0.70
+	wisps.preprocess = 0.22
+	wisps.explosiveness = 0.40
+	wisps.emission_shape = CPUParticles3D.EMISSION_SHAPE_RING
+	wisps.emission_ring_axis = Vector3.UP
+	wisps.emission_ring_radius = 0.40
+	wisps.emission_ring_inner_radius = 0.20
+	wisps.emission_ring_height = 0.65
+	wisps.direction = Vector3.UP
+	wisps.spread = 8.0
+	wisps.initial_velocity_min = 1.15
+	wisps.initial_velocity_max = 2.15
+	wisps.gravity = Vector3(0, 0.5, 0)
+	wisps.scale_amount_min = 0.80
+	wisps.scale_amount_max = 1.35
+	wisps.color_ramp = life_grad
+	parent_node.add_child(wisps)
+	wisps.global_position = global_position + Vector3(0, 0.80, 0)
+	VG.stop_emitting_after(wisps, 0.55)
+	VG.free_after(wisps, 1.35)
+
+	# 3. Two paper-thin, delicate golden filament rings rising from waist to shoulders
+	for i in range(2):
+		var ring := MeshInstance3D.new()
+		var tm := TorusMesh.new()
+		var r_base := 0.46 - float(i) * 0.08
+		tm.inner_radius = r_base
+		tm.outer_radius = r_base + 0.012
+		var rmat := StandardMaterial3D.new()
+		rmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		rmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		rmat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		rmat.albedo_color = Color(1.0, 0.86, 0.44, 0.48 - float(i) * 0.10)
+		tm.material = rmat
+		ring.mesh = tm
+		ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		parent_node.add_child(ring)
+		var y0 := 0.48 + float(i) * 0.22
+		ring.global_position = global_position + Vector3(0, y0, 0)
+		ring.scale = Vector3(0.82, 0.5, 0.82)
+		var tw := create_tween().set_parallel(true)
+		tw.tween_property(ring, "global_position", global_position + Vector3(0, y0 + 1.05, 0), 0.65) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tw.tween_property(ring, "scale", Vector3(1.14, 0.5, 1.14), 0.65) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tw.tween_property(rmat, "albedo_color:a", 0.0, 0.68)
+		get_tree().create_timer(0.75, false).timeout.connect(ring.queue_free)
+
 ## The chrism gourd itself, mounted in the off-hand only while he drinks —
 ## held world-upright, tipped back toward the visor as the arm rises.
 var _flask_mount: Node3D = null
 var _flask_lips: Node3D = null   # head-bone anchor: the sip's true midline
-var _flask_tilt := 78.0   # peak sip angle; the drink ramps up to it
+var _flask_base_basis := Basis.IDENTITY
+var _flask_tilt := 36.0   # drinking tilt; pivots around the belly center
 
 func _show_flask(on: bool) -> void:
 	if on:
 		if _flask_mount == null and KitLib.has_piece("chrism_flask"):
 			_flask_mount = vis.mount("hand_l")
-			_flask_mount.position = Vector3(0, 0.07, 0.02)
-			# a drinking tilt: mouth up and toward the lips — 104 tipped it
-			# past the vertical and the chrism poured at the sky
-			_flask_mount.rotation_degrees = Vector3(38, 0, 0)
-			_flask_mount.add_child(KitLib.instance("chrism_flask"))
+			_flask_mount.position = Vector3(0.0, 0.05, -0.02)
+			var vessel := KitLib.instance("chrism_flask")
+			# Grip the lower base of the gourd (y=0.03) so its golden belly and
+			# neck rise cleanly above the gauntleted fist toward the visor slit.
+			vessel.position = Vector3(0.0, -0.03, 0.0)
+			_flask_mount.add_child(vessel)
+			_flask_mount.global_transform.basis = vis.global_transform.basis * Basis.from_euler(Vector3(
+				deg_to_rad(8.0),
+				deg_to_rad(-12.0),
+				deg_to_rad(-34.0)
+			))
+			var glow := OmniLight3D.new()
+			glow.light_color = Color(1.0, 0.82, 0.42)
+			glow.light_energy = 0.85
+			glow.omni_range = 1.6
+			glow.shadow_enabled = false
+			glow.position = Vector3(0.0, 0.11, 0.0)
+			_flask_mount.add_child(glow)
 			_flask_lips = vis.mount("head")
 	elif _flask_mount != null:
 		var att := _flask_mount.get_parent()   # the BoneAttachment3D
@@ -1452,6 +1632,9 @@ func take_hit(packet: DamagePacket) -> void:
 	health_changed.emit(hp, max_hp)
 	poise -= packet.poise_damage
 	_poise_delay = 2.0
+	var hdir := (global_position - packet.origin).normalized() if packet.origin != Vector3.ZERO else vis.global_transform.basis.z
+	vis.flinch(hdir, 1.15)
+	Juice.spawn_hit_fx(global_position + Vector3(0, 1.1, 0), -hdir, "blood")
 	Juice.shake(0.3, 0.2)
 	AudioDirector.sfx_at("res://assets/audio/impact_flesh.wav", global_position, -6.0, 0.85)
 	if hp <= 0.0:
@@ -1533,6 +1716,8 @@ func _pressed(action: String) -> bool:
 
 # --- interaction ---------------------------------------------------------------
 func nearest_interactable() -> Interactable:
+	if state == S.FLASK:
+		return null
 	var best: Interactable = null
 	var best_d := INF
 	for a in _interact_scan.get_overlapping_areas():

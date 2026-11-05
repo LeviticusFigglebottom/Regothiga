@@ -114,7 +114,7 @@ def arcade_4m():
     objs = []
     # arch panel: opening 2.2 wide springing at 1.6 -> apex ~3.23 (below vault)
     panel = V.wall_panel_with_arch("arcade_panel", 4.0, 4.0, 0.34, 2.2, 1.6,
-                                   sharpness=0.8, segments=12)
+                                   sharpness=0.8, segments=16)
     objs.append(panel)
     # parapet under the opening (arcades are windows onto the garth;
     # passage is at the portals)
@@ -132,7 +132,7 @@ def arcade_4m():
 
 def _colonnette(r, h):
     rings = []
-    n = 8
+    n = 16
     rings.append((r * 1.5, 0.0, n, 0))
     rings.append((r * 1.45, 0.06, n, 0))
     rings.append((r * 1.05, 0.12, n, 0))
@@ -147,7 +147,7 @@ def _colonnette(r, h):
 def column_4m():
     """Freestanding compound pier for cloister corners. Origin: base center."""
     objs = []
-    n = 8
+    n = 16
     rings = [(0.46, 0, n, 0), (0.44, 0.10, n, 0), (0.34, 0.22, n, 0),
              (0.30, 0.3, n, 0), (0.28, 3.0, n, 0), (0.30, 3.55, n, 0),
              (0.42, 3.75, n, 0), (0.46, 3.98, n, 0)]
@@ -166,13 +166,6 @@ def column_4m():
 def _arch_y(pts, x):
     """Interpolate arch height at |x| from a pointed_arch polyline."""
     ax = abs(x)
-    best = 0.0
-    for i in range(len(pts) - 1):
-        (x0, y0), (x1, y1) = pts[i], pts[i + 1]
-        if x0 <= -ax <= x1 or x1 <= -ax <= x0 or x0 <= ax <= x1:
-            # use symmetric half: fold to negative side
-            pass
-    # simpler: pts are symmetric; sample by folding to left half
     half = pts[:len(pts) // 2 + 1]
     xq = -ax
     for i in range(len(half) - 1):
@@ -220,7 +213,7 @@ def vault_bay_4x4():
     flat = 0.62   # gentle vault: keeps the groin read, kills the steep grey flaps
     arch = V.pointed_arch(4.0, 0.55, 16, 0.0)
     apex = max(p[1] for p in arch) * flat
-    grid = 14
+    grid = 16
     bm = bmesh.new()
     verts = {}
     for i in range(grid + 1):
@@ -242,8 +235,6 @@ def vault_bay_4x4():
         path = []
         for k in range(21):
             t = -2 + 4 * k / 20
-            # the diagonal spans sqrt2 longer, so height follows arch(|t|*sqrt2-ish);
-            # sample the web height at this diagonal point
             hx = flat * _arch_y(arch, t)
             path.append((t, sgn * t, spring + hx - 0.02))
         _rib_path(ribbm, path, 0.1, 0.16)
@@ -260,15 +251,15 @@ def vault_bay_4x4():
         _rib_path(ribbm, path, 0.1, 0.16)
     objs.append(V.bm_to_object(ribbm, "vault_ribs", ("M_stone_trim",)))
     # boss at the crown
-    boss = V.loft_rings("boss", [(0.02, apex - 0.3, 8, 0), (0.16, apex - 0.14, 8, 0),
-                                 (0.13, apex + 0.02, 8, 0.3)], "M_stone_trim")
+    boss = V.loft_rings("boss", [(0.02, apex - 0.3, 14, 0), (0.16, apex - 0.14, 14, 0),
+                                 (0.13, apex + 0.02, 14, 0.3)], "M_stone_trim")
     objs.append(boss)
     return objs, {"size": [4, 4, apex + 0.1], "origin": "spring-center", "apex": apex}
 
 
 # ------------------------------------------------------------------ windows
 
-def _lancet_outline(w, sill, spring, apex_sharp, segs=10):
+def _lancet_outline(w, sill, spring, apex_sharp, segs=12):
     """Closed outline polygon of a lancet opening (counter-clockwise)."""
     arch = V.pointed_arch(w, apex_sharp, segs, spring)
     pts = [(w / 2, sill)] + list(reversed(arch)) + [(-w / 2, sill)]
@@ -278,7 +269,7 @@ def _lancet_outline(w, sill, spring, apex_sharp, segs=10):
 def window_lancet_4m():
     """Wall panel 4x4 with a lancet window opening. Glass is a separate piece."""
     panel = V.wall_panel_with_arch("window_wall", 4.0, 4.0, 0.4, 1.5, 2.35,
-                                   sharpness=1.15, segments=10, sill_h=1.15)
+                                   sharpness=1.15, segments=14, sill_h=1.15)
     # sill ledge
     bm = bmesh.new()
     V.add_box(bm, (-0.95, -0.3, 0.98), (0.95, 0.3, 1.15))
@@ -312,12 +303,12 @@ def _clip_convex(poly, clip):
 
 
 GLASS_PALETTE = {
-    "pale":   [(0.38, 0.52, 0.50), (0.42, 0.52, 0.40), (0.48, 0.50, 0.36)],
-    "blue":   [(0.06, 0.13, 0.48), (0.05, 0.18, 0.55)],
-    "ruby":   [(0.46, 0.04, 0.07), (0.55, 0.06, 0.11)],
-    "gold":   [(0.72, 0.46, 0.08), (0.78, 0.55, 0.12)],
-    "violet": [(0.26, 0.07, 0.40)],
-    "green":  [(0.06, 0.33, 0.15)],
+    "pale":   [(0.64, 0.48, 0.22), (0.22, 0.36, 0.68), (0.58, 0.24, 0.28)],
+    "blue":   [(0.08, 0.18, 0.62), (0.10, 0.24, 0.72), (0.06, 0.14, 0.52)],
+    "ruby":   [(0.58, 0.08, 0.10), (0.68, 0.10, 0.14), (0.48, 0.06, 0.09)],
+    "gold":   [(0.82, 0.54, 0.12), (0.88, 0.64, 0.16), (0.74, 0.46, 0.10)],
+    "violet": [(0.34, 0.12, 0.52), (0.42, 0.16, 0.60)],
+    "green":  [(0.08, 0.42, 0.22), (0.12, 0.48, 0.26)],
 }
 
 
@@ -340,14 +331,13 @@ def _mosaic(outline, pitch, rng, center, medallion_r):
                 cx = sum(p[0] for p in clipped) / len(clipped)
                 cy = sum(p[1] for p in clipped) / len(clipped)
                 d_med = math.hypot(cx - center[0], cy - center[1])
-                # choose family: medallion core, border band, or pale field
-                on_border = len(clipped) != 4  # got clipped => touches outline
+                on_border = len(clipped) != 4
                 if d_med < medallion_r:
                     fam = "gold" if d_med < medallion_r * 0.5 else "ruby"
                 elif on_border:
-                    fam = "blue" if (row % 2 == 0) else "violet"
+                    fam = "gold" if (row % 3 == 0) else ("ruby" if (row % 2 == 0) else "blue")
                 else:
-                    fam = "pale" if rng.random() > 0.16 else rng.choice(["blue", "green", "ruby", "gold"])
+                    fam = rng.choice(["blue", "blue", "ruby", "gold", "violet", "green", "pale"])
                 col = rng.choice(GLASS_PALETTE[fam])
                 shards.append((clipped, col))
             x += pitch
@@ -358,11 +348,10 @@ def _mosaic(outline, pitch, rng, center, medallion_r):
 
 def _glass_from_shards(name, shards, keep=1.0, rng=None, thickness=0.02):
     bm = bmesh.new()
-    face_cols = []  # color per created face, in creation order
+    face_cols = []
     for poly, col in shards:
         if rng is not None and rng.random() > keep:
             continue
-        # shrink toward centroid to expose lead lines
         cx = sum(p[0] for p in poly) / len(poly)
         cy = sum(p[1] for p in poly) / len(poly)
         front = []
@@ -382,7 +371,6 @@ def _glass_from_shards(name, shards, keep=1.0, rng=None, thickness=0.02):
         except ValueError:
             pass
     mesh = bmesh_to_mesh(bm, name)
-    # paint per-polygon jewel colors directly on the mesh attribute
     attr = mesh.color_attributes.new(name="Col", type='BYTE_COLOR', domain='CORNER')
     mesh.color_attributes.active_color = attr
     for pi, p in enumerate(mesh.polygons):
@@ -407,11 +395,9 @@ def glass_lancet():
     """Intact stained-glass lancet: diamond quarries + medallion + backing lead
     sheet. Origin matches window_lancet_4m panel (plug into same transform)."""
     rng = random.Random(23)
-    outline = _lancet_outline(1.44, 1.18, 2.35, 1.15, 10)
+    outline = _lancet_outline(1.44, 1.18, 2.35, 1.15, 12)
     shards = _mosaic(outline, 0.20, rng, (0.0, 2.35), 0.42)
     glass = _glass_from_shards("glass_lancet", shards)
-    # lead backing: solid lancet sheet on the EXTERIOR side (blender -Y ->
-    # local +Z after import), so the interior view sees the jewel shards
     bm = bmesh.new()
     verts = [bm.verts.new((x, -0.035, y)) for (x, y) in reversed(outline)]
     bm.faces.new(verts)
@@ -423,9 +409,8 @@ def glass_lancet():
 def glass_lancet_broken():
     """Ruin variant: a few teeth of glass left, no backing — sky shows through."""
     rng = random.Random(29)
-    outline = _lancet_outline(1.44, 1.18, 2.35, 1.15, 10)
+    outline = _lancet_outline(1.44, 1.18, 2.35, 1.15, 12)
     shards = _mosaic(outline, 0.20, rng, (0.0, 2.35), 0.42)
-    # keep mostly border shards (they cling to the frame)
     kept = []
     for poly, col in shards:
         edge_touch = len(poly) != 4
@@ -443,16 +428,16 @@ def portal_4m():
     archivolt sweeps. Origin bottom-center; passage along Y."""
     objs = []
     panel = V.wall_panel_with_arch("portal_wall", 4.0, 4.0, 0.5, 1.9, 2.1,
-                                   sharpness=1.1, segments=12)
+                                   sharpness=1.1, segments=16)
     objs.append(panel)
-    arch = V.pointed_arch(1.9, 1.1, 12, 2.1)
-    for k, (scale, depth) in enumerate(((1.12, 0.30), (1.26, 0.16))):
+    arch = V.pointed_arch(1.9, 1.1, 16, 2.1)
+    for k, (scale, depth) in enumerate(((1.10, 0.56), (1.24, 0.53))):
         path = []
         for (x, y) in arch:
             path.append((x * scale, 0.0, y + (scale - 1) * 0.4))
-        prof = V.chamfer_rect_profile(0.16 + k * 0.04, depth, 0.045)
+        prof = V.chamfer_rect_profile(0.15 - k * 0.02, depth, 0.04)
         objs.append(V.sweep_profile(f"archivolt{k}", path, prof, "M_stone_trim",
-                                    up_hint=Vector((0, 0, 1))))
+                                    up_hint=Vector((0, 1, 0))))
     # jamb columns
     for sx in (-1.15, 1.15):
         c = _colonnette(0.12, 2.1)
@@ -479,7 +464,6 @@ def buttress():
     V.add_box(bm, (-0.45, -0.95, 1.6), (0.45, 0.0, 3.0))
     V.add_box(bm, (-0.38, -0.7, 3.0), (0.38, 0.0, 3.98))
     obj = V.bm_to_object(bm, "buttress_body", ("M_stone",))
-    # sloped weatherings: wedges at each step
     bm2 = bmesh.new()
     for (w, y_out, z0, rise) in ((0.45, -0.95, 1.6, 0.34), (0.38, -0.7, 3.0, 0.3), (0.34, -0.62, 3.98, 0.5)):
         a = bm2.verts.new((-w, y_out, z0)); b = bm2.verts.new((w, y_out, z0))
@@ -496,7 +480,7 @@ def buttress():
 def column_broken():
     """Ruin: pier snapped at ~1.6 m with a jagged crown."""
     rng = random.Random(31)
-    n = 8
+    n = 16
     rings = [(0.46, 0, n, 0), (0.44, 0.10, n, 0), (0.34, 0.22, n, 0), (0.30, 0.3, n, 0)]
     top = 1.0 + rng.random() * 0.9
     rings.append((0.30, top, n, 0))
@@ -518,7 +502,6 @@ def column_broken():
         prev = ring
     bm.verts.ensure_lookup_table()
     bm.faces.new(reversed(bm.verts[:n]))
-    # jagged cap fan
     import statistics
     cz = statistics.mean(v.co.z for v in prev) + 0.1
     center = bm.verts.new((0, 0, cz))
@@ -565,13 +548,9 @@ def _chunk(bm, cx, cy, cz, sx, sy, sz, rng, jitter=0.32):
 
 def rubble_choke_4m():
     """A collapse that seals a ~3.4 m doorway floor-to-lintel with no see-through
-    gaps: an opaque, jagged stone core flanked by chunky fallen debris piled on
-    BOTH faces so it reads as packed rubble from either approach. Origin bottom-
-    center; width runs across the opening (X), depth through it (Y)."""
+    gaps."""
     rng = random.Random(77)
     half_w = 1.7
-    # opaque core: tall merlons that close the whole pointed opening; the debris
-    # in front hides the top edge, so height only needs to stay above the lintel
     core = bmesh.new()
     n = 9
     for i in range(n):
@@ -580,33 +559,23 @@ def rubble_choke_4m():
         h = rng.uniform(2.9, 3.3)
         V.add_box(core, (x0 - 0.03, -0.32, 0.0), (x1 + 0.03, 0.32, h))
     core_obj = V.bm_to_object(core, "choke_core", ("M_stone",))
-    # debris: graded talus — big fallen blocks low, tightly-packed chunks climbing
-    # both faces (hugging the core harder the higher they go), plus a spill onto
-    # the floor so it grounds instead of hanging in the arch.
     deb = bmesh.new()
-    for _ in range(6):                       # big fallen voussoirs at the base
+    for _ in range(6):
         side = rng.choice((-1.0, 1.0))
         _chunk(deb, rng.uniform(-half_w + 0.4, half_w - 0.4), side * rng.uniform(0.3, 0.6),
                rng.uniform(0.35, 0.8), rng.uniform(0.34, 0.55), rng.uniform(0.3, 0.45),
                rng.uniform(0.3, 0.5), rng, 0.22)
-    # fill a solid mound envelope: for every chunk, its column caps at a height
-    # that peaks in the middle and tapers to the jambs, and it can sit anywhere
-    # from the floor up to that cap. Nothing is ever placed above its column, so
-    # there are no floating chunks — just a packed pile against the opaque core.
     for _ in range(185):
         side = rng.choice((-1.0, 1.0))
         x = rng.uniform(-half_w + 0.1, half_w - 0.1)
-        # the mound must CREST INTO THE ARCH HEAD: the old ~2.35 cap left a
-        # metre of smooth core exposed above the debris — reading as a built
-        # wall standing behind the rubble instead of a collapse
-        cap = 2.95 * (1.0 - (x / half_w) ** 2 * 0.35)  # ~2.95 mid → ~1.9 at jambs
+        cap = 2.95 * (1.0 - (x / half_w) ** 2 * 0.35)
         cz = cap * (0.06 + 0.94 * rng.random())
-        taper = 1.0 - cz / 3.6               # hug the core tighter up high
+        taper = 1.0 - cz / 3.6
         depth = side * (0.2 + rng.uniform(0.0, 0.34) * taper)
         s = rng.uniform(0.14, 0.3) * (0.7 + 0.3 * taper)
         _chunk(deb, x, depth, cz,
                s * rng.uniform(0.85, 1.4), s * rng.uniform(0.85, 1.3), s * rng.uniform(0.75, 1.15), rng)
-    for _ in range(14):                      # talus spilling out onto the floor
+    for _ in range(14):
         side = rng.choice((-1.0, 1.0))
         _chunk(deb, rng.uniform(-half_w + 0.2, half_w - 0.2),
                side * rng.uniform(0.55, 1.05), rng.uniform(0.06, 0.32),
@@ -625,17 +594,15 @@ def fog_gate_frame():
         V.add_box(bm, (sx - 0.45, -0.45, 0), (sx + 0.45, 0.45, 0.5))
         V.add_box(bm, (sx - 0.42, -0.42, 3.1), (sx + 0.42, 0.42, 3.4))
         objs.append(V.bm_to_object(bm, "fog_pier", ("M_stone_trim",)))
-    arch = V.pointed_arch(3.2, 1.0, 14, 3.25)
+    arch = V.pointed_arch(3.2, 1.0, 16, 3.25)
     path = [(x, 0, y) for (x, y) in arch]
-    objs.append(V.sweep_profile("fog_arch", path, V.chamfer_rect_profile(0.5, 0.34, 0.1),
-                                "M_stone_trim", up_hint=Vector((0, 0, 1))))
+    objs.append(V.sweep_profile("fog_arch", path, V.chamfer_rect_profile(0.34, 0.5, 0.08),
+                                "M_stone_trim", up_hint=Vector((0, 1, 0))))
     return objs, {"size": [4, 1, 5.2], "origin": "bottom-center", "opening": [3.2, 3.1]}
 
 
 def roof_shed_4m():
-    """Lean-to roof over a cloister walk: garth-side eave at ~4.05 m rising
-    to 5.5 m against the outer wall. Origin: bottom-center of the garth eave;
-    slopes toward local blender +Y (away from the garth)."""
+    """Lean-to roof over a cloister walk."""
     bm = bmesh.new()
     a = bm.verts.new((-2.04, -0.35, 4.02)); b = bm.verts.new((2.04, -0.35, 4.02))
     c = bm.verts.new((2.04, 4.4, 5.52)); d = bm.verts.new((-2.04, 4.4, 5.52))
@@ -649,21 +616,18 @@ def roof_shed_4m():
 
 
 def rose_window():
-    """Rose window: circular stone tracery wheel with jewel-glass petals.
-    ~3.8 m across; origin at the wheel hub. Place high on a wall face; the
-    glass survives both states — the last light lives in it."""
+    """Rose window: circular stone tracery wheel with jewel-glass petals."""
     import random as _random
     rng = _random.Random(77)
     objs = []
     R = 1.9
-    n = 28
+    n = 32
     outline = [(R * math.cos(2 * math.pi * i / n), R * math.sin(2 * math.pi * i / n))
                for i in range(n)]
     shards = _mosaic(outline, 0.24, rng, (0.0, 0.0), 0.55)
     objs.append(_glass_from_shards("rose_glass", shards))
-    # stone rim: two concentric sweeps
     bm = bmesh.new()
-    seg = 24
+    seg = 28
     for (r0, r1) in ((R * 1.0, R * 1.14), (0.16, 0.3)):
         ring0, ring1, ring0b, ring1b = [], [], [], []
         for i in range(seg):
@@ -679,7 +643,6 @@ def rose_window():
             bm.faces.new((ring1b[i], ring1b[j], ring0b[j], ring0b[i]))
             bm.faces.new((ring1[i], ring1[j], ring1b[j], ring1b[i]))
             bm.faces.new((ring0b[i], ring0b[j], ring0[j], ring0[i]))
-    # spokes
     for i in range(12):
         a = 2 * math.pi * i / 12
         ca, sa = math.cos(a), math.sin(a)

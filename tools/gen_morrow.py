@@ -313,7 +313,7 @@ for k in range(6):
     for s in (1, -1):
         cx, _, cz = room_c(k, s)
         prop("candelabra", (cx - 3.8 * s, 0, cz + 4.6), 20 * s)
-        prop("banner", (cx + 5.6 * s, 2.6, cz), 90 if s > 0 else -90, collide=False)
+        prop("banner", (cx + 5.6 * s, 1.1, cz), 90 if s > 0 else -90, collide=False)
 
 # the keep's air: gold adrift the length of the processional
 SC.append({"script": "res://src/world/ambient_life.gd", "at": [0, 1, 46], "rot": 0,

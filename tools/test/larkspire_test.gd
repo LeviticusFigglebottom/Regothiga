@@ -210,6 +210,9 @@ func _run() -> void:
 	# ---- new kits all resolve
 	for kit in ["lark_cage", "lark_cage_dead", "cage_stand", "perch_rail",
 			"perch_rail_bare", "great_perch", "aviary_screen", "crook_warden", "crook_great"]:
-		check(KitLib.instance(kit) != null, "kit %s resolves" % kit)
+		var inst := KitLib.instance(kit)
+		check(inst != null, "kit %s resolves" % kit)
+		if inst != null:
+			inst.free()
 
 	finish()

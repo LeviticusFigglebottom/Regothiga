@@ -20,6 +20,7 @@ func _ready() -> void:
 	if carry != "" and KitLib.has_piece(carry):
 		var m := _vis.mount("hand_%s" % cfg.get("carry_hand", "l"))
 		m.position = Vector3(0, 0.08, 0)
+		m.rotation_degrees = Vector3(CharVisual.CARRY_POSE.get(carry, Vector3.ZERO))
 		var held := KitLib.instance(carry)
 		if carry == "candle_cluster":
 			held.scale = Vector3(0.4, 0.4, 0.4)

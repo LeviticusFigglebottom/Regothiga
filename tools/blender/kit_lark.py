@@ -6,59 +6,159 @@ empty rails. All playable-scale. Z up, exporter maps Z->Y.
 import math
 import random
 import bmesh
+from mathutils import Vector
 
 import vglib as V
 
 
+def _add_rod(bm, p0, p1, rad, segs=6):
+    """Add a capped polygonal rod from p0 to p1 of radius rad into bm."""
+    v0 = Vector(p0)
+    v1 = Vector(p1)
+    d = v1 - v0
+    if d.length < 1e-5:
+        return
+    t = d.normalized()
+    ref = Vector((0, 0, 1)) if abs(t.z) < 0.92 else Vector((1, 0, 0))
+    u = t.cross(ref).normalized()
+    w = t.cross(u).normalized()
+    r0, r1 = [], []
+    for i in range(segs):
+        ang = math.tau * i / segs
+        off = (u * math.cos(ang) + w * math.sin(ang)) * rad
+        r0.append(bm.verts.new(v0 + off))
+        r1.append(bm.verts.new(v1 + off))
+    for i in range(segs):
+        j = (i + 1) % segs
+        try:
+            bm.faces.new((r0[i], r0[j], r1[j], r1[i]))
+        except ValueError:
+            pass
+    try:
+        bm.faces.new(list(reversed(r0)))
+        bm.faces.new(r1)
+    except ValueError:
+        pass
+
+
 def _lark(name, mat="M_bone"):
-    """A chunky little songbird, ~0.18 long, sitting. Origin at its feet."""
+    """A sculpted songbird, ~0.18 m long, sitting on its perch. Origin at feet."""
     objs = []
     bm = bmesh.new()
-    # body (plump box, tapered tail)
-    V.add_box(bm, (-0.045, -0.05, 0.02), (0.045, 0.07, 0.10))
-    # head
-    V.add_box(bm, (-0.032, 0.045, 0.09), (0.032, 0.10, 0.15))
-    # tail: thin slab angling up-back
-    V.add_box(bm, (-0.022, -0.12, 0.05), (0.022, -0.04, 0.075))
+    # Multi-station organic avian profile along (y, z, rx, rz)
+    stations = [
+        (-0.125, 0.074, 0.022, 0.004),  # fanned tail tip
+        (-0.085, 0.058, 0.016, 0.007),  # tail shaft
+        (-0.050, 0.046, 0.020, 0.015),  # rump
+        (-0.020, 0.052, 0.038, 0.030),  # belly / lower back
+        ( 0.016, 0.062, 0.044, 0.036),  # plump breast
+        ( 0.046, 0.080, 0.031, 0.027),  # throat / nape
+        ( 0.062, 0.108, 0.028, 0.026),  # head crown
+        ( 0.086, 0.116, 0.021, 0.020),  # brow / cheeks
+        ( 0.100, 0.114, 0.010, 0.010),  # beak root
+    ]
+    n_seg = 10
+    rings = []
+    for (cy, cz, rx, rz) in stations:
+        ring = []
+        for i in range(n_seg):
+            ang = math.tau * i / n_seg
+            ring.append(bm.verts.new((rx * math.cos(ang), cy, cz + rz * math.sin(ang))))
+        rings.append(ring)
+    for k in range(len(rings) - 1):
+        r0, r1 = rings[k], rings[k + 1]
+        for i in range(n_seg):
+            j = (i + 1) % n_seg
+            bm.faces.new((r0[i], r0[j], r1[j], r1[i]))
+    bm.faces.new(list(reversed(rings[0])))
+    bm.faces.new(rings[-1])
+
+    # Folded wing shells hugging left/right flanks
+    for sx in (-1, 1):
+        w_stations = [
+            (-0.055, 0.055, sx * 0.016, 0.005, 0.006),
+            (-0.018, 0.064, sx * 0.038, 0.012, 0.022),
+            ( 0.022, 0.070, sx * 0.040, 0.010, 0.020),
+            ( 0.042, 0.074, sx * 0.028, 0.005, 0.010),
+        ]
+        w_rings = []
+        for (wy, wz, wx, wrx, wrz) in w_stations:
+            wr = []
+            for i in range(6):
+                ang = math.tau * i / 6
+                wr.append(bm.verts.new((wx + wrx * math.cos(ang), wy, wz + wrz * math.sin(ang))))
+            w_rings.append(wr)
+        for k in range(len(w_rings) - 1):
+            r0, r1 = w_rings[k], w_rings[k + 1]
+            for i in range(6):
+                j = (i + 1) % 6
+                bm.faces.new((r0[i], r0[j], r1[j], r1[i]))
+        bm.faces.new(list(reversed(w_rings[0])))
+        bm.faces.new(w_rings[-1])
+
+    # Slender legs + perched toes
+    for sx in (-0.016, 0.016):
+        _add_rod(bm, (sx, 0.002, 0.002), (sx, 0.010, 0.040), 0.0045, segs=5)
+        _add_rod(bm, (sx, -0.012, 0.003), (sx, 0.018, 0.003), 0.0035, segs=4)
+
     body = V.bm_to_object(bm, name + "_body", (mat,))
     objs.append(body)
-    # beak
+    # Conical golden beak
     bk = bmesh.new()
-    a = bk.verts.new((-0.012, 0.10, 0.115)); b = bk.verts.new((0.012, 0.10, 0.115))
-    c = bk.verts.new((0.0, 0.10, 0.135)); tip = bk.verts.new((0.0, 0.15, 0.118))
-    bk.faces.new((a, b, tip)); bk.faces.new((b, c, tip)); bk.faces.new((c, a, tip))
+    _add_rod(bk, (0.0, 0.098, 0.114), (0.0, 0.142, 0.112), 0.002, segs=6)
+    base_ring = [
+        bk.verts.new((0.010 * math.cos(math.tau * i / 6), 0.098, 0.114 + 0.009 * math.sin(math.tau * i / 6)))
+        for i in range(6)
+    ]
+    tip = bk.verts.new((0.0, 0.146, 0.111))
+    for i in range(6):
+        bk.faces.new((base_ring[i], base_ring[(i + 1) % 6], tip))
+    bk.faces.new(list(reversed(base_ring)))
     objs.append(V.bm_to_object(bk, name + "_beak", ("M_gold",)))
     return objs
 
 
 def _cage_frame(bm_gold, r=0.24, z0=0.0, h=0.42, bars=10, bent_rng=None):
-    """Dome-topped hanging cage frame built into bm_gold. Returns door info."""
-    # base + crown rings
-    for (rr, zz, th) in ((r, z0, 0.025), (r, z0 + h, 0.02)):
-        seg = 12
+    """Dome-topped hanging cage frame built into bm_gold. Returns finial tip Z."""
+    # Base + mid-belly + crown rings (smooth 16-segment circular hoops)
+    for (rr, zz, th) in ((r, z0, 0.016), (r, z0 + h * 0.18, 0.009), (r, z0 + h, 0.014)):
+        seg = 16
         for i in range(seg):
             a0 = math.tau * i / seg
             a1 = math.tau * (i + 1) / seg
-            x0, y0 = rr * math.cos(a0), rr * math.sin(a0)
-            x1, y1 = rr * math.cos(a1), rr * math.sin(a1)
-            V.add_box(bm_gold, (min(x0, x1) - th, min(y0, y1) - th, zz - th),
-                      (max(x0, x1) + th, max(y0, y1) + th, zz + th))
-    # vertical bars (one may be bent outward by bent_rng)
+            p0 = (rr * math.cos(a0), rr * math.sin(a0), zz)
+            p1 = (rr * math.cos(a1), rr * math.sin(a1), zz)
+            _add_rod(bm_gold, p0, p1, th, segs=6)
+    # Vertical bars (some bent outward if bent_rng is provided)
     for i in range(bars):
         a = math.tau * i / bars
-        x, y = r * math.cos(a), r * math.sin(a)
+        ca, sa = math.cos(a), math.sin(a)
+        x, y = r * ca, r * sa
         lean = 0.0
-        if bent_rng is not None and bent_rng.random() < 0.3:
-            lean = bent_rng.uniform(0.05, 0.14)
-        V.add_box(bm_gold, (x - 0.012 - lean * 0.5, y - 0.012, z0),
-                  (x + 0.012 + lean, y + 0.012, z0 + h))
-    # dome ribs meeting at a finial point
-    tip = z0 + h + r * 0.75
-    for i in range(4):
-        a = math.tau * i / 4
-        x, y = r * math.cos(a), r * math.sin(a)
-        V.add_box(bm_gold, (min(x, 0) - 0.012, min(y, 0) - 0.012, z0 + h - 0.01),
-                  (max(x, 0) + 0.012, max(y, 0) + 0.012, tip))
+        if bent_rng is not None and bent_rng.random() < 0.35:
+            lean = bent_rng.uniform(0.06, 0.14)
+        if lean > 0.0:
+            xm, ym = (r + lean) * ca, (r + lean) * sa
+            _add_rod(bm_gold, (x, y, z0), (xm, ym, z0 + h * 0.52), 0.0085, segs=5)
+            _add_rod(bm_gold, (xm, ym, z0 + h * 0.52), (x + lean * 0.35 * ca, y + lean * 0.35 * sa, z0 + h), 0.0085, segs=5)
+        else:
+            _add_rod(bm_gold, (x, y, z0), (x, y, z0 + h), 0.0085, segs=5)
+    # Arched dome ribs meeting at a finial crown
+    dome_h = r * 0.75
+    tip = z0 + h + dome_h
+    n_ribs = max(6, bars // 2 * 2)
+    rib_steps = 5
+    for i in range(n_ribs):
+        a = math.tau * i / n_ribs
+        ca, sa = math.cos(a), math.sin(a)
+        for s in range(rib_steps):
+            t0 = (s / rib_steps) * (math.pi * 0.5)
+            t1 = ((s + 1) / rib_steps) * (math.pi * 0.5)
+            r0, zz0 = r * math.cos(t0), z0 + h + dome_h * math.sin(t0)
+            r1, zz1 = r * math.cos(t1), z0 + h + dome_h * math.sin(t1)
+            _add_rod(bm_gold, (r0 * ca, r0 * sa, zz0), (r1 * ca, r1 * sa, zz1), 0.009, segs=5)
+    # Finial collar at dome apex
+    _add_rod(bm_gold, (0.0, 0.0, tip - 0.015), (0.0, 0.0, tip + 0.035), 0.018, segs=8)
     return tip
 
 

@@ -21,24 +21,43 @@ func _ready() -> void:
 	for mi in KitLib._mesh_instances(ghost):
 		mi.set_instance_shader_parameter("death_diss", 0.55)
 	var p := CPUParticles3D.new()
-	p.amount = 26
-	p.lifetime = 2.2
+	p.amount = 32
+	p.lifetime = 2.4
 	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
-	p.emission_sphere_radius = 0.4
+	p.emission_sphere_radius = 0.42
 	p.direction = Vector3.UP
-	p.initial_velocity_min = 0.2
-	p.initial_velocity_max = 0.6
-	p.gravity = Vector3.ZERO
-	p.scale_amount_min = 0.02
-	p.scale_amount_max = 0.06
-	var mesh := SphereMesh.new()
-	mesh.radius = 0.05
-	mesh.height = 0.1
+	p.spread = 22.0
+	p.initial_velocity_min = 0.22
+	p.initial_velocity_max = 0.65
+	p.gravity = Vector3(0.0, 0.08, 0.0)
+	p.scale_amount_min = 0.65
+	p.scale_amount_max = 1.35
+	var quad := QuadMesh.new()
+	quad.size = Vector2(0.11, 0.11)
 	var mm := StandardMaterial3D.new()
 	mm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mm.albedo_color = Color(1.0, 0.85, 0.5)
-	mesh.material = mm
-	p.mesh = mesh
+	mm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	mm.billboard_keep_scale = true
+	var grad := Gradient.new()
+	grad.offsets = PackedFloat32Array([0.0, 0.35, 0.72, 1.0])
+	grad.colors = PackedColorArray([
+		Color(1.0, 0.94, 0.76, 0.95),
+		Color(1.0, 0.82, 0.42, 0.65),
+		Color(0.92, 0.62, 0.22, 0.18),
+		Color(0.85, 0.50, 0.15, 0.0),
+	])
+	var gt := GradientTexture2D.new()
+	gt.gradient = grad
+	gt.fill = GradientTexture2D.FILL_RADIAL
+	gt.fill_from = Vector2(0.5, 0.5)
+	gt.fill_to = Vector2(0.5, 0.0)
+	gt.width = 32
+	gt.height = 32
+	mm.albedo_texture = gt
+	quad.material = mm
+	p.mesh = quad
 	p.position.y = 0.5
 	add_child(p)
 	var l := OmniLight3D.new()
