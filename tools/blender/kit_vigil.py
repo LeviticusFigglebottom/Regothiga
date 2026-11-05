@@ -47,15 +47,23 @@ def vigil_brazier():
             (0.56, 1.24, 16, 0),
             (0.60, 1.35, 16, 0),
             (0.54, 1.39, 16, 0),
+            (0.49, 1.39, 16, 0),
+            (0.45, 1.26, 16, 0),
         ],
         "M_bronze",
         cap_bottom=True,
-        cap_top=False,
+        cap_top=True,
     )
     objs.append(bowl)
     rim = V.loft_rings(
         "watch_rim",
-        [(0.59, 1.33, 16, 0), (0.615, 1.365, 16, 0), (0.56, 1.395, 16, 0)],
+        [
+            (0.54, 1.33, 16, 0),
+            (0.618, 1.33, 16, 0),
+            (0.618, 1.395, 16, 0),
+            (0.54, 1.395, 16, 0),
+            (0.54, 1.33, 16, 0),
+        ],
         "M_gold",
         cap_bottom=False,
         cap_top=False,
@@ -208,10 +216,16 @@ def shrine_aedicule():
 
     basin = V.loft_rings(
         "shrine_basin",
-        [(0.24, 1.10, 14, 0), (0.34, 1.18, 14, 0), (0.30, 1.22, 14, 0)],
+        [
+            (0.24, 1.10, 14, 0),
+            (0.34, 1.18, 14, 0),
+            (0.34, 1.23, 14, 0),
+            (0.28, 1.23, 14, 0),
+            (0.22, 1.16, 14, 0),
+        ],
         "M_bronze",
         cap_bottom=True,
-        cap_top=False,
+        cap_top=True,
     )
     objs.append(basin)
     core = V.loft_rings(

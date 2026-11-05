@@ -402,9 +402,10 @@ def censer_fallen(seed=29):
 
 
 def ivy_sheet(seed=31):
-    """Creeper sheet for ruin walls: drooping stems studded with leaf quads.
-    Mount against a wall face (leaves spread in local XZ, wall at y=0)."""
+    """Creeper sheet for ruin walls: drooping woody stems studded with two-sided
+    leaf blades. Mount against a wall face (leaves spread in local XZ, wall at y=0)."""
     rng = random.Random(seed)
+    objs = []
     bm = bmesh.new()
     col_entries = []
     for s in range(6):
@@ -413,18 +414,29 @@ def ivy_sheet(seed=31):
         length = rng.uniform(1.2, 2.6)
         sway = rng.uniform(-0.35, 0.35)
         n = int(length / 0.16)
+        stem_pts = []
         for i in range(n):
             t = i / max(n - 1, 1)
             x = x0 + sway * t * t + math.sin(t * 9 + s) * 0.06
             z = top - length * t
-            size = rng.uniform(0.07, 0.13) * (1.0 - 0.3 * t)
+            stem_pts.append((x, -0.02, z))
+            size = rng.uniform(0.08, 0.14) * (1.0 - 0.3 * t)
             a = rng.uniform(0, 2 * math.pi)
-            p0 = bm.verts.new((x, -0.02 - 0.03 * rng.random(), z))
-            p1 = bm.verts.new((x + size * math.cos(a), -0.05, z + size * math.sin(a)))
-            p2 = bm.verts.new((x + size * math.cos(a + 2.1), -0.05, z + size * math.sin(a + 2.1)))
-            f = bm.faces.new((p0, p1, p2))
+            y0 = -0.02 - 0.03 * rng.random()
+            c0 = (x, y0, z)
+            c1 = (x + size * math.cos(a), -0.055, z + size * math.sin(a))
+            c2 = (x + size * math.cos(a + 2.1), -0.055, z + size * math.sin(a + 2.1))
             g = rng.uniform(0.7, 1.0)
-            col_entries.append((0.14 * g, 0.24 * g, 0.10 * g))
+            col = (0.14 * g, 0.24 * g, 0.10 * g)
+            p0, p1, p2 = bm.verts.new(c0), bm.verts.new(c1), bm.verts.new(c2)
+            bm.faces.new((p0, p1, p2))
+            col_entries.append(col)
+            q0, q1, q2 = bm.verts.new(c0), bm.verts.new(c1), bm.verts.new(c2)
+            bm.faces.new((q2, q1, q0))
+            col_entries.append(col)
+        if len(stem_pts) >= 2:
+            objs.append(V.sweep_profile("ivy_stem_%d" % s, stem_pts, V.circle_profile(0.012, 6),
+                                        "M_wood", up_hint=Vector((0, 1, 0))))
     mesh = __import__("bpy").data.meshes.new("ivy")
     bm.normal_update()
     bm.to_mesh(mesh)
@@ -437,7 +449,8 @@ def ivy_sheet(seed=31):
             attr.data[li].color = (c[0], c[1], c[2], 1.0)
     obj = V.new_object("ivy", mesh)
     obj.data.materials.append(V.material("M_foliage"))
-    return [obj], {"size": [3.4, 0.15, 3.5], "origin": "wall-base"}
+    objs.append(obj)
+    return objs, {"size": [3.4, 0.15, 3.5], "origin": "wall-base"}
 
 
 def book_stack(seed=37):

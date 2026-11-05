@@ -204,9 +204,14 @@ def lark_cage_dead(drop=1.6, seed=41):
     bm = bmesh.new()
     _cage_frame(bm, r=0.24, z0=cz - 0.75, h=0.42, bent_rng=rng)
     objs.append(V.bm_to_object(bm, "cage_d", ("M_iron",)))
-    # the sprung door: a small barred quad hanging askew off the rim
+    disc = V.loft_rings("cage_floor_d", [(0.235, cz - 0.77, 12, 0), (0.235, cz - 0.75, 12, 0)], "M_iron")
+    objs.append(disc)
+    # the sprung door: a small barred gate hanging askew off the rim
     dbm = bmesh.new()
-    V.add_box(dbm, (0.2, -0.09, cz - 0.72), (0.24, 0.09, cz - 0.5))
+    for dz in (cz - 0.72, cz - 0.52):
+        V.add_box(dbm, (0.21, -0.09, dz), (0.23, 0.09, dz + 0.018))
+    for dy in (-0.08, 0.0, 0.08):
+        V.add_box(dbm, (0.21, dy - 0.008, cz - 0.72), (0.23, dy + 0.008, cz - 0.50))
     door = V.bm_to_object(dbm, "cage_door", ("M_iron",))
     door.rotation_euler = (0.5, 0.15, 0.2)
     objs.append(door)
@@ -219,25 +224,28 @@ def cage_stand():
     The Daily Offices puzzle interacts with these. Solid."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.36, -0.36, 0.0), (0.36, 0.36, 0.10))
-    V.add_box(bm, (-0.30, -0.30, 0.10), (0.30, 0.30, 0.18))
     V.add_box(bm, (-0.21, -0.21, 0.18), (0.21, 0.21, 0.86))
-    V.add_box(bm, (-0.28, -0.28, 0.86), (0.28, 0.28, 0.93))
-    V.add_box(bm, (-0.33, -0.33, 0.93), (0.33, 0.33, 1.00))
     objs.append(V.bm_to_object(bm, "stand", ("M_stone_dark",)))
 
     bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-0.36, -0.36, 0.0), (0.36, 0.36, 0.10))
+    V.add_box(bm_trim, (-0.30, -0.30, 0.10), (0.30, 0.30, 0.18))
+    V.add_box(bm_trim, (-0.28, -0.28, 0.86), (0.28, 0.28, 0.93))
+    V.add_box(bm_trim, (-0.33, -0.33, 0.93), (0.33, 0.33, 1.00))
     for sx in (-0.21, 0.21):
         for sy in (-0.21, 0.21):
             V.add_box(bm_trim, (sx - 0.035, sy - 0.035, 0.18), (sx + 0.035, sy + 0.035, 0.86))
     objs.append(V.bm_to_object(bm_trim, "stand_trim", ("M_stone_trim",)))
 
+    disc = V.loft_rings("stand_floor", [(0.26, 1.00, 14, 0), (0.26, 1.025, 14, 0)], "M_iron")
+    objs.append(disc)
+
     gm = bmesh.new()
-    tip = _cage_frame(gm, r=0.26, z0=1.0, h=0.46)
-    V.add_box(gm, (-0.24, -0.015, 1.2), (0.24, 0.015, 1.23))     # perch
+    tip = _cage_frame(gm, r=0.26, z0=1.02, h=0.46)
+    V.add_box(gm, (-0.24, -0.015, 1.22), (0.24, 0.015, 1.25))     # perch
     objs.append(V.bm_to_object(gm, "stand_cage", ("M_gold",)))
     for o in _lark("stand_lark"):
-        o.location = (0.02, 0, 1.23)
+        o.location = (0.02, 0, 1.25)
         objs.append(o)
     return objs, {"size": [0.7, 0.7, 2.1], "origin": "bottom-center"}
 

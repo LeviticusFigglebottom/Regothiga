@@ -732,35 +732,47 @@ def rose_window():
     objs.append(_glass_from_shards("rose_glass", shards))
     bm = bmesh.new()
     seg = 28
-    for (r0, r1) in ((R * 1.0, R * 1.14), (0.16, 0.3)):
+    # Outer moulded frame ring, stepped hood-mold ring, intermediate cusped ring, and hub ring
+    ring_specs = (
+        (R * 0.96, R * 1.14, 0.14),
+        (R * 1.10, R * 1.24, 0.20),
+        (R * 0.52, R * 0.60, 0.10),
+        (0.16, 0.32, 0.13),
+    )
+    for (r0, r1, hy) in ring_specs:
         ring0, ring1, ring0b, ring1b = [], [], [], []
         for i in range(seg):
             a = 2 * math.pi * i / seg
             ca, sa = math.cos(a), math.sin(a)
-            ring0.append(bm.verts.new((r0 * ca, -0.12, r0 * sa)))
-            ring1.append(bm.verts.new((r1 * ca, -0.12, r1 * sa)))
-            ring0b.append(bm.verts.new((r0 * ca, 0.12, r0 * sa)))
-            ring1b.append(bm.verts.new((r1 * ca, 0.12, r1 * sa)))
+            ring0.append(bm.verts.new((r0 * ca, -hy, r0 * sa)))
+            ring1.append(bm.verts.new((r1 * ca, -hy, r1 * sa)))
+            ring0b.append(bm.verts.new((r0 * ca, hy, r0 * sa)))
+            ring1b.append(bm.verts.new((r1 * ca, hy, r1 * sa)))
         for i in range(seg):
             j = (i + 1) % seg
-            bm.faces.new((ring0[i], ring0[j], ring1[j], ring1[i]))
-            bm.faces.new((ring1b[i], ring1b[j], ring0b[j], ring0b[i]))
-            bm.faces.new((ring1[i], ring1[j], ring1b[j], ring1b[i]))
-            bm.faces.new((ring0b[i], ring0b[j], ring0[j], ring0[i]))
+            bm.faces.new((ring0[i], ring1[i], ring1[j], ring0[j]))
+            bm.faces.new((ring0b[i], ring0b[j], ring1b[j], ring1b[i]))
+            bm.faces.new((ring1[i], ring1b[i], ring1b[j], ring1[j]))
+            bm.faces.new((ring0b[i], ring0[i], ring0[j], ring0b[j]))
+    # 12 radial stone mullions + trefoil cusp bosses at the intermediate & outer rings
     for i in range(12):
         a = 2 * math.pi * i / 12
         ca, sa = math.cos(a), math.sin(a)
         x0, y0 = 0.26 * ca, 0.26 * sa
-        x1, y1 = R * ca, R * sa
-        px, py = -sa * 0.045, ca * 0.045
+        x1, y1 = (R * 1.02) * ca, (R * 1.02) * sa
+        px, py = -sa * 0.048, ca * 0.048
         quad = [(x0 + px, y0 + py), (x1 + px, y1 + py), (x1 - px, y1 - py), (x0 - px, y0 - py)]
-        front = [bm.verts.new((qx, -0.09, qy)) for (qx, qy) in quad]
-        backv = [bm.verts.new((qx, 0.09, qy)) for (qx, qy) in quad]
-        bm.faces.new(front)
-        bm.faces.new(list(reversed(backv)))
+        front = [bm.verts.new((qx, -0.10, qy)) for (qx, qy) in quad]
+        backv = [bm.verts.new((qx, 0.10, qy)) for (qx, qy) in quad]
+        bm.faces.new(list(reversed(front)))
+        bm.faces.new(backv)
         for k in range(4):
             m = (k + 1) % 4
             bm.faces.new((front[k], front[m], backv[m], backv[k]))
+        for rb in (R * 0.56, R * 0.96):
+            bx, bz = rb * ca, rb * sa
+            V.add_box(bm, (bx - 0.085, -0.13, bz - 0.085), (bx + 0.085, 0.13, bz + 0.085))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     objs.append(V.bm_to_object(bm, "rose_tracery", ("M_stone_trim",)))
     return objs, {"size": [4.4, 0.3, 4.4], "origin": "hub-center"}
 

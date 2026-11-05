@@ -318,9 +318,11 @@ def urn():
     gilt = V.loft_rings(
         "urn_band",
         [
-            (0.346, 0.54, 20, 0),
-            (0.362, 0.58, 20, 0),
-            (0.346, 0.62, 20, 0),
+            (0.33, 0.54, 20, 0),
+            (0.362, 0.54, 20, 0),
+            (0.362, 0.62, 20, 0),
+            (0.33, 0.62, 20, 0),
+            (0.33, 0.54, 20, 0),
         ],
         "M_gold",
         cap_bottom=False,
@@ -341,16 +343,27 @@ def wellhead():
     # a stepped stone coping crowning the rim
     objs.append(V.loft_rings("well_coping", [(1.12, 0.84, 16, 0), (1.16, 0.90, 16, 0),
                                              (1.12, 0.99, 16, 0), (0.80, 0.99, 16, 0),
-                                             (0.80, 0.84, 16, 0)], "M_stone_trim",
+                                             (0.80, 0.84, 16, 0), (1.12, 0.84, 16, 0)], "M_stone_trim",
                              cap_bottom=False, cap_top=False))
-    # two carved posts + iron collars + wooden windlass roller-bar
+    # two carved posts + 3D iron collars + wooden windlass roller-bar
     for sx in (-0.9, 0.9):
         p = V.loft_rings("post", [(0.095, 0.95, 10, 0), (0.08, 1.30, 10, 0),
                                   (0.09, 1.50, 10, 0), (0.075, 1.66, 10, 0)], "M_wood")
         p.location = (sx, 0, 0)
         objs.append(p)
-        collar = V.loft_rings("post_iron", [(0.10, 0.96, 10, 0), (0.10, 1.05, 10, 0)],
-                              "M_iron", cap_bottom=False, cap_top=False)
+        collar = V.loft_rings(
+            "post_iron",
+            [
+                (0.088, 0.96, 10, 0),
+                (0.106, 0.96, 10, 0),
+                (0.106, 1.05, 10, 0),
+                (0.088, 1.05, 10, 0),
+                (0.088, 0.96, 10, 0),
+            ],
+            "M_iron",
+            cap_bottom=False,
+            cap_top=False,
+        )
         collar.location = (sx, 0, 0)
         objs.append(collar)
     bar = V.box_object("well_bar", [2.0, 0.14, 0.14], "M_wood", origin="center")
@@ -363,17 +376,36 @@ def wellhead():
     handle = V.box_object("well_handle", [0.06, 0.06, 0.24], "M_iron", origin="center")
     handle.location = (1.15, -0.24, 1.28)
     objs.append(handle)
-    bucket = V.loft_rings("bucket", [(0.16, 0, 14, 0), (0.195, 0.30, 14, 0)], "M_wood",
-                          cap_bottom=True, cap_top=False)
+    # Closed double-walled wooden bucket + 3D iron hoops
+    bucket = V.loft_rings(
+        "bucket",
+        [
+            (0.16, 0.0, 14, 0),
+            (0.198, 0.30, 14, 0),
+            (0.174, 0.30, 14, 0),
+            (0.142, 0.03, 14, 0),
+        ],
+        "M_wood",
+        cap_bottom=True,
+        cap_top=True,
+    )
     bucket.location = (0, 0, 1.06)
     objs.append(bucket)
-    bucket_in = V.loft_rings("bucket_in", [(0.188, 0.295, 14, 0), (0.155, 0.02, 14, 0)],
-                             "M_wood", cap_bottom=True, cap_top=False)
-    bucket_in.location = (0, 0, 1.06)
-    objs.append(bucket_in)
-    for z_h, r_h in ((0.03, 0.168), (0.24, 0.198)):
-        hoop = V.loft_rings("bucket_hoop", [(r_h, z_h, 14, 0), (r_h + 0.003, z_h + 0.038, 14, 0)],
-                            "M_iron", cap_bottom=False, cap_top=False)
+    for idx, (z_h, r_h) in enumerate(((0.03, 0.168), (0.23, 0.198))):
+        nm = "bucket_hoop" if idx == 0 else ("bucket_hoop_%d" % idx)
+        hoop = V.loft_rings(
+            nm,
+            [
+                (r_h - 0.018, z_h, 14, 0),
+                (r_h + 0.005, z_h, 14, 0),
+                (r_h + 0.005, z_h + 0.038, 14, 0),
+                (r_h - 0.018, z_h + 0.038, 14, 0),
+                (r_h - 0.018, z_h, 14, 0),
+            ],
+            "M_iron",
+            cap_bottom=False,
+            cap_top=False,
+        )
         hoop.location = (0, 0, 1.06)
         objs.append(hoop)
     chain = V.box_object("well_chain", [0.04, 0.04, 0.16], "M_iron", origin="center")
@@ -459,18 +491,22 @@ def statue_orans(seed=3):
     import kit_props
     objs = []
     bm = bmesh.new()
-    _box(bm, -0.52, -0.52, 0.0, 0.52, 0.52, 0.11)
-    _box(bm, -0.45, -0.45, 0.11, 0.45, 0.45, 0.18)
     _box(bm, -0.40, -0.40, 0.18, 0.40, 0.40, 0.47)
-    _box(bm, -0.46, -0.46, 0.47, 0.46, 0.46, 0.55)
     objs.append(V.bm_to_object(bm, "plinth", ("M_stone_dark",)))
 
     robe = kit_props._robe("saint_o", 1.9, 0.34, True, "M_stone")
     robe.location = (0, 0, 0.55)
     objs.append(robe)
 
-    # Draped stone bell-sleeves, raised forearms, open prayer hands, and relief pectoral cross
+    # Stepped pedestal mouldings, corner pilasters, draped stone bell-sleeves,
+    # raised forearms, open prayer hands, and relief pectoral cross
     bm_trim = bmesh.new()
+    _box(bm_trim, -0.52, -0.52, 0.0, 0.52, 0.52, 0.11)
+    _box(bm_trim, -0.45, -0.45, 0.11, 0.45, 0.45, 0.18)
+    _box(bm_trim, -0.46, -0.46, 0.47, 0.46, 0.46, 0.55)
+    for sx in (-0.38, 0.38):
+        for sy in (-0.38, 0.38):
+            _box(bm_trim, sx - 0.05, sy - 0.05, 0.18, sx + 0.05, sy + 0.05, 0.47)
     _box(bm_trim, -0.022, 0.28, 1.54, 0.022, 0.32, 1.88)
     _box(bm_trim, -0.11, 0.28, 1.72, 0.11, 0.32, 1.76)
     for sx in (-1, 1):
