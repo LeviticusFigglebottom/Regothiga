@@ -72,11 +72,17 @@ def beacon_brazier():
     V.add_box(sm, (-0.56, -0.56, 0.0), (0.56, 0.56, 0.12))
     V.add_box(sm, (-0.48, -0.48, 0.12), (0.48, 0.48, 0.22))
     objs.append(V.bm_to_object(sm, "beacon_foot", ("M_stone_dark",)))
+
+    sm_trim = bmesh.new()
+    V.add_box(sm_trim, (-0.58, -0.58, 0.10), (0.58, 0.58, 0.13))
+    V.add_box(sm_trim, (-0.50, -0.50, 0.20), (0.50, 0.50, 0.24))
+    objs.append(V.bm_to_object(sm_trim, "beacon_foot_trim", ("M_stone_trim",)))
+
     for i in range(3):
         a = math.tau * i / 3
         ca, sa = math.cos(a), math.sin(a)
         pts = [
-            (ca * 0.42, sa * 0.42, 0.20),
+            (ca * 0.42, sa * 0.42, 0.22),
             (ca * 0.30, sa * 0.30, 0.85),
             (ca * 0.18, sa * 0.18, 1.54),
         ]
@@ -88,31 +94,77 @@ def beacon_brazier():
             up_hint=Vector((-sa, ca, 0)),
         )
         objs.append(leg)
-    # Horizontal iron brace ring & vertical basket ribs
-    bm_iron = bmesh.new()
-    V.add_cyl(bm_iron, 0.0, 0.0, 0.84, 0.04, 0.31, n=12)
-    V.add_cyl(bm_iron, 0.0, 0.0, 1.92, 0.045, 0.42, n=12)
-    for i in range(8):
-        a = math.tau * i / 8
-        V.add_cyl(bm_iron, 0.36 * math.cos(a), 0.36 * math.sin(a), 1.52, 0.42, 0.014, n=6)
-    objs.append(V.bm_to_object(bm_iron, "beacon_ribs", ("M_iron",)))
 
-    basket = V.loft_rings(
-        "beacon_basket",
-        [(0.28, 1.48, 12, 0), (0.40, 1.76, 12, 0), (0.39, 1.94, 12, 0)],
+    # Hollow 3D horizontal iron brace hoop & top rim hoop (never solid discs)
+    brace_hoop = V.loft_rings(
+        "beacon_brace",
+        [
+            (0.26, 0.83, 16, 0),
+            (0.32, 0.83, 16, 0),
+            (0.32, 0.88, 16, 0),
+            (0.26, 0.88, 16, 0),
+            (0.26, 0.83, 16, 0),
+        ],
         "M_iron",
-        cap_bottom=True,
+        cap_bottom=False,
         cap_top=False,
     )
+    objs.append(brace_hoop)
+
+    rim_hoop = V.loft_rings(
+        "beacon_rim",
+        [
+            (0.36, 1.90, 16, 0),
+            (0.43, 1.90, 16, 0),
+            (0.43, 1.96, 16, 0),
+            (0.36, 1.96, 16, 0),
+            (0.36, 1.90, 16, 0),
+        ],
+        "M_iron",
+        cap_bottom=False,
+        cap_top=False,
+    )
+    objs.append(rim_hoop)
+
+    # Vertical basket ribs with outward-flared finials
+    bm_iron = bmesh.new()
+    for i in range(8):
+        a = math.tau * i / 8
+        ca, sa = math.cos(a), math.sin(a)
+        V.add_cyl(bm_iron, 0.38 * ca, 0.38 * sa, 1.50, 0.48, 0.016, n=6)
+        V.add_box(bm_iron, (0.40 * ca - 0.022, 0.40 * sa - 0.022, 1.96), (0.40 * ca + 0.022, 0.40 * sa + 0.022, 2.02))
+    objs.append(V.bm_to_object(bm_iron, "beacon_ribs", ("M_iron",)))
+
+    # Double-walled 3D iron fire-basket
+    basket = V.loft_rings(
+        "beacon_basket",
+        [
+            (0.26, 1.48, 16, 0),
+            (0.38, 1.76, 16, 0),
+            (0.40, 1.94, 16, 0),
+            (0.35, 1.94, 16, 0),
+            (0.33, 1.74, 16, 0),
+            (0.22, 1.54, 16, 0),
+        ],
+        "M_iron",
+        cap_bottom=True,
+        cap_top=True,
+    )
     objs.append(basket)
-    # coal bed waiting for the flame (glory-gated ember glow reads as kindled)
+
+    # Mounded coal bed rising visibly above the open basket rim (glory-gated ember glow)
     coals = V.loft_rings(
         "beacon_coals",
-        [(0.32, 1.70, 12, 0), (0.20, 1.85, 12, 0.3), (0.05, 1.92, 12, 0.6)],
+        [
+            (0.34, 1.68, 14, 0),
+            (0.36, 1.88, 14, 0.2),
+            (0.24, 1.98, 14, 0.4),
+            (0.06, 2.05, 14, 0.6),
+        ],
         "M_ember",
     )
     objs.append(coals)
-    return objs, {"size": [1.2, 1.2, 2.0], "origin": "bottom-center"}
+    return objs, {"size": [1.2, 1.2, 2.05], "origin": "bottom-center"}
 
 
 def waystone(seed=13):

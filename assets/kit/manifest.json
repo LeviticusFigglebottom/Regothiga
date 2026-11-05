@@ -42,10 +42,10 @@
  "aviary_screen": {
   "file": "assets/kit/aviary_screen.glb",
   "origin": "bottom-center",
-  "polys": 108,
+  "polys": 648,
   "size": [
    4,
-   0.12,
+   0.18,
    4
   ]
  },
@@ -132,11 +132,11 @@
  "beacon_brazier": {
   "file": "assets/kit/beacon_brazier.glb",
   "origin": "bottom-center",
-  "polys": 209,
+  "polys": 444,
   "size": [
    1.2,
    1.2,
-   2.0
+   2.05
   ]
  },
  "bell_fragment": {
@@ -855,11 +855,11 @@
  "great_perch": {
   "file": "assets/kit/great_perch.glb",
   "origin": "bottom-center",
-  "polys": 232,
+  "polys": 430,
   "size": [
    2.2,
    2.2,
-   3.7
+   3.86
   ]
  },
  "greatsword_pilgrim": {
@@ -1193,20 +1193,20 @@
  "perch_rail": {
   "file": "assets/kit/perch_rail.glb",
   "origin": "bottom-center",
-  "polys": 537,
+  "polys": 601,
   "size": [
    1.96,
-   0.36,
+   0.4,
    1.45
   ]
  },
  "perch_rail_bare": {
   "file": "assets/kit/perch_rail_bare.glb",
   "origin": "bottom-center",
-  "polys": 56,
+  "polys": 120,
   "size": [
    1.96,
-   0.36,
+   0.4,
    1.45
   ]
  },
@@ -1672,7 +1672,7 @@
  "stair_grand_4m": {
   "file": "assets/kit/stair_grand_4m.glb",
   "origin": "top-center",
-  "polys": 96,
+  "polys": 240,
   "size": [
    4.68,
    2.4,
@@ -1682,7 +1682,7 @@
  "stair_grand_4m_l": {
   "file": "assets/kit/stair_grand_4m_l.glb",
   "origin": "top-center",
-  "polys": 84,
+  "polys": 192,
   "size": [
    4.68,
    2.4,
@@ -1692,7 +1692,7 @@
  "stair_grand_4m_r": {
   "file": "assets/kit/stair_grand_4m_r.glb",
   "origin": "top-center",
-  "polys": 84,
+  "polys": 192,
   "size": [
    4.68,
    2.4,

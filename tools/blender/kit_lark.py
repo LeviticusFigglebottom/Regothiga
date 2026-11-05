@@ -247,20 +247,29 @@ def perch_rail():
     iron bracket straps, three larks shoulder to shoulder. Glory dressing."""
     objs = []
     bm = bmesh.new()
+    bm_iron = bmesh.new()
     for px in (-0.8, 0.8):
-        V.add_box(bm, (px - 0.07, -0.18, 0.0), (px + 0.07, 0.18, 0.07))
-        V.add_box(bm, (px - 0.05, -0.05, 0.07), (px + 0.05, 0.05, 1.15))
-        V.add_box(bm, (px - 0.06, -0.06, 1.23), (px + 0.06, 0.06, 1.31))
+        V.add_box(bm, (px - 0.08, -0.20, 0.0), (px + 0.08, 0.20, 0.07))
+        V.add_box(bm, (px - 0.06, -0.14, 0.07), (px + 0.06, 0.14, 0.12))
+        V.add_box(bm, (px - 0.05, -0.05, 0.12), (px + 0.05, 0.05, 1.15))
+        V.add_box(bm, (px - 0.065, -0.065, 1.23), (px + 0.065, 0.065, 1.31))
+        V.add_box(bm, (px - 0.04, -0.04, 1.31), (px + 0.04, 0.04, 1.38))
+        # Forged iron bracket straps & diagonal knee braces
+        V.add_box(bm_iron, (px - 0.058, -0.058, 0.14), (px + 0.058, 0.058, 0.20))
+        V.add_box(bm_iron, (px - 0.058, -0.058, 1.08), (px + 0.058, 0.058, 1.15))
+        sx = -1 if px > 0 else 1
+        _add_rod(bm_iron, (px, 0.0, 0.90), (px + sx * 0.22, 0.0, 1.15), 0.015, segs=6)
     V.add_box(bm, (-0.98, -0.04, 1.15), (0.98, 0.04, 1.23))
     V.add_box(bm, (-0.80, -0.03, 0.26), (0.80, 0.03, 0.33))
     objs.append(V.bm_to_object(bm, "perch", ("M_wood",)))
+    objs.append(V.bm_to_object(bm_iron, "perch_iron", ("M_iron",)))
     rng = random.Random(7)
     for i, px in enumerate((-0.55, 0.0, 0.5)):
         for o in _lark("perch_lark%d" % i):
             o.location = (px, 0, 1.23)
             o.rotation_euler = (0, 0, rng.uniform(-0.6, 0.6))
             objs.append(o)
-    return objs, {"size": [1.96, 0.36, 1.45], "origin": "bottom-center"}
+    return objs, {"size": [1.96, 0.40, 1.45], "origin": "bottom-center"}
 
 
 def perch_rail_bare(seed=17):
@@ -268,19 +277,29 @@ def perch_rail_bare(seed=17):
     rng = random.Random(seed)
     objs = []
     bm = bmesh.new()
+    bm_iron = bmesh.new()
     for px in (-0.8, 0.8):
-        V.add_box(bm, (px - 0.07, -0.18, 0.0), (px + 0.07, 0.18, 0.07))
-        V.add_box(bm, (px - 0.05, -0.05, 0.07), (px + 0.05, 0.05, 1.15))
-        V.add_box(bm, (px - 0.06, -0.06, 1.23), (px + 0.06, 0.06, 1.31))
+        V.add_box(bm, (px - 0.08, -0.20, 0.0), (px + 0.08, 0.20, 0.07))
+        V.add_box(bm, (px - 0.06, -0.14, 0.07), (px + 0.06, 0.14, 0.12))
+        V.add_box(bm, (px - 0.05, -0.05, 0.12), (px + 0.05, 0.05, 1.15))
+        V.add_box(bm, (px - 0.065, -0.065, 1.23), (px + 0.065, 0.065, 1.31))
+        V.add_box(bm, (px - 0.04, -0.04, 1.31), (px + 0.04, 0.04, 1.38))
+        V.add_box(bm_iron, (px - 0.058, -0.058, 0.14), (px + 0.058, 0.058, 0.20))
+        V.add_box(bm_iron, (px - 0.058, -0.058, 1.08), (px + 0.058, 0.058, 1.15))
+        sx = -1 if px > 0 else 1
+        _add_rod(bm_iron, (px, 0.0, 0.90), (px + sx * 0.22, 0.0, 1.15), 0.015, segs=6)
     V.add_box(bm, (-0.98, -0.04, 1.15), (0.98, 0.04, 1.23))
     V.add_box(bm, (-0.80, -0.03, 0.26), (0.80, 0.03, 0.33))
     rail = V.bm_to_object(bm, "perch_b", ("M_wood",))
     rail.rotation_euler = (0, 0.06, 0)
     objs.append(rail)
+    iron = V.bm_to_object(bm_iron, "perch_b_iron", ("M_iron",))
+    iron.rotation_euler = (0, 0.06, 0)
+    objs.append(iron)
     chain = V.loft_rings("perch_chain", [(0.02, 1.15, 6, 0), (0.016, 0.7, 6, 0)], "M_iron")
     chain.location = (rng.uniform(-0.4, 0.4), 0, 0)
     objs.append(chain)
-    return objs, {"size": [1.96, 0.36, 1.45], "origin": "bottom-center"}
+    return objs, {"size": [1.96, 0.40, 1.45], "origin": "bottom-center"}
 
 
 def great_perch():
@@ -297,13 +316,20 @@ def great_perch():
         wy = 0.16 if sy != 0 else 0.11
         V.add_box(bm, (sx - wx, sy - wy, 0.18), (sx + wx, sy + wy, 0.50))
     objs.append(V.bm_to_object(bm, "roost_base", ("M_stone_dark",)))
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-0.95, -0.95, 0.15), (0.95, 0.95, 0.19))
+    V.add_box(bm_trim, (-0.75, -0.75, 0.31), (0.75, 0.75, 0.35))
+    V.add_box(bm_trim, (-0.56, -0.56, 0.48), (0.56, 0.56, 0.54))
+    objs.append(V.bm_to_object(bm_trim, "roost_base_trim", ("M_stone_trim",)))
+
     pole = V.loft_rings(
         "roost_pole",
         [
-            (0.18, 0.50, 12, 0),
-            (0.14, 0.66, 12, 0),
-            (0.12, 2.20, 12, 0),
-            (0.105, 3.40, 12, 0),
+            (0.18, 0.50, 14, 0),
+            (0.14, 0.66, 14, 0),
+            (0.12, 2.20, 14, 0),
+            (0.105, 3.42, 14, 0),
         ],
         "M_wood",
     )
@@ -313,40 +339,81 @@ def great_perch():
         V.add_box(gm, (-w, -0.045, z), (w, 0.045, z + 0.085))
         for sx in (-1, 1):
             V.add_box(gm, (sx * w - 0.05, -0.06, z - 0.02), (sx * w + 0.05, 0.06, z + 0.14))
+            V.add_box(gm, (sx * w - 0.03, -0.03, z + 0.14), (sx * w + 0.03, 0.03, z + 0.22))
             _add_rod(gm, (sx * 0.11, 0.0, z - 0.28), (sx * 0.42, 0.0, z + 0.02), 0.022, segs=6)
     for z_band in (0.68, 1.45, 2.22, 3.02):
-        V.add_cyl(gm, 0.0, 0.0, z_band, 0.06, 0.135, n=12)
+        V.add_cyl(gm, 0.0, 0.0, z_band, 0.06, 0.135, n=14)
+    # 8 radial sun-rays inside the crowning sun-ring + central apex spire
+    for i in range(8):
+        ang = math.tau * i / 8
+        ca, sa = math.cos(ang), math.sin(ang)
+        _add_rod(gm, (0.04 * ca, 0.0, 3.52 + 0.04 * sa), (0.28 * ca, 0.0, 3.52 + 0.28 * sa), 0.012, segs=6)
+    _add_rod(gm, (0.0, 0.0, 3.62), (0.0, 0.0, 3.86), 0.022, segs=8)
     objs.append(V.bm_to_object(gm, "roost_bars", ("M_gold",)))
+    # Closed 3D hollow sun-ring (outer + inner return wall)
     ring = V.loft_rings(
         "roost_ring",
-        [(0.30, 3.40, 14, 0), (0.35, 3.52, 14, 0), (0.28, 3.64, 14, 0)],
+        [
+            (0.26, 3.38, 16, 0),
+            (0.34, 3.40, 16, 0),
+            (0.37, 3.52, 16, 0),
+            (0.32, 3.64, 16, 0),
+            (0.25, 3.62, 16, 0),
+            (0.28, 3.52, 16, 0),
+            (0.26, 3.38, 16, 0),
+        ],
         "M_gold",
         cap_bottom=False,
         cap_top=False,
     )
     objs.append(ring)
-    return objs, {"size": [2.2, 2.2, 3.7], "origin": "bottom-center"}
+    return objs, {"size": [2.2, 2.2, 3.86], "origin": "bottom-center"}
 
 
 def aviary_screen():
-    """4 m aviary lattice: iron frame, crossed timber slats — the songloft's
-    airy wall dressing. Passable decor; place against openings."""
+    """4 m aviary lattice: moulded stone sill, wrought-iron frame with pointed
+    Gothic top tracery arches, crossed timber slats, and gilded joint bosses."""
     objs = []
+    # Moulded stone base sill
+    bm_sill = bmesh.new()
+    V.add_box(bm_sill, (-2.0, -0.09, 0.0), (2.0, 0.09, 0.14))
+    objs.append(V.bm_to_object(bm_sill, "screen_sill", ("M_stone_trim",)))
+
     fm = bmesh.new()
-    V.add_box(fm, (-2.0, -0.05, 0), (2.0, 0.05, 0.12))
-    V.add_box(fm, (-2.0, -0.05, 3.9), (2.0, 0.05, 4.0))
-    for px in (-2.0, 2.0):
-        V.add_box(fm, (px - 0.05, -0.05, 0), (px + 0.06, 0.05, 4.0))
+    V.add_box(fm, (-2.0, -0.055, 0.14), (2.0, 0.055, 0.22))
+    V.add_box(fm, (-2.0, -0.055, 3.88), (2.0, 0.055, 4.0))
+    for px in (-1.95, 0.0, 1.95):
+        w = 0.055 if px != 0.0 else 0.038
+        V.add_box(fm, (px - w, -0.05, 0.14), (px + w, 0.05, 4.0))
+    # Pointed Gothic arch ribs in the upper register (4 bays across the 4 m width)
+    for bx in (-1.46, -0.49, 0.49, 1.46):
+        pts = V.pointed_arch(0.86, 1.0, segments=6)
+        for i in range(len(pts) - 1):
+            (x0, z0), (x1, z1) = pts[i], pts[i + 1]
+            _add_rod(fm, (bx + x0, 0.0, 3.02 + z0), (bx + x1, 0.0, 3.02 + z1), 0.018, segs=6)
     objs.append(V.bm_to_object(fm, "screen_frame", ("M_iron",)))
+
     sm = bmesh.new()
     x = -1.8
     while x < 1.9:
-        V.add_box(sm, (x - 0.02, -0.02, 0.12), (x + 0.02, 0.02, 3.9))
+        if abs(x) > 0.05:
+            V.add_box(sm, (x - 0.02, -0.022, 0.20), (x + 0.02, 0.022, 3.90))
         x += 0.36
     for z in (1.0, 2.0, 3.0):
-        V.add_box(sm, (-2.0, -0.018, z - 0.02), (2.0, 0.018, z + 0.02))
+        V.add_box(sm, (-1.96, -0.024, z - 0.024), (1.96, 0.024, z + 0.024))
+    # Diagonal diamond lattice braces in the lower register (z = 0.20..1.00)
+    for bx in (-1.44, -0.72, 0.0, 0.72, 1.44):
+        _add_rod(sm, (bx - 0.34, 0.0, 0.22), (bx + 0.34, 0.0, 0.98), 0.015, segs=4)
+        _add_rod(sm, (bx + 0.34, 0.0, 0.22), (bx - 0.34, 0.0, 0.98), 0.015, segs=4)
     objs.append(V.bm_to_object(sm, "screen_slats", ("M_wood",)))
-    return objs, {"size": [4, 0.12, 4], "origin": "bottom-center"}
+
+    # Gilded joint bosses at transom intersections
+    bm_gold = bmesh.new()
+    for z in (1.0, 2.0, 3.0):
+        for bx in (-1.44, -0.72, 0.0, 0.72, 1.44):
+            V.add_box(bm_gold, (bx - 0.038, -0.034, z - 0.038), (bx + 0.038, 0.034, z + 0.038))
+    objs.append(V.bm_to_object(bm_gold, "screen_bosses", ("M_gold",)))
+    return objs, {"size": [4, 0.18, 4], "origin": "bottom-center"}
 
 
 BUILDERS = {

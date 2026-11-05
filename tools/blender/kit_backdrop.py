@@ -203,25 +203,39 @@ def balustrade_4m():
     return objs, {"size": [4, 0.4, 1.12], "origin": "bottom-center"}
 
 
-def _stringer(bm, x, run, rise, w=0.14, guard=1.02):
+def _stringer(bm, bm_trim, bm_dark, x, run, rise, w=0.14, guard=1.02):
     """A SOLID raked parapet wall running the length of a stair, at plane x:
     the top rides `guard` above the step nosings (a real stair rail you can
     see AND lean on — matching the raked collision), the bottom drops to the
     lower floor so you can't see under or beside the stair. A slightly wider
-    coping caps the rake. Profile in the Y(run)-Z(height) plane; Z up."""
-    def prism(prof, x0, x1):
-        fr = [bm.verts.new((x0, py, pz)) for (py, pz) in prof]   # (y_run, z_height)
-        bk = [bm.verts.new((x1, py, pz)) for (py, pz) in prof]
-        bm.faces.new(fr)
-        bm.faces.new(list(reversed(bk)))
+    moulded M_stone_trim coping caps the rake, with recessed M_stone_dark panels."""
+    def prism(target_bm, prof, x0, x1):
+        fr = [target_bm.verts.new((x0, py, pz)) for (py, pz) in prof]   # (y_run, z_height)
+        bk = [target_bm.verts.new((x1, py, pz)) for (py, pz) in prof]
+        target_bm.faces.new(fr)
+        target_bm.faces.new(list(reversed(bk)))
         for i in range(len(prof)):
             j = (i + 1) % len(prof)
-            bm.faces.new((fr[i], fr[j], bk[j], bk[i]))
-    prism([(-0.1, guard), (run + 0.1, -rise + guard),
-           (run + 0.1, -rise - 0.35), (-0.1, -rise - 0.35)], x, x + w)
-    # coping cap, a touch proud on both faces
-    prism([(-0.1, guard + 0.09), (run + 0.1, -rise + guard + 0.09),
-           (run + 0.1, -rise + guard - 0.03), (-0.1, guard - 0.03)], x - 0.03, x + w + 0.03)
+            target_bm.faces.new((fr[i], fr[j], bk[j], bk[i]))
+    prism(bm, [(-0.1, guard), (run + 0.1, -rise + guard),
+               (run + 0.1, -rise - 0.35), (-0.1, -rise - 0.35)], x, x + w)
+    # Two-tier moulded coping cap in M_stone_trim, proud on both faces
+    prism(bm_trim, [(-0.12, guard + 0.04), (run + 0.12, -rise + guard + 0.04),
+                    (run + 0.12, -rise + guard - 0.03), (-0.12, guard - 0.03)], x - 0.025, x + w + 0.025)
+    prism(bm_trim, [(-0.13, guard + 0.10), (run + 0.13, -rise + guard + 0.10),
+                    (run + 0.13, -rise + guard + 0.04), (-0.13, guard + 0.04)], x - 0.04, x + w + 0.04)
+    # Top and bottom newel end-piers in M_stone_trim
+    _box(bm_trim, x - 0.04, -0.16, -0.05, x + w + 0.04, 0.14, guard + 0.16)
+    _box(bm_trim, x - 0.04, run - 0.14, -rise - 0.35, x + w + 0.04, run + 0.16, -rise + guard + 0.16)
+    # Recessed M_stone_dark raked panels on both faces of the stringer
+    for b in range(3):
+        y0 = 0.25 + b * 1.22
+        y1 = y0 + 1.02
+        z0_top = guard - 0.14 - (y0 / run) * rise
+        z1_top = guard - 0.14 - (y1 / run) * rise
+        z0_bot = z0_top - 0.56
+        z1_bot = z1_top - 0.56
+        prism(bm_dark, [(y0, z0_top), (y1, z1_top), (y1, z1_bot), (y0, z0_bot)], x - 0.008, x + w + 0.008)
 
 
 def _stair_grand(sides="both"):
@@ -234,18 +248,29 @@ def _stair_grand(sides="both"):
     side by side use _r + _l so the shared middle stays an open water-line
     instead of a double blade of coping."""
     bm = bmesh.new()
+    bm_trim = bmesh.new()
+    bm_dark = bmesh.new()
     steps, run, rise = 12, 4.0, 2.4
     dy, dz = run / steps, rise / steps
     for i in range(steps):
         top = -dz * i                       # tread top height (Z), descending
         # x[-2.1,2.1]  y(run)[dy*i, dy*(i+1)]  z(height)[top-dz, top]
         _box(bm, -2.1, dy * i - 0.02, top - dz - 0.02, 2.1, dy * (i + 1), top)
+        # Moulded step nosing lip in M_stone_trim along the leading edge of each tread
+        _box(bm_trim, -2.1, dy * (i + 1) - 0.05, top - 0.045, 2.1, dy * (i + 1) + 0.018, top + 0.004)
     if sides in ("both", "l"):
-        _stringer(bm, -2.24, run, rise)
+        _stringer(bm, bm_trim, bm_dark, -2.24, run, rise)
     if sides in ("both", "r"):
-        _stringer(bm, 2.10, run, rise)
-    obj = V.bm_to_object(bm, "stair", ("M_stone",))
-    return [obj], {"size": [4.68, rise, run], "origin": "top-center"}
+        _stringer(bm, bm_trim, bm_dark, 2.10, run, rise)
+    objs = [
+        V.bm_to_object(bm, "stair", ("M_stone",)),
+        V.bm_to_object(bm_trim, "stair_trim", ("M_stone_trim",)),
+    ]
+    if len(bm_dark.verts) > 0:
+        objs.append(V.bm_to_object(bm_dark, "stair_panels", ("M_stone_dark",)))
+    else:
+        bm_dark.free()
+    return objs, {"size": [4.68, rise, run], "origin": "top-center"}
 
 
 def stair_grand_4m():
