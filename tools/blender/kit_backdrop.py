@@ -249,14 +249,46 @@ def stair_grand_4m_r():
 
 
 def urn():
+    """Carved stone funerary amphora urn on a stepped square plinth with
+    concave open mouth, twin scroll handles, and gilt belly band."""
     objs = []
-    u = V.loft_rings("urn", [(0.19, 0, 20, 0), (0.18, 0.04, 20, 0), (0.12, 0.09, 20, 0),
-                             (0.15, 0.15, 20, 0), (0.31, 0.36, 20, 0), (0.35, 0.58, 20, 0),
-                             (0.32, 0.70, 20, 0), (0.19, 0.85, 20, 0), (0.27, 0.94, 20, 0),
-                             (0.24, 0.98, 20, 0)], "M_stone_trim")
+    bm = bmesh.new()
+    _box(bm, -0.24, -0.24, 0.0, 0.24, 0.24, 0.06)
+    _box(bm, -0.20, -0.20, 0.06, 0.20, 0.20, 0.10)
+    for sx in (-1, 1):
+        _box(bm, sx * 0.29 - 0.035, -0.028, 0.56, sx * 0.29 + 0.035, 0.028, 0.88)
+        _box(bm, sx * 0.23 - 0.045, -0.028, 0.84, sx * 0.23 + 0.045, 0.028, 0.90)
+        _box(bm, sx * 0.27 - 0.045, -0.028, 0.54, sx * 0.27 + 0.045, 0.028, 0.60)
+    objs.append(V.bm_to_object(bm, "urn_plinth", ("M_stone_dark",)))
+    u = V.loft_rings(
+        "urn",
+        [
+            (0.18, 0.10, 20, 0),
+            (0.12, 0.16, 20, 0),
+            (0.15, 0.22, 20, 0),
+            (0.31, 0.40, 20, 0),
+            (0.35, 0.58, 20, 0),
+            (0.32, 0.70, 20, 0),
+            (0.19, 0.85, 20, 0),
+            (0.27, 0.94, 20, 0),
+            (0.24, 0.98, 20, 0),
+            (0.18, 0.98, 20, 0),
+            (0.14, 0.84, 20, 0),
+        ],
+        "M_stone_trim",
+    )
     objs.append(u)
-    gilt = V.loft_rings("urn_band", [(0.345, 0.54, 20, 0), (0.36, 0.58, 20, 0),
-                                     (0.345, 0.62, 20, 0)], "M_gold")
+    gilt = V.loft_rings(
+        "urn_band",
+        [
+            (0.346, 0.54, 20, 0),
+            (0.362, 0.58, 20, 0),
+            (0.346, 0.62, 20, 0),
+        ],
+        "M_gold",
+        cap_bottom=False,
+        cap_top=False,
+    )
     objs.append(gilt)
     return objs, {"size": [0.7, 0.7, 1.0], "origin": "bottom-center"}
 
@@ -280,7 +312,8 @@ def wellhead():
                                   (0.09, 1.50, 10, 0), (0.075, 1.66, 10, 0)], "M_wood")
         p.location = (sx, 0, 0)
         objs.append(p)
-        collar = V.loft_rings("post_iron", [(0.10, 0.96, 10, 0), (0.10, 1.05, 10, 0)], "M_iron")
+        collar = V.loft_rings("post_iron", [(0.10, 0.96, 10, 0), (0.10, 1.05, 10, 0)],
+                              "M_iron", cap_bottom=False, cap_top=False)
         collar.location = (sx, 0, 0)
         objs.append(collar)
     bar = V.box_object("well_bar", [2.0, 0.14, 0.14], "M_wood", origin="center")
@@ -297,13 +330,15 @@ def wellhead():
                           cap_bottom=True, cap_top=False)
     bucket.location = (0, 0, 1.06)
     objs.append(bucket)
-    bucket_in = V.loft_rings("bucket_in", [(0.188, 0.295, 14, 0), (0.155, 0.01, 14, 0)],
+    bucket_in = V.loft_rings("bucket_in", [(0.188, 0.295, 14, 0), (0.155, 0.02, 14, 0)],
                              "M_wood", cap_bottom=True, cap_top=False)
     bucket_in.location = (0, 0, 1.06)
     objs.append(bucket_in)
-    hoop = V.loft_rings("bucket_hoop", [(0.196, 0.24, 14, 0), (0.20, 0.28, 14, 0)], "M_iron")
-    hoop.location = (0, 0, 1.06)
-    objs.append(hoop)
+    for z_h, r_h in ((0.03, 0.168), (0.24, 0.198)):
+        hoop = V.loft_rings("bucket_hoop", [(r_h, z_h, 14, 0), (r_h + 0.003, z_h + 0.038, 14, 0)],
+                            "M_iron", cap_bottom=False, cap_top=False)
+        hoop.location = (0, 0, 1.06)
+        objs.append(hoop)
     chain = V.box_object("well_chain", [0.04, 0.04, 0.16], "M_iron", origin="center")
     chain.location = (0, 0, 1.44)
     objs.append(chain)
@@ -335,20 +370,53 @@ def sconce_torch():
 
 
 def statue_orans(seed=3):
-    """Saint with arms raised in prayer — variation for garden/terrace."""
+    """Saint with arms raised in orans prayer — variation for garden/terrace
+    and the rotating Watcher statues in the Ossuary Undercroft."""
     import kit_props
     objs = []
     bm = bmesh.new()
-    _box(bm, -0.42, -0.42, 0, 0.42, 0.42, 0.55)
-    _box(bm, -0.5, -0.5, 0, 0.5, 0.5, 0.12)
+    _box(bm, -0.52, -0.52, 0.0, 0.52, 0.52, 0.11)
+    _box(bm, -0.45, -0.45, 0.11, 0.45, 0.45, 0.18)
+    _box(bm, -0.40, -0.40, 0.18, 0.40, 0.40, 0.47)
+    _box(bm, -0.46, -0.46, 0.47, 0.46, 0.46, 0.55)
     objs.append(V.bm_to_object(bm, "plinth", ("M_stone_dark",)))
+
     robe = kit_props._robe("saint_o", 1.9, 0.34, True, "M_stone")
     robe.location = (0, 0, 0.55)
     objs.append(robe)
+
+    # Draped stone bell-sleeves, raised forearms, open prayer hands, and relief pectoral cross
+    bm_trim = bmesh.new()
+    _box(bm_trim, -0.022, 0.28, 1.54, 0.022, 0.32, 1.88)
+    _box(bm_trim, -0.11, 0.28, 1.72, 0.11, 0.32, 1.76)
     for sx in (-1, 1):
-        arm = V.sweep_profile("arm", [(sx * 0.28, 0, 1.75), (sx * 0.44, 0.05, 2.05), (sx * 0.5, 0.08, 2.3)],
-                              V.circle_profile(0.07, 6), "M_stone")
+        # Hanging bell-sleeve cuff at elbow
+        _box(bm_trim, sx * 0.34 - 0.075, -0.08, 1.62, sx * 0.34 + 0.075, 0.12, 1.94)
+        # Sculpted open prayer hand
+        _box(bm_trim, sx * 0.48 - 0.032, 0.03, 2.24, sx * 0.48 + 0.032, 0.12, 2.40)
+        arm = V.sweep_profile(
+            "arm",
+            [
+                (sx * 0.24, 0.0, 1.82),
+                (sx * 0.38, 0.03, 1.90),
+                (sx * 0.46, 0.06, 2.12),
+                (sx * 0.48, 0.075, 2.28),
+            ],
+            V.circle_profile(0.068, 10),
+            "M_stone",
+            up_hint=Vector((0, 1, 0)),
+        )
         objs.append(arm)
+    objs.append(V.bm_to_object(bm_trim, "orans_trim", ("M_stone_trim",)))
+
+    halo = V.loft_rings(
+        "orans_halo",
+        [(0.02, -0.015, 16, 0), (0.28, 0.0, 16, 0), (0.02, 0.015, 16, 0)],
+        "M_stone_trim",
+    )
+    halo.rotation_euler = (math.pi / 2, 0, 0)
+    halo.location = (0, -0.10, 2.32)
+    objs.append(halo)
     return objs, {"size": [1, 1, 2.9], "origin": "bottom-center"}
 
 

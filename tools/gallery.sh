@@ -44,7 +44,7 @@ shot nave_vessel_ruin.png    basilica_nave ruin   "0,1.8,6.5,0,2,64"
 shot nave_chancel_glory.png  basilica_nave glory  "0,1.75,-24.6,0,2,62"
 shot nave_boss_ruin.png      basilica_nave ruin   "1.4,1.65,-24.8,14,-2,58"
 shot nave_gallery_glory.png  basilica_nave glory  "-12,6.4,2,-25,-4,66"
-shot nave_sexton.png         basilica_nave ruin   "9.4,1.6,-11.4,55,-2,55"
+shot nave_sexton.png         basilica_nave glory  "13.4,1.55,-19.2,155,-4,56"
 # pass 5: the Ossuary Undercroft
 shot undercroft_hall_glory.png ossuary_undercroft glory "0,1.6,8,40,-4,62"
 shot undercroft_hall_ruin.png  ossuary_undercroft ruin  "0,1.6,8,40,-4,62"
