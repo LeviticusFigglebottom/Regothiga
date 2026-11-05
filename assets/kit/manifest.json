@@ -1511,7 +1511,7 @@
  "skel_herald": {
   "file": "assets/kit/skel_herald.glb",
   "origin": "feet",
-  "polys": 2604,
+  "polys": 3928,
   "size": [
    0.8,
    0.8,
@@ -1533,7 +1533,7 @@
  "skel_mire": {
   "file": "assets/kit/skel_mire.glb",
   "origin": "feet",
-  "polys": 2180,
+  "polys": 2642,
   "size": [
    0.8,
    0.8,
@@ -1544,7 +1544,7 @@
  "skel_penitent": {
   "file": "assets/kit/skel_penitent.glb",
   "origin": "feet",
-  "polys": 2598,
+  "polys": 2696,
   "size": [
    0.8,
    0.8,
@@ -1588,7 +1588,7 @@
  "skel_shroud": {
   "file": "assets/kit/skel_shroud.glb",
   "origin": "feet",
-  "polys": 2256,
+  "polys": 2496,
   "size": [
    0.8,
    0.8,
@@ -1621,7 +1621,7 @@
  "skel_wretch": {
   "file": "assets/kit/skel_wretch.glb",
   "origin": "feet",
-  "polys": 2102,
+  "polys": 2560,
   "size": [
    0.8,
    0.8,

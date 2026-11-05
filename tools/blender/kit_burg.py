@@ -529,34 +529,107 @@ def word_stone():
 
 
 def pew_3m():
-    """A parish pew: seat, high back, kneeler rail. Origin bottom-center;
-    the back is on +Y (engine: rot 0 seats the faithful facing north)."""
+    """A 3 m parish pew: carved Gothic bench-end standards with poppyhead finials,
+    4-bay recessed wainscot backrest, scrolled armrests, kneeler rail, and iron
+    corner brackets. Origin bottom-center; back is on +Y."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-1.5, -0.05, 0.40), (1.5, 0.28, 0.50))      # seat
-    V.add_box(bm, (-1.5, 0.26, 0.50), (1.5, 0.34, 1.02))       # back
-    V.add_box(bm, (-1.5, -0.42, 0.0), (1.5, -0.30, 0.10))      # kneeler
-    for sx in (-1.44, 1.44):                                   # end panels
-        V.add_box(bm, (sx - 0.05, -0.10, 0.0), (sx + 0.05, 0.34, 0.92))
+    # Floor runners & 3 support standards
+    for sx in (-1.44, 0.0, 1.44):
+        V.add_box(bm, (sx - 0.05, -0.14, 0.0), (sx + 0.05, 0.36, 0.08))
+    V.add_box(bm, (-0.045, -0.06, 0.08), (0.045, 0.32, 0.42))
+    # Contoured seat plank & under-seat apron rail
+    V.add_box(bm, (-1.48, -0.06, 0.42), (1.48, 0.28, 0.49))
+    V.add_box(bm, (-1.44, -0.03, 0.35), (1.44, 0.03, 0.42))
+    # Recessed wainscot backrest field + horizontal rails + 5 vertical muntin stiles
+    V.add_box(bm, (-1.45, 0.27, 0.49), (1.45, 0.33, 0.98))
+    for z0, z1 in ((0.49, 0.55), (0.72, 0.77), (0.94, 1.01)):
+        V.add_box(bm, (-1.48, 0.25, z0), (1.48, 0.35, z1))
+    for sx in (-1.40, -0.70, 0.0, 0.70, 1.40):
+        V.add_box(bm, (sx - 0.04, 0.25, 0.54), (sx + 0.04, 0.35, 0.95))
+    # Molded top cresting rail
+    V.add_box(bm, (-1.52, 0.235, 1.01), (1.52, 0.365, 1.07))
+    # Outer bench-end standards with armrests & trefoil poppyhead finials
+    for sx in (-1.44, 1.44):
+        V.add_box(bm, (sx - 0.05, -0.10, 0.08), (sx + 0.05, 0.35, 0.64))
+        V.add_box(bm, (sx - 0.05, 0.14, 0.64), (sx + 0.05, 0.36, 1.03))
+        V.add_box(bm, (sx - 0.06, -0.14, 0.60), (sx + 0.06, 0.18, 0.67))
+        V.add_box(bm, (sx - 0.04, 0.23, 1.06), (sx + 0.04, 0.36, 1.15))
+        V.add_box(bm, (sx - 0.048, 0.20, 1.09), (sx + 0.048, 0.39, 1.13))
+    # Kneeler rail with 3 support blocks
+    V.add_box(bm, (-1.46, -0.42, 0.06), (1.46, -0.30, 0.13))
+    for sx in (-1.40, 0.0, 1.40):
+        V.add_box(bm, (sx - 0.04, -0.42, 0.0), (sx + 0.04, -0.28, 0.06))
     objs.append(V.bm_to_object(bm, "pew", ("M_wood",)))
-    return objs, {"size": [3, 0.9, 1.02], "origin": "bottom-center"}
+
+    bm_iron = bmesh.new()
+    for sx in (-1.49, 1.49):
+        V.add_box(bm_iron, (sx - 0.008, -0.08, 0.41), (sx + 0.008, 0.35, 0.49))
+        V.add_box(bm_iron, (sx - 0.008, 0.24, 0.94), (sx + 0.008, 0.36, 1.01))
+    objs.append(V.bm_to_object(bm_iron, "pew_iron", ("M_iron",)))
+    return objs, {"size": [3, 0.9, 1.15], "origin": "bottom-center"}
 
 
 def altar_wick():
-    """The First Wick's altar: stone mensa under a wax-white cloth, gilt
-    reliquary, two fat vigil candles. Origin bottom-center."""
+    """The First Wick's altar: carved stone mensa with pilaster arcading under a
+    draped wax-white antependium cloth with gold galloon border, a Gothic gabled
+    gold reliquary châsse housing the glowing First Wick ember, and two tall
+    parish vigil candles in brass dishes. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-1.2, -0.5, 0.0), (1.2, 0.5, 0.95))
+    V.add_box(bm, (-1.24, -0.54, 0.0), (1.24, 0.54, 0.10))
+    V.add_box(bm, (-1.18, -0.48, 0.10), (1.18, 0.48, 0.95))
+    for sx in (-1.12, -0.42, 0.42, 1.12):
+        for sy in (-0.48, 0.48):
+            V.add_box(bm, (sx - 0.055, sy - 0.03, 0.10), (sx + 0.055, sy + 0.03, 0.95))
     objs.append(V.bm_to_object(bm, "mensa", ("M_stone_trim",)))
+
+    # Draped wax-white altar cloth + hanging front/back antependium drops
     bm = bmesh.new()
     V.add_box(bm, (-1.26, -0.56, 0.95), (1.26, 0.56, 1.06))
+    for sy in (-0.56, 0.56):
+        y0, y1 = (sy - 0.018, sy + 0.005) if sy < 0 else (sy - 0.005, sy + 0.018)
+        V.add_box(bm, (-0.42, y0, 0.24), (0.42, y1, 0.96))
     objs.append(V.bm_to_object(bm, "cloth", ("M_wax",)))
+
+    # Sculpted Gothic architectural reliquary châsse + antependium gold border & brass candle dishes
     bm = bmesh.new()
-    V.add_box(bm, (-0.28, -0.2, 1.06), (0.28, 0.2, 1.5))
+    for sy in (-0.565, 0.565):
+        y0, y1 = (sy - 0.018, sy + 0.004) if sy < 0 else (sy - 0.004, sy + 0.018)
+        V.add_box(bm, (-0.43, y0, 0.21), (0.43, y1, 0.25))
+        V.add_box(bm, (-0.024, y0, 0.42), (0.024, y1, 0.78))
+        V.add_box(bm, (-0.15, y0, 0.58), (0.15, y1, 0.62))
+    # Reliquary stepped plinth, chest, corner buttress colonnettes, and gabled roof
+    V.add_box(bm, (-0.34, -0.24, 1.06), (0.34, 0.24, 1.12))
+    V.add_box(bm, (-0.28, -0.19, 1.12), (0.28, 0.19, 1.42))
+    for sx in (-0.28, 0.0, 0.28):
+        for sy in (-0.19, 0.19):
+            V.add_box(bm, (sx - 0.028, sy - 0.028, 1.12), (sx + 0.028, sy + 0.028, 1.45))
+    # Gabled châsse roof prism + ridge cresting & finial cross
+    a = [bm.verts.new(p) for p in ((-0.32, -0.22, 1.42), (0.32, -0.22, 1.42), (0.32, 0.22, 1.42), (-0.32, 0.22, 1.42))]
+    r0 = bm.verts.new((-0.32, 0.0, 1.60))
+    r1 = bm.verts.new((0.32, 0.0, 1.60))
+    bm.faces.new((a[0], a[1], r1, r0))
+    bm.faces.new((r0, r1, a[2], a[3]))
+    bm.faces.new((a[0], r0, a[3]))
+    bm.faces.new((a[1], a[2], r1))
+    bm.faces.new(list(reversed(a)))
+    V.add_box(bm, (-0.30, -0.015, 1.58), (0.30, 0.015, 1.64))
+    V.add_box(bm, (-0.018, -0.018, 1.62), (0.018, 0.018, 1.74))
+    V.add_box(bm, (-0.06, -0.015, 1.67), (0.06, 0.015, 1.70))
+    # Molded candle dishes at (-0.85, 0) and (0.85, 0)
+    for sx in (-0.85, 0.85):
+        V.add_cyl(bm, sx, 0.0, 1.06, 0.04, 0.13, n=12)
     objs.append(V.bm_to_object(bm, "reliquary", ("M_gold",)))
+
+    # Glowing First-Wick heart window inset on front and back of the reliquary
+    bm_em = bmesh.new()
+    for sy in (-0.195, 0.195):
+        V.add_box(bm_em, (-0.11, sy - 0.012, 1.18), (0.11, sy + 0.012, 1.36))
+    objs.append(V.bm_to_object(bm_em, "wick_heart", ("M_ember",)))
+
     for i, sx in enumerate((-0.85, 0.85)):
-        c = V.loft_rings("candle%d" % i, [(0.095, 1.06, 10, 0), (0.082, 1.62, 10, 0)], "M_wax")
+        c = V.loft_rings("candle%d" % i, [(0.095, 1.10, 12, 0), (0.082, 1.62, 12, 0)], "M_wax")
         c.location = (sx, 0.0, 0.0)
         objs.append(c)
         f = V.loft_rings("flame%d" % i, [

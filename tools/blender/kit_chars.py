@@ -174,25 +174,37 @@ def sword_cloister():
 
 
 def maul_sexton():
-    """Sexton's Maul: gravedigger's great warhammer with iron-banded stone/steel
-    head, striking faces, and reinforced ash haft. Origin at grip, head +Z."""
+    """Sexton's Maul: gravedigger's great warhammer with waisted stone-and-iron
+    head, flared striking faces, iron socket langets, brass stud bosses, and
+    reinforced ash haft. Origin at grip, head +Z."""
     objs = []
     objs.append(V.loft_rings("haft", [
-        (0.028, -0.52, 12, 0), (0.024, -0.45, 12, 0),
-        (0.027, 0.20, 12, 0), (0.032, 0.72, 12, 0),
-        (0.014, 1.12, 12, 0),
+        (0.032, -0.54, 12, 0), (0.024, -0.45, 12, 0),
+        (0.027, 0.20, 12, 0), (0.033, 0.72, 12, 0),
+        (0.022, 1.08, 12, 0), (0.012, 1.15, 12, 0),
     ], "M_wood"))
-    # Iron langets & grip bands
-    objs.append(V.loft_rings("ferrule", [(0.036, 0.62, 12, 0), (0.038, 0.73, 12, 0)], "M_iron"))
+    # Iron pommel cap, socket ferrule, and langet straps
+    objs.append(V.loft_rings("ferrule", [(0.036, 0.56, 12, 0), (0.042, 0.74, 12, 0)], "M_iron"))
+    objs.append(V.loft_rings("pommel", [(0.018, -0.57, 12, 0), (0.036, -0.53, 12, 0), (0.028, -0.48, 12, 0)], "M_iron"))
+    # Waisted octagonal stone maul head with flared front/rear striking faces along X
     bm = bmesh.new()
-    V.add_box(bm, (-0.115, -0.115, 0.73), (0.115, 0.115, 1.01))
+    V.add_box(bm, (-0.115, -0.095, 0.74), (0.115, 0.095, 1.00))
+    for sx in (-1, 1):
+        x0, x1 = (sx * 0.115, sx * 0.165) if sx > 0 else (sx * 0.165, sx * 0.115)
+        V.add_box(bm, (x0, -0.115, 0.71), (x1, 0.115, 1.03))
     objs.append(V.bm_to_object(bm, "head", ("M_stone_dark",)))
+    # Forged iron striking crowns, central socket band, and top spike finial
     bm_iron = bmesh.new()
-    V.add_box(bm_iron, (-0.135, -0.135, 0.70), (0.135, 0.135, 0.76))
-    V.add_box(bm_iron, (-0.135, -0.135, 0.98), (0.135, 0.135, 1.03))
-    V.add_box(bm_iron, (-0.04, -0.142, 0.75), (0.04, 0.142, 0.99))
+    V.add_box(bm_iron, (-0.055, -0.108, 0.72), (0.055, 0.108, 1.02))
+    for sx in (-1, 1):
+        x0, x1 = (sx * 0.155, sx * 0.185) if sx > 0 else (sx * 0.185, sx * 0.155)
+        V.add_box(bm_iron, (x0, -0.122, 0.70), (x1, 0.122, 1.04))
     objs.append(V.bm_to_object(bm_iron, "bands", ("M_iron",)))
-    return objs, {"size": [0.3, 0.3, 1.55], "origin": "grip"}
+    bm_br = bmesh.new()
+    for sz in (0.76, 0.98):
+        V.add_box(bm_br, (-0.062, -0.114, sz - 0.012), (0.062, 0.114, sz + 0.012))
+    objs.append(V.bm_to_object(bm_br, "studs", ("M_brass",)))
+    return objs, {"size": [0.37, 0.25, 1.65], "origin": "grip"}
 
 
 def halberd_ward():
@@ -507,15 +519,25 @@ def crook_great():
 
 def oar_glaive():
     """The Ferryman's oar-glaive: a pole arm ending in a broad steel-shod
-    blade — half oar, half executioner's sweep. Origin at grip."""
-    objs = [V.loft_rings("oar_haft", [(0.028, -1.15, 12, 0), (0.032, 1.2, 12, 0)], "M_wood")]
+    blade with central fuller spine, forged iron socket collar & langets, and
+    brass rivet bosses — half oar, half executioner's sweep. Origin at grip."""
+    objs = [
+        V.loft_rings("oar_haft", [(0.036, -1.18, 12, 0), (0.028, -1.08, 12, 0), (0.032, 1.20, 12, 0)], "M_wood"),
+        V.loft_rings("oar_socket", [(0.038, 0.92, 12, 0), (0.044, 1.18, 12, 0), (0.035, 1.32, 12, 0)], "M_iron"),
+    ]
     bm = bmesh.new()
-    pts = [(-0.04, 0.0, 1.15), (0.24, 0.0, 1.45), (0.3, 0.0, 1.95),
-           (0.16, 0.0, 2.35), (-0.06, 0.0, 2.4)]
+    pts = [(-0.04, 0.0, 1.15), (0.24, 0.0, 1.45), (0.30, 0.0, 1.95),
+           (0.16, 0.0, 2.35), (-0.06, 0.0, 2.40)]
     vs = [bm.verts.new(p) for p in pts]
     bm.faces.new(vs)
-    bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.026)
+    bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.024)
+    # Central reinforcing spine rib down the back of the oar-glaive blade
+    V.add_box(bm, (-0.045, -0.022, 1.18), (0.025, 0.022, 2.18))
     objs.append(V.bm_to_object(bm, "oar_blade", ("M_steel",)))
+    bm_br = bmesh.new()
+    for sz in (1.02, 1.14, 1.28, 1.46):
+        V.add_box(bm_br, (-0.035, -0.028, sz - 0.012), (0.020, 0.028, sz + 0.012))
+    objs.append(V.bm_to_object(bm_br, "oar_rivets", ("M_brass",)))
     return objs, {"size": [0.7, 0.12, 3.6], "origin": "grip"}
 
 

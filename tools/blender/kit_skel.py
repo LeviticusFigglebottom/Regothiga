@@ -111,10 +111,11 @@ def _ball(bm, c, r, sub=2, scale=(1.0, 1.0, 1.0)):
         v.co = Vector((v.co.x * sx + cx, v.co.y * sy + cy, v.co.z * sz + cz))
 
 
-def _torus_ring(bm, c, major_r, minor_r, n_major=20, n_minor=8, squash=(1.0, 1.0)):
-    """Hollow torus ring in the XY plane around center c."""
+def _torus_ring(bm, c, major_r, minor_r, n_major=20, n_minor=8, squash=(1.0, 1.0), rot_x=0.0):
+    """Hollow torus ring around center c (optionally rotated around local X by rot_x)."""
     cx, cy, cz = c
     sx, sy = squash
+    cr, sr = math.cos(rot_x), math.sin(rot_x)
     rings = []
     for i in range(n_major):
         a = 2 * math.pi * i / n_major
@@ -123,8 +124,12 @@ def _torus_ring(bm, c, major_r, minor_r, n_major=20, n_minor=8, squash=(1.0, 1.0
         for j in range(n_minor):
             b_ang = 2 * math.pi * j / n_minor
             r = major_r + minor_r * math.cos(b_ang)
-            z = cz + minor_r * math.sin(b_ang)
-            ring.append(bm.verts.new((cx + r * sx * ca, cy + r * sy * sa, z)))
+            lx = r * sx * ca
+            ly = r * sy * sa
+            lz = minor_r * math.sin(b_ang)
+            ry = ly * cr - lz * sr
+            rz = ly * sr + lz * cr
+            ring.append(bm.verts.new((cx + lx, cy + ry, cz + rz)))
         rings.append(ring)
     for i in range(n_major):
         i2 = (i + 1) % n_major
@@ -540,12 +545,18 @@ def penitent(arm):
     _tube(bm_h, Vector((0, -0.015, 1.66)), Vector((0, -0.15, 1.86)), 0.112, 0.014, n=12,
           steps=4, flutes=6, flute_amp=0.04)
     bm_fe = b.part("head", "M_iron")
-    _tube(bm_fe, Vector((0, 0.016, 1.612)), Vector((0, 0.016, 1.634)), 0.104, 0.102, n=14,
+    _tube(bm_fe, Vector((0, 0.008, 1.625)), Vector((0, 0.008, 1.652)), 0.150, 0.146, n=14,
           steps=1, flutes=7, flute_amp=0.04)
+    # Melted votive wax drips & stubs fused to the outer shoulders
+    bm_wx = b.part("chest", "M_wax")
+    for sx, sy, sz, h_c in ((-0.20, 0.01, 1.42, 0.07), (-0.17, -0.03, 1.44, 0.09), (0.20, 0.02, 1.42, 0.08)):
+        _tube(bm_wx, Vector((sx, sy, sz - 0.03)), Vector((sx, sy, sz + h_c)), 0.022, 0.016, n=8, steps=2)
     for side in ("l", "r"):
         bm_w = b.part(f"farm_{side}", "M_iron")
         h, t = _bone_vec(f"farm_{side}")
         _tube(bm_w, t - (t - h) * 0.28, t, 0.064, 0.068, n=12, steps=2)
+        bm_fw = b.part(f"farm_{side}", "M_wax")
+        _tube(bm_fw, h + (t - h) * 0.45, h + (t - h) * 0.74, 0.056, 0.061, n=10, steps=2, flutes=5, flute_amp=0.04)
     return b.finalize(arm, lumpy=0.014, seed=77)
 
 
@@ -669,17 +680,31 @@ def precentress(arm):
 
 def shroud(arm):
     """Shroudbound: swift bound corpse assassin wrapped in burial linen with
-    mortuary leather straps and iron forearm claws."""
+    mortuary leather straps, bound hood blindfold, and 3-prong iron forearm claws."""
     b = BodyBuilder("shroud")
     common_body(b, "M_shroud", "M_shroud", "M_shroud", hood="closed", skirt=True,
                 skirt_len=0.66, girth=0.86)
-    for z0 in (0.98, 1.14, 1.28, 1.40):
+    for z0, r_s in ((0.98, 0.148), (1.14, 0.162), (1.28, 0.168), (1.40, 0.148)):
         bm = b.part("chest" if z0 > 1.2 else "spine", "M_leather")
-        _tube(bm, Vector((0, 0, z0)), Vector((0, 0, z0 + 0.042)), 0.168 * 0.86, 0.168 * 0.86, 14, steps=2)
+        _tube(bm, Vector((0, 0, z0)), Vector((0, 0, z0 + 0.042)), r_s, r_s, 16,
+              steps=2, squash=(1.08, 0.90), ridge_fwd=0.11)
+    # Mortuary head-straps & iron face-clasp binding the burial hood
+    bm_hl = b.part("head", "M_leather")
+    _tube(bm_hl, Vector((0, 0.0, 1.56)), Vector((0, 0.0, 1.60)), 0.148, 0.148, 16, steps=2)
+    _tube(bm_hl, Vector((0, 0.0, 1.63)), Vector((0, 0.005, 1.665)), 0.132, 0.125, 16, steps=2)
+    bm_hi = b.part("head", "M_iron")
+    _torus_ring(bm_hi, (0, 0.144, 1.58), 0.024, 0.006, n_major=12, n_minor=6, rot_x=math.pi / 2)
     for side, s in (("r", 1), ("l", -1)):
         bm_c = b.part(f"farm_{side}", "M_iron")
         h, t = _bone_vec(f"farm_{side}")
-        _tube(bm_c, h + (t - h) * 0.5, t, 0.052, 0.056, n=12, steps=2)
+        _tube(bm_c, h + (t - h) * 0.48, t, 0.052, 0.058, n=12, steps=2)
+        # Three tapered assassin claw blades extending from each hand
+        bm_cl = b.part(f"hand_{side}", "M_steel")
+        hh, ht = _bone_vec(f"hand_{side}")
+        for dy in (-0.022, 0.0, 0.022):
+            p0 = hh + Vector((s * 0.012, dy + 0.01, -0.02))
+            p1 = ht + Vector((s * 0.006, dy + 0.035, -0.11))
+            _tube(bm_cl, p0, p1, 0.008, 0.0015, n=6, steps=2)
     return b.finalize(arm, lumpy=0.025, seed=97)
 
 
@@ -733,45 +758,71 @@ def herald(arm):
     """Drowned Herald: Black Gate toll-crier in heraldic crimson tabard over
     chainmail, visored helm, and slung bronze war-horn."""
     b = BodyBuilder("herald")
-    common_body(b, "M_robe", "M_wax", "M_plate_dark", hood="closed", skirt=True,
-                skirt_len=0.64, girth=0.98, mail_mat="M_chainmail")
-    # Contoured crimson heraldic tabard over chest & spine
+    common_body(b, "M_robe", "M_wax", "M_plate_dark", hood=False, skirt=True,
+                skirt_len=0.46, girth=0.98, mail_mat="M_chainmail")
+    # Contoured crimson heraldic tabard over chest & spine + brass herald sun-ring
     bm = b.part("chest", "M_cloth")
     _tube(bm, Vector((0, 0, 1.18)), Vector((0, 0, 1.44)), 0.184, 0.156, n=16,
           steps=3, flutes=8, flute_amp=0.03, squash=(1.06, 0.94), ridge_fwd=0.08)
-    # Slung segmented bronze war-horn
-    bm = b.part("chest", "M_bronze")
-    _tube(bm, Vector((-0.21, -0.20, 1.04)), Vector((0.15, -0.26, 1.32)), 0.048, 0.095, n=14, steps=4, bulge=0.92)
+    bm_em = b.part("chest", "M_brass")
+    _torus_ring(bm_em, (0, 0.168, 1.33), 0.042, 0.008, n_major=16, n_minor=6, rot_x=math.pi / 2)
+    # Visored herald helm with bronze trim & crest
+    _knight_helm(b, "M_plate_dark", "M_bronze", g=0.98, crest=True)
+    # Slung curved bronze war-horn at left hip & across back
+    bm = b.part("hips", "M_bronze")
+    _tube(bm, Vector((-0.18, -0.12, 1.02)), Vector((-0.22, 0.08, 0.94)), 0.032, 0.058, n=12, steps=3)
+    _tube(bm, Vector((-0.22, 0.08, 0.94)), Vector((-0.19, 0.22, 1.04)), 0.058, 0.088, n=14, steps=3)
     for side, s in (("r", 1), ("l", -1)):
         _pauldron(b, side, s, "M_plate_dark", "M_bronze", r=0.088, z=1.41)
+        _gauntlet_and_couter(b, side, s, "M_plate_dark", g=0.98)
+        _greave_and_sabaton(b, side, s, "M_plate_dark", g=0.98)
     return b.finalize(arm, seed=173)
 
 
 def mire(arm):
-    """Mirebound: drowned marsh juggernaut in sodden peat-heavy mantle and
-    rusted iron neck-shackles."""
+    """Mirebound: drowned marsh juggernaut in sodden peat-heavy mantle, deep
+    hood, and rusted iron neck-shackles & wrist manacles."""
     b = BodyBuilder("mire")
-    common_body(b, "M_stone_dark", "M_leather", "M_stone_dark", hood="closed",
-                skirt=True, skirt_len=0.72, girth=1.16)
+    common_body(b, "M_robe_boss", "M_leather", "M_leather", hood=True,
+                skirt=True, skirt_len=0.70, girth=1.16)
+    # Sodden peat-heavy leather shoulder mantle below the chin
     bm = b.part("chest", "M_leather")
-    _tube(bm, Vector((0, 0, 1.32)), Vector((0, 0, 1.50)), 0.21, 0.245, n=16, steps=4, flutes=7, flute_amp=0.05)
+    _tube(bm, Vector((0, 0, 1.20)), Vector((0, -0.01, 1.44)), 0.235, 0.195, n=16,
+          steps=4, flutes=8, flute_amp=0.05, squash=(1.10, 0.94), ridge_fwd=0.08)
+    # Heavy rusted iron neck-shackle collar & dangling chain links
     bm_i = b.part("chest", "M_iron")
-    _tube(bm_i, Vector((0, 0, 1.45)), Vector((0, 0, 1.52)), 0.18, 0.175, n=14, steps=2)
-    return b.finalize(arm, lumpy=0.042, seed=211)
+    _tube(bm_i, Vector((0, 0, 1.42)), Vector((0, 0, 1.485)), 0.202, 0.186, n=14, steps=2)
+    for cz, cy_l in ((1.38, 0.212), (1.32, 0.222), (1.26, 0.232)):
+        _torus_ring(bm_i, (0, cy_l, cz), 0.026, 0.008, n_major=10, n_minor=6, rot_x=math.pi / 2)
+    for side in ("l", "r"):
+        bm_m = b.part(f"farm_{side}", "M_iron")
+        h, t = _bone_vec(f"farm_{side}")
+        _tube(bm_m, t - (t - h) * 0.28, t, 0.068, 0.072, n=12, steps=2)
+    return b.finalize(arm, lumpy=0.032, seed=211)
 
 
 def wretch(arm):
-    """Lantern Wretch: gaunt hollow pilgrim of the Last Shore with an iron
-    shackle collar and a wrought-iron hip lantern with a live ember core."""
+    """Lantern Wretch: gaunt hollow pilgrim of the Last Shore with an open
+    tattered cowl, iron shackle collar, and a wrought-iron caged hip lantern
+    with a live ember core."""
     b = BodyBuilder("wretch")
-    common_body(b, "M_wraith", "M_wax", "M_robe", hood="closed", skirt=True,
+    common_body(b, "M_wraith", "M_wax", "M_robe", hood=True, skirt=True,
                 skirt_len=0.60, girth=0.78)
-    # Wrought-iron hip lantern + ember core
+    # Rusted iron neck-shackle collar
+    bm_c = b.part("chest", "M_iron")
+    _tube(bm_c, Vector((0, 0, 1.42)), Vector((0, 0, 1.47)), 0.136, 0.126, n=14, steps=2)
+    # Sculpted wrought-iron caged hip lantern + glowing ember core
     bm = b.part("hips", "M_iron")
-    V.add_box(bm, (0.16, -0.055, 0.78), (0.28, 0.055, 0.94))
-    V.add_box(bm, (0.20, -0.018, 0.94), (0.24, 0.018, 1.05))
-    bm = b.part("hips", "M_ember")
-    V.add_box(bm, (0.182, -0.035, 0.805), (0.258, 0.035, 0.91))
+    cx, cy = 0.21, 0.02
+    _tube(bm, Vector((cx, cy, 0.76)), Vector((cx, cy, 0.80)), 0.056, 0.064, n=10, steps=2)
+    _tube(bm, Vector((cx, cy, 0.91)), Vector((cx, cy, 0.96)), 0.066, 0.024, n=10, steps=2)
+    _torus_ring(bm, (cx, cy, 0.985), 0.022, 0.006, n_major=10, n_minor=6, rot_x=math.pi / 2)
+    for a_i in range(4):
+        ang = a_i * math.pi * 0.5 + math.pi * 0.25
+        bx, by = cx + 0.052 * math.cos(ang), cy + 0.052 * math.sin(ang)
+        _tube(bm, Vector((bx, by, 0.79)), Vector((bx, by, 0.92)), 0.008, 0.008, n=6, steps=1)
+    bm_em = b.part("hips", "M_ember")
+    _ball(bm_em, (cx, cy, 0.855), 0.044, sub=2, scale=(0.95, 0.95, 1.25))
     return b.finalize(arm, seed=307)
 
 

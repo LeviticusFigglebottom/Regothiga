@@ -271,37 +271,107 @@ def banner():
 
 
 def pew():
+    """Carved Gothic oak church pew (1.86 m) with recessed wainscot back panels,
+    muntin stiles, scrolled armrests, trefoil poppyhead bench-end finials,
+    kneeler rail, and wrought-iron corner brackets."""
+    objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-0.9, -0.22, 0.0), (0.9, 0.22, 0.06))
-    V.add_box(bm, (-0.9, -0.20, 0.40), (0.9, 0.02, 0.46))     # seat
-    V.add_box(bm, (-0.9, 0.16, 0.40), (0.9, 0.24, 1.02))      # back
-    V.add_box(bm, (-0.9, -0.20, 0.06), (-0.82, 0.22, 0.42))
-    V.add_box(bm, (0.82, -0.20, 0.06), (0.9, 0.22, 0.42))
-    V.add_box(bm, (-0.93, -0.24, 0.42), (-0.79, 0.26, 0.52))
-    V.add_box(bm, (0.79, -0.24, 0.42), (0.93, 0.26, 0.52))
-    V.add_box(bm, (-0.92, 0.14, 1.02), (0.92, 0.26, 1.08))
-    V.add_box(bm, (-0.86, -0.34, 0.10), (0.86, -0.26, 0.16))
-    obj = V.bm_to_object(bm, "pew", ("M_wood",))
-    return [obj], {"size": [1.86, 0.62, 1.1], "origin": "bottom-center"}
+    # Base floor runners & central trestle support
+    for sx in (-0.86, 0.0, 0.86):
+        V.add_box(bm, (sx - 0.045, -0.22, 0.0), (sx + 0.045, 0.24, 0.07))
+    V.add_box(bm, (-0.04, -0.18, 0.07), (0.04, 0.20, 0.40))
+    # Contoured seat plank + under-seat apron rail
+    V.add_box(bm, (-0.88, -0.21, 0.40), (0.88, 0.17, 0.46))
+    V.add_box(bm, (-0.86, -0.18, 0.34), (0.86, -0.13, 0.40))
+    # Recessed wainscot backrest field + raised Gothic stiles and rails
+    V.add_box(bm, (-0.86, 0.17, 0.46), (0.86, 0.22, 1.00))
+    for z0, z1 in ((0.46, 0.53), (0.71, 0.76), (0.96, 1.03)):
+        V.add_box(bm, (-0.88, 0.15, z0), (0.88, 0.24, z1))
+    for sx in (-0.82, -0.28, 0.28, 0.82):
+        V.add_box(bm, (sx - 0.035, 0.15, 0.52), (sx + 0.035, 0.24, 0.97))
+    # Molded top cresting rail
+    V.add_box(bm, (-0.92, 0.135, 1.03), (0.92, 0.255, 1.09))
+    # Bench-end standards with scrolled armrests & carved poppyhead finials
+    for sx in (-0.86, 0.86):
+        V.add_box(bm, (sx - 0.045, -0.22, 0.07), (sx + 0.045, 0.24, 0.62))
+        V.add_box(bm, (sx - 0.045, 0.02, 0.62), (sx + 0.045, 0.25, 1.05))
+        V.add_box(bm, (sx - 0.055, -0.25, 0.58), (sx + 0.055, 0.06, 0.65))  # armrest
+        # Trefoil poppyhead finial
+        V.add_box(bm, (sx - 0.038, 0.13, 1.08), (sx + 0.038, 0.25, 1.17))
+        V.add_box(bm, (sx - 0.045, 0.10, 1.11), (sx + 0.045, 0.28, 1.15))
+    # Front kneeler rail with end blocks
+    V.add_box(bm, (-0.86, -0.34, 0.08), (0.86, -0.25, 0.15))
+    for sx in (-0.82, 0.0, 0.82):
+        V.add_box(bm, (sx - 0.035, -0.34, 0.0), (sx + 0.035, -0.22, 0.08))
+    objs.append(V.bm_to_object(bm, "pew", ("M_wood",)))
+
+    bm_iron = bmesh.new()
+    for sx in (-0.91, 0.91):
+        V.add_box(bm_iron, (sx - 0.008, -0.22, 0.39), (sx + 0.008, 0.24, 0.46))
+        V.add_box(bm_iron, (sx - 0.008, 0.14, 0.96), (sx + 0.008, 0.25, 1.03))
+    objs.append(V.bm_to_object(bm_iron, "pew_iron", ("M_iron",)))
+    return objs, {"size": [1.86, 0.62, 1.18], "origin": "bottom-center"}
 
 
 def altar():
+    """Carved Gothic stone high altar with stepped plinth, recessed blind-arcade
+    chest panels, engaged corner/bay colonnettes, draped liturgical antependium
+    cloth with gold fringe & sun-cross, and turned brass candlesticks."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-1.0, -0.5, 0), (1.0, 0.5, 0.92))
-    V.add_box(bm, (-1.08, -0.58, 0.92), (1.08, 0.58, 1.02))
-    V.add_box(bm, (-1.06, -0.56, 0), (1.06, 0.56, 0.1))
+    # Stepped plinth & overhanging molded mensa slab (top at z = 1.02)
+    V.add_box(bm, (-1.08, -0.58, 0.0), (1.08, 0.58, 0.10))
+    V.add_box(bm, (-1.02, -0.52, 0.10), (1.02, 0.52, 0.18))
+    V.add_box(bm, (-1.02, -0.52, 0.84), (1.02, 0.52, 0.91))
+    V.add_box(bm, (-1.08, -0.58, 0.91), (1.08, 0.58, 1.02))
+    # Pilaster dividers framing 3 bays on front/back and 1 bay on ends
+    for sx in (-0.96, -0.34, 0.34, 0.96):
+        for sy in (-0.49, 0.49):
+            V.add_box(bm, (sx - 0.055, sy - 0.03, 0.18), (sx + 0.055, sy + 0.03, 0.84))
     objs.append(V.bm_to_object(bm, "altar_body", ("M_stone_trim",)))
+
+    # Recessed dark stone chest core
+    bm_core = bmesh.new()
+    V.add_box(bm_core, (-0.96, -0.48, 0.18), (0.96, 0.48, 0.84))
+    objs.append(V.bm_to_object(bm_core, "altar_core", ("M_stone_dark",)))
+
+    # Draped liturgical altar cloth runner across the center & hanging front/back
+    bm_cloth = bmesh.new()
+    V.add_box(bm_cloth, (-0.36, -0.59, 0.90), (0.36, 0.59, 1.023))
+    for sy in (-0.59, 0.59):
+        y0, y1 = (sy - 0.015, sy + 0.005) if sy < 0 else (sy - 0.005, sy + 0.015)
+        V.add_box(bm_cloth, (-0.36, y0, 0.28), (0.36, y1, 0.91))
+    objs.append(V.bm_to_object(bm_cloth, "altar_cloth", ("M_cloth",)))
+
+    # Gilt cornice molding, antependium fringe, and embossed front/back sun-crosses
     gm = bmesh.new()
-    V.add_box(gm, (-1.085, -0.585, 0.89), (1.085, 0.585, 0.925))
+    V.add_box(gm, (-1.085, -0.585, 0.885), (1.085, 0.585, 0.92))
+    for sy in (-0.595, 0.595):
+        y0, y1 = (sy - 0.016, sy + 0.004) if sy < 0 else (sy - 0.004, sy + 0.016)
+        V.add_box(gm, (-0.37, y0, 0.25), (0.37, y1, 0.29))
+        V.add_box(gm, (-0.022, y0, 0.44), (0.022, y1, 0.78))
+        V.add_box(gm, (-0.14, y0, 0.60), (0.14, y1, 0.64))
     objs.append(V.bm_to_object(gm, "altar_gilt", ("M_gold",)))
-    for c in _candle(0.26):
-        c.location = (-0.7, 0, 1.02)
-        objs.append(c)
-    for c in _candle(0.2):
-        c.location = (0.7, 0.1, 1.02)
-        objs.append(c)
-    return objs, {"size": [2.2, 1.2, 1.35], "origin": "bottom-center"}
+
+    # Turned brass candlesticks + lit altar candles
+    for (cx, cy, ch) in ((-0.72, 0.0, 0.24), (0.72, 0.08, 0.19)):
+        holder = V.loft_rings(
+            "altar_holder",
+            [
+                (0.085, 1.02, 12, 0),
+                (0.068, 1.045, 12, 0),
+                (0.026, 1.08, 12, 0),
+                (0.058, 1.11, 12, 0),
+                (0.052, 1.125, 12, 0),
+            ],
+            "M_gold",
+        )
+        holder.location = (cx, cy, 0)
+        objs.append(holder)
+        for c in _candle(ch):
+            c.location = (cx, cy, 1.12)
+            objs.append(c)
+    return objs, {"size": [2.2, 1.2, 1.45], "origin": "bottom-center"}
 
 
 def plaque():
@@ -643,34 +713,90 @@ def organ_case():
 
 
 def choir_stall():
-    """High-backed choir stall bench, faces -Y like the pews."""
+    """High-backed 3-bay cathedral choir stall bench (faces -Y like the pews),
+    with carved parclose stall dividers, misericord brackets, linenfold wainscot
+    panels, overhanging coved canopy hood, and gilt brass cornice trim."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-1.15, -0.24, 0.42), (1.15, 0.12, 0.5))
-    V.add_box(bm, (-1.15, 0.12, 0.0), (1.15, 0.3, 1.55))
-    V.add_box(bm, (-1.15, 0.24, 1.55), (1.15, 0.38, 1.72))
-    V.add_box(bm, (-1.15, -0.3, 0.0), (-1.02, 0.12, 0.86))
-    V.add_box(bm, (1.02, -0.3, 0.0), (1.15, 0.12, 0.86))
-    V.add_box(bm, (-1.15, -0.26, 0.16), (1.15, -0.18, 0.2))
+    # Stepped podium base & front kneeler rail
+    V.add_box(bm, (-1.18, -0.32, 0.0), (1.18, 0.32, 0.08))
+    V.add_box(bm, (-1.15, -0.28, 0.14), (1.15, -0.19, 0.21))
+    # Contoured seat plank + under-seat misericord corbel brackets in each of the 3 bays
+    V.add_box(bm, (-1.15, -0.24, 0.43), (1.15, 0.15, 0.50))
+    for bx in (-0.76, 0.0, 0.76):
+        V.add_box(bm, (bx - 0.11, -0.18, 0.35), (bx + 0.11, 0.08, 0.43))
+    # High wainscot dossal back field + horizontal rails + vertical bay stiles
+    V.add_box(bm, (-1.14, 0.17, 0.08), (1.14, 0.26, 1.55))
+    for z0, z1 in ((0.50, 0.57), (0.98, 1.04), (1.46, 1.55)):
+        V.add_box(bm, (-1.16, 0.14, z0), (1.16, 0.29, z1))
+    # 4 stall partition standards (parcloses) with elbow rests and poppyhead finials
+    for sx in (-1.12, -0.38, 0.38, 1.12):
+        V.add_box(bm, (sx - 0.04, -0.28, 0.08), (sx + 0.04, 0.16, 0.84))
+        V.add_box(bm, (sx - 0.05, -0.30, 0.80), (sx + 0.05, 0.14, 0.88))  # elbow rest
+        V.add_box(bm, (sx - 0.035, -0.26, 0.88), (sx + 0.035, -0.16, 0.98))  # poppyhead finial
+        V.add_box(bm, (sx - 0.04, 0.13, 0.50), (sx + 0.04, 0.29, 1.56))      # back stile
+    # Vertical linenfold ribs inside the 3 upper back panels
+    for bx in (-0.75, 0.0, 0.75):
+        for dx in (-0.16, 0.0, 0.16):
+            V.add_box(bm, (bx + dx - 0.02, 0.145, 0.57), (bx + dx + 0.02, 0.175, 1.46))
+    # Overhanging coved canopy cornice + pendant bosses
+    V.add_box(bm, (-1.18, -0.02, 1.55), (1.18, 0.34, 1.65))
+    V.add_box(bm, (-1.21, -0.10, 1.65), (1.21, 0.38, 1.75))
+    for sx in (-1.12, -0.38, 0.38, 1.12):
+        V.add_box(bm, (sx - 0.035, -0.08, 1.49), (sx + 0.035, 0.0, 1.55))
     objs.append(V.bm_to_object(bm, "choir_stall", ("M_wood",)))
+
+    bm_brass = bmesh.new()
+    V.add_box(bm_brass, (-1.215, -0.105, 1.64), (1.215, -0.085, 1.67))
+    for bx in (-0.75, 0.0, 0.75):
+        V.add_box(bm_brass, (bx - 0.04, 0.135, 1.22), (bx + 0.04, 0.155, 1.30))
+    objs.append(V.bm_to_object(bm_brass, "choir_brass", ("M_brass",)))
     return objs, {"size": [2.4, 0.7, 1.75], "origin": "bottom-center"}
 
 
 def chime_stone():
-    """Vesper chime: a standing stone gallows with a hanging bronze bar."""
+    """Vesper chime: stepped octagonal Gothic stone pillar with cantilevered oak
+    gallows arm, wrought-iron scroll bracket, suspended cast-bronze tubular chime
+    ('chime_bar'), and spherical iron clapper."""
     objs = []
-    post = V.loft_rings("chime_post", [(0.17, 0, 12, 0), (0.13, 0.2, 12, 0),
-                                       (0.11, 1.9, 12, 0), (0.15, 2.05, 12, 0)], "M_stone_trim")
+    post = V.loft_rings(
+        "chime_post",
+        [
+            (0.24, 0.0, 12, 0),
+            (0.24, 0.10, 12, 0),
+            (0.18, 0.14, 12, 0),
+            (0.18, 0.24, 12, 0),
+            (0.125, 0.28, 12, 0),
+            (0.110, 1.88, 12, 0),
+            (0.155, 1.98, 12, 0),
+            (0.175, 2.08, 12, 0),
+        ],
+        "M_stone_trim",
+        cap_bottom=True,
+        cap_top=True,
+    )
     objs.append(post)
     bm = bmesh.new()
-    V.add_box(bm, (-0.05, -0.62, 1.98), (0.05, 0.1, 2.08))
+    V.add_box(bm, (-0.055, -0.66, 1.98), (0.055, 0.14, 2.08))
+    # Diagonal timber knee-brace supporting the gallows arm
+    for s in range(6):
+        u = s / 5.0
+        y0 = -0.06 - 0.34 * u
+        z0 = 1.64 + 0.34 * u
+        V.add_box(bm, (-0.038, y0 - 0.04, z0 - 0.04), (0.038, y0 + 0.04, z0 + 0.04))
     objs.append(V.bm_to_object(bm, "chime_arm", ("M_wood",)))
-    bm = bmesh.new()
-    V.add_box(bm, (-0.035, -0.55, 1.06), (0.035, -0.47, 1.96))
-    objs.append(V.bm_to_object(bm, "chime_bar", ("M_bronze",)))
-    bm = bmesh.new()
-    V.add_box(bm, (-0.02, -0.53, 0.98), (0.02, -0.49, 1.06))
-    objs.append(V.bm_to_object(bm, "chime_clapper", ("M_iron",)))
+    # Cast-bronze cylindrical tubular bell ('chime_bar' animated by ChimePuzzle._swing)
+    bm_bar = bmesh.new()
+    V.add_cyl(bm_bar, 0.0, -0.51, 1.92, 0.06, 0.022, n=10)
+    V.add_cyl(bm_bar, 0.0, -0.51, 1.86, 0.06, 0.068, n=14)
+    V.add_cyl(bm_bar, 0.0, -0.51, 1.12, 0.74, 0.054, n=14)
+    V.add_cyl(bm_bar, 0.0, -0.51, 1.06, 0.06, 0.072, n=14)
+    objs.append(V.bm_to_object(bm_bar, "chime_bar", ("M_bronze",)))
+    # Wrought-iron hanger strap, suspension ring, and spherical clapper
+    bm_iron = bmesh.new()
+    V.add_box(bm_iron, (-0.062, -0.55, 1.97), (0.062, -0.47, 2.09))
+    V.add_cyl(bm_iron, 0.0, -0.51, 0.96, 0.10, 0.030, n=10)
+    objs.append(V.bm_to_object(bm_iron, "chime_clapper", ("M_iron",)))
     return objs, {"size": [0.5, 1.3, 2.1], "origin": "bottom-center"}
 
 
@@ -788,21 +914,49 @@ def bone_pile(seed=3):
 
 
 def sarcophagus():
-    """Stone chest with a gabled lid, ~2.2 m. Solid, climb-proof."""
+    """Carved Gothic stone sarcophagus chest with stepped plinth, recessed
+    blind-arcade panels, pilaster colonnettes, molded cornice, and gabled lid
+    with a relief cross (~2.2 m). Solid, climb-proof."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-1.1, -0.45, 0), (1.1, 0.45, 0.72))
+    # Stepped plinth & upper cornice molding
+    V.add_box(bm, (-1.14, -0.49, 0.0), (1.14, 0.49, 0.09))
+    V.add_box(bm, (-1.10, -0.45, 0.09), (1.10, 0.45, 0.16))
+    V.add_box(bm, (-1.12, -0.47, 0.64), (1.12, 0.47, 0.72))
+    # 4 pilaster colonnette stiles framing 3 blind-arcade bays on each long side
+    for sx in (-1.02, -0.34, 0.34, 1.02):
+        for sy in (-0.43, 0.43):
+            V.add_box(bm, (sx - 0.055, sy - 0.025, 0.16), (sx + 0.055, sy + 0.025, 0.64))
+    # End pilasters on +/-X faces
+    for sx in (-1.07, 1.07):
+        for sy in (-0.36, 0.36):
+            V.add_box(bm, (sx - 0.025, sy - 0.05, 0.16), (sx + 0.025, sy + 0.05, 0.64))
     objs.append(V.bm_to_object(bm, "sarc_body", ("M_stone_trim",)))
+
+    # Recessed dark stone chest core
+    bm_core = bmesh.new()
+    V.add_box(bm_core, (-1.05, -0.42, 0.16), (1.05, 0.42, 0.64))
+    objs.append(V.bm_to_object(bm_core, "sarc_core", ("M_stone_dark",)))
+
+    # Gabled stone lid with corner acroteria & relief cross along the ridge
     bm = bmesh.new()
-    a = [bm.verts.new(p) for p in ((-1.16, -0.5, 0.72), (1.16, -0.5, 0.72), (1.16, 0.5, 0.72), (-1.16, 0.5, 0.72))]
-    r0 = bm.verts.new((-1.16, 0.0, 0.98)); r1 = bm.verts.new((1.16, 0.0, 0.98))
+    V.add_box(bm, (-1.16, -0.50, 0.72), (1.16, 0.50, 0.77))
+    a = [bm.verts.new(p) for p in ((-1.15, -0.48, 0.77), (1.15, -0.48, 0.77), (1.15, 0.48, 0.77), (-1.15, 0.48, 0.77))]
+    r0 = bm.verts.new((-1.15, 0.0, 0.98))
+    r1 = bm.verts.new((1.15, 0.0, 0.98))
     bm.faces.new((a[0], a[1], r1, r0))
     bm.faces.new((r0, r1, a[2], a[3]))
     bm.faces.new((a[0], r0, a[3]))
     bm.faces.new((a[1], a[2], r1))
     bm.faces.new(list(reversed(a)))
+    # Carved relief cross & ridge bolster on the lid
+    V.add_box(bm, (-0.92, -0.045, 0.93), (0.92, 0.045, 1.01))
+    V.add_box(bm, (0.28, -0.26, 0.86), (0.40, 0.26, 1.01))
+    for sx in (-1.12, 1.12):
+        for sy in (-0.46, 0.46):
+            V.add_box(bm, (sx - 0.04, sy - 0.04, 0.77), (sx + 0.04, sy + 0.04, 0.85))
     objs.append(V.bm_to_object(bm, "sarc_lid", ("M_stone",)))
-    return objs, {"size": [2.4, 1.0, 1.0], "origin": "bottom-center"}
+    return objs, {"size": [2.4, 1.0, 1.02], "origin": "bottom-center"}
 
 
 def shroud_dead(seed=8):
