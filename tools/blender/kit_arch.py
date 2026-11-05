@@ -109,8 +109,8 @@ def wall_low_4m():
 # ------------------------------------------------------------------ arcade
 
 def arcade_4m():
-    """Cloister arcade module: parapet, twin colonnettes, pointed arch.
-    Open span faces the garth. Origin: bottom-center of the run."""
+    """Cloister arcade module: parapet with overhanging stone sill coping,
+    twin colonnettes, pointed arch. Open span faces the garth."""
     objs = []
     # arch panel: opening 2.2 wide springing at 1.6 -> apex ~3.23 (below vault)
     panel = V.wall_panel_with_arch("arcade_panel", 4.0, 4.0, 0.34, 2.2, 1.6,
@@ -119,8 +119,11 @@ def arcade_4m():
     # parapet under the opening (arcades are windows onto the garth;
     # passage is at the portals)
     bm = bmesh.new()
-    V.add_box(bm, (-1.1, -0.15, 0), (1.1, 0.15, 0.9))
+    V.add_box(bm, (-1.1, -0.15, 0), (1.1, 0.15, 0.84))
     objs.append(V.bm_to_object(bm, "arcade_parapet", ("M_stone",)))
+    bm_sill = bmesh.new()
+    V.add_box(bm_sill, (-1.12, -0.22, 0.84), (1.12, 0.22, 0.91))
+    objs.append(V.bm_to_object(bm_sill, "arcade_sill", ("M_stone_trim",)))
     # colonnettes at the jambs
     for sx in (-1.1, 1.1):
         col = _colonnette(0.14, 1.72)
@@ -585,18 +588,25 @@ def rubble_choke_4m():
 
 
 def fog_gate_frame():
-    """Freestanding boss-arena threshold: two piers + pointed arch with
-    chevron-carved archivolt. The fog plane itself is runtime."""
+    """Freestanding boss-arena threshold: two compound piers with stepped
+    plinths, engaged colonnette shafts, moulded impost capitals, and a pointed
+    arch with nested archivolt moldings. The fog plane itself is runtime."""
     objs = []
     for sx in (-1.6, 1.6):
         bm = bmesh.new()
-        V.add_box(bm, (sx - 0.35, -0.35, 0), (sx + 0.35, 0.35, 3.1))
-        V.add_box(bm, (sx - 0.45, -0.45, 0), (sx + 0.45, 0.45, 0.5))
-        V.add_box(bm, (sx - 0.42, -0.42, 3.1), (sx + 0.42, 0.42, 3.4))
+        V.add_box(bm, (sx - 0.48, -0.48, 0.0), (sx + 0.48, 0.48, 0.16))
+        V.add_box(bm, (sx - 0.44, -0.44, 0.16), (sx + 0.44, 0.44, 0.50))
+        V.add_box(bm, (sx - 0.35, -0.35, 0.50), (sx + 0.35, 0.35, 3.10))
+        V.add_box(bm, (sx - 0.42, -0.42, 3.06), (sx + 0.42, 0.42, 3.24))
+        V.add_box(bm, (sx - 0.46, -0.46, 3.24), (sx + 0.46, 0.46, 3.40))
         objs.append(V.bm_to_object(bm, "fog_pier", ("M_stone_trim",)))
+        for sy in (-0.34, 0.34):
+            col = _colonnette(0.095, 2.58)
+            col.location = (sx, sy, 0.50)
+            objs.append(col)
     arch = V.pointed_arch(3.2, 1.0, 16, 3.25)
     path = [(x, 0, y) for (x, y) in arch]
-    objs.append(V.sweep_profile("fog_arch", path, V.chamfer_rect_profile(0.34, 0.5, 0.08),
+    objs.append(V.sweep_profile("fog_arch", path, V.chamfer_rect_profile(0.34, 0.52, 0.08),
                                 "M_stone_trim", up_hint=Vector((0, 1, 0))))
     return objs, {"size": [4, 1, 5.2], "origin": "bottom-center", "opening": [3.2, 3.1]}
 

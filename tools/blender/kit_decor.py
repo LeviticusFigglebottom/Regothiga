@@ -147,8 +147,14 @@ def banner_torn():
     bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.012)
     cloth = V.bm_to_object(bm, "rag", ("M_cloth",))
     cloth.location = (0, 0, 2.5)
-    rod = V.sweep_profile("rod", [(-w / 2 - 0.12, 0, 2.52), (w / 2 + 0.12, 0, 2.52)],
-                          V.circle_profile(0.02, 6), "M_iron")
+    bm_iron = bmesh.new()
+    V.add_box(bm_iron, (-w / 2 - 0.14, -0.018, 2.502), (w / 2 + 0.14, 0.018, 2.538))
+    for sx in (-1, 1):
+        x_end = sx * (w / 2 + 0.16)
+        V.add_box(bm_iron, (x_end - 0.03, -0.028, 2.492), (x_end + 0.03, 0.028, 2.548))
+    for rx in (-0.36, -0.18, 0.0, 0.18, 0.36):
+        V.add_box(bm_iron, (rx - 0.015, -0.025, 2.47), (rx + 0.015, 0.025, 2.55))
+    rod = V.bm_to_object(bm_iron, "rod", ("M_iron",))
     return [cloth, rod], {"size": [1.1, 0.3, 2.6], "origin": "top-center"}
 
 
@@ -289,42 +295,93 @@ def garden_bed(alive=True, seed=23):
 
 
 def censer_hanging(drop=1.5):
-    """Gold thurible on a chain fixed to the vault by an iron ceiling-plate, so
-    it reads as hung from above instead of a chain floating in mid-air. Glory
-    walks. Place the origin (the plate) flush under the ceiling; `drop` sets the
-    chain length so the censer lands at a readable height below it."""
+    """Gold cathedral thurible on a chain fixed to the vault by an iron ceiling-plate,
+    with lower incense bowl, glowing ember core + flame, pierced gothic spire cover,
+    and 3 suspension chains."""
     objs = []
-    # ceiling rose / mount plate the chain is bolted to
-    plate = V.loft_rings("mount", [(0.12, 0.04, 8, 0), (0.12, -0.02, 8, 0), (0.03, -0.09, 8, 0)], "M_iron")
-    objs.append(plate)
+    # Ceiling rose / mount plate + chain links
+    bm_iron = bmesh.new()
+    V.add_cyl(bm_iron, 0.0, 0.0, -0.02, 0.06, 0.12, n=10)
+    V.add_cyl(bm_iron, 0.0, 0.0, -0.09, 0.07, 0.04, n=8)
     n = max(4, int(drop / 0.14))
     for i in range(n):
         z = -0.09 - i * 0.14
-        link = V.loft_rings("link", [(0.028, z, 6, 0), (0.02, z - 0.1, 6, 0)], "M_iron")
-        objs.append(link)
+        wx = 0.028 if i % 2 else 0.012
+        wy = 0.012 if i % 2 else 0.028
+        V.add_box(bm_iron, (-wx, -wy, z - 0.11), (wx, wy, z))
     cz = -0.09 - n * 0.14
-    cens = V.loft_rings("censer", [(0.02, cz, 8, 0), (0.09, cz - 0.1, 8, 0), (0.11, cz - 0.22, 8, 0),
-                                   (0.07, cz - 0.32, 8, 0), (0.02, cz - 0.36, 8, 0)], "M_gold")
-    objs.append(cens)
-    f = _flame("censer_flame", 0.03, 0.08)
-    f.location = (0, 0, cz - 0.02)
+    # 3 diagonal suspension chains from central swivel (cz + 0.03) to bowl lugs (cz - 0.21)
+    for k in range(3):
+        a = k * 2 * math.pi / 3.0
+        for s in range(5):
+            u = s / 4.0
+            r_u = 0.02 + 0.095 * u
+            z_u = (cz + 0.03) - 0.24 * u
+            cx, cy = r_u * math.cos(a), r_u * math.sin(a)
+            V.add_box(bm_iron, (cx - 0.008, cy - 0.008, z_u - 0.028), (cx + 0.008, cy + 0.028, z_u + 0.028))
+    objs.append(V.bm_to_object(bm_iron, "mount", ("M_iron",)))
+
+    # Two-piece gold thurible: lower incense bowl + upper pierced spire canopy
+    bowl = V.loft_rings(
+        "censer",
+        [
+            (0.055, cz - 0.38, 12, 0),
+            (0.038, cz - 0.35, 12, 0),
+            (0.105, cz - 0.28, 12, 0),
+            (0.120, cz - 0.21, 12, 0),
+            (0.095, cz - 0.20, 12, 0),
+        ],
+        "M_gold",
+    )
+    objs.append(bowl)
+    cover = V.loft_rings(
+        "censer_cover",
+        [
+            (0.115, cz - 0.15, 12, 0),
+            (0.085, cz - 0.09, 12, 0),
+            (0.045, cz - 0.04, 12, 0),
+            (0.012, cz + 0.01, 12, 0),
+        ],
+        "M_gold",
+    )
+    objs.append(cover)
+    coals = V.loft_rings(
+        "censer_coals",
+        [(0.085, cz - 0.21, 10, 0), (0.055, cz - 0.175, 10, 0.3), (0.015, cz - 0.16, 10, 0.6)],
+        "M_ember",
+    )
+    objs.append(coals)
+    f = _flame("censer_flame", 0.032, 0.09)
+    f.location = (0, 0, cz - 0.19)
     objs.append(f)
     return objs, {"size": [0.3, 0.3, drop + 0.6], "origin": "ceiling-mount"}
 
 
 def censer_fallen(seed=29):
-    """The same censer, spilled on the flags with its chain."""
+    """The same two-piece gold thurible, spilled on the flags with its chain and cold ash."""
     rng = random.Random(seed)
     objs = []
-    cens = V.loft_rings("censer_f", [(0.02, 0.0, 8, 0), (0.09, 0.1, 8, 0), (0.11, 0.22, 8, 0),
-                                     (0.07, 0.32, 8, 0), (0.02, 0.36, 8, 0)], "M_gold")
+    cens = V.loft_rings(
+        "censer_f",
+        [
+            (0.055, 0.0, 12, 0),
+            (0.038, 0.03, 12, 0),
+            (0.105, 0.10, 12, 0),
+            (0.120, 0.17, 12, 0),
+            (0.085, 0.22, 12, 0),
+            (0.115, 0.24, 12, 0),
+            (0.075, 0.31, 12, 0),
+            (0.015, 0.38, 12, 0),
+        ],
+        "M_gold",
+    )
     cens.rotation_euler = (0, math.radians(96), rng.uniform(0, 6))
-    cens.location = (0, 0, 0.09)
+    cens.location = (0, 0, 0.11)
     objs.append(cens)
     pts = [(0.15, 0, 0.02)]
     for i in range(7):
         pts.append((0.15 + (i + 1) * 0.12, rng.uniform(-0.1, 0.1), 0.02))
-    objs.append(V.sweep_profile("chain_f", pts, V.circle_profile(0.018, 5), "M_iron"))
+    objs.append(V.sweep_profile("chain_f", pts, V.circle_profile(0.018, 6), "M_iron", up_hint=Vector((0, 0, 1))))
     return objs, {"size": [1.2, 0.4, 0.4], "origin": "bottom-center"}
 
 

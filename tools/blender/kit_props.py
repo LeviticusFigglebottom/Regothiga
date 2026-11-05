@@ -340,7 +340,8 @@ def gargoyle():
 
 
 def banner():
-    """Hanging cloth banner with the setting-sun sigil zone. Glory-only."""
+    """Hanging cloth banner with iron finial rod, brass suspension rings,
+    gold border & bottom fringe, and double-sided eclipsed-sun sigil. Glory-only."""
     bm = bmesh.new()
     w, h = 0.85, 2.3
     nx, nz = 8, 16
@@ -357,12 +358,34 @@ def banner():
     bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.012)
     obj = V.bm_to_object(bm, "banner_cloth", ("M_cloth",))
     obj.location = (0, 0, 2.5)
-    rod = V.sweep_profile("rod", [(-w / 2 - 0.12, 0, 2.52), (w / 2 + 0.12, 0, 2.52)],
-                          V.circle_profile(0.02, 10), "M_iron")
-    disc = V.loft_rings("sigil", [(0.005, -0.015, 14, 0), (0.16, 0.0, 14, 0), (0.005, 0.015, 14, 0)], "M_gold")
-    disc.location = (0, -0.025, 1.62)
-    disc.rotation_euler = (math.pi / 2, 0, 0)
-    return [obj, rod, disc], {"size": [1.1, 0.3, 2.6], "origin": "top-center"}
+
+    bm_iron = bmesh.new()
+    V.add_box(bm_iron, (-w / 2 - 0.14, -0.018, 2.502), (w / 2 + 0.14, 0.018, 2.538))
+    for sx in (-1, 1):
+        x_end = sx * (w / 2 + 0.16)
+        V.add_box(bm_iron, (x_end - 0.03, -0.028, 2.492), (x_end + 0.03, 0.028, 2.548))
+    rod = V.bm_to_object(bm_iron, "rod", ("M_iron",))
+
+    bm_gold = bmesh.new()
+    # 5 suspension rings along top rod + bottom gold fringe band
+    for rx in (-0.36, -0.18, 0.0, 0.18, 0.36):
+        V.add_box(bm_gold, (rx - 0.016, -0.026, 2.47), (rx + 0.016, 0.026, 2.55))
+    y_bot = 0.05 * math.sin(nz * 0.8)
+    V.add_box(bm_gold, (-w / 2, y_bot - 0.022, 0.17), (w / 2, y_bot + 0.012, 0.23))
+    fringe = V.bm_to_object(bm_gold, "banner_trim", ("M_gold",))
+
+    objs = [obj, rod, fringe]
+    # Double-sided gold sun-corona sigil on both -Y and +Y faces
+    for sy in (-0.022, 0.014):
+        disc = V.loft_rings(
+            "sigil",
+            [(0.08, -0.008, 16, 0), (0.175, 0.0, 16, 0), (0.08, 0.008, 16, 0)],
+            "M_gold",
+        )
+        disc.location = (0, sy, 1.62)
+        disc.rotation_euler = (math.pi / 2, 0, 0)
+        objs.append(disc)
+    return objs, {"size": [1.1, 0.3, 2.6], "origin": "top-center"}
 
 
 def pew():
@@ -1164,21 +1187,36 @@ def ossuary_wall_4m():
 
 
 def bone_pile(seed=3):
-    """Drift of long bones and skulls against a wall or corner."""
+    """Drift of long bones (femurs/tibias with condyle ends) and jawed skulls
+    against a wall or corner."""
     import random as _random
     rng = _random.Random(seed)
     bm = bmesh.new()
-    for i in range(9):
-        x, y = (rng.random() - 0.5) * 0.9, (rng.random() - 0.5) * 0.7
-        got = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=0.1 + rng.random() * 0.05)
-        for v in got["verts"]:
-            v.co = Vector((v.co.x + x, v.co.y + y, v.co.z * 0.7 + 0.09 + i * 0.04))
-    for i in range(6):
-        x, y = (rng.random() - 0.5) * 1.0, (rng.random() - 0.5) * 0.8
+    # Crossed/scattered long bones with condyle joint knobs at both ends
+    for i in range(10):
+        x, y = (rng.random() - 0.5) * 0.82, (rng.random() - 0.5) * 0.66
+        z = 0.028 + (i % 4) * 0.026
         a = rng.random() * math.pi
-        dx, dy = math.cos(a) * 0.3, math.sin(a) * 0.3
-        V.add_box(bm, (x - dx - 0.03, y - dy - 0.03, 0.02 + i * 0.03),
-                  (x + dx + 0.03, y + dy + 0.03, 0.08 + i * 0.03))
+        pitch = (rng.random() - 0.5) * 0.18
+        xf = Matrix.Translation((x, y, z)) @ Matrix.Rotation(a, 4, "Z") @ Matrix.Rotation(pitch, 4, "Y")
+        bm_b = bmesh.new()
+        V.add_box(bm_b, (-0.22, -0.018, -0.016), (0.22, 0.018, 0.016))
+        for sx in (-0.22, 0.22):
+            for sy in (-0.018, 0.018):
+                V.add_box(bm_b, (sx - 0.024, sy - 0.016, -0.020), (sx + 0.024, sy + 0.016, 0.020))
+        bmesh.ops.transform(bm_b, matrix=xf, verts=bm_b.verts)
+        for f in bm_b.faces:
+            bm.faces.new([bm.verts.new(v.co) for v in f.verts])
+        bm_b.free()
+    # Clustered crania with maxilla jaw blocks
+    for i in range(8):
+        x, y = (rng.random() - 0.5) * 0.78, (rng.random() - 0.5) * 0.62
+        r = 0.095 + rng.random() * 0.035
+        cz = 0.075 + (i % 3) * 0.045
+        got = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=r)
+        for v in got["verts"]:
+            v.co = Vector((v.co.x * 0.88 + x, v.co.y * 0.92 + y, v.co.z * 0.82 + cz))
+        V.add_box(bm, (x - r * 0.45, y - r * 0.85, cz - r * 0.75), (x + r * 0.45, y - r * 0.20, cz - r * 0.15))
     obj = V.bm_to_object(bm, "bone_pile", ("M_bone",))
     return [obj], {"size": [1.2, 1.0, 0.6], "origin": "bottom-center"}
 
@@ -1230,7 +1268,7 @@ def sarcophagus():
 
 
 def shroud_dead(seed=8):
-    """A wrapped body at rest on the floor — undercroft set dressing."""
+    """A wrapped body at rest on the floor with cord bindings — undercroft set dressing."""
     bm = bmesh.new()
     L = 1.7
     for t4 in range(5):
@@ -1240,7 +1278,11 @@ def shroud_dead(seed=8):
         for v in got["verts"]:
             v.co = Vector((v.co.x * 1.6 + (t - 0.5) * L, v.co.y, v.co.z * 0.72 + r * 0.7))
     obj = V.bm_to_object(bm, "shroud_dead", ("M_shroud",))
-    return [obj], {"size": [1.9, 0.5, 0.35], "origin": "bottom-center"}
+    bm_rope = bmesh.new()
+    for bx, ry, rz in ((-0.56, 0.11, 0.16), (-0.18, 0.18, 0.25), (0.18, 0.17, 0.24), (0.58, 0.11, 0.16)):
+        V.add_box(bm_rope, (bx - 0.018, -ry, 0.02), (bx + 0.018, ry, rz))
+    ropes = V.bm_to_object(bm_rope, "shroud_ropes", ("M_leather",))
+    return [obj, ropes], {"size": [1.9, 0.5, 0.35], "origin": "bottom-center"}
 
 
 def watcher_base():
