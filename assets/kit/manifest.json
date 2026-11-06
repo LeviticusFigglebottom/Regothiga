@@ -1357,7 +1357,7 @@
  "rubble_choke_4m": {
   "file": "assets/kit/rubble_choke_4m.glb",
   "origin": "bottom-center",
-  "polys": 1284,
+  "polys": 1344,
   "size": [
    3.4,
    2.2,
@@ -1522,7 +1522,7 @@
  "skel_hero": {
   "file": "assets/kit/skel_hero.glb",
   "origin": "feet",
-  "polys": 4648,
+  "polys": 4698,
   "size": [
    0.8,
    0.8,
@@ -1544,7 +1544,7 @@
  "skel_penitent": {
   "file": "assets/kit/skel_penitent.glb",
   "origin": "feet",
-  "polys": 3016,
+  "polys": 3012,
   "size": [
    0.8,
    0.8,
@@ -1555,7 +1555,7 @@
  "skel_precentress": {
   "file": "assets/kit/skel_precentress.glb",
   "origin": "feet",
-  "polys": 3084,
+  "polys": 3166,
   "size": [
    0.8,
    0.8,
@@ -1599,7 +1599,7 @@
  "skel_sister": {
   "file": "assets/kit/skel_sister.glb",
   "origin": "feet",
-  "polys": 2850,
+  "polys": 2914,
   "size": [
    0.8,
    0.8,

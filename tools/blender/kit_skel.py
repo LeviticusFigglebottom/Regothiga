@@ -497,10 +497,13 @@ def hero(arm):
     b = BodyBuilder("hero")
     common_body(b, "M_robe", "M_wax", "M_plate_dark", hood=False, skirt=True,
                 skirt_len=0.38, girth=1.02, mail_mat="M_chainmail")
-    # Sculpted Gothic breastplate & plackart with tapul ridge
+    # Sculpted Gothic breastplate & backplate with tapul ridge + chainmail under-arm gussets
     bm = b.part("chest", "M_plate_dark")
-    _tube(bm, Vector((0, 0, 1.22)), Vector((0, 0, 1.44)), 0.184, 0.136, n=16, bulge=1.06,
-          steps=4, flutes=8, flute_amp=0.02, squash=(1.12, 0.90), ridge_fwd=0.12)
+    _tube(bm, Vector((0, 0, 1.21)), Vector((0, 0, 1.44)), 0.186, 0.138, n=16, bulge=1.06,
+          steps=4, flutes=8, flute_amp=0.02, squash=(1.12, 0.92), ridge_fwd=0.06)
+    bm_cm = b.part("chest", "M_chainmail")
+    _tube(bm_cm, Vector((0, 0, 1.18)), Vector((0, 0, 1.43)), 0.180, 0.132, n=16,
+          steps=3, squash=(1.14, 0.90))
     # Draped pilgrim mantle collar around the shoulders (tucked below the helm chin)
     bm_m = b.part("chest", "M_robe")
     _tube(bm_m, Vector((0, -0.01, 1.38)), Vector((0, -0.005, 1.445)), 0.192, 0.124, n=16,
@@ -556,18 +559,21 @@ def ward(arm):
 
 def penitent(arm):
     """Wax Penitent: Dark Souls Hollow / Cathedral Thrall — dark tattered robe
-    with bloodied crimson scapular, open pleated cowl with pointed drooping peak,
-    wrought-iron penance collar & brow-circlet, and wax-seared chainmail."""
+    over weathered burial-linen scapular, open pleated cowl with pointed drooping
+    peak, wrought-iron penance collar & brow-circlet, and wax-seared chainmail."""
     b = BodyBuilder("penitent")
-    common_body(b, "M_robe", "M_wax", "M_leather", hood=True, skirt=True,
-                skirt_len=0.48, girth=1.00, mail_mat="M_chainmail")
-    # Tattered crimson penance scapular contoured to the torso + dark mantle
-    bm_sc = b.part("spine", "M_cloth")
-    _tube(bm_sc, Vector((0, 0, 0.88)), Vector((0, 0, 1.28)), 0.168, 0.176, n=14,
-          steps=3, flutes=6, flute_amp=0.04, squash=(0.86, 1.08), ridge_fwd=0.08)
+    common_body(b, "M_robe", "M_shroud", "M_leather", hood=True, skirt=True,
+                skirt_len=0.52, girth=1.00, mail_mat="M_chainmail")
+    # Weathered ash-linen penance scapular & lower-jaw burial wrap + dark mantle
+    bm_sc = b.part("chest", "M_shroud")
+    _tube(bm_sc, Vector((0, 0.005, 1.12)), Vector((0, 0.005, 1.40)), 0.182, 0.162, n=14,
+          steps=3, flutes=8, flute_amp=0.035, squash=(0.96, 1.06), ridge_fwd=0.08)
+    bm_jw = b.part("head", "M_robe")
+    _tube(bm_jw, Vector((0, 0.015, 1.48)), Vector((0, 0.022, 1.565)), 0.092, 0.095, n=12,
+          steps=2, squash=(0.92, 1.08))
     bm_m = b.part("chest", "M_robe")
-    _tube(bm_m, Vector((0, 0, 1.26)), Vector((0, -0.01, 1.48)), 0.188, 0.158, n=14,
-          steps=4, flutes=8, flute_amp=0.045, squash=(1.12, 0.92))
+    _tube(bm_m, Vector((0, 0, 1.32)), Vector((0, -0.01, 1.48)), 0.190, 0.158, n=14,
+          steps=3, flutes=8, flute_amp=0.045, squash=(1.12, 0.92))
     # Heavy wrought-iron penance collar & spiked brow-band
     bm = b.part("chest", "M_iron")
     _tube(bm, Vector((0, 0, 1.43)), Vector((0, 0, 1.49)), 0.168, 0.148, n=14, steps=2)
@@ -578,16 +584,16 @@ def penitent(arm):
     bm_fe = b.part("head", "M_iron")
     _tube(bm_fe, Vector((0, 0.008, 1.625)), Vector((0, 0.008, 1.652)), 0.150, 0.146, n=14,
           steps=1, flutes=7, flute_amp=0.04)
-    # Melted votive wax stubs fused to the iron penance collar
+    # Melted votive wax stubs fused to the iron penance collar & shoulders
     bm_wx = b.part("chest", "M_wax")
-    for sx, sy, sz, h_c in ((-0.09, -0.09, 1.46, 0.045), (0.09, -0.08, 1.46, 0.055), (0.08, 0.09, 1.45, 0.045)):
-        _tube(bm_wx, Vector((sx, sy, sz)), Vector((sx, sy, sz + h_c)), 0.015, 0.011, n=8, steps=2)
+    for sx, sy, sz, h_c in ((-0.10, -0.08, 1.45, 0.065), (0.10, -0.08, 1.45, 0.075), (0.08, 0.09, 1.44, 0.060), (-0.08, 0.09, 1.44, 0.055)):
+        _tube(bm_wx, Vector((sx, sy, sz)), Vector((sx, sy, sz + h_c)), 0.022, 0.015, n=8, steps=2)
     for side in ("l", "r"):
-        bm_f = b.part(f"farm_{side}", "M_robe")
+        bm_f = b.part(f"farm_{side}", "M_shroud")
         h, t = _bone_vec(f"farm_{side}")
-        _tube(bm_f, h, t, 0.056, 0.062, n=12, steps=3)
+        _tube(bm_f, h, t, 0.058, 0.062, n=12, steps=3, flutes=6, flute_amp=0.02)
         bm_w = b.part(f"farm_{side}", "M_iron")
-        _tube(bm_w, t - (t - h) * 0.28, t, 0.064, 0.068, n=12, steps=2)
+        _tube(bm_w, t - (t - h) * 0.30, t, 0.065, 0.069, n=12, steps=2)
     return b.finalize(arm, lumpy=0.014, seed=77)
 
 
@@ -626,18 +632,23 @@ def giant(arm):
 
 def sister(arm):
     """Sister Aveline: Firekeeper / Shrine Maiden in finely pleated monastic
-    habit, contoured scapular, silver blindfold fillet, and golden reliquary."""
+    habit, ivory wimple & shoulder capelet, silver blindfold fillet, and golden reliquary."""
     b = BodyBuilder("sister")
     common_body(b, "M_habit", "M_wax", "M_habit", hood=True, skirt=True, skirt_len=0.82)
-    # Contoured monastic scapular + shoulder capelet + gilt pectoral clasp
-    bm = b.part("chest", "M_leather")
-    _tube(bm, Vector((0, 0, 1.18)), Vector((0, 0, 1.43)), 0.168, 0.146, n=16,
-          steps=3, flutes=8, flute_amp=0.025, squash=(0.94, 1.06), ridge_fwd=0.06)
+    # Pleated monastic shoulder capelet & ivory wimple framing the chin
+    bm_cp = b.part("chest", "M_habit")
+    _tube(bm_cp, Vector((0, -0.005, 1.28)), Vector((0, -0.005, 1.46)), 0.198, 0.148, n=16,
+          steps=3, flutes=12, flute_amp=0.03, squash=(1.14, 0.88))
+    bm_w = b.part("head", "M_shroud")
+    _tube(bm_w, Vector((0, 0.01, 1.44)), Vector((0, 0.018, 1.545)), 0.118, 0.092, n=14,
+          steps=2, flutes=8, flute_amp=0.02, squash=(0.96, 1.06))
     bm_cl = b.part("chest", "M_gold")
-    _torus_ring(bm_cl, (0, 0.148, 1.36), 0.028, 0.007, n_major=14, n_minor=6)
-    # Silver Firekeeper eye-fillet / crown band
+    _torus_ring(bm_cl, (0, 0.146, 1.38), 0.028, 0.007, n_major=14, n_minor=6, rot_x=math.pi / 2)
+    # Linen blindfold wrap & silver Firekeeper crown fillet
+    bm_bf = b.part("head", "M_shroud")
+    _tube(bm_bf, Vector((0, 0.022, 1.582)), Vector((0, 0.022, 1.622)), 0.098, 0.098, n=16, steps=2, squash=(0.90, 1.08))
     bm_f = b.part("head", "M_steel")
-    _tube(bm_f, Vector((0, 0.02, 1.60)), Vector((0, 0.02, 1.645)), 0.112, 0.112, n=16, steps=2)
+    _tube(bm_f, Vector((0, 0.022, 1.615)), Vector((0, 0.022, 1.642)), 0.106, 0.106, n=16, steps=2, squash=(0.92, 1.06))
     # Golden votive reliquary at waist
     bm_g = b.part("hips", "M_gold")
     _ball(bm_g, (-0.16, 0.08, 0.98), 0.045, sub=2)
@@ -723,6 +734,14 @@ def precentress(arm):
     for s in (-1, 1):
         _tube(bm, Vector((s * 0.16, -0.152, 1.43)), Vector((s * 0.16, 0.148, 1.43)), 0.022, 0.022, n=10, steps=3)
     _tube(bm, Vector((0, -0.002, 1.06)), Vector((0, -0.002, 1.10)), 0.172, 0.172, n=16, steps=2, squash=(1.04, 0.96))
+    # Pleated gilt liturgical gorget/wimple collar & wrist cuffs
+    bm_g = b.part("head", "M_gild")
+    _tube(bm_g, Vector((0, 0.01, 1.44)), Vector((0, 0.018, 1.545)), 0.118, 0.092, n=14,
+          steps=2, flutes=10, flute_amp=0.025, squash=(0.96, 1.06))
+    for side in ("l", "r"):
+        bm_cf = b.part(f"farm_{side}", "M_gild")
+        h, t = _bone_vec(f"farm_{side}")
+        _tube(bm_cf, h + (t - h) * 0.72, t, 0.058, 0.064, n=12, steps=2, flutes=8, flute_amp=0.02)
     return b.finalize(arm, seed=61)
 
 

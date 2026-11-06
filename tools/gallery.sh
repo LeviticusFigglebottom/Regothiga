@@ -16,7 +16,7 @@ shot() { # file area state cam [extra_args...]
   want_shot "$1" || return 0
   rm -rf "$SD/g"; tools/shot.sh "docs/gallery/$1" "--area=$2" "--state=$3" "--save-dir=$SD/g" "--shot-cam=$4" --shot-frames=55 "${@:5}" 2>&1 | tail -1
 }
-shot porch_spawn.png       gray_cloister glory  "-19.2,1.85,-2,-90,-6,64"
+shot porch_spawn.png       gray_cloister glory  "-17.2,1.7,-2,-90,-4,64"
 shot west_walk_glory.png   gray_cloister glory  "-10,1.7,10.5,0,-2,60"
 shot west_walk_ruin.png    gray_cloister ruin   "-10,1.7,10.5,0,-2,60"
 shot garth_glory.png       gray_cloister glory  "-6.5,2.6,7.5,-40,-10,66"
@@ -51,8 +51,8 @@ if want_shot "pause_menu.png"; then
 fi
 
 # pass 4: the Basilica Nave
-shot nave_vessel_glory.png   basilica_nave glory  "0,1.8,6.5,0,2,64"
-shot nave_vessel_ruin.png    basilica_nave ruin   "0,1.8,6.5,0,2,64"
+shot nave_vessel_glory.png   basilica_nave glory  "0,1.8,4.2,0,2,64"
+shot nave_vessel_ruin.png    basilica_nave ruin   "0,1.8,4.2,0,2,64"
 shot nave_chancel_glory.png  basilica_nave glory  "0,1.75,-24.6,0,2,62"
 shot nave_boss_ruin.png      basilica_nave ruin   "1.4,1.65,-24.8,14,-2,58"
 shot nave_gallery_glory.png  basilica_nave glory  "-12,6.4,2,-25,-4,66"

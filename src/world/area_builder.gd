@@ -514,16 +514,17 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 					Vector3(span_x, 0.26, 0.24))
 			bz += 4.0
 	# clerestory band closing wall-top -> lid on non-skipped perimeter sides
+	# (centered on the wall grid line with 0.38 m thickness to sit flush with wall_4x4)
 	var cy := (wall_top + lid) * 0.5
 	var ch := maxf(lid - wall_top, 0.1)
 	if not skip_bands.has("N"):
-		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z - 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3), true)
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.38, ch, 0.38), true)
 	if not skip_bands.has("S"):
-		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z + 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3), true)
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.38, ch, 0.38), true)
 	if not skip_bands.has("W"):
-		_roof_box(area, tag, mat, Vector3(mn.x - 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4), true)
+		_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.38, ch, mx.z - mn.z + 0.38), true)
 	if not skip_bands.has("E"):
-		_roof_box(area, tag, mat, Vector3(mx.x + 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4), true)
+		_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.38, ch, mx.z - mn.z + 0.38), true)
 
 static func _state_mode(tag: String) -> int:
 	return 1 if tag == "glory" else (2 if tag == "ruin" else 0)

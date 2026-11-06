@@ -317,9 +317,9 @@ def window_lancet_4m():
     V.add_box(bm, (-0.98, -0.30, 1.04), (0.98, 0.30, 1.16))
     V.add_box(bm, (-0.90, -0.25, 0.96), (0.90, 0.25, 1.04))
     objs.append(V.bm_to_object(bm, "window_sill", ("M_stone_trim",)))
-    # Moulded pointed hood-mold / archivolt around the lancet opening
+    # Moulded pointed hood-mold / archivolt around the lancet opening (tucked below z=3.88 stringcourse)
     arch = V.pointed_arch(1.5, 1.15, 14, 2.35)
-    arch_path = [(x * 1.08, 0.0, (y - 2.35) * 1.08 + 2.35) for (x, y) in arch]
+    arch_path = [(x * 1.06, 0.0, (y - 2.35) * 0.95 + 2.35) for (x, y) in arch]
     objs.append(
         V.sweep_profile(
             "window_archivolt",
@@ -534,10 +534,10 @@ def portal_4m():
         V.add_box(bm_trim, (x0, -0.24, 2.02), (x1, 0.24, 2.11))
     objs.append(V.bm_to_object(bm_trim, "portal_trim", ("M_stone_trim",)))
     arch = V.pointed_arch(1.9, 1.1, 16, 2.1)
-    for k, (scale, depth, w_prof) in enumerate(((1.045, 0.46, 0.15), (1.175, 0.43, 0.14))):
+    for k, (x_scale, z_scale, depth, w_prof) in enumerate(((1.045, 0.94, 0.46, 0.15), (1.175, 1.02, 0.43, 0.14))):
         path = []
         for (x, y) in arch:
-            path.append((x * scale, 0.0, (y - 2.1) * scale + 2.1))
+            path.append((x * x_scale, 0.0, (y - 2.1) * z_scale + 2.1))
         prof = V.chamfer_rect_profile(w_prof, depth, 0.035)
         objs.append(V.sweep_profile(f"archivolt{k}", path, prof, "M_stone_trim",
                                     up_hint=Vector((0, 1, 0))))
@@ -680,7 +680,7 @@ def _chunk(bm, cx, cy, cz, sx, sy, sz, rng, jitter=0.32):
 
 
 def rubble_choke_4m():
-    """A collapse that seals a ~3.4 m doorway floor-to-lintel with no see-through
+    """A collapse that seals a ~3.4 m doorway floor-to-arch-apex with no see-through
     gaps."""
     rng = random.Random(77)
     half_w = 1.7
@@ -689,7 +689,8 @@ def rubble_choke_4m():
     for i in range(n):
         x0 = -half_w + (2 * half_w) * i / n
         x1 = -half_w + (2 * half_w) * (i + 1) / n
-        h = rng.uniform(2.9, 3.3)
+        xm = abs((x0 + x1) * 0.5)
+        h = max(2.9, 3.82 - 0.52 * xm + rng.uniform(-0.08, 0.08))
         V.add_box(core, (x0 - 0.03, -0.32, 0.0), (x1 + 0.03, 0.32, h))
     core_obj = V.bm_to_object(core, "choke_core", ("M_stone",))
     deb = bmesh.new()
@@ -698,12 +699,12 @@ def rubble_choke_4m():
         _chunk(deb, rng.uniform(-half_w + 0.4, half_w - 0.4), side * rng.uniform(0.3, 0.6),
                rng.uniform(0.35, 0.8), rng.uniform(0.34, 0.55), rng.uniform(0.3, 0.45),
                rng.uniform(0.3, 0.5), rng, 0.22)
-    for _ in range(185):
+    for _ in range(195):
         side = rng.choice((-1.0, 1.0))
         x = rng.uniform(-half_w + 0.1, half_w - 0.1)
-        cap = 2.95 * (1.0 - (x / half_w) ** 2 * 0.35)
+        cap = 3.76 * (1.0 - (x / half_w) ** 2 * 0.32)
         cz = cap * (0.06 + 0.94 * rng.random())
-        taper = 1.0 - cz / 3.6
+        taper = max(0.2, 1.0 - cz / 4.0)
         depth = side * (0.2 + rng.uniform(0.0, 0.34) * taper)
         s = rng.uniform(0.14, 0.3) * (0.7 + 0.3 * taper)
         _chunk(deb, x, depth, cz,
