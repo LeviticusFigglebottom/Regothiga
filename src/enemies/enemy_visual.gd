@@ -29,14 +29,14 @@ func build(cfg: Dictionary) -> void:
 			# crown gripped at the fist, mouth dragging low BEHIND him — pushed
 			# out past the hip and trailed back so the bronze never passes
 			# through his robe, the mouth kissing the ground at his heel
-			w.rotation_degrees = Vector3(146, -14, 34)
-			w.position = Vector3(0.62, 0.55, -1.25)
+			w.rotation_degrees = Vector3(146, 10, -18)
+			w.position = Vector3(-0.18, 0.48, -1.18)
 		weapon_mount.add_child(w)
 		apply_carry_pose("idle")
 		add_trail()   # armed foes cut visible arcs too
 	if cfg.has("shield"):
 		shield_mount = mount("farm_l")
-		shield_mount.position = Vector3(-0.06, 0.16, 0.0)
+		shield_mount.position = Vector3(-0.085, 0.18, 0.015)
 		shield_mount.rotation_degrees = Vector3(0, 90, 0)
 		shield_mount.add_child(KitLib.instance(cfg["shield"]))
 	if cfg.has("helm") and not body_id.begins_with("skel_"):

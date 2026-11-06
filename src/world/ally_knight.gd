@@ -276,7 +276,7 @@ func _melee() -> void:
 func _bolt(at: Node3D) -> void:
 	_busy = true
 	_bolt_cd = 5.5 + randf() * 1.5
-	vis.play("attack_l1", 0.1, 1.3)
+	vis.play("cast_lance", 0.1, 1.3)
 	await get_tree().create_timer(0.3, false).timeout
 	_busy = false
 	if dead or at == null or not is_instance_valid(at):

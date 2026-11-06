@@ -65,7 +65,15 @@ func _physics_process(dt: float) -> void:
 				_begin_fight()
 		"vigil":
 			if d < 1.7 and not bool(p.get("dead")):
+				if not _begun:
+					_begun = true
+					Game.toast.emit("Hold %s — stand fast in the light." % title)
+					AudioDirector.sfx("res://assets/audio/ui_move.wav", -6.0, 0.95)
+				var prev_step := int(_prog / 4.0)
 				_prog = minf(_prog + dt, hold)
+				var cur_step := int(_prog / 4.0)
+				if cur_step > prev_step and _prog < hold - 0.2:
+					AudioDirector.sfx("res://assets/audio/ui_move.wav", -8.0, 1.05 + 0.08 * float(cur_step))
 				if _prog >= hold:
 					_complete()
 			else:

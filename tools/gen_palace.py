@@ -138,7 +138,8 @@ F.append({"kit": "palace_floor_4x4", "min": [-42, 0, 8], "max": [-10, 0, 40]})
 # band into the bowl's airspace — the ring around each dome is a flat
 # gilt-coffered marble soffit at the spring, and the bowl rises alone.
 _COFFER_RING = {"flat": True, "coffer": True, "lid_mat": "M_marble",
-                "beam_mat": "M_gold", "spring_top": 8}
+                "beam_mat": "M_gold", "band_mat": "M_marble", "spring_top": 8}
+_MARBLE_REMAP = {"M_stone": "M_marble", "M_stone_trim": "M_gild"}
 # nave: ONE uniform gilt coffer plane end to end — height steps between
 # vault lids and ring lids kept reading as random walls hung in the hall.
 # The crossing dome rises from its drum out of a single flat regal field.
@@ -156,15 +157,14 @@ VF.append(dict(_COFFER_RING, min=[-10, 0, 36], max=[10, 0, 56], skip_bands=["N"]
 for s in (1, -1):
     a, b = (10, 26) if s > 0 else (-26, -10)
     g0, g1 = (26, 42) if s > 0 else (-42, -26)
-    VF.append({"min": [a, 0, 8], "max": [b, 0, 24], "band_mat": "M_marble",
-               "skip_bands": ["S"]})                                        # room 1
-    VF.append({"min": [a, 0, 24], "max": [b, 0, 28], "band_mat": "M_marble",
-               "skip_bands": ["N"]})                                        # cross-corridor
-    VF.append({"min": [a, 0, 28], "max": [b, 0, 40], "flat": True,      # room 3:
-               "coffer": True, "lid_mat": "M_marble", "beam_mat": "M_gold",
-               "skip_bands": ["N"]})                                    # gilt coffers
-    VF.append({"min": [g0, 0, 8], "max": [g1, 0, 40], "spring_top": 8,
-               "band_from": 8, "band_mat": "M_marble"})                 # long gallery
+    VF.append(dict(_COFFER_RING, min=[a, 0, 8], max=[b, 0, 24],
+                   skip_bands=["S", "E", "W"]))                             # room 1
+    VF.append(dict(_COFFER_RING, min=[a, 0, 24], max=[b, 0, 28],
+                   skip_bands=["N", "S", "E", "W"]))                        # cross-corridor
+    VF.append(dict(_COFFER_RING, min=[a, 0, 28], max=[b, 0, 40],
+                   skip_bands=["N", "E", "W"]))                             # room 3
+    VF.append(dict(_COFFER_RING, min=[g0, 0, 8], max=[g1, 0, 40],
+                   skip_bands=["W" if s > 0 else "E"]))                     # long gallery
 
 # ---------------------------------------------------------------- the great nave
 # south wall + the way back out
@@ -199,7 +199,7 @@ for z in (14, 34):
         prop("banquet_bench_6m", (5.0 * sd, 0, z + 2), 90)
 # chandeliers: one per long bay — and the crossing keeps exactly ONE,
 # centred under the dome on an unbroken rope from the crown
-for z in (12, 48):
+for z in (18, 48):
     prop("chandelier_gilt", (0, 6.0, z), 0, collide=False)
 prop("chandelier_dome_low", (0, 5.2, 28), 0, collide=False)
 for z in (6, 20, 34, 48):
@@ -209,12 +209,12 @@ for z in (12, 28, 44):
     prop("candelabra", (-6.5, 0, z), 20)
     prop("candelabra", (6.5, 0, z), -20)
 for s in (1, -1):
-    piece("statue_saint", (4 * s, 0, 52), 0)
+    piece("statue_saint", (4 * s, 0, 52), 0, mat_remap=_MARBLE_REMAP)
 for z in (20, 36):
     prop("candelabra", (-9.2, 0, z), 90)
     prop("candelabra", (9.2, 0, z), -90)
-prop("censer_hanging", (0, 9.44, 18), 0, collide=False)
-prop("censer_hanging", (0, 9.44, 40), 0, collide=False)
+prop("censer_hanging", (0, 8.85, 18), 0, collide=False)
+prop("censer_hanging", (0, 8.85, 40), 0, collide=False)
 
 # ---------------------------------------------------------------- the Hour Gate
 wall_run_x(56, -10, -2, 0)
@@ -238,9 +238,10 @@ for a, r in [((-6.4, 0, 62), 40), ((6.4, 0, 62), -40), ((-6.4, 0, 70), 140), ((6
 prop("mosaic_medallion", (0, 0.02, 65), 0)
 prop("carpet_runner_8m", (0, 0.02, 59.2), 90)
 prop("chandelier_dome_high", (0, 5.2, 64), 0, collide=False)
-piece("statue_orans", (0, 0, 70.4), 0)
-piece("statue_saint", (-7.5, 0, 70.5), 20)
-piece("statue_saint", (7.5, 0, 70.5), -20)
+piece("statue_orans", (0, 0.12, 70.4), 0, mat_remap=_MARBLE_REMAP)
+prop("shrine_aedicule", (0, 0.12, 71.15), 0, collide=False, mat_remap=_MARBLE_REMAP)
+piece("statue_saint", (-7.5, 0, 70.5), 20, mat_remap=_MARBLE_REMAP)
+piece("statue_saint", (7.5, 0, 70.5), -20, mat_remap=_MARBLE_REMAP)
 
 # ---------------------------------------------------------------- the wings
 for s in (1, -1):
@@ -256,25 +257,28 @@ for s in (1, -1):
     BL.append({"min": [36 * s - 2.2, 0, 40.0], "max": [36 * s + 2.2, 4, 40.8], "tag": "base"})
     wall_run_z(xo, 8, 40, rot_out)
     window_run_z(xo, 8, 40, rot_out)                         # gallery glazing
-    # gallery upper band on its inner wall + ends
+    # upper band on wing transverse walls + gallery inner wall
     window_run_z(xm, 8, 40, rot_in)
-    window_run_x(8, min(xm, xo), max(xm, xo), 0)
-    window_run_x(40, min(xm, xo), max(xm, xo), 180)
+    window_run_x(8, min(10 * s, xo), max(10 * s, xo), 0)
+    window_run_x(40, min(10 * s, xo), max(10 * s, xo), 180)
+    wall_run_x(24, min(10 * s, xm), max(10 * s, xm), 0, y=4.0)
+    wall_run_x(28, min(10 * s, xm), max(10 * s, xm), 180, y=4.0)
     # mid partition with three doors (room1, corridor, room3 into the gallery)
     wall_run_z(xm, 8, 40, rot_in, doors=(16, 26, 34))
     # room partitions off the cross-corridor
     wall_run_x(24, min(10 * s, xm), max(10 * s, xm), 0, doors=(18 * s,))
     wall_run_x(28, min(10 * s, xm), max(10 * s, xm), 180, doors=(18 * s,))
-    # junction piers
+    # junction piers (stacked full-height to the y=8 ceiling)
     for (px, pz) in [(10 * s, 8), (10 * s, 24), (10 * s, 28), (10 * s, 40),
                      (xm, 8), (xm, 24), (xm, 28), (xm, 40), (xo, 8), (xo, 40)]:
         piece("palace_pier", (px, 0, pz), 0)
+        piece("palace_pier", (px, 4.1, pz), 0, collide=False)
     # shared wing dressing
     prop("candelabra", (18 * s, 0, 12), 0)
     prop("candelabra", (18 * s, 0, 36), 180)
     prop("candelabra", (34 * s, 0, 22.0), rot_in)
     prop("mosaic_medallion", (18 * s, 0.02, 16), 0)
-    prop("chandelier_gilt", (18 * s, 3.4, 16), 0, collide=False, scale=[0.6, 0.6, 0.6])
+    prop("chandelier_gilt", (18 * s, 6.0, 16), 0, collide=False, scale=[0.85, 0.85, 0.85])
     prop("chandelier_gilt", (34 * s, 6.0, 16), 0, collide=False)
     prop("chandelier_gilt", (34 * s, 6.0, 32), 0, collide=False)
     prop("carpet_runner_8m", (34 * s, 0.02, 29 if s < 0 else 24), 90)
@@ -284,10 +288,10 @@ for s in (1, -1):
 # ---- east wing character: the ringers' house
 prop("banquet_bench_6m", (18, 0, 19.5), 90, scale=[0.6, 1, 1])   # practice pews
 prop("banquet_bench_6m", (21.5, 0, 19.5), 90, scale=[0.6, 1, 1])
-prop("censer_hanging", (18, 5.44, 12), 0, collide=False)
+prop("censer_hanging", (18, 8.85, 12), 0, collide=False)
 prop("bell_great", (34, 5.4, 20), 0, collide=False)              # the mother bell
 prop("carpet_runner_8m", (18, 0.02, 33), 0)
-prop("shrine_aedicule", (22, 0, 36.5), 180)                      # reliquary shrine
+prop("shrine_aedicule", (22, 0, 36.5), 180, mat_remap=_MARBLE_REMAP)  # reliquary shrine
 prop("candle_cluster", (20, 0, 38.2), 0, tag="glory")
 prop("candle_cluster_dead", (20, 0, 38.2), 0, tag="ruin")
 prop("candle_cluster", (24, 0, 38.4), 0, tag="glory")
@@ -306,7 +310,7 @@ for sz in (12.5, 20, 27.5, 35):
 for (cx, cz) in [(-30.5, 10.5), (-37.5, 15.5), (-30.5, 21), (-37.5, 27), (-30.5, 33), (-36.5, 38)]:
     prop("candle_cluster", (cx, 0, cz), (cx * 13) % 360, tag="glory")         # the long watch burns
     prop("candle_cluster_dead", (cx, 0, cz), (cx * 13) % 360, tag="ruin")
-prop("altar", (-18, 0, 30.5), 0)                                 # the waxworks
+prop("altar", (-18, 0, 30.5), 0, mat_remap=_MARBLE_REMAP)        # the waxworks
 prop("candle_cluster", (-18.55, 1.02, 30.4), 70, collide=False, flames=False)  # wax pooled on the slab
 # the chandler's ledger — the altar slab TOPS at 1.02 (0.92 body + 0.1
 # slab, measured from the kit, not the manifest's padded box)
@@ -315,7 +319,7 @@ prop("candle_cluster", (-15.5, 0, 32.5), 40, tag="glory")
 prop("candle_cluster_dead", (-15.5, 0, 32.5), 40, tag="ruin")
 prop("candle_cluster", (-21, 0, 33), -30, tag="glory")
 prop("candle_cluster_dead", (-21, 0, 33), -30, tag="ruin")
-prop("censer_hanging", (-18, 4.84, 34), 0, collide=False)
+prop("censer_hanging", (-18, 8.85, 34), 0, collide=False)
 
 # ---- the regal ceilings: two coffered domes seated INTO the vault line —
 # rims on the spring plane over true 8x8 holes in the bays, shells rising
@@ -329,10 +333,10 @@ prop("palace_cove_dome", (0, 8.0, 64), 0, collide=False, flames=False, glow=[3.0
 prop("mosaic_medallion", (-33.8, 0.02, 16.2), 0, collide=False)
 for s_ in (1, -1):
     gx = 34 * s_
-    prop("statue_saint", (30 * s_, 0, 9.2), 180)
-    prop("statue_saint", (39.2 * s_, 0, 9.2), 180)
-    prop("statue_saint", (30 * s_, 0, 37.5), 0)
-    prop("statue_saint", (38 * s_, 0, 37.5), 0)
+    prop("statue_saint", (30 * s_, 0, 9.2), 180, mat_remap=_MARBLE_REMAP)
+    prop("statue_saint", (39.2 * s_, 0, 9.2), 180, mat_remap=_MARBLE_REMAP)
+    prop("statue_saint", (30 * s_, 0, 37.5), 0, mat_remap=_MARBLE_REMAP)
+    prop("statue_saint", (38 * s_, 0, 37.5), 0, mat_remap=_MARBLE_REMAP)
     prop("urn", (27.2 * s_, 0, 16), 0)
     prop("urn", (40.8 * s_, 0, 30), 0)
     prop("pew_3m", (gx, 0, 26.5 if s_ < 0 else 15.4), 90)
@@ -386,6 +390,8 @@ def main():
         "boxes": [
             {"min": [31.6, 7.25, 19.7], "max": [36.4, 7.80, 20.3], "mat": "M_gold"},
             {"min": [33.85, 7.75, 19.85], "max": [34.15, 9.8, 20.15], "mat": "M_gold"},
+            {"min": [-2.8, 0.0, 68.8], "max": [2.8, 0.08, 71.8], "mat": "M_gild", "collide": False},
+            {"min": [-2.2, 0.08, 69.2], "max": [2.2, 0.14, 71.7], "mat": "M_marble", "collide": False},
         ],
         "vault_fields": VF,
         "pieces": P,

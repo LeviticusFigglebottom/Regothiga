@@ -249,7 +249,7 @@ static func _piece(area: Area, spec: Dictionary, collide: bool) -> Node3D:
 		return null
 	var tag: String = spec.get("tag", "base")
 	var mode := 1 if tag == "glory" else (2 if tag == "ruin" else 0)
-	var piece := KitLib.instance(spec["kit"], mode)
+	var piece := KitLib.instance(spec["kit"], mode, spec.get("mat_remap", {}))
 	_place(piece, spec)
 	if spec.has("scale"):
 		var sc = spec["scale"]
@@ -433,7 +433,7 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 	# a band face crossed an open ceiling
 	var mat := MaterialLib.get_mat(spec.get("band_mat", "M_stone"), _state_mode(tag))
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, ceil_h + 0.15, (mn.z + mx.z) * 0.5),
-			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
+			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4), true)
 	var cy := (band_from + ceil_h) * 0.5
 	var ch := maxf(ceil_h - band_from, 0.1)
 	var skip_bands := {}
@@ -441,13 +441,13 @@ static func _vault_field(area: Area, spec: Dictionary) -> void:
 		skip_bands[String(sb)] = true
 	# north / south (span x), east / west (span z)
 	if not skip_bands.has("N"):
-		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4), true)
 	if not skip_bands.has("S"):
-		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4))
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z), Vector3(mx.x - mn.x + 0.4, ch, 0.4), true)
 	if not skip_bands.has("W"):
-		_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+		_roof_box(area, tag, mat, Vector3(mn.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4), true)
 	if not skip_bands.has("E"):
-		_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4))
+		_roof_box(area, tag, mat, Vector3(mx.x, cy, (mn.z + mx.z) * 0.5), Vector3(0.4, ch, mx.z - mn.z + 0.4), true)
 
 ## A flat, sensibly-high coffered ceiling: a stone lid a little above the wall
 ## cornice, crossed by warm timber beams, with a short clerestory band sealing
@@ -462,7 +462,7 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 		skip_bands[String(sb)] = true
 	# the flat lid (absolute Y)
 	_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, lid + 0.15, (mn.z + mx.z) * 0.5),
-			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4))
+			Vector3(mx.x - mn.x + 0.4, 0.3, mx.z - mn.z + 0.4), true)
 	var span_x := mx.x - mn.x
 	var span_z := mx.z - mn.z
 	if spec.get("coffer", false):
@@ -501,7 +501,7 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 		if not skip_bands.has("E"):
 			_roof_box(area, tag, wood, Vector3(mx.x - 0.14, wall_top + 0.08, (mn.z + mx.z) * 0.5),
 					Vector3(0.28, 0.16, span_z))
-	elif span_x <= span_z:
+	elif span_x >= span_z:
 		var bx := mn.x + 2.0
 		while bx < mx.x - 0.01:
 			_roof_box(area, tag, wood, Vector3(bx, lid - 0.13, (mn.z + mx.z) * 0.5),
@@ -517,13 +517,13 @@ static func _flat_ceiling(area: Area, mn: Vector3, mx: Vector3, tag: String, wal
 	var cy := (wall_top + lid) * 0.5
 	var ch := maxf(lid - wall_top, 0.1)
 	if not skip_bands.has("N"):
-		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z - 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3))
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mn.z - 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3), true)
 	if not skip_bands.has("S"):
-		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z + 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3))
+		_roof_box(area, tag, mat, Vector3((mn.x + mx.x) * 0.5, cy, mx.z + 0.05), Vector3(mx.x - mn.x + 0.4, ch, 0.3), true)
 	if not skip_bands.has("W"):
-		_roof_box(area, tag, mat, Vector3(mn.x - 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4))
+		_roof_box(area, tag, mat, Vector3(mn.x - 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4), true)
 	if not skip_bands.has("E"):
-		_roof_box(area, tag, mat, Vector3(mx.x + 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4))
+		_roof_box(area, tag, mat, Vector3(mx.x + 0.05, cy, (mn.z + mx.z) * 0.5), Vector3(0.3, ch, mx.z - mn.z + 0.4), true)
 
 static func _state_mode(tag: String) -> int:
 	return 1 if tag == "glory" else (2 if tag == "ruin" else 0)
@@ -531,7 +531,8 @@ static func _state_mode(tag: String) -> int:
 static var _box_mesh_cache: Dictionary = {}
 
 ## A solid box of geometry (roof slab / clerestory strip) attached to a layer.
-static func _roof_box(area: Area, tag: String, mat: Material, center: Vector3, size: Vector3) -> void:
+static func _roof_box(area: Area, tag: String, mat: Material, center: Vector3, size: Vector3,
+		cast_shadow: bool = false) -> void:
 	var mi := MeshInstance3D.new()
 	var bm: BoxMesh = _box_mesh_cache.get(size)
 	if bm == null:
@@ -540,7 +541,7 @@ static func _roof_box(area: Area, tag: String, mat: Material, center: Vector3, s
 		_box_mesh_cache[size] = bm
 	mi.mesh = bm
 	mi.material_override = mat
-	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if cast_shadow else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	mi.position = center
 	area.attach(mi, tag)
 

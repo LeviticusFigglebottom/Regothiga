@@ -855,7 +855,8 @@
         1.8,
         -10
       ],
-      "rot": 90
+      "rot": 90,
+      "tag": "glory"
     },
     {
       "kit": "sconce_torch",
@@ -864,7 +865,8 @@
         1.8,
         -14
       ],
-      "rot": 90
+      "rot": 90,
+      "tag": "glory"
     },
     {
       "kit": "sconce_torch",
@@ -873,7 +875,8 @@
         1.8,
         -10
       ],
-      "rot": -90
+      "rot": -90,
+      "tag": "glory"
     },
     {
       "kit": "sconce_torch",
@@ -882,7 +885,8 @@
         1.8,
         -14
       ],
-      "rot": -90
+      "rot": -90,
+      "tag": "glory"
     }
   ],
   "boxes": [
@@ -1137,7 +1141,7 @@
       "turn_kit": "capstan_bars",
       "turn_y": 1.0,
       "verb": "Turn the capstan",
-      "done_toast": "Chains take the strain — the portcullis climbs.",
+      "done_toast": "Chains take the strain \u2014 the portcullis climbs.",
       "watchers": [
         {
           "at": [
@@ -1471,7 +1475,7 @@
         -12
       ],
       "rot": -90,
-      "text": "THE WINCH WHEELS\n\nBoth wheels bear one chain. Lay each wheel's GILDED bar along the chain-lead at its foot — bar upon chain — and the iron will remember its duty."
+      "text": "THE WINCH WHEELS\n\nBoth wheels bear one chain. Lay each wheel's GILDED bar along the chain-lead at its foot \u2014 bar upon chain \u2014 and the iron will remember its duty."
     },
     {
       "at": [

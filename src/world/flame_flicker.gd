@@ -8,19 +8,31 @@ var _base := 1.8
 var _amp := 0.12
 var _w := 7.0
 var _p := 0.0
+var _state_mode := 0
 
 func _ready() -> void:
 	_base = light_energy
 	_p = randf() * TAU
 	_w = randf_range(5.0, 9.0)
 	_amp = randf_range(0.09, 0.15)
+	var par := get_parent()
+	if par != null and par.has_meta("state_mode"):
+		_state_mode = int(par.get_meta("state_mode"))
 
 func _process(_dt: float) -> void:
-	if not is_visible_in_tree():
+	var par := get_parent() as Node3D
+	if par != null and not par.is_visible_in_tree():
+		return
+	var ruin_fade := 1.0
+	if _state_mode != 2:
+		ruin_fade = clampf(1.0 - StateDirector.state_blend, 0.0, 1.0)
+	if ruin_fade <= 0.005:
+		light_energy = 0.0
 		return
 	var p = Game.player
 	if p != null and global_position.distance_squared_to(p.global_position) > 1500.0:
+		light_energy = _base * ruin_fade
 		return
 	var t := Time.get_ticks_msec() * 0.001
 	var wave := sin(t * _w + _p) * 0.6 + sin(t * _w * 2.7 + _p * 1.7) * 0.4
-	light_energy = _base * (1.0 + _amp * wave)
+	light_energy = _base * ruin_fade * (1.0 + _amp * wave)

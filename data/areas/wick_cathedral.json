@@ -506,6 +506,20 @@
         -32
       ],
       "rot": 0
+    },
+    {
+      "kit": "door_leaf",
+      "at": [
+        0,
+        0,
+        2.15
+      ],
+      "rot": 180,
+      "scale": [
+        1.2,
+        1.3,
+        1.2
+      ]
     }
   ],
   "props": [
@@ -733,7 +747,7 @@
       "kit": "banner",
       "at": [
         -7.7,
-        2.6,
+        1.1,
         -12
       ],
       "rot": 90,
@@ -743,7 +757,7 @@
       "kit": "banner",
       "at": [
         7.7,
-        2.6,
+        1.1,
         -12
       ],
       "rot": -90,
@@ -753,7 +767,7 @@
       "kit": "banner",
       "at": [
         -7.7,
-        2.6,
+        1.1,
         -24
       ],
       "rot": 90,
@@ -763,7 +777,7 @@
       "kit": "banner",
       "at": [
         7.7,
-        2.6,
+        1.1,
         -24
       ],
       "rot": -90,
@@ -943,7 +957,7 @@
       "kit": "banner_torn",
       "at": [
         -7.7,
-        2.6,
+        1.1,
         -12
       ],
       "rot": 90,
@@ -953,7 +967,7 @@
       "kit": "banner_torn",
       "at": [
         7.7,
-        2.6,
+        1.1,
         -24
       ],
       "rot": -90,
@@ -993,7 +1007,7 @@
       "kit": "banner_torn",
       "at": [
         7.7,
-        2.6,
+        1.1,
         -12
       ],
       "rot": -90,
@@ -1003,11 +1017,451 @@
       "kit": "banner_torn",
       "at": [
         -7.7,
-        2.6,
+        1.1,
         -24
       ],
       "rot": 90,
       "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -36
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -36
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -36
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -36
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -32
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -32
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -32
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -32
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -28
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -28
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -28
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -28
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -24
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -24
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -24
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -24
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -20
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -20
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -20
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -20
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -16
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -16
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -16
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -16
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -12
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -12
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -12
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -12
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -8
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -8
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -8
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -8
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        -4
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        -4
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        -4
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        -4
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        -7.95,
+        4,
+        0
+      ],
+      "rot": 90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        -7.95,
+        4,
+        0
+      ],
+      "rot": 90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        7.95,
+        4,
+        0
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        7.95,
+        4,
+        0
+      ],
+      "rot": -90,
+      "tag": "ruin"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        -6.4,
+        0,
+        -14
+      ],
+      "rot": 30,
+      "tag": "glory"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        6.4,
+        0,
+        -14
+      ],
+      "rot": -30,
+      "tag": "glory"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        -6.4,
+        0,
+        -22
+      ],
+      "rot": 30,
+      "tag": "glory"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        6.4,
+        0,
+        -22
+      ],
+      "rot": -30,
+      "tag": "glory"
     }
   ],
   "boxes": [],
@@ -1138,7 +1592,7 @@
         -0.4
       ],
       "rot": 200,
-      "text": "THE PARISH OF THE FIRST WICK\n\nHere the kingdom's first vigil candle was dipped, and here it burns yet.\n\nSpeak softly. The congregation has not left — they were poured in, every soul its own wick, kept against the hour. The wax remembers every word, and the keeper counts his flock."
+      "text": "THE PARISH OF THE FIRST WICK\n\nHere the kingdom's first vigil candle was dipped, and here it burns yet.\n\nSpeak softly. The congregation has not left \u2014 they were poured in, every soul its own wick, kept against the hour. The wax remembers every word, and the keeper counts his flock."
     }
   ],
   "spawners": [

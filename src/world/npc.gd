@@ -24,6 +24,7 @@ func _ready() -> void:
 		var held := KitLib.instance(carry)
 		if carry == "candle_cluster":
 			held.scale = Vector3(0.4, 0.4, 0.4)
+			m.position = Vector3(0, 0.05, 0.035)
 		m.add_child(held)
 		KitLib.add_flame_lights(held, 1.2, 3.0)
 	# the waxbound pray without rising; they do not turn for you
@@ -59,13 +60,16 @@ func _physics_process(dt: float) -> void:
 	if p == null:
 		return
 	var d2 := global_position.distance_squared_to(p.global_position)
-	if d2 < 81.0:
+	if d2 < 32.0:
 		var to: Vector3 = p.global_position - global_position
 		# World bearing to the player, expressed in the NPC node's local frame.
 		# All skel_* bodies face -Z at local rotation 0.
-		var ty := atan2(-to.x, -to.z) - global_rotation.y
-		_vis.rotation.y = lerp_angle(_vis.rotation.y, ty, 1.0 - exp(-5.5 * dt))
-	elif d2 > 121.0 and absf(_vis.rotation.y) > 0.01:
+		var ty := wrapf(atan2(-to.x, -to.z) - global_rotation.y, -PI, PI)
+		if absf(ty) < deg_to_rad(100.0):
+			_vis.rotation.y = lerp_angle(_vis.rotation.y, ty, 1.0 - exp(-5.5 * dt))
+		elif absf(_vis.rotation.y) > 0.01:
+			_vis.rotation.y = lerp_angle(_vis.rotation.y, 0.0, 1.0 - exp(-2.0 * dt))
+	elif d2 > 49.0 and absf(_vis.rotation.y) > 0.01:
 		_vis.rotation.y = lerp_angle(_vis.rotation.y, 0.0, 1.0 - exp(-2.0 * dt))
 
 func _on_talk(player) -> void:

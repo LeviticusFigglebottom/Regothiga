@@ -1112,7 +1112,16 @@
         0,
         9.0
       ],
-      "tag": "base"
+      "tag": "glory"
+    },
+    {
+      "kit": "brazier_cold",
+      "at": [
+        -7.8,
+        0,
+        9.0
+      ],
+      "tag": "ruin"
     }
   ],
   "lanterns": [

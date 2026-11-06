@@ -100,45 +100,51 @@ F.append({"kit": "palace_floor_4x4", "min": [-16, 2, -24], "max": [16, 2, -12]})
 # terrace body so the +2 m deck has a face, not a floating slab
 B.append({"min": [-16, 0, -24], "max": [16, 2, -12], "tag": "base", "mat": "M_marble"})
 
+_MARBLE_REMAP = {"M_stone": "M_marble", "M_stone_trim": "M_gild"}
+
 # the grand stair up to the Door of the Hour (three flights abreast,
 # descending SOUTH into the avenue — treads face the pilgrim; the outer
 # flights carry their edge parapets so the drop is railed)
-piece("stair_grand_4m_r", (-4, 2, -12), 180)
-piece("stair_grand_4m", (0, 2, -12), 180)
-piece("stair_grand_4m_l", (4, 2, -12), 180)
+piece("stair_grand_4m_r", (-4, 2, -12), 180, mat_remap=_MARBLE_REMAP)
+piece("stair_grand_4m", (0, 2, -12), 180, mat_remap=_MARBLE_REMAP)
+piece("stair_grand_4m_l", (4, 2, -12), 180, mat_remap=_MARBLE_REMAP)
 
 # ---------------------------------------------------------------- the Door of the Hour
 # palace front along the terrace's north edge — marble and gold
 row("palace_wall_4x4", (-14, 2, -24), (1, 0, 0), 3, rot=0)
 row("palace_wall_4x4", (6, 2, -24), (1, 0, 0), 3, rot=0)
-row("palace_wall_4x4", (-14, 6, -24), (1, 0, 0), 8, rot=0)
+for x in (-14, -10, -6, 6, 10, 14):
+    piece("palace_window_4m", (x, 6, -24), 0)
+for x in (-2, 2):
+    piece("palace_wall_4x4", (x, 6, -24), 0)
 piece("palace_wall_4x4", (-3, 2, -24), 0, scale=[0.5, 1, 1])
 piece("palace_wall_4x4", (3, 2, -24), 0, scale=[0.5, 1, 1])
 piece("palace_portal_4m", (0, 2, -24), 0)
 piece("door_leaf", (0, 2, -23.9), 0, scale=[1.25, 1.4, 1.2])
-piece("rose_window", (0, 7.6, -23.7), 0, collide=False)
+piece("rose_window", (0, 7.6, -23.55), 0, collide=False, mat_remap=_MARBLE_REMAP)
 row("palace_cornice_4m", (-14, 10, -24), (1, 0, 0), 8, rot=0)
 piece("palace_pediment_8m", (0, 10.3, -24), 0, collide=False)
 for x in (-14, -10, -6, 6, 10, 14):
     piece("gilt_finial", (x, 10.3, -23.85), 0, collide=False)
-for x in (-15.7, 15.7):
+for x in (-15.7, -4.2, 4.2, 15.7):
     piece("palace_pier", (x, 2, -23.6), 0)
+    piece("palace_pier", (x, 6.1, -23.6), 0, collide=False)
 for x in (-10, 10):
-    piece("statue_saint", (x, 2, -22.6), 180)
-# radiant spires crown the palace, unreachable
-piece("radiant_spire_a", (0, 2, -32), 0, collide=False)
-piece("radiant_spire_b", (-12, 2, -29), 40, collide=False)
-piece("radiant_spire_b", (12, 2, -29), -70, collide=False)
+    piece("statue_saint", (x, 2, -22.6), 180, mat_remap=_MARBLE_REMAP)
+# radiant spires crown the palace skyline beyond the terrace
+piece("radiant_spire_a", (0, -2, -56), 0, collide=False)
+piece("radiant_spire_b", (-18, -2, -50), 0, collide=False)
+piece("radiant_spire_b", (18, -2, -50), 0, collide=False)
 blocker((-16.6, 2, -24.6), (16.6, 14, -23.6))
 # terrace rim: gold-railed marble balustrades left and right of the stair
 row("palace_balustrade_4m", (-14, 2, -12.2), (1, 0, 0), 2, rot=0)     # -16..-8
 piece("palace_balustrade_4m", (-7.2, 2, -12.2), 0, scale=[0.4, 1, 1])  # -8..-6.4
 row("palace_balustrade_4m", (10, 2, -12.2), (1, 0, 0), 2, rot=0)      # 8..16
 piece("palace_balustrade_4m", (7.2, 2, -12.2), 0, scale=[0.4, 1, 1])   # 6.4..8
-piece("palace_pier", (-6.7, 2, -12.3), 0)
-piece("palace_pier", (6.7, 2, -12.3), 0)
-piece("palace_pier", (-15.7, 2, -12.3), 0)
-piece("palace_pier", (15.7, 2, -12.3), 0)
+piece("palace_pier", (-6.7, 2, -12.3), 0, scale=[0.7, 0.30, 0.7])
+piece("palace_pier", (6.7, 2, -12.3), 0, scale=[0.7, 0.30, 0.7])
+piece("palace_pier", (-15.7, 2, -12.3), 0, scale=[0.7, 0.30, 0.7])
+piece("palace_pier", (15.7, 2, -12.3), 0, scale=[0.7, 0.30, 0.7])
 blocker((-16.4, 2, -12.6), (-6.3, 4, -11.9))
 blocker((6.3, 2, -12.6), (16.4, 4, -11.9))
 # terrace flanks: gold-railed marble balustrades; west central bay opens for the Stair of Light
@@ -146,8 +152,8 @@ row("palace_balustrade_4m", (15.8, 2, -22), (0, 0, 1), 3, rot=-90)
 piece("palace_balustrade_4m", (-15.8, 2, -22), 90)
 piece("palace_balustrade_4m", (-15.8, 2, -18), 90, absent_flag="scion_prayed")
 piece("palace_balustrade_4m", (-15.8, 2, -14), 90)
-piece("palace_pier", (-15.7, 2, -20.1), 0)
-piece("palace_pier", (-15.7, 2, -15.9), 0)
+piece("palace_pier", (-15.7, 2, -20.1), 0, scale=[0.7, 0.30, 0.7])
+piece("palace_pier", (-15.7, 2, -15.9), 0, scale=[0.7, 0.30, 0.7])
 blocker((-16.6, 2, -24.4), (-15.9, 4, -19.8))
 BL.append({"min": [-16.6, 2, -19.8], "max": [-15.9, 4, -16.2], "tag": "base", "absent_flag": "scion_prayed"})
 blocker((-16.6, 2, -16.2), (-15.9, 4, -12.0))
@@ -198,11 +204,12 @@ for s in (1, -1):
     # ---- gold on the skyline
     for z in (-10, -2, 6, 14, 26):
         piece("gilt_finial", (xa - 0.2 * s, 8.35, z), 0, collide=False)
-    piece("gargoyle", ((9 - 0.5) * s, 8.2, -4), ra)
-    piece("gargoyle", ((9 - 0.5) * s, 8.2, 20), ra)
+    piece("gargoyle", ((9 - 0.5) * s, 8.2, -4), ra, mat_remap=_MARBLE_REMAP)
+    piece("gargoyle", ((9 - 0.5) * s, 8.2, 20), ra, mat_remap=_MARBLE_REMAP)
     # ---- marble piers stamp every junction
     for z in (-12, 0, 12, 30):
         piece("palace_pier", (xa, 0, z), 0)
+        piece("palace_pier", (xa, 4.1, z), 0, collide=False)
     piece("palace_pier", (xw, 0, 0), 0)
     piece("palace_pier", (xw, 0, 12), 0)
     # ---- the sealed reward alcove (x 18..22 mirrored), gate is the ONLY way
@@ -227,16 +234,16 @@ for s in (1, -1):
 # ---------------------------------------------------------------- east court: the Offices of the Hour
 prop("brazier_lit", (16.2, 0, 5.4), 90, tag="glory")
 prop("brazier_cold", (16.2, 0, 5.4), 90, tag="ruin")
-prop("shrine_aedicule", (20.3, 0, 8), -90, tag="base")
+prop("shrine_aedicule", (20.3, 0, 8), -90, tag="base", mat_remap=_MARBLE_REMAP)
 
 # ---------------------------------------------------------------- west court: the vigil garden
 for at, rot in [((-12, 0, 2.8), 15), ((-16, 0, 2.8), -20),
                 ((-11.5, 0, 10.2), -160), ((-15.5, 0, 10.2), 160)]:
     prop("garden_bed", at, rot, tag="glory")
     prop("garden_bed_dead", at, rot, tag="ruin")
-piece("statue_orans", (-13.5, 0, 4.8), 180)
+piece("statue_orans", (-13.5, 0, 4.8), 180, mat_remap=_MARBLE_REMAP)
 prop("mosaic_medallion", (-13.5, 0.02, 8.4), 0)
-prop("altar", (-20.7, 0, 8), 90, tag="base")
+prop("altar", (-20.7, 0, 8), 90, tag="base", mat_remap=_MARBLE_REMAP)
 
 # ---------------------------------------------------------------- the Lightfall dais
 for a, rot in [((-6.4, 0, 23.4), 40), ((6.4, 0, 23.4), -40), ((-6.4, 0, 29.4), 140), ((6.4, 0, 29.4), -140)]:

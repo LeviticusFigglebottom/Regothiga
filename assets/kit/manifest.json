@@ -1447,7 +1447,7 @@
  "shrine_aedicule": {
   "file": "assets/kit/shrine_aedicule.glb",
   "origin": "bottom-center",
-  "polys": 630,
+  "polys": 702,
   "size": [
    3.0,
    3.0,
@@ -1467,7 +1467,7 @@
  "skel_bellox": {
   "file": "assets/kit/skel_bellox.glb",
   "origin": "feet",
-  "polys": 3098,
+  "polys": 4650,
   "size": [
    0.8,
    0.8,
@@ -1500,7 +1500,7 @@
  "skel_giant": {
   "file": "assets/kit/skel_giant.glb",
   "origin": "feet",
-  "polys": 4728,
+  "polys": 4760,
   "size": [
    0.8,
    0.8,
@@ -1577,7 +1577,7 @@
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",
-  "polys": 2658,
+  "polys": 2722,
   "size": [
    0.8,
    0.8,

@@ -507,8 +507,7 @@
         1
       ],
       "skip": [
-        1,
-        2
+        1
       ]
     },
     {
@@ -531,7 +530,6 @@
         1
       ],
       "skip": [
-        1,
         2
       ]
     },
@@ -1334,34 +1332,6 @@
     {
       "kit": "window_lancet_4m",
       "at": [
-        8,
-        4.8,
-        2
-      ],
-      "rot": -90,
-      "scale": [
-        1,
-        1.2,
-        1
-      ]
-    },
-    {
-      "kit": "window_lancet_4m",
-      "at": [
-        -2,
-        9.6,
-        -8
-      ],
-      "rot": 0,
-      "scale": [
-        1,
-        1.2,
-        1
-      ]
-    },
-    {
-      "kit": "window_lancet_4m",
-      "at": [
         2,
         9.6,
         -8
@@ -1626,66 +1596,6 @@
         -2
       ],
       "rot": -90,
-      "scale": [
-        1,
-        1.2,
-        1
-      ],
-      "tag": "ruin"
-    },
-    {
-      "kit": "glass_lancet",
-      "at": [
-        7.95,
-        4.8,
-        2
-      ],
-      "rot": -90,
-      "scale": [
-        1,
-        1.2,
-        1
-      ],
-      "tag": "glory"
-    },
-    {
-      "kit": "glass_lancet_broken",
-      "at": [
-        7.95,
-        4.8,
-        2
-      ],
-      "rot": -90,
-      "scale": [
-        1,
-        1.2,
-        1
-      ],
-      "tag": "ruin"
-    },
-    {
-      "kit": "glass_lancet",
-      "at": [
-        -2,
-        9.6,
-        -7.95
-      ],
-      "rot": 0,
-      "scale": [
-        1,
-        1.2,
-        1
-      ],
-      "tag": "glory"
-    },
-    {
-      "kit": "glass_lancet_broken",
-      "at": [
-        -2,
-        9.6,
-        -7.95
-      ],
-      "rot": 0,
       "scale": [
         1,
         1.2,
@@ -2096,6 +2006,96 @@
       "rot": 80,
       "tag": "ruin",
       "collide": false
+    },
+    {
+      "kit": "brazier_lit",
+      "at": [
+        6.2,
+        4.8,
+        -6.2
+      ],
+      "rot": -45,
+      "tag": "glory"
+    },
+    {
+      "kit": "brazier_cold",
+      "at": [
+        6.2,
+        4.8,
+        -6.2
+      ],
+      "rot": -45,
+      "tag": "ruin"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        -6.2,
+        4.8,
+        6.2
+      ],
+      "rot": 135,
+      "tag": "glory"
+    },
+    {
+      "kit": "brazier_lit",
+      "at": [
+        -6.2,
+        9.6,
+        6.2
+      ],
+      "rot": 135,
+      "tag": "glory"
+    },
+    {
+      "kit": "brazier_cold",
+      "at": [
+        -6.2,
+        9.6,
+        6.2
+      ],
+      "rot": 135,
+      "tag": "ruin"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        6.2,
+        9.6,
+        -6.2
+      ],
+      "rot": -45,
+      "tag": "glory"
+    },
+    {
+      "kit": "brazier_lit",
+      "at": [
+        6.2,
+        14.4,
+        -6.2
+      ],
+      "rot": -45,
+      "tag": "glory"
+    },
+    {
+      "kit": "brazier_cold",
+      "at": [
+        6.2,
+        14.4,
+        -6.2
+      ],
+      "rot": -45,
+      "tag": "ruin"
+    },
+    {
+      "kit": "candelabra",
+      "at": [
+        -6.2,
+        14.4,
+        6.2
+      ],
+      "rot": 135,
+      "tag": "glory"
     }
   ],
   "vault_fields": [],
@@ -2470,7 +2470,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2485,7 +2485,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2500,7 +2500,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2515,7 +2515,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2530,7 +2530,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2545,7 +2545,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2560,7 +2560,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2575,7 +2575,7 @@
       ],
       "mat": "M_stone",
       "walkable": true,
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2589,7 +2589,7 @@
         0
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2603,7 +2603,7 @@
         0.15
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2617,7 +2617,7 @@
         0
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2631,7 +2631,7 @@
         0.15
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2645,7 +2645,7 @@
         -4
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2659,7 +2659,7 @@
         6
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2673,7 +2673,7 @@
         -4
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2687,7 +2687,7 @@
         6
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     },
     {
       "min": [
@@ -2701,7 +2701,7 @@
         8
       ],
       "mat": "M_stone",
-      "tag": "gallery"
+      "tag": "base"
     }
   ],
   "spawners": [
@@ -2798,7 +2798,7 @@
         6.6
       ],
       "rot": 145,
-      "text": "THE DAILY OFFICES\n\nDawn wakes the lark. Noon feeds it. Dusk shuts the cage.\n\nKeep the offices as the day was kept — Matins, then Sext, then Vespers — and the songloft will open to you."
+      "text": "THE DAILY OFFICES\n\nDawn wakes the lark. Noon feeds it. Dusk shuts the cage.\n\nKeep the offices as the day was kept \u2014 Matins, then Sext, then Vespers \u2014 and the songloft will open to you."
     },
     {
       "at": [

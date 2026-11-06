@@ -318,6 +318,7 @@
     "aggro_hear": 40.0,
     "leash": 999.0,
     "body": "skel_precentress",
+    "weapon": "crook_warden",
     "vis_scale": 1.3,
     "arm_h": 1.5,
     "hurt_r": 0.6,

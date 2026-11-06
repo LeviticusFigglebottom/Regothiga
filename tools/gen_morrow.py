@@ -99,6 +99,7 @@ def wall_run_z(x, z0, z1, rot, y=0.0, doors=(), kit="palace_wall_4x4"):
 
 COFFER = {"flat": True, "coffer": True, "lid_mat": "M_marble",
           "beam_mat": "M_gold", "band_mat": "M_marble"}
+_MARBLE_REMAP = {"M_stone": "M_marble", "M_stone_trim": "M_gild"}
 
 # ---------------------------------------------------------------- ground
 # arrival terrace on the open cloud (z -12..0), the hall spine (0..92),
@@ -116,11 +117,12 @@ for _k in range(6):
 
 # ---------------------------------------------------------------- ceilings
 VF.append(dict(COFFER, min=[-6, 0, 0], max=[6, 0, 92], spring_top=8))     # hall
-# each trial room gets its own cozy coffer lid (wall_top 4 -> lid 4.85)
+# each trial room shares the 8m coffered ceiling plane so the hall's upper
+# clerestory windows look into vaulted chambers instead of a 4m roof slab
 for k in range(6):
     z0 = 6 + 14 * k
-    VF.append(dict(COFFER, min=[-18, 0, z0], max=[-6, 0, z0 + 12], skip_bands=["E"]))
-    VF.append(dict(COFFER, min=[6, 0, z0], max=[18, 0, z0 + 12], skip_bands=["W"]))
+    VF.append(dict(COFFER, min=[-18, 0, z0], max=[-6, 0, z0 + 12], spring_top=8, skip_bands=["E", "W", "N", "S"]))
+    VF.append(dict(COFFER, min=[6, 0, z0], max=[18, 0, z0 + 12], spring_top=8, skip_bands=["W", "E", "N", "S"]))
 # the spans between rooms (z0+12 .. z0+14) are outside the fills — no roof
 # needed; blockers seal them below. The bell chamber's ceiling is the dome.
 
@@ -132,7 +134,7 @@ for z in (-10, -6, -2):
     piece("palace_balustrade_4m", (-9.8, 0, z), 90)
     piece("palace_balustrade_4m", (9.8, 0, z), -90)
 for (px, pz) in [(-9.7, -11.7), (9.7, -11.7), (-9.7, -0.3), (9.7, -0.3)]:
-    piece("palace_pier", (px, 0, pz), 0)
+    piece("palace_pier", (px, 0, pz), 0, scale=[0.7, 0.30, 0.7])
 BL.append({"min": [-10.4, 0, -12.4], "max": [10.4, 3, -11.6], "tag": "base"})
 BL.append({"min": [-10.4, 0, -12.4], "max": [-9.6, 3, 0.0], "tag": "base"})
 BL.append({"min": [9.6, 0, -12.4], "max": [10.4, 3, 0.0], "tag": "base"})
@@ -147,13 +149,13 @@ for x in (-8, -4, 0, 4, 8):
     piece("palace_cornice_4m", (x, 8, 0), 0)
 for x in (-4, 0, 4):
     piece("palace_wall_low_4m", (x, 8.15, 0), 0, collide=False)
-piece("rose_window", (0, 6.05, -0.25), 0, scale=[0.82, 0.82, 0.82], collide=False)
+piece("rose_window", (0, 6.05, -0.25), 0, scale=[0.82, 0.82, 0.82], collide=False, mat_remap=_MARBLE_REMAP)
 piece("palace_pediment_8m", (0, 9.1, -0.05), 0, collide=False)
 piece("gilt_finial", (0, 11.2, -0.05), 0, collide=False)
 for x in (-8, -6, 6, 8):
     piece("gilt_finial", (x, 8.3 if abs(x) > 6 else 9.15, -0.15), 0, collide=False)
-piece("statue_saint", (-7.5, 0, -1.5), 0)
-piece("statue_saint", (7.5, 0, -1.5), 0)
+piece("statue_saint", (-7.5, 0, -1.5), 0, mat_remap=_MARBLE_REMAP)
+piece("statue_saint", (7.5, 0, -1.5), 0, mat_remap=_MARBLE_REMAP)
 prop("candelabra", (-3.4, 0, -2.5), 20)
 prop("candelabra", (3.4, 0, -2.5), -20)
 prop("mosaic_medallion", (0, 0.02, -6.0), 0, collide=False)
@@ -166,6 +168,12 @@ wall_run_z(6, 0, 92, -90, doors=ROOM_DOORS)
 for z in range(2, 92, 4):
     piece("palace_window_4m", (-6, 4, z), 90)
     piece("palace_window_4m", (6, 4, z), -90)
+    piece("palace_cornice_4m", (-6, 8, z), 90, collide=False)
+    piece("palace_cornice_4m", (6, 8, z), -90, collide=False)
+for z in (6, 18, 32, 46, 60, 74, 88):
+    for sx in (-5.85, 5.85):
+        piece("palace_pier", (sx, 0, z), 0, collide=False)
+        piece("palace_pier", (sx, 4.1, z), 0, collide=False)
 # north hall wall: the LAST DOOR into the bell chamber
 wall_run_x(92, -10, 10, 180, doors=(0,))
 piece("palace_window_4m", (-8, 4, 92), 0)
@@ -191,10 +199,13 @@ for k in range(6):
         xo = 18 * s
         rot_o = -90 if s > 0 else 90
         wall_run_z(xo, z0, z0 + 12, rot_o)
+        wall_run_z(xo, z0, z0 + 12, rot_o, y=4.0, kit="palace_window_4m")
         # south + north walls of each room
         x_in, x_out = (6, 18) if s > 0 else (-18, -6)
         wall_run_x(z0, x_in, x_out, 0)
+        wall_run_x(z0, x_in, x_out, 0, y=4.0)
         wall_run_x(z0 + 12, x_in, x_out, 180)
+        wall_run_x(z0 + 12, x_in, x_out, 180, y=4.0)
 
 # seal the inter-room slots (z0+12..z0+14) at the outer edge so the keep
 # reads as one mass from the hall; the slots are unwalkable voids
@@ -215,7 +226,7 @@ c = room_c(0, -1)
 SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "base",
            "params": {"flag": "morrow_trial_1", "mode": "vigil", "hold": 12.0,
                       "title": "the Trial of the First Light"}})
-PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": 135, "text":
+PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": 45, "text":
     "THE FIRST RINGER — SERA, THE LAMPWRIGHT\n\nShe rang the First Bell with burned hands, having carried the vigil flame through a night the wind hated.\n\nHer fate: she never again stood in a light she had not made. She was deemed worthy because she STOOD STILL while it hurt.\n\nStand in her light. Do not leave it."})
 
 # R2 (R,k0) — the Tollwright: votive owed in three stands
@@ -224,7 +235,7 @@ VL.append({"flag": "morrow_trial_2", "tag": "base", "votives": [
     {"at": [c[0] - 3, 0, c[2] - 3], "rot": 45},
     {"at": [c[0] + 3, 0, c[2] - 3], "rot": -45},
     {"at": [c[0], 0, c[2] + 3.6], "rot": 180}]})
-PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": 135, "text":
+PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": -45, "text":
     "THE SECOND RINGER — HARLAN, THE TOLLWRIGHT\n\nHe rang the Second Bell only after every debt in the quarter was paid — most of them out of his own purse.\n\nHis fate: he died owning nothing but the rope. He was deemed worthy because the ledger balanced.\n\nKindle all three votives. Light is paid forward here."})
 
 # R3 (L,k1) — the Chorister: chime order
@@ -234,7 +245,7 @@ CH.append({"flag": "morrow_trial_3", "order": ["dawn", "noon", "dusk"],
                {"id": "noon", "label": "the Noon stone", "at": [c[0] - 3.2, 0, c[2] + 2.8], "rot": -135},
                {"id": "dawn", "label": "the Dawn stone", "at": [c[0], 0, c[2] - 3.6], "rot": 0},
                {"id": "dusk", "label": "the Dusk stone", "at": [c[0] + 3.2, 0, c[2] + 2.8], "rot": 135}]})
-PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
+PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": 45, "text":
     "THE THIRD RINGER — BRIDE VESPERINE, THE CHORISTER\n\nShe rang the Third Bell as the last note of a psalm sung alone in an empty quire.\n\nHer fate: no choir would have her after — her voice made theirs sound like counting. She was deemed worthy for singing the day in its ORDER.\n\nRing her day: dawn, then noon, then dusk."})
 
 # R4 (R,k1) — the Warden-at-arms: arena, two echoes
@@ -242,9 +253,9 @@ c = room_c(1, 1)
 SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "base",
            "params": {"flag": "morrow_trial_4", "mode": "arena",
                       "foes": ["gilded_echo", "gilded_echo"],
-                      "spots": [[-2.8, 0, 1.5], [2.8, 0, -1.5]], "radius": 5.5,
+                      "spots": [[-2.8, 0, 1.5], [2.8, 0, -1.5]], "radius": 4.5,
                       "title": "the Trial of Arms"}})
-PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
+PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": -45, "text":
     "THE FOURTH RINGER — SER ODILE, WARDEN-AT-ARMS\n\nShe rang the Fourth Bell with her shield arm, the right one being occupied with dying.\n\nHer fate: the wound kept her from every war after; she drilled children in the yard instead. Deemed worthy because she rang WHILE losing.\n\nHer echoes still drill. Put them down."})
 
 # R5 (L,k2) — the Watcher: turn the watchers east
@@ -254,7 +265,7 @@ WP.append({"flag": "morrow_trial_5", "target": -90, "watchers": [
     {"at": [c[0], 0, c[2] + 3]},
     {"at": [c[0] + 3, 0, c[2] - 2.5]}],
     "done_toast": "The watchers face the morrow. The Fifth is satisfied."})
-PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": 135, "text":
+PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": 45, "text":
     "THE FIFTH RINGER — BROTHER CASSIAN, THE WATCHER\n\nHe rang the Fifth Bell at the exact instant dawn crossed the sill, having watched forty nights for it without once facing away.\n\nHis fate: his eyes never recovered the dark. Deemed worthy because he LOOKED where the light would come from.\n\nTurn every watcher to the east."})
 
 # R6 (R,k2) — the Sellsword: duel, one morning ward
@@ -262,8 +273,8 @@ c = room_c(2, 1)
 SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "base",
            "params": {"flag": "morrow_trial_6", "mode": "duel",
                       "foes": ["morning_ward"], "spots": [[0, 0, 1.0]],
-                      "radius": 5.5, "title": "the Trial of the Hired Blade"}})
-PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
+                      "radius": 4.5, "title": "the Trial of the Hired Blade"}})
+PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": -45, "text":
     "THE SIXTH RINGER — VEY, WHO WAS PAID\n\nA sellsword rang the Sixth Bell for coin, because no believer was left standing that year.\n\nHis fate: he refused the purse at the rope's end and no one ever learned why. Deemed worthy the moment the coin stopped mattering.\n\nHis hired blade stands the room. Best it, without hiring one of your own."})
 
 # R7 (L,k3) — the Gravedigger: arena, penitents
@@ -271,9 +282,9 @@ c = room_c(3, -1)
 SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "base",
            "params": {"flag": "morrow_trial_7", "mode": "arena",
                       "foes": ["penitent", "penitent", "penitent"],
-                      "spots": [[-3, 0, 0], [3, 0, 0], [0, 0, 3]], "radius": 5.5,
+                      "spots": [[-3, 0, 0], [3, 0, 0], [0, 0, 3]], "radius": 4.5,
                       "title": "the Trial of the Spade"}})
-PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": 135, "text":
+PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": 45, "text":
     "THE SEVENTH RINGER — MOTHER LOAM, THE GRAVEDIGGER\n\nShe rang the Seventh Bell once for every soul she had put down that winter — six hundred pulls, one grief at a time.\n\nHer fate: her hands forgot how to open. Deemed worthy because she counted every one and skipped none.\n\nThe unquiet she buried rise here. Return them, one at a time."})
 
 # R8 (R,k3) — the Astronomer: five chimes in the heavens' order
@@ -285,7 +296,7 @@ CH.append({"flag": "morrow_trial_8", "order": ["east", "zenith", "west", "nadir"
                {"id": "west", "label": "the West star", "at": [c[0] - 3.6, 0, c[2]], "rot": 90},
                {"id": "nadir", "label": "the Nadir star", "at": [c[0], 0, c[2] + 3.6], "rot": 180},
                {"id": "north", "label": "the North star", "at": [c[0] + 2.6, 0, c[2] + 2.6], "rot": -135}]})
-PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
+PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": -45, "text":
     "THE EIGHTH RINGER — MASTER HALIARD, THE ASTRONOMER\n\nHe rang the Eighth Bell by arithmetic, at an hour he had computed nine years in advance, alone against every almanac.\n\nHis fate: he was right, and never forgiven for it. Deemed worthy because the heavens kept his appointment.\n\nRing his sky in its order: east, zenith, west, nadir, north."})
 
 # R9 (L,k4) — the Midwife: the long vigil
@@ -293,7 +304,7 @@ c = room_c(4, -1)
 SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "base",
            "params": {"flag": "morrow_trial_9", "mode": "vigil", "hold": 18.0,
                       "title": "the Trial of the Held Hour"}})
-PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": 135, "text":
+PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": 45, "text":
     "THE NINTH RINGER — WREN, THE MIDWIFE\n\nShe rang the Ninth Bell one-handed. The other arm held a child born in the same minute, because neither task would wait.\n\nHer fate: every child she caught after was said to sleep through any bell. Deemed worthy for holding BOTH.\n\nHold her hour. It is longer than it looks."})
 
 # R10 (R,k4) — the Gatewright: watchers to the north
@@ -304,7 +315,7 @@ WP.append({"flag": "morrow_trial_10", "target": 180, "watchers": [
     {"at": [c[0] - 3, 0, c[2] - 2.5]},
     {"at": [c[0] + 3, 0, c[2] - 2.5], "rot": 90}],
     "done_toast": "Four gates face the Bell. The Tenth is satisfied."})
-PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
+PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": -45, "text":
     "THE TENTH RINGER — GORE THE GATEWRIGHT\n\nHe rang the Tenth Bell with the same pull that shut the flood-gates, one rope in each fist, because the river and the hour came at once.\n\nHis fate: the town kept dry and never knew. Deemed worthy for facing every gate TOWARD THE BELL before himself.\n\nTurn all four to face north, toward the Bell."})
 
 # R11 (L,k5) — the Ferrywright: arena, the drowned crew
@@ -312,9 +323,9 @@ c = room_c(5, -1)
 SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "base",
            "params": {"flag": "morrow_trial_11", "mode": "arena",
                       "foes": ["vigilant_husk", "gilded_echo", "vigilant_husk"],
-                      "spots": [[-3, 0, 1], [0, 0, -2.5], [3, 0, 1]], "radius": 5.5,
+                      "spots": [[-3, 0, 1], [0, 0, -2.5], [3, 0, 1]], "radius": 4.5,
                       "title": "the Trial of the Crossing"}})
-PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": 135, "text":
+PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": 45, "text":
     "THE ELEVENTH RINGER — THE FERRYWRIGHT ANSA\n\nShe rang the Eleventh Bell from mid-river, standing on the keel of her own capsized ferry, so the crossing bell would not miss its hour.\n\nHer fate: she never reached either bank; the river kept her fare. Deemed worthy because the hour arrived DRY.\n\nHer drowned crew still makes the crossing. See them over."})
 
 # R12 (R,k5) — the Twelfth Bellhand: the mirror duel
@@ -322,15 +333,15 @@ c = room_c(5, 1)
 SC.append({"script": "res://src/world/trial_room.gd", "at": list(c), "tag": "base",
            "params": {"flag": "morrow_trial_12", "mode": "duel",
                       "foes": ["wick_crusader"], "spots": [[0, 0, 0.5]],
-                      "radius": 5.5, "title": "the Trial of the Twelfth Hand"}})
-PLQ.append({"at": [c[0] + 4.5, 0, c[2] - 4.5], "rot": -135, "text":
+                      "radius": 4.5, "title": "the Trial of the Twelfth Hand"}})
+PLQ.append({"at": [c[0] - 4.5, 0, c[2] - 4.5], "rot": -45, "text":
     "THE TWELFTH RINGER — UNNAMED, THE LAST HAND\n\nThe Twelfth gave up their name at the rope, so the bell would carry NOTHING of them but the ring.\n\nTheir fate: no grave, no ballad, no face in the glass. Deemed worthy because nothing was kept back.\n\nWhat is left of them keeps this room. Give them rest, Thirteenth."})
 
 # room dressing: chandelier, flanking candelabras, corner urn, medallion & banner in every trial room
 for k in range(6):
     for s in (1, -1):
         cx, _, cz = room_c(k, s)
-        prop("chandelier_gilt", (cx, 3.2, cz), 0, collide=False, scale=[0.55, 0.55, 0.55])
+        prop("chandelier_gilt", (cx, 5.8, cz), 0, collide=False, scale=[0.7, 0.7, 0.7])
         prop("candelabra", (cx - 4.2 * s, 0, cz + 4.6), 20 * s)
         prop("candelabra", (cx + 4.6 * s, 0, cz - 2.0), -110 * s)
         prop("candelabra", (cx + 4.6 * s, 0, cz + 4.4), 150 * s)

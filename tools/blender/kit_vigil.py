@@ -264,6 +264,22 @@ def shrine_aedicule():
         cap_top=False,
     )
     objs.append(halo)
+    # 4 forged bronze armillary struts supporting the halo ring from the basin rim
+    s_prof = V.circle_profile(0.016, 8)
+    for si in range(4):
+        ang = si * (math.pi * 0.5) + math.pi * 0.25
+        ca, sa = math.cos(ang), math.sin(ang)
+        objs.append(V.sweep_profile(
+            f"halo_strut_{si}",
+            [
+                (0.30 * ca, 0.30 * sa, 1.20),
+                (0.36 * ca, 0.36 * sa, 1.36),
+                (0.38 * ca, 0.38 * sa, 1.52),
+            ],
+            s_prof,
+            "M_bronze",
+            up_hint=Vector((-ca, -sa, 0.3)),
+        ))
     return objs, {"size": [3.0, 3.0, 4.5], "origin": "bottom-center"}
 
 

@@ -67,6 +67,7 @@ func _ready() -> void:
 	max_hp = float(cfg.get("hp", 50))
 	hp = max_hp
 	poise = float(cfg.get("poise", 30))
+	stagger_resist = float(cfg.get("stagger_resist", 1.0))
 	home = global_position
 
 	var cs := CollisionShape3D.new()

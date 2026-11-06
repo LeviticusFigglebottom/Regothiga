@@ -11,9 +11,12 @@ const GOLD := Color(1.0, 0.78, 0.42)
 const ASHBLUE := Color(0.45, 0.62, 0.95)
 
 var transitioning := false
+var state_blend := 0.0
 var _wave_r := 0.0
 
 func _set_g(param: String, v) -> void:
+	if param == "vg_state_blend":
+		state_blend = float(v)
 	RenderingServer.global_shader_parameter_set(param, v)
 
 ## Instant state application (loads, tools). No spectacle.
@@ -66,7 +69,8 @@ func transition(area: Area, to_state: VG.WState, origin: Vector3) -> void:
 		var k: float = ease(clampf(t / duration, 0.0, 1.0), 0.65)
 		_wave_r = k * max_r
 		_set_g("vg_wave_r", _wave_r)
-		area.env.blend(lerpf(env_from, env_to, k))
+		state_blend = lerpf(env_from, env_to, k)
+		area.env.blend(state_blend)
 		await get_tree().process_frame
 
 	# settle

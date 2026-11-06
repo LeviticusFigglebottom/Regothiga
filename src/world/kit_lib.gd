@@ -16,7 +16,7 @@ static func has_piece(id: String) -> bool:
 	return manifest().has(id)
 
 ## state_mode: 0 base / 1 glory-only / 2 ruin-only (drives dissolve behavior)
-static func instance(id: String, state_mode := 0) -> Node3D:
+static func instance(id: String, state_mode := 0, mat_remap: Dictionary = {}) -> Node3D:
 	var entry: Dictionary = manifest().get(id, {})
 	if entry.is_empty():
 		push_error("KitLib: unknown piece '%s'" % id)
@@ -27,11 +27,12 @@ static func instance(id: String, state_mode := 0) -> Node3D:
 		scene = load(path)
 		_scene_cache[path] = scene
 	var node := scene.instantiate() as Node3D
-	remap_materials(node, state_mode)
+	remap_materials(node, state_mode, mat_remap)
 	node.set_meta("kit_id", id)
+	node.set_meta("state_mode", state_mode)
 	return node
 
-static func remap_materials(node: Node, state_mode := 0) -> void:
+static func remap_materials(node: Node, state_mode := 0, mat_remap: Dictionary = {}) -> void:
 	for mi in _mesh_instances(node):
 		var mesh := mi.mesh
 		if mesh == null:
@@ -43,6 +44,8 @@ static func remap_materials(node: Node, state_mode := 0) -> void:
 				fam = src.resource_name
 			# glTF import may suffix duplicated materials ("M_stone.001")
 			fam = fam.get_slice(".", 0)
+			if mat_remap.has(fam):
+				fam = String(mat_remap[fam])
 			mi.set_surface_override_material(s, MaterialLib.get_mat(fam, state_mode))
 			if fam == "M_flame":
 				var aabb := mesh.get_aabb()

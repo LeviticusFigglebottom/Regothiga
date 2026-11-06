@@ -80,7 +80,7 @@ func _st_combat(dt: float) -> void:
 			velocity.x = away.x * sp
 			velocity.z = away.z * sp
 			_face(-away, dt)
-			move_and_slide()
+			vis.locomotion(dt, sp)
 			if is_on_wall():
 				_retreat_t = 0.0   # backing into the chancel is not a retreat
 			return
@@ -102,7 +102,9 @@ func _do_roll(pl: Player) -> void:
 		lat = -lat
 		dir = (lat + back).normalized()
 	velocity = dir * 9.5
-	vis.play("roll", 0.05)
+	if dir.length_squared() > 0.01:
+		vis.rotation.y = atan2(-dir.x, -dir.z)
+	vis.play("roll", 0.05, 1.0 / _roll_t)
 
 func take_hit(packet: DamagePacket) -> void:
 	if _seppuku or _iframes > 0.0:
@@ -265,6 +267,12 @@ func _lay_down_shield() -> void:
 	var s := KitLib.instance("shield_kite")
 	if s == null:
 		return
+	var gold := MaterialLib.get_mat("M_gold", 0)
+	for n in s.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh != null:
+			for i in mi.mesh.get_surface_count():
+				mi.set_surface_override_material(i, gold)
 	if _dropped_shield != null and is_instance_valid(_dropped_shield):
 		_dropped_shield.queue_free()
 	_dropped_shield = s

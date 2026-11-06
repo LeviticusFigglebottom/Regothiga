@@ -95,6 +95,19 @@ func _ready() -> void:
 		rail.rotation.x = slope_ang
 		rail.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(rail)
+	for lrail_spec in [
+		[Vector3(-2.22, top_y + 0.55, top_z - 2.0), Vector3(0.08, 0.08, 4.5)],
+		[Vector3(2.22, top_y + 0.55, top_z - 2.0), Vector3(0.08, 0.08, 4.5)],
+		[Vector3(0.0, top_y + 0.55, top_z - 4.22), Vector3(4.52, 0.08, 0.08)],
+	]:
+		var lrail := MeshInstance3D.new()
+		var lrbm := BoxMesh.new()
+		lrbm.size = lrail_spec[1]
+		lrail.mesh = lrbm
+		lrail.material_override = rail_mat
+		lrail.position = lrail_spec[0]
+		lrail.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(lrail)
 	# beacon column over the landing portal
 	var beacon := MeshInstance3D.new()
 	var bcm := CylinderMesh.new()

@@ -139,7 +139,8 @@ void fragment() {
 	// Vertex color masks: R = edge wear, G = moss zone, B = vertex AO
 	float wear = v_col.r * wear_strength;
 	float mossm = v_col.g;
-	float vao = mix(1.0, v_col.b, 0.85);
+	float ceiling_relax = smoothstep(-0.15, -0.65, v_world_nrm.y);
+	float vao = mix(1.0, v_col.b, mix(0.85, 0.28, ceiling_relax));
 	if (v_col.r > 0.98 && v_col.g > 0.98 && v_col.b > 0.98) {
 		wear = 0.14 * wear_strength;
 		mossm = clamp(1.0 - v_world_pos.y * 0.65, 0.0, 1.0);
@@ -263,7 +264,8 @@ void fragment() {
 	vec3 view_dir = normalize(CAMERA_POSITION_WORLD - v_world_pos);
 	float ndv = clamp(dot(world_nrm, view_dir), 0.0, 1.0);
 	// Suppress grazing Fresnel & overhead sky_fill glare on thin horizontal mortar ledges on walls
-	float horiz_ledge = (1.0 - floor_zone) * smoothstep(0.75, 0.92, abs(world_nrm.y)) * (1.0 - smoothstep(0.08, 0.42, ndv));
+	// (Use world_nrm.y instead of abs(world_nrm.y) so downward-facing ceilings never blacken at grazing angles)
+	float horiz_ledge = (1.0 - floor_zone) * smoothstep(0.75, 0.92, world_nrm.y) * (1.0 - smoothstep(0.08, 0.42, ndv));
 	float fres = pow(1.0 - ndv, 3.2) * (1.0 - horiz_ledge);
 	if (use_local_triplanar == 0 && albedo_from_vc == 0) {
 		final_albedo *= mix(1.0, 0.36, horiz_ledge);
@@ -302,6 +304,10 @@ void fragment() {
 	float sky_facing = clamp(world_nrm.y * 0.45 + 0.60, 0.0, 1.0);
 	vec3 rim_c = mix(vec3(1.0, 0.80, 0.52), vec3(0.54, 0.70, 1.0), ruin);
 	vec3 emis = rim_c * fres * rim_strength * mix(0.055, 0.12, ruin) * total_ao * sky_facing;
+	// Upward floor-bounce fill on downward-facing ceilings & vault soffits (where directional sun & sky_fill have N.L <= 0)
+	float ceil_face = smoothstep(-0.15, -0.75, world_nrm.y);
+	vec3 bounce_col = mix(vec3(0.32, 0.27, 0.20), vec3(0.16, 0.20, 0.28), ruin);
+	emis += final_albedo * bounce_col * ceil_face * total_ao;
 
 	// Surface emission (gold trim, braziers, lit windows) gated by state
 	float gate = 1.0;

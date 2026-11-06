@@ -1,6 +1,6 @@
 {
   "id": "basilica_nave",
-  "name": "Basilica of Last Light — Nave",
+  "name": "Basilica of Last Light \u2014 Nave",
   "start": {
     "pos": [
       0,
@@ -1342,11 +1342,11 @@
     {
       "kit": "wax_husk",
       "at": [
-        9.6,
+        8.7,
         0,
-        -23.6
+        -23
       ],
-      "rot": 145,
+      "rot": -35,
       "tag": "ruin"
     },
     {
@@ -1402,9 +1402,9 @@
     {
       "kit": "candle_cluster",
       "at": [
-        7.9,
+        7.2,
         0,
-        -24.6
+        -24.8
       ],
       "rot": 130,
       "tag": "glory"
@@ -1412,9 +1412,9 @@
     {
       "kit": "candle_cluster_dead",
       "at": [
-        7.9,
+        7.2,
         0,
-        -24.6
+        -24.8
       ],
       "rot": 130,
       "tag": "ruin"
@@ -1462,9 +1462,9 @@
     {
       "kit": "ivy_sheet_a",
       "at": [
-        -9.75,
+        -9.85,
         0,
-        -3.0
+        -4.0
       ],
       "rot": -90,
       "tag": "ruin"
@@ -1472,9 +1472,9 @@
     {
       "kit": "ivy_sheet_b",
       "at": [
-        9.75,
+        9.85,
         0,
-        -20.0
+        -22.0
       ],
       "rot": 90,
       "tag": "ruin"
@@ -1899,7 +1899,7 @@
         -20
       ],
       "rot": 90,
-      "text": "THE VOTIVE GALLERY\n\nWhat the parish paid was never the gold; the gold was the receipt. The principal went into the wicks — one soul a candle, carried up and kept above the vessel, redeemable at the thirteenth hour.\n\nThe hours keep the ledger now."
+      "text": "THE VOTIVE GALLERY\n\nWhat the parish paid was never the gold; the gold was the receipt. The principal went into the wicks \u2014 one soul a candle, carried up and kept above the vessel, redeemable at the thirteenth hour.\n\nThe hours keep the ledger now."
     }
   ],
   "pickups": [
@@ -2363,6 +2363,36 @@
         -4.9
       ],
       "mat": "M_stone"
+    },
+    {
+      "min": [
+        -10,
+        8.0,
+        -24.3
+      ],
+      "max": [
+        -8,
+        11.2,
+        -23.7
+      ],
+      "mat": "M_stone",
+      "tag": "base",
+      "collide": false
+    },
+    {
+      "min": [
+        8,
+        8.0,
+        -24.3
+      ],
+      "max": [
+        10,
+        11.2,
+        -23.7
+      ],
+      "mat": "M_stone",
+      "tag": "base",
+      "collide": false
     }
   ],
   "scripted": [

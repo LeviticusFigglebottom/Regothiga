@@ -5,8 +5,8 @@ extends MeshInstance3D
 ## the actual arc the swing swept, fading along its length.
 
 const LIFE := 0.15          # seconds of arc kept behind the blade
-const BASE_UP := 0.12       # sample points along the blade (+Y from grip)
-const TIP_UP := 1.08
+var base_up := 0.12         # sample points along the blade (+Y from grip)
+var tip_up := 1.08
 const SUBDIV := 3
 
 var target: Node3D          # the weapon mount; kit blades run +Y from it
@@ -33,8 +33,8 @@ func _process(dt: float) -> void:
 	global_transform = Transform3D.IDENTITY
 	if target != null and is_instance_valid(target):
 		var xf := target.global_transform
-		_pts.push_front({"b": xf * Vector3(0, BASE_UP, 0),
-				"t": xf * Vector3(0, TIP_UP, 0), "at": _clock})
+		_pts.push_front({"b": xf * Vector3(0, base_up, 0),
+				"t": xf * Vector3(0, tip_up, 0), "at": _clock})
 	while _pts.size() > 2 and _clock - float(_pts[_pts.size() - 1]["at"]) > LIFE:
 		_pts.pop_back()
 	_rebuild()

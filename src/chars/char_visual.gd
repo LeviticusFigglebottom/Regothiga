@@ -20,18 +20,32 @@ var weapon_kit := ""
 ## the blade/shaft upward so weapons never stab into the floor at rest.
 const CARRY_POSE := {
 	"sword_cloister": Vector3(38, 0, 0),
-	"maul_sexton": Vector3(95, 22, 0),
-	"halberd_ward": Vector3(95, 20, 0),
-	"spear_fen": Vector3(110, 18, 0),
-	"greatsword_pilgrim": Vector3(105, 18, 0),
-	"crook_warden": Vector3(98, 22, 0),
-	"crook_great": Vector3(96, 26, 0),
-	"oar_glaive": Vector3(96, 26, 0),
-	"toll_maul": Vector3(96, 28, 0),
-	"lantern_crook": Vector3(125, 16, 0),
+	"maul_sexton": Vector3(62, 18, -10),
+	"halberd_ward": Vector3(68, 16, -8),
+	"spear_fen": Vector3(72, 14, -8),
+	"greatsword_pilgrim": Vector3(58, 16, -10),
+	"crook_warden": Vector3(68, 16, -8),
+	"crook_great": Vector3(64, 18, -10),
+	"oar_glaive": Vector3(64, 18, -10),
+	"toll_maul": Vector3(62, 20, -10),
+	"lantern_crook": Vector3(132, 10, -6),
 	"torch_held": Vector3(135, 0, 0),
-	"candle_cluster": Vector3(135, 0, 0),
+	"candle_cluster": Vector3(145, 0, 0),
 	"bell_great": Vector3.ZERO,
+}
+
+const TRAIL_EXTENTS := {
+	"sword_cloister": Vector2(0.12, 1.08),
+	"greatsword_pilgrim": Vector2(0.22, 1.54),
+	"maul_sexton": Vector2(0.45, 1.18),
+	"toll_maul": Vector2(0.75, 1.72),
+	"halberd_ward": Vector2(0.55, 1.42),
+	"spear_fen": Vector2(1.10, 2.30),
+	"crook_warden": Vector2(0.55, 1.38),
+	"crook_great": Vector2(0.80, 1.80),
+	"lantern_crook": Vector2(0.80, 1.85),
+	"oar_glaive": Vector2(0.95, 2.38),
+	"bell_great": Vector2(0.15, 0.95),
 }
 
 ## Clips authored with the blade extending straight along hand_r +Y.
@@ -130,6 +144,10 @@ func set_weapon(kit_id: String) -> void:
 	weapon_kit = kit_id
 	if kit_id != "":
 		weapon_mount.add_child(KitLib.instance(kit_id))
+	if trail != null:
+		var ext: Vector2 = TRAIL_EXTENTS.get(weapon_kit, Vector2(0.12, 1.08))
+		trail.set("base_up", ext.x)
+		trail.set("tip_up", ext.y)
 	var cur: String = anim.current_animation if anim != null else "idle"
 	apply_carry_pose(cur)
 
@@ -150,6 +168,9 @@ func add_trail() -> void:
 	var st: MeshInstance3D = _SWING_TRAIL.new()
 	st.name = "Trail"
 	st.set("target", weapon_mount)
+	var ext: Vector2 = TRAIL_EXTENTS.get(weapon_kit, Vector2(0.12, 1.08))
+	st.set("base_up", ext.x)
+	st.set("tip_up", ext.y)
 	trail = st
 	# sibling of the weapon so set_weapon() never frees it
 	weapon_mount.get_parent().add_child(trail)

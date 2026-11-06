@@ -57,10 +57,12 @@ func _ring() -> void:
 				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		tw.tween_property(bell, "rotation:z", 0.0, 0.5)
 	AudioDirector.sfx("res://assets/audio/bell_toll.wav", 2.0, 0.55)
+	Juice.shake(0.18, 0.55)
 	var sfx_tw := create_tween()
 	sfx_tw.tween_interval(1.4)
 	sfx_tw.tween_callback(func():
-		AudioDirector.sfx("res://assets/audio/bell_toll.wav", 0.0, 0.62))
+		AudioDirector.sfx("res://assets/audio/bell_toll.wav", 0.0, 0.62)
+		Juice.shake(0.14, 0.45))
 	sfx_tw.tween_interval(1.5)
 	sfx_tw.tween_callback(func():
 		AudioDirector.sfx("res://assets/audio/remembrance.wav", -2.0, 0.8))

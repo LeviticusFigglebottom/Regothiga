@@ -2463,9 +2463,9 @@
     {
       "kit": "hand_cart",
       "at": [
-        -14.5,
+        -15.8,
         0,
-        -1.8
+        -4.4
       ],
       "rot": 75,
       "tag": "glory"
@@ -2499,6 +2499,26 @@
         -1.8
       ],
       "rot": 60,
+      "tag": "ruin"
+    },
+    {
+      "kit": "glass_lancet",
+      "at": [
+        11.95,
+        0,
+        -2
+      ],
+      "rot": -90,
+      "tag": "glory"
+    },
+    {
+      "kit": "glass_lancet_broken",
+      "at": [
+        11.95,
+        0,
+        -2
+      ],
+      "rot": -90,
       "tag": "ruin"
     }
   ],
@@ -2702,7 +2722,7 @@
         -3.3
       ],
       "rot": 150,
-      "text": "VESPERGARD kept the Evening Vigil for nine hundred years.\n\nWake. Watch. Wait.\n\nThe door you came by is already forgotten. Only forward now, Latecomer — the Cloister remembers itself for you, a while longer."
+      "text": "VESPERGARD kept the Evening Vigil for nine hundred years.\n\nWake. Watch. Wait.\n\nThe door you came by is already forgotten. Only forward now, Latecomer \u2014 the Cloister remembers itself for you, a while longer."
     },
     {
       "at": [
@@ -2720,7 +2740,7 @@
         -13.6
       ],
       "rot": 130,
-      "text": "CHAPTER HOUSE OF THE GRAY CLOISTER\n\nOn the last evening the sun went down and did not rise. The brothers rang the hours anyway. They lit six hundred candles and then six thousand, and when the wax ran out they gave their own — memory, soul and all, poured in to keep. Do not pity them. Wax is not a grave; it is a waiting.\n\nThe thirteenth hour never came. It is still not come. Mind you are not here when it does."
+      "text": "CHAPTER HOUSE OF THE GRAY CLOISTER\n\nOn the last evening the sun went down and did not rise. The brothers rang the hours anyway. They lit six hundred candles and then six thousand, and when the wax ran out they gave their own \u2014 memory, soul and all, poured in to keep. Do not pity them. Wax is not a grave; it is a waiting.\n\nThe thirteenth hour never came. It is still not come. Mind you are not here when it does."
     },
     {
       "at": [
