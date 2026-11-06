@@ -711,7 +711,7 @@
  "door_leaf": {
   "file": "assets/kit/door_leaf.glb",
   "origin": "bottom-center",
-  "polys": 264,
+  "polys": 589,
   "size": [
    2.0,
    0.24,
@@ -1163,7 +1163,7 @@
  "parish_window_4m": {
   "file": "assets/kit/parish_window_4m.glb",
   "origin": "bottom-center",
-  "polys": 246,
+  "polys": 904,
   "size": [
    4,
    0.5,

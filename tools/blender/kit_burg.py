@@ -11,6 +11,7 @@ ascending +Y (in engine: rot 0 climbs toward -Z, like walking north).
 import math
 
 import bmesh
+from mathutils import Vector
 
 import vglib as V
 
@@ -567,46 +568,62 @@ def burg_wall_3m_ruin_b():
 
 
 def parish_window_4m():
-    """Parish nave bay: stone wall with a glowing twin lancet, central stone
-    mullion colonnette, chamfered jambs, and wrought-iron glazing saddle-bars,
-    matching wall_4x4's module (4 x 4, bottom-center, 0.5 thick)."""
+    """Parish nave bay: stone wall with twin pointed-arch glowing lancets,
+    swept stone-trim archivolts, engaged jamb & mullion colonnettes, and
+    wrought-iron glazing saddle-bars, matching wall_4x4's module (4 x 4,
+    bottom-center, 0.38 thick)."""
     objs = []
-    y = 0.25
+    arch = V.pointed_arch(0.90, 0.88, 12, 2.62)
+    for s, tag in ((-1, "l"), (1, "r")):
+        cx = s * 0.80
+        sub = V.wall_panel_with_arch(f"parish_win_{tag}", 1.60, 4.0, 0.38, 0.90, 2.62,
+                                     sharpness=0.88, mat="M_stone", segments=12, sill_h=0.90)
+        sub.location = (cx, 0.0, 0.0)
+        objs.append(sub)
+        apath = [(cx + x * 1.06, 0.0, 2.62 + (y - 2.62) * 1.04) for (x, y) in arch]
+        objs.append(V.sweep_profile(f"parish_win_arch_{tag}", apath,
+                                    V.chamfer_rect_profile(0.085, 0.44, 0.024),
+                                    "M_stone_trim", up_hint=Vector((0, 1, 0))))
     bm = bmesh.new()
-    V.add_box(bm, (-2, -y, 0.0), (2, y, 0.9))                     # footing band
-    V.add_box(bm, (-2, -y, 0.9), (-1.25, y, 4.0))                 # piers
-    V.add_box(bm, (-0.35, -y, 0.9), (0.35, y, 4.0))
-    V.add_box(bm, (1.25, -y, 0.9), (2, y, 4.0))
-    V.add_box(bm, (-2, -y, 3.45), (2, y, 4.0))                    # head band
-    for s in (-1, 1):                                             # stepped heads
-        V.add_box(bm, (s * 1.25 - (0.2 if s > 0 else 0), -y, 3.0),
-                  (s * 1.25 + (0.2 if s < 0 else 0), y, 3.45))
-        V.add_box(bm, (s * 0.35 - (0.2 if s < 0 else 0), -y, 3.0),
-                  (s * 0.35 + (0.2 if s > 0 else 0), y, 3.45))
+    V.add_box(bm, (-2.0, -0.19, 0.0), (-1.60, 0.19, 4.0))
+    V.add_box(bm, (1.60, -0.19, 0.0), (2.0, 0.19, 4.0))
     objs.append(V.bm_to_object(bm, "wall", ("M_stone",)))
-    bm = bmesh.new()
-    V.add_box(bm, (-1.42, -y - 0.06, 0.78), (1.42, y + 0.06, 0.94))  # sill
-    V.add_box(bm, (-1.42, -y - 0.06, 3.42), (1.42, y + 0.06, 3.58))  # hood
-    # Chamfered jamb stiles & central engaged mullion colonnettes on both faces
-    for sx in (-1.28, -0.32, 0.32, 1.28):
-        V.add_box(bm, (sx - 0.06, -y - 0.04, 0.94), (sx + 0.06, y + 0.04, 3.42))
-    for sy in (-y - 0.02, y + 0.02):
-        V.add_cyl(bm, 0.0, sy, 0.94, 2.48, 0.065, n=10)
-        V.add_cyl(bm, 0.0, sy, 0.94, 0.14, 0.095, n=10)
-        V.add_cyl(bm, 0.0, sy, 3.28, 0.14, 0.095, n=10)
-    objs.append(V.bm_to_object(bm, "trim", ("M_stone_trim",)))
-    bm = bmesh.new()
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-2.0, -0.205, 0.0), (2.0, 0.205, 0.16))         # base plinth
+    V.add_box(bm_trim, (-2.0, -0.202, 3.88), (2.0, 0.202, 4.00))        # top stringcourse
+    V.add_box(bm_trim, (-1.42, -0.26, 0.78), (1.42, 0.26, 0.92))        # continuous sill
+    for sx in (-1.27, -0.33, 0.33, 1.27):
+        V.add_box(bm_trim, (sx - 0.055, -0.23, 0.92), (sx + 0.055, 0.23, 2.62))
+        V.add_box(bm_trim, (sx - 0.08, -0.25, 2.55), (sx + 0.08, 0.25, 2.63))
+    for sy in (-0.20, 0.20):
+        V.add_cyl(bm_trim, 0.0, sy, 0.92, 1.70, 0.065, n=10)
+        V.add_cyl(bm_trim, 0.0, sy, 0.92, 0.14, 0.095, n=10)
+        V.add_cyl(bm_trim, 0.0, sy, 2.48, 0.14, 0.095, n=10)
+    objs.append(V.bm_to_object(bm_trim, "trim", ("M_stone_trim",)))
+
+    bm_pane = bmesh.new()
     for s in (-1, 1):
-        V.add_box(bm, (s * 0.35, -0.04, 0.9), (s * 1.25, 0.04, 3.0))
-        V.add_box(bm, (s * 0.55, -0.04, 3.0), (s * 1.05, 0.04, 3.42))
-    objs.append(V.bm_to_object(bm, "panes", ("M_citywindow",)))
-    # Wrought-iron glazing muntins & saddle-bars across both lancets
+        cx = s * 0.80
+        pts2d = [(cx + 0.45, 0.90)] + [(cx + x, y) for (x, y) in reversed(arch)] + [(cx - 0.45, 0.90)]
+        vf = [bm_pane.verts.new((px, -0.04, pz)) for (px, pz) in pts2d]
+        vb = [bm_pane.verts.new((px, 0.04, pz)) for (px, pz) in pts2d]
+        bm_pane.faces.new(vf)
+        bm_pane.faces.new(list(reversed(vb)))
+        n_p = len(pts2d)
+        for i in range(n_p):
+            j = (i + 1) % n_p
+            bm_pane.faces.new((vf[i], vf[j], vb[j], vb[i]))
+    bmesh.ops.recalc_face_normals(bm_pane, faces=bm_pane.faces)
+    objs.append(V.bm_to_object(bm_pane, "panes", ("M_citywindow",)))
+
+    # Wrought-iron glazing muntins & saddle-bars across both pointed lancets
     bm_iron = bmesh.new()
     for s in (-1, 1):
         cx = s * 0.80
-        V.add_box(bm_iron, (cx - 0.018, -0.06, 0.92), (cx + 0.018, 0.06, 3.40))
-        for zb in (1.45, 2.00, 2.55, 3.00):
-            V.add_box(bm_iron, (s * 0.35, -0.06, zb - 0.016), (s * 1.25, 0.06, zb + 0.016))
+        V.add_box(bm_iron, (cx - 0.018, -0.06, 0.92), (cx + 0.018, 0.06, 3.30))
+        for zb, hw in ((1.45, 0.45), (2.00, 0.45), (2.55, 0.45), (2.98, 0.32)):
+            V.add_box(bm_iron, (cx - hw, -0.06, zb - 0.016), (cx + hw, 0.06, zb + 0.016))
     objs.append(V.bm_to_object(bm_iron, "window_bars", ("M_iron",)))
     return objs, {"size": [4, 0.5, 4], "origin": "bottom-center"}
 

@@ -570,7 +570,7 @@ def plaque():
     for sx in (-0.11, 0.11):
         brk = V.sweep_profile(
             "plaque_bracket",
-            [(sx, 0.04, 0.62), (sx, 0.14, 0.74), (sx, 0.18, 0.88), (sx, -0.06, 0.90)],
+            [(sx, 0.04, 0.62), (sx, 0.14, 0.74), (sx, 0.18, 0.88), (sx, 0.08, 0.91)],
             V.chamfer_rect_profile(0.018, 0.024, 0.004),
             "M_iron",
             up_hint=Vector((1, 0, 0)),
@@ -1480,43 +1480,55 @@ def hanging_chain(with_hook=True):
 def door_leaf():
     """A shut double door of iron-banded oak for a 1.9-wide portal opening,
     with plank stiles, central astragal, wrought-iron strap hinges with rivets,
-    ring knockers, and a stepped Gothic stone tympanum."""
+    ring knockers, and a pointed-arch oak & wrought-iron tympanum."""
     objs = []
     bm = bmesh.new()
+    arch = V.pointed_arch(1.94, 1.1, 16, 2.1)
     for sx in (-1, 1):
         x0 = 0.015 * sx
         x1 = sx * 0.92
         lo, hi = (min(x0, x1), max(x0, x1))
-        V.add_box(bm, (lo, -0.055, 0.02), (hi, 0.055, 2.72))
-        # Vertical plank muntin stiles & horizontal rails on both faces
-        for px in (0.06, 0.34, 0.62, 0.88):
-            V.add_box(bm, (sx * px - 0.022, -0.072, 0.04), (sx * px + 0.022, 0.072, 2.68))
+        V.add_box(bm, (lo, -0.055, 0.02), (hi, 0.055, 2.12))
+        # Vertical plank muntin stiles extending up to the pointed arch contour
+        for px, z_top in ((0.08, 3.82), (0.34, 3.60), (0.60, 3.24), (0.86, 2.58)):
+            V.add_box(bm, (sx * px - 0.022, -0.072, 0.04), (sx * px + 0.022, 0.072, z_top))
+    # Pointed-arch oak upper leaves filling the portal arch (z = 2.10..3.94)
+    pts2d = [(0.96, 2.08)] + list(reversed(arch)) + [(-0.96, 2.08)]
+    vf = [bm.verts.new((px, -0.055, pz)) for (px, pz) in pts2d]
+    vb = [bm.verts.new((px, 0.055, pz)) for (px, pz) in pts2d]
+    bm.faces.new(vf)
+    bm.faces.new(list(reversed(vb)))
+    n_p = len(pts2d)
+    for i in range(n_p):
+        j = (i + 1) % n_p
+        bm.faces.new((vf[i], vf[j], vb[j], vb[i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     # Central meeting astragal & transom lintel beam
-    V.add_box(bm, (-0.035, -0.082, 0.02), (0.035, 0.082, 2.70))
-    V.add_box(bm, (-0.96, -0.095, 2.66), (0.96, 0.095, 2.78))
+    V.add_box(bm, (-0.035, -0.082, 0.02), (0.035, 0.082, 3.90))
+    V.add_box(bm, (-0.94, -0.088, 2.04), (0.94, 0.088, 2.16))
+    V.add_box(bm, (-0.82, -0.086, 2.66), (0.82, 0.086, 2.76))
     objs.append(V.bm_to_object(bm, "door_oak", ("M_wood",)))
 
     bm = bmesh.new()
-    for z in (0.46, 1.38, 2.28):
-        V.add_box(bm, (-0.91, -0.086, z - 0.045), (0.91, 0.086, z + 0.045))
-        # Rivet bosses along the iron strap hinges
-        for rx in (-0.78, -0.52, -0.24, 0.24, 0.52, 0.78):
-            V.add_box(bm, (rx - 0.018, -0.098, z - 0.018), (rx + 0.018, 0.098, z + 0.018))
+    for z, hw in ((0.46, 0.91), (1.38, 0.91), (2.10, 0.91), (2.71, 0.78), (3.28, 0.54)):
+        V.add_box(bm, (-hw, -0.092, z - 0.042), (hw, 0.092, z + 0.042))
+        for rx in (-0.76, -0.50, -0.24, 0.24, 0.50, 0.76):
+            if abs(rx) < hw - 0.05:
+                V.add_box(bm, (rx - 0.018, -0.104, z - 0.018), (rx + 0.018, 0.104, z + 0.018))
+    # Central iron spine & tympanum cross-brace
+    V.add_box(bm, (-0.042, -0.096, 2.10), (0.042, 0.096, 3.88))
     for sx in (-1, 1):
-        V.add_box(bm, (sx * 0.90 - 0.045, -0.086, 0.08), (sx * 0.90 + 0.045, 0.086, 2.68))
+        V.add_box(bm, (sx * 0.90 - 0.045, -0.086, 0.08), (sx * 0.90 + 0.045, 0.086, 2.12))
         # Escutcheon plates & ring knockers on both faces
         V.add_box(bm, (sx * 0.22 - 0.045, -0.094, 1.12), (sx * 0.22 + 0.045, 0.094, 1.24))
         V.add_box(bm, (sx * 0.22 - 0.065, -0.105, 1.00), (sx * 0.22 + 0.065, 0.105, 1.13))
     objs.append(V.bm_to_object(bm, "door_bands", ("M_iron",)))
 
-    tbm = bmesh.new()
-    V.add_box(tbm, (-0.98, -0.07, 2.74), (0.98, 0.09, 3.36))
-    V.add_box(tbm, (-0.74, -0.07, 3.36), (0.74, 0.09, 3.72))
-    V.add_box(tbm, (-0.42, -0.07, 3.72), (0.42, 0.09, 3.96))
-    # Relief stone mullion & lintel cross inside the tympanum
-    V.add_box(tbm, (-0.045, -0.095, 2.78), (0.045, 0.115, 3.88))
-    V.add_box(tbm, (-0.56, -0.095, 3.24), (0.56, 0.115, 3.34))
-    objs.append(V.bm_to_object(tbm, "door_tympanum", ("M_stone",)))
+    # Swept wrought-iron perimeter band along the pointed arch
+    apath = [(x * 0.96, 0.0, 2.1 + (y - 2.1) * 0.96) for (x, y) in arch]
+    objs.append(V.sweep_profile("door_arch_iron", apath,
+                                V.chamfer_rect_profile(0.075, 0.18, 0.016),
+                                "M_iron", up_hint=Vector((0, 1, 0))))
     return objs, {"size": [2.0, 0.24, 3.98], "origin": "bottom-center"}
 
 
