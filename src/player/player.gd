@@ -788,6 +788,13 @@ func _refresh_weapon_visual() -> void:
 		_torch_light.light_energy = 1.8
 		_torch_light.position = Vector3(0, 0.8, 0)
 		vis.weapon_mount.add_child(_torch_light)
+	elif weapon_id == "chandler_mace":
+		_torch_light = OmniLight3D.new()
+		_torch_light.light_color = Color(1.0, 0.76, 0.42)
+		_torch_light.omni_range = 6.2
+		_torch_light.light_energy = 1.35
+		_torch_light.position = Vector3(0, 0.92, 0)
+		vis.weapon_mount.add_child(_torch_light)
 
 func apply_carry_pose() -> void:
 	vis.apply_carry_pose()
@@ -910,7 +917,8 @@ func _attack_damage(mult: float) -> float:
 	var w := weapon_data()
 	var scal: Dictionary = w.get("scaling", {})
 	var s: float = 1.0 + attributes["strength"] * float(scal.get("strength", 0.0)) * 0.02 \
-			+ attributes["dexterity"] * float(scal.get("dexterity", 0.0)) * 0.02
+			+ attributes["dexterity"] * float(scal.get("dexterity", 0.0)) * 0.02 \
+			+ float(attributes.get("devotion", 0)) * float(scal.get("devotion", 0.0)) * 0.02
 	var up := 1.0 + 0.14 * weapon_level
 	return float(w.get("damage", 10)) * s * up * mult * Game.dmg_out_mult()
 

@@ -62,6 +62,7 @@ const SLOT_ICON := {
 	"lark_bow": "res://assets/ui/icons/bow.png",
 	"pilgrim_greatsword": "res://assets/ui/icons/greatsword.png",
 	"sexton_maul": "res://assets/ui/icons/maul.png",
+	"chandler_mace": "res://assets/ui/icons/censer_mace.png",
 	"ward_halberd": "res://assets/ui/icons/halberd.png",
 	"flask": "res://assets/ui/icons/flask.png",
 	"torch": "res://assets/ui/icons/torch.png",

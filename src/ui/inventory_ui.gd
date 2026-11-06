@@ -462,6 +462,7 @@ func _icon_for(id: String) -> String:
 	var by := {
 		"cloistersword": "sword", "marsh_spear": "spear", "lark_bow": "bow",
 		"pilgrim_greatsword": "greatsword", "sexton_maul": "maul", "ward_halberd": "halberd",
+		"chandler_mace": "censer_mace",
 		"arrows": "arrows", "torch": "torch", "flask": "flask",
 		"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst",
 		"morrow_lance": "lance", "vesper_ward": "ward",
@@ -469,7 +470,7 @@ func _icon_for(id: String) -> String:
 		"tallow_heart": "tallow_heart", "lark_plume": "lark_plume",
 		"choir_seal": "choir_seal", "bell_fragment": "bell_fragment",
 		"morrow_anthem": "morrow_anthem", "penance_writ": "penance_writ",
-		"radiant_token": "radiant_token",
+		"radiant_token": "radiant_token", "sovereign_wax": "sovereign_wax",
 	}
 	return "res://assets/ui/icons/%s.png" % by.get(id, "relic")
 

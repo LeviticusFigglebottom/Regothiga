@@ -967,6 +967,53 @@ def seraph(arm):
     return b.finalize(arm, seed=451)
 
 
+def chandler(arm):
+    """Guild-Chandler of the Amber Foundry: clad in a heavy bronze-buckled
+    leather dipping apron over wax-steeped guild vestments, bronze crucible
+    pauldrons crowned with lit votive tapers, and a brass-visored furnace hood."""
+    b = BodyBuilder("chandler")
+    common_body(b, "M_robe", "M_wax", "M_leather", hood=True, skirt=True,
+                skirt_len=0.72, girth=1.14, mail_mat="M_bronze")
+    # Heavy wax-steeped leather foundry apron + bronze chest harness & belt
+    bm = b.part("chest", "M_leather")
+    _tube(bm, Vector((0, 0, 1.15)), Vector((0, 0, 1.44)), 0.208, 0.172, n=16,
+          bulge=1.06, steps=4, flutes=8, flute_amp=0.025, squash=(1.10, 0.94), ridge_fwd=0.12)
+    bm_br = b.part("chest", "M_bronze")
+    _tube(bm_br, Vector((0, 0, 1.28)), Vector((0, 0, 1.34)), 0.214, 0.210, n=16, steps=2, squash=(1.10, 0.94))
+    _tube(bm_br, Vector((0, 0, 1.41)), Vector((0, 0, 1.46)), 0.178, 0.146, n=16, steps=2, squash=(1.06, 0.94))
+    # Gilt guild medallion on sternum
+    bm_g = b.part("chest", "M_gold")
+    _torus_ring(bm_g, (0, 0.195, 1.35), 0.042, 0.010, n_major=14, n_minor=6, rot_x=math.pi / 2)
+    _ball(bm_g, (0, 0.195, 1.35), 0.024, sub=1, scale=(1.0, 0.5, 1.0))
+
+    # Brass furnace-visor mask inside the chandler's hood + bronze crown collar
+    bm_m = b.part("head", "M_brass")
+    _tube(bm_m, Vector((0, 0.026, 1.50)), Vector((0, 0.032, 1.62)), 0.102, 0.098, n=14,
+          steps=3, squash=(0.92, 1.12), ridge_fwd=0.16)
+    bm_slit = b.part("head", "M_iron")
+    V.add_box(bm_slit, (-0.068, 0.115, 1.575), (0.068, 0.148, 1.596))
+    for vx in (-0.045, -0.022, 0.0, 0.022, 0.045):
+        V.add_box(bm_slit, (vx - 0.005, 0.112, 1.520), (vx + 0.005, 0.146, 1.558))
+
+    # Bronze pauldrons with lit wax votive candles perched on the shoulders!
+    for side, s in (("r", 1), ("l", -1)):
+        _pauldron(b, side, s, "M_bronze", "M_gold", r=0.110, z=1.43, g=1.14)
+        _gauntlet_and_couter(b, side, s, "M_bronze", g=1.14)
+        _greave_and_sabaton(b, side, s, "M_bronze", g=1.14)
+        bm_w = b.part("chest", "M_wax")
+        cx = s * 0.22
+        _tube(bm_w, Vector((cx, -0.01, 1.48)), Vector((cx, -0.01, 1.59)), 0.022, 0.018, n=10, steps=2)
+        bm_e = b.part("chest", "M_ember")
+        _ball(bm_e, (cx, -0.01, 1.615), 0.018, sub=1, scale=(0.8, 0.8, 1.4))
+
+    # Heavy bronze belt & skimming ladle/wax-cake pouch at hip
+    bm_hip = b.part("hips", "M_bronze")
+    _tube(bm_hip, Vector((0, 0, 0.98)), Vector((0, 0, 1.05)), 0.196, 0.198, n=16, steps=2)
+    bm_cake = b.part("hips", "M_wax")
+    _ball(bm_cake, (-0.19, 0.06, 0.94), 0.055, sub=2, scale=(0.8, 1.1, 1.1))
+    return b.finalize(arm, lumpy=0.012, seed=509)
+
+
 ARCHETYPES = {
     "skel_hero": hero,
     "skel_ward": ward,
@@ -983,6 +1030,7 @@ ARCHETYPES = {
     "skel_mire": mire,
     "skel_wretch": wretch,
     "skel_seraph": seraph,
+    "skel_chandler": chandler,
 }
 
 

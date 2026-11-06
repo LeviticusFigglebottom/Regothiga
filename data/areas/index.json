@@ -9,6 +9,7 @@
   "drowned_marches",
   "vigils_end",
   "old_outskirts",
+  "chandlers_hollow",
   "wick_cathedral",
   "gilded_sanctum",
   "hour_palace",
@@ -51,7 +52,11 @@
   },
   "old_outskirts": {
    "south": "drowned_marches",
-   "north": "wick_cathedral"
+   "north": "wick_cathedral",
+   "west": "chandlers_hollow"
+  },
+  "chandlers_hollow": {
+   "east": "old_outskirts"
   },
   "wick_cathedral": {
    "south": "old_outskirts"

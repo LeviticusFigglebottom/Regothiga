@@ -273,6 +273,16 @@ def main():
     PR.append({"kit": "candle_cluster_dead", "at": [-47.6, 0, -24.8], "rot": 80, "tag": "base"})
     PK.append({"id": "chapel_offering", "at": [-47.4, 0, -28.2], "orisons": 85, "tag": "base",
                "label": "Gather the chapel offering"})
+    # West cliff portal descending into the Chandlers' Hollow (the under-cliff foundry)
+    P.append({"kit": "portal_4m", "at": [-56.0, 0, -15.0], "rot": 90, "scale": [1.1, 1.15, 1.1]})
+    B.append({"min": [-58.8, 0.0, -17.2], "max": [-58.4, 4.5, -12.8], "mat": "M_stone_dark", "tag": "base", "gen": True})
+    B.append({"min": [-58.8, 0.0, -17.4], "max": [-55.9, 4.5, -17.0], "mat": "M_stone_dark", "tag": "base", "gen": True})
+    B.append({"min": [-58.8, 0.0, -13.0], "max": [-55.9, 4.5, -12.6], "mat": "M_stone_dark", "tag": "base", "gen": True})
+    B.append({"min": [-58.8, 4.3, -17.4], "max": [-55.6, 4.8, -12.6], "mat": "M_stone_trim", "tag": "base", "gen": True})
+    PR.append({"kit": "brazier_lit", "at": [-54.8, 0, -17.3], "rot": 0, "tag": "glory"})
+    PR.append({"kit": "brazier_cold", "at": [-54.8, 0, -17.3], "rot": 0, "tag": "ruin"})
+    PR.append({"kit": "brazier_lit", "at": [-54.8, 0, -12.7], "rot": 0, "tag": "glory"})
+    PR.append({"kit": "brazier_cold", "at": [-54.8, 0, -12.7], "rot": 0, "tag": "ruin"})
     ruin(-56, -8, -50, -2, 0, {"S": "-a", "N": "b-", "E": "ab", "W": "pa"},
          rubble=((-53, -5, "l"),))
     ruin(-44, -42, -38, -36, 0, {"S": "ab", "N": "ba", "E": "-a", "W": "ab"},
@@ -444,11 +454,15 @@ def main():
          "THE OLD OUTSKIRTS\n\nBefore the kingdom banked its light, it lived here — "
          "rope and wax, fish and prayer, six families to a stair.\n\nThe city moved up "
          "the hill and the hill kept the houses. Mind the balconies; the timbers remember rain."},
-        {"at": [4.5, 4.8, -37.4], "rot": -155, "text":
+        {"at": [3.6, 4.8, -37.4], "rot": -155, "text":
          "THE PARISH OF THE FIRST WICK\n\nHere the first vigil candle was dipped, "
          "long before the basilica raised its rock.\n\nThe door is sealed until someone "
          "speaks the three graven words. One cooled with the chandlers' wax. One wound "
          "up the steeplejack's stair. One never left the burnt wharf-house hearth."},
+        {"at": [-54.4, 0, -18.2], "rot": 75, "text":
+         "THE CHANDLERS' HOLLOW\n\nBeneath this cliff the Guild of Chandlers tended "
+         "the Golden Skeps and boiled the comb-wax that lit the kingdom.\n\nWhen the Palace "
+         "demanded the séptima tithe of Queen-Comb, Master Malakor barred the lower vault."},
     ]
     for w in WS:
         w.update({"all_of": ["word_wax", "word_wick", "word_flame"], "sets": "parish_words",
@@ -458,10 +472,14 @@ def main():
     # nothing may float where no wall stands)
 
     # the parish door is a true threshold now: the vestibule leads inside
-    d["portals"] = [pp for pp in d.get("portals", []) if pp.get("to") != "wick_cathedral"]
+    d["portals"] = [pp for pp in d.get("portals", [])
+                    if pp.get("to") not in ("wick_cathedral", "chandlers_hollow")]
     d["portals"].append({"to": "wick_cathedral", "at": [0, 4.8, -47.0], "rot": 0,
                          "spawn": [0, 0.2, 0.2], "spawn_yaw": 0,
                          "prompt": "Enter the Parish of the First Wick"})
+    d["portals"].append({"to": "chandlers_hollow", "at": [-56.8, 0.0, -15.0], "rot": 90,
+                         "spawn": [15.0, 0.2, 0.0], "spawn_yaw": 90,
+                         "prompt": "Descend into the Chandlers' Hollow"})
 
     # ---------------- the city on every horizon
     d["skyline"] = [{"kit": "city_panorama", "at": [0, -16, -18]}]

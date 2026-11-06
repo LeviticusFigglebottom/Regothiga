@@ -808,12 +808,82 @@ def bow_lark():
     return objs, {"size": [0.08, 0.4, 1.62], "origin": "grip"}
 
 
+def censer_mace():
+    """Chandler's Censer-Mace: guild-rod of the Master Chandler. Dark ash haft
+    with contoured leather grip, bronze pommel & collars, and a six-flanged
+    liturgical bronze censer lantern head enclosing a glowing amber wax core.
+    Origin at grip (+Z along shaft)."""
+    objs = []
+    # Ash haft + contoured leather grip + bronze pommel & socket collar
+    objs.append(V.loft_rings("mace_haft", [
+        (0.022, -0.34, 12, 0),
+        (0.025, 0.20, 12, 0),
+        (0.028, 0.78, 12, 0),
+    ], "M_wood"))
+    objs.append(V.loft_rings("mace_grip", [
+        (0.028, -0.24, 12, 0),
+        (0.032, -0.10, 12, 0),
+        (0.027, 0.00, 12, 0),
+        (0.032, 0.12, 12, 0),
+        (0.028, 0.24, 12, 0),
+    ], "M_leather"))
+    objs.append(V.loft_rings("mace_pommel", [
+        (0.012, -0.44, 12, 0),
+        (0.044, -0.38, 12, 0),
+        (0.026, -0.33, 12, 0),
+    ], "M_gold"))
+    # Lower and upper bronze censer cup & crown (z = 0.76 .. 1.24)
+    objs.append(V.loft_rings("censer_cup", [
+        (0.030, 0.74, 12, 0),
+        (0.056, 0.82, 12, 0),
+        (0.115, 0.90, 12, 0.2),
+        (0.085, 0.94, 12, 0),
+    ], "M_bronze"))
+    objs.append(V.loft_rings("censer_crown", [
+        (0.085, 1.08, 12, 0),
+        (0.115, 1.12, 12, 0.2),
+        (0.052, 1.20, 12, 0),
+        (0.038, 1.26, 12, 0),
+        (0.010, 1.32, 12, 0),
+    ], "M_gold"))
+    # Glowing molten comb-wax ember core inside the censer cage (z = 0.91 .. 1.11)
+    objs.append(V.loft_rings("censer_core", [
+        (0.055, 0.90, 12, 0),
+        (0.082, 1.01, 12, 0.25),
+        (0.055, 1.12, 12, 0),
+    ], "M_ember"))
+    # 6 radial flanged bronze mace fins around the censer head
+    bm_fl = bmesh.new()
+    for i in range(6):
+        ang = i * math.pi / 3.0
+        ca, sa = math.cos(ang), math.sin(ang)
+        nx, ny = -sa * 0.012, ca * 0.012
+        profile = [
+            (0.055, 0.82),
+            (0.155, 0.89),
+            (0.178, 1.01),
+            (0.155, 1.13),
+            (0.055, 1.20),
+        ]
+        vf = [bm_fl.verts.new((ca * r - nx, sa * r - ny, z)) for (r, z) in profile]
+        vb = [bm_fl.verts.new((ca * r + nx, sa * r + ny, z)) for (r, z) in profile]
+        bm_fl.faces.new(vf)
+        bm_fl.faces.new(list(reversed(vb)))
+        for k in range(len(profile)):
+            m = (k + 1) % len(profile)
+            bm_fl.faces.new((vf[k], vf[m], vb[m], vb[k]))
+    bmesh.ops.recalc_face_normals(bm_fl, faces=bm_fl.faces)
+    objs.append(V.bm_to_object(bm_fl, "censer_flanges", ("M_bronze",)))
+    return objs, {"size": [0.36, 0.36, 1.76], "origin": "grip"}
+
+
 BUILDERS = {
     "char_latecomer": char_latecomer,
     "char_sleeve_l": lambda: char_sleeve("l"),
     "char_sleeve_r": lambda: char_sleeve("r"),
     "sword_cloister": sword_cloister,
     "maul_sexton": maul_sexton,
+    "censer_mace": censer_mace,
     "halberd_ward": halberd_ward,
     "spear_fen": spear_fen,
     "greatsword_pilgrim": greatsword_pilgrim,

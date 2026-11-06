@@ -1,0 +1,2386 @@
+{
+ "id": "chandlers_hollow",
+ "name": "The Chandlers' Hollow",
+ "free_kindle": true,
+ "start": {
+  "pos": [
+   15.0,
+   0.2,
+   0.0
+  ],
+  "yaw": 90
+ },
+ "env": {
+  "glory": {
+   "sun_color": [
+    0.95,
+    0.68,
+    0.34
+   ],
+   "sun_energy": 0.65,
+   "sun_rot": [
+    -25,
+    -45
+   ],
+   "ambient": [
+    0.34,
+    0.25,
+    0.16
+   ],
+   "fog_color": [
+    0.42,
+    0.28,
+    0.15
+   ],
+   "bg_top": [
+    0.16,
+    0.11,
+    0.08
+   ],
+   "bg_horizon": [
+    0.48,
+    0.32,
+    0.18
+   ],
+   "fog_density": 0.014
+  },
+  "ruin": {
+   "sun_color": [
+    0.28,
+    0.34,
+    0.46
+   ],
+   "sun_energy": 0.14,
+   "fog_color": [
+    0.05,
+    0.065,
+    0.09
+   ],
+   "bg_top": [
+    0.025,
+    0.035,
+    0.06
+   ],
+   "bg_horizon": [
+    0.06,
+    0.08,
+    0.12
+   ],
+   "fog_density": 0.016
+  }
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    16,
+    0,
+    -4
+   ],
+   "max": [
+    20,
+    0,
+    4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -16,
+    0,
+    -12
+   ],
+   "max": [
+    16,
+    0,
+    12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -12,
+    0,
+    12
+   ],
+   "max": [
+    12,
+    0,
+    24
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -28,
+    0,
+    -8
+   ],
+   "max": [
+    -16,
+    0,
+    8
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -12,
+    0,
+    -36
+   ],
+   "max": [
+    12,
+    0,
+    -12
+   ]
+  }
+ ],
+ "boxes": [
+  {
+   "min": [
+    16.35,
+    0,
+    -12.1
+   ],
+   "max": [
+    16.65,
+    4.2,
+    -7.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0,
+    7.9
+   ],
+   "max": [
+    16.65,
+    4.2,
+    12.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.65,
+    0,
+    15.9
+   ],
+   "max": [
+    -12.35,
+    4.2,
+    20.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    12.35,
+    0,
+    15.9
+   ],
+   "max": [
+    12.65,
+    4.2,
+    20.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.1,
+    0,
+    24.35
+   ],
+   "max": [
+    -3.9,
+    4.2,
+    24.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    3.9,
+    0,
+    24.35
+   ],
+   "max": [
+    8.1,
+    4.2,
+    24.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -28.65,
+    0,
+    -4.1
+   ],
+   "max": [
+    -28.35,
+    4.2,
+    0.10000000000000009
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -28.65,
+    0,
+    -0.10000000000000009
+   ],
+   "max": [
+    -28.35,
+    4.2,
+    4.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.65,
+    0,
+    -32.1
+   ],
+   "max": [
+    -12.35,
+    4.2,
+    -27.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.65,
+    0,
+    -20.1
+   ],
+   "max": [
+    -12.35,
+    4.2,
+    -15.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    12.35,
+    0,
+    -32.1
+   ],
+   "max": [
+    12.65,
+    4.2,
+    -27.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    12.35,
+    0,
+    -20.1
+   ],
+   "max": [
+    12.65,
+    4.2,
+    -15.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.1,
+    0,
+    -36.65
+   ],
+   "max": [
+    -3.9,
+    4.2,
+    -36.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    3.9,
+    0,
+    -36.65
+   ],
+   "max": [
+    8.1,
+    4.2,
+    -36.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  }
+ ],
+ "vault_fields": [
+  {
+   "min": [
+    16,
+    0,
+    -4
+   ],
+   "max": [
+    20,
+    0,
+    4
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16,
+    0,
+    -12
+   ],
+   "max": [
+    16,
+    0,
+    12
+   ],
+   "spring_top": 4.4,
+   "band_from": 4.0,
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12,
+    0,
+    12
+   ],
+   "max": [
+    12,
+    0,
+    24
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -28,
+    0,
+    -8
+   ],
+   "max": [
+    -16,
+    0,
+    8
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12,
+    0,
+    -36
+   ],
+   "max": [
+    12,
+    0,
+    -12
+   ],
+   "spring_top": 4.6,
+   "band_from": 4.0,
+   "tag": "base"
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "wall_4x4",
+   "at": [
+    20,
+    0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    20,
+    0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    0,
+    -4
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    0,
+    4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    16,
+    0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    16,
+    0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    19.6,
+    0,
+    0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0,
+    10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -2,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -2,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    2,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0,
+    10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -16,
+    0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -16,
+    0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    0,
+    14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -12,
+    0,
+    18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    0,
+    22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    0,
+    14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    12,
+    0,
+    18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    0,
+    22
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    6,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -28,
+    0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -28,
+    0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -26,
+    0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -18,
+    0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -26,
+    0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -18,
+    0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -12,
+    0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -12,
+    0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    12,
+    0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    0,
+    -26
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    0,
+    -22
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    12,
+    0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    6,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -2,
+    0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -2,
+    0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    6,
+    0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    6,
+    0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -8,
+    0,
+    -18
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -8,
+    0,
+    -30
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    8,
+    0,
+    -18
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    8,
+    0,
+    -30
+   ],
+   "rot": 0,
+   "tag": "base"
+  }
+ ],
+ "props": [
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0,
+    10
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0,
+    10
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -12,
+    0,
+    18
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -12,
+    0,
+    18
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    12,
+    0,
+    18
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    12,
+    0,
+    18
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    6,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    6,
+    0,
+    24
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -28,
+    0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -28,
+    0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -28,
+    0,
+    2
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -28,
+    0,
+    2
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -12,
+    0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -12,
+    0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -12,
+    0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -12,
+    0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    12,
+    0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    12,
+    0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    12,
+    0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    12,
+    0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    6,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    6,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -6.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -6.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    10.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    10.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -6.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -6.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    10.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    10.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -6.0,
+    2.2,
+    -3.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    6.0,
+    2.2,
+    -3.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -6.0,
+    2.2,
+    3.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    6.0,
+    2.2,
+    3.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    0.0,
+    2.0,
+    18.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -4.5,
+    2.4,
+    -24.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    4.5,
+    2.4,
+    -24.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -9.0,
+    0,
+    15.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -9.0,
+    0,
+    20.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    9.0,
+    0,
+    15.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    9.0,
+    0,
+    20.5
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -4.0,
+    0,
+    21.8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    4.0,
+    0,
+    21.8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -4.5,
+    0,
+    -33.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    4.5,
+    0,
+    -33.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "anvil",
+   "at": [
+    12.5,
+    0,
+    -4.5
+   ],
+   "rot": 35,
+   "tag": "base"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    13.5,
+    0,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    13.5,
+    0,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    13.5,
+    0,
+    2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    13.5,
+    0,
+    2.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    13.2,
+    0,
+    9.2
+   ],
+   "rot": -25,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    11.2,
+    0,
+    9.8
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "hand_cart",
+   "at": [
+    -13.0,
+    0,
+    8.5
+   ],
+   "rot": 55,
+   "tag": "base"
+  },
+  {
+   "kit": "altar",
+   "at": [
+    -24.5,
+    0,
+    0.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -25.5,
+    0,
+    -4.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -25.5,
+    0,
+    4.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -23.5,
+    0,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -23.5,
+    0,
+    2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -21.5,
+    0,
+    -2.2
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -21.5,
+    0,
+    -2.2
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "altar",
+   "at": [
+    0.0,
+    0,
+    -33.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -2.5,
+    0,
+    -33.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    2.5,
+    0,
+    -33.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -8.0,
+    0.8,
+    -35.85
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -8.0,
+    0.8,
+    -35.85
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    8.0,
+    0.8,
+    -35.85
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    8.0,
+    0.8,
+    -35.85
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "hollow_foundry",
+   "name": "Amber Foundry Vigil",
+   "at": [
+    11.5,
+    0,
+    0.0
+   ],
+   "rot": -90
+  }
+ ],
+ "npcs": [
+  {
+   "id": "master_caelan",
+   "at": [
+    9.5,
+    0,
+    -4.2
+   ],
+   "rot": -115,
+   "tag": "glory"
+  }
+ ],
+ "votive_locks": [
+  {
+   "flag": "hollow_reliquary_open",
+   "tag": "base",
+   "votives": [
+    {
+     "at": [
+      -4.5,
+      0,
+      15.0
+     ]
+    },
+    {
+     "at": [
+      4.5,
+      0,
+      15.0
+     ]
+    },
+    {
+     "at": [
+      -4.5,
+      0,
+      19.5
+     ]
+    },
+    {
+     "at": [
+      4.5,
+      0,
+      19.5
+     ]
+    }
+   ]
+  }
+ ],
+ "flag_gates": [
+  {
+   "flag": "hollow_reliquary_open",
+   "kit": "door_leaf",
+   "at": [
+    -16.0,
+    0,
+    2.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  }
+ ],
+ "gates": [
+  {
+   "id": "hollow_reliquary_shortcut",
+   "at": [
+    -16.0,
+    0,
+    -6.0
+   ],
+   "rot": 90,
+   "locked_prompt": "Barred from within the Guildmaster's Reliquary"
+  }
+ ],
+ "fog_gates": [
+  {
+   "id": "hollow_boss_fog",
+   "at": [
+    -2.0,
+    0,
+    -12.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  }
+ ],
+ "spawners": [
+  {
+   "id": "foundry_melter_1",
+   "enemy": "tallow_melter",
+   "at": [
+    -2.0,
+    0,
+    -2.5
+   ],
+   "face": 90,
+   "tag": "ruin"
+  },
+  {
+   "id": "foundry_melter_2",
+   "enemy": "tallow_melter",
+   "at": [
+    -10.0,
+    0,
+    2.5
+   ],
+   "face": 110,
+   "tag": "ruin"
+  },
+  {
+   "id": "foundry_wax_1",
+   "enemy": "waxbound",
+   "at": [
+    2.0,
+    0,
+    4.5
+   ],
+   "face": 180,
+   "tag": "ruin"
+  },
+  {
+   "id": "apiary_melter",
+   "enemy": "tallow_melter",
+   "at": [
+    0.0,
+    0,
+    17.5
+   ],
+   "face": 180,
+   "tag": "ruin"
+  },
+  {
+   "id": "apiary_echo",
+   "enemy": "gilded_echo",
+   "at": [
+    -6.0,
+    0,
+    18.5
+   ],
+   "face": 60,
+   "tag": "ruin"
+  },
+  {
+   "id": "hollow_boss",
+   "enemy": "sovereign_chandler",
+   "at": [
+    -2.0,
+    0,
+    -26.0
+   ],
+   "face": 180,
+   "dead_once": true,
+   "fog_gate_id": "hollow_boss_fog",
+   "tag": "ruin"
+  }
+ ],
+ "pickups": [
+  {
+   "id": "hollow_censer_mace",
+   "at": [
+    -22.2,
+    0,
+    0.0
+   ],
+   "item": "chandler_mace",
+   "count": 1,
+   "orisons": 200,
+   "tag": "base",
+   "label": "Claim the Chandler's Censer-Mace"
+  },
+  {
+   "id": "apiary_comb_cache",
+   "at": [
+    0.0,
+    0,
+    22.0
+   ],
+   "item": "candleglass",
+   "count": 1,
+   "orisons": 180,
+   "tag": "base",
+   "label": "Gather the Queen-Skep candleglass"
+  },
+  {
+   "id": "foundry_vat_purse",
+   "at": [
+    -13.5,
+    0,
+    -9.5
+   ],
+   "orisons": 165,
+   "tag": "base",
+   "label": "Gather the skimmer's tally-purse"
+  },
+  {
+   "id": "crucible_royal_hoard",
+   "at": [
+    0.0,
+    0,
+    -31.2
+   ],
+   "item": "candleglass",
+   "count": 2,
+   "orisons": 650,
+   "tag": "base",
+   "label": "Claim the Seventh Tithe Chest"
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    13.8,
+    0,
+    3.2
+   ],
+   "rot": -135,
+   "text": "CHARTER OF THE AMBER FOUNDRY\n\nLet no tallow of flesh or beast enter these kettles. Here the Guild boils only the comb of the Golden Skeps, gathered from the cliff-meadows while the noon was whole.\n\nFour votives in the South Cloister keep the Reliquary unbarred."
+  },
+  {
+   "at": [
+    0.0,
+    0,
+    13.8
+   ],
+   "rot": 0,
+   "text": "THE GOLDEN SKEPS\n\nThe sun-bees do not sting the hand that smells of prayer. In glory their hives hum with remembered noon; in ruin the comb sets harder than bronze."
+  },
+  {
+   "at": [
+    -21.5,
+    0,
+    3.5
+   ],
+   "rot": 150,
+   "text": "THE GUILDMASTER'S RELIQUARY\n\nHere rests the Censer-Mace of the First Chandler \u2014 flanged in vat-bronze, cored with an undying coal of royal wax. It answers strength of arm and devotion of spirit alike."
+  },
+  {
+   "at": [
+    -5.2,
+    0,
+    -10.5
+   ],
+   "rot": 20,
+   "text": "EDICT OF REFUSAL\n\nBy hand of Malakor, Sovereign Chandler: The seventh wagon from the Hour Palace shall return empty. What light remains in the Queen-Combs belongs to the Parish and the bees. Let the Sovereign come down and skim the vats himself."
+  }
+ ],
+ "portals": [
+  {
+   "to": "old_outskirts",
+   "at": [
+    18.5,
+    0,
+    0.0
+   ],
+   "rot": -90,
+   "spawn": [
+    -54.0,
+    0.2,
+    -15.0
+   ],
+   "spawn_yaw": -90,
+   "prompt": "Ascend to the Old Outskirts"
+  }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    18
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     10,
+     3,
+     5
+    ],
+    "count": 28
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    0
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     14,
+     4,
+     10
+    ],
+    "count": 24
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    -24
+   ],
+   "rot": 0,
+   "tag": "ruin",
+   "params": {
+    "kind": "motes_ash",
+    "extent": [
+     10,
+     4,
+     10
+    ],
+    "count": 26
+   }
+  }
+ ]
+}

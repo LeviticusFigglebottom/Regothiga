@@ -107,8 +107,10 @@ func _grant_gift(g: Dictionary) -> void:
 	World.set_flag(flag)
 	var item: String = g.get("item", "candleglass")
 	var count := int(g.get("count", 1))
-	Game.player.inventory[item] = int(Game.player.inventory.get(item, 0)) + count
-	Game.toast.emit(g.get("toast", "Received %s x%d" % [item, count]))
+	Game.player.give_item(item, count)
+	var iname: String = DB.weapon(item).get("name",
+		DB.spell(item).get("name", DB.item(item).get("name", item)))
+	Game.toast.emit(g.get("toast", "Received %s x%d" % [iname, count]))
 	AudioDirector.sfx("res://assets/audio/ui_tick.wav", -6.0)
 
 func _ls(size: int, color: Color, bold := false) -> LabelSettings:
@@ -277,6 +279,9 @@ func _activate(o: Dictionary) -> void:
 			else:
 				World.set_flag(o.get("once_flag", "bought_tallow"))
 				Game.add_orisons(-cost2)
+				var fitem: String = o.get("item", "tallow_heart")
+				if fitem != "" and int(p.inventory.get(fitem, 0)) < 1:
+					p.give_item(fitem, 1)
 				p.flask_max += 1
 				p.flasks = p.flask_max
 				p.flasks_changed.emit(p.flasks, p.flask_max)
@@ -304,7 +309,8 @@ func _activate(o: Dictionary) -> void:
 				p.give_item(item, qty)
 				if o.has("once_flag"):
 					World.set_flag(String(o["once_flag"]))
-				var iname: String = DB.weapon(item).get("name", DB.item(item).get("name", item))
+				var iname: String = DB.weapon(item).get("name",
+					DB.spell(item).get("name", DB.item(item).get("name", item)))
 				Game.toast.emit("Received %s%s." % [iname, (" x%d" % qty) if qty > 1 else ""])
 				AudioDirector.sfx("res://assets/audio/levelup.wav", -6.0)
 				text_label.text = o.get("line_done", "Sold. Spend it on staying alive.")
@@ -332,6 +338,14 @@ func _activate(o: Dictionary) -> void:
 				text_label.text = o.get("line_missing", "You do not carry it.")
 			else:
 				p.inventory[ditem] = int(p.inventory[ditem]) - 1
+				if bool(o.get("flask_up", false)):
+					p.flask_max += 1
+					p.flasks = p.flask_max
+					p.flasks_changed.emit(p.flasks, p.flask_max)
+				if o.has("reward_item"):
+					p.give_item(String(o["reward_item"]), int(o.get("reward_count", 1)))
+				if o.has("reward_orisons"):
+					Game.add_orisons(int(o["reward_orisons"]))
 				p.inventory_changed.emit()
 				World.set_flag(dflag)
 				World.save_game()

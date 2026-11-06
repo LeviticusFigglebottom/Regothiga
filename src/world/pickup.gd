@@ -69,13 +69,14 @@ func _on_take(player) -> void:
 	if orisons > 0:
 		Game.add_orisons(orisons)
 	if item_id != "" and player != null:
-		player.inventory[item_id] = int(player.inventory.get(item_id, 0)) + item_count
-	var it := DB.item(item_id)
+		player.give_item(item_id, item_count)
 	var what := []
 	if orisons > 0:
 		what.append("%d orisons" % orisons)
 	if item_id != "":
-		what.append("%s ×%d" % [it.get("name", item_id), item_count])
+		var iname: String = DB.weapon(item_id).get("name",
+			DB.spell(item_id).get("name", DB.item(item_id).get("name", item_id)))
+		what.append("%s ×%d" % [iname, item_count])
 	Game.toast.emit("Received: " + " · ".join(what))
 	AudioDirector.sfx("res://assets/audio/orison.wav", -4.0)
 	World.save_game()

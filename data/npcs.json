@@ -125,6 +125,24 @@
         "line_have": "You've the great blade. Nerve's not something I can forge you."
       },
       {
+        "id": "buy_halberd",
+        "type": "buy",
+        "item": "ward_halberd",
+        "orisons": 380,
+        "label": "Buy the Ward's Halberd — 380 orisons",
+        "line_done": "Wall-watch steel. Axe for the meat, spike for the mail, hook for a man's pride.",
+        "line_have": "You've got the halberd. Keep the axe-face clean."
+      },
+      {
+        "id": "buy_maul",
+        "type": "buy",
+        "item": "sexton_maul",
+        "orisons": 450,
+        "label": "Buy the Sexton's Maul — 450 orisons",
+        "line_done": "Gravedigger's iron. Doesn't care about plate, doesn't care about bone. Swings like a bell-clapper.",
+        "line_have": "One maul's enough to break a parish. You've got yours."
+      },
+      {
         "id": "buy_arrows",
         "type": "buy",
         "item": "arrows",
@@ -442,6 +460,69 @@
         "toast": "The anthem is with the Apostle.",
         "line_done": "Her hand — I would know it anywhere. Oh, the palace will HATE this. I will teach it to every pilgrim with a pulse.",
         "line_have": "I have her anthem safe. It is already being mislearned beautifully."
+      }
+    ]
+  },
+  "master_caelan": {
+    "name": "Master Caelan, the Guild-Chandler",
+    "short_name": "Master Caelan",
+    "body": "skel_chandler",
+    "carry": "censer_mace",
+    "carry_hand": "r",
+    "chapters": [
+      [
+        "Mind the copper vats, pilgrim. The comb-wax boils at the temperature of a small sin, and the apprentices are three centuries late with the skimming ladles.",
+        "This is the Chandlers' Hollow — the under-cliff foundry where every taper in Vespergard was drawn before the sun forgot its office. Above us lies the West Quarter of the Old Outskirts; around us, the Golden Skeps.",
+        "Do you hear the hives? The sun-bees never made honey. They gathered noon off the cliff-meadows and built combs of pure liturgical tallow. A single skep could burn for an age without smoking."
+      ],
+      [
+        "When the noon began to thin, the Palace sent down the Royal Tithe-Wagon every dusk. They demanded the Queen-Combs — the deep amber wax from the lowest vats — to seal the Hour Gate and line the Sovereign's own lanterns.",
+        "Our Sovereign Chandler, old Malakor, refused the seventh tithe. He barred the Crucible Vault at the north end of the Hollow and swore the last combs belonged to the bees and the dark.",
+        "In the ruin of this place, he stands there still, fused to his bronze vat-armor, swinging the Great Censer as if the bailiffs were still at the door. If you unbar the four votives in the cloister, the Reliquary holds our guild-mace — take it if your wrist is steady."
+      ]
+    ],
+    "gift": {
+      "item": "candleglass",
+      "count": 1,
+      "flag": "gift_caelan",
+      "toast": "Received Candleglass — skimmed from the Guildmaster's vat."
+    },
+    "lines_repeat": [
+      "The vats hold their heat as long as someone remembers the recipe. What do you need, Latecomer?",
+      "If you face old Malakor in the Crucible Vault when the Hollow is cold, bring me his Seal-Wax. I can steep it into your flask."
+    ],
+    "services": [
+      {
+        "id": "temper_caelan",
+        "type": "upgrade",
+        "orisons": 150,
+        "label": "Steep & temper your arm in boiled comb-wax — 1 candleglass + 150 orisons",
+        "line_max": "That steel is already steeped to the tang in royal wax. No vat of mine can deepen it further.",
+        "line_no_glass": "Bring me a shard of candleglass to flux the kettle, Latecomer.",
+        "line_no_orisons": "The guild-books still keep measure: %d orisons for the dipping.",
+        "line_done": "There. quenched in sun-comb. Feel how the balance settles toward the light?"
+      },
+      {
+        "id": "steep_sovereign",
+        "type": "deliver",
+        "item": "sovereign_wax",
+        "flag": "steeped_sovereign_wax",
+        "needs_item": "sovereign_wax",
+        "flask_up": true,
+        "reward_item": "candleglass",
+        "reward_count": 1,
+        "label": "Steep the Sovereign's Seal-Wax into your Chrism Flask",
+        "toast": "Chrism flask deepened (+1 draught) · Received Candleglass.",
+        "line_done": "Malakor's own seal-cake... still warm from the first noon. Drink from this and you drink what the Palace could not buy.",
+        "line_have": "The Sovereign's wax already lines your gourd, friend."
+      },
+      {
+        "id": "buy_glass_caelan",
+        "type": "buy",
+        "item": "candleglass",
+        "orisons": 240,
+        "label": "Buy skimmed candleglass — 240 orisons",
+        "line_done": "Skimmed from the bottom of the third kettle. Pure as a window before the stones fell."
       }
     ]
   }

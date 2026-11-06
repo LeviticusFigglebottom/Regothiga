@@ -78,4 +78,9 @@ shot sanctum_avenue_ruin.png   gilded_sanctum ruin  "0,2.2,8,0,4,70"
 shot palace_nave_glory.png     hour_palace glory    "0,2.4,10,-180,4,68" --flag=scion_heard
 shot palace_waxworks_ruin.png  hour_palace ruin     "-18,2.0,28,-180,-4,75" --flag=scion_heard
 shot morrow_hall_glory.png     morrow_keep glory    "0,2.0,6,-180,4,68"
+# pass DLC: The Chandlers' Hollow (Amber Foundry)
+shot hollow_foundry_glory.png  chandlers_hollow glory "13.5,2.0,-1.0,78,-4,68"
+shot hollow_foundry_ruin.png   chandlers_hollow ruin  "13.5,2.0,-1.0,78,-4,68"
+shot hollow_apiary_glory.png   chandlers_hollow glory "0,1.9,13.2,180,-4,68"
+shot hollow_crucible_ruin.png  chandlers_hollow ruin  "-2,2.1,-16.0,0,-4,66"
 echo "gallery done"

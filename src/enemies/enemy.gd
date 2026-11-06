@@ -775,7 +775,7 @@ func _die() -> void:
 	if cfg.has("drop_item") and Game.player != null:
 		var di: Dictionary = cfg["drop_item"]
 		var iid: String = di.get("id", "relic")
-		Game.player.inventory[iid] = int(Game.player.inventory.get(iid, 0)) + 1
+		Game.player.give_item(iid, 1)
 		Game.toast.emit("Claimed %s." % di.get("label", iid))
 	died.emit(self)
 	_fade_out.call_deferred()

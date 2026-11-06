@@ -558,6 +558,56 @@ def icon_radiant_token():
     _save_icon(c, "radiant_token")
 
 
+def icon_censer_mace():
+    c, d = _new_icon((96, 66, 26))
+    # Chandler's Censer-Mace — flanged bronze liturgical mace with glowing amber wax core
+    # Diagonal haft from bottom-left to top-right
+    d.line([(42, 214), (168, 88)], fill=LEATHER_DARK, width=18)
+    d.line([(42, 214), (168, 88)], fill=LEATHER, width=10)
+    # Pommel & grip rings
+    d.ellipse([28, 198, 56, 226], fill=GOLD, outline=INK, width=3)
+    for gx, gy in [(68, 188), (94, 162), (120, 136)]:
+        d.line([(gx - 7, gy - 7), (gx + 7, gy + 7)], fill=GOLD_BRIGHT, width=4)
+    # Flanged bronze censer lantern cage head at top-right (174, 82)
+    cx, cy = 172, 84
+    d.ellipse([cx - 46, cy - 46, cx + 46, cy + 46], fill=(56, 40, 22, 255), outline=GOLD, width=6)
+    # 6 radiating mace flanges
+    for i in range(6):
+        a = i * math.pi / 3.0 + math.pi / 12.0
+        d.polygon([
+            (cx + math.cos(a - 0.22) * 32, cy + math.sin(a - 0.22) * 32),
+            (cx + math.cos(a) * 58, cy + math.sin(a) * 58),
+            (cx + math.cos(a + 0.22) * 32, cy + math.sin(a + 0.22) * 32),
+        ], fill=BRONZE, outline=GOLD_BRIGHT)
+    # Glowing molten wax core inside the censer head
+    d.ellipse([cx - 26, cy - 26, cx + 26, cy + 26], fill=AMBER, outline=GOLD_BRIGHT, width=4)
+    d.ellipse([cx - 14, cy - 14, cx + 14, cy + 14], fill=(255, 250, 220, 255))
+    _save_icon(c, "censer_mace")
+
+
+def icon_sovereign_wax():
+    c, d = _new_icon((104, 76, 24))
+    # Sovereign's Seal-Wax — hexagonal golden comb-wax cake stamped with a royal skep hive seal
+    cx, cy = 128, 130
+    hex_outer = []
+    hex_inner = []
+    for i in range(6):
+        a = i * math.pi / 3.0 - math.pi / 6.0
+        hex_outer.append((cx + math.cos(a) * 82, cy + math.sin(a) * 82))
+        hex_inner.append((cx + math.cos(a) * 64, cy + math.sin(a) * 64))
+    d.polygon(hex_outer, fill=GOLD_DARK, outline=GOLD_BRIGHT)
+    d.line(hex_outer + [hex_outer[0]], fill=GOLD_BRIGHT, width=5)
+    d.polygon(hex_inner, fill=(168, 118, 38, 255), outline=GOLD)
+    # Stamped skep beehive dome + crown rays in the center
+    d.polygon([(cx - 32, cy + 26), (cx - 24, cy - 12), (cx, cy - 32),
+               (cx + 24, cy - 12), (cx + 32, cy + 26)], fill=FLAME, outline=GOLD_DARK)
+    for ry in (-10, 4, 18):
+        hw = 28 - abs(ry - 12) * 0.4
+        d.line([(cx - hw, cy + ry), (cx + hw, cy + ry)], fill=GOLD_DARK, width=4)
+    d.ellipse([cx - 10, cy + 10, cx + 10, cy + 26], fill=INK)
+    _save_icon(c, "sovereign_wax")
+
+
 def icon_relic():
     c, d = _new_icon((68, 56, 36))
     d.polygon([(128, 40), (200, 128), (128, 216), (56, 128)], fill=(54, 42, 26, 255), outline=GOLD, width=6)
@@ -641,6 +691,8 @@ if __name__ == "__main__":
     icon_morrow_anthem()
     icon_penance_writ()
     icon_radiant_token()
+    icon_censer_mace()
+    icon_sovereign_wax()
     icon_relic()
     icon_crest()
     icon_orisons()

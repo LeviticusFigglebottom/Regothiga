@@ -21,6 +21,7 @@ var weapon_kit := ""
 const CARRY_POSE := {
 	"sword_cloister": Vector3(78, 10, -8),
 	"maul_sexton": Vector3(102, 24, -18),
+	"censer_mace": Vector3(96, 18, -14),
 	"halberd_ward": Vector3(106, 14, -10),
 	"spear_fen": Vector3(104, 14, -8),
 	"greatsword_pilgrim": Vector3(76, 16, -10),
@@ -38,6 +39,7 @@ const TRAIL_EXTENTS := {
 	"sword_cloister": Vector2(0.12, 1.08),
 	"greatsword_pilgrim": Vector2(0.22, 1.54),
 	"maul_sexton": Vector2(0.45, 1.18),
+	"censer_mace": Vector2(0.48, 1.24),
 	"toll_maul": Vector2(0.75, 1.72),
 	"halberd_ward": Vector2(0.55, 1.42),
 	"spear_fen": Vector2(1.10, 2.30),

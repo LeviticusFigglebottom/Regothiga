@@ -168,5 +168,30 @@
    "chip": 0.5
   },
   "no_attack": true
+ },
+ "chandler_mace": {
+  "name": "Chandler's Censer-Mace",
+  "desc": "The guild-rod of the Master Chandler, cast in flanged bronze around an undying coal of royal beeswax. It sheds a quiet amber vigil while carried, and answers both a strong wrist and a devout tongue.",
+  "class": "great_hammer",
+  "kit": "censer_mace",
+  "damage": 62,
+  "poise_damage": 44,
+  "scaling": {
+   "strength": 0.55,
+   "devotion": 0.55
+  },
+  "stamina": {
+   "light": 22,
+   "heavy": 38
+  },
+  "moveset": "great_hammer",
+  "upgrade": {
+   "per_level": 8,
+   "max": 5
+  },
+  "block": {
+   "stab": 0.95,
+   "chip": 0.2
+  }
  }
 }

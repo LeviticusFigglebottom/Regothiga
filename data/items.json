@@ -17,7 +17,7 @@
  },
  "lark_plume": {
   "name": "Lark Plume",
-  "desc": "A tail feather of the last summit lark, still warm as a struck bell. The Ferryman honors it as fare \u2014 proof the spire was climbed while it still sang."
+  "desc": "A tail feather of the last summit lark, still warm as a struck bell. The Ferryman honors it as fare — proof the spire was climbed while it still sang."
  },
  "choir_seal": {
   "name": "Choir Seal",
@@ -39,13 +39,21 @@
   "name": "Radiant Burst",
   "desc": "The whole candle at once. Everything near the vigil learns what it was to stand in the kingdom's noon."
  },
+ "morrow_lance": {
+  "name": "Morrow Lance",
+  "desc": "A straight seam of morning driven through everything between you and the far wall. The light does not swerve, and does not apologise."
+ },
+ "vesper_ward": {
+  "name": "Vesper Ward",
+  "desc": "The evening office, worn. A skin of remembered candlelight that takes the world's anger first, and goes out doing it."
+ },
  "bell_fragment": {
   "name": "Bell Fragment",
   "desc": "A curved shard of the Bellkeeper's own bell, cold as a held breath. It hums faintly when carried toward its brothers."
  },
  "morrow_anthem": {
   "name": "The Morrow Anthem",
-  "desc": "A fair copy in the Precentress's hand \u2014 the anthem she wrote for a morning that never rang. The seal is wax the colour of dawn."
+  "desc": "A fair copy in the Precentress's hand — the anthem she wrote for a morning that never rang. The seal is wax the colour of dawn."
  },
  "penance_writ": {
   "name": "Writ of Penance, Discharged",
@@ -54,5 +62,9 @@
  "radiant_token": {
   "name": "Token of Radiant Retribution",
   "desc": "A warden's amend, pressed into a coin of morning-light. It is warm on the side that faced him. Five were owed; the light is counting."
+ },
+ "sovereign_wax": {
+  "name": "Sovereign's Seal-Wax",
+  "desc": "A golden cake of royal comb-wax stamped with the Chandler-Sovereign's great skep seal. Warm as noon in a closed palm; Master Caelan can steep it into your Chrism Flask."
  }
 }

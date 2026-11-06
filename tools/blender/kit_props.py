@@ -1625,6 +1625,177 @@ def chrism_flask():
     return objs, {"size": [0.17, 0.17, 0.26], "origin": "bottom-center"}
 
 
+def tallow_vat(lit: bool = True):
+    """Guild-Chandlers' boiling cauldron vat: octagonal carved dark-stone furnace
+    base with iron stoke-grate, riveted bronze boiling kettle, brass skimming
+    rim, and either glowing molten comb-wax + central flame (lit=True) or cold
+    crusted tallow (lit=False)."""
+    objs = []
+    n = 16
+    # Octagonal dark-stone furnace plinth
+    objs.append(V.loft_rings("vat_furnace", [
+        (0.86, 0.00, 8, 0),
+        (0.86, 0.14, 8, 0),
+        (0.76, 0.18, 8, 0),
+        (0.74, 0.56, 8, 0),
+        (0.82, 0.62, 8, 0),
+    ], "M_stone_dark", cap_bottom=True, cap_top=True))
+    # Iron firebox doors & stoke bars on +Y/-Y and riveted kettle belly bands
+    bm_iron = bmesh.new()
+    for sy in (-1, 1):
+        V.add_box(bm_iron, (-0.24, sy * 0.72 - 0.04, 0.14), (0.24, sy * 0.72 + 0.04, 0.48))
+        for bx in (-0.14, -0.05, 0.05, 0.14):
+            V.add_box(bm_iron, (bx - 0.015, sy * 0.75 - 0.02, 0.16), (bx + 0.015, sy * 0.75 + 0.02, 0.46))
+    for sx in (-1, 1):
+        # Heavy wrought-iron lifting ring handles on +/-X
+        V.add_box(bm_iron, (sx * 0.84 - 0.05, -0.08, 0.86), (sx * 0.84 + 0.05, 0.08, 1.02))
+    objs.append(V.bm_to_object(bm_iron, "vat_iron", ("M_iron",)))
+
+    # Riveted bronze cauldron kettle sitting on the furnace
+    objs.append(V.loft_rings("vat_kettle", [
+        (0.68, 0.58, n, 0),
+        (0.84, 0.78, n, 0.18),
+        (0.88, 1.02, n, 0),
+        (0.82, 1.18, n, 0),
+        (0.90, 1.24, n, 0),
+        (0.76, 1.24, n, 0),
+        (0.74, 1.08, n, 0),
+    ], "M_bronze", cap_bottom=False, cap_top=False))
+
+    # Gilt-brass decorative rim & skimming ladle rest
+    objs.append(V.loft_rings("vat_rim_brass", [
+        (0.83, 1.18, n, 0),
+        (0.91, 1.22, n, 0),
+        (0.91, 1.26, n, 0),
+        (0.82, 1.26, n, 0),
+    ], "M_brass", cap_bottom=False, cap_top=False))
+
+    # Wax pool inside the cauldron (z ~ 1.14)
+    wax_mat = "M_ember" if lit else "M_wax"
+    objs.append(V.loft_rings("vat_wax_pool", [
+        (0.75, 1.10, n, 0),
+        (0.74, 1.16, n, 0.22),
+        (0.36, 1.19 if lit else 1.14, n, 0.35),
+        (0.04, 1.21 if lit else 1.13, n, 0),
+    ], wax_mat, cap_bottom=False, cap_top=True))
+
+    if lit:
+        # Central sacred vigil flame rising from the boiling comb-wax + furnace ember glow
+        objs.append(V.loft_rings("vat_flame", [
+            (0.08, 1.16, 10, 0),
+            (0.14, 1.28, 10, 0),
+            (0.09, 1.44, 10, 0),
+            (0.01, 1.58, 10, 0),
+        ], "M_flame", cap_bottom=False, cap_top=True))
+    return objs, {"size": [1.82, 1.82, 1.58], "origin": "bottom-center"}
+
+
+def apiary_skep():
+    """Sacred Golden Skep of the Chandlers' Hollow: an ornate braided comb-wax
+    and straw cathedral hive banded with gilt-bronze hoops on a carved stone
+    altar-plinth, crowned with a solar finial."""
+    objs = []
+    # Carved stone octagonal plinth + drip table
+    objs.append(V.loft_rings("skep_plinth", [
+        (0.58, 0.00, 8, 0),
+        (0.58, 0.14, 8, 0),
+        (0.48, 0.20, 8, 0),
+        (0.46, 0.52, 8, 0),
+        (0.56, 0.58, 8, 0),
+        (0.56, 0.66, 8, 0),
+    ], "M_stone_trim", cap_bottom=True, cap_top=True))
+
+    # Coiled golden straw/wax beehive dome (tiered braided rings)
+    rings = [(0.48, 0.65, 16, 0)]
+    for i in range(9):
+        t = i / 8.0
+        zc = 0.68 + t * 0.96
+        r_outer = 0.48 * math.cos(t * math.pi * 0.44) + 0.03
+        r_groove = max(0.04, r_outer - 0.032)
+        rings.append((r_outer, zc, 16, 0.12))
+        rings.append((r_groove, zc + 0.055, 16, 0))
+    rings.append((0.02, 1.72, 16, 0))
+    objs.append(V.loft_rings("skep_dome", rings, "M_wax", cap_bottom=False, cap_top=True))
+
+    # Gilt-bronze liturgical hoops & arched bee-entrance porch on +Y
+    bm_gold = bmesh.new()
+    V.add_box(bm_gold, (-0.14, 0.42, 0.66), (0.14, 0.54, 0.90))
+    V.add_box(bm_gold, (-0.18, 0.44, 0.64), (0.18, 0.58, 0.69))
+    objs.append(V.bm_to_object(bm_gold, "skep_porch", ("M_gold",)))
+
+    for zh, rh in ((0.84, 0.475), (1.16, 0.415), (1.44, 0.295)):
+        objs.append(V.loft_rings("skep_hoop", [
+            (rh - 0.02, zh - 0.02, 16, 0),
+            (rh + 0.015, zh - 0.02, 16, 0),
+            (rh + 0.015, zh + 0.02, 16, 0),
+            (rh - 0.02, zh + 0.02, 16, 0),
+        ], "M_gold", cap_bottom=False, cap_top=False))
+
+    # Solar crown finial at apex
+    objs.append(V.loft_rings("skep_finial", [
+        (0.05, 1.70, 12, 0),
+        (0.09, 1.78, 12, 0),
+        (0.03, 1.88, 12, 0),
+        (0.07, 1.94, 12, 0),
+        (0.01, 2.02, 12, 0),
+    ], "M_gold", cap_bottom=False, cap_top=True))
+    return objs, {"size": [1.16, 1.16, 2.02], "origin": "bottom-center"}
+
+
+def wax_wheel():
+    """Suspended Chandler's Dipping Wheel: a spoked timber-and-brass chandelier
+    wheel hung from an iron hoist chain, bearing twelve long pale-wax tapers
+    with lit golden flames."""
+    objs = []
+    # Central iron suspension shaft & hoist collar (z = 1.10 .. 2.40)
+    objs.append(V.loft_rings("wheel_chain", [
+        (0.07, 1.06, 12, 0),
+        (0.11, 1.16, 12, 0),
+        (0.05, 1.28, 12, 0),
+        (0.035, 2.32, 12, 0),
+        (0.09, 2.40, 12, 0),
+    ], "M_iron", cap_bottom=True, cap_top=True))
+
+    # Outer timber-and-brass dipping wheel rim at z = 1.16 (radius ~ 0.92)
+    objs.append(V.loft_rings("wheel_rim", [
+        (0.84, 1.12, 20, 0),
+        (0.96, 1.12, 20, 0),
+        (0.96, 1.22, 20, 0),
+        (0.84, 1.22, 20, 0),
+        (0.84, 1.12, 20, 0),
+    ], "M_wood", cap_bottom=False, cap_top=False))
+    objs.append(V.loft_rings("wheel_brass_band", [
+        (0.95, 1.14, 20, 0),
+        (0.98, 1.14, 20, 0),
+        (0.98, 1.20, 20, 0),
+        (0.95, 1.20, 20, 0),
+    ], "M_brass", cap_bottom=False, cap_top=False))
+
+    # 6 wooden spokes + 12 hanging dipped wax tapers & flames
+    bm_spokes = bmesh.new()
+    for i in range(6):
+        ang = i * math.pi / 3.0
+        ca, sa = math.cos(ang), math.sin(ang)
+        p0 = Vector((-sa * 0.025, ca * 0.025, 1.15))
+        p1 = Vector((ca * 0.88, sa * 0.88, 1.15))
+        V.add_box(bm_spokes, (min(p0.x, p1.x) - 0.02, min(p0.y, p1.y) - 0.02, 1.14),
+                  (max(p0.x, p1.x) + 0.02, max(p0.y, p1.y) + 0.02, 1.20))
+    objs.append(V.bm_to_object(bm_spokes, "wheel_spokes", ("M_wood",)))
+
+    bm_wax = bmesh.new()
+    bm_flame = bmesh.new()
+    for i in range(12):
+        ang = i * math.pi / 6.0
+        tx, ty = math.cos(ang) * 0.90, math.sin(ang) * 0.90
+        # Hanging taper (z = 0.42 .. 1.14) + upper lit votive on the rim (z = 1.22 .. 1.44)
+        V.add_cyl(bm_wax, tx, ty, 0.42, 0.72, 0.026, n=8)
+        V.add_cyl(bm_wax, tx, ty, 1.22, 0.22, 0.028, n=8)
+        V.add_cyl(bm_flame, tx, ty, 1.44, 0.08, 0.018, n=8)
+    objs.append(V.bm_to_object(bm_wax, "wheel_tapers", ("M_wax",)))
+    objs.append(V.bm_to_object(bm_flame, "wheel_flame", ("M_flame",)))
+    return objs, {"size": [1.96, 1.96, 2.40], "origin": "bottom-center"}
+
+
 BUILDERS = {
     "chrism_flask": chrism_flask,
     "vigil_lantern": vigil_lantern,
@@ -1661,4 +1832,8 @@ BUILDERS = {
     "hanging_chain": lambda: hanging_chain(True),
     "hanging_chain_bare": lambda: hanging_chain(False),
     "door_leaf": door_leaf,
+    "tallow_vat": lambda: tallow_vat(True),
+    "tallow_vat_cold": lambda: tallow_vat(False),
+    "apiary_skep": apiary_skep,
+    "wax_wheel": wax_wheel,
 }
