@@ -497,13 +497,13 @@ def hero(arm):
     b = BodyBuilder("hero")
     common_body(b, "M_robe", "M_wax", "M_plate_dark", hood=False, skirt=True,
                 skirt_len=0.38, girth=1.02, mail_mat="M_chainmail")
-    # Sculpted Gothic breastplate & backplate with tapul ridge + chainmail under-arm gussets
+    # Sculpted Gothic breastplate & backplate + chainmail under-arm gussets
     bm = b.part("chest", "M_plate_dark")
-    _tube(bm, Vector((0, 0, 1.21)), Vector((0, 0, 1.44)), 0.186, 0.138, n=16, bulge=1.06,
-          steps=4, flutes=8, flute_amp=0.02, squash=(1.12, 0.92), ridge_fwd=0.06)
+    _tube(bm, Vector((0, 0, 1.21)), Vector((0, 0, 1.44)), 0.188, 0.140, n=16, bulge=1.06,
+          steps=4, flutes=8, flute_amp=0.02, squash=(1.12, 0.92), ridge_fwd=0.02)
     bm_cm = b.part("chest", "M_chainmail")
-    _tube(bm_cm, Vector((0, 0, 1.18)), Vector((0, 0, 1.43)), 0.180, 0.132, n=16,
-          steps=3, squash=(1.14, 0.90))
+    _tube(bm_cm, Vector((0, 0, 1.18)), Vector((0, 0, 1.43)), 0.178, 0.130, n=16,
+          steps=3, squash=(1.15, 0.86))
     # Draped pilgrim mantle collar around the shoulders (tucked below the helm chin)
     bm_m = b.part("chest", "M_robe")
     _tube(bm_m, Vector((0, -0.01, 1.38)), Vector((0, -0.005, 1.445)), 0.192, 0.124, n=16,
@@ -566,14 +566,14 @@ def penitent(arm):
                 skirt_len=0.52, girth=1.00, mail_mat="M_chainmail")
     # Weathered ash-linen penance scapular & lower-jaw burial wrap + dark mantle
     bm_sc = b.part("chest", "M_shroud")
-    _tube(bm_sc, Vector((0, 0.005, 1.12)), Vector((0, 0.005, 1.40)), 0.182, 0.162, n=14,
-          steps=3, flutes=8, flute_amp=0.035, squash=(0.96, 1.06), ridge_fwd=0.08)
+    _tube(bm_sc, Vector((0, 0.004, 1.06)), Vector((0, 0.004, 1.33)), 0.172, 0.148, n=14,
+          steps=3, flutes=8, flute_amp=0.03, squash=(0.98, 0.98), ridge_fwd=0.04)
     bm_jw = b.part("head", "M_robe")
     _tube(bm_jw, Vector((0, 0.015, 1.48)), Vector((0, 0.022, 1.565)), 0.092, 0.095, n=12,
           steps=2, squash=(0.92, 1.08))
     bm_m = b.part("chest", "M_robe")
-    _tube(bm_m, Vector((0, 0, 1.32)), Vector((0, -0.01, 1.48)), 0.190, 0.158, n=14,
-          steps=3, flutes=8, flute_amp=0.045, squash=(1.12, 0.92))
+    _tube(bm_m, Vector((0, 0, 1.31)), Vector((0, -0.005, 1.48)), 0.192, 0.160, n=14,
+          steps=3, flutes=8, flute_amp=0.04, squash=(1.10, 0.96))
     # Heavy wrought-iron penance collar & spiked brow-band
     bm = b.part("chest", "M_iron")
     _tube(bm, Vector((0, 0, 1.43)), Vector((0, 0, 1.49)), 0.168, 0.148, n=14, steps=2)

@@ -743,17 +743,18 @@ def fog_gate_frame():
 
 
 def roof_shed_4m():
-    """Lean-to roof over a cloister walk."""
+    """Lean-to roof over a cloister walk or side aisle (rises from 4.02 m at outer
+    eave to 4.98 m at inner wall, staying cleanly below y=5.15 clerestory sills)."""
     bm = bmesh.new()
     a = bm.verts.new((-2.04, -0.35, 4.02)); b = bm.verts.new((2.04, -0.35, 4.02))
-    c = bm.verts.new((2.04, 4.4, 5.52)); d = bm.verts.new((-2.04, 4.4, 5.52))
+    c = bm.verts.new((2.04, 4.02, 4.98)); d = bm.verts.new((-2.04, 4.02, 4.98))
     bm.faces.new((a, b, c, d))
     bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.09)
     roof = V.bm_to_object(bm, "roof_slope", ("M_roof",))
     bm2 = bmesh.new()
     V.add_box(bm2, (-2, -0.42, 3.86), (2, -0.30, 4.10))
     fascia = V.bm_to_object(bm2, "roof_fascia", ("M_wood",))
-    return [roof, fascia], {"size": [4, 4.8, 5.6], "origin": "eave-center"}
+    return [roof, fascia], {"size": [4, 4.5, 5.1], "origin": "eave-center"}
 
 
 def rose_window():
