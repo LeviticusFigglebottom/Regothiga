@@ -959,7 +959,8 @@ def chandelier_gilt(chain_top=3.6):
 
 
 def carpet_runner_8m():
-    """Processional runner: deep red field, gold borders, flat and passable.
+    """Processional runner: deep red field, gold borders, inner filigree frame,
+    central woven gold medallion, and end fringe tassels — flat and passable.
     Origin bottom-center of the run (lies along X)."""
     objs = []
     bm = bmesh.new()
@@ -970,6 +971,25 @@ def carpet_runner_8m():
         V.add_box(bm, (-3.94, sy, 0.03), (3.94, sy + 0.06, 0.042))
     V.add_box(bm, (-3.94, -0.94, 0.03), (-3.88, 0.94, 0.042))
     V.add_box(bm, (3.88, -0.94, 0.03), (3.94, 0.94, 0.042))
+    # Inner filigree border lines
+    for sy in (-0.78, 0.75):
+        V.add_box(bm, (-3.68, sy, 0.029), (3.68, sy + 0.03, 0.038))
+    for sx in (-3.68, 3.65):
+        V.add_box(bm, (sx, -0.75, 0.029), (sx + 0.03, 0.75, 0.038))
+    # Corner knot squares at all 4 inner corners
+    for cx in (-3.66, 3.66):
+        for cy in (-0.76, 0.76):
+            V.add_box(bm, (cx - 0.08, cy - 0.08, 0.030), (cx + 0.08, cy + 0.08, 0.041))
+    # Central woven gold spine & 3 lozenge medallions along the runner
+    V.add_box(bm, (-3.50, -0.025, 0.029), (3.50, 0.025, 0.038))
+    for mx in (-2.2, 0.0, 2.2):
+        V.add_box(bm, (mx - 0.24, -0.20, 0.030), (mx + 0.24, 0.20, 0.040))
+        V.add_box(bm, (mx - 0.12, -0.10, 0.031), (mx + 0.12, 0.10, 0.042))
+    # Gold fringe tassels along the -X and +X ends
+    for i in range(11):
+        fy = -0.90 + i * 0.18
+        V.add_box(bm, (-4.06, fy - 0.025, 0.008), (-3.94, fy + 0.025, 0.026))
+        V.add_box(bm, (3.94, fy - 0.025, 0.008), (4.06, fy + 0.025, 0.026))
     objs.append(V.bm_to_object(bm, "carpet_border", ("M_gild",)))
     return objs, {"size": [8, 2.2, 0.05], "origin": "bottom-center"}
 

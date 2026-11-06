@@ -142,7 +142,7 @@
  "bell_fragment": {
   "file": "assets/kit/bell_fragment.glb",
   "origin": "bottom-center",
-  "polys": 36,
+  "polys": 144,
   "size": [
    0.6,
    0.45,
@@ -371,7 +371,7 @@
  "capstan_bars": {
   "file": "assets/kit/capstan_bars.glb",
   "origin": "axle",
-  "polys": 68,
+  "polys": 110,
   "size": [
    2.4,
    2.4,
@@ -391,7 +391,7 @@
  "carpet_runner_8m": {
   "file": "assets/kit/carpet_runner_8m.glb",
   "origin": "bottom-center",
-  "polys": 30,
+  "polys": 252,
   "size": [
    8,
    2.2,
@@ -995,7 +995,7 @@
  "mosaic_medallion": {
   "file": "assets/kit/mosaic_medallion.glb",
   "origin": "bottom-center",
-  "polys": 142,
+  "polys": 254,
   "size": [
    3.6,
    3.6,
@@ -1317,7 +1317,7 @@
  "reed_clump_dead": {
   "file": "assets/kit/reed_clump_dead.glb",
   "origin": "bottom-center",
-  "polys": 42,
+  "polys": 84,
   "size": [
    1.1,
    1.1,

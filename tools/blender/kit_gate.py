@@ -215,6 +215,17 @@ def capstan_bars():
     V.add_box(gild, (-0.13, -1.34, -0.05), (0.13, -1.02, 0.19))
     V.add_box(gild, (-0.05, -1.02, 0.14), (0.05, -0.2, 0.21))
     objs.append(V.bm_to_object(gild, "cap_goldbar", ("M_gold",)))
+    # Iron hub socket straps & end ferrules on the 3 non-gold grip ends
+    bm_iron = bmesh.new()
+    for d in (-0.32, 0.32):
+        V.add_box(bm_iron, (d - 0.035, -0.085, -0.015), (d + 0.035, 0.085, 0.155))
+        V.add_box(bm_iron, (-0.085, d - 0.035, -0.015), (0.085, d + 0.035, 0.155))
+    for (fx, fy, horizontal) in ((0.96, 0.0, True), (-0.96, 0.0, True), (0.0, 0.96, False)):
+        if horizontal:
+            V.add_box(bm_iron, (fx - 0.03, -0.082, -0.01), (fx + 0.03, 0.082, 0.15))
+        else:
+            V.add_box(bm_iron, (-0.082, fy - 0.03, -0.01), (0.082, fy + 0.03, 0.15))
+    objs.append(V.bm_to_object(bm_iron, "cap_straps", ("M_iron",)))
     hub = V.loft_rings(
         "cap_hub",
         [(0.20, -0.05, 12, 0), (0.17, 0.18, 12, 0), (0.13, 0.32, 12, 0)],

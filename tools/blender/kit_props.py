@@ -1192,19 +1192,20 @@ def votive_stand_tall(lit=True):
 
 
 def bell_fragment():
-    """A broken arc of the Bellkeeper's bell."""
+    """A broken arc of the Bellkeeper's bell with raised sound-bow mouldings,
+    gilt inscription band, and jagged fracture teeth."""
     import bmesh as _bmesh
     from mathutils import Matrix as _M
     R = 0.34
     lean = _M.Rotation(math.radians(11), 3, "X")
 
-    def _arc_boxes(bm, half_w, half_t, z0, z1, y_off):
-        for i, ang in enumerate((-26, 0, 26)):
+    def _arc_boxes(bm, half_w, half_t, z0, z1, y_off, angles=(-32, -16, 0, 16, 32), jagged=False):
+        for i, ang in enumerate(angles):
             a = math.radians(ang)
             rot = _M.Rotation(a, 3, "Z")
             cx = R * math.sin(a)
             cy = -R * (1 - math.cos(a)) + y_off
-            top = z1 + (0.06 if i == 1 else 0.0)
+            top = z1 + ((0.06 if i == 2 else (0.03 if i in (1, 3) else -0.02)) if jagged else 0.0)
             corners = []
             for sx in (-half_w, half_w):
                 for sy in (-half_t, half_t):
@@ -1220,22 +1221,33 @@ def bell_fragment():
 
     objs = []
     bm = _bmesh.new()
-    _arc_boxes(bm, 0.085, 0.025, 0.0, 0.46, 0.0)
+    _arc_boxes(bm, 0.062, 0.026, 0.0, 0.46, 0.0, jagged=True)
+    # Raised bronze waist moulding ribs
+    _arc_boxes(bm, 0.066, 0.034, 0.14, 0.17, -0.004)
+    _arc_boxes(bm, 0.066, 0.034, 0.32, 0.35, -0.004)
     objs.append(V.bm_to_object(bm, "frag_wall", ("M_bronze",)))
+    bm_gold = _bmesh.new()
+    # Fractured gilt inscription band along the bell waist
+    _arc_boxes(bm_gold, 0.068, 0.036, 0.21, 0.27, -0.006, angles=(-24, -8, 8, 24))
+    objs.append(V.bm_to_object(bm_gold, "frag_inscr", ("M_gold",)))
     bm = _bmesh.new()
-    _arc_boxes(bm, 0.095, 0.045, 0.0, 0.085, -0.012)
+    _arc_boxes(bm, 0.070, 0.046, 0.0, 0.088, -0.012)
     objs.append(V.bm_to_object(bm, "frag_lip", ("M_iron",)))
     return objs, {"size": [0.6, 0.45, 0.55], "origin": "bottom-center"}
 
 
 def mosaic_medallion():
-    """Flat inlaid mosaic roundel, 3.4 m across."""
+    """Flat inlaid mosaic roundel, 3.4 m across, with inner bronze filigree ring."""
     disc = V.loft_rings("mosaic_disc", [(1.7, 0.0, 28, 0), (1.7, 0.012, 28, 0)], "M_mosaic")
     rim = V.loft_rings("mosaic_rim", [(1.78, 0.0, 28, 0), (1.78, 0.016, 28, 0),
                                       (1.7, 0.016, 28, 0), (1.7, 0.0, 28, 0),
                                       (1.78, 0.0, 28, 0)], "M_stone_trim",
                        cap_bottom=False, cap_top=False)
-    return [disc, rim], {"size": [3.6, 3.6, 0.02], "origin": "bottom-center"}
+    inlay = V.loft_rings("mosaic_inlay", [(1.68, 0.002, 28, 0), (1.68, 0.015, 28, 0),
+                                          (1.62, 0.015, 28, 0), (1.62, 0.002, 28, 0),
+                                          (1.68, 0.002, 28, 0)], "M_bronze",
+                         cap_bottom=False, cap_top=False)
+    return [disc, rim, inlay], {"size": [3.6, 3.6, 0.02], "origin": "bottom-center"}
 
 
 def ossuary_wall_4m():

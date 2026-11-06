@@ -63,17 +63,27 @@ def reed_clump(seed=5):
 
 
 def reed_clump_dead(seed=9):
-    """The same stand in ruin: fewer blades, bent low, headless."""
+    """The same stand in ruin: 10 bent and snapped stalks with a couple of
+    withered seed-head stubs."""
     rng = random.Random(seed)
+    objs = []
     bm = bmesh.new()
-    for i in range(7):
+    stubs = []
+    for i in range(10):
         a = rng.uniform(0, math.tau)
         r = rng.uniform(0.05, 0.42)
         x, y = math.cos(a) * r, math.sin(a) * r
-        h = rng.uniform(0.5, 1.1)
-        _blade(bm, x, y, h, rng.uniform(-0.45, 0.45), rng.uniform(-0.45, 0.45))
-    obj = V.bm_to_object(bm, "reeds_dead", ("M_habit",))
-    return [obj], {"size": [1.1, 1.1, 1.2], "origin": "bottom-center"}
+        h = rng.uniform(0.45, 1.15)
+        lx, ly = rng.uniform(-0.42, 0.42), rng.uniform(-0.42, 0.42)
+        _blade(bm, x, y, h, lx, ly)
+        if i < 3:
+            stubs.append((x + lx, y + ly, h))
+    objs.append(V.bm_to_object(bm, "reeds_dead", ("M_habit",)))
+    hm = bmesh.new()
+    for (hx, hy, hz) in stubs:
+        V.add_cyl(hm, hx, hy, hz - 0.10, 0.10, 0.022, n=6)
+    objs.append(V.bm_to_object(hm, "reed_stubs", ("M_wood",)))
+    return objs, {"size": [1.1, 1.1, 1.2], "origin": "bottom-center"}
 
 
 def beacon_brazier():
