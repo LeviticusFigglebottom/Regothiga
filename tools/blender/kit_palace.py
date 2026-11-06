@@ -109,9 +109,9 @@ def palace_wall_4x4():
     bm = bmesh.new()
     bm_field = bmesh.new()
     bm_gild = bmesh.new()
-    V.add_box(bm, (-2, -0.16, 0), (2, 0.16, 4.0))                  # core
-    V.add_box(bm, (-2, -0.21, 0.0), (2, 0.21, 0.55))               # plinth
-    V.add_box(bm, (-2, -0.19, 3.62), (2, 0.19, 4.0))               # head band
+    V.add_box(bm, (-2, -0.16, -0.006), (2, 0.16, 4.006))            # core
+    V.add_box(bm, (-2, -0.21, -0.006), (2, 0.21, 0.55))             # plinth
+    V.add_box(bm, (-2, -0.19, 3.62), (2, 0.19, 4.006))              # head band
     for (yf, out) in ((-0.16, -1), (0.16, 1)):
         for (px0, px1) in ((-1.86, -0.1), (0.1, 1.86)):
             _panel_relief(bm, px0, px1, 0.75, 2.0, yf, out, frame=0.13, bm_gild=bm_gild, bm_field=bm_field)
@@ -160,64 +160,78 @@ def palace_cornice_4m():
 
 
 def palace_portal_4m():
-    """Palace doorway: marble panel, 1.9-wide arch, two GOLD archivolts and
-    a gilt sunburst in the tympanum zone. Passage along Y, bottom-center."""
+    """Palace doorway: marble panel, 1.9-wide arch, two GOLD archivolts,
+    matching wainscoting side panels & dentil frieze, and a gilt sun-wheel
+    medallion in the tympanum zone. Passage along Y, bottom-center."""
     objs = []
-    panel = V.wall_panel_with_arch("palace_portal_wall", 4.0, 4.0, 0.5, 1.9, 1.60,
+    panel = V.wall_panel_with_arch("palace_portal_wall", 4.0, 4.0, 0.36, 1.9, 1.60,
                                    sharpness=0.75, mat="M_marble", segments=12)
     objs.append(panel)
+    bm_trim = bmesh.new()
+    bm_field = bmesh.new()
+    bm_gild = bmesh.new()
+    for sx in (-1, 1):
+        x0, x1 = (-2.0, -0.95) if sx < 0 else (0.95, 2.0)
+        V.add_box(bm_trim, (x0, -0.21, -0.006), (x1, 0.21, 0.55))
+        V.add_box(bm_gild, (sx * 1.18, -0.20, 2.14), (sx * 2.0, 0.20, 2.30))
+        px0, px1 = (-1.88, -1.24) if sx < 0 else (1.24, 1.88)
+        for (yf, out) in ((-0.18, -1), (0.18, 1)):
+            _panel_relief(bm_trim, px0, px1, 0.75, 2.0, yf, out, frame=0.10, bm_gild=bm_gild, bm_field=bm_field)
+            _panel_relief(bm_trim, px0, px1, 2.5, 3.4, yf, out, frame=0.10, bm_gild=bm_gild, bm_field=bm_field)
+    V.add_box(bm_trim, (-2.0, -0.19, 3.62), (2.0, 0.19, 4.006))
+    _dentils(bm_gild, -2.0, 2.0, 3.42, -0.18, out=-1)
+    _dentils(bm_gild, -2.0, 2.0, 3.42, 0.18, out=1)
+    objs.append(V.bm_to_object(bm_trim, "palace_portal_mould", ("M_marble",)))
+    objs.append(V.bm_to_object(bm_field, "palace_portal_panels", ("M_marble_floor",)))
     arch = V.pointed_arch(1.9, 0.75, 12, 1.60)
-    for k, (scale, depth) in enumerate(((1.07, 0.58), (1.16, 0.54))):
+    for k, (scale, depth) in enumerate(((1.07, 0.48), (1.16, 0.44))):
         path = [(x * scale, 0.0, 1.60 + (y - 1.60) * scale) for (x, y) in arch]
         prof = V.chamfer_rect_profile(0.11 - k * 0.015, depth, 0.03)
         objs.append(V.sweep_profile(f"palace_archivolt{k}", path, prof, "M_gild",
                                     up_hint=Vector((0, 1, 0))))
-    bm = bmesh.new()                                               # sunburst rays + sun disc
-    cx, cz = 0.0, 3.42
+    # Gilded 12-point radiant sun-wheel medallion above the arch apex
+    cx, cz = 0.0, 3.24
     for s_face in (-1, 1):
-        y0, y1 = (-0.29, -0.23) if s_face < 0 else (0.23, 0.29)
-        # 9 tapered radial rays fanning across the tympanum
-        n_rays = 9
+        y0, y1 = (-0.23, -0.17) if s_face < 0 else (0.17, 0.23)
+        n_rays = 12
         for a in range(n_rays):
-            ang = math.pi * (0.14 + 0.72 * a / (n_rays - 1))
+            ang = math.tau * a / n_rays
             dx, dz = math.cos(ang), math.sin(ang)
             nx, nz = -dz, dx
-            r_in = 0.13
-            r_out = 0.44 if (a % 2 == 0) else 0.32
-            w_in, w_out = 0.024, 0.008
+            r_in = 0.07
+            r_out = 0.24 if (a % 2 == 0) else 0.17
+            w_in, w_out = 0.016, 0.004
             p00 = (cx + dx * r_in - nx * w_in, cz + dz * r_in - nz * w_in)
             p01 = (cx + dx * r_in + nx * w_in, cz + dz * r_in + nz * w_in)
             p11 = (cx + dx * r_out + nx * w_out, cz + dz * r_out + nz * w_out)
             p10 = (cx + dx * r_out - nx * w_out, cz + dz * r_out - nz * w_out)
-            vf = [bm.verts.new((p[0], y0, p[1])) for p in (p00, p01, p11, p10)]
-            vb = [bm.verts.new((p[0], y1, p[1])) for p in (p00, p01, p11, p10)]
-            bm.faces.new(vf)
-            bm.faces.new(tuple(reversed(vb)))
+            vf = [bm_gild.verts.new((p[0], y0, p[1])) for p in (p00, p01, p11, p10)]
+            vb = [bm_gild.verts.new((p[0], y1, p[1])) for p in (p00, p01, p11, p10)]
+            bm_gild.faces.new(vf)
+            bm_gild.faces.new(tuple(reversed(vb)))
             for i in range(4):
                 j = (i + 1) % 4
-                bm.faces.new((vf[i], vf[j], vb[j], vb[i]))
-        # 12-sided gilded sun heart medallion
-        n_disc = 12
-        r_disc = 0.14
-        df = [bm.verts.new((cx + r_disc * math.cos(math.tau * i / n_disc), y0 - 0.01,
-                            cz + r_disc * math.sin(math.tau * i / n_disc))) for i in range(n_disc)]
-        db = [bm.verts.new((cx + r_disc * math.cos(math.tau * i / n_disc), y1 + 0.01,
-                            cz + r_disc * math.sin(math.tau * i / n_disc))) for i in range(n_disc)]
-        bm.faces.new(df)
-        bm.faces.new(tuple(reversed(db)))
+                bm_gild.faces.new((vf[i], vf[j], vb[j], vb[i]))
+        n_disc = 16
+        r_disc = 0.095
+        df = [bm_gild.verts.new((cx + r_disc * math.cos(math.tau * i / n_disc), y0 - 0.01,
+                                 cz + r_disc * math.sin(math.tau * i / n_disc))) for i in range(n_disc)]
+        db = [bm_gild.verts.new((cx + r_disc * math.cos(math.tau * i / n_disc), y1 + 0.01,
+                                 cz + r_disc * math.sin(math.tau * i / n_disc))) for i in range(n_disc)]
+        bm_gild.faces.new(df)
+        bm_gild.faces.new(tuple(reversed(db)))
         for i in range(n_disc):
             j = (i + 1) % n_disc
-            bm.faces.new((df[i], df[j], db[j], db[i]))
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-    objs.append(V.bm_to_object(bm, "palace_sunburst", ("M_gild",)))
+            bm_gild.faces.new((df[i], df[j], db[j], db[i]))
+    bmesh.ops.recalc_face_normals(bm_gild, faces=bm_gild.faces)
+    objs.append(V.bm_to_object(bm_gild, "palace_sunburst", ("M_gild",)))
     bm_jamb = bmesh.new()
     for sx in (-1, 1):                                             # jamb colonnettes + continuous impost capitals
-        # Stepped gold impost capital & base plinth wrapping the jamb reveal and both colonnettes
         x_jamb, x_wall = sx * 0.92, sx * 1.18
-        V.add_box(bm_jamb, (x_jamb, -0.30, 0.0), (x_wall, 0.30, 0.14))
-        V.add_box(bm_jamb, (x_jamb - 0.02 * sx, -0.28, 1.42), (x_wall + 0.01 * sx, 0.28, 1.50))
-        V.add_box(bm_jamb, (x_jamb - 0.03 * sx, -0.31, 1.50), (x_wall + 0.02 * sx, 0.31, 1.60))
-        for sy in (-0.24, 0.24):
+        V.add_box(bm_jamb, (x_jamb, -0.25, 0.0), (x_wall, 0.25, 0.14))
+        V.add_box(bm_jamb, (x_jamb - 0.02 * sx, -0.24, 1.42), (x_wall + 0.01 * sx, 0.24, 1.50))
+        V.add_box(bm_jamb, (x_jamb - 0.03 * sx, -0.26, 1.50), (x_wall + 0.02 * sx, 0.26, 1.60))
+        for sy in (-0.19, 0.19):
             c = _marble_colonnette(0.085, 1.42)
             c.location = (sx * 1.03, sy, 0)
             objs.append(c)
@@ -226,37 +240,64 @@ def palace_portal_4m():
 
 
 def palace_window_4m():
-    """Palace bay with twin glazed lancets in GOLD tracery, matching the
-    wall module (4 x 4, 0.5 thick, bottom-center)."""
+    """Palace bay with twin pointed-arch glazed lancets in GOLD tracery,
+    engaged marble colonnettes, swept gold archivolts, and gilt dentil frieze,
+    matching the wall module (4 x 4, bottom-center)."""
     objs = []
-    y = 0.25
+    # Two pointed-arch lancet sub-panels centered at x = -0.80 and +0.80
+    arch = V.pointed_arch(0.90, 0.88, 12, 2.62)
+    for s, tag in ((-1, "l"), (1, "r")):
+        cx = s * 0.80
+        sub = V.wall_panel_with_arch(f"palace_win_{tag}", 1.60, 4.0, 0.36, 0.90, 2.62,
+                                     sharpness=0.88, mat="M_marble", segments=12, sill_h=0.90)
+        sub.location = (cx, 0.0, 0.0)
+        objs.append(sub)
+        # Swept gold archivolt hood-mold around each pointed lancet head
+        apath = [(cx + x * 1.06, 0.0, 2.62 + (y - 2.62) * 1.04) for (x, y) in arch]
+        objs.append(V.sweep_profile(f"palace_win_arch_{tag}", apath,
+                                    V.chamfer_rect_profile(0.085, 0.44, 0.024),
+                                    "M_gild", up_hint=Vector((0, 1, 0))))
+        # Engaged jamb colonnettes flanking each lancet
+        for jx in (-0.47, 0.47):
+            col = _marble_colonnette(0.055, 1.66)
+            col.location = (cx + jx, 0.0, 0.92)
+            objs.append(col)
     bm = bmesh.new()
-    V.add_box(bm, (-2, -y, 0.55), (2, y, 0.9))                      # footing above plinth
-    V.add_box(bm, (-2, -y - 0.04, 0.0), (2, y + 0.04, 0.55))        # symmetric plinth
-    V.add_box(bm, (-2, -y, 0.9), (-1.25, y, 4.0))                   # piers
-    V.add_box(bm, (-0.35, -y, 0.9), (0.35, y, 4.0))
-    V.add_box(bm, (1.25, -y, 0.9), (2, y, 4.0))
-    V.add_box(bm, (-2, -y, 3.45), (2, y, 4.0))                      # head band
-    for s in (-1, 1):                                               # stepped heads
-        V.add_box(bm, (s * 1.25 - (0.2 if s > 0 else 0), -y, 3.0),
-                  (s * 1.25 + (0.2 if s < 0 else 0), y, 3.45))
-        V.add_box(bm, (s * 0.35 - (0.2 if s < 0 else 0), -y, 3.0),
-                  (s * 0.35 + (0.2 if s > 0 else 0), y, 3.45))
+    # Outer side piers (-2.0..-1.60 and 1.60..2.0), base plinth, and top head band
+    V.add_box(bm, (-2.0, -0.18, -0.008), (-1.60, 0.18, 4.006))
+    V.add_box(bm, (1.60, -0.18, -0.008), (2.0, 0.18, 4.006))
+    V.add_box(bm, (-2.0, -0.21, -0.008), (2.0, 0.21, 0.55))
+    V.add_box(bm, (-2.0, -0.19, 3.62), (2.0, 0.19, 4.006))
     objs.append(V.bm_to_object(bm, "palace_win_wall", ("M_marble",)))
-    bm = bmesh.new()
-    V.add_box(bm, (-1.4, -y - 0.06, 0.78), (1.4, y + 0.06, 0.94))   # gold sill
-    V.add_box(bm, (-1.4, -y - 0.06, 3.42), (1.4, y + 0.06, 3.58))   # gold hood
-    for s in (-1, 1):                                               # tracery bars (proud of both pane faces)
-        V.add_box(bm, (s * 0.78 - 0.04, -0.11, 0.94), (s * 0.78 + 0.04, 0.11, 3.0))
-        V.add_box(bm, (s * 0.35, -0.11, 1.9), (s * 1.25, 0.11, 1.98))
-    objs.append(V.bm_to_object(bm, "palace_win_gild", ("M_gild",)))
-    bm = bmesh.new()
+
+    bm_gild = bmesh.new()
+    V.add_box(bm_gild, (-1.42, -0.25, 0.78), (1.42, 0.25, 0.92))    # continuous gold sill
+    _dentils(bm_gild, -2.0, 2.0, 3.42, -0.18, out=-1)               # front dentil frieze
+    _dentils(bm_gild, -2.0, 2.0, 3.42, 0.18, out=1)                 # back dentil frieze
     for s in (-1, 1):
-        V.add_box(bm, (s * 0.35, -0.04, 0.94), (s * 1.25, 0.04, 3.0))
-        V.add_box(bm, (s * 0.55, -0.04, 3.0), (s * 1.05, 0.04, 3.42))
-    # M_citywindow: warm lamplit panes in glory, dead-dark in ruin — the
-    # palace glows from within instead of showing raw sky through the bay
-    objs.append(V.bm_to_object(bm, "palace_win_panes", ("M_citywindow",)))
+        cx = s * 0.80
+        # Gold central mullion & transom cross-bars + impost blocks
+        V.add_box(bm_gild, (cx - 0.035, -0.10, 0.92), (cx + 0.035, 0.10, 3.30))
+        V.add_box(bm_gild, (cx - 0.45, -0.10, 1.88), (cx + 0.45, 0.10, 1.95))
+        for jx in (-0.47, 0.47):
+            V.add_box(bm_gild, (cx + jx - 0.08, -0.23, 2.56), (cx + jx + 0.08, 0.23, 2.63))
+    objs.append(V.bm_to_object(bm_gild, "palace_win_gild", ("M_gild",)))
+
+    # Pointed-arch window panes (M_citywindow: warm lamplit in glory, dark in ruin)
+    bm_pane = bmesh.new()
+    for s in (-1, 1):
+        cx = s * 0.80
+        pts2d = [(cx + 0.45, 0.90)] + [(cx + x, y) for (x, y) in reversed(arch)] + [(cx - 0.45, 0.90)]
+        vf = [bm_pane.verts.new((px, -0.04, pz)) for (px, pz) in pts2d]
+        vb = [bm_pane.verts.new((px, 0.04, pz)) for (px, pz) in pts2d]
+        bm_pane.faces.new(vf)
+        bm_pane.faces.new(list(reversed(vb)))
+        n_p = len(pts2d)
+        for i in range(n_p):
+            j = (i + 1) % n_p
+            bm_pane.faces.new((vf[i], vf[j], vb[j], vb[i]))
+    bmesh.ops.recalc_face_normals(bm_pane, faces=bm_pane.faces)
+    objs.append(V.bm_to_object(bm_pane, "palace_win_panes", ("M_citywindow",)))
     return objs, {"size": [4, 0.5, 4], "origin": "bottom-center"}
 
 

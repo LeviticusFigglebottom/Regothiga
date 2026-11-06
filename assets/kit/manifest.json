@@ -885,7 +885,7 @@
  "half_arch_sunk": {
   "file": "assets/kit/half_arch_sunk.glb",
   "origin": "bottom-center",
-  "polys": 258,
+  "polys": 276,
   "size": [
    3.4,
    1.0,
@@ -1123,7 +1123,7 @@
    2.9
   ],
   "origin": "bottom-center",
-  "polys": 810,
+  "polys": 1460,
   "size": [
    4,
    0.6,
@@ -1153,7 +1153,7 @@
  "palace_window_4m": {
   "file": "assets/kit/palace_window_4m.glb",
   "origin": "bottom-center",
-  "polys": 120,
+  "polys": 1052,
   "size": [
    4,
    0.5,
@@ -1447,7 +1447,7 @@
  "shrine_aedicule": {
   "file": "assets/kit/shrine_aedicule.glb",
   "origin": "bottom-center",
-  "polys": 702,
+  "polys": 824,
   "size": [
    3.0,
    3.0,

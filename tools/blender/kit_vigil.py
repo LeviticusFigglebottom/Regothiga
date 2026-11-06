@@ -134,6 +134,13 @@ def half_arch_sunk(seed=7):
     sweep = V.sweep_profile("arch_sweep", path, prof, "M_stone_trim",
                             up_hint=Vector((0, 1, 0)))
     objs.append(sweep)
+    # Jagged fractured voussoir blocks at the broken tip of the arch
+    tx, ty, tz = path[-1]
+    bm_brk = bmesh.new()
+    V.add_box(bm_brk, (tx - 0.18, -0.18, tz - 0.12), (tx + 0.14, 0.18, tz + 0.10))
+    V.add_box(bm_brk, (tx - 0.06, -0.14, tz - 0.02), (tx + 0.24, 0.08, tz + 0.18))
+    V.add_box(bm_brk, (tx - 0.14, -0.06, tz - 0.18), (tx + 0.16, 0.16, tz - 0.01))
+    objs.append(V.bm_to_object(bm_brk, "arch_fracture", ("M_stone_trim",)))
     return objs, {"size": [3.4, 1.0, 4.8], "origin": "bottom-center"}
 
 
@@ -143,11 +150,18 @@ def shrine_aedicule():
     a gilt sun-finial, and the eternal flame core above a carved altar. Solid."""
     objs = []
     bm = bmesh.new()
-    # 3-step stone stylobate platform with bevelled coping
-    V.add_box(bm, (-1.52, -1.52, 0.0), (1.52, 1.52, 0.20))
-    V.add_box(bm, (-1.32, -1.32, 0.20), (1.32, 1.32, 0.38))
-    V.add_box(bm, (-1.14, -1.14, 0.38), (1.14, 1.14, 0.56))
-    objs.append(V.bm_to_object(bm, "shrine_steps", ("M_stone",)))
+    # 3-step dark stone stylobate risers
+    V.add_box(bm, (-1.48, -1.48, 0.0), (1.48, 1.48, 0.15))
+    V.add_box(bm, (-1.28, -1.28, 0.20), (1.28, 1.28, 0.33))
+    V.add_box(bm, (-1.10, -1.10, 0.38), (1.10, 1.10, 0.51))
+    objs.append(V.bm_to_object(bm, "shrine_steps", ("M_stone_dark",)))
+
+    # Overhanging carved freestone step treads/copings
+    bm_tread = bmesh.new()
+    V.add_box(bm_tread, (-1.52, -1.52, 0.15), (1.52, 1.52, 0.20))
+    V.add_box(bm_tread, (-1.32, -1.32, 0.33), (1.32, 1.32, 0.38))
+    V.add_box(bm_tread, (-1.14, -1.14, 0.51), (1.14, 1.14, 0.56))
+    objs.append(V.bm_to_object(bm_tread, "shrine_treads", ("M_stone_trim",)))
 
     # 4 fluted 12-sided columns with Attic bases and flared Gothic capitals
     for sx in (-0.86, 0.86):
@@ -186,7 +200,7 @@ def shrine_aedicule():
             (0.36, 3.68, 4, math.pi / 4),
             (0.06, 3.96, 4, math.pi / 4),
         ],
-        "M_stone",
+        "M_stone_trim",
         cap_bottom=True,
         cap_top=True,
     )
@@ -241,15 +255,29 @@ def shrine_aedicule():
     core = V.loft_rings(
         "first_light_flame",
         [
-            (0.18, 1.20, 12, 0),
-            (0.32, 1.48, 12, 0.35),
-            (0.16, 1.85, 12, 0.7),
-            (0.06, 2.10, 12, 1.05),
-            (0.015, 2.25, 12, 1.4),
+            (0.11, 1.22, 12, 0),
+            (0.16, 1.42, 12, 0.35),
+            (0.09, 1.68, 12, 0.7),
+            (0.035, 1.86, 12, 1.05),
+            (0.008, 1.98, 12, 1.4),
         ],
         "M_flame",
     )
     objs.append(core)
+    for fi in range(4):
+        fa = fi * (math.pi * 0.5)
+        f_sub = V.loft_rings(
+            f"first_light_tongue_{fi}",
+            [
+                (0.045, 1.22, 8, 0),
+                (0.062, 1.34, 8, 0.3),
+                (0.028, 1.48, 8, 0.6),
+                (0.006, 1.58, 8, 0.9),
+            ],
+            "M_flame",
+        )
+        f_sub.location = (0.12 * math.cos(fa), 0.12 * math.sin(fa), 0)
+        objs.append(f_sub)
     halo = V.loft_rings(
         "light_halo",
         [
