@@ -607,12 +607,23 @@ def giant(arm):
     bm = b.part("chest", "M_plate_dark")
     _tube(bm, Vector((0, 0, 1.18)), Vector((0, 0, 1.49)), 0.255, 0.225, n=16, bulge=1.08,
           steps=5, squash=(1.12, 0.94), ridge_fwd=0.14)
-    # Bell-rope harness & bronze chest bands
+    # Proud bronze chest harness bands, sternum boss ring, and waist girdle
     bm_l = b.part("chest", "M_leather")
-    _tube(bm_l, Vector((0, 0, 1.28)), Vector((0, 0, 1.40)), 0.275, 0.258, n=16, steps=3)
+    _tube(bm_l, Vector((0, 0, 1.24)), Vector((0, 0, 1.38)), 0.264, 0.254, n=16,
+          steps=3, squash=(1.12, 0.94), ridge_fwd=0.14)
     bm_b = b.part("chest", "M_bronze")
-    _tube(bm_b, Vector((0, 0, 1.44)), Vector((0, 0, 1.50)), 0.235, 0.215, n=16, steps=2)
-    # Dark steel executioner cage-helm inside the hood with bronze collar/crown rims
+    _tube(bm_b, Vector((0, 0, 1.28)), Vector((0, 0, 1.34)), 0.268, 0.264, n=16,
+          steps=2, squash=(1.12, 0.94), ridge_fwd=0.14)
+    _tube(bm_b, Vector((0, 0, 1.41)), Vector((0, 0, 1.47)), 0.254, 0.240, n=16,
+          steps=2, squash=(1.12, 0.94), ridge_fwd=0.14)
+    _torus_ring(bm_b, (0, 0.285, 1.31), 0.062, 0.016, n_major=14, n_minor=8, rot_x=math.pi / 2)
+    V.add_box(bm_b, (-0.022, 0.245, 1.18), (0.022, 0.292, 1.47))
+    bm_girdle = b.part("hips", "M_bronze")
+    _tube(bm_girdle, Vector((0, 0, 1.02)), Vector((0, 0, 1.10)), 0.262, 0.268, n=16,
+          steps=2, squash=(1.10, 0.94))
+    for bx in (-0.16, -0.08, 0.0, 0.08, 0.16):
+        V.add_box(bm_girdle, (bx - 0.018, 0.235, 0.80), (bx + 0.018, 0.262, 1.04))
+    # Dark steel executioner cage-helm inside the hood with bronze collar/crown/visor rims
     bm_v = b.part("head", "M_iron")
     _tube(bm_v, Vector((0, 0.025, 1.52)), Vector((0, 0.025, 1.66)), 0.152, 0.148, n=14, steps=2, squash=(0.95, 1.08))
     bm_p = b.part("head", "M_plate_dark")
@@ -621,8 +632,10 @@ def giant(arm):
     for bx in (-0.068, -0.034, 0.0, 0.034, 0.068):
         V.add_box(bm_p, (bx - 0.007, 0.148, 1.585), (bx + 0.007, 0.184, 1.622))
     bm_h = b.part("head", "M_bronze")
-    _tube(bm_h, Vector((0, 0.025, 1.505)), Vector((0, 0.025, 1.522)), 0.170, 0.169, n=14, steps=1, squash=(0.96, 1.10))
-    _tube(bm_h, Vector((0, 0.025, 1.652)), Vector((0, 0.025, 1.668)), 0.162, 0.159, n=14, steps=1, squash=(0.96, 1.10), ridge_fwd=0.12)
+    _tube(bm_h, Vector((0, 0.025, 1.505)), Vector((0, 0.025, 1.522)), 0.172, 0.171, n=14, steps=1, squash=(0.96, 1.10), ridge_fwd=0.14)
+    _tube(bm_h, Vector((0, 0.025, 1.652)), Vector((0, 0.025, 1.668)), 0.164, 0.161, n=14, steps=1, squash=(0.96, 1.10), ridge_fwd=0.14)
+    V.add_box(bm_h, (-0.095, 0.168, 1.578), (0.095, 0.194, 1.592))
+    V.add_box(bm_h, (-0.095, 0.168, 1.614), (0.095, 0.194, 1.628))
     for side, s in (("r", 1), ("l", -1)):
         _pauldron(b, side, s, "M_plate_dark", "M_bronze", r=0.132, z=1.43, g=1.35)
         _gauntlet_and_couter(b, side, s, "M_plate_dark", g=1.35)

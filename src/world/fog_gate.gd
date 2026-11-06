@@ -29,12 +29,12 @@ func _ready() -> void:
 	add_child(KitLib.instance("fog_gate_frame"))
 	_plane = MeshInstance3D.new()
 	var quad := QuadMesh.new()
-	quad.size = Vector2(3.4, 3.3)
+	quad.size = Vector2(3.4, 5.1)
 	_plane.mesh = quad
 	var m := ShaderMaterial.new()
 	m.shader = load("res://shaders/fog_gate.gdshader")
 	_plane.set_surface_override_material(0, m)
-	_plane.position = Vector3(0, 1.65, 0)
+	_plane.position = Vector3(0, 2.55, 0)
 	add_child(_plane)
 
 	_seal = StaticBody3D.new()

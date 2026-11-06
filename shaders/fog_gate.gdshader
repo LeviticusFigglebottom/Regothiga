@@ -64,10 +64,14 @@ void fragment() {
 	float body = smoothstep(0.18, 0.78, mist);
 	float crest = pow(clamp(cloud1 * cloud2 * 2.2, 0.0, 1.0), 2.2);
 
-	// Archway framing & threshold floor pooling
-	float edge_x = smoothstep(1.58, 0.92, abs(uv.x));
-	float edge_y = smoothstep(-0.05, 0.45, uv.y + 1.45) * smoothstep(3.25, 2.25, uv.y + 1.45);
-	float floor_pool = smoothstep(0.85, -0.05, uv.y + 1.45) * 0.22;
+	// Pointed-arch framing matching fog_gate_frame intrados & threshold floor pooling
+	float hx = abs(UV.x - 0.5) * 2.0;
+	float hy = 1.0 - UV.y;
+	float dy = max(hy - 0.565, 0.0) / 0.425;
+	float max_hx = 0.90 * clamp((sqrt(max(1.0 - dy * dy * 0.91, 0.0)) - 0.305) / 0.695, 0.0, 1.0);
+	float edge_x = smoothstep(max_hx, max(max_hx - 0.24, 0.0), hx);
+	float edge_y = smoothstep(-0.01, 0.09, hy) * smoothstep(0.99, 0.90, hy);
+	float floor_pool = smoothstep(0.18, -0.01, hy) * 0.22;
 	float frame = edge_x * edge_y;
 
 	vec3 deep_col = tint * vec3(0.52, 0.56, 0.64);

@@ -670,25 +670,46 @@ def crook_great():
 
 
 def oar_glaive():
-    """The Ferryman's oar-glaive: a pole arm ending in a broad steel-shod
-    blade with central fuller spine, forged iron socket collar & langets, and
-    brass rivet bosses — half oar, half executioner's sweep. Origin at grip."""
+    """The Ferryman's oar-glaive: a pole arm ending in a curved steel-shod
+    glaive blade over a carved wooden oar-paddle core, forged iron socket
+    collar & back-spine langet, and brass rivet bosses. Origin at grip."""
     objs = [
         V.loft_rings("oar_haft", [(0.036, -1.18, 12, 0), (0.028, -1.08, 12, 0), (0.032, 1.20, 12, 0)], "M_wood"),
         V.loft_rings("oar_socket", [(0.038, 0.92, 12, 0), (0.044, 1.18, 12, 0), (0.035, 1.32, 12, 0)], "M_iron"),
     ]
+    # Carved wooden oar-paddle spine fuller inset along the back of the steel blade
+    bm_w = bmesh.new()
+    V.add_box(bm_w, (-0.015, -0.014, 1.24), (0.048, 0.014, 1.98))
+    objs.append(V.bm_to_object(bm_w, "oar_paddle_core", ("M_wood",)))
+    # Symmetrical beveled curved steel glaive blade tapering to a sharp swept-back point
     bm = bmesh.new()
-    pts = [(-0.04, 0.0, 1.15), (0.24, 0.0, 1.45), (0.30, 0.0, 1.95),
-           (0.16, 0.0, 2.35), (-0.06, 0.0, 2.40)]
-    vs = [bm.verts.new(p) for p in pts]
-    bm.faces.new(vs)
-    bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.024)
-    # Central reinforcing spine rib down the back of the oar-glaive blade
-    V.add_box(bm, (-0.045, -0.022, 1.18), (0.025, 0.022, 2.18))
+    pts_profile = [
+        (-0.032, 0.011, 1.16),
+        (0.145, 0.003, 1.34),
+        (0.215, 0.002, 1.64),
+        (0.220, 0.002, 1.94),
+        (0.148, 0.002, 2.20),
+        (0.008, 0.002, 2.39),
+        (-0.042, 0.011, 2.12),
+        (-0.038, 0.011, 1.62),
+    ]
+    vf = [bm.verts.new((px, -py, pz)) for (px, py, pz) in pts_profile]
+    vb = [bm.verts.new((px, py, pz)) for (px, py, pz) in pts_profile]
+    bm.faces.new(vf)
+    bm.faces.new(list(reversed(vb)))
+    n_pts = len(pts_profile)
+    for i in range(n_pts):
+        j = (i + 1) % n_pts
+        bm.faces.new((vf[i], vf[j], vb[j], vb[i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     objs.append(V.bm_to_object(bm, "oar_blade", ("M_steel",)))
+    # Forged iron reinforcing spine rib along the back of the blade
+    bm_sp = bmesh.new()
+    V.add_box(bm_sp, (-0.046, -0.019, 1.18), (0.014, 0.019, 2.14))
+    objs.append(V.bm_to_object(bm_sp, "oar_spine", ("M_iron",)))
     bm_br = bmesh.new()
-    for sz in (1.02, 1.14, 1.28, 1.46):
-        V.add_box(bm_br, (-0.035, -0.028, sz - 0.012), (0.020, 0.028, sz + 0.012))
+    for sz in (1.02, 1.14, 1.28, 1.46, 1.68, 1.90):
+        V.add_box(bm_br, (-0.035, -0.024, sz - 0.012), (0.022, 0.024, sz + 0.012))
     objs.append(V.bm_to_object(bm_br, "oar_rivets", ("M_brass",)))
     return objs, {"size": [0.7, 0.12, 3.6], "origin": "grip"}
 

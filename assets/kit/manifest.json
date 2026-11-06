@@ -1005,7 +1005,7 @@
  "oar_glaive": {
   "file": "assets/kit/oar_glaive.glb",
   "origin": "grip",
-  "polys": 89,
+  "polys": 110,
   "size": [
    0.7,
    0.12,
@@ -1500,7 +1500,7 @@
  "skel_giant": {
   "file": "assets/kit/skel_giant.glb",
   "origin": "feet",
-  "polys": 4760,
+  "polys": 4988,
   "size": [
    0.8,
    0.8,

@@ -727,15 +727,15 @@ def fog_gate_frame():
         bm = bmesh.new()
         V.add_box(bm, (sx - 0.48, -0.48, 0.0), (sx + 0.48, 0.48, 0.16))
         V.add_box(bm, (sx - 0.44, -0.44, 0.16), (sx + 0.44, 0.44, 0.50))
-        V.add_box(bm, (sx - 0.35, -0.35, 0.50), (sx + 0.35, 0.35, 3.10))
-        V.add_box(bm, (sx - 0.42, -0.42, 3.06), (sx + 0.42, 0.42, 3.24))
-        V.add_box(bm, (sx - 0.46, -0.46, 3.24), (sx + 0.46, 0.46, 3.40))
+        V.add_box(bm, (sx - 0.35, -0.35, 0.50), (sx + 0.35, 0.35, 2.74))
+        V.add_box(bm, (sx - 0.42, -0.42, 2.70), (sx + 0.42, 0.42, 2.88))
+        V.add_box(bm, (sx - 0.46, -0.46, 2.88), (sx + 0.46, 0.46, 3.04))
         objs.append(V.bm_to_object(bm, "fog_pier", ("M_stone_trim",)))
         for sy in (-0.34, 0.34):
-            col = _colonnette(0.095, 2.58)
+            col = _colonnette(0.095, 2.22)
             col.location = (sx, sy, 0.50)
             objs.append(col)
-    arch = V.pointed_arch(3.2, 1.0, 16, 3.25)
+    arch = V.pointed_arch(3.2, 0.72, 16, 2.88)
     path = [(x, 0, y) for (x, y) in arch]
     objs.append(V.sweep_profile("fog_arch", path, V.chamfer_rect_profile(0.34, 0.52, 0.08),
                                 "M_stone_trim", up_hint=Vector((0, 1, 0))))
