@@ -69,6 +69,16 @@ static func build(area_id: String) -> Area:
 		f.gate_id = spec.get("id", "fog")
 		f.area_id = area_id
 		f.aux_seal_specs = spec.get("seals", [])
+		var fg_pos := _v3(spec.get("at", [0, 0, 0]))
+		for pc in def.get("pieces", []):
+			var pk := String(pc.get("kit", ""))
+			if pk in ["portal_4m", "palace_portal_4m", "fog_gate_frame"]:
+				var pp := _v3(pc.get("at", [0, 0, 0]))
+				if Vector2(fg_pos.x - pp.x, fg_pos.z - pp.z).length() < 0.5 and absf(fg_pos.y - pp.y) < 0.5:
+					f.has_frame = false
+					if pk != "fog_gate_frame":
+						f.plane_size = Vector2(2.05, 3.88)
+					break
 		area.attach(f, spec.get("tag", "ruin"))
 		_place(f, spec)
 		# bind its boss spawner

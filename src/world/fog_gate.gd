@@ -8,6 +8,8 @@ signal boss_engaged
 var gate_id := "fog"
 var area_id := ""
 var boss_spawner: Spawner = null
+var has_frame := true
+var plane_size := Vector2(3.4, 5.1)
 
 var _plane: MeshInstance3D
 var _zone: Interactable
@@ -26,15 +28,16 @@ var _aux_planes: Array = []
 
 func _ready() -> void:
 	add_to_group(VG.GROUP_RESPAWN_ON_REST)
-	add_child(KitLib.instance("fog_gate_frame"))
+	if has_frame:
+		add_child(KitLib.instance("fog_gate_frame"))
 	_plane = MeshInstance3D.new()
 	var quad := QuadMesh.new()
-	quad.size = Vector2(3.4, 5.1)
+	quad.size = plane_size
 	_plane.mesh = quad
 	var m := ShaderMaterial.new()
 	m.shader = load("res://shaders/fog_gate.gdshader")
 	_plane.set_surface_override_material(0, m)
-	_plane.position = Vector3(0, 2.55, 0)
+	_plane.position = Vector3(0, plane_size.y * 0.5, 0)
 	add_child(_plane)
 
 	_seal = StaticBody3D.new()

@@ -111,7 +111,7 @@ def palace_wall_4x4():
     bm_gild = bmesh.new()
     V.add_box(bm, (-2, -0.16, -0.006), (2, 0.16, 4.006))            # core
     V.add_box(bm, (-2, -0.21, -0.006), (2, 0.21, 0.55))             # plinth
-    V.add_box(bm, (-2, -0.19, 3.62), (2, 0.19, 4.006))              # head band
+    V.add_box(bm, (-2, -0.21, 3.62), (2, 0.21, 4.006))              # head band
     for (yf, out) in ((-0.16, -1), (0.16, 1)):
         for (px0, px1) in ((-1.86, -0.1), (0.1, 1.86)):
             _panel_relief(bm, px0, px1, 0.75, 2.0, yf, out, frame=0.13, bm_gild=bm_gild, bm_field=bm_field)
@@ -178,7 +178,7 @@ def palace_portal_4m():
         for (yf, out) in ((-0.18, -1), (0.18, 1)):
             _panel_relief(bm_trim, px0, px1, 0.75, 2.0, yf, out, frame=0.10, bm_gild=bm_gild, bm_field=bm_field)
             _panel_relief(bm_trim, px0, px1, 2.5, 3.4, yf, out, frame=0.10, bm_gild=bm_gild, bm_field=bm_field)
-    V.add_box(bm_trim, (-2.0, -0.19, 3.62), (2.0, 0.19, 4.006))
+    V.add_box(bm_trim, (-2.0, -0.21, 3.62), (2.0, 0.21, 4.006))
     _dentils(bm_gild, -2.0, 2.0, 3.42, -0.18, out=-1)
     _dentils(bm_gild, -2.0, 2.0, 3.42, 0.18, out=1)
     objs.append(V.bm_to_object(bm_trim, "palace_portal_mould", ("M_marble",)))
@@ -267,7 +267,7 @@ def palace_window_4m():
     V.add_box(bm, (-2.0, -0.18, -0.008), (-1.60, 0.18, 4.006))
     V.add_box(bm, (1.60, -0.18, -0.008), (2.0, 0.18, 4.006))
     V.add_box(bm, (-2.0, -0.21, -0.008), (2.0, 0.21, 0.55))
-    V.add_box(bm, (-2.0, -0.19, 3.62), (2.0, 0.19, 4.006))
+    V.add_box(bm, (-2.0, -0.21, 3.62), (2.0, 0.21, 4.006))
     objs.append(V.bm_to_object(bm, "palace_win_wall", ("M_marble",)))
 
     bm_gild = bmesh.new()

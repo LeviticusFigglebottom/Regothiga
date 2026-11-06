@@ -566,11 +566,11 @@ def plaque():
         cap_top=True,
     )
     objs.append(pedestal)
-    # Wrought-iron gothic corbel brackets under the reading desk
-    for sx in (-0.18, 0.18):
+    # Wrought-iron gothic corbel brackets under the forward overhang of the reading desk
+    for sx in (-0.11, 0.11):
         brk = V.sweep_profile(
             "plaque_bracket",
-            [(sx, -0.02, 0.58), (sx, -0.14, 0.72), (sx, -0.18, 0.88), (sx, 0.14, 0.92)],
+            [(sx, 0.04, 0.62), (sx, 0.14, 0.74), (sx, 0.18, 0.88), (sx, -0.06, 0.90)],
             V.chamfer_rect_profile(0.018, 0.024, 0.004),
             "M_iron",
             up_hint=Vector((1, 0, 0)),
@@ -982,7 +982,7 @@ def organ_case():
         x = -1.18 + 2.36 * t
         in_tower = abs(x) > 0.78
         if in_tower:
-            h = 2.15 + 0.35 * (1.0 - abs((abs(x) - 1.05) / 0.20))
+            h = 1.95 + 0.25 * (1.0 - abs((abs(x) - 1.05) / 0.25))
             r = 0.068
             y_off = -0.14
         else:

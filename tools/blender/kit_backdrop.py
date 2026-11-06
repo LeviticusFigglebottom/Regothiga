@@ -346,7 +346,7 @@ def urn():
             (0.347, 0.616, 20, 0),
             (0.334, 0.622, 20, 0),
         ],
-        "M_gold",
+        "M_bronze",
         cap_bottom=False,
         cap_top=False,
     )
