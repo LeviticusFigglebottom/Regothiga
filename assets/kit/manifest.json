@@ -1489,7 +1489,7 @@
  "skel_echo": {
   "file": "assets/kit/skel_echo.glb",
   "origin": "feet",
-  "polys": 2852,
+  "polys": 3010,
   "size": [
    0.8,
    0.8,
@@ -1511,7 +1511,7 @@
  "skel_herald": {
   "file": "assets/kit/skel_herald.glb",
   "origin": "feet",
-  "polys": 4600,
+  "polys": 4674,
   "size": [
    0.8,
    0.8,
@@ -1522,7 +1522,7 @@
  "skel_hero": {
   "file": "assets/kit/skel_hero.glb",
   "origin": "feet",
-  "polys": 4698,
+  "polys": 4772,
   "size": [
    0.8,
    0.8,
@@ -1566,7 +1566,7 @@
  "skel_seraph": {
   "file": "assets/kit/skel_seraph.glb",
   "origin": "feet",
-  "polys": 4732,
+  "polys": 4806,
   "size": [
    0.8,
    0.8,
@@ -1577,7 +1577,7 @@
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",
-  "polys": 2796,
+  "polys": 2940,
   "size": [
    0.8,
    0.8,
@@ -1610,7 +1610,7 @@
  "skel_ward": {
   "file": "assets/kit/skel_ward.glb",
   "origin": "feet",
-  "polys": 4570,
+  "polys": 4644,
   "size": [
    0.8,
    0.8,

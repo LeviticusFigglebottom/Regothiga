@@ -281,8 +281,8 @@ def _knight_helm(b, mat_plate, mat_trim="M_iron", g=1.0, crest=True):
     for sx in (-1, 1):
         V.add_box(bm, (sx * 0.062 * g - 0.010 * g, 0.068 * g, 1.598), (sx * 0.062 * g + 0.010 * g, 0.110 * g, 1.620))
     if crest:
-        # Sagittal helm crest
-        V.add_box(bm, (-0.011 * g, -0.09 * g, 1.64), (0.011 * g, 0.105 * g, 1.762))
+        # Curved sagittal helm crest following the skullcap arch from brow to nape
+        _ball(bm, (0, 0.008 * g, 1.642), 0.122 * g, sub=2, scale=(0.12, 1.06, 1.10))
     # Subtle metallic crown fillet around the upper temple
     bm_tr = b.part("head", mat_trim)
     _tube(bm_tr, Vector((0, 0.016, 1.662)), Vector((0, 0.014, 1.674)),
@@ -691,10 +691,12 @@ def sexton(arm):
           steps=2, flutes=8, flute_amp=0.03, squash=(0.94, 1.08), ridge_fwd=0.12)
     bm_sh = b.part("head", "M_iron")
     _tube(bm_sh, Vector((0, 0.024, 1.578)), Vector((0, 0.024, 1.628)), 0.118, 0.118, n=14, steps=2, squash=(0.94, 1.06))
-    # Iron kettle-hat / brimmed gravedigger cap with nasal guard
+    # Iron kettle-hat / brimmed gravedigger cap with domed bowl, sagittal ridge & nasal guard
     bm = b.part("head", "M_iron")
-    _tube(bm, Vector((0, 0.012, 1.612)), Vector((0, 0.016, 1.648)), 0.172, 0.140, n=16, steps=2)
-    _tube(bm, Vector((0, 0.016, 1.642)), Vector((0, 0.020, 1.745)), 0.134, 0.088, n=16, bulge=1.08, steps=3)
+    _tube(bm, Vector((0, 0.012, 1.612)), Vector((0, 0.016, 1.648)), 0.176, 0.138, n=16, steps=2)
+    _tube(bm, Vector((0, 0.016, 1.642)), Vector((0, 0.018, 1.702)), 0.134, 0.112, n=16, bulge=1.05, steps=2)
+    _ball(bm, (0, 0.018, 1.675), 0.118, sub=2, scale=(0.96, 1.04, 0.78))
+    _ball(bm, (0, 0.018, 1.680), 0.120, sub=2, scale=(0.12, 1.04, 0.82))
     V.add_box(bm, (-0.011, 0.118, 1.565), (0.011, 0.142, 1.628))
     # Quilted work sleeves with iron wrist bracers and heavy leather work gloves
     for side in ("l", "r"):
@@ -849,14 +851,17 @@ def echo(arm):
     # Floating hollow gold crown/halo ring above the hooded brow
     bm = b.part("head", "M_gold")
     _torus_ring(bm, (0, -0.03, 1.81), 0.118, 0.013, n_major=20, n_minor=8, rot_x=-0.32)
-    # Pleated metallic gilt gorget/collar & liturgical stole on the chest
+    # Pleated metallic gilt gorget/collar, twin liturgical stole ribbons & pectoral sun-ring
     bm = b.part("chest", "M_gild")
-    _tube(bm, Vector((0, 0, 1.35)), Vector((0, -0.005, 1.435)), 0.150, 0.114, n=16,
+    _tube(bm, Vector((0, 0, 1.35)), Vector((0, -0.005, 1.435)), 0.144, 0.110, n=16,
           steps=3, flutes=12, flute_amp=0.035, squash=(1.14, 0.88))
-    V.add_box(bm, (-0.032, 0.118, 1.04), (0.032, 0.142, 1.36))
+    for s in (-1, 1):
+        _tube(bm, Vector((s * 0.052, 0.108, 1.36)), Vector((s * 0.042, 0.114, 1.03)),
+              0.018, 0.020, n=8, steps=4, squash=(1.35, 0.45))
+    _torus_ring(bm, (0, 0.128, 1.26), 0.038, 0.007, n_major=16, n_minor=6, rot_x=math.pi / 2)
     # Pleated metallic gilt waist girdle
     bm = b.part("hips", "M_gild")
-    _tube(bm, Vector((0, 0, 0.98)), Vector((0, 0, 1.048)), 0.146, 0.144, n=16,
+    _tube(bm, Vector((0, 0, 0.98)), Vector((0, 0, 1.048)), 0.142, 0.140, n=16,
           steps=2, flutes=10, flute_amp=0.03, squash=(1.08, 0.92))
     return b.finalize(arm, seed=131)
 
