@@ -17,16 +17,28 @@ import vglib as V
 def floor_4x4():
     """4x4 m slab floor. Origin: center of tile, top at z=-0.02 (flush with
     all stair_grand_4m landings placed at floor_y - 0.02).
-    Subdivided into a 4x4 grid of flush 1x1 m quads at z=-0.02 so adjacent tiles
-    meet seamlessly, vertex wear/moss/AO masks retain rich spatial variation,
-    and M_stone_dark's world-space triplanar paving shader renders without
-    competing physical trenches."""
+    Subdivided into a 4x4 grid of flush 1x1 m quads on both top (z=-0.02) and
+    bottom (z=-0.25) faces, with only the 4 outer perimeter rim walls at x/y=+-2.0
+    so internal grid seams cannot cast shadow stripes or bleed through upper ceilings."""
     bm = bmesh.new()
+    v_top = {}
+    v_bot = {}
+    for i in range(5):
+        x = -2.0 + i * 1.0
+        for j in range(5):
+            y = -2.0 + j * 1.0
+            v_top[(i, j)] = bm.verts.new((x, y, -0.02))
+            v_bot[(i, j)] = bm.verts.new((x, y, -0.25))
     for i in range(4):
-        x0, x1 = -2.0 + i * 1.0, -2.0 + (i + 1) * 1.0
         for j in range(4):
-            y0, y1 = -2.0 + j * 1.0, -2.0 + (j + 1) * 1.0
-            V.add_box(bm, (x0, y0, -0.25), (x1, y1, -0.02))
+            bm.faces.new((v_top[(i, j)], v_top[(i + 1, j)], v_top[(i + 1, j + 1)], v_top[(i, j + 1)]))
+            bm.faces.new((v_bot[(i, j + 1)], v_bot[(i + 1, j + 1)], v_bot[(i + 1, j)], v_bot[(i, j)]))
+    for i in range(4):
+        bm.faces.new((v_bot[(i, 0)], v_bot[(i + 1, 0)], v_top[(i + 1, 0)], v_top[(i, 0)]))
+        bm.faces.new((v_bot[(i + 1, 4)], v_bot[(i, 4)], v_top[(i, 4)], v_top[(i + 1, 4)]))
+    for j in range(4):
+        bm.faces.new((v_bot[(0, j + 1)], v_bot[(0, j)], v_top[(0, j)], v_top[(0, j + 1)]))
+        bm.faces.new((v_bot[(4, j)], v_bot[(4, j + 1)], v_top[(4, j + 1)], v_top[(4, j)]))
     obj = V.bm_to_object(bm, "floor_4x4", ("M_stone_dark",))
     return [obj], {"size": [4, 0.25, 4], "origin": "top-center"}
 
@@ -53,16 +65,27 @@ def _block_wall(bm, x0, x1, z0, z1, y_front, depth, rng, block_w=1.0, block_h=0.
 def wall_4x4():
     """Solid wall 4 m wide, 4 m tall, ~0.40 m thick. Smooth subdivided ashlar
     masonry slab (letting M_stone's world-space triplanar ashlar shader render
-    cleanly without competing proud-box shadow grids) + subtle M_stone_trim
-    base plinth and upper stringcourse. Origin: bottom-center."""
+    cleanly without competing proud-box shadow grids or internal vertical seam walls)
+    + subtle M_stone_trim base plinth and upper stringcourse. Origin: bottom-center."""
     bm = bmesh.new()
-    # Subdivide into a 4x4 grid of flush 1x1 m masonry quads so vertex wear/moss/AO
-    # masks have rich spatial variation without protruding 5.5 cm shadow ledges.
+    v_f = {}
+    v_b = {}
+    for ix in range(5):
+        x = -2.0 + ix * 1.0
+        for iz in range(5):
+            z = iz * 1.0
+            v_f[(ix, iz)] = bm.verts.new((x, -0.19, z))
+            v_b[(ix, iz)] = bm.verts.new((x, 0.19, z))
     for ix in range(4):
-        x0, x1 = -2.0 + ix * 1.0, -2.0 + (ix + 1) * 1.0
         for iz in range(4):
-            z0, z1 = iz * 1.0, (iz + 1) * 1.0
-            V.add_box(bm, (x0, -0.19, z0), (x1, 0.19, z1))
+            bm.faces.new((v_f[(ix, iz)], v_f[(ix + 1, iz)], v_f[(ix + 1, iz + 1)], v_f[(ix, iz + 1)]))
+            bm.faces.new((v_b[(ix, iz + 1)], v_b[(ix + 1, iz + 1)], v_b[(ix + 1, iz)], v_b[(ix, iz)]))
+    for ix in range(4):
+        bm.faces.new((v_b[(ix, 0)], v_b[(ix + 1, 0)], v_f[(ix + 1, 0)], v_f[(ix, 0)]))
+        bm.faces.new((v_f[(ix, 4)], v_f[(ix + 1, 4)], v_b[(ix + 1, 4)], v_b[(ix, 4)]))
+    for iz in range(4):
+        bm.faces.new((v_b[(0, iz)], v_f[(0, iz)], v_f[(0, iz + 1)], v_b[(0, iz + 1)]))
+        bm.faces.new((v_f[(4, iz)], v_b[(4, iz)], v_b[(4, iz + 1)], v_f[(4, iz + 1)]))
     body = V.bm_to_object(bm, "wall_4x4", ("M_stone",))
 
     bm_trim = bmesh.new()

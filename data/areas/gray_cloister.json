@@ -2960,6 +2960,51 @@
         -20
       ],
       "tag": "base"
+    },
+    {
+      "min": [
+        -12.19,
+        4.0,
+        -7.95
+      ],
+      "max": [
+        -11.81,
+        4.55,
+        -0.05
+      ],
+      "mat": "M_stone",
+      "tag": "base",
+      "collide": false
+    },
+    {
+      "min": [
+        -7.95,
+        4.0,
+        -12.19
+      ],
+      "max": [
+        3.95,
+        4.55,
+        -11.81
+      ],
+      "mat": "M_stone",
+      "tag": "base",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        4.0,
+        11.81
+      ],
+      "max": [
+        7.95,
+        4.55,
+        12.19
+      ],
+      "mat": "M_stone",
+      "tag": "base",
+      "collide": false
     }
   ],
   "scripted": [

@@ -954,12 +954,20 @@ def organ_case():
     V.add_box(bm, (-0.58, -0.58, 0.76), (0.58, -0.32, 0.94))
     V.add_box(bm, (-0.54, -0.56, 0.0), (-0.44, -0.34, 0.76))
     V.add_box(bm, (0.44, -0.56, 0.0), (0.54, -0.34, 0.76))
-    # Upper pipe-chest cornice & outer wooden pipe-tower pilasters
+    # Upper pipe-chest cornice & wooden pipe-tower pilasters + central mitre tower hood
     V.add_box(bm, (-1.38, -0.38, 1.12), (1.38, 0.48, 1.28))
-    for sx in (-1.32, -0.78, 0.78, 1.32):
-        V.add_box(bm, (sx - 0.05, -0.34, 1.28), (sx + 0.05, 0.20, 3.65))
+    for sx in (-1.32, -0.78, -0.26, 0.26, 0.78, 1.32):
+        h_pil = 4.02 if abs(sx) < 0.5 else 3.65
+        V.add_box(bm, (sx - 0.05, -0.34, 1.28), (sx + 0.05, 0.20, h_pil))
     V.add_box(bm, (-1.40, -0.38, 3.60), (-0.72, 0.24, 3.78))
     V.add_box(bm, (0.72, -0.38, 3.60), (1.40, 0.24, 3.78))
+    # Central pipe-tower cornice, side flat lintels, and solid rear soundboard backing
+    V.add_box(bm, (-0.78, -0.35, 3.04), (-0.24, 0.22, 3.20))
+    V.add_box(bm, (0.24, -0.35, 3.04), (0.78, 0.22, 3.20))
+    V.add_box(bm, (-0.34, -0.38, 3.98), (0.34, 0.24, 4.16))
+    V.add_box(bm, (-0.24, -0.34, 4.16), (0.24, 0.20, 4.26))
+    V.add_box(bm, (-1.30, 0.14, 1.28), (1.30, 0.22, 3.62))
+    V.add_box(bm, (-0.30, 0.14, 3.62), (0.30, 0.22, 4.02))
     objs.append(V.bm_to_object(bm, "organ_case", ("M_wood",)))
 
     # Bone manual keys + gilt pipe-shade fretwork bands
@@ -972,7 +980,9 @@ def organ_case():
     V.add_box(bm_gild, (-1.39, -0.39, 1.24), (1.39, 0.49, 1.30))
     V.add_box(bm_gild, (-1.30, -0.34, 3.45), (-0.80, -0.26, 3.60))
     V.add_box(bm_gild, (0.80, -0.34, 3.45), (1.30, -0.26, 3.60))
-    V.add_box(bm_gild, (-0.76, -0.30, 2.75), (0.76, -0.22, 2.90))
+    V.add_box(bm_gild, (-0.76, -0.30, 2.90), (-0.28, -0.22, 3.04))
+    V.add_box(bm_gild, (0.28, -0.30, 2.90), (0.76, -0.22, 3.04))
+    V.add_box(bm_gild, (-0.24, -0.34, 3.84), (0.24, -0.26, 3.98))
     objs.append(V.bm_to_object(bm_gild, "organ_gild", ("M_gold",)))
 
     # 15 graduated bronze & steel flue pipes with conical feet and labium mouths
@@ -982,14 +992,20 @@ def organ_case():
         x = -1.18 + 2.36 * t
         in_tower = abs(x) > 0.78
         if in_tower:
-            h = 1.95 + 0.25 * (1.0 - abs((abs(x) - 1.05) / 0.25))
+            h = 1.95 + 0.22 * (1.0 - abs((abs(x) - 1.05) / 0.25))
             r = 0.068
             y_off = -0.14
+        elif abs(x) < 0.24:
+            # Central tower pipes capped cleanly below the z=3.98 central cornice
+            u = abs(x) / 0.22
+            h = 2.28 + 0.28 * (1.0 - u)
+            r = 0.056 + 0.012 * (1.0 - u)
+            y_off = -0.10
         else:
-            # Central V-mitre flat + rising center spire
-            u = abs(x) / 0.75
-            h = 1.45 + 1.35 * (1.0 - u) ** 1.15
-            r = 0.048 + 0.018 * (1.0 - u)
+            # Side flats capped cleanly below the z=3.04 flat lintels
+            u = (abs(x) - 0.26) / 0.50
+            h = 1.35 + 0.28 * (1.0 - abs(u - 0.5) * 2.0)
+            r = 0.048
             y_off = -0.06
         mat = "M_bronze" if i % 3 != 1 else "M_steel"
         pipe = V.loft_rings(

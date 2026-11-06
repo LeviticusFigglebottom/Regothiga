@@ -591,7 +591,7 @@
  "city_panorama": {
   "file": "assets/kit/city_panorama.glb",
   "origin": "center",
-  "polys": 56515,
+  "polys": 56731,
   "size": [
    500,
    500,
@@ -751,7 +751,7 @@
  "floor_4x4": {
   "file": "assets/kit/floor_4x4.glb",
   "origin": "top-center",
-  "polys": 96,
+  "polys": 48,
   "size": [
    4,
    0.25,
@@ -1015,7 +1015,7 @@
  "organ_case": {
   "file": "assets/kit/organ_case.glb",
   "origin": "bottom-center",
-  "polys": 1068,
+  "polys": 1128,
   "size": [
    2.8,
    1.05,
@@ -1834,7 +1834,7 @@
  "wall_4x4": {
   "file": "assets/kit/wall_4x4.glb",
   "origin": "bottom-center",
-  "polys": 108,
+  "polys": 60,
   "size": [
    4,
    0.5,

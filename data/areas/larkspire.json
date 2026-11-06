@@ -2702,6 +2702,342 @@
       ],
       "mat": "M_stone",
       "tag": "base"
+    },
+    {
+      "min": [
+        -3.95,
+        2.15,
+        -4.12
+      ],
+      "max": [
+        0.05,
+        2.39,
+        -3.68
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        4.55,
+        -4.12
+      ],
+      "max": [
+        0.05,
+        4.79,
+        -3.68
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        4.55,
+        3.68
+      ],
+      "max": [
+        3.95,
+        4.79,
+        4.12
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -4.12,
+        4.55,
+        -0.05
+      ],
+      "max": [
+        -3.68,
+        4.79,
+        3.95
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        3.68,
+        4.55,
+        -3.95
+      ],
+      "max": [
+        4.12,
+        4.79,
+        3.95
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        4.55,
+        -0.32
+      ],
+      "max": [
+        0.02,
+        4.79,
+        0.02
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.32,
+        4.55,
+        -3.95
+      ],
+      "max": [
+        0.02,
+        4.79,
+        0.02
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.05,
+        6.95,
+        3.98
+      ],
+      "max": [
+        3.95,
+        7.19,
+        4.42
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.05,
+        9.35,
+        3.98
+      ],
+      "max": [
+        3.95,
+        9.59,
+        4.42
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -4.12,
+        9.35,
+        -3.95
+      ],
+      "max": [
+        -3.68,
+        9.59,
+        3.95
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        3.68,
+        9.35,
+        -3.95
+      ],
+      "max": [
+        4.12,
+        9.59,
+        3.95
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        9.35,
+        -4.12
+      ],
+      "max": [
+        0.05,
+        9.59,
+        -3.68
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.02,
+        9.35,
+        -3.95
+      ],
+      "max": [
+        0.32,
+        9.59,
+        0.02
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.02,
+        9.35,
+        -0.32
+      ],
+      "max": [
+        3.95,
+        9.59,
+        0.02
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        11.75,
+        -4.12
+      ],
+      "max": [
+        0.05,
+        11.99,
+        -3.68
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        14.15,
+        -4.12
+      ],
+      "max": [
+        0.05,
+        14.39,
+        -3.68
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        14.15,
+        3.68
+      ],
+      "max": [
+        0.05,
+        14.39,
+        4.12
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -4.12,
+        14.15,
+        -3.95
+      ],
+      "max": [
+        -3.68,
+        14.39,
+        3.95
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        3.68,
+        14.15,
+        -3.95
+      ],
+      "max": [
+        4.12,
+        14.39,
+        0.05
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.02,
+        14.15,
+        -0.02
+      ],
+      "max": [
+        0.32,
+        14.39,
+        3.95
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.02,
+        14.15,
+        -0.02
+      ],
+      "max": [
+        3.95,
+        14.39,
+        0.32
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.05,
+        16.55,
+        3.98
+      ],
+      "max": [
+        3.95,
+        16.79,
+        4.42
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -3.95,
+        18.95,
+        3.88
+      ],
+      "max": [
+        0.05,
+        19.19,
+        4.12
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
+    },
+    {
+      "min": [
+        -0.12,
+        18.95,
+        3.95
+      ],
+      "max": [
+        0.12,
+        19.19,
+        7.95
+      ],
+      "mat": "M_stone_dark",
+      "collide": false
     }
   ],
   "spawners": [

@@ -81,7 +81,7 @@ def palace_floor_4x4():
     thin gold inlay cross at the tile heart. Origin: center, top at z=0."""
     bm = bmesh.new()
     rng = random.Random(19)
-    V.add_box(bm, (-2.0, -2.0, -0.22), (2.0, 2.0, -0.05))
+    V.add_box(bm, (-2.0, -2.0, -0.25), (2.0, 2.0, -0.05))
     g = 0.008
     for i in range(2):
         for j in range(2):

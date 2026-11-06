@@ -671,6 +671,15 @@ def _tpin(bm, place, cx, cy, z, w, h):
     _tspire(bm, place, cx, cy, z + h * 0.5, w * 1.15, h * 0.5)
 
 
+def _tgable_pin(bm, place, cx, y0, y1, z, w, h):
+    """Parapet corner pinnacle flush with wall depth y0..y1 (does not protrude
+    past the facade face at y0)."""
+    if y0 > y1:
+        y0, y1 = y1, y0
+    _tbox(bm, place, cx - w, y0, z, cx + w, y1, z + h * 0.5)
+    _tlancet(bm, place, cx - w * 1.15, cx + w * 1.15, y0, y1, z + h * 0.5, h * 0.5)
+
+
 def _tgable(bm, place, x0, x1, y0, y1, z, rise):
     """Gable roof as TRUE two-sided geometry: every slope/end face is emitted
     with both windings, so the roof reads whole from any angle under normal
@@ -778,11 +787,12 @@ def _bld_tower(L, D, RB, place, w, h, rng):
         _facade(L, D, place, -ww * 0.42, ww * 0.42, z + th * 0.25, z + th * 0.88, rng, bays=2, arched=True)
         z += th + 0.45
         ww *= 0.9
-    # belfry corner pinnacles + spire crown
+    # belfry corner pinnacles (inward-offset from y=0..d) + spire crown
+    pin_w = ww * 0.09
     for sx in (-1, 1):
-        for sy in (0, 1):
-            _tpin(L, place, sx * ww * 0.46, sy * d, z, ww * 0.09, h * 0.16)
-    _tspire(L, place, 0, d * 0.5, z, ww * 0.58, h * rng.uniform(0.42, 0.7))
+        for cy_pin in (pin_w * 1.2, d - pin_w * 1.2):
+            _tpin(L, place, sx * (ww * 0.5 - pin_w * 1.2), cy_pin, z, pin_w, h * 0.16)
+    _tspire(L, place, 0, d * 0.5, z, min(ww, d) * 0.46, h * rng.uniform(0.42, 0.7))
 
 
 def _bld_tiered(L, D, RB, place, w, h, rng):
@@ -798,7 +808,7 @@ def _bld_tiered(L, D, RB, place, w, h, rng):
         z += th + 0.5
         ww *= 0.72
         dd *= 0.75
-    _tspire(L, place, 0, dd * 0.5, z, ww * 0.4, h * 0.24)
+    _tspire(L, place, 0, dd * 0.5, z, min(ww, dd) * 0.4, h * 0.24)
 
 
 def _bld_dome(L, D, RB, place, w, h, rng):
@@ -831,12 +841,15 @@ def _bld_cathedral(L, D, RB, place, w, h, rng):
     for sx in (-1, 1):                                                    # twin west towers
         tx = sx * (nave_w / 2 + w * 0.2)
         tw = w * 0.2
-        _tbox(L, place, tx - tw / 2, 0, 0, tx + tw / 2, d * 0.8, h * 1.18)
+        td = min(d * 0.45, tw * 1.15)
+        _tbox(L, place, tx - tw / 2, 0, 0, tx + tw / 2, td, h * 1.18)
+        _tbox(L, place, tx - tw / 2 - 0.25, -0.25, h * 1.16, tx + tw / 2 + 0.25, td + 0.25, h * 1.19)
         _facade(L, D, place, tx - tw * 0.4, tx + tw * 0.4, h * 0.35, h * 1.1, rng, bays=1)
-        for sy in (0, 1):
+        pin_w = tw * 0.11
+        for cy_pin in (pin_w * 1.2, td - pin_w * 1.2):
             for sxx in (-1, 1):
-                _tpin(L, place, tx + sxx * tw * 0.42, sy * d * 0.8, h * 1.18, tw * 0.12, h * 0.2)
-        _tspire(L, place, tx, d * 0.4, h * 1.18, tw * 0.5, h * rng.uniform(0.5, 0.75))
+                _tpin(L, place, tx + sxx * (tw * 0.5 - pin_w * 1.2), cy_pin, h * 1.19, pin_w, h * 0.18)
+        _tspire(L, place, tx, td * 0.5, h * 1.19, min(tw, td) * 0.45, h * rng.uniform(0.5, 0.75))
     _tspire(L, place, 0, d * 0.55, h + w * 0.22, w * 0.06, h * 0.4)        # crossing flèche
 
 
@@ -966,7 +979,7 @@ def _twalltower(L, G, ang, r, w=3.4, h=11.0):
     place = _placer(ang, r, z0)
     _tbox(L, place, -w / 2, -w * 0.45, 0, w / 2, w * 0.45, h)
     _tbox(L, place, -w / 2 - 0.3, -w * 0.45 - 0.3, h, w / 2 + 0.3, w * 0.45 + 0.3, h + 0.6)
-    _tspire(L, place, 0, 0, h + 0.6, w * 0.52, w * 0.9)
+    _tspire(L, place, 0, 0, h + 0.6, w * 0.44, w * 0.9)
     _tspire(G, place, 0, 0, h + 0.6 + w * 0.9, 0.12, 1.0)
 
 
