@@ -213,8 +213,8 @@ for s in (1, -1):
 for z in (20, 36):
     prop("candelabra", (-9.2, 0, z), 90)
     prop("candelabra", (9.2, 0, z), -90)
-prop("censer_hanging", (0, 8.85, 18), 0, collide=False)
-prop("censer_hanging", (0, 8.85, 40), 0, collide=False)
+prop("censer_hanging", (0, 7.98, 18), 0, collide=False)
+prop("censer_hanging", (0, 7.98, 40), 0, collide=False)
 
 # ---------------------------------------------------------------- the Hour Gate
 wall_run_x(56, -10, -2, 0)
@@ -288,7 +288,7 @@ for s in (1, -1):
 # ---- east wing character: the ringers' house
 prop("banquet_bench_6m", (18, 0, 19.5), 90, scale=[0.6, 1, 1])   # practice pews
 prop("banquet_bench_6m", (21.5, 0, 19.5), 90, scale=[0.6, 1, 1])
-prop("censer_hanging", (18, 8.85, 12), 0, collide=False)
+prop("censer_hanging", (18, 7.98, 12), 0, collide=False)
 prop("bell_great", (34, 5.4, 20), 0, collide=False)              # the mother bell
 prop("carpet_runner_8m", (18, 0.02, 33), 0)
 prop("shrine_aedicule", (22, 0, 36.5), 180, mat_remap=_MARBLE_REMAP)  # reliquary shrine
@@ -319,7 +319,7 @@ prop("candle_cluster", (-15.5, 0, 32.5), 40, tag="glory")
 prop("candle_cluster_dead", (-15.5, 0, 32.5), 40, tag="ruin")
 prop("candle_cluster", (-21, 0, 33), -30, tag="glory")
 prop("candle_cluster_dead", (-21, 0, 33), -30, tag="ruin")
-prop("censer_hanging", (-18, 8.85, 34), 0, collide=False)
+prop("censer_hanging", (-18, 7.98, 34), 0, collide=False)
 
 # ---- the regal ceilings: two coffered domes seated INTO the vault line —
 # rims on the spring plane over true 8x8 holes in the bays, shells rising

@@ -628,7 +628,7 @@ def sister(arm):
     """Sister Aveline: Firekeeper / Shrine Maiden in finely pleated monastic
     habit, contoured scapular, silver blindfold fillet, and golden reliquary."""
     b = BodyBuilder("sister")
-    common_body(b, "M_habit", "M_wax", "M_habit", hood=True, skirt=True, skirt_len=0.56)
+    common_body(b, "M_habit", "M_wax", "M_habit", hood=True, skirt=True, skirt_len=0.82)
     # Contoured monastic scapular + shoulder capelet + gilt pectoral clasp
     bm = b.part("chest", "M_leather")
     _tube(bm, Vector((0, 0, 1.18)), Vector((0, 0, 1.43)), 0.168, 0.146, n=16,
@@ -682,7 +682,7 @@ def chorister(arm):
     vestments, stiffened choir collar, brass trim, and chained hymnal."""
     b = BodyBuilder("chorister")
     common_body(b, "M_wraith", "M_wax", "M_wraith", hood=True, skirt=True,
-                skirt_len=0.60, girth=0.90)
+                skirt_len=0.82, girth=0.90)
     # High choir collar + brass rim
     bm = b.part("chest", "M_habit")
     _tube(bm, Vector((0, 0, 1.39)), Vector((0, -0.01, 1.51)), 0.162, 0.175, n=16, steps=3, flutes=12, flute_amp=0.03)
@@ -701,19 +701,22 @@ def precentress(arm):
     pleated boss vestments, golden mantle, and crossed bronze censer chains."""
     b = BodyBuilder("precentress")
     common_body(b, "M_robe_boss", "M_wax", "M_robe_boss", hood=True, skirt=True,
-                skirt_len=0.64, girth=0.98)
+                skirt_len=0.82, girth=0.98)
     # Tall gilded mitre crown with twin horns
     bm = b.part("head", "M_gold")
     _tube(bm, Vector((0, 0.0, 1.65)), Vector((0, 0.0, 1.73)), 0.130, 0.115, n=16, steps=3, flutes=8, flute_amp=0.04)
     _tube(bm, Vector((0, 0.0, 1.70)), Vector((0, -0.03, 2.04)), 0.105, 0.018, n=16, steps=5, squash=(1.2, 0.85))
     for s in (-1, 1):
         _tube(bm, Vector((s * 0.05, 0.0, 1.72)), Vector((s * 0.14, -0.02, 1.98)), 0.035, 0.008, n=10, steps=4)
-    # Censer chains + gilded shoulder stole (bowed outward to clear spine & chest)
+    # Censer chains + gilded shoulder stole & waist belt (connected loops at shoulders and waist)
     bm = b.part("chest", "M_bronze")
     _tube(bm, Vector((0.16, -0.152, 1.43)), Vector((-0.14, -0.162, 1.08)), 0.020, 0.020, n=10, steps=4)
     _tube(bm, Vector((-0.16, -0.152, 1.43)), Vector((0.14, -0.162, 1.08)), 0.020, 0.020, n=10, steps=4)
     _tube(bm, Vector((0.16, 0.148, 1.43)), Vector((-0.14, 0.158, 1.08)), 0.020, 0.020, n=10, steps=4)
     _tube(bm, Vector((-0.16, 0.148, 1.43)), Vector((0.14, 0.158, 1.08)), 0.020, 0.020, n=10, steps=4)
+    for s in (-1, 1):
+        _tube(bm, Vector((s * 0.16, -0.152, 1.43)), Vector((s * 0.16, 0.148, 1.43)), 0.022, 0.022, n=10, steps=3)
+    _tube(bm, Vector((0, -0.002, 1.06)), Vector((0, -0.002, 1.10)), 0.172, 0.172, n=16, steps=2, squash=(1.04, 0.96))
     return b.finalize(arm, seed=61)
 
 
@@ -790,7 +793,7 @@ def echo(arm):
     pleated wraith weave under a radiant gilt crown, collar, and girdle."""
     b = BodyBuilder("echo")
     common_body(b, "M_wraith", "M_wax", "M_wraith", hood=True, skirt=True,
-                skirt_len=0.58, girth=0.84)
+                skirt_len=0.82, girth=0.84)
     # Floating hollow gold crown/halo ring above the hooded brow
     bm = b.part("head", "M_gold")
     _torus_ring(bm, (0, -0.01, 1.73), 0.125, 0.014, n_major=20, n_minor=8)

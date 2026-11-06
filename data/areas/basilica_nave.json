@@ -653,10 +653,10 @@
       "kit": "bell_great",
       "at": [
         0,
-        2.7,
+        4.8,
         -27.6
       ],
-      "scale": 2.0
+      "scale": 1.6
     },
     {
       "kit": "stair_grand_4m",
@@ -1774,7 +1774,7 @@
         0.1,
         -28
       ],
-      "face": 0,
+      "face": 180,
       "dead_once": true,
       "fog_gate_id": "choir"
     }

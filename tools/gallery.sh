@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 # Screenshot every main space in both relevant states -> docs/gallery/
+# Optional args: filter substrings (e.g. ./tools/gallery.sh spire_songloft gate_battlement)
 set -uo pipefail
 cd "$(dirname "$0")/.."
 SD=$(mktemp -d)
+FILTER=("$@")
+want_shot() {
+  [ ${#FILTER[@]} -eq 0 ] && return 0
+  for f in "${FILTER[@]}"; do
+    [[ "$1" == *"$f"* ]] && return 0
+  done
+  return 1
+}
 shot() { # file area state cam [extra_args...]
+  want_shot "$1" || return 0
   rm -rf "$SD/g"; tools/shot.sh "docs/gallery/$1" "--area=$2" "--state=$3" "--save-dir=$SD/g" "--shot-cam=$4" --shot-frames=55 "${@:5}" 2>&1 | tail -1
 }
 shot porch_spawn.png       gray_cloister glory  "-18.5,1.7,-2,-90,-4,62"
@@ -36,7 +46,9 @@ shot city_overlook_glory.png basilica_porch glory "0,2.3,3,180,7,80"
 shot city_overlook_ruin.png  basilica_porch ruin  "0,2.3,3,180,11,82"
 shot city_avenue.png         basilica_porch glory "0,0.5,17.5,180,-26,80"
 # the Esc menu, photographed over the terrace
-rm -rf "$SD/g"; tools/shot.sh docs/gallery/pause_menu.png --area=basilica_porch --state=glory "--save-dir=$SD/g" --shot-menu --shot-frames=70 2>&1 | tail -1
+if want_shot "pause_menu.png"; then
+  rm -rf "$SD/g"; tools/shot.sh docs/gallery/pause_menu.png --area=basilica_porch --state=glory "--save-dir=$SD/g" --shot-menu --shot-frames=70 2>&1 | tail -1
+fi
 
 # pass 4: the Basilica Nave
 shot nave_vessel_glory.png   basilica_nave glory  "0,1.8,6.5,0,2,64"
