@@ -477,22 +477,27 @@ def palace_pediment_8m():
 # (lamplit in glory, dead-dark in ruin). No collision — skyline pieces.
 
 def _radiant_tower(L, G, W, rng, cx, cy, base, w, h, cap=1.0):
-    """One marble tower: shaft, gold string courses, window strips, and a
-    gold pyramidal cap (returned as its own loft object)."""
+    """One marble tower: shaft, gold string courses + eaves cornice, two-tier
+    window strips, and a full-width gold pyramidal cap (returned as its own loft object)."""
     hw = w * 0.5
     V.add_box(L, (cx - hw, cy - hw, base), (cx + hw, cy + hw, base + h))
-    for k in (0.35, 0.7):
+    for k in (0.35, 0.68):
         V.add_box(G, (cx - hw - 0.12, cy - hw - 0.12, base + h * k),
-                  (cx + hw + 0.12, cy + hw + 0.12, base + h * k + 0.5))
+                  (cx + hw + 0.12, cy + hw + 0.12, base + h * k + 0.45))
+    # Top gold eaves cornice crowning the marble shaft right under the pyramidal spire
+    V.add_box(G, (cx - hw - 0.16, cy - hw - 0.16, base + h - 0.48),
+              (cx + hw + 0.16, cy + hw + 0.16, base + h + 0.04))
     for (dx, dy) in ((0, -hw), (0, hw), (-hw, 0), (hw, 0)):
         ww = w * 0.16
-        if dx == 0:
-            V.add_box(W, (cx - ww, cy + dy - 0.06, base + h * 0.45),
-                      (cx + ww, cy + dy + 0.06, base + h * 0.82))
-        else:
-            V.add_box(W, (cx + dx - 0.06, cy - ww, base + h * 0.45),
-                      (cx + dx + 0.06, cy + ww, base + h * 0.82))
-    rings = [(hw * 1.18, base + h, 4, 0.785), (0.06, base + h + w * 1.1 * cap, 4, 0.785)]
+        for (z_lo, z_hi) in ((0.40, 0.64), (0.73, 0.93)):
+            if dx == 0:
+                V.add_box(W, (cx - ww, cy + dy - 0.06, base + h * z_lo),
+                          (cx + ww, cy + dy + 0.06, base + h * z_hi))
+            else:
+                V.add_box(W, (cx + dx - 0.06, cy - ww, base + h * z_lo),
+                          (cx + dx + 0.06, cy + ww, base + h * z_hi))
+    # For a 4-gon rotated by pi/4, circumradius r = hw * sqrt(2) * 1.05 covers +-hw with slight eaves overhang
+    rings = [(hw * 1.485, base + h, 4, math.pi / 4), (0.06, base + h + w * 1.15 * cap, 4, math.pi / 4)]
     caps = V.loft_rings("radiant_cap", rings, "M_gild")
     caps.location = (cx, cy, 0)
     return caps
@@ -506,11 +511,14 @@ def radiant_spire(seed=3):
     W = bmesh.new()
     objs = []
     h = rng.uniform(30, 38)
-    objs.append(_radiant_tower(L, G, W, rng, 0, 0, 0.0, rng.uniform(5.5, 7.0), h, cap=1.3))
-    for a in (0.9, -2.2):
-        d = rng.uniform(4.5, 6.0)
-        objs.append(_radiant_tower(L, G, W, rng, math.cos(a) * d, math.sin(a) * d,
-                                   0.0, rng.uniform(2.4, 3.2), h * rng.uniform(0.45, 0.6)))
+    w_main = rng.uniform(5.5, 7.0)
+    objs.append(_radiant_tower(L, G, W, rng, 0, 0, 0.0, w_main, h, cap=1.3))
+    for sx in (-1, 1):
+        w_sub = rng.uniform(2.5, 3.1)
+        h_sub = h * rng.uniform(0.54, 0.64)
+        tx = sx * (w_main * 0.5 + w_sub * 0.42)
+        ty = -w_main * 0.10
+        objs.append(_radiant_tower(L, G, W, rng, tx, ty, 0.0, w_sub, h_sub, cap=1.15))
     objs.insert(0, V.bm_to_object(L, "radiant_spire", ("M_marble",)))
     objs.insert(1, V.bm_to_object(G, "radiant_spire_gild", ("M_gild",)))
     objs.insert(2, V.bm_to_object(W, "radiant_spire_win", ("M_citywindow",)))

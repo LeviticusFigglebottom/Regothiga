@@ -591,7 +591,7 @@
  "city_panorama": {
   "file": "assets/kit/city_panorama.glb",
   "origin": "center",
-  "polys": 58027,
+  "polys": 56515,
   "size": [
    500,
    500,
@@ -1267,7 +1267,7 @@
  "radiant_castle_a": {
   "file": "assets/kit/radiant_castle_a.glb",
   "origin": "bottom-center",
-  "polys": 264,
+  "polys": 414,
   "size": [
    30,
    30,
@@ -1277,7 +1277,7 @@
  "radiant_castle_b": {
   "file": "assets/kit/radiant_castle_b.glb",
   "origin": "bottom-center",
-  "polys": 264,
+  "polys": 414,
   "size": [
    30,
    30,
@@ -1287,7 +1287,7 @@
  "radiant_spire_a": {
   "file": "assets/kit/radiant_spire_a.glb",
   "origin": "bottom-center",
-  "polys": 144,
+  "polys": 234,
   "size": [
    16,
    16,
@@ -1297,7 +1297,7 @@
  "radiant_spire_b": {
   "file": "assets/kit/radiant_spire_b.glb",
   "origin": "bottom-center",
-  "polys": 144,
+  "polys": 234,
   "size": [
    16,
    16,

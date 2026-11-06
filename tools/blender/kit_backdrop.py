@@ -709,6 +709,26 @@ def _tdome(bm, place, cx, cy, z, r, h, seg=10, rings=4):
         prev = ring
 
 
+def _tlancet(bm, place, x0, x1, y0, y1, z0, h):
+    """3D triangular/lancet arch prism extruded only across depth y0..y1
+    (unlike _tspire which builds a square pyramid protruding +-w in Y)."""
+    if x0 > x1:
+        x0, x1 = x1, x0
+    if y0 > y1:
+        y0, y1 = y1, y0
+    xm = (x0 + x1) * 0.5
+    f0 = bm.verts.new(place(x0, y0, z0))
+    f1 = bm.verts.new(place(x1, y0, z0))
+    ft = bm.verts.new(place(xm, y0, z0 + h))
+    b0 = bm.verts.new(place(x0, y1, z0))
+    b1 = bm.verts.new(place(x1, y1, z0))
+    bt = bm.verts.new(place(xm, y1, z0 + h))
+    bm.faces.new((f0, f1, ft))
+    bm.faces.new((b1, b0, bt))
+    bm.faces.new((f0, ft, bt, b0))
+    bm.faces.new((f1, b1, bt, ft))
+
+
 def _facade(L, D, place, x0, x1, z0, z1, rng, bays=0, arched=True):
     """Buttress pilasters (proud, light) framing recessed dark window bays, with
     a cornice ledge at top — the detail that turns a wall into a cathedral flank."""
@@ -729,8 +749,8 @@ def _facade(L, D, place, x0, x1, z0, z1, rng, bays=0, arched=True):
         wz1 = z1 - 0.7
         wz0 = z0 + (z1 - z0) * 0.14
         _tbox(D, place, wx0, -0.14, wz0, wx1, 0.03, wz1)
-        if arched:                                                        # lancet head
-            _tspire(D, place, (wx0 + wx1) * 0.5, -0.05, wz1, (wx1 - wx0) * 0.5, (wx1 - wx0) * 0.7)
+        if arched:                                                        # lancet head flush with window depth
+            _tlancet(D, place, wx0, wx1, -0.14, 0.03, wz1, (wx1 - wx0) * 0.65)
 
 
 def _bld_hall(L, D, RB, place, w, h, rng):
@@ -840,6 +860,15 @@ def _tquad(bm, place, x0, z0, x1, z1, y, flip=False):
     bm.faces.new([bm.verts.new(place(*p)) for p in pts])
 
 
+def _ttri(bm, place, x0, x1, z0, h, y, flip=False):
+    """Single vertical triangle in the local X-Z plane at depth y (arch head)."""
+    xm = (x0 + x1) * 0.5
+    pts = [(x0, y, z0), (x1, y, z0), (xm, y, z0 + h)]
+    if flip:
+        pts.reverse()
+    bm.faces.new([bm.verts.new(place(*p)) for p in pts])
+
+
 def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out, detail=False):
     """A street-fronting rowhouse: stone body, slate gable roof (ridge running
     back from the street), arched door, window rows (warm-lit or dark), the odd
@@ -874,8 +903,8 @@ def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out, detail=False):
     # proud facade trim spans from the face out toward the street
     ty0, ty1 = min(-0.2 * dir_out, -0.02 * dir_out), max(-0.2 * dir_out, -0.02 * dir_out)
     dw = 0.55
-    _tquad(D, place, -dw / 2, 0.0, dw / 2, 1.9, fy, flip)               # door
-    _tspire(D, place, 0, fy, 1.9, dw / 2, 0.4)                          # door arch head
+    _tquad(D, place, -dw / 2, 0.0, dw / 2, 1.85, fy, flip)              # door
+    _ttri(D, place, -dw / 2, dw / 2, 1.85, 0.20, fy, flip)              # door arch head
     if detail:
         _tbox(L, place, -dw / 2 - 0.14, ty0, 0.0, -dw / 2, ty1, 2.05)   # door jambs
         _tbox(L, place, dw / 2, ty0, 0.0, dw / 2 + 0.14, ty1, 2.05)
@@ -900,7 +929,7 @@ def _thouse(L, D, W, R, G, ang, r, rng, hmax, dir_out, detail=False):
                 _tbox(L, place, wx - 0.34, ty0, wz - 0.1, wx + 0.34, ty1, wz)
                 _tbox(L, place, wx - 0.3, ty0, wz + 0.72, wx + 0.3, ty1, wz + 0.82)
                 if rr_ == rows - 1 and rng.random() < 0.5:
-                    _tspire(pane, place, wx, fy, wz + 0.72, 0.26, 0.2)
+                    _ttri(pane, place, wx - 0.26, wx + 0.26, wz + 0.82, 0.18, fy, flip)
 
 
 def _tlamp(L, G, W, ang, r):
