@@ -26,11 +26,12 @@ func build(cfg: Dictionary) -> void:
 		weapon_kit = String(cfg["weapon"])
 		var w := KitLib.instance(weapon_kit)
 		if weapon_kit == "bell_great":
-			# crown gripped at the fist, mouth dragging low BEHIND him — pushed
-			# out past the hip and trailed back so the bronze never passes
-			# through his robe, the mouth kissing the ground at his heel
-			w.rotation_degrees = Vector3(146, 10, -18)
-			w.position = Vector3(-0.18, 0.48, -1.18)
+			# Crown (local y ~ 1.76 m) gripped at the right fist, scaled to a
+			# wearable one-handed siege bell with the bronze mouth trailing
+			# outside (-X) and behind (-Z) his right hip clear of his skirt.
+			w.scale = Vector3.ONE * 0.60
+			w.rotation_degrees = Vector3(148, 0, 28)
+			w.position = -(w.transform.basis * Vector3(0.0, 1.76, 0.0)) + Vector3(-0.08, 0.0, -0.08)
 		weapon_mount.add_child(w)
 		apply_carry_pose("idle")
 		add_trail()   # armed foes cut visible arcs too

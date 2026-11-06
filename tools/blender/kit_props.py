@@ -273,7 +273,7 @@ def statue_saint():
     V.add_box(bm, (-0.46, -0.46, 0.47), (0.46, 0.46, 0.55))
     objs.append(V.bm_to_object(bm, "plinth", ("M_stone_dark",)))
 
-    robe = _robe("saint", 1.9, 0.34, True, "M_stone")
+    robe = _robe("saint", 1.9, 0.34, True, "M_stone_trim")
     robe.location = (0, 0, 0.55)
     objs.append(robe)
 
@@ -288,7 +288,7 @@ def statue_saint():
                 (sx * 0.04, 0.32, 1.62),
             ],
             V.chamfer_rect_profile(0.11, 0.13, 0.03),
-            "M_stone",
+            "M_stone_trim",
             up_hint=Vector((0, 0, 1)),
         )
         objs.append(arm)
@@ -330,14 +330,16 @@ def gargoyle():
     objs = []
     bm = bmesh.new()
     # Perched stone plinth block under talons
-    V.add_box(bm, (-0.24, -0.22, 0.0), (0.24, 0.50, 0.06))
+    bm_plinth = bmesh.new()
+    V.add_box(bm_plinth, (-0.24, -0.22, 0.0), (0.24, 0.50, 0.06))
+    objs.append(V.bm_to_object(bm_plinth, "gargoyle_plinth", ("M_stone_dark",)))
     for (c, r, sq) in (((0, -0.05, 0.22), 0.20, 0.8), ((0, 0.16, 0.30), 0.16, 0.9),
                        ((0, 0.32, 0.38), 0.13, 1.0)):
         got = bmesh.ops.create_icosphere(bm, subdivisions=2, radius=r)
         for v in got["verts"]:
             v.co.z *= sq
             v.co += Vector(c)
-    body = V.bm_to_object(bm, "gargoyle_body", ("M_stone",))
+    body = V.bm_to_object(bm, "gargoyle_body", ("M_stone_trim",))
     objs.append(body)
     # Sculpted horned skull + snout + lower jaw + brow ridges
     bm2 = bmesh.new()
@@ -351,7 +353,7 @@ def gargoyle():
     V.add_box(bm2, (-0.042, 0.48, 0.39), (0.042, 0.62, 0.43))
     for sx in (-1, 1):
         V.add_box(bm2, (sx * 0.055 - 0.025, 0.46, 0.51), (sx * 0.055 + 0.025, 0.56, 0.55))
-    head = V.bm_to_object(bm2, "gargoyle_head", ("M_stone",))
+    head = V.bm_to_object(bm2, "gargoyle_head", ("M_stone_trim",))
     objs.append(head)
     for sx in (-1, 1):
         horn = V.sweep_profile("horn", [(sx * 0.07, 0.42, 0.54), (sx * 0.13, 0.34, 0.66), (sx * 0.16, 0.24, 0.74)],
@@ -364,17 +366,17 @@ def gargoyle():
         d = bmw.verts.new((sx * 0.14, -0.18, 0.16))
         bmw.faces.new((a, b, c, d) if sx > 0 else (d, c, b, a))
         bmesh.ops.solidify(bmw, geom=list(bmw.faces), thickness=0.032)
-        wing = V.bm_to_object(bmw, "wing", ("M_stone",))
+        wing = V.bm_to_object(bmw, "wing", ("M_stone_trim",))
         objs.append(wing)
         rib = V.sweep_profile("wing_rib", [(sx * 0.15, 0.12, 0.42), (sx * 0.36, -0.14, 0.64), (sx * 0.34, -0.36, 0.26)],
                               V.circle_profile(0.022, 8), "M_stone_trim")
         objs.append(rib)
     for sx in (-1, 1):
         leg = V.sweep_profile("leg", [(sx * 0.13, 0.26, 0.32), (sx * 0.16, 0.40, 0.16), (sx * 0.15, 0.44, 0.05)],
-                              V.circle_profile(0.038, 8), "M_stone")
+                              V.circle_profile(0.038, 8), "M_stone_trim")
         objs.append(leg)
         hind = V.sweep_profile("hind", [(sx * 0.16, -0.04, 0.22), (sx * 0.19, 0.10, 0.12), (sx * 0.17, 0.18, 0.05)],
-                               V.circle_profile(0.044, 8), "M_stone")
+                               V.circle_profile(0.044, 8), "M_stone_trim")
         objs.append(hind)
     return objs, {"size": [0.7, 1.0, 0.8], "origin": "bottom-center"}
 

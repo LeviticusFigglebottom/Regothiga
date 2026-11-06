@@ -179,8 +179,17 @@ def lark_cage(drop=1.6):
     # perch bar across the cage
     V.add_box(bm, (-0.22, -0.015, cz - 0.55), (0.22, 0.015, cz - 0.52))
     objs.append(V.bm_to_object(bm, "cage", ("M_gold",)))
-    # floor disc of the cage
-    disc = V.loft_rings("cage_floor", [(0.235, cz - 0.77, 12, 0), (0.235, cz - 0.75, 12, 0)], "M_iron")
+    # floor pan + pendant finial of the gilded cage
+    disc = V.loft_rings(
+        "cage_floor",
+        [
+            (0.016, cz - 0.83, 14, 0),
+            (0.052, cz - 0.79, 14, 0),
+            (0.220, cz - 0.77, 14, 0),
+            (0.240, cz - 0.745, 14, 0),
+        ],
+        "M_brass",
+    )
     objs.append(disc)
     for o in _lark("lark"):
         o.location = (0.02, 0, cz - 0.52)

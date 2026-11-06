@@ -342,11 +342,11 @@ def urn():
     gilt = V.loft_rings(
         "urn_band",
         [
-            (0.33, 0.54, 20, 0),
-            (0.362, 0.54, 20, 0),
-            (0.362, 0.62, 20, 0),
-            (0.33, 0.62, 20, 0),
-            (0.33, 0.54, 20, 0),
+            (0.335, 0.538, 20, 0),
+            (0.348, 0.544, 20, 0),
+            (0.357, 0.580, 20, 0),
+            (0.347, 0.616, 20, 0),
+            (0.334, 0.622, 20, 0),
         ],
         "M_gold",
         cap_bottom=False,
@@ -553,7 +553,7 @@ def statue_orans(seed=3):
     _box(bm, -0.40, -0.40, 0.18, 0.40, 0.40, 0.47)
     objs.append(V.bm_to_object(bm, "plinth", ("M_stone_dark",)))
 
-    robe = kit_props._robe("saint_o", 1.9, 0.34, True, "M_stone")
+    robe = kit_props._robe("saint_o", 1.9, 0.34, True, "M_stone_trim")
     robe.location = (0, 0, 0.55)
     objs.append(robe)
 
@@ -582,7 +582,7 @@ def statue_orans(seed=3):
                 (sx * 0.48, 0.075, 2.28),
             ],
             V.circle_profile(0.068, 10),
-            "M_stone",
+            "M_stone_trim",
             up_hint=Vector((0, 1, 0)),
         )
         objs.append(arm)
