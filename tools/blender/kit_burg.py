@@ -136,9 +136,9 @@ def _burg_wall(door=False, win=False):
             V.add_box(bm, (-1.04, y + 0.04, zb - 0.03), (-0.63, y + 0.075, zb + 0.03))
             V.add_box(bm, (0.63, y + 0.04, zb - 0.03), (1.04, y + 0.075, zb + 0.03))
     else:
-        # decorative diagonal brace (two chunky segments, painted-fantasy)
-        _frame_stick(bm, (-1.35, 0, 0.68), (-0.1, 0, 1.7))
-        _frame_stick(bm, (0.1, 0, 1.8), (1.35, 0, 2.85))
+        # Continuous corner-to-corner diagonal brace + central stud so timber joinery is 100% connected
+        _frame_stick(bm, (-1.42, 0, 0.56), (1.42, 0, 2.94))
+        _frame_stick(bm, (0.0, 0, 0.56), (0.0, 0, 2.94))
     objs.append(V.bm_to_object(bm, "timbers", ("M_wood",)))
     if win:
         bm = bmesh.new()

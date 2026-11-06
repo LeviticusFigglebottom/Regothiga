@@ -392,8 +392,8 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
                 hood=True, skirt=True, skirt_len=0.34, girth=1.0, mail_mat=None):
     g = girth
     under_mat = mail_mat if mail_mat else robe_mat
-    # pelvis + belt
-    bm = b.part("hips", robe_mat)
+    # pelvis + belt (armored characters show chainmail under the belt/cuirass joint)
+    bm = b.part("hips", under_mat)
     _tube(bm, Vector((0, 0, 0.90)), Vector((0, 0, 1.10)), 0.162 * g, 0.155 * g, 16, 1.05, squash=(1.08, 0.92))
     bm = b.part("hips", "M_leather")
     _tube(bm, Vector((0, 0, 1.05)), Vector((0, 0, 1.11)), 0.168 * g, 0.168 * g, 16, steps=2, squash=(1.08, 0.92))
@@ -401,7 +401,7 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
     bm_b = b.part("hips", "M_brass")
     V.add_box(bm_b, (-0.032 * g, 0.142 * g, 1.055), (0.032 * g, 0.168 * g, 1.105))
     # torso (anatomical oval ribcage + waist taper)
-    bm = b.part("spine", robe_mat)
+    bm = b.part("spine", under_mat)
     _tube(bm, Vector((0, 0, 1.06)), Vector((0, 0, 1.26)), 0.152 * g, 0.172 * g, 16, steps=4, flutes=8, flute_amp=0.03, squash=(1.10, 0.88))
     bm = b.part("chest", robe_mat)
     _tube(bm, Vector((0, 0, 1.24)), Vector((0, 0, 1.45)), 0.176 * g, 0.118 * g, 16, 1.06, steps=5, flutes=8, flute_amp=0.03, squash=(1.14, 0.86))
@@ -532,23 +532,23 @@ def hero(arm):
 
 def ward(arm):
     """Cloister Ward: full Gothic Lothric/Silver Knight plate over chainmail
-    and wraith-blue surcoat, crested houndskull bascinet, and heavy pauldrons."""
+    and dark liturgical surcoat, crested houndskull bascinet, and heavy pauldrons."""
     b = BodyBuilder("ward")
-    common_body(b, "M_wraith", "M_wraith", "M_plate_dark", hood=False, skirt=True,
-                skirt_len=0.44, girth=1.08, mail_mat="M_chainmail")
-    # Fluted Gothic cuirass + plackart + hip faulds
+    common_body(b, "M_robe", "M_wax", "M_plate_dark", hood=False, skirt=True,
+                skirt_len=0.42, girth=1.08, mail_mat="M_chainmail")
+    # Fluted Gothic cuirass + plackart + articulated hip faulds/tassets
     bm = b.part("chest", "M_plate_dark")
     _tube(bm, Vector((0, 0, 1.21)), Vector((0, 0, 1.45)), 0.198, 0.138, n=16, bulge=1.07,
           steps=5, flutes=10, flute_amp=0.025, squash=(1.12, 0.88), ridge_fwd=0.12)
     bm_s = b.part("spine", "M_plate_dark")
     _tube(bm_s, Vector((0, 0, 1.06)), Vector((0, 0, 1.24)), 0.168, 0.188, n=16, steps=3, squash=(1.10, 0.90))
     bm_f = b.part("hips", "M_plate_dark")
-    _tube(bm_f, Vector((0, 0, 0.92)), Vector((0, 0, 1.07)), 0.198, 0.178, n=16, steps=3, flutes=8, flute_amp=0.04, squash=(1.10, 0.92))
+    _tube(bm_f, Vector((0, 0, 0.86)), Vector((0, 0, 1.08)), 0.208, 0.180, n=16, steps=4, flutes=8, flute_amp=0.04, squash=(1.10, 0.92))
     # Full knight bascinet helm with crest
-    _knight_helm(b, "M_plate_dark", "M_iron", g=1.08, crest=True)
+    _knight_helm(b, "M_plate_dark", "M_steel", g=1.08, crest=True)
     # Articulated pauldrons, gauntlets, and greaves
     for side, s in (("r", 1), ("l", -1)):
-        _pauldron(b, side, s, "M_plate_dark", "M_iron", r=0.104, z=1.42, g=1.08)
+        _pauldron(b, side, s, "M_plate_dark", "M_steel", r=0.104, z=1.42, g=1.08)
         _gauntlet_and_couter(b, side, s, "M_plate_dark", g=1.08)
         _greave_and_sabaton(b, side, s, "M_plate_dark", g=1.08)
     return b.finalize(arm)

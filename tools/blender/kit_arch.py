@@ -15,28 +15,18 @@ import vglib as V
 # ------------------------------------------------------------------ floors
 
 def floor_4x4():
-    """4x4 m slab floor, per-slab jitter. Origin: center of tile, top at z=0.
-    A SOLID full-tile base underneath (edge-to-edge at +-2 m) means adjacent
-    tiles butt with no see-through gap and nothing leaks through the grout; the
-    jittered top slabs only carry the paving texture and their outer edges reach
-    the tile boundary so the between-tile seam is a hairline, not a hole."""
+    """4x4 m slab floor. Origin: center of tile, top at z=-0.02 (flush with
+    all stair_grand_4m landings placed at floor_y - 0.02).
+    Subdivided into a 4x4 grid of flush 1x1 m quads at z=-0.02 so adjacent tiles
+    meet seamlessly, vertex wear/moss/AO masks retain rich spatial variation,
+    and M_stone_dark's world-space triplanar paving shader renders without
+    competing physical trenches."""
     bm = bmesh.new()
-    rng = random.Random(11)
-    # solid continuous base — tiles meet flush at +-2, sealing the void below
-    V.add_box(bm, (-2.0, -2.0, -0.24), (2.0, 2.0, -0.05))
-    n = 4
-    s = 4.0 / n
-    g = 0.012
-    for i in range(n):
-        for j in range(n):
-            x0, y0 = -2 + i * s, -2 + j * s
-            drop = rng.uniform(0.008, 0.03)
-            # inset only the INTERNAL edges, so outer edges reach the tile bound
-            xlo = x0 + (g if i > 0 else 0.0)
-            xhi = x0 + s - (g if i < n - 1 else 0.0)
-            ylo = y0 + (g if j > 0 else 0.0)
-            yhi = y0 + s - (g if j < n - 1 else 0.0)
-            V.add_box(bm, (xlo, ylo, -0.06), (xhi, yhi, -drop))
+    for i in range(4):
+        x0, x1 = -2.0 + i * 1.0, -2.0 + (i + 1) * 1.0
+        for j in range(4):
+            y0, y1 = -2.0 + j * 1.0, -2.0 + (j + 1) * 1.0
+            V.add_box(bm, (x0, y0, -0.25), (x1, y1, -0.02))
     obj = V.bm_to_object(bm, "floor_4x4", ("M_stone_dark",))
     return [obj], {"size": [4, 0.25, 4], "origin": "top-center"}
 
@@ -61,29 +51,25 @@ def _block_wall(bm, x0, x1, z0, z1, y_front, depth, rng, block_w=1.0, block_h=0.
 
 
 def wall_4x4():
-    """Solid wall 4 m wide, 4 m tall, ~0.45 thick, block relief both faces.
-    Origin: bottom-center of the wall run (thickness centered on Y=0)."""
+    """Solid wall 4 m wide, 4 m tall, ~0.40 m thick. Smooth subdivided ashlar
+    masonry slab (letting M_stone's world-space triplanar ashlar shader render
+    cleanly without competing proud-box shadow grids) + subtle M_stone_trim
+    base plinth and upper stringcourse. Origin: bottom-center."""
     bm = bmesh.new()
-    rng = random.Random(7)
-    V.add_box(bm, (-2, -0.14, 0), (2, 0.14, 4.0))          # core slab
-    _block_wall(bm, -2, 2, 0.0, 4.0, -0.16, 0.02, rng)      # front blocks
-    rng2 = random.Random(8)
-    # back face blocks (mirror): build then flip by using positive Y proud
-    rows = 8
-    for r in range(rows):
-        zb0 = r * 0.5
-        offset = 0.5 if r % 2 else 0.0
-        x = -2 - offset
-        while x < 2 - 0.01:
-            xs = max(x, -2)
-            xe = min(x + 1.0, 2)
-            if xe - xs > 0.04:
-                proud = rng2.uniform(0.02, 0.055)
-                g = 0.012
-                V.add_box(bm, (xs + g, -0.02, zb0 + g), (xe - g, 0.16 + proud, zb0 + 0.5 - g))
-            x += 1.0
-    obj = V.bm_to_object(bm, "wall_4x4", ("M_stone",))
-    return [obj], {"size": [4, 0.5, 4], "origin": "bottom-center"}
+    # Subdivide into a 4x4 grid of flush 1x1 m masonry quads so vertex wear/moss/AO
+    # masks have rich spatial variation without protruding 5.5 cm shadow ledges.
+    for ix in range(4):
+        x0, x1 = -2.0 + ix * 1.0, -2.0 + (ix + 1) * 1.0
+        for iz in range(4):
+            z0, z1 = iz * 1.0, (iz + 1) * 1.0
+            V.add_box(bm, (x0, -0.19, z0), (x1, 0.19, z1))
+    body = V.bm_to_object(bm, "wall_4x4", ("M_stone",))
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-2.0, -0.202, 0.0), (2.0, 0.202, 0.16))     # base plinth course
+    V.add_box(bm_trim, (-2.0, -0.202, 3.88), (2.0, 0.202, 4.00))    # upper stringcourse
+    trim = V.bm_to_object(bm_trim, "wall_4x4_trim", ("M_stone_trim",))
+    return [body, trim], {"size": [4, 0.5, 4], "origin": "bottom-center"}
 
 
 def wall_low_4m():
