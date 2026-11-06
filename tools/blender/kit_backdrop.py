@@ -63,88 +63,155 @@ def _niche_face_x(bm, y0, y1, x, z0, z1, count, depth=0.35):
 
 
 def spire_tower(seed=1):
-    """Skyline tower: tapering tiers, niches, corner pinnacles, steep spire.
+    """Skyline tower: tapering tiers, stone-trim string courses, dark & lamplit
+    lancet niches, corner pinnacles, slate spire, and gilt finial.
     ~28-40 m tall. Origin bottom-center."""
     rng = random.Random(seed)
     bm = bmesh.new()
+    bm_trim = bmesh.new()
+    bm_roof = bmesh.new()
+    bm_gild = bmesh.new()
     nbm = bmesh.new()   # niche (dark) mesh
+    wbm = bmesh.new()   # lamplit window mesh
     w = rng.uniform(3.2, 4.6)
+    base_w = w
+    _box(bm_trim, -w - 0.25, -w - 0.25, 0.0, w + 0.25, w + 0.25, 0.8)
     z = 0.0
     tiers = rng.randint(2, 3)
     for t in range(tiers):
         h = rng.uniform(6.5, 9.5) * (1.0 - t * 0.14)
         _box(bm, -w, -w, z, w, w, z + h)
-        # string course
-        _box(bm, -w - 0.3, -w - 0.3, z + h, w + 0.3, w + 0.3, z + h + 0.5)
+        # Corner pilaster strips
+        pw = w * 0.16
+        for sx in (-1, 1):
+            for sy in (-1, 1):
+                _box(bm, sx * w - pw * 0.6, sy * w - pw * 0.6, z, sx * w + pw * 0.6, sy * w + pw * 0.6, z + h)
+        # Moulded string course in M_stone_trim
+        _box(bm_trim, -w - 0.3, -w - 0.3, z + h, w + 0.3, w + 0.3, z + h + 0.5)
         cnt = 2 + t % 2
         _niche_face(nbm, -w * 0.8, w * 0.8, -w, z + h * 0.25, z + h * 0.82, cnt)
         _niche_face(nbm, -w * 0.8, w * 0.8, w, z + h * 0.25, z + h * 0.82, cnt)
         _niche_face_x(nbm, -w * 0.8, w * 0.8, -w, z + h * 0.25, z + h * 0.82, cnt)
         _niche_face_x(nbm, -w * 0.8, w * 0.8, w, z + h * 0.25, z + h * 0.82, cnt)
+        if t < tiers - 1:
+            _niche_face(wbm, -w * 0.72, w * 0.72, -w - 0.02, z + h * 0.30, z + h * 0.74, max(1, cnt - 1), depth=0.12)
+            _niche_face(wbm, -w * 0.72, w * 0.72, w + 0.02, z + h * 0.30, z + h * 0.74, max(1, cnt - 1), depth=0.12)
         z += h + 0.5
         w *= rng.uniform(0.8, 0.88)
-    # crown pinnacles + spire
+    # Crown pinnacles + slate spire + gilt finial
     for sx in (-1, 1):
         for sy in (-1, 1):
-            _pinnacle(bm, sx * w * 0.95, sy * w * 0.95, z, w * 0.16, rng.uniform(2.6, 3.6))
-    _spire(bm, 0, 0, z, w * 0.78, rng.uniform(8.0, 13.0))
-    body = V.bm_to_object(bm, "tower_body", ("M_backdrop",))
-    niches = V.bm_to_object(nbm, "tower_niches", ("M_backdrop_dark",))
-    return [body, niches], {"size": [w * 2, w * 2, z + 12], "origin": "bottom-center"}
+            ph = rng.uniform(2.6, 3.6)
+            pw = w * 0.16
+            cx, cy = sx * (w - pw), sy * (w - pw)
+            _box(bm_trim, cx - pw, cy - pw, z, cx + pw, cy + pw, z + ph * 0.55)
+            _spire(bm_roof, cx, cy, z + ph * 0.55, pw * 1.15, ph * 0.45)
+    spire_h = rng.uniform(8.0, 13.0)
+    _spire(bm_roof, 0, 0, z, w * 0.78, spire_h)
+    _spire(bm_gild, 0, 0, z + spire_h - 0.3, w * 0.14, 1.8)
+    objs = [
+        V.bm_to_object(bm, "tower_body", ("M_backdrop",)),
+        V.bm_to_object(bm_trim, "tower_trim", ("M_stone_trim",)),
+        V.bm_to_object(bm_roof, "tower_roof", ("M_roof",)),
+        V.bm_to_object(bm_gild, "tower_gild", ("M_gild",)),
+        V.bm_to_object(nbm, "tower_niches", ("M_backdrop_dark",)),
+        V.bm_to_object(wbm, "tower_windows", ("M_citywindow",)),
+    ]
+    return objs, {"size": [base_w * 2, base_w * 2, z + 12], "origin": "bottom-center"}
 
 
 def cathedral_mass(seed=5):
     """Skyline cathedral: long clerestory nave, twin west towers, rose disc,
-    buttress fins, crossing fleche. ~55 m long. Origin: west front center."""
+    buttress fins, slate roofs & spires, crossing fleche, and gilt finials.
+    ~55 m long. Origin: west front center."""
     rng = random.Random(seed)
     objs = []
     bm = bmesh.new()
+    bm_trim = bmesh.new()
+    bm_roof = bmesh.new()
+    bm_gild = bmesh.new()
+    nbm = bmesh.new()
+    wbm = bmesh.new()
     nave_l, nave_w, nave_h = 46.0, 9.0, 16.0
     aisle_h = 9.5
     # nave + aisles
     _box(bm, -nave_w / 2, 0, 0, nave_w / 2, nave_l, nave_h)
     _box(bm, -nave_w / 2 - 4, 0, 0, nave_w / 2 + 4, nave_l, aisle_h)
-    # gable roof on nave
-    pts = ((-nave_w / 2, 0, nave_h), (nave_w / 2, 0, nave_h),
-           (nave_w / 2, nave_l, nave_h), (-nave_w / 2, nave_l, nave_h),
+    # Stone trim cornices along nave and aisle eaves
+    _box(bm_trim, -nave_w / 2 - 0.35, -0.2, nave_h - 0.45, nave_w / 2 + 0.35, nave_l + 0.2, nave_h + 0.1)
+    _box(bm_trim, -nave_w / 2 - 4.3, -0.2, aisle_h - 0.35, nave_w / 2 + 4.3, nave_l + 0.2, aisle_h + 0.1)
+    # Two-sided slate gable roof on nave + lean-to slate roofs on side aisles
+    pts = ((-nave_w / 2 - 0.2, 0, nave_h), (nave_w / 2 + 0.2, 0, nave_h),
+           (nave_w / 2 + 0.2, nave_l, nave_h), (-nave_w / 2 - 0.2, nave_l, nave_h),
            (0, 0, nave_h + 3.4), (0, nave_l, nave_h + 3.4))
     for f in ((0, 1, 4), (2, 3, 5), (0, 4, 5, 3), (1, 2, 5, 4)):
-        for wind in (f, tuple(reversed(f))):   # two-sided: whole from any angle
-            bm.faces.new(tuple(bm.verts.new(pts[i]) for i in wind))
-    # buttress fins along the aisles
+        for wind in (f, tuple(reversed(f))):
+            bm_roof.faces.new(tuple(bm_roof.verts.new(pts[i]) for i in wind))
+    for sx in (-1, 1):
+        ax_in = sx * (nave_w / 2)
+        ax_out = sx * (nave_w / 2 + 4.15)
+        apts = ((ax_out, 0, aisle_h), (ax_out, nave_l, aisle_h),
+                (ax_in, nave_l, aisle_h + 1.8), (ax_in, 0, aisle_h + 1.8))
+        for wind in ((0, 1, 2, 3), (3, 2, 1, 0)):
+            bm_roof.faces.new(tuple(bm_roof.verts.new(apts[i]) for i in wind))
+    # Buttress fins along the aisles + clerestory/aisle window bays
     for i in range(6):
         y = 6 + i * 6.5
         for sx in (-1, 1):
             x0 = sx * (nave_w / 2 + 4)
             _box(bm, x0 - 0.5, y - 0.5, 0, x0 + 0.5, y + 0.5, aisle_h + 3.5)
-    # west towers
+            _box(bm_trim, x0 - 0.56, y - 0.56, aisle_h + 3.3, x0 + 0.56, y + 0.56, aisle_h + 3.7)
+            if i < 5:
+                by0, by1 = y + 1.1, y + 5.4
+                cx_n = sx * (nave_w / 2 + 0.05)
+                cx_a = sx * (nave_w / 2 + 4.05)
+                _box(nbm, cx_n - 0.18, by0, aisle_h + 2.2, cx_n + 0.18, by1, nave_h - 1.0)
+                _box(wbm, cx_n - 0.22, by0 + 0.6, aisle_h + 2.6, cx_n + 0.22, by1 - 0.6, nave_h - 1.5)
+                _box(nbm, cx_a - 0.18, by0, 1.8, cx_a + 0.18, by1, aisle_h - 1.2)
+                if (i + (1 if sx > 0 else 0)) % 2 == 0:
+                    _box(wbm, cx_a - 0.22, by0 + 0.8, 2.2, cx_a + 0.22, by1 - 0.8, aisle_h - 1.8)
+    # West towers with string courses, corner pinnacles, belfry louvers, slate spires, and gilt finials
     for sx in (-1, 1):
         tx = sx * (nave_w / 2 + 6.5)
         _box(bm, tx - 3.4, -3.0, 0, tx + 3.4, 3.8, 22.0)
-        _spire(bm, tx, 0.4, 22.0, 3.0, 10.0)
-    # crossing fleche
-    _spire(bm, 0, nave_l * 0.62, nave_h + 3.4, 2.0, 9.0)
-    body = V.bm_to_object(bm, "cathedral_body", ("M_backdrop",))
-    objs.append(body)
-    # west front rose + portal insets (dark)
-    nbm = bmesh.new()
+        _box(bm_trim, tx - 3.6, -3.2, 11.2, tx + 3.6, 4.0, 11.7)
+        _box(bm_trim, tx - 3.65, -3.25, 21.5, tx + 3.65, 4.05, 22.1)
+        _niche_face(nbm, tx - 2.4, tx + 2.4, -3.0, 13.0, 19.8, 2)
+        _niche_face(nbm, tx - 2.4, tx + 2.4, 3.8, 13.0, 19.8, 2)
+        for px in (tx - 2.8, tx + 2.8):
+            for py in (-2.4, 3.2):
+                _box(bm_trim, px - 0.42, py - 0.42, 22.1, px + 0.42, py + 0.42, 23.8)
+                _spire(bm_roof, px, py, 23.8, 0.48, 1.8)
+        _spire(bm_roof, tx, 0.4, 22.1, 2.8, 10.0)
+        _spire(bm_gild, tx, 0.4, 31.8, 0.35, 1.8)
+    # Crossing fleche + gilt finial
+    _spire(bm_roof, 0, nave_l * 0.62, nave_h + 3.4, 1.9, 9.0)
+    _spire(bm_gild, 0, nave_l * 0.62, nave_h + 12.1, 0.28, 1.6)
+    # West front rose + portal insets
     rose = 3.2
     n = 12
-    prev = None
     ring0 = []
     for i in range(n):
         a = 2 * math.pi * i / n
         ring0.append(nbm.verts.new((math.cos(a) * rose, -0.3, nave_h * 0.62 + math.sin(a) * rose)))
     nbm.faces.new(ring0)
-    _box(nbm, -2.2, -0.3, 0, 2.2, 0.05, 6.5)
-    front = V.bm_to_object(nbm, "cathedral_dark", ("M_backdrop_dark",))
-    objs.append(front)
+    _box(bm_trim, -2.6, -0.45, 0, 2.6, 0.05, 6.9)
+    _box(nbm, -2.2, -0.5, 0, 2.2, 0.05, 6.5)
+    objs = [
+        V.bm_to_object(bm, "cathedral_body", ("M_backdrop",)),
+        V.bm_to_object(bm_trim, "cathedral_trim", ("M_stone_trim",)),
+        V.bm_to_object(bm_roof, "cathedral_roof", ("M_roof",)),
+        V.bm_to_object(bm_gild, "cathedral_gild", ("M_gild",)),
+        V.bm_to_object(nbm, "cathedral_dark", ("M_backdrop_dark",)),
+        V.bm_to_object(wbm, "cathedral_windows", ("M_citywindow",)),
+    ]
     return objs, {"size": [30, nave_l, 36], "origin": "west-front"}
 
 
 def buttress_arc():
-    """Flying arc between skyline masses — the Anor-Londo bridge silhouette.
-    Spans 22 m, rises 6. Origin at midpoint base."""
+    """Flying arc between skyline masses — the Anor-Londo bridge silhouette,
+    complete with stepped abutment piers, stone-trim coping, and pinnacle finials.
+    Spans 22 m, rises 10. Origin at midpoint base."""
     pts = []
     n = 16
     for i in range(n + 1):
@@ -154,31 +221,84 @@ def buttress_arc():
         pts.append((x, 0, z))
     prof = V.chamfer_rect_profile(1.0, 1.6, 0.2)
     arc = V.sweep_profile("arc", pts, prof, "M_backdrop", up_hint=Vector((0, 0, 1)))
-    return [arc], {"size": [22, 2, 12], "origin": "mid-base"}
+    pts_top = [(x, 0, z + 0.82) for (x, _, z) in pts]
+    arc_trim = V.sweep_profile("arc_trim", pts_top, V.chamfer_rect_profile(1.16, 0.28, 0.05),
+                               "M_stone_trim", up_hint=Vector((0, 0, 1)))
+
+    bm = bmesh.new()
+    bm_trim = bmesh.new()
+    bm_roof = bmesh.new()
+    bm_dark = bmesh.new()
+    for sx in (-1, 1):
+        px = sx * 10.6
+        _box(bm, px - 1.2, -1.1, 0.0, px + 1.2, 1.1, 4.2)
+        _box(bm, px - 0.95, -0.9, 4.2, px + 0.95, 0.9, 7.6)
+        _box(bm_trim, px - 1.35, -1.25, 0.0, px + 1.35, 1.25, 0.5)
+        _box(bm_trim, px - 1.28, -1.18, 4.0, px + 1.28, 1.18, 4.4)
+        _box(bm_trim, px - 1.08, -1.02, 7.4, px + 1.08, 1.02, 7.85)
+        _box(bm_trim, px - 0.55, -0.55, 7.85, px + 0.55, 0.55, 9.2)
+        _spire(bm_roof, px, 0.0, 9.2, 0.62, 2.4)
+        for sy in (-1, 1):
+            _box(bm_dark, px - 0.45, sy * 0.92, 0.9, px + 0.45, sy * 1.12, 3.6)
+            _box(bm_dark, px - 0.35, sy * 0.74, 4.7, px + 0.35, sy * 0.92, 7.0)
+    objs = [
+        arc,
+        arc_trim,
+        V.bm_to_object(bm, "buttress_piers", ("M_backdrop",)),
+        V.bm_to_object(bm_trim, "buttress_pier_trim", ("M_stone_trim",)),
+        V.bm_to_object(bm_roof, "buttress_pinnacles", ("M_roof",)),
+        V.bm_to_object(bm_dark, "buttress_niches", ("M_backdrop_dark",)),
+    ]
+    return objs, {"size": [24, 2.5, 12], "origin": "mid-base"}
 
 
 def city_cluster(seed=9):
-    """Mid-ground roofscape: gabled masses on a platform. ~18x18 m."""
+    """Mid-ground roofscape: gabled masses on a stone-trimmed platform with
+    slate roofs, dark & lamplit window bays, and gilt spire finials. ~18x18 m."""
     rng = random.Random(seed)
     bm = bmesh.new()
+    bm_trim = bmesh.new()
+    bm_roof = bmesh.new()
+    bm_gild = bmesh.new()
+    bm_dark = bmesh.new()
+    bm_win = bmesh.new()
     _box(bm, -9, -9, 0, 9, 9, 1.2)
+    _box(bm_trim, -9.2, -9.2, 1.02, 9.2, 9.2, 1.24)
     for i in range(rng.randint(6, 9)):
         w = rng.uniform(1.8, 3.4)
         d = rng.uniform(2.2, 4.4)
         h = rng.uniform(3.0, 7.0)
         cx = rng.uniform(-7, 7)
         cy = rng.uniform(-7, 7)
-        _box(bm, cx - w, cy - d, 1.2, cx + w, cy + d, 1.2 + h)
-        gp = ((cx - w, cy - d, 1.2 + h), (cx + w, cy - d, 1.2 + h),
-              (cx + w, cy + d, 1.2 + h), (cx - w, cy + d, 1.2 + h),
-              (cx, cy - d, 1.2 + h + w * 0.8), (cx, cy + d, 1.2 + h + w * 0.8))
+        z_top = 1.2 + h
+        _box(bm, cx - w, cy - d, 1.2, cx + w, cy + d, z_top)
+        _box(bm_trim, cx - w - 0.12, cy - d - 0.12, z_top - 0.22, cx + w + 0.12, cy + d + 0.12, z_top + 0.04)
+        # Window bays on front/back faces
+        target_w = bm_win if (i % 2 == 0) else bm_dark
+        _niche_face(target_w, cx - w * 0.75, cx + w * 0.75, cy - d, 1.2 + h * 0.28, 1.2 + h * 0.78, 2, depth=0.18)
+        _niche_face(bm_dark, cx - w * 0.75, cx + w * 0.75, cy + d, 1.2 + h * 0.28, 1.2 + h * 0.78, 2, depth=0.18)
+        gp = ((cx - w - 0.1, cy - d - 0.1, z_top), (cx + w + 0.1, cy - d - 0.1, z_top),
+              (cx + w + 0.1, cy + d + 0.1, z_top), (cx - w - 0.1, cy + d + 0.1, z_top),
+              (cx, cy - d - 0.1, z_top + w * 0.8), (cx, cy + d + 0.1, z_top + w * 0.8))
         for f in ((0, 1, 4), (2, 3, 5), (0, 4, 5, 3), (1, 2, 5, 4)):
-            for wind in (f, tuple(reversed(f))):   # two-sided
-                bm.faces.new(tuple(bm.verts.new(gp[i]) for i in wind))
+            for wind in (f, tuple(reversed(f))):
+                bm_roof.faces.new(tuple(bm_roof.verts.new(gp[i]) for i in wind))
         if rng.random() < 0.4:
-            _spire(bm, cx, cy, 1.2 + h + w * 0.8, 0.5, rng.uniform(2, 4))
-    obj = V.bm_to_object(bm, "city", ("M_backdrop",))
-    return [obj], {"size": [18, 18, 10], "origin": "bottom-center"}
+            sh = rng.uniform(2, 4)
+            _spire(bm_roof, cx, cy, z_top + w * 0.8, 0.5, sh)
+            _spire(bm_gild, cx, cy, z_top + w * 0.8 + sh - 0.15, 0.12, 0.65)
+    objs = [
+        V.bm_to_object(bm, "city", ("M_backdrop",)),
+        V.bm_to_object(bm_trim, "city_trim", ("M_stone_trim",)),
+        V.bm_to_object(bm_roof, "city_roof", ("M_roof",)),
+        V.bm_to_object(bm_dark, "city_dark", ("M_backdrop_dark",)),
+        V.bm_to_object(bm_win, "city_windows", ("M_citywindow",)),
+    ]
+    if len(bm_gild.verts) > 0:
+        objs.append(V.bm_to_object(bm_gild, "city_gild", ("M_gild",)))
+    else:
+        bm_gild.free()
+    return objs, {"size": [18, 18, 10], "origin": "bottom-center"}
 
 
 # ---------------------------------------------------------------- terrace

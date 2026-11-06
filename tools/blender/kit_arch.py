@@ -579,22 +579,44 @@ def portal_4m():
 # ------------------------------------------------------------------ misc
 
 def cornice_4m():
-    prof = [(-0.0, 0.0), (0.16, 0.02), (0.2, 0.10), (0.10, 0.16), (0.16, 0.26), (0.0, 0.3)]
+    prof = [(-0.0, 0.0), (0.14, 0.02), (0.18, 0.08), (0.12, 0.14), (0.20, 0.22), (0.22, 0.27), (0.0, 0.30)]
     path = [(-2, 0, 0), (2, 0, 0)]
     obj = V.sweep_profile("cornice_4m", path, prof, "M_stone_trim",
                           up_hint=Vector((0, 0, 1)))
-    return [obj], {"size": [4, 0.3, 0.3], "origin": "bottom-center"}
+    bm_corb = bmesh.new()
+    for i in range(8):
+        cx = -1.75 + i * 0.50
+        V.add_box(bm_corb, (cx - 0.075, 0.0, 0.02), (cx + 0.075, 0.15, 0.14))
+        V.add_box(bm_corb, (cx - 0.090, 0.0, 0.12), (cx + 0.090, 0.21, 0.22))
+    corbels = V.bm_to_object(bm_corb, "cornice_corbels", ("M_stone_trim",))
+    bm_dark = bmesh.new()
+    V.add_box(bm_dark, (-1.98, 0.05, 0.08), (1.98, 0.135, 0.15))
+    soffit = V.bm_to_object(bm_dark, "cornice_soffit", ("M_stone_dark",))
+    return [obj, corbels, soffit], {"size": [4, 0.3, 0.3], "origin": "bottom-center"}
 
 
 def buttress():
-    """Stepped buttress pier, ~4 m tall. Origin: bottom-center against wall
-    (wall face at y=0, buttress extends -Y)."""
+    """Stepped buttress pier, ~4 m tall, with chamfered base plinth, corner
+    stiles, recessed dark blind-tracery panels, and weathered stone-trim slopes.
+    Origin: bottom-center against wall (wall face at y=0, buttress extends -Y)."""
     bm = bmesh.new()
     V.add_box(bm, (-0.55, -1.15, 0.0), (0.55, 0.0, 1.6))
     V.add_box(bm, (-0.45, -0.95, 1.6), (0.45, 0.0, 3.0))
     V.add_box(bm, (-0.38, -0.7, 3.0), (0.38, 0.0, 3.98))
     obj = V.bm_to_object(bm, "buttress_body", ("M_stone",))
+
     bm2 = bmesh.new()
+    # Stepped chamfered base plinth & intermediate drip moldings
+    V.add_box(bm2, (-0.61, -1.21, 0.0), (0.61, 0.0, 0.12))
+    V.add_box(bm2, (-0.58, -1.18, 0.12), (0.58, 0.0, 0.22))
+    V.add_box(bm2, (-0.57, -1.17, 1.54), (0.57, -0.92, 1.60))
+    V.add_box(bm2, (-0.47, -0.97, 2.94), (0.47, -0.68, 3.00))
+    V.add_box(bm2, (-0.40, -0.72, 3.92), (0.40, 0.0, 3.98))
+    # Corner pilaster stiles on lower and middle stages
+    for sx in (-0.50, 0.50):
+        V.add_box(bm2, (sx - 0.06, -1.16, 0.22), (sx + 0.06, -1.02, 1.54))
+    for sx in (-0.40, 0.40):
+        V.add_box(bm2, (sx - 0.055, -0.96, 1.94), (sx + 0.055, -0.83, 2.94))
     for (w, y_out, y_in, z0, rise) in (
         (0.58, -1.18, -0.94, 1.6, 0.34),
         (0.48, -0.98, -0.69, 3.0, 0.30),
@@ -609,7 +631,17 @@ def buttress():
         bm2.faces.new((a, e, f, b))
         bm2.faces.new((d, c, f, e))
     slopes = V.bm_to_object(bm2, "buttress_slopes", ("M_stone_trim",))
-    return [obj, slopes], {"size": [1.1, 1.2, 4.4], "origin": "bottom-center"}
+
+    # Recessed dark blind-tracery panels on front (-Y) and side (+-X) faces
+    bm_dark = bmesh.new()
+    V.add_box(bm_dark, (-0.34, -1.162, 0.32), (0.34, -1.13, 1.44))
+    V.add_box(bm_dark, (-0.26, -0.962, 2.04), (0.26, -0.93, 2.84))
+    V.add_box(bm_dark, (-0.20, -0.712, 3.36), (0.20, -0.68, 3.84))
+    for sx in (-1, 1):
+        V.add_box(bm_dark, (sx * 0.54, -0.96, 0.32), (sx * 0.562, -0.22, 1.44))
+        V.add_box(bm_dark, (sx * 0.44, -0.78, 2.04), (sx * 0.462, -0.18, 2.84))
+    panels = V.bm_to_object(bm_dark, "buttress_panels", ("M_stone_dark",))
+    return [obj, slopes, panels], {"size": [1.1, 1.2, 4.4], "origin": "bottom-center"}
 
 
 def column_broken():
@@ -767,15 +799,56 @@ def fog_gate_frame():
 
 def roof_shed_4m():
     """Lean-to roof over a cloister walk or side aisle (rises from 4.02 m at outer
-    eave to 4.98 m at inner wall, staying cleanly below y=5.15 clerestory sills)."""
+    eave to 4.98 m at inner wall, staying cleanly below y=5.15 clerestory sills),
+    with raised slate seam ribs on top and exposed timber rafters + wall-plate below."""
     bm = bmesh.new()
     a = bm.verts.new((-2.04, -0.35, 4.02)); b = bm.verts.new((2.04, -0.35, 4.02))
     c = bm.verts.new((2.04, 4.02, 4.98)); d = bm.verts.new((-2.04, 4.02, 4.98))
     bm.faces.new((a, b, c, d))
     bmesh.ops.solidify(bm, geom=list(bm.faces) + list(bm.verts) + list(bm.edges), thickness=0.09)
+    # Raised slate/lead seam ribs along the top slope
+    for rx in (-1.92, -0.96, 0.0, 0.96, 1.92):
+        vf = [
+            bm.verts.new((rx - 0.032, -0.35, 4.00)),
+            bm.verts.new((rx + 0.032, -0.35, 4.00)),
+            bm.verts.new((rx + 0.032, -0.35, 4.05)),
+            bm.verts.new((rx - 0.032, -0.35, 4.05)),
+        ]
+        vb = [
+            bm.verts.new((rx - 0.032, 4.02, 4.96)),
+            bm.verts.new((rx + 0.032, 4.02, 4.96)),
+            bm.verts.new((rx + 0.032, 4.02, 5.01)),
+            bm.verts.new((rx - 0.032, 4.02, 5.01)),
+        ]
+        bm.faces.new(vf)
+        bm.faces.new(list(reversed(vb)))
+        for k in range(4):
+            bm.faces.new((vf[k], vf[(k + 1) % 4], vb[(k + 1) % 4], vb[k]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     roof = V.bm_to_object(bm, "roof_slope", ("M_roof",))
+
     bm2 = bmesh.new()
-    V.add_box(bm2, (-2, -0.42, 3.86), (2, -0.30, 4.10))
+    V.add_box(bm2, (-2.02, -0.42, 3.86), (2.02, -0.30, 4.10))
+    V.add_box(bm2, (-2.02, 3.88, 4.78), (2.02, 4.02, 4.94))
+    for rx in (-1.80, -0.90, 0.0, 0.90, 1.80):
+        V.add_box(bm2, (rx - 0.048, -0.44, 3.78), (rx + 0.048, -0.28, 3.92))
+        vf = [
+            bm2.verts.new((rx - 0.042, -0.32, 3.86)),
+            bm2.verts.new((rx + 0.042, -0.32, 3.86)),
+            bm2.verts.new((rx + 0.042, -0.32, 3.98)),
+            bm2.verts.new((rx - 0.042, -0.32, 3.98)),
+        ]
+        vb = [
+            bm2.verts.new((rx - 0.042, 3.94, 4.80)),
+            bm2.verts.new((rx + 0.042, 3.94, 4.80)),
+            bm2.verts.new((rx + 0.042, 3.94, 4.92)),
+            bm2.verts.new((rx - 0.042, 3.94, 4.92)),
+        ]
+        bm2.faces.new(vf)
+        bm2.faces.new(list(reversed(vb)))
+        for k in range(4):
+            bm2.faces.new((vf[k], vf[(k + 1) % 4], vb[(k + 1) % 4], vb[k]))
+    bmesh.ops.recalc_face_normals(bm2, faces=bm2.faces)
     fascia = V.bm_to_object(bm2, "roof_fascia", ("M_wood",))
     return [roof, fascia], {"size": [4, 4.5, 5.1], "origin": "eave-center"}
 

@@ -122,11 +122,11 @@
  "battlement_4m": {
   "file": "assets/kit/battlement_4m.glb",
   "origin": "bottom-center",
-  "polys": 48,
+  "polys": 126,
   "size": [
    4,
    0.54,
-   1.52
+   1.57
   ]
  },
  "beacon_brazier": {
@@ -291,7 +291,7 @@
  "buttress": {
   "file": "assets/kit/buttress.glb",
   "origin": "bottom-center",
-  "polys": 33,
+  "polys": 129,
   "size": [
    1.1,
    1.2,
@@ -301,10 +301,10 @@
  "buttress_arc": {
   "file": "assets/kit/buttress_arc.glb",
   "origin": "mid-base",
-  "polys": 130,
+  "polys": 388,
   "size": [
-   22,
-   2,
+   24,
+   2.5,
    12
   ]
  },
@@ -401,7 +401,7 @@
  "cathedral_mass": {
   "file": "assets/kit/cathedral_mass.glb",
   "origin": "west-front",
-  "polys": 123,
+  "polys": 591,
   "size": [
    30,
    46.0,
@@ -571,7 +571,7 @@
  "city_cluster_a": {
   "file": "assets/kit/city_cluster_a.glb",
   "origin": "bottom-center",
-  "polys": 144,
+  "polys": 432,
   "size": [
    18,
    18,
@@ -581,7 +581,7 @@
  "city_cluster_b": {
   "file": "assets/kit/city_cluster_b.glb",
   "origin": "bottom-center",
-  "polys": 106,
+  "polys": 308,
   "size": [
    18,
    18,
@@ -671,7 +671,7 @@
  "cornice_4m": {
   "file": "assets/kit/cornice_4m.glb",
   "origin": "bottom-center",
-  "polys": 8,
+  "polys": 111,
   "size": [
    4,
    0.3,
@@ -1337,7 +1337,7 @@
  "roof_shed_4m": {
   "file": "assets/kit/roof_shed_4m.glb",
   "origin": "eave-center",
-  "polys": 12,
+  "polys": 108,
   "size": [
    4,
    4.5,
@@ -1642,30 +1642,30 @@
  "spire_tower_a": {
   "file": "assets/kit/spire_tower_a.glb",
   "origin": "bottom-center",
-  "polys": 252,
+  "polys": 366,
   "size": [
-   4.886140391501869,
-   4.886140391501869,
+   7.666662749827492,
+   7.666662749827492,
    33.14309279278289
   ]
  },
  "spire_tower_b": {
   "file": "assets/kit/spire_tower_b.glb",
   "origin": "bottom-center",
-  "polys": 252,
+  "polys": 366,
   "size": [
-   4.900847883424359,
-   4.900847883424359,
+   8.989622704552646,
+   8.989622704552646,
    35.61972037936583
   ]
  },
  "spire_tower_c": {
   "file": "assets/kit/spire_tower_c.glb",
   "origin": "bottom-center",
-  "polys": 192,
+  "polys": 258,
   "size": [
-   6.031889049542378,
-   6.031889049542378,
+   8.309612769646337,
+   8.309612769646337,
    29.822700560738063
   ]
  },

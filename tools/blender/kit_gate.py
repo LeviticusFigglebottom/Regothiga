@@ -236,12 +236,24 @@ def battlement_4m():
     objs.append(V.bm_to_object(bm, "battlement", ("M_stone",)))
 
     bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-2.02, -0.25, 0.0), (2.02, 0.25, 0.14))
     V.add_box(bm_trim, (-2.02, -0.26, 0.79), (2.02, 0.26, 0.86))
     for i in range(3):
         x0 = -1.8 + i * 1.4
         V.add_box(bm_trim, (x0 - 0.04, -0.27, 1.44), (x0 + 0.79, 0.27, 1.52))
+        V.add_box(bm_trim, (x0 + 0.04, -0.18, 1.52), (x0 + 0.71, 0.18, 1.57))
     objs.append(V.bm_to_object(bm_trim, "battlement_trim", ("M_stone_trim",)))
-    return objs, {"size": [4, 0.54, 1.52], "origin": "bottom-center"}
+
+    bm_dark = bmesh.new()
+    for i in range(3):
+        x0 = -1.8 + i * 1.4
+        xc = x0 + 0.375
+        # Cruciform arrow-slit reveal on each merlon + recessed lower breastwork panel
+        V.add_box(bm_dark, (xc - 0.055, -0.242, 0.94), (xc + 0.055, 0.242, 1.38))
+        V.add_box(bm_dark, (xc - 0.16, -0.242, 1.13), (xc + 0.16, 0.242, 1.21))
+        V.add_box(bm_dark, (x0 + 0.08, -0.232, 0.22), (x0 + 0.67, 0.232, 0.68))
+    objs.append(V.bm_to_object(bm_dark, "battlement_slits", ("M_stone_dark",)))
+    return objs, {"size": [4, 0.54, 1.57], "origin": "bottom-center"}
 
 
 def toll_maul():
