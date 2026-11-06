@@ -19,7 +19,7 @@ var weapon_kit := ""
 ## straight down (-Y world) at y ~ 0.87 m. Rotating +X on weapon_mount pitches
 ## the blade/shaft upward so weapons never stab into the floor at rest.
 const CARRY_POSE := {
-	"sword_cloister": Vector3(38, 0, 0),
+	"sword_cloister": Vector3(78, 10, -8),
 	"maul_sexton": Vector3(102, 24, -18),
 	"halberd_ward": Vector3(106, 14, -10),
 	"spear_fen": Vector3(104, 14, -8),

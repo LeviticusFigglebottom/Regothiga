@@ -608,26 +608,43 @@ def tomb_slab():
     bm = bmesh.new()
     V.add_box(bm, (-0.60, -1.16, 0.0), (0.60, 1.16, 0.08))
     V.add_box(bm, (-0.54, -1.10, 0.08), (0.54, 1.10, 0.42))
-    V.add_box(bm, (-0.62, -1.18, 0.42), (0.62, 1.18, 0.52))
     objs.append(V.bm_to_object(bm, "tomb", ("M_stone_dark",)))
 
-    # Pilaster colonnettes on the tomb chest + head bolster pillow + relief sword
+    # Carved freestone ledger slab, pilaster colonnettes, head bolster pillow & relief sword
     bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-0.62, -1.18, 0.42), (0.62, 1.18, 0.52))
     for sx in (-0.54, 0.54):
         for sy in (-1.02, -0.34, 0.34, 1.02):
             V.add_box(bm_trim, (sx - 0.025, sy - 0.045, 0.08), (sx + 0.025, sy + 0.045, 0.42))
     # Carved stone pillow under the effigy's hood (+Y end)
     V.add_box(bm_trim, (-0.28, 0.62, 0.52), (0.28, 1.00, 0.60))
+    # Carved pointed feet/sabatons & foot-rest bolster at -Y end
+    V.add_box(bm_trim, (-0.22, -0.98, 0.52), (0.22, -0.84, 0.58))
+    for sx in (-0.09, 0.09):
+        V.add_box(bm_trim, (sx - 0.045, -0.86, 0.54), (sx + 0.045, -0.74, 0.68))
     # Relief broadsword & clasped hands along the effigy's chest
-    V.add_box(bm_trim, (-0.025, -0.78, 0.68), (0.025, 0.32, 0.72))
-    V.add_box(bm_trim, (-0.15, 0.16, 0.68), (0.15, 0.21, 0.73))
-    V.add_box(bm_trim, (-0.09, 0.22, 0.67), (0.09, 0.36, 0.74))
+    V.add_box(bm_trim, (-0.025, -0.68, 0.65), (0.025, 0.36, 0.70))
+    V.add_box(bm_trim, (-0.15, 0.20, 0.66), (0.15, 0.25, 0.71))
+    V.add_box(bm_trim, (-0.09, 0.26, 0.65), (0.09, 0.40, 0.72))
     objs.append(V.bm_to_object(bm_trim, "tomb_trim", ("M_stone_trim",)))
 
-    robe = _robe("effigy", 1.9, 0.3, True, "M_stone_trim")
-    robe.scale = (1, 1, 0.28)
-    robe.rotation_euler = (-math.pi / 2, 0, math.pi)
-    robe.location = (0, 0.85, 0.62)
+    # Recumbent robed effigy tapering toward the ankles, rising onto the head pillow
+    eff_rings = [
+        (0.20, 0.00, 16, 0),   # ankles at y = -0.80
+        (0.24, 0.35, 16, 0),   # shins/knees
+        (0.26, 0.75, 16, 0),   # hips
+        (0.25, 1.05, 16, 0),   # waist
+        (0.32, 1.35, 16, 0),   # chest
+        (0.30, 1.52, 16, 0),   # shoulders
+        (0.21, 1.62, 16, 0),   # neck collar
+        (0.23, 1.74, 16, 0),   # hood crown on pillow
+        (0.16, 1.86, 16, 0),
+        (0.05, 1.94, 16, 0),   # hood peak
+    ]
+    robe = V.loft_rings("effigy", eff_rings, "M_stone_trim")
+    robe.scale = (0.88, 0.36, 0.90)
+    robe.rotation_euler = (math.pi / 2 + 0.055, 0, math.pi)
+    robe.location = (0, -0.80, 0.54)
     objs.append(robe)
     return objs, {"size": [1.24, 2.36, 0.75], "origin": "bottom-center"}
 
@@ -1340,7 +1357,7 @@ def sarcophagus():
     for sx in (-1.12, 1.12):
         for sy in (-0.46, 0.46):
             V.add_box(bm, (sx - 0.04, sy - 0.04, 0.77), (sx + 0.04, sy + 0.04, 0.85))
-    objs.append(V.bm_to_object(bm, "sarc_lid", ("M_stone",)))
+    objs.append(V.bm_to_object(bm, "sarc_lid", ("M_stone_trim",)))
     return objs, {"size": [2.4, 1.0, 1.02], "origin": "bottom-center"}
 
 

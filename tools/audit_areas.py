@@ -310,7 +310,9 @@ def audit(area_id):
 
     # 2b) distinct co-present props merged into one another (asset collision)
     DECAL = {"mosaic_medallion", "carpet_runner_8m", "rubble_s", "ivy_sheet_a", "ivy_sheet_b",
-             "cobweb", "shroud_dead", "bone_pile"}
+             "cobweb", "shroud_dead", "bone_pile", "rubble_m", "rubble_l", "ash_drift",
+             "root_tangle", "duckboard_4m", "reed_clump"}
+    manifest = json.load(open("assets/kit/manifest.json")) if os.path.exists("assets/kit/manifest.json") else {}
     ground = [p for p in placed if p.get("kit", "") not in ARCH
               and p.get("kit", "") not in MOUNTED and p.get("kit", "") not in DECAL]
     for i in range(len(ground)):
@@ -321,8 +323,27 @@ def audit(area_id):
                     or flags_exclusive(ground[i], ground[j]):   # story swaps never co-present
                 continue
             pb = v3(ground[j]["at"])
-            if math.hypot(pa[0] - pb[0], pa[2] - pb[2]) < 0.5 and abs(pa[1] - pb[1]) < 1.2:
+            if abs(pa[1] - pb[1]) >= 1.2:
+                continue
+            if math.hypot(pa[0] - pb[0], pa[2] - pb[2]) < 0.5:
                 issues.append(f"OVERLAP    {ka} ({ta}) into {kb} ({tb}) at {ground[i]['at']}")
+                continue
+            # Also check if an entity (spawner/npc/pickup/lantern/plaque) sits inside an elongated prop's rotated box
+            for prop_p, ent_p in ((ground[i], ground[j]), (ground[j], ground[i])):
+                pk = prop_p.get("kit", ""); ek = ent_p.get("kit", "")
+                if not ek.startswith("(") or pk not in manifest:
+                    continue
+                sz = manifest[pk].get("size", [0, 0, 0])
+                if sz[2] < 0.35:
+                    continue
+                p_at = v3(prop_p["at"]); e_at = v3(ent_p["at"])
+                rot = math.radians(float(prop_p.get("rot", 0)))
+                dx, dz = e_at[0] - p_at[0], e_at[2] - p_at[2]
+                lx = dx * math.cos(rot) - dz * math.sin(rot)
+                lz = dx * math.sin(rot) + dz * math.cos(rot)
+                if abs(lx) < sz[0] * 0.5 - 0.05 and abs(lz) < sz[1] * 0.5 - 0.05:
+                    issues.append(f"OVERLAP    {ek} ({ent_p.get('tag','base')}) inside {pk} footprint at {ent_p['at']}")
+                    break
 
     # 2c) unbacked outdoor terraces: an open-air floor slab is a thin 0.25 m tile;
     #     if the area offers a LOWER vantage (another fill level below it), the

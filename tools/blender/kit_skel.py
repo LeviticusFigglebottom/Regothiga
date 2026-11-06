@@ -453,11 +453,11 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
     bm = b.joint("chest", "head", under_mat)
     _tube(bm, Vector((0, 0, 1.42)), Vector((0, 0.01, 1.53)), 0.062 * g, 0.056 * g, 12, steps=3)
     if (hood and hood != "closed") or (not hood and not mail_mat):
-        # Deep shadowed upper cranium under the cowl/hat crown + sculpted lower face below the brow
+        # Deep shadowed upper cranium recessed behind the brow + sculpted lower/mid face
         bm_eye = b.part("head", "M_iron")
-        _ball(bm_eye, (0, 0.016 * g, 1.628), 0.102 * g, sub=2, scale=(0.92, 1.06, 0.88))
+        _ball(bm_eye, (0, -0.004 * g, 1.636), 0.090 * g, sub=2, scale=(0.88, 0.92, 0.80 / g))
         bm = b.part("head", skin_mat)
-        _ball(bm, (0, 0.026 * g, 1.546), 0.076 * g, sub=2, scale=(0.86, 1.06, 0.72))
+        _ball(bm, (0, 0.022 * g, 1.572), 0.080 * g, sub=2, scale=(0.86, 1.06, 0.92 / g))
     else:
         head_under_mat = mail_mat if mail_mat else skin_mat
         bm = b.part("head", head_under_mat)
@@ -473,8 +473,8 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
         # the top of the inner skull sphere never pokes through the crown.
         bm = b.part("head", robe_mat)
         _tube(bm, Vector((0, -0.02, 1.45)), Vector((0, 0.0, 1.53)), 0.160 * g, 0.150 * g, 16, 1.04, steps=3, flutes=8, flute_amp=0.035)
-        _arc_tube(bm, Vector((0, -0.01, 1.51)), Vector((0, 0.01, 1.65)), 0.150 * g, 0.142 * g, 14, gap=0.78, steps=4)
-        _tube(bm, Vector((0, 0.012 * g, 1.628)), Vector((0, -0.02 * g, 1.72)), 0.146 * g, 0.108 * g, 16, steps=3, flutes=8, flute_amp=0.03, squash=(0.98, 1.08))
+        _arc_tube(bm, Vector((0, -0.01, 1.51)), Vector((0, 0.01, 1.64)), 0.150 * g, 0.142 * g, 14, gap=0.76, steps=4)
+        _tube(bm, Vector((0, 0.020 * g, 1.616)), Vector((0, -0.02 * g, 1.72)), 0.148 * g, 0.108 * g, 16, steps=3, flutes=8, flute_amp=0.03, squash=(0.98, 1.10))
         _tube(bm, Vector((0, -0.02 * g, 1.71)), Vector((0, -0.075 * g, 1.80)), 0.106 * g, 0.020 * g, 16, steps=3, flutes=8, flute_amp=0.03)
     if skirt:
         # pleated surcoat/tabard skirt with gothic folds
@@ -642,9 +642,13 @@ def sister(arm):
     bm_w = b.part("head", "M_shroud")
     _tube(bm_w, Vector((0, 0.01, 1.44)), Vector((0, 0.014, 1.525)), 0.116, 0.078, n=14,
           steps=2, flutes=8, flute_amp=0.02, squash=(0.96, 1.06))
+    # Ivory linen blindfold across the eyes
+    _tube(bm_w, Vector((0, 0.024, 1.588)), Vector((0, 0.022, 1.616)), 0.075, 0.074, n=14,
+          steps=1, squash=(0.88, 1.08), ridge_fwd=0.06)
     bm_cl = b.part("chest", "M_gold")
-    _torus_ring(bm_cl, (0, 0.146, 1.38), 0.028, 0.007, n_major=14, n_minor=6, rot_x=math.pi / 2)
-    # Slender gilt monastic fillet crowning the hood brow (above the shadowed eye-sockets)
+    _torus_ring(bm_cl, (0, 0.156, 1.385), 0.026, 0.007, n_major=14, n_minor=6, rot_x=math.pi / 2 - 0.26)
+    _ball(bm_cl, (0, 0.156, 1.385), 0.014, sub=1, scale=(1.0, 0.6, 1.0))
+    # Slender gilt monastic fillet crowning the hood brow
     bm_f = b.part("head", "M_gild")
     _tube(bm_f, Vector((0, 0.012, 1.634)), Vector((0, 0.008, 1.648)), 0.148, 0.144, n=16, steps=1, squash=(0.98, 1.08))
     # Golden votive reliquary at waist
@@ -804,6 +808,18 @@ def bellox(arm):
     for sx in (-0.48, 0.48):
         _tube(bm, Vector((sx, -0.04, 1.44)), Vector((sx, -0.04, 1.31)), 0.032, 0.068, n=12, steps=3, bulge=0.92)
         _ball(bm_i, (sx, -0.04, 1.295), 0.018, sub=1)
+    # Heavy bronze-and-iron chest harness, central bull-ring pectoral, and studded waist girdle
+    bm_pl = b.part("chest", "M_plate_dark")
+    _tube(bm_pl, Vector((0, 0, 1.18)), Vector((0, 0, 1.44)), 0.272, 0.205, n=16, bulge=1.06,
+          steps=4, flutes=8, flute_amp=0.025, squash=(1.12, 0.90), ridge_fwd=0.10)
+    bm_ch = b.part("chest", "M_bronze")
+    _tube(bm_ch, Vector((0, 0, 1.28)), Vector((0, 0, 1.33)), 0.282, 0.278, n=16, steps=1, squash=(1.12, 0.90))
+    _tube(bm_ch, Vector((0, 0, 1.40)), Vector((0, 0, 1.45)), 0.232, 0.198, n=16, steps=1, squash=(1.10, 0.90))
+    _torus_ring(bm_ch, (0, 0.262, 1.29), 0.052, 0.012, n_major=16, n_minor=6, rot_x=math.pi / 2)
+    bm_gd = b.part("hips", "M_bronze")
+    _tube(bm_gd, Vector((0, 0, 1.03)), Vector((0, 0, 1.12)), 0.258, 0.254, n=16, steps=2, flutes=8, flute_amp=0.03, squash=(1.08, 0.92))
+    for sx in (-0.14, 0.0, 0.14):
+        V.add_box(bm_gd, (sx - 0.024, 0.215, 0.62), (sx + 0.024, 0.245, 1.04))
     for side, s in (("r", 1), ("l", -1)):
         _pauldron(b, side, s, "M_plate_dark", "M_bronze", r=0.135, z=1.44, g=1.50)
         _gauntlet_and_couter(b, side, s, "M_plate_dark", g=1.38)
@@ -819,7 +835,7 @@ def echo(arm):
                 skirt_len=0.82, girth=0.84)
     # Floating hollow gold crown/halo ring above the hooded brow
     bm = b.part("head", "M_gold")
-    _torus_ring(bm, (0, -0.01, 1.73), 0.125, 0.014, n_major=20, n_minor=8)
+    _torus_ring(bm, (0, -0.03, 1.81), 0.118, 0.013, n_major=20, n_minor=8, rot_x=-0.32)
     # Pleated metallic gilt gorget/collar & liturgical stole on the chest
     bm = b.part("chest", "M_gild")
     _tube(bm, Vector((0, 0, 1.35)), Vector((0, -0.005, 1.435)), 0.150, 0.114, n=16,

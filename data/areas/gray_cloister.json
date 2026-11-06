@@ -2673,9 +2673,9 @@
       "enemy": "penitent",
       "id": "garden_2",
       "at": [
-        2.5,
+        0.5,
         0.1,
-        -18
+        -17.2
       ],
       "face": 140
     },
@@ -2776,9 +2776,9 @@
     {
       "id": "cg_garden",
       "at": [
-        0.2,
+        -0.5,
         0,
-        -15.2
+        -15.5
       ],
       "item": "candleglass",
       "count": 2,
@@ -2788,9 +2788,9 @@
     {
       "id": "cg_chapel",
       "at": [
-        2,
+        3.3,
         0,
-        19.3
+        19.0
       ],
       "item": "candleglass",
       "count": 1,

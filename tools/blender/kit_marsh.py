@@ -188,8 +188,13 @@ def waystone(seed=13):
     ry = rng.uniform(-0.11, 0.11)
     rz = rng.uniform(0, 0.4)
     objs = []
+    bm_base = bmesh.new()
+    V.add_box(bm_base, (-0.38, -0.20, 0.0), (0.38, 0.20, 0.16))
+    base = V.bm_to_object(bm_base, "way_base", ("M_stone_dark",))
+    base.rotation_euler = (rx, ry, rz)
+    objs.append(base)
+
     bm = bmesh.new()
-    V.add_box(bm, (-0.38, -0.20, 0.0), (0.38, 0.20, 0.16))
     V.add_box(bm, (-0.32, -0.15, 0.16), (0.32, 0.15, 1.48))
     # Gabled pointed apex on the waystone
     a = [bm.verts.new(p) for p in ((-0.32, -0.15, 1.48), (0.32, -0.15, 1.48), (0.32, 0.15, 1.48), (-0.32, 0.15, 1.48))]
@@ -200,7 +205,7 @@ def waystone(seed=13):
     bm.faces.new((a[0], r0, r1, a[3]))
     bm.faces.new((r0, a[1], a[2], r1))
     bm.faces.new(list(reversed(a)))
-    slab = V.bm_to_object(bm, "waystone", ("M_stone",))
+    slab = V.bm_to_object(bm, "waystone", ("M_stone_trim",))
     slab.rotation_euler = (rx, ry, rz)
     objs.append(slab)
 

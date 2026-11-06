@@ -79,15 +79,15 @@ def wax_husk(seed=13):
         v.co.y *= lobe
     objs.append(V.bm_to_object(bm_base, "husk_pool", ("M_wax",)))
 
-    body = _robe("husk", 1.04, 0.32, hood=True, mat="M_wax")
+    body = _robe("husk", 1.16, 0.24, hood=True, mat="M_wax")
     me = body.data
     for v in me.vertices:
-        v.co.z *= 0.94
-        zt = max(0.0, min(1.0, (v.co.z - 0.20) / 0.80))
+        v.co.z *= 0.95
+        zt = max(0.0, min(1.0, (v.co.z - 0.20) / 0.88))
         bow = zt * zt * (3.0 - 2.0 * zt)
         w = V.value_noise(v.co * 2.0 + Vector((3, 1, 4)))
-        v.co.x += (w - 0.5) * 0.05 * (0.2 + zt * 0.6)
-        v.co.y += 0.16 * bow + (V.value_noise(v.co * 1.8) - 0.5) * 0.04
+        v.co.x += (w - 0.5) * 0.04 * (0.2 + zt * 0.6)
+        v.co.y += 0.14 * bow + (V.value_noise(v.co * 1.8) - 0.5) * 0.03
     me.update()
     objs.append(body)
 
@@ -96,11 +96,11 @@ def wax_husk(seed=13):
         arm = V.sweep_profile(
             "husk_arm",
             [
-                (sx * 0.24, 0.06, 0.68),
-                (sx * 0.18, 0.22, 0.54),
-                (sx * 0.05, 0.28, 0.58),
+                (sx * 0.19, 0.05, 0.76),
+                (sx * 0.14, 0.18, 0.60),
+                (sx * 0.04, 0.24, 0.64),
             ],
-            V.circle_profile(0.072, 10, squash=0.85),
+            V.circle_profile(0.058, 10, squash=0.85),
             "M_wax",
         )
         objs.append(arm)
@@ -108,7 +108,7 @@ def wax_husk(seed=13):
     # Charred dead candle wick protruding from the bowed hood crown
     wick = V.sweep_profile(
         "husk_wick",
-        [(0.0, 0.22, 0.96), (0.01, 0.26, 1.03), (0.02, 0.29, 1.06)],
+        [(0.0, 0.18, 1.08), (0.01, 0.21, 1.15), (0.02, 0.24, 1.18)],
         V.circle_profile(0.008, 6),
         "M_iron",
     )
