@@ -32,7 +32,7 @@
  "arcade_4m": {
   "file": "assets/kit/arcade_4m.glb",
   "origin": "bottom-center",
-  "polys": 710,
+  "polys": 716,
   "size": [
    4,
    0.5,
@@ -1247,10 +1247,10 @@
    2.9
   ],
   "origin": "bottom-center",
-  "polys": 890,
+  "polys": 1148,
   "size": [
    4,
-   0.6,
+   0.5,
    4
   ]
  },
@@ -1489,7 +1489,7 @@
  "skel_echo": {
   "file": "assets/kit/skel_echo.glb",
   "origin": "feet",
-  "polys": 2830,
+  "polys": 2852,
   "size": [
    0.8,
    0.8,
@@ -1577,7 +1577,7 @@
  "skel_sexton": {
   "file": "assets/kit/skel_sexton.glb",
   "origin": "feet",
-  "polys": 2722,
+  "polys": 2796,
   "size": [
    0.8,
    0.8,
@@ -1900,7 +1900,7 @@
    0
   ],
   "origin": "bottom-center",
-  "polys": 732,
+  "polys": 744,
   "size": [
    4,
    0.6,

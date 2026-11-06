@@ -646,7 +646,7 @@ def sister(arm):
 
 def sexton(arm):
     """The Sexton: stout gravedigger of the Basilica. Iron kettle-cap, heavy
-    contoured leather jerkin/apron, cowl collar, muscular forearms with iron bracers."""
+    contoured leather jerkin/apron, cowl collar, quilted sleeves with iron bracers."""
     b = BodyBuilder("sexton")
     common_body(b, "M_robe", "M_wax", "M_leather", hood=False, skirt=True,
                 skirt_len=0.28, girth=1.18, mail_mat="M_chainmail")
@@ -657,23 +657,29 @@ def sexton(arm):
     bm_c = b.part("chest", "M_robe")
     _tube(bm_c, Vector((0, -0.01, 1.38)), Vector((0, 0, 1.49)), 0.195, 0.132, n=16,
           steps=3, flutes=10, flute_amp=0.03, squash=(1.08, 0.94))
-    # Sculpted lower face & chin under the kettle-hat shadow
+    # Sculpted lower face, dark gravedigger beard/muffler & brow shadow under kettle-hat
     bm_f = b.part("head", "M_wax")
-    _ball(bm_f, (0, 0.035, 1.568), 0.094, sub=2, scale=(0.90, 1.12, 0.92))
+    _ball(bm_f, (0, 0.032, 1.572), 0.088, sub=2, scale=(0.88, 1.08, 0.90))
+    bm_bd = b.part("head", "M_robe")
+    _tube(bm_bd, Vector((0, 0.018, 1.485)), Vector((0, 0.025, 1.560)), 0.088, 0.098, n=14,
+          steps=2, flutes=8, flute_amp=0.03, squash=(0.94, 1.08), ridge_fwd=0.12)
     bm_sh = b.part("head", "M_iron")
     _tube(bm_sh, Vector((0, 0.024, 1.592)), Vector((0, 0.024, 1.625)), 0.118, 0.118, n=14, steps=2, squash=(0.94, 1.06))
     # Iron kettle-hat / brimmed gravedigger cap with nasal guard
     bm = b.part("head", "M_iron")
     _tube(bm, Vector((0, 0.012, 1.612)), Vector((0, 0.016, 1.648)), 0.172, 0.140, n=16, steps=2)
     _tube(bm, Vector((0, 0.016, 1.642)), Vector((0, 0.020, 1.745)), 0.134, 0.088, n=16, bulge=1.08, steps=3)
-    V.add_box(bm, (-0.011, 0.122, 1.575), (0.011, 0.144, 1.628))
-    # Bare muscular forearms with iron wrist bracers (sized outside girth=1.18 sleeve)
+    V.add_box(bm, (-0.011, 0.118, 1.565), (0.011, 0.142, 1.628))
+    # Quilted work sleeves with iron wrist bracers and heavy leather work gloves
     for side in ("l", "r"):
-        bm = b.part(f"farm_{side}", "M_wax")
+        bm = b.part(f"farm_{side}", "M_robe")
         h, t = _bone_vec(f"farm_{side}")
-        _tube(bm, h + (t - h) * 0.22, t, 0.072, 0.062, n=14, steps=3, bulge=1.08)
+        _tube(bm, h + (t - h) * 0.08, t, 0.070, 0.060, n=14, steps=3, flutes=6, flute_amp=0.025)
         bm_br = b.part(f"farm_{side}", "M_iron")
-        _tube(bm_br, h + (t - h) * 0.68, t, 0.068, 0.074, n=14, steps=2)
+        _tube(bm_br, h + (t - h) * 0.62, t, 0.068, 0.072, n=14, steps=2)
+        bm_gl = b.part(f"hand_{side}", "M_leather")
+        hh, ht = _bone_vec(f"hand_{side}")
+        _tube(bm_gl, hh, ht, 0.056, 0.048, n=10, steps=2, squash=(0.92, 1.15))
     return b.finalize(arm, lumpy=0.010, seed=19)
 
 
@@ -797,12 +803,15 @@ def echo(arm):
     # Floating hollow gold crown/halo ring above the hooded brow
     bm = b.part("head", "M_gold")
     _torus_ring(bm, (0, -0.01, 1.73), 0.125, 0.014, n_major=20, n_minor=8)
-    # Fitted gilt gorget/collar on the upper chest (below the chin)
-    bm = b.part("chest", "M_gold")
-    _tube(bm, Vector((0, 0, 1.36)), Vector((0, -0.005, 1.43)), 0.148, 0.114, n=16, steps=2, squash=(1.14, 0.88))
-    # Fitted gilt waist girdle
-    bm = b.part("hips", "M_gold")
-    _tube(bm, Vector((0, 0, 0.98)), Vector((0, 0, 1.045)), 0.146, 0.144, n=16, steps=2, squash=(1.08, 0.92))
+    # Pleated metallic gilt gorget/collar & liturgical stole on the chest
+    bm = b.part("chest", "M_gild")
+    _tube(bm, Vector((0, 0, 1.35)), Vector((0, -0.005, 1.435)), 0.150, 0.114, n=16,
+          steps=3, flutes=12, flute_amp=0.035, squash=(1.14, 0.88))
+    V.add_box(bm, (-0.032, 0.118, 1.04), (0.032, 0.142, 1.36))
+    # Pleated metallic gilt waist girdle
+    bm = b.part("hips", "M_gild")
+    _tube(bm, Vector((0, 0, 0.98)), Vector((0, 0, 1.048)), 0.146, 0.144, n=16,
+          steps=2, flutes=10, flute_amp=0.03, squash=(1.08, 0.92))
     return b.finalize(arm, seed=131)
 
 

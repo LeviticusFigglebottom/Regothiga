@@ -117,42 +117,44 @@ def arcade_4m():
     Open span faces the garth."""
     objs = []
     # arch panel: opening 2.2 wide springing at 1.6 -> apex ~3.23 (below vault)
-    panel = V.wall_panel_with_arch("arcade_panel", 4.0, 4.0, 0.34, 2.2, 1.6,
+    panel = V.wall_panel_with_arch("arcade_panel", 4.0, 4.0, 0.38, 2.2, 1.6,
                                    sharpness=0.8, segments=16)
     objs.append(panel)
     # parapet under the opening (arcades are windows onto the garth;
     # passage is at the portals)
     bm = bmesh.new()
-    V.add_box(bm, (-1.1, -0.15, 0.10), (1.1, 0.15, 0.84))
+    V.add_box(bm, (-1.1, -0.17, 0.16), (1.1, 0.17, 0.84))
     objs.append(V.bm_to_object(bm, "arcade_parapet", ("M_stone",)))
     bm_dark = bmesh.new()
     for bx in (-0.70, 0.0, 0.70):
         for sy in (-1, 1):
-            py = sy * 0.152
-            V.add_box(bm_dark, (bx - 0.24, py - 0.008, 0.18), (bx + 0.24, py + 0.008, 0.76))
+            py = sy * 0.172
+            V.add_box(bm_dark, (bx - 0.24, py - 0.008, 0.22), (bx + 0.24, py + 0.008, 0.76))
     objs.append(V.bm_to_object(bm_dark, "arcade_panels", ("M_stone_dark",)))
     bm_sill = bmesh.new()
-    V.add_box(bm_sill, (-1.12, -0.19, 0.0), (1.12, 0.19, 0.10))
+    # Continuous base plinth and upper stringcourse matching wall_4x4
+    V.add_box(bm_sill, (-2.0, -0.205, 0.0), (2.0, 0.205, 0.16))
+    V.add_box(bm_sill, (-2.0, -0.202, 3.88), (2.0, 0.202, 4.00))
     V.add_box(bm_sill, (-1.12, -0.22, 0.84), (1.12, 0.22, 0.91))
     for bx in (-1.04, -0.35, 0.35, 1.04):
-        V.add_box(bm_sill, (bx - 0.05, -0.17, 0.10), (bx + 0.05, 0.17, 0.84))
+        V.add_box(bm_sill, (bx - 0.05, -0.19, 0.16), (bx + 0.05, 0.19, 0.84))
     objs.append(V.bm_to_object(bm_sill, "arcade_sill", ("M_stone_trim",)))
     # Moulded archivolt sweep around the pointed arch opening
     arch = V.pointed_arch(2.2, 0.8, 16, 1.6)
-    arch_path = [(x * 1.05, 0.0, y + 0.04) for (x, y) in arch]
+    arch_path = [(x * 1.05, 0.0, (y - 1.6) * 1.05 + 1.6) for (x, y) in arch]
     objs.append(
         V.sweep_profile(
             "arcade_archivolt",
             arch_path,
-            V.chamfer_rect_profile(0.11, 0.40, 0.03),
+            V.chamfer_rect_profile(0.12, 0.44, 0.03),
             "M_stone_trim",
             up_hint=Vector((0, 1, 0)),
         )
     )
     # colonnettes at the jambs
     for sx in (-1.1, 1.1):
-        col = _colonnette(0.14, 1.72)
-        col.location = (sx + (0.17 if sx < 0 else -0.17), 0, 0.86)
+        col = _colonnette(0.14, 0.72)
+        col.location = (sx + (0.04 if sx < 0 else -0.04), 0, 0.90)
         objs.append(col)
     entry = {"size": [4, 0.5, 4], "origin": "bottom-center"}
     return objs, entry
@@ -305,22 +307,24 @@ def window_lancet_4m():
     engaged jamb & central mullion colonnettes, moulded pointed hood-mold, and
     wrought-iron glazing saddle-bars. Glass is a separate piece."""
     objs = []
-    panel = V.wall_panel_with_arch("window_wall", 4.0, 4.0, 0.4, 1.5, 2.35,
+    panel = V.wall_panel_with_arch("window_wall", 4.0, 4.0, 0.38, 1.5, 2.35,
                                    sharpness=1.15, segments=14, sill_h=1.15)
     objs.append(panel)
-    # Stepped sill ledge + central stone mullion
+    # Continuous base plinth, upper stringcourse, and stepped sill ledge
     bm = bmesh.new()
-    V.add_box(bm, (-0.98, -0.32, 1.04), (0.98, 0.32, 1.16))
-    V.add_box(bm, (-0.90, -0.26, 0.96), (0.90, 0.26, 1.04))
+    V.add_box(bm, (-2.0, -0.205, 0.0), (2.0, 0.205, 0.16))
+    V.add_box(bm, (-2.0, -0.202, 3.88), (2.0, 0.202, 4.00))
+    V.add_box(bm, (-0.98, -0.30, 1.04), (0.98, 0.30, 1.16))
+    V.add_box(bm, (-0.90, -0.25, 0.96), (0.90, 0.25, 1.04))
     objs.append(V.bm_to_object(bm, "window_sill", ("M_stone_trim",)))
     # Moulded pointed hood-mold / archivolt around the lancet opening
     arch = V.pointed_arch(1.5, 1.15, 14, 2.35)
-    arch_path = [(x * 1.08, 0.0, y + 0.05) for (x, y) in arch]
+    arch_path = [(x * 1.08, 0.0, (y - 2.35) * 1.08 + 2.35) for (x, y) in arch]
     objs.append(
         V.sweep_profile(
             "window_archivolt",
             arch_path,
-            V.chamfer_rect_profile(0.11, 0.46, 0.03),
+            V.chamfer_rect_profile(0.11, 0.44, 0.03),
             "M_stone_trim",
             up_hint=Vector((0, 1, 0)),
         )
@@ -516,23 +520,37 @@ def portal_4m():
     """Doorway wall: 4x4 panel with a 1.9-wide arch opening and two nested
     archivolt sweeps. Origin bottom-center; passage along Y."""
     objs = []
-    panel = V.wall_panel_with_arch("portal_wall", 4.0, 4.0, 0.5, 1.9, 2.1,
+    panel = V.wall_panel_with_arch("portal_wall", 4.0, 4.0, 0.38, 1.9, 2.1,
                                    sharpness=1.1, segments=16)
     objs.append(panel)
+    bm_trim = bmesh.new()
+    # Continuous base plinth (outside the 1.9m doorway opening) and upper stringcourse
+    V.add_box(bm_trim, (-2.0, -0.205, 0.0), (-0.95, 0.205, 0.16))
+    V.add_box(bm_trim, (0.95, -0.205, 0.0), (2.0, 0.205, 0.16))
+    V.add_box(bm_trim, (-2.0, -0.202, 3.88), (2.0, 0.202, 4.00))
+    # Moulded impost capital blocks at the arch spring supporting both archivolts
+    for sgn in (-1, 1):
+        x0, x1 = (sgn * 1.24, sgn * 0.92) if sgn < 0 else (sgn * 0.92, sgn * 1.24)
+        V.add_box(bm_trim, (x0, -0.24, 2.02), (x1, 0.24, 2.11))
+    objs.append(V.bm_to_object(bm_trim, "portal_trim", ("M_stone_trim",)))
     arch = V.pointed_arch(1.9, 1.1, 16, 2.1)
-    for k, (scale, depth) in enumerate(((1.10, 0.56), (1.24, 0.53))):
+    for k, (scale, depth, w_prof) in enumerate(((1.045, 0.46, 0.15), (1.175, 0.43, 0.14))):
         path = []
         for (x, y) in arch:
-            path.append((x * scale, 0.0, y + (scale - 1) * 0.4))
-        prof = V.chamfer_rect_profile(0.15 - k * 0.02, depth, 0.04)
+            path.append((x * scale, 0.0, (y - 2.1) * scale + 2.1))
+        prof = V.chamfer_rect_profile(w_prof, depth, 0.035)
         objs.append(V.sweep_profile(f"archivolt{k}", path, prof, "M_stone_trim",
                                     up_hint=Vector((0, 1, 0))))
-    # jamb columns
-    for sx in (-1.15, 1.15):
-        c = _colonnette(0.12, 2.1)
-        c.location = (sx, 0, 0)
-        objs.append(c)
-    return objs, {"size": [4, 0.6, 4], "origin": "bottom-center", "opening": [1.9, 2.9]}
+    # Stepped twin jamb colonnettes under the inner and outer archivolts
+    for sx in (-1.00, 1.00):
+        c_in = _colonnette(0.085, 2.04)
+        c_in.location = (sx, 0, 0)
+        objs.append(c_in)
+    for sx in (-1.14, 1.14):
+        c_out = _colonnette(0.095, 2.04)
+        c_out.location = (sx, 0, 0)
+        objs.append(c_out)
+    return objs, {"size": [4, 0.5, 4], "origin": "bottom-center", "opening": [1.9, 2.9]}
 
 
 # ------------------------------------------------------------------ misc
