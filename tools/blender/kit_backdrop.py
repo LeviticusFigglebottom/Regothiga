@@ -757,11 +757,10 @@ def _bld_tower(L, D, RB, place, w, h, rng):
         th = min(h * 0.34, h - z)
         _tbox(L, place, -ww / 2, 0, z, ww / 2, d, z + th)
         _tbox(L, place, -ww / 2 - 0.35, -0.35, z + th, ww / 2 + 0.35, d + 0.1, z + th + 0.45)
-        _facade(L, D, place, -ww * 0.42, ww * 0.42, z + th * 0.25, z + th * 0.9, rng, bays=1)
+        _facade(L, D, place, -ww * 0.42, ww * 0.42, z + th * 0.25, z + th * 0.88, rng, bays=2, arched=True)
         z += th + 0.45
         ww *= 0.9
-    # belfry openings + crown
-    _tbox(D, place, -ww * 0.3, -0.12, z - h * 0.16, ww * 0.3, 0.03, z - h * 0.03)
+    # belfry corner pinnacles + spire crown
     for sx in (-1, 1):
         for sy in (0, 1):
             _tpin(L, place, sx * ww * 0.46, sy * d, z, ww * 0.09, h * 0.16)

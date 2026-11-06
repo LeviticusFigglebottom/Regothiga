@@ -487,18 +487,41 @@ def glass_lancet():
 
 
 def glass_lancet_broken():
-    """Ruin variant: a few teeth of glass left, no backing — sky shows through."""
+    """Ruin variant: jagged border teeth of glass held in surviving lead cames
+    around the perimeter; open broken center lets the sky show through."""
     rng = random.Random(29)
     outline = _lancet_outline(1.44, 1.18, 2.35, 1.15, 12)
     shards = _mosaic(outline, 0.20, rng, (0.0, 2.35), 0.42)
     kept = []
+    kept_verts = set()
     for poly, col in shards:
         edge_touch = len(poly) != 4
-        p = 0.55 if edge_touch else 0.06
-        if rng.random() < p:
+        if edge_touch and rng.random() < 0.62:
             kept.append((poly, col))
-    glass = _glass_from_shards("glass_lancet_broken", kept)
-    return [glass], {"size": [1.5, 0.1, 4], "origin": "bottom-center"}
+            for px, py in poly:
+                kept_verts.add((round(px, 3), round(py, 3)))
+    # Allow a few second-ring shards that directly share an edge with a kept border shard
+    for poly, col in shards:
+        if len(poly) == 4:
+            shared = sum(1 for px, py in poly if (round(px, 3), round(py, 3)) in kept_verts)
+            if shared >= 2 and rng.random() < 0.28:
+                kept.append((poly, col))
+    glass = _glass_from_shards("glass_lancet_broken", kept, thickness=0.024)
+    # Build dark iron lead-came backing cells only behind the surviving shards + perimeter rim
+    bm = bmesh.new()
+    for poly, _col in kept:
+        cx = sum(p[0] for p in poly) / len(poly)
+        cy = sum(p[1] for p in poly) / len(poly)
+        front = [bm.verts.new((cx + (px - cx) * 1.05, -0.006, cy + (py - cy) * 1.05)) for (px, py) in poly]
+        back = [bm.verts.new((cx + (px - cx) * 1.05, 0.006, cy + (py - cy) * 1.05)) for (px, py) in reversed(poly)]
+        for vlist in (front, back):
+            try:
+                bm.faces.new(vlist)
+            except ValueError:
+                pass
+    back_obj = V.new_object("glass_backing_broken", bmesh_to_mesh(bm, "glass_backing_broken"))
+    back_obj.data.materials.append(V.material("M_iron"))
+    return [glass, back_obj], {"size": [1.5, 0.1, 4], "origin": "bottom-center"}
 
 
 # ------------------------------------------------------------------ portals

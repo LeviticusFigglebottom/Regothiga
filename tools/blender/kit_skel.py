@@ -766,7 +766,7 @@ def bellox(arm):
         _tube(bm_eye, Vector((s * 0.27, 0.04, 1.73)), Vector((s * 0.40, 0.15, 1.89)), 0.042, 0.010, n=12, steps=3)
     bm_nr = b.part("head", "M_bronze")
     _torus_ring(bm_nr, (0, 0.265, 1.465), 0.038, 0.009, n_major=14, n_minor=6, rot_x=math.pi * 0.38)
-    # Contoured heavy timber yoke beam + iron shackle bands + bronze harness
+    # Contoured heavy timber yoke beam + iron shackle bands + bronze bell harness
     bm = b.part("chest", "M_wood")
     _tube(bm, Vector((-0.62, -0.04, 1.50)), Vector((0.62, -0.04, 1.50)), 0.068, 0.068, n=12,
           steps=6, bulge=1.12, squash=(1.0, 0.82))
@@ -774,7 +774,10 @@ def bellox(arm):
     for sx in (-0.48, -0.22, 0.22, 0.48):
         _tube(bm_i, Vector((sx - 0.025, -0.04, 1.50)), Vector((sx + 0.025, -0.04, 1.50)), 0.076, 0.076, n=12, steps=1)
     bm = b.part("chest", "M_bronze")
-    _tube(bm, Vector((0, -0.012, 1.28)), Vector((0, -0.012, 1.44)), 0.308, 0.288, n=16, steps=3, squash=(1.14, 0.88))
+    _tube(bm, Vector((-0.14, -0.04, 1.50)), Vector((0.14, -0.04, 1.50)), 0.080, 0.080, n=12, steps=2, squash=(1.0, 0.86))
+    for sx in (-0.48, 0.48):
+        _tube(bm, Vector((sx, -0.04, 1.44)), Vector((sx, -0.04, 1.31)), 0.032, 0.068, n=12, steps=3, bulge=0.92)
+        _ball(bm_i, (sx, -0.04, 1.295), 0.018, sub=1)
     for side, s in (("r", 1), ("l", -1)):
         _pauldron(b, side, s, "M_plate_dark", "M_bronze", r=0.135, z=1.44, g=1.50)
         _gauntlet_and_couter(b, side, s, "M_plate_dark", g=1.38)

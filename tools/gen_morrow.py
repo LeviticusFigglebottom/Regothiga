@@ -166,8 +166,9 @@ ROOM_DOORS = [12 + 14 * k for k in range(6)]      # door mark per room, on z
 wall_run_z(-6, 0, 92, 90, doors=ROOM_DOORS)
 wall_run_z(6, 0, 92, -90, doors=ROOM_DOORS)
 for z in range(2, 92, 4):
-    piece("palace_window_4m", (-6, 4, z), 90)
-    piece("palace_window_4m", (6, 4, z), -90)
+    clerestory_kit = "palace_wall_4x4" if z in (6, 18, 34, 46, 62, 74) else "palace_window_4m"
+    piece(clerestory_kit, (-6, 4, z), 90)
+    piece(clerestory_kit, (6, 4, z), -90)
     piece("palace_cornice_4m", (-6, 8, z), 90, collide=False)
     piece("palace_cornice_4m", (6, 8, z), -90, collide=False)
 for z in (6, 18, 32, 46, 60, 74, 88):
