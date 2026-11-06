@@ -582,9 +582,9 @@ def palace_dome_12m():
     objs.append(V.loft_rings("dome_shell", list(reversed([(r, z, n, 0) for (r, z) in prof_in])),
                              "M_marble", cap_bottom=False, cap_top=False))
     # Pendentive collar bridging r=5.95 circle to the 12x16 crossing rectangle (r=10.4 covers corners)
-    objs.append(V.loft_rings("dome_pendentive", [(5.95, dz + 0.02, n, 0), (10.4, dz + 0.02, n, 0)],
+    objs.append(V.loft_rings("dome_pendentive", [(10.4, dz + 0.02, n, 0), (5.95, dz + 0.02, n, 0)],
                              "M_marble", cap_bottom=False, cap_top=False))
-    objs.append(V.loft_rings("dome_pendentive_top", [(10.4, dz + 0.28, n, 0), (5.95, dz + 0.28, n, 0)],
+    objs.append(V.loft_rings("dome_pendentive_top", [(5.95, dz + 0.28, n, 0), (10.4, dz + 0.28, n, 0)],
                              "M_marble", cap_bottom=False, cap_top=False))
 
     # Matching coffer beam segments on the pendentive soffit outside the circular drum (r >= 6.05)

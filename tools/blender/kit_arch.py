@@ -772,10 +772,10 @@ def rose_window():
     seg = 28
     # Outer moulded frame ring, stepped hood-mold ring, intermediate cusped ring, and hub ring
     ring_specs = (
-        (R * 0.96, R * 1.14, 0.14),
-        (R * 1.10, R * 1.24, 0.20),
-        (R * 0.52, R * 0.60, 0.10),
-        (0.16, 0.32, 0.13),
+        (R * 0.96, R * 1.14, 0.24),
+        (R * 1.10, R * 1.24, 0.30),
+        (R * 0.52, R * 0.60, 0.21),
+        (0.16, 0.32, 0.23),
     )
     for (r0, r1, hy) in ring_specs:
         ring0, ring1, ring0b, ring1b = [], [], [], []
@@ -800,8 +800,8 @@ def rose_window():
         x1, y1 = (R * 1.02) * ca, (R * 1.02) * sa
         px, py = -sa * 0.048, ca * 0.048
         quad = [(x0 + px, y0 + py), (x1 + px, y1 + py), (x1 - px, y1 - py), (x0 - px, y0 - py)]
-        front = [bm.verts.new((qx, -0.10, qy)) for (qx, qy) in quad]
-        backv = [bm.verts.new((qx, 0.10, qy)) for (qx, qy) in quad]
+        front = [bm.verts.new((qx, -0.20, qy)) for (qx, qy) in quad]
+        backv = [bm.verts.new((qx, 0.20, qy)) for (qx, qy) in quad]
         bm.faces.new(list(reversed(front)))
         bm.faces.new(backv)
         for k in range(4):
@@ -809,10 +809,10 @@ def rose_window():
             bm.faces.new((front[k], front[m], backv[m], backv[k]))
         for rb in (R * 0.56, R * 0.96):
             bx, bz = rb * ca, rb * sa
-            V.add_box(bm, (bx - 0.085, -0.13, bz - 0.085), (bx + 0.085, 0.13, bz + 0.085))
+            V.add_box(bm, (bx - 0.085, -0.23, bz - 0.085), (bx + 0.085, 0.23, bz + 0.085))
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     objs.append(V.bm_to_object(bm, "rose_tracery", ("M_stone_trim",)))
-    return objs, {"size": [4.4, 0.3, 4.4], "origin": "hub-center"}
+    return objs, {"size": [4.4, 0.6, 4.4], "origin": "hub-center"}
 
 
 BUILDERS = {

@@ -455,9 +455,9 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
     if (hood and hood != "closed") or (not hood and not mail_mat):
         # Deep shadowed upper cranium under the cowl/hat crown + sculpted lower face below the brow
         bm_eye = b.part("head", "M_iron")
-        _ball(bm_eye, (0, 0.014 * g, 1.636), 0.098 * g, sub=2, scale=(0.91, 1.05, 0.88))
+        _ball(bm_eye, (0, 0.016 * g, 1.628), 0.102 * g, sub=2, scale=(0.92, 1.06, 0.88))
         bm = b.part("head", skin_mat)
-        _ball(bm, (0, 0.022 * g, 1.566), 0.078 * g, sub=2, scale=(0.86, 1.08, 0.96))
+        _ball(bm, (0, 0.026 * g, 1.546), 0.076 * g, sub=2, scale=(0.86, 1.06, 0.72))
     else:
         head_under_mat = mail_mat if mail_mat else skin_mat
         bm = b.part("head", head_under_mat)
@@ -566,13 +566,13 @@ def penitent(arm):
                 skirt_len=0.52, girth=1.00, mail_mat="M_chainmail")
     # Weathered ash-linen penance scapular & lower-jaw burial wrap + dark mantle
     bm_sc = b.part("chest", "M_shroud")
-    _tube(bm_sc, Vector((0, 0.004, 1.06)), Vector((0, 0.004, 1.33)), 0.172, 0.148, n=14,
-          steps=3, flutes=8, flute_amp=0.03, squash=(0.98, 0.98), ridge_fwd=0.04)
+    _tube(bm_sc, Vector((0, 0.048, 1.06)), Vector((0, 0.045, 1.33)), 0.140, 0.120, n=14,
+          steps=3, flutes=8, flute_amp=0.025, squash=(0.94, 0.86), ridge_fwd=0.06)
     bm_jw = b.part("head", "M_robe")
     _tube(bm_jw, Vector((0, 0.015, 1.48)), Vector((0, 0.022, 1.565)), 0.092, 0.095, n=12,
           steps=2, squash=(0.92, 1.08))
     bm_m = b.part("chest", "M_robe")
-    _tube(bm_m, Vector((0, 0, 1.31)), Vector((0, -0.005, 1.48)), 0.192, 0.160, n=14,
+    _tube(bm_m, Vector((0, 0, 1.28)), Vector((0, -0.005, 1.48)), 0.194, 0.160, n=14,
           steps=3, flutes=8, flute_amp=0.04, squash=(1.10, 0.96))
     # Heavy wrought-iron penance collar & spiked brow-band
     bm = b.part("chest", "M_iron")
@@ -640,15 +640,13 @@ def sister(arm):
     _tube(bm_cp, Vector((0, -0.005, 1.28)), Vector((0, -0.005, 1.46)), 0.198, 0.148, n=16,
           steps=3, flutes=12, flute_amp=0.03, squash=(1.14, 0.88))
     bm_w = b.part("head", "M_shroud")
-    _tube(bm_w, Vector((0, 0.01, 1.44)), Vector((0, 0.018, 1.545)), 0.118, 0.092, n=14,
+    _tube(bm_w, Vector((0, 0.01, 1.44)), Vector((0, 0.014, 1.525)), 0.116, 0.078, n=14,
           steps=2, flutes=8, flute_amp=0.02, squash=(0.96, 1.06))
     bm_cl = b.part("chest", "M_gold")
     _torus_ring(bm_cl, (0, 0.146, 1.38), 0.028, 0.007, n_major=14, n_minor=6, rot_x=math.pi / 2)
-    # Linen blindfold wrap & silver Firekeeper crown fillet
-    bm_bf = b.part("head", "M_shroud")
-    _tube(bm_bf, Vector((0, 0.022, 1.582)), Vector((0, 0.022, 1.622)), 0.098, 0.098, n=16, steps=2, squash=(0.90, 1.08))
-    bm_f = b.part("head", "M_steel")
-    _tube(bm_f, Vector((0, 0.022, 1.615)), Vector((0, 0.022, 1.642)), 0.106, 0.106, n=16, steps=2, squash=(0.92, 1.06))
+    # Slender gilt monastic fillet crowning the hood brow (above the shadowed eye-sockets)
+    bm_f = b.part("head", "M_gild")
+    _tube(bm_f, Vector((0, 0.012, 1.634)), Vector((0, 0.008, 1.648)), 0.148, 0.144, n=16, steps=1, squash=(0.98, 1.08))
     # Golden votive reliquary at waist
     bm_g = b.part("hips", "M_gold")
     _ball(bm_g, (-0.16, 0.08, 0.98), 0.045, sub=2)
@@ -670,12 +668,12 @@ def sexton(arm):
           steps=3, flutes=10, flute_amp=0.03, squash=(1.08, 0.94))
     # Sculpted lower face, dark gravedigger beard/muffler & brow shadow under kettle-hat
     bm_f = b.part("head", "M_wax")
-    _ball(bm_f, (0, 0.032, 1.572), 0.088, sub=2, scale=(0.88, 1.08, 0.90))
+    _ball(bm_f, (0, 0.028, 1.548), 0.076, sub=2, scale=(0.88, 1.06, 0.76))
     bm_bd = b.part("head", "M_robe")
-    _tube(bm_bd, Vector((0, 0.018, 1.485)), Vector((0, 0.025, 1.560)), 0.088, 0.098, n=14,
+    _tube(bm_bd, Vector((0, 0.018, 1.485)), Vector((0, 0.025, 1.555)), 0.090, 0.098, n=14,
           steps=2, flutes=8, flute_amp=0.03, squash=(0.94, 1.08), ridge_fwd=0.12)
     bm_sh = b.part("head", "M_iron")
-    _tube(bm_sh, Vector((0, 0.024, 1.592)), Vector((0, 0.024, 1.625)), 0.118, 0.118, n=14, steps=2, squash=(0.94, 1.06))
+    _tube(bm_sh, Vector((0, 0.024, 1.578)), Vector((0, 0.024, 1.628)), 0.118, 0.118, n=14, steps=2, squash=(0.94, 1.06))
     # Iron kettle-hat / brimmed gravedigger cap with nasal guard
     bm = b.part("head", "M_iron")
     _tube(bm, Vector((0, 0.012, 1.612)), Vector((0, 0.016, 1.648)), 0.172, 0.140, n=16, steps=2)
