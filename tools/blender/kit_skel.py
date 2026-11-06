@@ -184,14 +184,14 @@ def _pauldron(b, side, s, mat_plate, mat_trim=None, r=0.095, z=1.41, g=1.0):
           r * 0.92, r * 0.78, n=14, steps=2, ridge_fwd=0.08)
     # Fitted upper-arm rerebrace cannon down to the elbow couter
     uh, ut = _bone_vec(f"uarm_{side}")
-    _tube(bm, uh + (ut - uh) * 0.36, ut, r * 0.74, r * 0.64, n=14, steps=3, bulge=1.04)
+    _tube(bm, uh + (ut - uh) * 0.32, ut, r * 0.78, r * 0.68, n=14, steps=3, bulge=1.05)
     # Upright haute-piece neck guard ridge on the inner shoulder
     hx = s * (0.165 + 0.045 * (g - 1.0))
     V.add_box(bm, (hx - 0.012, -0.045, z + 0.02), (hx + 0.012, 0.045, z + 0.085))
     if mat_trim:
         bm_t = b.part(f"uarm_{side}", mat_trim)
         _tube(bm_t, Vector((s * (0.256 + gx), -0.008, z - 0.118)), Vector((s * (0.262 + gx), -0.01, z - 0.132)),
-              r * 0.82, r * 0.80, n=14, steps=1)
+              r * 0.80, r * 0.79, n=14, steps=1)
 
 
 def _hand(bm, side, s, h3, t3, g=1.0):
@@ -267,9 +267,9 @@ def _knight_helm(b, mat_plate, mat_trim="M_iron", g=1.0, crest=True):
     bm = b.part("head", mat_plate)
     # Skullcap dome
     _ball(bm, (0, 0.01, 1.635), 0.118 * g, sub=2, scale=(0.96, 1.08, 1.08))
-    # Gorget / bevelled neck guard
-    _tube(bm, Vector((0, -0.005, 1.46)), Vector((0, 0.008, 1.555)),
-          0.132 * g, 0.114 * g, n=16, steps=3, squash=(1.02, 1.06))
+    # Gorget / bevelled neck guard overlapping the top of the cuirass
+    _tube(bm, Vector((0, -0.006, 1.438)), Vector((0, 0.008, 1.555)),
+          0.142 * g, 0.114 * g, n=16, steps=3, squash=(1.04, 1.06))
     # Angled houndskull/bevor visor plate below the eye-slit (covers seamlessly up to z=1.606)
     _tube(bm, Vector((0, 0.010, 1.520)), Vector((0, 0.036, 1.606)),
           0.114 * g, 0.119 * g, n=14, steps=3, squash=(0.96, 1.08), ridge_fwd=0.20)
@@ -408,19 +408,19 @@ def common_body(b: BodyBuilder, robe_mat="M_robe", skin_mat="M_wax", boot_mat="M
     # shoulders + arms
     for side in ("l", "r"):
         s = 1 if side == "r" else -1
-        bm = b.joint("chest", f"uarm_{side}", robe_mat)
-        _tube(bm, Vector((s * 0.105 * g, 0, 1.405)), Vector((s * 0.228, 0, 1.395)),
-              0.072 * g, 0.068 * g, 12, steps=3, bulge=1.06)
         bm = b.joint("chest", f"uarm_{side}", under_mat)
-        _ball(bm, (s * 0.225, 0, 1.40), 0.072 * g, sub=2)
+        _tube(bm, Vector((s * 0.105 * g, 0, 1.400)), Vector((s * 0.228, 0, 1.395)),
+              0.070 * g, 0.066 * g, 12, steps=3, bulge=1.05)
+        bm = b.joint("chest", f"uarm_{side}", under_mat)
+        _ball(bm, (s * 0.225, 0, 1.40), 0.070 * g, sub=2)
         bm = b.part(f"uarm_{side}", under_mat)
         h, t = _bone_vec(f"uarm_{side}")
-        _tube(bm, h, t, 0.066 * g, 0.056 * g, 14, steps=4, bulge=1.05)
-        bm = b.joint(f"uarm_{side}", f"farm_{side}", robe_mat)
-        _ball(bm, tuple(t), 0.056 * g, sub=2)
-        bm = b.part(f"farm_{side}", robe_mat)
+        _tube(bm, h, t, 0.064 * g, 0.054 * g, 14, steps=4, bulge=1.04)
+        bm = b.joint(f"uarm_{side}", f"farm_{side}", under_mat)
+        _ball(bm, tuple(t), 0.054 * g, sub=2)
+        bm = b.part(f"farm_{side}", under_mat)
         h2, t2 = _bone_vec(f"farm_{side}")
-        _tube(bm, h2, t2, 0.054 * g, 0.062 * g, 14, steps=4)
+        _tube(bm, h2, t2, 0.052 * g, 0.060 * g, 14, steps=4)
         bm = b.part(f"hand_{side}", skin_mat)
         h3, t3 = _bone_vec(f"hand_{side}")
         _hand(bm, side, s, h3, t3, g=g)
@@ -524,7 +524,7 @@ def hero(arm):
     _knight_helm(b, "M_plate_dark", "M_steel", g=1.04, crest=True)
     # Articulated 3-lame pauldrons, gauntlets, and greaves
     for side, s in (("r", 1), ("l", -1)):
-        _pauldron(b, side, s, "M_plate_dark", "M_brass", r=0.094, z=1.41)
+        _pauldron(b, side, s, "M_plate_dark", "M_steel", r=0.094, z=1.41)
         _gauntlet_and_couter(b, side, s, "M_plate_dark", g=1.02)
         _greave_and_sabaton(b, side, s, "M_plate_dark", g=1.02)
     return b.finalize(arm)
@@ -578,16 +578,16 @@ def penitent(arm):
     bm_fe = b.part("head", "M_iron")
     _tube(bm_fe, Vector((0, 0.008, 1.625)), Vector((0, 0.008, 1.652)), 0.150, 0.146, n=14,
           steps=1, flutes=7, flute_amp=0.04)
-    # Melted votive wax drips & stubs fused to the outer shoulders
+    # Melted votive wax stubs fused to the iron penance collar
     bm_wx = b.part("chest", "M_wax")
-    for sx, sy, sz, h_c in ((-0.20, 0.01, 1.42, 0.07), (-0.17, -0.03, 1.44, 0.09), (0.20, 0.02, 1.42, 0.08)):
-        _tube(bm_wx, Vector((sx, sy, sz - 0.03)), Vector((sx, sy, sz + h_c)), 0.022, 0.016, n=8, steps=2)
+    for sx, sy, sz, h_c in ((-0.09, -0.09, 1.46, 0.045), (0.09, -0.08, 1.46, 0.055), (0.08, 0.09, 1.45, 0.045)):
+        _tube(bm_wx, Vector((sx, sy, sz)), Vector((sx, sy, sz + h_c)), 0.015, 0.011, n=8, steps=2)
     for side in ("l", "r"):
-        bm_w = b.part(f"farm_{side}", "M_iron")
+        bm_f = b.part(f"farm_{side}", "M_robe")
         h, t = _bone_vec(f"farm_{side}")
+        _tube(bm_f, h, t, 0.056, 0.062, n=12, steps=3)
+        bm_w = b.part(f"farm_{side}", "M_iron")
         _tube(bm_w, t - (t - h) * 0.28, t, 0.064, 0.068, n=12, steps=2)
-        bm_fw = b.part(f"farm_{side}", "M_wax")
-        _tube(bm_fw, h + (t - h) * 0.45, h + (t - h) * 0.74, 0.056, 0.061, n=10, steps=2, flutes=5, flute_amp=0.04)
     return b.finalize(arm, lumpy=0.014, seed=77)
 
 
