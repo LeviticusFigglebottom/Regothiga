@@ -263,13 +263,10 @@ void fragment() {
 	// View vector & Fresnel for velvet cloth sheen and moonlit atmospheric rim
 	vec3 view_dir = normalize(CAMERA_POSITION_WORLD - v_world_pos);
 	float ndv = clamp(dot(world_nrm, view_dir), 0.0, 1.0);
-	// Suppress grazing Fresnel & overhead sky_fill glare on thin horizontal mortar ledges on walls
-	// (Use world_nrm.y instead of abs(world_nrm.y) so downward-facing ceilings never blacken at grazing angles)
+	// Gently restrain grazing Fresnel & specular glare on elevated horizontal ledges
+	// without darkening their diffuse albedo or ambient occlusion at shallow angles
 	float horiz_ledge = (1.0 - floor_zone) * smoothstep(0.75, 0.92, world_nrm.y) * (1.0 - smoothstep(0.08, 0.42, ndv));
-	float fres = pow(1.0 - ndv, 3.2) * (1.0 - horiz_ledge);
-	if (use_local_triplanar == 0 && albedo_from_vc == 0) {
-		final_albedo *= mix(1.0, 0.36, horiz_ledge);
-	}
+	float fres = pow(1.0 - ndv, 3.2) * (1.0 - horiz_ledge * 0.55);
 
 	// Cloth / velvet grazing microfiber sheen (FromSoftware vestment look)
 	if (sheen_strength > 0.001) {
@@ -284,14 +281,14 @@ void fragment() {
 	METALLIC = met;
 
 	float rgh = roughness_v + (rough_mod - 0.5) * 0.40 + ruin * 0.02 - edge_chip * 0.16 + moss * 0.22 - arch_grime * 0.12;
-	rgh = mix(rgh, 0.94, horiz_ledge);
+	rgh = mix(rgh, 0.88, horiz_ledge * 0.5);
 	rgh = mix(rgh, 0.08, puddle * 0.88); // wet puddles gleam under moonlight & torchlight
 	ROUGHNESS = clamp(rgh, 0.05, 1.0);
 
-	float spec = specular_v * mix(0.42, 1.22, cav_ao) * (1.0 - horiz_ledge * 0.85) + puddle * 0.42;
+	float spec = specular_v * mix(0.42, 1.22, cav_ao) * (1.0 - horiz_ledge * 0.45) + puddle * 0.42;
 	SPECULAR = clamp(spec, 0.05, 1.0);
 
-	float total_ao = clamp(vao * cav_ao * (1.0 - crack * 0.38) * (1.0 - arch_grime * 0.28) * mix(1.0, 0.25, horiz_ledge), 0.08, 1.0);
+	float total_ao = clamp(vao * cav_ao * (1.0 - crack * 0.38) * (1.0 - arch_grime * 0.28), 0.08, 1.0);
 	AO = mix(1.0, total_ao, 0.88);
 	AO_LIGHT_AFFECT = 0.68;
 

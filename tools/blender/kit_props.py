@@ -538,20 +538,30 @@ def plaque():
     """Lore plaque: carved Gothic octagonal stone lectern with stepped moulded plinth,
     fluted shaft, wrought-iron scroll brackets, angled limestone desk, and inset bronze tablet."""
     objs = []
-    # Stepped octagonal plinth & fluted column shaft + flared capital
-    pedestal = V.loft_rings(
-        "plaque_post",
+    # Stepped octagonal dark stone plinth + carved freestone fluted column shaft & capital
+    plinth = V.loft_rings(
+        "plaque_plinth",
         [
             (0.32, 0.00, 8, math.pi / 8),
             (0.32, 0.08, 8, math.pi / 8),
             (0.25, 0.12, 8, math.pi / 8),
             (0.25, 0.18, 8, math.pi / 8),
+        ],
+        "M_stone_dark",
+        cap_bottom=True,
+        cap_top=True,
+    )
+    objs.append(plinth)
+    pedestal = V.loft_rings(
+        "plaque_post",
+        [
+            (0.18, 0.18, 8, math.pi / 8),
             (0.16, 0.22, 8, math.pi / 8),
             (0.14, 0.72, 8, math.pi / 8),
             (0.22, 0.80, 8, math.pi / 8),
             (0.28, 0.88, 8, math.pi / 8),
         ],
-        "M_stone_dark",
+        "M_stone_trim",
         cap_bottom=True,
         cap_top=True,
     )

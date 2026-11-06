@@ -49,7 +49,7 @@ const WATER := preload("res://shaders/water.gdshader")
 ## family -> {albedo, rough, metallic, specular, normal_scale, rim, sss, sheen, local_uv, extras...}
 const FAMILIES := {
 	"M_stone":        {"albedo": Color(0.60, 0.55, 0.46), "rough": 0.88, "metallic": 0.0, "specular": 0.48, "normal_scale": 1.30, "rim": 0.28},
-	"M_stone_trim":   {"albedo": Color(0.69, 0.64, 0.53), "rough": 0.82, "metallic": 0.0, "specular": 0.52, "normal_scale": 1.20, "rim": 0.36},
+	"M_stone_trim":   {"albedo": Color(0.69, 0.64, 0.53), "rough": 0.82, "metallic": 0.0, "specular": 0.52, "normal_scale": 1.20, "rim": 0.36, "moss": 0.08},
 	"M_stone_dark":   {"albedo": Color(0.40, 0.38, 0.34), "rough": 0.90, "metallic": 0.0, "specular": 0.46, "normal_scale": 1.35, "rim": 0.22, "moss": 1.0},
 	"M_iron":         {"albedo": Color(0.14, 0.145, 0.17), "rough": 0.44, "metallic": 0.86, "specular": 0.72, "normal_scale": 1.15, "rim": 0.85, "wear": 0.28, "moss": 0.0, "crack": 0.0},
 	"M_wood":         {"albedo": Color(0.23, 0.15, 0.09), "rough": 0.80, "metallic": 0.0, "specular": 0.42, "normal_scale": 1.20, "rim": 0.24, "moss": 0.3},

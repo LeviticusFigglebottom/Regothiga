@@ -1233,7 +1233,7 @@
  "plaque": {
   "file": "assets/kit/plaque.glb",
   "origin": "bottom-center",
-  "polys": 170,
+  "polys": 172,
   "size": [
    0.74,
    0.6,

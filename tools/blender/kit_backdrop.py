@@ -188,23 +188,21 @@ def balustrade_4m():
     turned balusters. Origin bottom-center."""
     objs = []
     bm = bmesh.new()
-    bm_dark = bmesh.new()
     # Stepped base plinth + moulded top handrail
     _box(bm, -2.0, -0.16, 0.0, 2.0, 0.16, 0.06)
     _box(bm, -2.0, -0.14, 0.06, 2.0, 0.14, 0.15)
     _box(bm, -2.0, -0.14, 0.90, 2.0, 0.14, 0.96)
     _box(bm, -2.0, -0.17, 0.96, 2.0, 0.17, 1.10)
-    # Panelled end newel posts with stepped plinth and capital collars
+    # Panelled end newel posts with stepped plinth, capital collars & raised freestone tablets
     for px in (-1.88, 1.88):
         _box(bm, px - 0.17, -0.20, 0.0, px + 0.17, 0.20, 0.16)
         _box(bm, px - 0.14, -0.17, 0.16, px + 0.14, 0.17, 0.92)
         _box(bm, px - 0.17, -0.20, 0.92, px + 0.17, 0.20, 1.12)
         for sy in (-1, 1):
             py = sy * 0.172
-            _box(bm_dark, px - 0.08, py - 0.008, 0.24, px + 0.08, py + 0.008, 0.84)
+            _box(bm, px - 0.085, py - 0.012, 0.24, px + 0.085, py + 0.012, 0.84)
     frame = V.bm_to_object(bm, "balustrade_frame", ("M_stone_trim",))
     objs.append(frame)
-    objs.append(V.bm_to_object(bm_dark, "balustrade_panels", ("M_stone_dark",)))
     x = -1.53
     while x < 1.65:
         b = V.loft_rings("baluster", [(0.095, 0.14, 14, 0), (0.055, 0.28, 14, 0),
