@@ -1413,6 +1413,17 @@ def watcher_base():
         "M_stone_trim",
     )
     objs.append(b)
+    core = V.loft_rings(
+        "watcher_core",
+        [
+            (0.505, 0.135, 8, 0),
+            (0.505, 0.245, 8, 0),
+        ],
+        "M_stone_dark",
+        cap_bottom=False,
+        cap_top=False,
+    )
+    objs.append(core)
     ring = V.loft_rings(
         "watcher_ring",
         [
@@ -1427,6 +1438,13 @@ def watcher_base():
         cap_top=False,
     )
     objs.append(ring)
+    bm_pil = bmesh.new()
+    for i in range(8):
+        a = i * math.pi / 4.0
+        ca, sa = math.cos(a), math.sin(a)
+        px, py = 0.495 * ca, 0.495 * sa
+        V.add_box(bm_pil, (px - 0.038, py - 0.038, 0.13), (px + 0.038, py + 0.038, 0.26))
+    objs.append(V.bm_to_object(bm_pil, "watcher_pilasters", ("M_stone_trim",)))
     return objs, {"size": [1.3, 1.3, 0.36], "origin": "bottom-center"}
 
 

@@ -146,15 +146,24 @@ def palace_wall_low_4m():
 
 
 def palace_cornice_4m():
-    """Projecting marble cornice with a continuous gold bead on both faces. Bottom-center."""
+    """Projecting marble cornice with carved marble modillion brackets, gilt
+    dentil teeth, and continuous gold beads on both faces. Bottom-center."""
     bm = bmesh.new()
     V.add_box(bm, (-2, -0.26, 0.0), (2, 0.26, 0.08))
     V.add_box(bm, (-2, -0.32, 0.08), (2, 0.32, 0.18))
     V.add_box(bm, (-2, -0.38, 0.18), (2, 0.38, 0.30))
+    for i in range(8):
+        cx = -1.75 + i * 0.50
+        V.add_box(bm, (cx - 0.075, -0.36, 0.04), (cx + 0.075, 0.36, 0.19))
     body = V.bm_to_object(bm, "palace_cornice", ("M_marble",))
     bm_g = bmesh.new()
     V.add_box(bm_g, (-2, -0.30, 0.03), (2, 0.30, 0.09))
     V.add_box(bm_g, (-2, -0.40, 0.22), (2, 0.40, 0.29))
+    for i in range(8):
+        cx = -1.75 + i * 0.50
+        V.add_box(bm_g, (cx - 0.045, -0.375, 0.06), (cx + 0.045, 0.375, 0.17))
+    _dentils(bm_g, -2.0, 2.0, 0.09, -0.30, out=-1, depth=0.05, w=0.12, gap=0.13, h=0.09)
+    _dentils(bm_g, -2.0, 2.0, 0.09, 0.30, out=1, depth=0.05, w=0.12, gap=0.13, h=0.09)
     bead = V.bm_to_object(bm_g, "palace_cornice_gild", ("M_gild",))
     return [body, bead], {"size": [4, 0.8, 0.3], "origin": "bottom-center"}
 
@@ -303,11 +312,24 @@ def palace_window_4m():
 
 def palace_arcade_4m():
     """Open palace colonnade bay: a true passage (no parapet) with a wide
-    arch, gold archivolt edge and gilt-capped colonnettes. Bottom-center."""
+    arch, side-pier base plinths, waist gold stringcourses, top head band,
+    front/back gilt dentil friezes, gold archivolt edge and gilt-capped
+    colonnettes. Bottom-center."""
     objs = []
     panel = V.wall_panel_with_arch("palace_arcade_panel", 4.0, 4.0, 0.4, 2.4, 2.0,
                                    sharpness=0.9, mat="M_marble", segments=12)
     objs.append(panel)
+    bm_trim = bmesh.new()
+    bm_gild = bmesh.new()
+    for sx in (-1, 1):
+        x0, x1 = (-2.0, -1.20) if sx < 0 else (1.20, 2.0)
+        V.add_box(bm_trim, (x0, -0.21, -0.006), (x1, 0.21, 0.55))
+        V.add_box(bm_gild, (sx * 1.40, -0.21, 2.14), (sx * 2.0, 0.21, 2.30))
+    V.add_box(bm_trim, (-2.0, -0.21, 3.62), (2.0, 0.21, 4.006))
+    _dentils(bm_gild, -2.0, 2.0, 3.42, -0.20, out=-1)
+    _dentils(bm_gild, -2.0, 2.0, 3.42, 0.20, out=1)
+    objs.append(V.bm_to_object(bm_trim, "palace_arcade_mould", ("M_marble",)))
+    objs.append(V.bm_to_object(bm_gild, "palace_arcade_frieze", ("M_gild",)))
     arch = V.pointed_arch(2.4, 0.9, 12, 2.0)
     path = [(x * 1.08, 0.0, y + 0.08) for (x, y) in arch]
     prof = V.chamfer_rect_profile(0.14, 0.46, 0.035)
@@ -557,18 +579,28 @@ def radiant_castle(seed=4):
 # ------------------------------------------------------- palace furnishing
 
 def banquet_table_6m():
-    """Feast table: marble slab on carved legs, a gold runner down the
-    middle, candle pairs riding it. Origin bottom-center. Solid."""
+    """Feast table: marble slab with under-apron rails on 6 carved trestle
+    legs with stepped plinth feet, a gold runner with overhanging end drops,
+    gilt edge molding, and candle pairs riding it. Origin bottom-center. Solid."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-3.0, -0.62, 0.72), (3.0, 0.62, 0.86))          # top
-    for sx in (-2.6, 2.6):
+    V.add_box(bm, (-3.0, -0.62, 0.72), (3.0, 0.62, 0.86))               # marble mensa slab
+    V.add_box(bm, (-2.88, -0.52, 0.63), (2.88, 0.52, 0.72))             # recessed under-table apron
+    for sx in (-2.6, 0.0, 2.6):
+        V.add_box(bm, (sx - 0.12, -0.52, 0.0), (sx + 0.12, 0.52, 0.08)) # trestle floor runner
+        V.add_box(bm, (sx - 0.09, -0.44, 0.26), (sx + 0.09, 0.44, 0.36))# cross-bar
         for sy in (-0.44, 0.44):
-            V.add_box(bm, (sx - 0.09, sy - 0.09, 0.0), (sx + 0.09, sy + 0.09, 0.72))
-    V.add_box(bm, (-2.6, -0.06, 0.3), (2.6, 0.06, 0.42))           # stretcher
+            V.add_box(bm, (sx - 0.09, sy - 0.09, 0.08), (sx + 0.09, sy + 0.09, 0.72))
+            V.add_box(bm, (sx - 0.11, sy - 0.11, 0.56), (sx + 0.11, sy + 0.11, 0.64))
+    V.add_box(bm, (-2.6, -0.06, 0.28), (2.6, 0.06, 0.38))               # longitudinal stretcher
     objs.append(V.bm_to_object(bm, "table_body", ("M_marble",)))
     bm = bmesh.new()
-    V.add_box(bm, (-3.0, -0.22, 0.861), (3.0, 0.22, 0.875))        # gold runner
+    V.add_box(bm, (-3.02, -0.635, 0.77), (3.02, 0.635, 0.81))           # gilt slab edge fillet
+    V.add_box(bm, (-3.02, -0.22, 0.861), (3.02, 0.22, 0.875))           # gold runner
+    for sx in (-3.02, 3.00):
+        V.add_box(bm, (sx, -0.22, 0.52), (sx + 0.02, 0.22, 0.875))      # overhanging runner drops
+    for sx in (-2.6, 0.0, 2.6):
+        V.add_box(bm, (sx - 0.13, -0.53, 0.0), (sx + 0.13, 0.53, 0.035))
     for cx in (-2.0, 0.0, 2.0):
         V.add_cyl(bm, cx, 0.0, 0.875, 0.022, 0.072, n=12)
         V.add_cyl(bm, cx, 0.0, 0.895, 0.012, 0.052, n=10)
@@ -585,21 +617,26 @@ def banquet_table_6m():
 
 
 def banquet_bench_6m():
-    """Long marble-and-gold bench for the feast table. Origin bottom-center. Solid."""
+    """Long marble-and-gold bench for the feast table with under-seat apron,
+    carved trestle standards, and a crimson velvet cushion pad. Origin bottom-center. Solid."""
     objs = []
     bm = bmesh.new()
-    V.add_box(bm, (-3.0, -0.20, 0.40), (3.0, 0.20, 0.49))             # marble seat slab
-    V.add_box(bm, (-2.6, -0.05, 0.16), (2.6, 0.05, 0.25))             # stretcher rail
-    for sx in (-2.6, 0.0, 2.6):
-        V.add_box(bm, (sx - 0.11, -0.18, 0.0), (sx + 0.11, 0.18, 0.07))  # plinth foot
-        V.add_box(bm, (sx - 0.08, -0.14, 0.07), (sx + 0.08, 0.14, 0.40)) # carved standard
+    V.add_box(bm, (-3.0, -0.20, 0.40), (3.0, 0.20, 0.48))               # marble seat slab
+    V.add_box(bm, (-2.88, -0.15, 0.33), (2.88, 0.15, 0.40))             # under-seat apron rail
+    V.add_box(bm, (-2.6, -0.05, 0.16), (2.6, 0.05, 0.24))               # stretcher rail
+    for sx in (-2.6, -1.3, 0.0, 1.3, 2.6):
+        V.add_box(bm, (sx - 0.11, -0.19, 0.0), (sx + 0.11, 0.19, 0.07)) # plinth foot
+        V.add_box(bm, (sx - 0.08, -0.14, 0.07), (sx + 0.08, 0.14, 0.40))# carved standard
     objs.append(V.bm_to_object(bm, "bench", ("M_marble",)))
+    bm_c = bmesh.new()
+    V.add_box(bm_c, (-2.92, -0.16, 0.48), (2.92, 0.16, 0.51))           # crimson velvet seat cushion
+    objs.append(V.bm_to_object(bm_c, "bench_cushion", ("M_cloth",)))
     bm_g = bmesh.new()
-    V.add_box(bm_g, (-3.02, -0.21, 0.44), (3.02, 0.21, 0.47))         # gilt molding band
-    for sx in (-2.6, 0.0, 2.6):
-        V.add_box(bm_g, (sx - 0.12, -0.19, 0.0), (sx + 0.12, 0.19, 0.03))
+    V.add_box(bm_g, (-3.02, -0.21, 0.43), (3.02, 0.21, 0.46))           # gilt molding band
+    for sx in (-2.6, -1.3, 0.0, 1.3, 2.6):
+        V.add_box(bm_g, (sx - 0.12, -0.20, 0.0), (sx + 0.12, 0.20, 0.03))
     objs.append(V.bm_to_object(bm_g, "bench_gild", ("M_gild",)))
-    return objs, {"size": [6, 0.4, 0.5], "origin": "bottom-center"}
+    return objs, {"size": [6, 0.42, 0.51], "origin": "bottom-center"}
 
 
 def palace_dome_12m():

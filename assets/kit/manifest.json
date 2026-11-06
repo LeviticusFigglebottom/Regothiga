@@ -92,17 +92,17 @@
  "banquet_bench_6m": {
   "file": "assets/kit/banquet_bench_6m.glb",
   "origin": "bottom-center",
-  "polys": 72,
+  "polys": 120,
   "size": [
    6,
-   0.4,
-   0.5
+   0.42,
+   0.51
   ]
  },
  "banquet_table_6m": {
   "file": "assets/kit/banquet_table_6m.glb",
   "origin": "bottom-center",
-  "polys": 240,
+  "polys": 366,
   "size": [
    6,
    1.25,
@@ -1039,7 +1039,7 @@
    3.1
   ],
   "origin": "bottom-center",
-  "polys": 480,
+  "polys": 654,
   "size": [
    4,
    0.5,
@@ -1059,7 +1059,7 @@
  "palace_cornice_4m": {
   "file": "assets/kit/palace_cornice_4m.glb",
   "origin": "bottom-center",
-  "polys": 30,
+  "polys": 318,
   "size": [
    4,
    0.8,
@@ -1854,7 +1854,7 @@
  "watcher_base": {
   "file": "assets/kit/watcher_base.glb",
   "origin": "bottom-center",
-  "polys": 82,
+  "polys": 138,
   "size": [
    1.3,
    1.3,
