@@ -1,0 +1,9305 @@
+{
+ "id": "sovereign_apiary",
+ "name": "The Sovereign Apiary",
+ "free_kindle": true,
+ "start": {
+  "pos": [
+   0.0,
+   0.2,
+   8.5
+  ],
+  "yaw": 0
+ },
+ "env": {
+  "glory": {
+   "sun_color": [
+    1.0,
+    0.78,
+    0.42
+   ],
+   "sun_energy": 0.92,
+   "sun_rot": [
+    -34,
+    -38
+   ],
+   "ambient": [
+    0.38,
+    0.29,
+    0.18
+   ],
+   "fog_color": [
+    0.52,
+    0.36,
+    0.2
+   ],
+   "bg_top": [
+    0.22,
+    0.15,
+    0.1
+   ],
+   "bg_horizon": [
+    0.62,
+    0.42,
+    0.22
+   ],
+   "fog_density": 0.009
+  },
+  "ruin": {
+   "sun_color": [
+    0.3,
+    0.36,
+    0.5
+   ],
+   "sun_energy": 0.18,
+   "fog_color": [
+    0.06,
+    0.08,
+    0.11
+   ],
+   "bg_top": [
+    0.03,
+    0.045,
+    0.075
+   ],
+   "bg_horizon": [
+    0.07,
+    0.095,
+    0.14
+   ],
+   "fog_density": 0.012
+  }
+ },
+ "fills": [
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    0,
+    0
+   ],
+   "max": [
+    8,
+    0,
+    12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -20,
+    0,
+    -28
+   ],
+   "max": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -36,
+    0,
+    -28
+   ],
+   "max": [
+    -20,
+    0,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    20,
+    2.4,
+    -28
+   ],
+   "max": [
+    36,
+    2.4,
+    -4
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -16,
+    0,
+    -44
+   ],
+   "max": [
+    16,
+    0,
+    -28
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -16,
+    0,
+    -72
+   ],
+   "max": [
+    16,
+    0,
+    -44
+   ]
+  }
+ ],
+ "open_air_regions": [
+  {
+   "min": [
+    -12,
+    0,
+    -20
+   ],
+   "max": [
+    12,
+    0,
+    -8
+   ]
+  }
+ ],
+ "boxes": [
+  {
+   "min": [
+    20.0,
+    -0.4,
+    -28.2
+   ],
+   "max": [
+    36.2,
+    2.4,
+    -3.8
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -6.5,
+    0.0,
+    -71.5
+   ],
+   "max": [
+    6.5,
+    0.14,
+    -65.5
+   ],
+   "mat": "M_marble",
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "min": [
+    -6.8,
+    0.0,
+    -65.8
+   ],
+   "max": [
+    6.8,
+    0.08,
+    -65.4
+   ],
+   "mat": "M_gold",
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "min": [
+    -8.65,
+    4.0,
+    -0.10000000000000009
+   ],
+   "max": [
+    -8.35,
+    8.1,
+    4.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.65,
+    0.0,
+    3.9
+   ],
+   "max": [
+    -8.35,
+    4.1,
+    8.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.65,
+    4.0,
+    7.9
+   ],
+   "max": [
+    -8.35,
+    8.1,
+    12.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    8.35,
+    4.0,
+    -0.10000000000000009
+   ],
+   "max": [
+    8.65,
+    8.1,
+    4.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    8.35,
+    0.0,
+    3.9
+   ],
+   "max": [
+    8.65,
+    4.1,
+    8.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    8.35,
+    4.0,
+    7.9
+   ],
+   "max": [
+    8.65,
+    8.1,
+    12.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.1,
+    0.0,
+    12.35
+   ],
+   "max": [
+    -3.9,
+    4.1,
+    12.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.1,
+    4.0,
+    12.35
+   ],
+   "max": [
+    -3.9,
+    8.1,
+    12.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -0.10000000000000009,
+    4.0,
+    12.35
+   ],
+   "max": [
+    4.1,
+    8.1,
+    12.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    3.9,
+    0.0,
+    12.35
+   ],
+   "max": [
+    8.1,
+    4.1,
+    12.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -20.1,
+    4.0,
+    0.35
+   ],
+   "max": [
+    -15.9,
+    8.1,
+    0.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.1,
+    0.0,
+    0.35
+   ],
+   "max": [
+    -11.9,
+    4.1,
+    0.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.1,
+    4.0,
+    0.35
+   ],
+   "max": [
+    -7.9,
+    8.1,
+    0.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    4.0,
+    0.35
+   ],
+   "max": [
+    12.1,
+    8.1,
+    0.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    11.9,
+    0.0,
+    0.35
+   ],
+   "max": [
+    16.1,
+    4.1,
+    0.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    15.9,
+    4.0,
+    0.35
+   ],
+   "max": [
+    20.1,
+    8.1,
+    0.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.1,
+    4.0,
+    -3.65
+   ],
+   "max": [
+    -31.9,
+    8.1,
+    -3.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -28.1,
+    4.0,
+    -3.65
+   ],
+   "max": [
+    -23.9,
+    8.1,
+    -3.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.1,
+    4.0,
+    -28.65
+   ],
+   "max": [
+    -31.9,
+    8.1,
+    -28.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -28.1,
+    4.0,
+    -28.65
+   ],
+   "max": [
+    -23.9,
+    8.1,
+    -28.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.65,
+    4.0,
+    -28.1
+   ],
+   "max": [
+    -36.35,
+    8.1,
+    -23.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.65,
+    0.0,
+    -24.1
+   ],
+   "max": [
+    -36.35,
+    4.1,
+    -19.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.65,
+    4.0,
+    -20.1
+   ],
+   "max": [
+    -36.35,
+    8.1,
+    -15.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.65,
+    0.0,
+    -12.1
+   ],
+   "max": [
+    -36.35,
+    4.1,
+    -7.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.65,
+    4.0,
+    -12.1
+   ],
+   "max": [
+    -36.35,
+    8.1,
+    -7.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    36.35,
+    2.4,
+    -24.1
+   ],
+   "max": [
+    36.65,
+    6.5,
+    -19.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    36.35,
+    2.4,
+    -12.1
+   ],
+   "max": [
+    36.65,
+    6.5,
+    -7.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.1,
+    4.0,
+    -28.65
+   ],
+   "max": [
+    -7.9,
+    8.1,
+    -28.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    4.0,
+    -28.65
+   ],
+   "max": [
+    12.1,
+    8.1,
+    -28.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    4.0,
+    -44.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -39.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
+    -40.1
+   ],
+   "max": [
+    -16.35,
+    4.1,
+    -35.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
+    -36.1
+   ],
+   "max": [
+    -16.35,
+    4.1,
+    -31.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    4.0,
+    -36.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -31.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -44.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -39.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
+    -40.1
+   ],
+   "max": [
+    16.65,
+    4.1,
+    -35.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
+    -36.1
+   ],
+   "max": [
+    16.65,
+    4.1,
+    -31.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -36.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -31.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.1,
+    4.0,
+    -44.65
+   ],
+   "max": [
+    -7.9,
+    8.1,
+    -44.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    4.0,
+    -44.65
+   ],
+   "max": [
+    12.1,
+    8.1,
+    -44.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    4.0,
+    -72.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -67.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
+    -68.1
+   ],
+   "max": [
+    -16.35,
+    4.1,
+    -63.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    4.0,
+    -64.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -59.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
+    -60.1
+   ],
+   "max": [
+    -16.35,
+    4.1,
+    -55.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    4.0,
+    -56.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -51.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
+    -52.1
+   ],
+   "max": [
+    -16.35,
+    4.1,
+    -47.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    4.0,
+    -48.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -43.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -72.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -67.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
+    -68.1
+   ],
+   "max": [
+    16.65,
+    4.1,
+    -63.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -64.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -59.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
+    -60.1
+   ],
+   "max": [
+    16.65,
+    4.1,
+    -55.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -56.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -51.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
+    -52.1
+   ],
+   "max": [
+    16.65,
+    4.1,
+    -47.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -48.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -43.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.1,
+    4.0,
+    -72.65
+   ],
+   "max": [
+    -11.9,
+    8.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.1,
+    0.0,
+    -72.65
+   ],
+   "max": [
+    -7.9,
+    4.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.1,
+    4.0,
+    -72.65
+   ],
+   "max": [
+    -3.9,
+    8.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -4.1,
+    0.0,
+    -72.65
+   ],
+   "max": [
+    0.10000000000000009,
+    4.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -0.10000000000000009,
+    0.0,
+    -72.65
+   ],
+   "max": [
+    4.1,
+    4.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -0.10000000000000009,
+    4.0,
+    -72.65
+   ],
+   "max": [
+    4.1,
+    8.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    0.0,
+    -72.65
+   ],
+   "max": [
+    12.1,
+    4.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    4.0,
+    -72.65
+   ],
+   "max": [
+    12.1,
+    8.1,
+    -72.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  }
+ ],
+ "vault_fields": [
+  {
+   "min": [
+    -8,
+    0,
+    0
+   ],
+   "max": [
+    8,
+    0,
+    12
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "N"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -20,
+    0,
+    -8
+   ],
+   "max": [
+    20,
+    0,
+    0
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "N"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -20,
+    0,
+    -28
+   ],
+   "max": [
+    20,
+    0,
+    -20
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "S",
+    "N"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -20,
+    0,
+    -20
+   ],
+   "max": [
+    -12,
+    0,
+    -8
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "N",
+    "S",
+    "W",
+    "E"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    12,
+    0,
+    -20
+   ],
+   "max": [
+    20,
+    0,
+    -8
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "N",
+    "S",
+    "W",
+    "E"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36,
+    0,
+    -28
+   ],
+   "max": [
+    -20,
+    0,
+    -4
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "E"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    20,
+    2.4,
+    -28
+   ],
+   "max": [
+    36,
+    2.4,
+    -4
+   ],
+   "spring_top": 8.0,
+   "band_from": 6.4,
+   "skip_bands": [
+    "W"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16,
+    0,
+    -44
+   ],
+   "max": [
+    16,
+    0,
+    -28
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "S",
+    "N"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16,
+    0,
+    -72
+   ],
+   "max": [
+    16,
+    0,
+    -44
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "S"
+   ],
+   "tag": "base"
+  }
+ ],
+ "pieces": [
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -8,
+    0.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -8,
+    4.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    4.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    0.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -8,
+    4.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -8,
+    4.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -8,
+    0.0,
+    10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -8,
+    4.0,
+    10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    4.0,
+    10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    8,
+    0.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    8,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    0.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    8,
+    4.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    8,
+    4.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    8,
+    0.0,
+    10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    8,
+    4.0,
+    10
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    4.0,
+    10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    0.0,
+    0,
+    11.6
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0.0,
+    5.6,
+    11.65
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -14,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -14,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    14,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -2,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    2,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    0.0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -20,
+    4.0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    4.0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    20,
+    0.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    20,
+    4.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    20,
+    4.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -10,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -6,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -2,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    2,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    6,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    10,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -10,
+    0.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -6,
+    0.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -2,
+    0.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    2,
+    0.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    6,
+    0.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    10,
+    0.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -12,
+    0.0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -12,
+    4.0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    4.0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -12,
+    0.0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -12,
+    4.0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -12,
+    4.0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -12,
+    0.0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -12,
+    4.0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -12,
+    4.0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    12,
+    0.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    12,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    12,
+    0.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    12,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    12,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    12,
+    0.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    12,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    12,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    0.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -20,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -20,
+    0.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -20,
+    4.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    4.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -20,
+    0.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -20,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -20,
+    0.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -20,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -20,
+    0.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -20,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    0.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -20,
+    4.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -20,
+    4.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -34,
+    0.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -34,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -34,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -30,
+    0.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -30,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -30,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -26,
+    0.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -26,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -26,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    0.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -22,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -34,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -34,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -34,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -30,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -30,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -30,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -26,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -26,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -26,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -22,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -36,
+    0.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -36,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -36,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -36,
+    0.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -36,
+    4.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -36,
+    4.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -36,
+    0.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -36,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -36,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -36,
+    0.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -36,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -36,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -36,
+    0.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -36,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -36,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -36,
+    0.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -36,
+    4.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -36,
+    4.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    20,
+    2.38,
+    -16
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    20.2,
+    2.4,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    20.2,
+    2.4,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    20.2,
+    2.4,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    20.2,
+    2.4,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    22,
+    2.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    22,
+    6.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    26,
+    2.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    26,
+    6.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    30,
+    2.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    30,
+    6.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    34,
+    2.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    34,
+    6.4,
+    -4
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    22,
+    2.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    22,
+    6.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    26,
+    2.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    26,
+    6.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    30,
+    2.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    30,
+    6.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    34,
+    2.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    34,
+    6.4,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    36,
+    2.4,
+    -26
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    -26
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    36,
+    2.4,
+    -22
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    -22
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    36,
+    2.4,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    36,
+    2.4,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    36,
+    2.4,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    36,
+    2.4,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -18,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -18,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    18,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -14,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -6,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    2,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    0.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    2.0,
+    5.6,
+    -27.65
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    0.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    0.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -14,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -2,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    10,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    0.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    -2.0,
+    5.6,
+    -43.65
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    -70
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -70
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
+    -70
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    0.0,
+    -66
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -66
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    -66
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    -62
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -62
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
+    -62
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    0.0,
+    -58
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -58
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    -58
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    -54
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -54
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
+    -54
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    0.0,
+    -50
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -50
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    -50
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
+    -70
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -70
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -70
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0.0,
+    -66
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -66
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    -66
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
+    -62
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -62
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -62
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0.0,
+    -58
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -58
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    -58
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
+    -54
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -54
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -54
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0.0,
+    -50
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -50
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    -50
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -14,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -14,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -14,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -10,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -2,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    2,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    2,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0.0,
+    5.6,
+    -71.65
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -28,
+    0,
+    -22
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -28,
+    4.0,
+    -22
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -28,
+    0,
+    -16
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -28,
+    4.0,
+    -16
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -28,
+    0,
+    -10
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -28,
+    4.0,
+    -10
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
+    0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
+    0,
+    -50
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    -50
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
+    0,
+    -58
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    -58
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
+    0,
+    -66
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    -66
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
+    0,
+    -50
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    -50
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
+    0,
+    -58
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    -58
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
+    0,
+    -66
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    -66
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  }
+ ],
+ "props": [
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -8,
+    4.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -8,
+    4.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -8,
+    0.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -8,
+    0.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -8,
+    4.0,
+    10
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -8,
+    4.0,
+    10
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    8,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    8,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    8,
+    0.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    8,
+    0.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    8,
+    4.0,
+    10
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    8,
+    4.0,
+    10
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -14,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -14,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    14,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    14,
+    0.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    18,
+    4.0,
+    0
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    6,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    6,
+    4.0,
+    -20
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -12,
+    4.0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -12,
+    4.0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    12,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    12,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -34,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -34,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -26,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -26,
+    4.0,
+    -4
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -34,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -34,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -26,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -26,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -36,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -36,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -36,
+    0.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -36,
+    0.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -36,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -36,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -36,
+    0.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -36,
+    0.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -36,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -36,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    36,
+    2.4,
+    -22
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    36,
+    2.4,
+    -22
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    36,
+    2.4,
+    -10
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    36,
+    2.4,
+    -10
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    4.0,
+    -28
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    4.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    0.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    0.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    4.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    4.0,
+    -44
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    4.0,
+    -70
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -70
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
+    -66
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    0.0,
+    -66
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    4.0,
+    -62
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -62
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
+    -58
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    0.0,
+    -58
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    4.0,
+    -54
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -54
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
+    -50
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    0.0,
+    -50
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -70
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -70
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
+    -66
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0.0,
+    -66
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -62
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -62
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
+    -58
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0.0,
+    -58
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -54
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -54
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
+    -50
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0.0,
+    -50
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -14,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -14,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -10,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -10,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -2,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -2,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    2,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    2,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    2,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    2,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    0.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    4.0,
+    -72
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -27.55,
+    2.3,
+    -22.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -27.55,
+    2.3,
+    -16.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -27.55,
+    2.3,
+    -10.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    -36.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    -36.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    -50.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    -58.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    -66.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    -50.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    -58.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    -66.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0.0,
+    0,
+    5.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0.0,
+    0,
+    -4.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0.0,
+    0,
+    -24.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0.0,
+    0,
+    -36.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    -2.0,
+    0,
+    -50.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    -2.0,
+    0,
+    -58.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    -2.0,
+    0,
+    -64.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    28.0,
+    2.4,
+    -16.0
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    0.0,
+    0,
+    -36.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    -2.0,
+    0,
+    -56.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    28.0,
+    2.4,
+    -16.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "shrine_aedicule",
+   "at": [
+    0.0,
+    0,
+    -14.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    -6.5,
+    0,
+    -11.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    -6.5,
+    0,
+    -11.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    6.5,
+    0,
+    -11.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    6.5,
+    0,
+    -11.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    -6.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    -6.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    6.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    6.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -9.5,
+    0,
+    -10.5
+   ],
+   "rot": 45,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    9.5,
+    0,
+    -10.5
+   ],
+   "rot": -45,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -9.5,
+    0,
+    -17.5
+   ],
+   "rot": 135,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    9.5,
+    0,
+    -17.5
+   ],
+   "rot": -135,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -3.8,
+    0,
+    -11.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    3.8,
+    0,
+    -11.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -3.8,
+    0,
+    -17.0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    3.8,
+    0,
+    -17.0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -16.5,
+    0,
+    -6.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    16.5,
+    0,
+    -6.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -16.5,
+    0,
+    -24.0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    16.5,
+    0,
+    -24.0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -13.2,
+    0,
+    -32.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -13.2,
+    0,
+    -40.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    13.2,
+    0,
+    -32.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    13.2,
+    0,
+    -40.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -13.2,
+    0,
+    -48.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -13.2,
+    0,
+    -62.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    13.2,
+    0,
+    -48.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    13.2,
+    0,
+    -62.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -5.0,
+    0,
+    -69.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    5.0,
+    0,
+    -69.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -5.5,
+    0,
+    9.5
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    5.5,
+    0,
+    9.5
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -16.0,
+    0,
+    -14.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    16.0,
+    0,
+    -14.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -33.5,
+    0,
+    -16.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    26.0,
+    2.4,
+    -26.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    26.0,
+    2.4,
+    -5.8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -6.0,
+    0,
+    -42.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    6.0,
+    0,
+    -42.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -13.5,
+    0,
+    -69.5
+   ],
+   "rot": 45,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    13.5,
+    0,
+    -69.5
+   ],
+   "rot": -45,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    -33.0,
+    0,
+    -8.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    -33.0,
+    0,
+    -16.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    -33.0,
+    0,
+    -23.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    -24.0,
+    0,
+    -7.0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    -24.0,
+    0,
+    -25.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    -13.2,
+    0,
+    -54.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    13.2,
+    0,
+    -54.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -28.0,
+    0,
+    -8.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -28.0,
+    0,
+    -8.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -28.0,
+    0,
+    -23.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -28.0,
+    0,
+    -23.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -6.5,
+    0,
+    -34.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -6.5,
+    0,
+    -34.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    6.5,
+    0,
+    -34.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    6.5,
+    0,
+    -34.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -48.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -48.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -48.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -48.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -56.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -56.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -56.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -56.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -64.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -64.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -64.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -64.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    0.0,
+    3.6,
+    6.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -16.0,
+    3.6,
+    -14.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    16.0,
+    3.6,
+    -14.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -6.0,
+    3.6,
+    -4.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    6.0,
+    3.6,
+    -4.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -6.0,
+    3.6,
+    -24.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    6.0,
+    3.6,
+    -24.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -26.0,
+    3.6,
+    -12.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -26.0,
+    3.6,
+    -20.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -5.5,
+    3.8,
+    -36.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    5.5,
+    3.8,
+    -36.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -5.5,
+    3.8,
+    -52.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    5.5,
+    3.8,
+    -52.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -5.5,
+    3.8,
+    -62.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    5.5,
+    3.8,
+    -62.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    28.0,
+    5.2,
+    -16.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0.0,
+    5.2,
+    -36.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -2.0,
+    5.4,
+    -56.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0.0,
+    5.4,
+    -67.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -5.8,
+    0,
+    2.5
+   ],
+   "rot": 294,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    5.8,
+    0,
+    2.5
+   ],
+   "rot": 270,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -18.2,
+    0,
+    -2.5
+   ],
+   "rot": 89,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    18.2,
+    0,
+    -2.5
+   ],
+   "rot": 65,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -18.2,
+    0,
+    -25.5
+   ],
+   "rot": 226,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    18.2,
+    0,
+    -25.5
+   ],
+   "rot": 202,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -34.2,
+    0,
+    -5.8
+   ],
+   "rot": 210,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -34.2,
+    0,
+    -12.2
+   ],
+   "rot": 308,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -34.2,
+    0,
+    -19.8
+   ],
+   "rot": 356,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -34.2,
+    0,
+    -26.2
+   ],
+   "rot": 94,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    34.2,
+    2.4,
+    -6.5
+   ],
+   "rot": 5,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    34.2,
+    2.4,
+    -25.5
+   ],
+   "rot": 306,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -13.8,
+    0,
+    -30.2
+   ],
+   "rot": 161,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    13.8,
+    0,
+    -30.2
+   ],
+   "rot": 242,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -13.8,
+    0,
+    -46.2
+   ],
+   "rot": 225,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    13.8,
+    0,
+    -46.2
+   ],
+   "rot": 306,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -8.5,
+    0,
+    -69.5
+   ],
+   "rot": 144,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    8.5,
+    0,
+    -69.5
+   ],
+   "rot": 277,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    -30.5,
+    0,
+    -5.8
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    -30.5,
+    0,
+    -26.2
+   ],
+   "rot": -30,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    -18.0,
+    0,
+    -9.5
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    13.5,
+    0,
+    -42.0
+   ],
+   "rot": -25,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -28.8,
+    0,
+    -5.8
+   ],
+   "rot": 10,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -28.8,
+    0,
+    -26.2
+   ],
+   "rot": 10,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -22.0,
+    0,
+    -5.8
+   ],
+   "rot": 10,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    11.8,
+    0,
+    -42.2
+   ],
+   "rot": 10,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -13.5,
+    0,
+    -42.0
+   ],
+   "rot": 10,
+   "tag": "base"
+  },
+  {
+   "kit": "hand_cart",
+   "at": [
+    -23.0,
+    0,
+    -25.0
+   ],
+   "rot": 40,
+   "tag": "base"
+  },
+  {
+   "kit": "altar_wick",
+   "at": [
+    32.5,
+    2.4,
+    -16.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    34.2,
+    2.4,
+    -11.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    34.2,
+    2.4,
+    -21.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    25.0,
+    2.4,
+    -26.8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    29.0,
+    2.4,
+    -26.8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    33.0,
+    2.4,
+    -26.8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    25.0,
+    2.4,
+    -5.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    29.0,
+    2.4,
+    -5.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    33.0,
+    2.4,
+    -5.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "banquet_table_6m",
+   "at": [
+    27.5,
+    2.4,
+    -10.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    26.3,
+    3.55,
+    -10.5
+   ],
+   "rot": 25,
+   "tag": "base"
+  },
+  {
+   "kit": "scroll_pile",
+   "at": [
+    28.7,
+    3.55,
+    -10.5
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "banquet_table_6m",
+   "at": [
+    27.5,
+    2.4,
+    -21.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    26.3,
+    3.55,
+    -21.5
+   ],
+   "rot": 25,
+   "tag": "base"
+  },
+  {
+   "kit": "scroll_pile",
+   "at": [
+    28.7,
+    3.55,
+    -21.5
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
+   "kit": "choir_stall",
+   "at": [
+    22.8,
+    2.4,
+    -12.5
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "choir_stall",
+   "at": [
+    22.8,
+    2.4,
+    -19.5
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "altar_wick",
+   "at": [
+    0.0,
+    0,
+    -68.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    -13.5,
+    0,
+    -58.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    13.5,
+    0,
+    -58.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -3.5,
+    0,
+    -68.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    3.5,
+    0,
+    -68.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -3.5,
+    0,
+    8.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -3.5,
+    0,
+    8.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    3.5,
+    0,
+    8.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    3.5,
+    0,
+    8.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -4.5,
+    0,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -4.5,
+    0,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    4.5,
+    0,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    4.5,
+    0,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -4.5,
+    0,
+    -25.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -4.5,
+    0,
+    -25.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    4.5,
+    0,
+    -25.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    4.5,
+    0,
+    -25.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    21.8,
+    2.4,
+    -12.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    21.8,
+    2.4,
+    -12.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    21.8,
+    2.4,
+    -19.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    21.8,
+    2.4,
+    -19.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -4.5,
+    0,
+    -41.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -4.5,
+    0,
+    -41.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    4.5,
+    0,
+    -41.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    4.5,
+    0,
+    -41.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -4.5,
+    0,
+    -66.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -4.5,
+    0,
+    -66.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    4.5,
+    0,
+    -66.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    4.5,
+    0,
+    -66.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    31.5,
+    2.4,
+    -13.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    31.5,
+    2.4,
+    -18.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -2.5,
+    0,
+    -67.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    2.5,
+    0,
+    -67.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -8.0,
+    0,
+    -38.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    8.0,
+    0,
+    -38.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -2.2,
+    0,
+    -14.0
+   ],
+   "rot": 15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -2.2,
+    0,
+    -14.0
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    2.2,
+    0,
+    -14.0
+   ],
+   "rot": 15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    2.2,
+    0,
+    -14.0
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    31.0,
+    2.4,
+    -15.0
+   ],
+   "rot": 15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    31.0,
+    2.4,
+    -15.0
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    31.0,
+    2.4,
+    -17.0
+   ],
+   "rot": 15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    31.0,
+    2.4,
+    -17.0
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -2.5,
+    0,
+    -66.5
+   ],
+   "rot": 15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -2.5,
+    0,
+    -66.5
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    2.5,
+    0,
+    -66.5
+   ],
+   "rot": 15,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    2.5,
+    0,
+    -66.5
+   ],
+   "rot": 15,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -8.0,
+    2.6,
+    -27.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -8.0,
+    2.6,
+    -27.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    8.0,
+    2.6,
+    -27.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    8.0,
+    2.6,
+    -27.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -8.0,
+    2.6,
+    -43.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -8.0,
+    2.6,
+    -43.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    8.0,
+    2.6,
+    -43.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    8.0,
+    2.6,
+    -43.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -6.0,
+    2.6,
+    -71.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -6.0,
+    2.6,
+    -71.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    6.0,
+    2.6,
+    -71.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    6.0,
+    2.6,
+    -71.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -15.82,
+    2.6,
+    -54.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -15.82,
+    2.6,
+    -54.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    15.82,
+    2.6,
+    -54.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    15.82,
+    2.6,
+    -54.0
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    35.82,
+    5.0,
+    -13.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    35.82,
+    5.0,
+    -13.0
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    35.82,
+    5.0,
+    -19.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    35.82,
+    5.0,
+    -19.0
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -4.5,
+    0,
+    -14.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -29.5,
+    0,
+    -12.0
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    29.0,
+    2.4,
+    -16.0
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -11.5,
+    0,
+    -52.0
+   ],
+   "rot": 60,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    11.5,
+    0,
+    -62.0
+   ],
+   "rot": -120,
+   "tag": "ruin"
+  }
+ ],
+ "skyline": [
+  {
+   "kit": "city_panorama",
+   "at": [
+    0,
+    -18,
+    -24
+   ]
+  },
+  {
+   "kit": "spire_tower_a",
+   "at": [
+    -46,
+    -4,
+    -36
+   ]
+  },
+  {
+   "kit": "spire_tower_b",
+   "at": [
+    48,
+    -4,
+    -38
+   ]
+  },
+  {
+   "kit": "spire_tower_c",
+   "at": [
+    0,
+    -6,
+    -92
+   ]
+  }
+ ],
+ "lanterns": [
+  {
+   "id": "apiary_entry",
+   "name": "Cliff-Stair Threshold",
+   "at": [
+    -4.5,
+    0,
+    5.5
+   ],
+   "rot": 90
+  },
+  {
+   "id": "apiary_sanctum",
+   "name": "Queen-Comb Sanctuary Vigil",
+   "at": [
+    10.5,
+    0,
+    -36.0
+   ],
+   "rot": -90
+  }
+ ],
+ "npcs": [
+  {
+   "id": "sister_melisande",
+   "at": [
+    10.5,
+    0,
+    -32.2
+   ],
+   "rot": -35,
+   "tag": "glory"
+  }
+ ],
+ "votive_locks": [
+  {
+   "flag": "apiary_sanctum_open",
+   "tag": "base",
+   "votives": [
+    {
+     "at": [
+      -24.5,
+      0,
+      -11.5
+     ]
+    },
+    {
+     "at": [
+      -24.5,
+      0,
+      -20.5
+     ]
+    },
+    {
+     "at": [
+      24.5,
+      2.4,
+      -13.5
+     ]
+    },
+    {
+     "at": [
+      24.5,
+      2.4,
+      -18.5
+     ]
+    }
+   ]
+  }
+ ],
+ "flag_gates": [
+  {
+   "flag": "apiary_sanctum_open",
+   "kit": "door_leaf",
+   "at": [
+    2.0,
+    0,
+    -28.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  }
+ ],
+ "gates": [
+  {
+   "id": "apiary_sanctum_shortcut",
+   "at": [
+    -6.0,
+    0,
+    -28.0
+   ],
+   "rot": 0,
+   "locked_prompt": "Barred from the Queen-Comb Sanctuary side"
+  }
+ ],
+ "fog_gates": [
+  {
+   "id": "apiary_boss_fog",
+   "at": [
+    -2.0,
+    0,
+    -44.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  }
+ ],
+ "spawners": [
+  {
+   "id": "garth_melter_1",
+   "enemy": "tallow_melter",
+   "at": [
+    -6.0,
+    0,
+    -4.5
+   ],
+   "face": 0,
+   "tag": "ruin"
+  },
+  {
+   "id": "garth_echo_1",
+   "enemy": "gilded_echo",
+   "at": [
+    6.0,
+    0,
+    -4.5
+   ],
+   "face": 0,
+   "tag": "ruin"
+  },
+  {
+   "id": "garth_warden_1",
+   "enemy": "comb_warden",
+   "at": [
+    0.0,
+    0,
+    -23.5
+   ],
+   "face": 0,
+   "tag": "ruin"
+  },
+  {
+   "id": "press_melter_1",
+   "enemy": "tallow_melter",
+   "at": [
+    -26.0,
+    0,
+    -11.5
+   ],
+   "face": 90,
+   "tag": "ruin"
+  },
+  {
+   "id": "press_melter_2",
+   "enemy": "tallow_melter",
+   "at": [
+    -26.0,
+    0,
+    -20.5
+   ],
+   "face": 90,
+   "tag": "ruin"
+  },
+  {
+   "id": "press_warden",
+   "enemy": "comb_warden",
+   "at": [
+    -30.0,
+    0,
+    -16.0
+   ],
+   "face": 90,
+   "tag": "ruin"
+  },
+  {
+   "id": "chapter_echo",
+   "enemy": "gilded_echo",
+   "at": [
+    25.5,
+    2.4,
+    -16.0
+   ],
+   "face": -90,
+   "tag": "ruin"
+  },
+  {
+   "id": "chapter_warden",
+   "enemy": "comb_warden",
+   "at": [
+    30.0,
+    2.4,
+    -16.0
+   ],
+   "face": -90,
+   "tag": "ruin"
+  },
+  {
+   "id": "sanctum_warden",
+   "enemy": "comb_warden",
+   "at": [
+    -2.0,
+    0,
+    -37.5
+   ],
+   "face": 0,
+   "tag": "ruin"
+  },
+  {
+   "id": "apiary_boss",
+   "enemy": "vesper_matriarch",
+   "at": [
+    -2.0,
+    0,
+    -60.0
+   ],
+   "face": 180,
+   "dead_once": true,
+   "fog_gate_id": "apiary_boss_fog",
+   "tag": "ruin"
+  }
+ ],
+ "pickups": [
+  {
+   "id": "apiary_sovereign_greatsword",
+   "at": [
+    30.8,
+    2.4,
+    -16.0
+   ],
+   "item": "sovereign_greatsword",
+   "count": 1,
+   "orisons": 350,
+   "tag": "base",
+   "label": "Claim the Sovereign Comb-Blade"
+  },
+  {
+   "id": "garth_aedicule_offering",
+   "at": [
+    0.0,
+    0,
+    -11.2
+   ],
+   "item": "candleglass",
+   "count": 1,
+   "orisons": 220,
+   "tag": "base",
+   "label": "Gather the Sun-Bees' First Offering"
+  },
+  {
+   "id": "press_house_cache",
+   "at": [
+    -31.0,
+    0,
+    -16.0
+   ],
+   "item": "candleglass",
+   "count": 1,
+   "orisons": 280,
+   "tag": "base",
+   "label": "Gather the Clarified Press-Cake"
+  },
+  {
+   "id": "sanctum_pilgrim_cache",
+   "at": [
+    -10.5,
+    0,
+    -36.0
+   ],
+   "item": "radiant_token",
+   "count": 1,
+   "orisons": 300,
+   "tag": "base",
+   "label": "Claim the Beekeeper's Vigil Token"
+  },
+  {
+   "id": "cathedral_matriarch_chest",
+   "at": [
+    0.0,
+    0,
+    -66.2
+   ],
+   "item": "candleglass",
+   "count": 2,
+   "orisons": 900,
+   "tag": "base",
+   "label": "Claim the First Comb Reliquary Coffer"
+  }
+ ],
+ "plaques": [
+  {
+   "at": [
+    3.5,
+    0,
+    5.5
+   ],
+   "rot": -45,
+   "text": "CLOISTER OF THE GOLDEN COMB\n\nAbove the smoke of the kettles, the Sisters of the Skep tended the living hives in open noon. Look not into an unsealed skep without a veil; the bees gather the hour before it cools."
+  },
+  {
+   "at": [
+    0.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "text": "THE FOUR SANCTUM VOTIVES\n\nTwo flames are kept by the press-masters of the West Cellar; two by the scribes of the East Chapter-House. Only when all four burn together does the Queen-Comb Sanctuary unbar."
+  },
+  {
+   "at": [
+    -23.0,
+    0,
+    -16.0
+   ],
+   "rot": 90,
+   "text": "THE ROYAL SCREW-PRESSES\n\nSeven turns of the bronze spindle press the summer out of the comb. What runs clear ischrism for the lamps; what remains in the cake is harder than church-iron."
+  },
+  {
+   "at": [
+    23.5,
+    2.4,
+    -10.0
+   ],
+   "rot": -45,
+   "text": "THE SOVEREIGN COMB-BLADE\n\nForged for the First Abbess of the Apiary, its fuller is hollowed into seven hexagonal cells of royal wax. Whoever bears it carries the warmth of the cliff-gardens into the dark."
+  },
+  {
+   "at": [
+    3.5,
+    0,
+    -40.5
+   ],
+   "rot": 20,
+   "text": "VOW OF MATRIARCH AURELIA\n\nThey have taken the bells, the choir, and the six lower vats. They shall not have the Queen-Skep. I have drunk the boiling comb myself and barred the nave; let the Palace come and harvest it from my bones."
+  }
+ ],
+ "portals": [
+  {
+   "to": "chandlers_hollow",
+   "at": [
+    0.0,
+    0,
+    10.2
+   ],
+   "rot": 180,
+   "spawn": [
+    0.0,
+    0.2,
+    -44.0
+   ],
+   "spawn_yaw": 180,
+   "prompt": "Descend to the Chandlers' Hollow"
+  }
+ ],
+ "scripted": [
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    -14
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     12,
+     5,
+     8
+    ],
+    "count": 36
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    28,
+    2.4,
+    -16
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     6,
+     4,
+     9
+    ],
+    "count": 20
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    -58
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     12,
+     5,
+     12
+    ],
+    "count": 28
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    0,
+    0,
+    -58
+   ],
+   "rot": 0,
+   "tag": "ruin",
+   "params": {
+    "kind": "motes_ash",
+    "extent": [
+     12,
+     5,
+     12
+    ],
+    "count": 32
+   }
+  }
+ ]
+}

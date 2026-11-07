@@ -877,6 +877,59 @@ def censer_mace():
     return objs, {"size": [0.36, 0.36, 1.76], "origin": "grip"}
 
 
+def blade_sovereign():
+    """Sovereign Comb-Blade: ceremonial royal greatsword of the Sovereign Apiary.
+    Broad double-edged steel blade with a gilded hexagonal honeycomb fuller and
+    glowing amber royal-wax core cells, swept bee-wing bronze crossguard,
+    two-handed leather grip, and a golden skep pommel. Origin at grip."""
+    objs = []
+    # Broad steel blade (z = 0.22 .. 1.60)
+    objs.append(_hex_blade("sov_blade", 0.22, 1.38, 1.60, 0.086, 0.056, 0.015, 0.009, fuller_z_end=1.22))
+    # Gilded honeycomb fuller spine & glowing amber comb cells along the blade center
+    bm_gold = bmesh.new()
+    bm_em = bmesh.new()
+    for i in range(7):
+        zc = 0.34 + i * 0.12
+        hw = 0.032 * (1.0 - i * 0.05)
+        V.add_box(bm_gold, (-hw, -0.014, zc - 0.045), (hw, 0.014, zc + 0.045))
+        V.add_box(bm_em, (-hw * 0.62, -0.016, zc - 0.028), (hw * 0.62, 0.016, zc + 0.028))
+    objs.append(V.bm_to_object(bm_gold, "sov_comb_fuller", ("M_gold",)))
+    objs.append(V.bm_to_object(bm_em, "sov_comb_ember", ("M_ember",)))
+
+    # Swept bee-wing bronze crossguard + parrying wings
+    q_path = [
+        (-0.29, 0.0, 0.22),
+        (-0.18, 0.0, 0.17),
+        (0.0, 0.0, 0.155),
+        (0.18, 0.0, 0.17),
+        (0.29, 0.0, 0.22),
+    ]
+    objs.append(V.sweep_profile("sov_cross", q_path, V.chamfer_rect_profile(0.032, 0.040, 0.006), "M_bronze"))
+    wing_path = [
+        (-0.16, 0.0, 0.36),
+        (-0.07, 0.0, 0.28),
+        (0.07, 0.0, 0.28),
+        (0.16, 0.0, 0.36),
+    ]
+    objs.append(V.sweep_profile("sov_wings", wing_path, V.chamfer_rect_profile(0.020, 0.024, 0.004), "M_gold"))
+
+    # Two-handed leather grip + golden skep pommel
+    objs.append(V.loft_rings("sov_grip", [
+        (0.024, -0.28, 12, 0),
+        (0.028, -0.15, 12, 0),
+        (0.032, -0.06, 12, 0),
+        (0.026, 0.02, 12, 0),
+        (0.029, 0.14, 12, 0),
+    ], "M_leather"))
+    objs.append(V.loft_rings("sov_pommel", [
+        (0.012, -0.38, 12, 0),
+        (0.048, -0.34, 12, 0.15),
+        (0.052, -0.30, 12, 0),
+        (0.026, -0.27, 12, 0),
+    ], "M_gold"))
+    return objs, {"size": [0.58, 0.08, 1.98], "origin": "grip"}
+
+
 BUILDERS = {
     "char_latecomer": char_latecomer,
     "char_sleeve_l": lambda: char_sleeve("l"),
@@ -884,6 +937,7 @@ BUILDERS = {
     "sword_cloister": sword_cloister,
     "maul_sexton": maul_sexton,
     "censer_mace": censer_mace,
+    "blade_sovereign": blade_sovereign,
     "halberd_ward": halberd_ward,
     "spear_fen": spear_fen,
     "greatsword_pilgrim": greatsword_pilgrim,

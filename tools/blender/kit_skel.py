@@ -1014,6 +1014,54 @@ def chandler(arm):
     return b.finalize(arm, lumpy=0.012, seed=509)
 
 
+def matriarch(arm):
+    """Vesper Matriarch & Gilded Comb-Warden of the Sovereign Apiary: clad in
+    pleated golden liturgical vestments over bronze plate, a tiered golden
+    Queen-Skep mitre crown & brass veil-mask, winged comb-pauldrons, and a
+    glowing amber royal-comb pectoral."""
+    b = BodyBuilder("matriarch")
+    common_body(b, "M_habit", "M_wax", "M_bronze", hood=True, skirt=True,
+                skirt_len=0.82, girth=1.08, mail_mat="M_gild")
+    # Pleated golden chasuble mantle & glowing amber comb pectoral on chest
+    bm_g = b.part("chest", "M_gild")
+    _tube(bm_g, Vector((0, 0, 1.16)), Vector((0, 0, 1.46)), 0.198, 0.168, n=16,
+          bulge=1.05, steps=4, flutes=10, flute_amp=0.032, squash=(1.08, 0.92), ridge_fwd=0.14)
+    # Stole ribbons hanging down the front
+    for sx in (-0.075, 0.075):
+        _tube(bm_g, Vector((sx, 0.155, 1.04)), Vector((sx * 0.9, 0.178, 1.42)),
+              0.024, 0.028, n=10, steps=3, squash=(1.3, 0.45))
+
+    bm_gold = b.part("chest", "M_gold")
+    _torus_ring(bm_gold, (0, 0.192, 1.34), 0.052, 0.012, n_major=6, n_minor=6, rot_x=math.pi / 2)
+    bm_em = b.part("chest", "M_ember")
+    _ball(bm_em, (0, 0.192, 1.34), 0.034, sub=1, scale=(1.0, 0.45, 1.15))
+
+    # Tiered Golden Skep Mitre Crown + Brass Veil-Mask + Sun-Halo
+    bm_mask = b.part("head", "M_brass")
+    _tube(bm_mask, Vector((0, 0.028, 1.50)), Vector((0, 0.034, 1.62)), 0.098, 0.094, n=14,
+          steps=3, squash=(0.90, 1.12), ridge_fwd=0.18)
+    bm_crown = b.part("head", "M_gold")
+    _tube(bm_crown, Vector((0, -0.01, 1.62)), Vector((0, -0.02, 1.84)), 0.112, 0.036, n=14,
+          bulge=1.08, steps=4, flutes=7, flute_amp=0.022)
+    _ball(bm_crown, (0, -0.02, 1.86), 0.028, sub=1, scale=(0.8, 0.8, 1.3))
+    # Radiant solar comb halo behind head
+    _torus_ring(bm_crown, (0, -0.045, 1.72), 0.165, 0.014, n_major=18, n_minor=8, rot_x=math.pi / 2 - 0.18)
+
+    # Winged gilded pauldrons, bronze gauntlets, and greaves
+    for side, s in (("r", 1), ("l", -1)):
+        _pauldron(b, side, s, "M_gold", "M_bronze", r=0.108, z=1.43, g=1.08)
+        _gauntlet_and_couter(b, side, s, "M_bronze", g=1.08)
+        _greave_and_sabaton(b, side, s, "M_bronze", g=1.08)
+        # Swept bee-wing shoulder fin rising from each pauldron
+        bm_w = b.part("chest", "M_gold")
+        _tube(bm_w, Vector((s * 0.20, -0.04, 1.44)), Vector((s * 0.28, -0.12, 1.64)),
+              0.032, 0.014, n=10, steps=3, squash=(0.45, 1.45))
+
+    bm_hip = b.part("hips", "M_gold")
+    _tube(bm_hip, Vector((0, 0, 0.98)), Vector((0, 0, 1.05)), 0.186, 0.188, n=16, steps=2)
+    return b.finalize(arm, lumpy=0.008, seed=613)
+
+
 ARCHETYPES = {
     "skel_hero": hero,
     "skel_ward": ward,
@@ -1031,6 +1079,7 @@ ARCHETYPES = {
     "skel_wretch": wretch,
     "skel_seraph": seraph,
     "skel_chandler": chandler,
+    "skel_matriarch": matriarch,
 }
 
 

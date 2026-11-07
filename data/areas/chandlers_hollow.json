@@ -4,7 +4,7 @@
  "free_kindle": true,
  "start": {
   "pos": [
-   15.0,
+   24.0,
    0.2,
    0.0
   ],
@@ -17,14 +17,14 @@
     0.68,
     0.34
    ],
-   "sun_energy": 0.65,
+   "sun_energy": 0.68,
    "sun_rot": [
     -25,
     -45
    ],
    "ambient": [
-    0.34,
-    0.25,
+    0.35,
+    0.26,
     0.16
    ],
    "fog_color": [
@@ -42,7 +42,7 @@
     0.32,
     0.18
    ],
-   "fog_density": 0.014
+   "fog_density": 0.012
   },
   "ruin": {
    "sun_color": [
@@ -66,7 +66,7 @@
     0.08,
     0.12
    ],
-   "fog_density": 0.016
+   "fog_density": 0.014
   }
  },
  "fills": [
@@ -75,12 +75,12 @@
    "min": [
     16,
     0,
-    -4
+    -8
    ],
    "max": [
-    20,
+    28,
     0,
-    4
+    8
    ]
   },
   {
@@ -99,14 +99,40 @@
   {
    "kit": "floor_4x4",
    "min": [
-    -12,
+    -16,
     0,
     12
    ],
    "max": [
-    12,
+    16,
     0,
-    24
+    28
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    16,
+    0,
+    8
+   ],
+   "max": [
+    28,
+    0,
+    28
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    28,
+    2.4,
+    8
+   ],
+   "max": [
+    36,
+    2.4,
+    28
    ]
   },
   {
@@ -114,38 +140,218 @@
    "min": [
     -28,
     0,
-    -8
+    -12
    ],
    "max": [
     -16,
     0,
-    8
+    12
    ]
   },
   {
    "kit": "floor_4x4",
    "min": [
-    -12,
+    -40,
+    2.4,
+    -12
+   ],
+   "max": [
+    -28,
+    2.4,
+    12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -28,
+    0,
+    12
+   ],
+   "max": [
+    -16,
+    0,
+    28
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -16,
     0,
     -36
    ],
    "max": [
-    12,
+    16,
     0,
     -12
+   ]
+  },
+  {
+   "kit": "floor_4x4",
+   "min": [
+    -8,
+    0,
+    -48
+   ],
+   "max": [
+    8,
+    0,
+    -36
    ]
   }
  ],
  "boxes": [
   {
    "min": [
+    -40.2,
+    -0.4,
+    -12.2
+   ],
+   "max": [
+    -28.0,
+    2.4,
+    12.2
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    28.0,
+    -0.4,
+    7.8
+   ],
+   "max": [
+    36.2,
+    2.4,
+    28.2
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -5.5,
+    0.0,
+    -35.2
+   ],
+   "max": [
+    5.5,
+    0.14,
+    -30.5
+   ],
+   "mat": "M_stone_trim",
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "min": [
+    15.9,
+    4.0,
+    -8.65
+   ],
+   "max": [
+    20.1,
+    8.1,
+    -8.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    19.9,
+    0.0,
+    -8.65
+   ],
+   "max": [
+    24.1,
+    4.1,
+    -8.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    23.9,
+    4.0,
+    -8.65
+   ],
+   "max": [
+    28.1,
+    8.1,
+    -8.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    28.35,
+    0.0,
+    -8.1
+   ],
+   "max": [
+    28.65,
+    4.1,
+    -3.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    28.35,
+    4.0,
+    -8.1
+   ],
+   "max": [
+    28.65,
+    8.1,
+    -3.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    28.35,
+    4.0,
+    -0.10000000000000009
+   ],
+   "max": [
+    28.65,
+    8.1,
+    4.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    28.35,
+    0.0,
+    3.9
+   ],
+   "max": [
+    28.65,
+    4.1,
+    8.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
     16.35,
-    0,
+    0.0,
     -12.1
    ],
    "max": [
     16.65,
-    4.2,
+    4.1,
     -7.9
    ],
    "mat": "M_stone_dark",
@@ -154,41 +360,97 @@
   {
    "min": [
     16.35,
-    0,
-    7.9
+    4.0,
+    -12.1
    ],
    "max": [
     16.65,
-    4.2,
-    12.1
+    8.1,
+    -7.9
    ],
    "mat": "M_stone_dark",
    "tag": "base"
   },
   {
    "min": [
-    -12.65,
-    0,
-    15.9
+    -12.1,
+    4.0,
+    -12.65
    ],
    "max": [
-    -12.35,
-    4.2,
-    20.1
+    -7.9,
+    8.1,
+    -12.35
    ],
    "mat": "M_stone_dark",
    "tag": "base"
   },
   {
    "min": [
-    12.35,
-    0,
-    15.9
+    7.9,
+    4.0,
+    -12.65
    ],
    "max": [
-    12.65,
-    4.2,
-    20.1
+    12.1,
+    8.1,
+    -12.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.1,
+    4.0,
+    12.35
+   ],
+   "max": [
+    -7.9,
+    8.1,
+    12.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    4.0,
+    12.35
+   ],
+   "max": [
+    12.1,
+    8.1,
+    12.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.1,
+    4.0,
+    28.35
+   ],
+   "max": [
+    -11.9,
+    8.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -12.1,
+    0.0,
+    28.35
+   ],
+   "max": [
+    -7.9,
+    4.1,
+    28.65
    ],
    "mat": "M_stone_dark",
    "tag": "base"
@@ -196,27 +458,251 @@
   {
    "min": [
     -8.1,
-    0,
-    24.35
+    4.0,
+    28.35
    ],
    "max": [
     -3.9,
-    4.2,
-    24.65
-   ],
-   "mat": "M_stone_dark",
-   "tag": "base"
-  },
-  {
-   "min": [
-    3.9,
-    0,
-    24.35
-   ],
-   "max": [
     8.1,
-    4.2,
-    24.65
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -4.1,
+    0.0,
+    28.35
+   ],
+   "max": [
+    0.10000000000000009,
+    4.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -0.10000000000000009,
+    0.0,
+    28.35
+   ],
+   "max": [
+    4.1,
+    4.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -0.10000000000000009,
+    4.0,
+    28.35
+   ],
+   "max": [
+    4.1,
+    8.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    0.0,
+    28.35
+   ],
+   "max": [
+    12.1,
+    4.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    4.0,
+    28.35
+   ],
+   "max": [
+    12.1,
+    8.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    15.9,
+    4.0,
+    28.35
+   ],
+   "max": [
+    20.1,
+    8.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    19.9,
+    0.0,
+    28.35
+   ],
+   "max": [
+    24.1,
+    4.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    23.9,
+    4.0,
+    28.35
+   ],
+   "max": [
+    28.1,
+    8.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    36.35,
+    2.4,
+    11.9
+   ],
+   "max": [
+    36.65,
+    6.5,
+    16.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    36.35,
+    2.4,
+    19.9
+   ],
+   "max": [
+    36.65,
+    6.5,
+    24.1
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -28.1,
+    4.0,
+    -12.65
+   ],
+   "max": [
+    -23.9,
+    8.1,
+    -12.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -24.1,
+    0.0,
+    -12.65
+   ],
+   "max": [
+    -19.9,
+    4.1,
+    -12.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -20.1,
+    4.0,
+    -12.65
+   ],
+   "max": [
+    -15.9,
+    8.1,
+    -12.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.1,
+    2.4,
+    -12.65
+   ],
+   "max": [
+    -31.9,
+    6.5,
+    -12.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -36.1,
+    2.4,
+    12.35
+   ],
+   "max": [
+    -31.9,
+    6.5,
+    12.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -40.65,
+    2.4,
+    -8.1
+   ],
+   "max": [
+    -40.35,
+    6.5,
+    -3.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -40.65,
+    2.4,
+    3.9
+   ],
+   "max": [
+    -40.35,
+    6.5,
+    8.1
    ],
    "mat": "M_stone_dark",
    "tag": "base"
@@ -224,13 +710,13 @@
   {
    "min": [
     -28.65,
-    0,
-    -4.1
+    4.0,
+    11.9
    ],
    "max": [
     -28.35,
-    4.2,
-    0.10000000000000009
+    8.1,
+    16.1
    ],
    "mat": "M_stone_dark",
    "tag": "base"
@@ -238,26 +724,82 @@
   {
    "min": [
     -28.65,
-    0,
-    -0.10000000000000009
+    4.0,
+    19.9
    ],
    "max": [
     -28.35,
-    4.2,
-    4.1
+    8.1,
+    24.1
    ],
    "mat": "M_stone_dark",
    "tag": "base"
   },
   {
    "min": [
-    -12.65,
-    0,
+    -28.1,
+    4.0,
+    28.35
+   ],
+   "max": [
+    -23.9,
+    8.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -24.1,
+    0.0,
+    28.35
+   ],
+   "max": [
+    -19.9,
+    4.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -20.1,
+    4.0,
+    28.35
+   ],
+   "max": [
+    -15.9,
+    8.1,
+    28.65
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    4.0,
+    -36.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -31.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
     -32.1
    ],
    "max": [
-    -12.35,
-    4.2,
+    -16.35,
+    4.1,
     -27.9
    ],
    "mat": "M_stone_dark",
@@ -265,13 +807,41 @@
   },
   {
    "min": [
-    -12.65,
-    0,
+    -16.65,
+    4.0,
+    -28.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -23.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
+    -24.1
+   ],
+   "max": [
+    -16.35,
+    4.1,
+    -19.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.65,
+    0.0,
     -20.1
    ],
    "max": [
-    -12.35,
-    4.2,
+    -16.35,
+    4.1,
     -15.9
    ],
    "mat": "M_stone_dark",
@@ -279,13 +849,41 @@
   },
   {
    "min": [
-    12.35,
-    0,
+    -16.65,
+    4.0,
+    -20.1
+   ],
+   "max": [
+    -16.35,
+    8.1,
+    -15.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -36.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -31.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
     -32.1
    ],
    "max": [
-    12.65,
-    4.2,
+    16.65,
+    4.1,
     -27.9
    ],
    "mat": "M_stone_dark",
@@ -293,14 +891,196 @@
   },
   {
    "min": [
-    12.35,
-    0,
+    16.35,
+    4.0,
+    -28.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -23.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
+    -24.1
+   ],
+   "max": [
+    16.65,
+    4.1,
+    -19.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    0.0,
     -20.1
    ],
    "max": [
-    12.65,
-    4.2,
+    16.65,
+    4.1,
     -15.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    16.35,
+    4.0,
+    -20.1
+   ],
+   "max": [
+    16.65,
+    8.1,
+    -15.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.1,
+    0.0,
+    -36.65
+   ],
+   "max": [
+    -11.9,
+    4.1,
+    -36.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16.1,
+    4.0,
+    -36.65
+   ],
+   "max": [
+    -11.9,
+    8.1,
+    -36.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    7.9,
+    4.0,
+    -36.65
+   ],
+   "max": [
+    12.1,
+    8.1,
+    -36.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    11.9,
+    0.0,
+    -36.65
+   ],
+   "max": [
+    16.1,
+    4.1,
+    -36.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.65,
+    4.0,
+    -48.1
+   ],
+   "max": [
+    -8.35,
+    8.1,
+    -43.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.65,
+    0.0,
+    -44.1
+   ],
+   "max": [
+    -8.35,
+    4.1,
+    -39.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.65,
+    4.0,
+    -40.1
+   ],
+   "max": [
+    -8.35,
+    8.1,
+    -35.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    8.35,
+    4.0,
+    -48.1
+   ],
+   "max": [
+    8.65,
+    8.1,
+    -43.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    8.35,
+    0.0,
+    -44.1
+   ],
+   "max": [
+    8.65,
+    4.1,
+    -39.9
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    8.35,
+    4.0,
+    -40.1
+   ],
+   "max": [
+    8.65,
+    8.1,
+    -35.9
    ],
    "mat": "M_stone_dark",
    "tag": "base"
@@ -308,13 +1088,41 @@
   {
    "min": [
     -8.1,
-    0,
-    -36.65
+    0.0,
+    -48.65
    ],
    "max": [
     -3.9,
-    4.2,
-    -36.35
+    4.1,
+    -48.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8.1,
+    4.0,
+    -48.65
+   ],
+   "max": [
+    -3.9,
+    8.1,
+    -48.35
+   ],
+   "mat": "M_stone_dark",
+   "tag": "base"
+  },
+  {
+   "min": [
+    -0.10000000000000009,
+    4.0,
+    -48.65
+   ],
+   "max": [
+    4.1,
+    8.1,
+    -48.35
    ],
    "mat": "M_stone_dark",
    "tag": "base"
@@ -322,13 +1130,13 @@
   {
    "min": [
     3.9,
-    0,
-    -36.65
+    0.0,
+    -48.65
    ],
    "max": [
     8.1,
-    4.2,
-    -36.35
+    4.1,
+    -48.35
    ],
    "mat": "M_stone_dark",
    "tag": "base"
@@ -339,12 +1147,18 @@
    "min": [
     16,
     0,
-    -4
+    -8
    ],
    "max": [
-    20,
+    28,
     0,
-    4
+    8
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "W",
+    "S"
    ],
    "tag": "base"
   },
@@ -359,20 +1173,63 @@
     0,
     12
    ],
-   "spring_top": 4.4,
-   "band_from": 4.0,
+   "spring_top": 8.0,
+   "band_from": 8.0,
    "tag": "base"
   },
   {
    "min": [
-    -12,
+    -16,
     0,
     12
    ],
    "max": [
-    12,
+    16,
     0,
-    24
+    28
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "N"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    16,
+    0,
+    8
+   ],
+   "max": [
+    28,
+    0,
+    28
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "N",
+    "W",
+    "E"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    28,
+    2.4,
+    8
+   ],
+   "max": [
+    36,
+    2.4,
+    28
+   ],
+   "spring_top": 8.0,
+   "band_from": 6.4,
+   "skip_bands": [
+    "W"
    ],
    "tag": "base"
   },
@@ -380,28 +1237,93 @@
    "min": [
     -28,
     0,
-    -8
+    -12
    ],
    "max": [
     -16,
     0,
-    8
+    12
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "E",
+    "W",
+    "S"
    ],
    "tag": "base"
   },
   {
    "min": [
-    -12,
+    -40,
+    2.4,
+    -12
+   ],
+   "max": [
+    -28,
+    2.4,
+    12
+   ],
+   "spring_top": 8.0,
+   "band_from": 6.4,
+   "skip_bands": [
+    "E"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -28,
+    0,
+    12
+   ],
+   "max": [
+    -16,
+    0,
+    28
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "N",
+    "E"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -16,
     0,
     -36
    ],
    "max": [
-    12,
+    16,
     0,
     -12
    ],
-   "spring_top": 4.6,
-   "band_from": 4.0,
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "S"
+   ],
+   "tag": "base"
+  },
+  {
+   "min": [
+    -8,
+    0,
+    -48
+   ],
+   "max": [
+    8,
+    0,
+    -36
+   ],
+   "spring_top": 8.0,
+   "band_from": 8.0,
+   "skip_bands": [
+    "S"
+   ],
    "tag": "base"
   }
  ],
@@ -409,29 +1331,61 @@
   {
    "kit": "wall_4x4",
    "at": [
-    20,
-    0,
-    -2
+    18,
+    0.0,
+    -8
    ],
-   "rot": -90,
+   "rot": 0,
    "tag": "base"
   },
   {
-   "kit": "wall_4x4",
-   "at": [
-    20,
-    0,
-    2
-   ],
-   "rot": -90,
-   "tag": "base"
-  },
-  {
-   "kit": "wall_4x4",
+   "kit": "cornice_4m",
    "at": [
     18,
-    0,
-    -4
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    18,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    22,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    22,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    22,
+    4.0,
+    -8
    ],
    "rot": 0,
    "tag": "base"
@@ -439,29 +1393,154 @@
   {
    "kit": "wall_4x4",
    "at": [
-    18,
-    0,
-    4
+    26,
+    0.0,
+    -8
    ],
-   "rot": 180,
+   "rot": 0,
    "tag": "base"
   },
   {
-   "kit": "arcade_4m",
+   "kit": "cornice_4m",
    "at": [
-    16,
-    0,
+    26,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    26,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    28,
+    0.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    28,
+    4.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    28,
+    4.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    28,
+    0.0,
     -2
    ],
    "rot": -90,
    "tag": "base"
   },
   {
-   "kit": "arcade_4m",
+   "kit": "cornice_4m",
    "at": [
-    16,
-    0,
+    28,
+    4.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    28,
+    4.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    28,
+    0.0,
     2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    28,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    28,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    28,
+    0.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    28,
+    4.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    28,
+    4.0,
+    6
    ],
    "rot": -90,
    "tag": "base"
@@ -469,7 +1548,7 @@
   {
    "kit": "portal_4m",
    "at": [
-    19.6,
+    27.6,
     0,
     0
    ],
@@ -477,40 +1556,290 @@
    "tag": "base"
   },
   {
-   "kit": "window_lancet_4m",
+   "kit": "rose_window",
    "at": [
-    16,
-    0,
-    -10
+    27.65,
+    5.6,
+    0
    ],
    "rot": -90,
-   "tag": "base"
+   "tag": "base",
+   "collide": false
   },
   {
    "kit": "wall_4x4",
    "at": [
     16,
-    0,
+    0.0,
     -6
    ],
    "rot": -90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
     16,
-    0,
+    4.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    16,
+    0.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    -2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    16,
+    0.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
     6
    ],
    "rot": -90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    0.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    18,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    22,
+    0.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    22,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    22,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    26,
+    0.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    26,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    26,
+    4.0,
+    8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
    "kit": "window_lancet_4m",
    "at": [
     16,
-    0,
+    0.0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    16,
+    0.0,
+    10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    10
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
     10
    ],
    "rot": -90,
@@ -520,17 +1849,28 @@
    "kit": "wall_4x4",
    "at": [
     -14,
-    0,
+    0.0,
     -12
    ],
    "rot": 0,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -14,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
-    14,
-    0,
+    -14,
+    4.0,
     -12
    ],
    "rot": 0,
@@ -540,7 +1880,28 @@
    "kit": "wall_4x4",
    "at": [
     -10,
-    0,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -10,
+    4.0,
     -12
    ],
    "rot": 0,
@@ -550,7 +1911,28 @@
    "kit": "wall_4x4",
    "at": [
     -6,
-    0,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    4.0,
     -12
    ],
    "rot": 0,
@@ -560,7 +1942,28 @@
    "kit": "portal_4m",
    "at": [
     -2,
-    0,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
     -12
    ],
    "rot": 0,
@@ -570,7 +1973,28 @@
    "kit": "wall_4x4",
    "at": [
     2,
-    0,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
     -12
    ],
    "rot": 0,
@@ -580,7 +2004,28 @@
    "kit": "wall_4x4",
    "at": [
     6,
-    0,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
     -12
    ],
    "rot": 0,
@@ -590,7 +2035,28 @@
    "kit": "wall_4x4",
    "at": [
     10,
-    0,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
     -12
    ],
    "rot": 0,
@@ -599,18 +2065,71 @@
   {
    "kit": "wall_4x4",
    "at": [
+    14,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    -2.0,
+    5.6,
+    -11.65
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
     -14,
-    0,
+    0.0,
     12
    ],
    "rot": 180,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -14,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
-    14,
-    0,
+    -14,
+    4.0,
     12
    ],
    "rot": 180,
@@ -620,17 +2139,59 @@
    "kit": "wall_4x4",
    "at": [
     -10,
-    0,
+    0.0,
     12
    ],
    "rot": 180,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -10,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
     -6,
-    0,
+    4.0,
     12
    ],
    "rot": 180,
@@ -640,7 +2201,28 @@
    "kit": "arcade_4m",
    "at": [
     -2,
-    0,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
     12
    ],
    "rot": 180,
@@ -650,17 +2232,59 @@
    "kit": "arcade_4m",
    "at": [
     2,
-    0,
+    0.0,
     12
    ],
    "rot": 180,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    6,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
     6,
-    0,
+    4.0,
     12
    ],
    "rot": 180,
@@ -670,7 +2294,28 @@
    "kit": "wall_4x4",
    "at": [
     10,
-    0,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
     12
    ],
    "rot": 180,
@@ -679,29 +2324,227 @@
   {
    "kit": "wall_4x4",
    "at": [
+    14,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0.0,
+    5.6,
+    11.65
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
     -16,
-    0,
+    0.0,
     -10
    ],
    "rot": 90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
     -16,
-    0,
+    4.0,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -16,
+    0.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -16,
+    0.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    2
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    6
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    0.0,
     10
    ],
    "rot": 90,
    "tag": "base"
   },
   {
-   "kit": "portal_4m",
+   "kit": "cornice_4m",
    "at": [
     -16,
-    0,
-    -6
+    4.0,
+    10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    10
    ],
    "rot": 90,
    "tag": "base"
@@ -709,58 +2552,339 @@
   {
    "kit": "wall_4x4",
    "at": [
-    -16,
-    0,
-    -2
+    -14,
+    0.0,
+    28
    ],
-   "rot": 90,
+   "rot": 180,
    "tag": "base"
   },
   {
-   "kit": "portal_4m",
+   "kit": "cornice_4m",
    "at": [
-    -16,
-    0,
-    2
+    -14,
+    4.0,
+    28
    ],
-   "rot": 90,
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -14,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -10,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -10,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -10,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -2,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    2,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    2,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    28
+   ],
+   "rot": 180,
    "tag": "base"
   },
   {
    "kit": "wall_4x4",
    "at": [
     -16,
-    0,
-    6
-   ],
-   "rot": 90,
-   "tag": "base"
-  },
-  {
-   "kit": "wall_4x4",
-   "at": [
-    -12,
-    0,
+    0.0,
     14
    ],
    "rot": 90,
    "tag": "base"
   },
   {
-   "kit": "window_lancet_4m",
+   "kit": "cornice_4m",
    "at": [
-    -12,
-    0,
+    -16,
+    4.0,
+    14
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -16,
+    0.0,
     18
    ],
    "rot": 90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    18
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
-    -12,
-    0,
+    -16,
+    4.0,
+    18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -16,
+    0.0,
+    22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    22
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
     22
    ],
    "rot": 90,
@@ -769,28 +2893,122 @@
   {
    "kit": "wall_4x4",
    "at": [
-    12,
-    0,
+    -16,
+    0.0,
+    26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    26
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
+    26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    0.0,
     14
    ],
    "rot": -90,
    "tag": "base"
   },
   {
-   "kit": "window_lancet_4m",
+   "kit": "cornice_4m",
    "at": [
-    12,
-    0,
+    16,
+    4.0,
+    14
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    16,
+    0.0,
     18
    ],
    "rot": -90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    18
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
-    12,
-    0,
+    16,
+    4.0,
+    18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    16,
+    0.0,
+    22
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    22
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
     22
    ],
    "rot": -90,
@@ -799,9 +3017,61 @@
   {
    "kit": "wall_4x4",
    "at": [
-    -10,
-    0,
-    24
+    16,
+    0.0,
+    26
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    26
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    26
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    18,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    18,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    18,
+    4.0,
+    28
    ],
    "rot": 180,
    "tag": "base"
@@ -809,9 +3079,30 @@
   {
    "kit": "window_lancet_4m",
    "at": [
-    -6,
-    0,
-    24
+    22,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    22,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    22,
+    4.0,
+    28
    ],
    "rot": 180,
    "tag": "base"
@@ -819,29 +3110,424 @@
   {
    "kit": "wall_4x4",
    "at": [
-    -2,
-    0,
-    24
+    26,
+    0.0,
+    28
    ],
    "rot": 180,
    "tag": "base"
   },
   {
-   "kit": "wall_4x4",
+   "kit": "cornice_4m",
    "at": [
-    2,
-    0,
-    24
+    26,
+    4.0,
+    28
    ],
    "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    26,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "stair_grand_4m",
+   "at": [
+    28,
+    2.38,
+    18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    28.2,
+    2.4,
+    10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    28.2,
+    2.4,
+    14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    28.2,
+    2.4,
+    22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    28.2,
+    2.4,
+    26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    30,
+    2.4,
+    8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    30,
+    6.4,
+    8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    34,
+    2.4,
+    8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    34,
+    6.4,
+    8
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    30,
+    2.4,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    30,
+    6.4,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    34,
+    2.4,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    34,
+    6.4,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    36,
+    2.4,
+    10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    10
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    36,
+    2.4,
+    14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    14
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    36,
+    2.4,
+    18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    18
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    36,
+    2.4,
+    22
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    22
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    36,
+    2.4,
+    26
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    36,
+    6.4,
+    26
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -26,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -26,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -26,
+    4.0,
+    -12
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
    "kit": "window_lancet_4m",
    "at": [
-    6,
-    0,
-    24
+    -22,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -22,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -18,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -18,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -18,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -26,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -26,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -26,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    -22,
+    0.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -22,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -22,
+    4.0,
+    12
    ],
    "rot": 180,
    "tag": "base"
@@ -849,109 +3535,549 @@
   {
    "kit": "wall_4x4",
    "at": [
-    10,
-    0,
-    24
+    -18,
+    0.0,
+    12
    ],
    "rot": 180,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -18,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
+   "at": [
+    -18,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "stair_grand_4m",
    "at": [
     -28,
-    0,
+    2.38,
+    0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    -28.2,
+    2.4,
+    -10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    -28.2,
+    2.4,
+    -6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    -28.2,
+    2.4,
+    6
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "balustrade_4m",
+   "at": [
+    -28.2,
+    2.4,
+    10
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -38,
+    2.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -38,
+    6.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -34,
+    2.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -34,
+    6.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -30,
+    2.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -30,
+    6.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -38,
+    2.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -38,
+    6.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -34,
+    2.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -34,
+    6.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -30,
+    2.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -30,
+    6.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -40,
+    2.4,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -40,
+    6.4,
+    -10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -40,
+    2.4,
     -6
    ],
    "rot": 90,
    "tag": "base"
   },
   {
-   "kit": "window_lancet_4m",
+   "kit": "cornice_4m",
    "at": [
-    -28,
-    0,
+    -40,
+    6.4,
+    -6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -40,
+    2.4,
     -2
    ],
    "rot": 90,
    "tag": "base"
   },
   {
-   "kit": "window_lancet_4m",
+   "kit": "cornice_4m",
    "at": [
-    -28,
-    0,
+    -40,
+    6.4,
+    -2
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -40,
+    2.4,
     2
    ],
    "rot": 90,
    "tag": "base"
   },
   {
-   "kit": "wall_4x4",
+   "kit": "cornice_4m",
    "at": [
-    -28,
-    0,
+    -40,
+    6.4,
+    2
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -40,
+    2.4,
     6
    ],
    "rot": 90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -40,
+    6.4,
+    6
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
-    -26,
-    0,
-    -8
+    -40,
+    2.4,
+    10
    ],
-   "rot": 0,
+   "rot": 90,
    "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -40,
+    6.4,
+    10
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    0.0,
+    14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -28,
+    4.0,
+    14
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -28,
+    4.0,
+    14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    0.0,
+    18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -28,
+    4.0,
+    18
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    4.0,
+    18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    0.0,
+    22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -28,
+    4.0,
+    22
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -28,
+    4.0,
+    22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    0.0,
+    26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -28,
+    4.0,
+    26
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -28,
+    4.0,
+    26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "ossuary_wall_4m",
+   "at": [
+    -26,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -26,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -26,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -22,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -22,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
   },
   {
    "kit": "wall_4x4",
    "at": [
     -22,
-    0,
-    -8
+    4.0,
+    28
    ],
-   "rot": 0,
+   "rot": 180,
    "tag": "base"
   },
   {
-   "kit": "wall_4x4",
+   "kit": "ossuary_wall_4m",
    "at": [
     -18,
-    0,
-    -8
-   ],
-   "rot": 0,
-   "tag": "base"
-  },
-  {
-   "kit": "wall_4x4",
-   "at": [
-    -26,
-    0,
-    8
+    0.0,
+    28
    ],
    "rot": 180,
    "tag": "base"
   },
   {
-   "kit": "wall_4x4",
-   "at": [
-    -22,
-    0,
-    8
-   ],
-   "rot": 180,
-   "tag": "base"
-  },
-  {
-   "kit": "wall_4x4",
+   "kit": "cornice_4m",
    "at": [
     -18,
-    0,
-    8
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -18,
+    4.0,
+    28
    ],
    "rot": 180,
    "tag": "base"
@@ -959,8 +4085,29 @@
   {
    "kit": "wall_4x4",
    "at": [
-    -12,
-    0,
+    -16,
+    0.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
     -34
    ],
    "rot": 90,
@@ -969,8 +4116,29 @@
   {
    "kit": "window_lancet_4m",
    "at": [
-    -12,
-    0,
+    -16,
+    0.0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -30
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
     -30
    ],
    "rot": 90,
@@ -979,18 +4147,60 @@
   {
    "kit": "wall_4x4",
    "at": [
-    -12,
-    0,
+    -16,
+    0.0,
     -26
    ],
    "rot": 90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    0.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
-    -12,
-    0,
+    -16,
+    4.0,
     -22
    ],
    "rot": 90,
@@ -999,8 +4209,29 @@
   {
    "kit": "window_lancet_4m",
    "at": [
-    -12,
-    0,
+    -16,
+    0.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -16,
+    4.0,
     -18
    ],
    "rot": 90,
@@ -1009,8 +4240,29 @@
   {
    "kit": "wall_4x4",
    "at": [
-    -12,
-    0,
+    -16,
+    0.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -16,
+    4.0,
+    -14
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -16,
+    4.0,
     -14
    ],
    "rot": 90,
@@ -1019,8 +4271,29 @@
   {
    "kit": "wall_4x4",
    "at": [
-    12,
-    0,
+    16,
+    0.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
     -34
    ],
    "rot": -90,
@@ -1029,8 +4302,29 @@
   {
    "kit": "window_lancet_4m",
    "at": [
-    12,
-    0,
+    16,
+    0.0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -30
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
     -30
    ],
    "rot": -90,
@@ -1039,18 +4333,60 @@
   {
    "kit": "wall_4x4",
    "at": [
-    12,
-    0,
+    16,
+    0.0,
     -26
    ],
    "rot": -90,
    "tag": "base"
   },
   {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -26
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
+    -26
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    0.0,
+    -22
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -22
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
    "kit": "wall_4x4",
    "at": [
-    12,
-    0,
+    16,
+    4.0,
     -22
    ],
    "rot": -90,
@@ -1059,8 +4395,29 @@
   {
    "kit": "window_lancet_4m",
    "at": [
-    12,
-    0,
+    16,
+    0.0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    16,
+    4.0,
     -18
    ],
    "rot": -90,
@@ -1069,58 +4426,91 @@
   {
    "kit": "wall_4x4",
    "at": [
-    12,
-    0,
+    16,
+    0.0,
     -14
    ],
    "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    16,
+    4.0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    16,
+    4.0,
+    -14
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -14,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -14,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -14,
+    4.0,
+    -36
+   ],
+   "rot": 0,
    "tag": "base"
   },
   {
    "kit": "wall_4x4",
    "at": [
     -10,
-    0,
+    0.0,
     -36
    ],
    "rot": 0,
    "tag": "base"
   },
   {
-   "kit": "window_lancet_4m",
+   "kit": "cornice_4m",
    "at": [
-    -6,
-    0,
+    -10,
+    4.0,
     -36
    ],
    "rot": 0,
-   "tag": "base"
-  },
-  {
-   "kit": "wall_4x4",
-   "at": [
-    -2,
-    0,
-    -36
-   ],
-   "rot": 0,
-   "tag": "base"
+   "tag": "base",
+   "collide": false
   },
   {
    "kit": "wall_4x4",
    "at": [
-    2,
-    0,
-    -36
-   ],
-   "rot": 0,
-   "tag": "base"
-  },
-  {
-   "kit": "window_lancet_4m",
-   "at": [
-    6,
-    0,
+    -10,
+    4.0,
     -36
    ],
    "rot": 0,
@@ -1130,14 +4520,532 @@
    "kit": "wall_4x4",
    "at": [
     10,
-    0,
+    0.0,
     -36
    ],
    "rot": 0,
    "tag": "base"
   },
   {
-   "kit": "column_4m",
+   "kit": "cornice_4m",
+   "at": [
+    10,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    10,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    14,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    14,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    14,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -6,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    -2,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "arcade_4m",
+   "at": [
+    2,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0.0,
+    5.6,
+    -35.65
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -8,
+    0.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -8,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    0.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -8,
+    4.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -8,
+    4.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -8,
+    0.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -8,
+    4.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -8,
+    4.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    8,
+    0.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    8,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    0.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    8,
+    4.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    8,
+    4.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    8,
+    0.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    8,
+    4.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    8,
+    4.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    0.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -6,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    -6,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    0.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    -2,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    -2,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    2,
+    0.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    2,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    2,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "window_lancet_4m",
+   "at": [
+    6,
+    0.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "cornice_4m",
+   "at": [
+    6,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "wall_4x4",
+   "at": [
+    6,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "portal_4m",
+   "at": [
+    0.0,
+    0,
+    -47.6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "rose_window",
+   "at": [
+    0.0,
+    5.6,
+    -47.65
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
    "at": [
     -10,
     0,
@@ -1150,6 +5058,17 @@
    "kit": "column_4m",
    "at": [
     -10,
+    4.0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
     0,
     6
    ],
@@ -1158,6 +5077,17 @@
   },
   {
    "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
    "at": [
     -2,
     0,
@@ -1170,6 +5100,17 @@
    "kit": "column_4m",
    "at": [
     -2,
+    4.0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -2,
     0,
     6
    ],
@@ -1178,6 +5119,17 @@
   },
   {
    "kit": "column_4m",
+   "at": [
+    -2,
+    4.0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
    "at": [
     6,
     0,
@@ -1190,6 +5142,17 @@
    "kit": "column_4m",
    "at": [
     6,
+    4.0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    6,
     0,
     6
    ],
@@ -1199,7 +5162,102 @@
   {
    "kit": "column_4m",
    "at": [
-    -8,
+    6,
+    4.0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
+    0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
+    0,
+    24
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    24
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
+    0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
+    0,
+    24
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    24
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
     0,
     -18
    ],
@@ -1209,9 +5267,20 @@
   {
    "kit": "column_4m",
    "at": [
-    -8,
+    -10,
+    4.0,
+    -18
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
     0,
-    -30
+    -26
    ],
    "rot": 0,
    "tag": "base"
@@ -1219,7 +5288,39 @@
   {
    "kit": "column_4m",
    "at": [
-    8,
+    -10,
+    4.0,
+    -26
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -10,
+    0,
+    -32
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -10,
+    4.0,
+    -32
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
     0,
     -18
    ],
@@ -1229,20 +5330,371 @@
   {
    "kit": "column_4m",
    "at": [
-    8,
+    10,
+    4.0,
+    -18
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
     0,
-    -30
+    -26
    ],
    "rot": 0,
    "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    -26
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    10,
+    0,
+    -32
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    10,
+    4.0,
+    -32
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    22,
+    0,
+    -4
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    22,
+    4.0,
+    -4
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    22,
+    0,
+    4
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    22,
+    4.0,
+    4
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    22,
+    0,
+    14
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    22,
+    4.0,
+    14
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    22,
+    0,
+    22
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    22,
+    4.0,
+    22
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -20,
+    0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -20,
+    4.0,
+    -6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -20,
+    0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -20,
+    4.0,
+    6
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -20,
+    0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -20,
+    4.0,
+    16
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "comb_pillar_4m",
+   "at": [
+    -20,
+    0,
+    24
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "column_4m",
+   "at": [
+    -20,
+    4.0,
+    24
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
   }
  ],
  "props": [
   {
    "kit": "glass_lancet",
    "at": [
+    18,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    18,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    22,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    22,
+    0.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    26,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    26,
+    4.0,
+    -8
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    28,
+    0.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    28,
+    0.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    28,
+    4.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    28,
+    4.0,
+    -6
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    28,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    28,
+    4.0,
+    2
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    28,
+    0.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    28,
+    0.0,
+    6
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
     16,
-    0,
+    0.0,
     -10
    ],
    "rot": -90,
@@ -1252,7 +5704,7 @@
    "kit": "glass_lancet_broken",
    "at": [
     16,
-    0,
+    0.0,
     -10
    ],
    "rot": -90,
@@ -1262,8 +5714,8 @@
    "kit": "glass_lancet",
    "at": [
     16,
-    0,
-    10
+    4.0,
+    -10
    ],
    "rot": -90,
    "tag": "glory"
@@ -1272,8 +5724,8 @@
    "kit": "glass_lancet_broken",
    "at": [
     16,
-    0,
-    10
+    4.0,
+    -10
    ],
    "rot": -90,
    "tag": "ruin"
@@ -1281,49 +5733,129 @@
   {
    "kit": "glass_lancet",
    "at": [
-    -12,
-    0,
-    18
+    -10,
+    4.0,
+    -12
    ],
-   "rot": 90,
+   "rot": 0,
    "tag": "glory"
   },
   {
    "kit": "glass_lancet_broken",
    "at": [
-    -12,
-    0,
-    18
+    -10,
+    4.0,
+    -12
    ],
-   "rot": 90,
+   "rot": 0,
    "tag": "ruin"
   },
   {
    "kit": "glass_lancet",
    "at": [
-    12,
-    0,
-    18
+    10,
+    4.0,
+    -12
    ],
-   "rot": -90,
+   "rot": 0,
    "tag": "glory"
   },
   {
    "kit": "glass_lancet_broken",
    "at": [
-    12,
-    0,
-    18
+    10,
+    4.0,
+    -12
    ],
-   "rot": -90,
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -10,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -10,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    4.0,
+    12
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -14,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -14,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -10,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -10,
+    0.0,
+    28
+   ],
+   "rot": 180,
    "tag": "ruin"
   },
   {
    "kit": "glass_lancet",
    "at": [
     -6,
-    0,
-    24
+    4.0,
+    28
    ],
    "rot": 180,
    "tag": "glory"
@@ -1332,8 +5864,8 @@
    "kit": "glass_lancet_broken",
    "at": [
     -6,
-    0,
-    24
+    4.0,
+    28
    ],
    "rot": 180,
    "tag": "ruin"
@@ -1341,9 +5873,9 @@
   {
    "kit": "glass_lancet",
    "at": [
-    6,
-    0,
-    24
+    -2,
+    0.0,
+    28
    ],
    "rot": 180,
    "tag": "glory"
@@ -1351,9 +5883,9 @@
   {
    "kit": "glass_lancet_broken",
    "at": [
-    6,
-    0,
-    24
+    -2,
+    0.0,
+    28
    ],
    "rot": 180,
    "tag": "ruin"
@@ -1361,9 +5893,289 @@
   {
    "kit": "glass_lancet",
    "at": [
-    -28,
-    0,
-    -2
+    2,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    2,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    2,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    2,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    18,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    18,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    22,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    22,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    26,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    26,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    36,
+    2.4,
+    14
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    36,
+    2.4,
+    14
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    36,
+    2.4,
+    22
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    36,
+    2.4,
+    22
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -26,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -26,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -22,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -22,
+    0.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -18,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -18,
+    4.0,
+    -12
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -34,
+    2.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -34,
+    2.4,
+    -12
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -34,
+    2.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -34,
+    2.4,
+    12
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -40,
+    2.4,
+    -6
    ],
    "rot": 90,
    "tag": "glory"
@@ -1371,9 +6183,29 @@
   {
    "kit": "glass_lancet_broken",
    "at": [
-    -28,
-    0,
-    -2
+    -40,
+    2.4,
+    -6
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -40,
+    2.4,
+    6
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -40,
+    2.4,
+    6
    ],
    "rot": 90,
    "tag": "ruin"
@@ -1382,8 +6214,8 @@
    "kit": "glass_lancet",
    "at": [
     -28,
-    0,
-    2
+    4.0,
+    14
    ],
    "rot": 90,
    "tag": "glory"
@@ -1392,8 +6224,8 @@
    "kit": "glass_lancet_broken",
    "at": [
     -28,
-    0,
-    2
+    4.0,
+    14
    ],
    "rot": 90,
    "tag": "ruin"
@@ -1401,8 +6233,108 @@
   {
    "kit": "glass_lancet",
    "at": [
-    -12,
-    0,
+    -28,
+    4.0,
+    22
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -28,
+    4.0,
+    22
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -26,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -26,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -22,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -22,
+    0.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -18,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -18,
+    4.0,
+    28
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    4.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -34
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
     -30
    ],
    "rot": 90,
@@ -1411,8 +6343,8 @@
   {
    "kit": "glass_lancet_broken",
    "at": [
-    -12,
-    0,
+    -16,
+    0.0,
     -30
    ],
    "rot": 90,
@@ -1421,8 +6353,48 @@
   {
    "kit": "glass_lancet",
    "at": [
-    -12,
-    0,
+    -16,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -26
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    0.0,
+    -22
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -16,
+    0.0,
     -18
    ],
    "rot": 90,
@@ -1431,8 +6403,8 @@
   {
    "kit": "glass_lancet_broken",
    "at": [
-    -12,
-    0,
+    -16,
+    0.0,
     -18
    ],
    "rot": 90,
@@ -1441,8 +6413,48 @@
   {
    "kit": "glass_lancet",
    "at": [
-    12,
-    0,
+    -16,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -16,
+    4.0,
+    -18
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -34
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
     -30
    ],
    "rot": -90,
@@ -1451,8 +6463,8 @@
   {
    "kit": "glass_lancet_broken",
    "at": [
-    12,
-    0,
+    16,
+    0.0,
     -30
    ],
    "rot": -90,
@@ -1461,8 +6473,48 @@
   {
    "kit": "glass_lancet",
    "at": [
-    12,
-    0,
+    16,
+    4.0,
+    -26
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -26
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
+    -22
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    0.0,
+    -22
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    0.0,
     -18
    ],
    "rot": -90,
@@ -1471,9 +6523,229 @@
   {
    "kit": "glass_lancet_broken",
    "at": [
-    12,
-    0,
+    16,
+    0.0,
     -18
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    16,
+    4.0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    16,
+    4.0,
+    -18
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -14,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -14,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -14,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -14,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    10,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    10,
+    4.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    14,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    14,
+    0.0,
+    -36
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -8,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -8,
+    4.0,
+    -46
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -8,
+    0.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -8,
+    0.0,
+    -42
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -8,
+    4.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -8,
+    4.0,
+    -38
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    8,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    8,
+    4.0,
+    -46
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    8,
+    0.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    8,
+    0.0,
+    -42
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    8,
+    4.0,
+    -38
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    8,
+    4.0,
+    -38
    ],
    "rot": -90,
    "tag": "ruin"
@@ -1482,8 +6754,8 @@
    "kit": "glass_lancet",
    "at": [
     -6,
-    0,
-    -36
+    0.0,
+    -48
    ],
    "rot": 0,
    "tag": "glory"
@@ -1492,8 +6764,48 @@
    "kit": "glass_lancet_broken",
    "at": [
     -6,
-    0,
-    -36
+    0.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    -6,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    -6,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "glass_lancet",
+   "at": [
+    2,
+    4.0,
+    -48
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "glass_lancet_broken",
+   "at": [
+    2,
+    4.0,
+    -48
    ],
    "rot": 0,
    "tag": "ruin"
@@ -1502,8 +6814,8 @@
    "kit": "glass_lancet",
    "at": [
     6,
-    0,
-    -36
+    0.0,
+    -48
    ],
    "rot": 0,
    "tag": "glory"
@@ -1512,217 +6824,878 @@
    "kit": "glass_lancet_broken",
    "at": [
     6,
-    0,
-    -36
+    0.0,
+    -48
    ],
    "rot": 0,
    "tag": "ruin"
   },
   {
-   "kit": "tallow_vat",
+   "kit": "sconce_torch",
    "at": [
-    -6.0,
-    0,
-    -6.5
+    -10.0,
+    2.3,
+    -5.55
    ],
    "rot": 0,
    "tag": "glory"
   },
   {
-   "kit": "tallow_vat_cold",
+   "kit": "sconce_torch",
    "at": [
-    -6.0,
-    0,
-    -6.5
+    -10.0,
+    2.3,
+    5.55
    ],
-   "rot": 0,
-   "tag": "ruin"
+   "rot": 180,
+   "tag": "glory"
   },
   {
-   "kit": "tallow_vat",
+   "kit": "sconce_torch",
    "at": [
-    10.0,
-    0,
-    -6.5
+    -2.0,
+    2.3,
+    -5.55
    ],
    "rot": 0,
    "tag": "glory"
   },
   {
-   "kit": "tallow_vat_cold",
+   "kit": "sconce_torch",
    "at": [
-    10.0,
-    0,
-    -6.5
+    -2.0,
+    2.3,
+    5.55
    ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "tallow_vat",
-   "at": [
-    -6.0,
-    0,
-    6.5
-   ],
-   "rot": 0,
+   "rot": 180,
    "tag": "glory"
   },
   {
-   "kit": "tallow_vat_cold",
-   "at": [
-    -6.0,
-    0,
-    6.5
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "tallow_vat",
-   "at": [
-    10.0,
-    0,
-    6.5
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "tallow_vat_cold",
-   "at": [
-    10.0,
-    0,
-    6.5
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "tallow_vat",
-   "at": [
-    -7.5,
-    0,
-    -16.5
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "tallow_vat_cold",
-   "at": [
-    -7.5,
-    0,
-    -16.5
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "tallow_vat",
-   "at": [
-    7.5,
-    0,
-    -16.5
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "tallow_vat_cold",
-   "at": [
-    7.5,
-    0,
-    -16.5
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "tallow_vat",
-   "at": [
-    -7.5,
-    0,
-    -31.5
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "tallow_vat_cold",
-   "at": [
-    -7.5,
-    0,
-    -31.5
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "tallow_vat",
-   "at": [
-    7.5,
-    0,
-    -31.5
-   ],
-   "rot": 0,
-   "tag": "glory"
-  },
-  {
-   "kit": "tallow_vat_cold",
-   "at": [
-    7.5,
-    0,
-    -31.5
-   ],
-   "rot": 0,
-   "tag": "ruin"
-  },
-  {
-   "kit": "wax_wheel",
-   "at": [
-    -6.0,
-    2.2,
-    -3.0
-   ],
-   "rot": 0,
-   "tag": "base"
-  },
-  {
-   "kit": "wax_wheel",
+   "kit": "sconce_torch",
    "at": [
     6.0,
-    2.2,
-    -3.0
+    2.3,
+    -5.55
    ],
    "rot": 0,
-   "tag": "base"
+   "tag": "glory"
   },
   {
-   "kit": "wax_wheel",
-   "at": [
-    -6.0,
-    2.2,
-    3.0
-   ],
-   "rot": 0,
-   "tag": "base"
-  },
-  {
-   "kit": "wax_wheel",
+   "kit": "sconce_torch",
    "at": [
     6.0,
-    2.2,
-    3.0
+    2.3,
+    5.55
    ],
-   "rot": 0,
-   "tag": "base"
+   "rot": 180,
+   "tag": "glory"
   },
   {
-   "kit": "wax_wheel",
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    16.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    24.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    16.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    24.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    -18.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    -26.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -9.55,
+    2.3,
+    -32.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    -18.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    -26.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    9.55,
+    2.3,
+    -32.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    21.55,
+    2.3,
+    -4.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    21.55,
+    2.3,
+    4.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    21.55,
+    2.3,
+    14.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    21.55,
+    2.3,
+    22.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -19.55,
+    2.3,
+    -6.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -19.55,
+    2.3,
+    6.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -19.55,
+    2.3,
+    16.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "sconce_torch",
+   "at": [
+    -19.55,
+    2.3,
+    24.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    22.0,
+    0,
+    0.0
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    8.0,
+    0,
+    0.0
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    -4.0,
+    0,
+    0.0
+   ],
+   "rot": 90,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    -2.0,
+    0,
+    -18.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    -2.0,
+    0,
+    -26.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
    "at": [
     0.0,
+    0,
+    -42.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "carpet_runner_8m",
+   "at": [
+    0.0,
+    0,
+    20.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
     2.0,
+    0,
+    0.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    0.0,
+    0,
+    16.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    -2.0,
+    0,
+    -22.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "mosaic_medallion",
+   "at": [
+    -34.0,
+    2.4,
+    0.0
+   ],
+   "rot": 0,
+   "tag": "base",
+   "collide": false
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -6.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -6.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    10.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    10.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -6.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -6.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    10.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    10.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -13.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -13.0,
+    0,
+    -6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -13.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -13.0,
+    0,
+    6.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    24.5,
+    0,
+    -5.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    24.5,
+    0,
+    -5.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    19.0,
+    0,
+    12.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    19.0,
+    0,
+    12.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    25.0,
+    0,
+    12.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    25.0,
+    0,
+    12.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    19.0,
+    0,
+    24.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    19.0,
+    0,
+    24.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    25.0,
+    0,
+    24.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    25.0,
+    0,
+    24.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    32.5,
+    2.4,
+    12.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    32.5,
+    2.4,
+    12.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    32.5,
+    2.4,
+    24.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    32.5,
+    2.4,
+    24.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -16.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -24.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -24.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -24.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -24.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    -7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    -7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "tallow_vat",
+   "at": [
+    7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "tallow_vat_cold",
+   "at": [
+    7.5,
+    0,
+    -31.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    2.0,
+    0,
+    -9.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    2.0,
+    0,
+    9.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    20.0,
+    0,
+    18.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    25.2,
+    0,
+    18.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    33.2,
+    2.4,
+    18.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    -13.2,
+    0,
+    -22.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_press",
+   "at": [
+    13.2,
+    0,
+    -22.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -8.0,
+    3.6,
+    -4.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    4.0,
+    3.6,
+    -4.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -8.0,
+    3.6,
+    4.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    4.0,
+    3.6,
+    4.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    22.0,
+    3.6,
+    0.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    22.0,
+    3.6,
     18.0
    ],
    "rot": 0,
@@ -1731,9 +7704,9 @@
   {
    "kit": "wax_wheel",
    "at": [
-    -4.5,
-    2.4,
-    -24.0
+    -6.0,
+    3.6,
+    20.0
    ],
    "rot": 0,
    "tag": "base"
@@ -1741,17 +7714,127 @@
   {
    "kit": "wax_wheel",
    "at": [
-    4.5,
-    2.4,
-    -24.0
+    6.0,
+    3.6,
+    20.0
    ],
    "rot": 0,
    "tag": "base"
   },
   {
+   "kit": "wax_wheel",
+   "at": [
+    -22.0,
+    3.6,
+    0.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -22.0,
+    3.6,
+    20.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -5.5,
+    3.8,
+    -20.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    5.5,
+    3.8,
+    -20.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    -5.5,
+    3.8,
+    -29.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    5.5,
+    3.8,
+    -29.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_wheel",
+   "at": [
+    0.0,
+    3.8,
+    -42.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0.0,
+    5.2,
+    0.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    0.0,
+    5.2,
+    20.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -2.0,
+    5.4,
+    -24.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "chandelier_gilt",
+   "at": [
+    -34.0,
+    5.2,
+    0.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
    "kit": "apiary_skep",
    "at": [
-    -9.0,
+    -13.2,
     0,
     15.0
    ],
@@ -1761,9 +7844,9 @@
   {
    "kit": "apiary_skep",
    "at": [
-    -9.0,
+    -13.2,
     0,
-    20.5
+    20.0
    ],
    "rot": 90,
    "tag": "base"
@@ -1771,7 +7854,17 @@
   {
    "kit": "apiary_skep",
    "at": [
-    9.0,
+    -13.2,
+    0,
+    25.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    13.2,
     0,
     15.0
    ],
@@ -1781,9 +7874,9 @@
   {
    "kit": "apiary_skep",
    "at": [
-    9.0,
+    13.2,
     0,
-    20.5
+    20.0
    ],
    "rot": -90,
    "tag": "base"
@@ -1791,9 +7884,19 @@
   {
    "kit": "apiary_skep",
    "at": [
-    -4.0,
+    13.2,
     0,
-    21.8
+    25.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -6.5,
+    0,
+    25.5
    ],
    "rot": 180,
    "tag": "base"
@@ -1801,9 +7904,9 @@
   {
    "kit": "apiary_skep",
    "at": [
-    4.0,
+    6.5,
     0,
-    21.8
+    25.5
    ],
    "rot": 180,
    "tag": "base"
@@ -1829,19 +7932,599 @@
    "tag": "base"
   },
   {
-   "kit": "anvil",
+   "kit": "apiary_skep",
    "at": [
-    12.5,
+    -5.2,
     0,
-    -4.5
+    -45.0
+   ],
+   "rot": 45,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    5.2,
+    0,
+    -45.0
+   ],
+   "rot": -45,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -37.0,
+    2.4,
+    -9.0
+   ],
+   "rot": 45,
+   "tag": "base"
+  },
+  {
+   "kit": "apiary_skep",
+   "at": [
+    -37.0,
+    2.4,
+    9.0
+   ],
+   "rot": 135,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    25.5,
+    0,
+    5.5
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -13.5,
+    0,
+    -10.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    13.5,
+    0,
+    -10.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    0.0,
+    0,
+    26.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -25.5,
+    0,
+    -10.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -25.5,
+    0,
+    10.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -25.5,
+    0,
+    26.0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -13.5,
+    0,
+    -34.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    13.5,
+    0,
+    -34.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -5.5,
+    0,
+    -39.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    5.5,
+    0,
+    -39.5
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -31.0,
+    2.4,
+    -10.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "comb_shrine",
+   "at": [
+    -31.0,
+    2.4,
+    10.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    25.8,
+    0,
+    -2.8
+   ],
+   "rot": 181,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    26.2,
+    0,
+    2.8
+   ],
+   "rot": 302,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    12.2,
+    0,
+    -9.8
+   ],
+   "rot": 265,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    10.8,
+    0,
+    -10.2
+   ],
+   "rot": 205,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -8.8,
+    0,
+    -9.8
+   ],
+   "rot": 208,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -10.2,
+    0,
+    9.8
+   ],
+   "rot": 168,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -8.2,
+    0,
+    14.2
+   ],
+   "rot": 326,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    8.2,
+    0,
+    14.2
+   ],
+   "rot": 213,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    17.8,
+    0,
+    9.8
+   ],
+   "rot": 124,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    26.2,
+    0,
+    15.2
+   ],
+   "rot": 178,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    26.2,
+    0,
+    21.2
+   ],
+   "rot": 292,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    34.2,
+    2.4,
+    9.8
+   ],
+   "rot": 11,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    34.2,
+    2.4,
+    26.2
+   ],
+   "rot": 323,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -22.5,
+    0,
+    -9.8
+   ],
+   "rot": 61,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -22.5,
+    0,
+    9.8
+   ],
+   "rot": 73,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -38.0,
+    2.4,
+    -8.5
+   ],
+   "rot": 232,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -38.0,
+    2.4,
+    8.5
+   ],
+   "rot": 195,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -18.0,
+    0,
+    14.2
+   ],
+   "rot": 323,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -25.8,
+    0,
+    14.2
    ],
    "rot": 35,
    "tag": "base"
   },
   {
+   "kit": "honey_amphora",
+   "at": [
+    -13.2,
+    0,
+    -14.5
+   ],
+   "rot": 316,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    13.2,
+    0,
+    -14.5
+   ],
+   "rot": 212,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    -6.2,
+    0,
+    -42.0
+   ],
+   "rot": 52,
+   "tag": "base"
+  },
+  {
+   "kit": "honey_amphora",
+   "at": [
+    6.2,
+    0,
+    -42.0
+   ],
+   "rot": 151,
+   "tag": "base"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    -6.5,
+    0,
+    17.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    -6.5,
+    0,
+    17.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    6.5,
+    0,
+    17.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    6.5,
+    0,
+    17.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    -6.5,
+    0,
+    22.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    -6.5,
+    0,
+    22.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "garden_bed",
+   "at": [
+    6.5,
+    0,
+    22.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "garden_bed_dead",
+   "at": [
+    6.5,
+    0,
+    22.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wellhead",
+   "at": [
+    0.0,
+    0,
+    21.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    -3.2,
+    0,
+    16.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "pew_3m",
+   "at": [
+    3.2,
+    0,
+    16.5
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
+   "kit": "anvil",
+   "at": [
+    20.5,
+    0,
+    -5.5
+   ],
+   "rot": 35,
+   "tag": "base"
+  },
+  {
+   "kit": "banquet_table_6m",
+   "at": [
+    19.5,
+    0,
+    5.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    18.8,
+    1.15,
+    5.4
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "scroll_pile",
+   "at": [
+    20.2,
+    1.15,
+    5.6
+   ],
+   "rot": -20,
+   "tag": "base"
+  },
+  {
    "kit": "brazier_lit",
    "at": [
-    13.5,
+    25.5,
+    0,
+    -2.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    25.5,
+    0,
+    -2.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    25.5,
+    0,
+    2.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    25.5,
+    0,
+    2.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    13.8,
     0,
     -2.5
    ],
@@ -1851,7 +8534,7 @@
   {
    "kit": "brazier_cold",
    "at": [
-    13.5,
+    13.8,
     0,
     -2.5
    ],
@@ -1861,7 +8544,7 @@
   {
    "kit": "brazier_lit",
    "at": [
-    13.5,
+    13.8,
     0,
     2.5
    ],
@@ -1871,9 +8554,129 @@
   {
    "kit": "brazier_cold",
    "at": [
-    13.5,
+    13.8,
     0,
     2.5
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -3.8,
+    0,
+    -38.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -3.8,
+    0,
+    -38.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    3.8,
+    0,
+    -38.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    3.8,
+    0,
+    -38.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -29.5,
+    2.4,
+    -3.2
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -29.5,
+    2.4,
+    -3.2
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    -29.5,
+    2.4,
+    3.2
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    -29.5,
+    2.4,
+    3.2
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    29.5,
+    2.4,
+    15.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    29.5,
+    2.4,
+    15.0
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "brazier_lit",
+   "at": [
+    29.5,
+    2.4,
+    21.0
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "brazier_cold",
+   "at": [
+    29.5,
+    2.4,
+    21.0
    ],
    "rot": 0,
    "tag": "ruin"
@@ -1889,11 +8692,101 @@
    "tag": "base"
   },
   {
+   "kit": "crate_stack",
+   "at": [
+    25.5,
+    0,
+    -6.2
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    26.2,
+    0,
+    26.0
+   ],
+   "rot": 40,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    34.0,
+    2.4,
+    14.5
+   ],
+   "rot": -15,
+   "tag": "base"
+  },
+  {
+   "kit": "crate_stack",
+   "at": [
+    -13.5,
+    0,
+    10.2
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
    "kit": "barrel",
    "at": [
-    11.2,
+    11.4,
     0,
     9.8
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    24.0,
+    0,
+    -6.5
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    17.8,
+    0,
+    26.2
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    34.2,
+    2.4,
+    21.5
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -11.8,
+    0,
+    10.2
+   ],
+   "rot": 15,
+   "tag": "base"
+  },
+  {
+   "kit": "barrel",
+   "at": [
+    -18.0,
+    0,
+    -9.8
    ],
    "rot": 15,
    "tag": "base"
@@ -1903,16 +8796,66 @@
    "at": [
     -13.0,
     0,
-    8.5
+    2.5
    ],
-   "rot": 55,
+   "rot": 75,
    "tag": "base"
   },
   {
-   "kit": "altar",
+   "kit": "hand_cart",
    "at": [
-    -24.5,
+    22.0,
     0,
+    24.5
+   ],
+   "rot": -35,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    -23.5,
+    0,
+    -4.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_orans",
+   "at": [
+    -23.5,
+    0,
+    4.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "choir_stall",
+   "at": [
+    -22.0,
+    0,
+    -10.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "choir_stall",
+   "at": [
+    -22.0,
+    0,
+    10.2
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "altar_wick",
+   "at": [
+    -35.5,
+    2.4,
     0.0
    ],
    "rot": 90,
@@ -1921,8 +8864,8 @@
   {
    "kit": "statue_saint",
    "at": [
-    -25.5,
-    0,
+    -37.8,
+    2.4,
     -4.5
    ],
    "rot": 90,
@@ -1931,12 +8874,132 @@
   {
    "kit": "statue_saint",
    "at": [
-    -25.5,
-    0,
+    -37.8,
+    2.4,
     4.5
    ],
    "rot": 90,
    "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    -34.0,
+    2.4,
+    -10.8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    -37.0,
+    2.4,
+    -10.8
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    -34.0,
+    2.4,
+    10.8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "scriptorium_shelf",
+   "at": [
+    -37.0,
+    2.4,
+    10.8
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "banquet_table_6m",
+   "at": [
+    -33.5,
+    2.4,
+    -5.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    -34.7,
+    3.55,
+    -5.5
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "scroll_pile",
+   "at": [
+    -32.4,
+    3.55,
+    -5.5
+   ],
+   "rot": -15,
+   "tag": "base"
+  },
+  {
+   "kit": "banquet_table_6m",
+   "at": [
+    -33.5,
+    2.4,
+    5.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "book_stack",
+   "at": [
+    -34.7,
+    3.55,
+    5.5
+   ],
+   "rot": 20,
+   "tag": "base"
+  },
+  {
+   "kit": "scroll_pile",
+   "at": [
+    -32.4,
+    3.55,
+    5.5
+   ],
+   "rot": -15,
+   "tag": "base"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -34.5,
+    2.4,
+    -2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    -34.5,
+    2.4,
+    2.5
+   ],
+   "rot": 0,
+   "tag": "glory"
   },
   {
    "kit": "candelabra",
@@ -1957,36 +9020,6 @@
    ],
    "rot": 0,
    "tag": "glory"
-  },
-  {
-   "kit": "candle_cluster",
-   "at": [
-    -21.5,
-    0,
-    -2.2
-   ],
-   "rot": 20,
-   "tag": "glory"
-  },
-  {
-   "kit": "candle_cluster_dead",
-   "at": [
-    -21.5,
-    0,
-    -2.2
-   ],
-   "rot": 20,
-   "tag": "ruin"
-  },
-  {
-   "kit": "altar",
-   "at": [
-    0.0,
-    0,
-    -33.5
-   ],
-   "rot": 0,
-   "tag": "base"
   },
   {
    "kit": "candelabra",
@@ -2009,11 +9042,191 @@
    "tag": "glory"
   },
   {
+   "kit": "candelabra",
+   "at": [
+    -3.2,
+    0,
+    -45.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "candelabra",
+   "at": [
+    3.2,
+    0,
+    -45.5
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "sarcophagus",
+   "at": [
+    -24.5,
+    0,
+    16.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "sarcophagus",
+   "at": [
+    -24.5,
+    0,
+    22.5
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "sarcophagus",
+   "at": [
+    -19.5,
+    0,
+    25.0
+   ],
+   "rot": 180,
+   "tag": "base"
+  },
+  {
+   "kit": "tomb_slab",
+   "at": [
+    -20.0,
+    0,
+    16.0
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "tomb_slab",
+   "at": [
+    -20.0,
+    0,
+    21.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -26.2,
+    0,
+    18.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -26.2,
+    0,
+    24.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "urn",
+   "at": [
+    -17.5,
+    0,
+    26.2
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -24.0,
+    0,
+    19.5
+   ],
+   "rot": 65,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    22.5,
+    0,
+    14.5
+   ],
+   "rot": -110,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    31.5,
+    2.4,
+    24.5
+   ],
+   "rot": 140,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    -11.5,
+    0,
+    -18.5
+   ],
+   "rot": 45,
+   "tag": "ruin"
+  },
+  {
+   "kit": "wax_husk",
+   "at": [
+    11.5,
+    0,
+    -28.5
+   ],
+   "rot": -60,
+   "tag": "ruin"
+  },
+  {
+   "kit": "altar",
+   "at": [
+    0.0,
+    0,
+    -33.5
+   ],
+   "rot": 0,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    -13.5,
+    0,
+    -26.0
+   ],
+   "rot": 90,
+   "tag": "base"
+  },
+  {
+   "kit": "statue_saint",
+   "at": [
+    13.5,
+    0,
+    -26.0
+   ],
+   "rot": -90,
+   "tag": "base"
+  },
+  {
    "kit": "banner",
    "at": [
     -8.0,
-    0.8,
-    -35.85
+    2.6,
+    -11.82
    ],
    "rot": 0,
    "tag": "glory"
@@ -2022,8 +9235,88 @@
    "kit": "banner_torn",
    "at": [
     -8.0,
-    0.8,
-    -35.85
+    2.6,
+    -11.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    6.0,
+    2.6,
+    -11.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    6.0,
+    2.6,
+    -11.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -10.0,
+    2.6,
+    11.82
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -10.0,
+    2.6,
+    11.82
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    10.0,
+    2.6,
+    11.82
+   ],
+   "rot": 180,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    10.0,
+    2.6,
+    11.82
+   ],
+   "rot": 180,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -8.0,
+    2.6,
+    -35.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -8.0,
+    2.6,
+    -35.82
    ],
    "rot": 0,
    "tag": "ruin"
@@ -2032,8 +9325,8 @@
    "kit": "banner",
    "at": [
     8.0,
-    0.8,
-    -35.85
+    2.6,
+    -35.82
    ],
    "rot": 0,
    "tag": "glory"
@@ -2042,10 +9335,290 @@
    "kit": "banner_torn",
    "at": [
     8.0,
-    0.8,
-    -35.85
+    2.6,
+    -35.82
    ],
    "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -15.82,
+    2.6,
+    -24.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -15.82,
+    2.6,
+    -24.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    15.82,
+    2.6,
+    -24.0
+   ],
+   "rot": -90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    15.82,
+    2.6,
+    -24.0
+   ],
+   "rot": -90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -39.82,
+    5.0,
+    -3.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -39.82,
+    5.0,
+    -3.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -39.82,
+    5.0,
+    3.0
+   ],
+   "rot": 90,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -39.82,
+    5.0,
+    3.0
+   ],
+   "rot": 90,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    -3.5,
+    2.6,
+    -47.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    -3.5,
+    2.6,
+    -47.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "banner",
+   "at": [
+    3.5,
+    2.6,
+    -47.82
+   ],
+   "rot": 0,
+   "tag": "glory"
+  },
+  {
+   "kit": "banner_torn",
+   "at": [
+    3.5,
+    2.6,
+    -47.82
+   ],
+   "rot": 0,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -21.5,
+    0,
+    -2.2
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -21.5,
+    0,
+    -2.2
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -33.5,
+    2.4,
+    -1.8
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -33.5,
+    2.4,
+    -1.8
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -33.5,
+    2.4,
+    1.8
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -33.5,
+    2.4,
+    1.8
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    14.0,
+    0,
+    -4.5
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    14.0,
+    0,
+    -4.5
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -3.5,
+    0,
+    24.5
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -3.5,
+    0,
+    24.5
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    3.5,
+    0,
+    24.5
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    3.5,
+    0,
+    24.5
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    -3.5,
+    0,
+    -32.5
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    -3.5,
+    0,
+    -32.5
+   ],
+   "rot": 20,
+   "tag": "ruin"
+  },
+  {
+   "kit": "candle_cluster",
+   "at": [
+    3.5,
+    0,
+    -32.5
+   ],
+   "rot": 20,
+   "tag": "glory"
+  },
+  {
+   "kit": "candle_cluster_dead",
+   "at": [
+    3.5,
+    0,
+    -32.5
+   ],
+   "rot": 20,
    "tag": "ruin"
   }
  ],
@@ -2054,9 +9627,19 @@
    "id": "hollow_foundry",
    "name": "Amber Foundry Vigil",
    "at": [
-    11.5,
+    18.5,
     0,
     0.0
+   ],
+   "rot": -90
+  },
+  {
+   "id": "hollow_postern",
+   "name": "Crucible Postern Vigil",
+   "at": [
+    4.5,
+    0,
+    -41.5
    ],
    "rot": -90
   }
@@ -2065,11 +9648,11 @@
   {
    "id": "master_caelan",
    "at": [
-    9.5,
+    21.5,
     0,
-    -4.2
+    -3.5
    ],
-   "rot": -115,
+   "rot": -35,
    "tag": "glory"
   }
  ],
@@ -2096,14 +9679,14 @@
      "at": [
       -4.5,
       0,
-      19.5
+      24.0
      ]
     },
     {
      "at": [
       4.5,
       0,
-      19.5
+      24.0
      ]
     }
    ]
@@ -2173,11 +9756,44 @@
    "id": "foundry_wax_1",
    "enemy": "waxbound",
    "at": [
-    2.0,
+    4.0,
     0,
-    4.5
+    3.5
    ],
    "face": 180,
+   "tag": "ruin"
+  },
+  {
+   "id": "cistern_melter_1",
+   "enemy": "tallow_melter",
+   "at": [
+    22.0,
+    0,
+    16.0
+   ],
+   "face": 0,
+   "tag": "ruin"
+  },
+  {
+   "id": "cistern_wax_1",
+   "enemy": "waxbound",
+   "at": [
+    22.0,
+    0,
+    22.0
+   ],
+   "face": 0,
+   "tag": "ruin"
+  },
+  {
+   "id": "mezzanine_melter",
+   "enemy": "tallow_melter",
+   "at": [
+    31.5,
+    2.4,
+    18.0
+   ],
+   "face": -90,
    "tag": "ruin"
   },
   {
@@ -2195,11 +9811,44 @@
    "id": "apiary_echo",
    "enemy": "gilded_echo",
    "at": [
-    -6.0,
+    -9.5,
     0,
-    18.5
+    20.5
    ],
    "face": 60,
+   "tag": "ruin"
+  },
+  {
+   "id": "apiary_echo_2",
+   "enemy": "gilded_echo",
+   "at": [
+    9.5,
+    0,
+    20.5
+   ],
+   "face": -60,
+   "tag": "ruin"
+  },
+  {
+   "id": "crypt_warden",
+   "enemy": "comb_warden",
+   "at": [
+    -22.0,
+    0,
+    21.0
+   ],
+   "face": 0,
+   "tag": "ruin"
+  },
+  {
+   "id": "reliquary_warden",
+   "enemy": "comb_warden",
+   "at": [
+    -31.5,
+    2.4,
+    0.0
+   ],
+   "face": 90,
    "tag": "ruin"
   },
   {
@@ -2231,11 +9880,37 @@
    "label": "Claim the Chandler's Censer-Mace"
   },
   {
+   "id": "scriptorium_high_tome",
+   "at": [
+    -33.8,
+    2.4,
+    0.0
+   ],
+   "item": "candleglass",
+   "count": 1,
+   "orisons": 320,
+   "tag": "base",
+   "label": "Gather the Guildmaster's Assay-Glass"
+  },
+  {
+   "id": "crypt_amber_rite",
+   "at": [
+    -22.5,
+    0,
+    24.5
+   ],
+   "item": "amber_benediction",
+   "count": 1,
+   "orisons": 220,
+   "tag": "base",
+   "label": "Claim the Rite of the Golden Comb"
+  },
+  {
    "id": "apiary_comb_cache",
    "at": [
     0.0,
     0,
-    22.0
+    24.5
    ],
    "item": "candleglass",
    "count": 1,
@@ -2244,11 +9919,24 @@
    "label": "Gather the Queen-Skep candleglass"
   },
   {
+   "id": "mezzanine_press_hoard",
+   "at": [
+    31.5,
+    2.4,
+    11.0
+   ],
+   "item": "radiant_token",
+   "count": 1,
+   "orisons": 240,
+   "tag": "base",
+   "label": "Claim the Chief Skimmer's Token"
+  },
+  {
    "id": "foundry_vat_purse",
    "at": [
     -13.5,
     0,
-    -9.5
+    -8.5
    ],
    "orisons": 165,
    "tag": "base",
@@ -2271,9 +9959,9 @@
  "plaques": [
   {
    "at": [
-    13.8,
+    17.8,
     0,
-    3.2
+    3.8
    ],
    "rot": -135,
    "text": "CHARTER OF THE AMBER FOUNDRY\n\nLet no tallow of flesh or beast enter these kettles. Here the Guild boils only the comb of the Golden Skeps, gathered from the cliff-meadows while the noon was whole.\n\nFour votives in the South Cloister keep the Reliquary unbarred."
@@ -2294,7 +9982,16 @@
     3.5
    ],
    "rot": 150,
-   "text": "THE GUILDMASTER'S RELIQUARY\n\nHere rests the Censer-Mace of the First Chandler \u2014 flanged in vat-bronze, cored with an undying coal of royal wax. It answers strength of arm and devotion of spirit alike."
+   "text": "THE GUILDMASTER'S RELIQUARY\n\nHere rests the Censer-Mace of the First Chandler \u2014 flanged in vat-bronze, cored with an undying coal of royal wax. Above the western stair stands the High Scriptorium where the tithe-ledgers were sealed."
+  },
+  {
+   "at": [
+    -19.5,
+    0,
+    14.5
+   ],
+   "rot": -45,
+   "text": "OSSUARY OF THE FIRST CHANDLERS\n\nThose who tended the Queen-Skeps were not buried in earth; their shrouds were steeped seven times in clarified comb until time could find no seam to enter. With them rests the Rite of the Golden Comb."
   },
   {
    "at": [
@@ -2304,13 +10001,22 @@
    ],
    "rot": 20,
    "text": "EDICT OF REFUSAL\n\nBy hand of Malakor, Sovereign Chandler: The seventh wagon from the Hour Palace shall return empty. What light remains in the Queen-Combs belongs to the Parish and the bees. Let the Sovereign come down and skim the vats himself."
+  },
+  {
+   "at": [
+    -3.2,
+    0,
+    -40.5
+   ],
+   "rot": 25,
+   "text": "THE CLIFF-STAIR TO THE SOVEREIGN APIARY\n\nBeyond this postern climbs the cliff-path to the Cloister of the Golden Comb, where Matriarch Aurelia and her blind sisters tended the living hives in the salt wind above the sea."
   }
  ],
  "portals": [
   {
    "to": "old_outskirts",
    "at": [
-    18.5,
+    26.2,
     0,
     0.0
    ],
@@ -2322,6 +10028,22 @@
    ],
    "spawn_yaw": -90,
    "prompt": "Ascend to the Old Outskirts"
+  },
+  {
+   "to": "sovereign_apiary",
+   "at": [
+    0.0,
+    0,
+    -46.2
+   ],
+   "rot": 0,
+   "spawn": [
+    0.0,
+    0.2,
+    8.5
+   ],
+   "spawn_yaw": 0,
+   "prompt": "Ascend to the Sovereign Apiary"
   }
  ],
  "scripted": [
@@ -2330,18 +10052,18 @@
    "at": [
     0,
     0,
-    18
+    20
    ],
    "rot": 0,
    "tag": "glory",
    "params": {
     "kind": "motes_gold",
     "extent": [
-     10,
-     3,
-     5
+     12,
+     4,
+     7
     ],
-    "count": 28
+    "count": 32
    }
   },
   {
@@ -2357,10 +10079,29 @@
     "kind": "motes_gold",
     "extent": [
      14,
-     4,
+     5,
      10
     ],
-    "count": 24
+    "count": 28
+   }
+  },
+  {
+   "script": "res://src/world/ambient_life.gd",
+   "at": [
+    -34,
+    2.4,
+    0
+   ],
+   "rot": 0,
+   "tag": "glory",
+   "params": {
+    "kind": "motes_gold",
+    "extent": [
+     5,
+     4,
+     8
+    ],
+    "count": 18
    }
   },
   {
@@ -2375,11 +10116,11 @@
    "params": {
     "kind": "motes_ash",
     "extent": [
-     10,
-     4,
+     12,
+     5,
      10
     ],
-    "count": 26
+    "count": 30
    }
   }
  ]

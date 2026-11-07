@@ -478,7 +478,7 @@ def main():
                          "spawn": [0, 0.2, 0.2], "spawn_yaw": 0,
                          "prompt": "Enter the Parish of the First Wick"})
     d["portals"].append({"to": "chandlers_hollow", "at": [-56.8, 0.0, -15.0], "rot": 90,
-                         "spawn": [15.0, 0.2, 0.0], "spawn_yaw": 90,
+                         "spawn": [24.0, 0.2, 0.0], "spawn_yaw": 90,
                          "prompt": "Descend into the Chandlers' Hollow"})
 
     # ---------------- the city on every horizon

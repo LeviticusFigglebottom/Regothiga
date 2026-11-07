@@ -27,7 +27,7 @@ MOUNTED = {
 }
 # kits that are architecture (not decor); they define floors/walls, skip float check
 ARCH = {"floor_4x4", "wall_4x4", "ossuary_wall_4m", "arcade_4m", "portal_4m",
-        "window_lancet_4m", "column_4m", "stair_grand_4m", "fence_iron_4m",
+        "window_lancet_4m", "column_4m", "comb_pillar_4m", "stair_grand_4m", "fence_iron_4m",
         "burg_wall_3m", "burg_wall_3m_door", "burg_wall_3m_win", "burg_floor_3m",
         "burg_wall_3m_ruin_a", "burg_wall_3m_ruin_b", "parish_window_4m",
         "roof_gable_7m", "stair_wood_3m",   # town shells stack by design

@@ -193,5 +193,32 @@
    "stab": 0.95,
    "chip": 0.2
   }
+ },
+ "sovereign_greatsword": {
+  "name": "Sovereign Comb-Blade",
+  "desc": "Ceremonial greatsword of the Sovereign Apiary, forged with a gilded hexagonal comb-fuller that holds seven cells of undying royal wax. Two-handed, sweeping, and warm to the hilt.",
+  "class": "greatsword",
+  "kit": "blade_sovereign",
+  "damage": 74,
+  "poise_damage": 48,
+  "two_handed": true,
+  "scaling": {
+   "strength": 0.65,
+   "dexterity": 0.25,
+   "devotion": 0.45
+  },
+  "stamina": {
+   "light": 24,
+   "heavy": 40
+  },
+  "moveset": "greatsword",
+  "upgrade": {
+   "per_level": 9,
+   "max": 5
+  },
+  "block": {
+   "stab": 0.95,
+   "chip": 0.18
+  }
  }
 }

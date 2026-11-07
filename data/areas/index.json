@@ -10,6 +10,7 @@
   "vigils_end",
   "old_outskirts",
   "chandlers_hollow",
+  "sovereign_apiary",
   "wick_cathedral",
   "gilded_sanctum",
   "hour_palace",
@@ -56,7 +57,11 @@
    "west": "chandlers_hollow"
   },
   "chandlers_hollow": {
-   "east": "old_outskirts"
+   "east": "old_outskirts",
+   "north": "sovereign_apiary"
+  },
+  "sovereign_apiary": {
+   "south": "chandlers_hollow"
   },
   "wick_cathedral": {
    "south": "old_outskirts"

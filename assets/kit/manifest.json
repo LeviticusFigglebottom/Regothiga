@@ -179,6 +179,16 @@
    1.25
   ]
  },
+ "blade_sovereign": {
+  "file": "assets/kit/blade_sovereign.glb",
+  "origin": "grip",
+  "polys": 275,
+  "size": [
+   0.58,
+   0.08,
+   1.98
+  ]
+ },
  "bone_pile": {
   "file": "assets/kit/bone_pile.glb",
   "origin": "bottom-center",
@@ -688,6 +698,26 @@
    2.2
   ]
  },
+ "comb_pillar_4m": {
+  "file": "assets/kit/comb_pillar_4m.glb",
+  "origin": "bottom-center",
+  "polys": 209,
+  "size": [
+   1.0,
+   1.0,
+   4.0
+  ]
+ },
+ "comb_shrine": {
+  "file": "assets/kit/comb_shrine.glb",
+  "origin": "bottom-center",
+  "polys": 336,
+  "size": [
+   1.32,
+   0.84,
+   2.66
+  ]
+ },
  "cornice_4m": {
   "file": "assets/kit/cornice_4m.glb",
   "origin": "bottom-center",
@@ -950,6 +980,16 @@
    0.55,
    0.3,
    0.5
+  ]
+ },
+ "honey_amphora": {
+  "file": "assets/kit/honey_amphora.glb",
+  "origin": "bottom-center",
+  "polys": 407,
+  "size": [
+   0.76,
+   0.72,
+   1.35
   ]
  },
  "ivy_sheet_a": {
@@ -1561,6 +1601,17 @@
   ],
   "skeletal": true
  },
+ "skel_matriarch": {
+  "file": "assets/kit/skel_matriarch.glb",
+  "origin": "feet",
+  "polys": 4992,
+  "size": [
+   0.8,
+   0.8,
+   1.9
+  ],
+  "skeletal": true
+ },
  "skel_mire": {
   "file": "assets/kit/skel_mire.glb",
   "origin": "feet",
@@ -1920,6 +1971,16 @@
    0.9,
    0.9,
    1.1
+  ]
+ },
+ "wax_press": {
+  "file": "assets/kit/wax_press.glb",
+  "origin": "bottom-center",
+  "polys": 472,
+  "size": [
+   1.76,
+   1.68,
+   2.36
   ]
  },
  "wax_wheel": {

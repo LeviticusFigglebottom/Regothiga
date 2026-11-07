@@ -25,6 +25,7 @@ const CARRY_POSE := {
 	"halberd_ward": Vector3(106, 14, -10),
 	"spear_fen": Vector3(104, 14, -8),
 	"greatsword_pilgrim": Vector3(76, 16, -10),
+	"blade_sovereign": Vector3(76, 16, -10),
 	"crook_warden": Vector3(108, 14, -10),
 	"crook_great": Vector3(106, 16, -10),
 	"oar_glaive": Vector3(108, 16, -12),
@@ -38,6 +39,7 @@ const CARRY_POSE := {
 const TRAIL_EXTENTS := {
 	"sword_cloister": Vector2(0.12, 1.08),
 	"greatsword_pilgrim": Vector2(0.22, 1.54),
+	"blade_sovereign": Vector2(0.22, 1.60),
 	"maul_sexton": Vector2(0.45, 1.18),
 	"censer_mace": Vector2(0.48, 1.24),
 	"toll_maul": Vector2(0.75, 1.72),

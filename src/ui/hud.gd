@@ -63,6 +63,7 @@ const SLOT_ICON := {
 	"pilgrim_greatsword": "res://assets/ui/icons/greatsword.png",
 	"sexton_maul": "res://assets/ui/icons/maul.png",
 	"chandler_mace": "res://assets/ui/icons/censer_mace.png",
+	"sovereign_greatsword": "res://assets/ui/icons/sovereign_greatsword.png",
 	"ward_halberd": "res://assets/ui/icons/halberd.png",
 	"flask": "res://assets/ui/icons/flask.png",
 	"torch": "res://assets/ui/icons/torch.png",
@@ -663,7 +664,8 @@ func _refresh_rite() -> void:
 	rite_panel.visible = sid != "" and not DB.spell(sid).is_empty()
 	if rite_panel.visible:
 		var by := {"mend": "mend", "radiant_blast": "blast", "radiant_burst": "burst",
-				"morrow_lance": "lance", "vesper_ward": "ward"}
+				"morrow_lance": "lance", "vesper_ward": "ward",
+				"amber_benediction": "amber_benediction"}
 		rite_icon.texture = load("res://assets/ui/icons/%s.png" % by.get(sid, "relic"))
 		rite_cost.text = str(int(DB.spell(sid).get("mana", 0)))
 

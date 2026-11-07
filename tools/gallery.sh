@@ -78,9 +78,13 @@ shot sanctum_avenue_ruin.png   gilded_sanctum ruin  "0,2.2,8,0,4,70"
 shot palace_nave_glory.png     hour_palace glory    "0,2.4,10,-180,4,68" --flag=scion_heard
 shot palace_waxworks_ruin.png  hour_palace ruin     "-18,2.0,28,-180,-4,75" --flag=scion_heard
 shot morrow_hall_glory.png     morrow_keep glory    "0,2.0,6,-180,4,68"
-# pass DLC: The Chandlers' Hollow (Amber Foundry)
-shot hollow_foundry_glory.png  chandlers_hollow glory "13.5,2.0,-1.0,78,-4,68"
-shot hollow_foundry_ruin.png   chandlers_hollow ruin  "13.5,2.0,-1.0,78,-4,68"
-shot hollow_apiary_glory.png   chandlers_hollow glory "0,1.9,13.2,180,-4,68"
-shot hollow_crucible_ruin.png  chandlers_hollow ruin  "-2,2.1,-16.0,0,-4,66"
+# pass DLC: The Chandlers' Hollow (Amber Foundry) & The Sovereign Apiary
+shot hollow_foundry_glory.png  chandlers_hollow glory "13.5,2.2,-1.0,78,-3,70"
+shot hollow_foundry_ruin.png   chandlers_hollow ruin  "13.5,2.2,-1.0,78,-3,70"
+shot hollow_apiary_glory.png   chandlers_hollow glory "0,2.0,13.5,180,-4,70"
+shot hollow_crucible_ruin.png  chandlers_hollow ruin  "-2,2.2,-16.5,0,-3,68"
+shot apiary_garth_glory.png    sovereign_apiary glory "-7.5,2.2,-8.5,-42,-4,72"
+shot apiary_garth_ruin.png     sovereign_apiary ruin  "-7.5,2.2,-8.5,-42,-4,72"
+shot apiary_chapter_glory.png  sovereign_apiary glory "22.5,4.3,-16.0,-90,-4,68"
+shot apiary_cathedral_ruin.png sovereign_apiary ruin  "-2.0,2.3,-48.5,0,-3,68"
 echo "gallery done"

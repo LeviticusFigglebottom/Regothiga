@@ -15,7 +15,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 BLOCKING = {"wall_4x4", "window_lancet_4m", "portal_4m", "fence_iron_4m",
-            "arcade_4m", "rubble_m", "rubble_l", "column_4m", "buttress",
+            "arcade_4m", "rubble_m", "rubble_l", "column_4m", "comb_pillar_4m", "buttress",
             "balustrade_4m", "stair_grand_4m", "ossuary_wall_4m", "sarcophagus",
             "stair_grand_4m_l", "stair_grand_4m_r",
             # the palace family seals the same edges its stone kin do

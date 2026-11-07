@@ -66,5 +66,13 @@
  "sovereign_wax": {
   "name": "Sovereign's Seal-Wax",
   "desc": "A golden cake of royal comb-wax stamped with the Chandler-Sovereign's great skep seal. Warm as noon in a closed palm; Master Caelan can steep it into your Chrism Flask."
+ },
+ "amber_benediction": {
+  "name": "Rite of the Golden Comb",
+  "desc": "The apiary's older office: loose three coals of royal comb-wax across the dark while drawing their warmth back into the chest and breath."
+ },
+ "matriarch_comb": {
+  "name": "Crown of the First Comb",
+  "desc": "The golden mitre-comb worn by Matriarch Aurelia in the Sovereign Apiary. Seven cells of unspent noon still hum inside the wax; Master Caelan can forge its warmth into your vessel."
  }
 }

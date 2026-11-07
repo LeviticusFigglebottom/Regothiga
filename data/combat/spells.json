@@ -36,5 +36,13 @@
   "absorb": 55,
   "duration": 8.0,
   "desc": "The evening office, worn. A skin of remembered candlelight that takes the world's anger first, and goes out doing it."
+ },
+ "amber_benediction": {
+  "name": "Rite of the Golden Comb",
+  "mana": 38,
+  "type": "comb",
+  "damage": 46,
+  "heal_power": 0.12,
+  "desc": "The apiary's older office: loose three coals of royal comb-wax across the dark while drawing their warmth back into the chest and breath."
  }
 }

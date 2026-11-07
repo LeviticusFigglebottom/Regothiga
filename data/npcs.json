@@ -517,12 +517,75 @@
         "line_have": "The Sovereign's wax already lines your gourd, friend."
       },
       {
+        "id": "forge_crown",
+        "type": "deliver",
+        "item": "matriarch_comb",
+        "flag": "forged_matriarch_comb",
+        "needs_item": "matriarch_comb",
+        "flask_up": true,
+        "reward_item": "candleglass",
+        "reward_count": 2,
+        "reward_orisons": 800,
+        "label": "Steep the Crown of the First Comb into your vessel",
+        "toast": "Chrism flask deepened (+1 draught) · Received 2 Candleglass & 800 Orisons.",
+        "line_done": "By the seven kettles... Aurelia's own mitre-comb from the cliff sanctuary. Seven cells of unspent noon! Let me fold its royal jelly into your gourd and pay out the Guild's last bounty.",
+        "line_have": "The Matriarch's first comb already burns inside your flask, pilgrim."
+      },
+      {
         "id": "buy_glass_caelan",
         "type": "buy",
         "item": "candleglass",
         "orisons": 240,
         "label": "Buy skimmed candleglass — 240 orisons",
         "line_done": "Skimmed from the bottom of the third kettle. Pure as a window before the stones fell."
+      }
+    ]
+  },
+  "sister_melisande": {
+    "name": "Sister Melisande, the Blind Beekeeper",
+    "short_name": "Sister Melisande",
+    "body": "skel_sister",
+    "carry": "lantern_crook",
+    "carry_hand": "r",
+    "chapters": [
+      [
+        "Step softly on the flagstones, traveler. The sun-bees sleep in the cracks between the mortar when the air turns cold, and they remember every footstep since the seventh tithe.",
+        "You have climbed from the Hollow into the Sovereign Apiary — our cliffside cloister where the Queen-Skeps were tended in open noon. To the west stand the Royal Presses; up the eastern stairs, the Chapter-House where the Comb-Blade rests.",
+        "We wore no veils for fear of stings. We wore them because the raw comb shone like the first hour of creation, and no mortal eye could look into an open skep twice."
+      ],
+      [
+        "When Malakor barred the lower foundry against the Palace bailiffs, Matriarch Aurelia barred the Cathedral of the First Comb to the north. She swore the Queen-Skep's royal jelly would never be poured into the Immortalized.",
+        "Rather than surrender the comb, she drank the boiling draught herself and took up the Sovereign Comb-Blade before the high altar. In the ruin of our cloister, her vigil has never ended.",
+        "Take this token from the apiary's old alms-box, and light the votives in both wings if you mean to unbar her sanctuary. If you grant her rest, carry her Crown back down to Master Caelan."
+      ]
+    ],
+    "gift": {
+      "item": "radiant_token",
+      "count": 1,
+      "flag": "gift_melisande",
+      "toast": "Received Token of Radiant Retribution — kept in the Beekeeper's alms-box."
+    },
+    "lines_repeat": [
+      "The bees hum louder when a warm lantern passes the garth. Keep your wick trimmed, Latecomer.",
+      "Light the votives in the West Press-House and East Chapter-House to unbar the Cathedral of the First Comb."
+    ],
+    "services": [
+      {
+        "id": "buy_glass_melisande",
+        "type": "buy",
+        "item": "candleglass",
+        "orisons": 220,
+        "label": "Buy apiary candleglass — 220 orisons",
+        "line_done": "Scraped from the south conservatory frames where the sun-bees nested."
+      },
+      {
+        "id": "buy_arrows_melisande",
+        "type": "buy",
+        "item": "arrows",
+        "count": 12,
+        "orisons": 75,
+        "label": "Buy a sheaf of wax-tipped arrows (12) — 75 orisons",
+        "line_done": "Steeped in comb-tallow so the feathers never rot in the sea-mist."
       }
     ]
   }

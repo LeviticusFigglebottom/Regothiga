@@ -608,6 +608,73 @@ def icon_sovereign_wax():
     _save_icon(c, "sovereign_wax")
 
 
+def icon_sovereign_greatsword():
+    c, d = _new_icon((92, 68, 22))
+    # Sovereign Comb-Blade — royal bronze-and-steel greatsword with golden honeycomb fuller
+    # Broad blade from bottom-left (72, 184) to top-right (218, 38)
+    d.polygon([(64, 174), (196, 42), (222, 34), (214, 60), (82, 192)], fill=STEEL, outline=INK)
+    d.line([(68, 178), (212, 34)], fill=STEEL_BRIGHT, width=4)
+    # Golden honeycomb fuller cells along blade spine
+    for t in (0.22, 0.38, 0.54, 0.70, 0.84):
+        bx = int(76 + (204 - 76) * t)
+        by = int(180 + (52 - 180) * t)
+        d.ellipse([bx - 8, by - 8, bx + 8, by + 8], fill=AMBER, outline=GOLD_BRIGHT, width=2)
+    # Swept bee-wing bronze crossguard
+    d.polygon([(38, 146), (76, 174), (108, 218), (94, 226), (68, 188), (30, 160)],
+              fill=GOLD, outline=INK)
+    # Two-handed grip & golden skep pommel
+    d.line([(36, 220), (72, 184)], fill=LEATHER_DARK, width=16)
+    d.line([(36, 220), (72, 184)], fill=LEATHER, width=9)
+    d.ellipse([22, 206, 50, 234], fill=GOLD_BRIGHT, outline=INK, width=3)
+    _save_icon(c, "sovereign_greatsword")
+
+
+def icon_matriarch_comb():
+    c, d = _new_icon((112, 82, 24))
+    # Crown of the First Comb — golden apiary mitre-crown set with glowing amber comb cells
+    cx, cy = 128, 136
+    # Radiant solar halo behind crown
+    d.ellipse([cx - 78, cy - 84, cx + 78, cy + 68], outline=GOLD_DIM, width=5)
+    for i in range(12):
+        a = i * math.pi / 6.0
+        d.line([(cx + math.cos(a) * 64, cy - 8 + math.sin(a) * 64),
+                (cx + math.cos(a) * 88, cy - 8 + math.sin(a) * 88)], fill=GOLD_BRIGHT, width=4)
+    # Crowned golden skep mitre silhouette
+    pts = [(cx - 64, cy + 52), (cx - 56, cy - 10), (cx - 32, cy - 58),
+           (cx, cy - 84), (cx + 32, cy - 58), (cx + 56, cy - 10), (cx + 64, cy + 52)]
+    d.polygon(pts, fill=GOLD, outline=INK)
+    d.line(pts + [pts[0]], fill=GOLD_BRIGHT, width=5)
+    # Glowing hexagonal royal comb cells inset into the crown
+    for hx, hy, r in [(cx, cy - 28, 18), (cx - 26, cy + 8, 15), (cx + 26, cy + 8, 15), (cx, cy + 20, 16)]:
+        cell = [(hx + math.cos(k * math.pi / 3) * r, hy + math.sin(k * math.pi / 3) * r) for k in range(6)]
+        d.polygon(cell, fill=AMBER, outline=GOLD_DARK)
+        d.ellipse([hx - 6, hy - 6, hx + 6, hy + 6], fill=(255, 250, 218, 255))
+    _save_icon(c, "matriarch_comb")
+
+
+def icon_amber_benediction():
+    c, d = _new_icon((108, 72, 20))
+    # Rite of the Golden Comb — three ascending golden comb-wax bolts over a honeycomb sigil
+    cx, cy = 128, 146
+    # Honeycomb ritual ring at base
+    for hx, hy in [(cx, cy + 20), (cx - 36, cy + 32), (cx + 36, cy + 32)]:
+        ring = [(hx + math.cos(k * math.pi / 3) * 22, hy + math.sin(k * math.pi / 3) * 22) for k in range(6)]
+        d.polygon(ring, fill=(78, 52, 18, 255), outline=GOLD, width=3)
+    # Three radiant amber bolts fanning upward
+    for bx, by, ang in [(cx - 52, 68, -0.28), (cx, 42, 0.0), (cx + 52, 68, 0.28)]:
+        dx, dy = math.sin(ang), -math.cos(ang)
+        px, py = -dy, dx
+        bolt = [
+            (bx + dx * 28, by + dy * 28),
+            (bx + px * 16, by + py * 16),
+            (bx - dx * 44, by - dy * 44),
+            (bx - px * 16, by - py * 16),
+        ]
+        d.polygon(bolt, fill=AMBER, outline=GOLD_BRIGHT)
+        d.ellipse([bx - 9, by - 9, bx + 9, by + 9], fill=(255, 252, 224, 255))
+    _save_icon(c, "amber_benediction")
+
+
 def icon_relic():
     c, d = _new_icon((68, 56, 36))
     d.polygon([(128, 40), (200, 128), (128, 216), (56, 128)], fill=(54, 42, 26, 255), outline=GOLD, width=6)
@@ -693,7 +760,10 @@ if __name__ == "__main__":
     icon_radiant_token()
     icon_censer_mace()
     icon_sovereign_wax()
+    icon_sovereign_greatsword()
+    icon_matriarch_comb()
+    icon_amber_benediction()
     icon_relic()
     icon_crest()
     icon_orisons()
-    print(f"wrote UI art (25 icons + trollface) -> {OUT}")
+    print(f"wrote UI art (28 icons + trollface) -> {OUT}")

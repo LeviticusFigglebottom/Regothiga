@@ -788,11 +788,11 @@ func _refresh_weapon_visual() -> void:
 		_torch_light.light_energy = 1.8
 		_torch_light.position = Vector3(0, 0.8, 0)
 		vis.weapon_mount.add_child(_torch_light)
-	elif weapon_id == "chandler_mace":
+	elif weapon_id == "chandler_mace" or weapon_id == "sovereign_greatsword":
 		_torch_light = OmniLight3D.new()
 		_torch_light.light_color = Color(1.0, 0.76, 0.42)
 		_torch_light.omni_range = 6.2
-		_torch_light.light_energy = 1.35
+		_torch_light.light_energy = 1.35 if weapon_id == "chandler_mace" else 1.15
 		_torch_light.position = Vector3(0, 0.92, 0)
 		vis.weapon_mount.add_child(_torch_light)
 
@@ -1323,6 +1323,28 @@ func cast_spell(id: String) -> void:
 			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -3.0, 0.8)
 			_radiant_flash(3.2, 7.5)
 			_burst_nova(r)
+		"comb":
+			vis.play("cast", 0.08)
+			var cfrom := global_position + Vector3.UP * 1.45
+			var caim: Vector3
+			if cam.locked_target != null and is_instance_valid(cam.locked_target):
+				caim = ((cam.locked_target.global_position + Vector3.UP * 1.0) - cfrom).normalized()
+			else:
+				caim = (-cam.cam.global_transform.basis.z).normalized()
+			for ang_deg in [-13.0, 0.0, 13.0]:
+				var dir_rot := caim.rotated(Vector3.UP, deg_to_rad(ang_deg))
+				var pkc := DamagePacket.new(float(sp.get("damage", 44)) * dev, 22, self)
+				pkc.kind = "radiant"
+				pkc.can_be_parried = false
+				var prc := Projectile.launch(get_parent(), cfrom, dir_rot, 28.0, pkc, Color(1.0, 0.78, 0.32))
+				prc.team = "player"
+			hp = minf(hp + max_hp * float(sp.get("heal_power", 0.12)), max_hp)
+			health_changed.emit(hp, max_hp)
+			stamina = minf(stamina + 25.0, max_stamina)
+			stamina_changed.emit(stamina, max_stamina)
+			vis.rotation.y = atan2(-caim.x, -caim.z)
+			AudioDirector.sfx("res://assets/audio/swell_kindle.wav", -6.0, 1.18)
+			_radiant_flash(1.8, 4.5)
 
 ## The Burst made visible: a golden ring racing out along the stones to the
 ## rite's true radius, motes thrown outward, a breath of scorch-light.

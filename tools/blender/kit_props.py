@@ -1796,6 +1796,245 @@ def wax_wheel():
     return objs, {"size": [1.96, 1.96, 2.40], "origin": "bottom-center"}
 
 
+def wax_press():
+    """Guild-Chandlers' Royal Comb Screw-Press: stepped stone press-bed, bronze
+    collection trough with molten comb-wax & pouring spout, twin heavy oak
+    uprights & crosshead beam reinforced with iron straps, central threaded
+    brass screw spindle with capstan lever, and stacked golden honeycomb cakes."""
+    objs = []
+    # Stepped dark-stone press foundation + freestone drip curb
+    bm_st = bmesh.new()
+    V.add_box(bm_st, (-0.88, -0.66, 0.00), (0.88, 0.66, 0.24))
+    V.add_box(bm_st, (-0.82, -0.58, 0.24), (0.82, 0.58, 0.52))
+    objs.append(V.bm_to_object(bm_st, "press_base", ("M_stone_dark",)))
+
+    bm_trim = bmesh.new()
+    V.add_box(bm_trim, (-0.85, -0.61, 0.50), (0.85, 0.61, 0.60))
+    objs.append(V.bm_to_object(bm_trim, "press_curb", ("M_stone_trim",)))
+
+    # Bronze sluice pan + forward pouring lip on +Y + catch bucket
+    bm_br = bmesh.new()
+    V.add_box(bm_br, (-0.64, -0.46, 0.60), (0.64, 0.46, 0.72))
+    V.add_box(bm_br, (-0.12, 0.44, 0.58), (0.12, 0.68, 0.68))
+    objs.append(V.bm_to_object(bm_br, "press_pan", ("M_bronze",)))
+
+    # Catch amphora/bucket under the +Y spout
+    objs.append(V.loft_rings("press_bucket", [
+        (0.16, 0.00, 12, 0),
+        (0.20, 0.22, 12, 0.08),
+        (0.18, 0.44, 12, 0),
+        (0.21, 0.48, 12, 0),
+    ], "M_bronze", cap_bottom=True, cap_top=True))
+    # Move bucket to +Y under spout
+    for v in objs[-1].data.vertices:
+        v.co.y += 0.62
+
+    # Stacked golden comb-wax cakes inside the press cage + platen
+    bm_wax = bmesh.new()
+    for i, zh in enumerate((0.72, 0.88, 1.04)):
+        w = 0.46 - i * 0.02
+        d = 0.36 - i * 0.02
+        V.add_box(bm_wax, (-w, -d, zh), (w, d, zh + 0.13))
+    # Stream of golden wax dripping from spout into bucket
+    V.add_cyl(bm_wax, 0.0, 0.62, 0.46, 0.18, 0.035, n=10)
+    objs.append(V.bm_to_object(bm_wax, "press_wax_cakes", ("M_wax",)))
+
+    # Heavy oak uprights, crosshead beam, platen block, and capstan lever
+    bm_wood = bmesh.new()
+    for sx in (-0.66, 0.66):
+        V.add_box(bm_wood, (sx - 0.10, -0.14, 0.58), (sx + 0.10, 0.14, 2.16))
+    # Crosshead beam (z = 1.92 .. 2.22)
+    V.add_box(bm_wood, (-0.84, -0.18, 1.92), (0.84, 0.18, 2.22))
+    # Heavy oak pressing platen (z = 1.18 .. 1.32)
+    V.add_box(bm_wood, (-0.52, -0.40, 1.18), (0.52, 0.40, 1.32))
+    # Capstan turning bar at z = 1.54
+    V.add_box(bm_wood, (-0.72, -0.04, 1.50), (0.72, 0.04, 1.58))
+    objs.append(V.bm_to_object(bm_wood, "press_frame", ("M_wood",)))
+
+    # Wrought-iron corner brackets & reinforcing bands
+    bm_iron = bmesh.new()
+    for sx in (-0.66, 0.66):
+        for zh in (0.68, 1.35, 1.90, 2.18):
+            V.add_box(bm_iron, (sx - 0.115, -0.155, zh), (sx + 0.115, 0.155, zh + 0.05))
+    objs.append(V.bm_to_object(bm_iron, "press_iron", ("M_iron",)))
+
+    # Central threaded brass screw spindle (z = 1.30 .. 2.36)
+    spindle_rings = [(0.09, 1.30, 14, 0), (0.09, 1.44, 14, 0), (0.13, 1.50, 14, 0),
+                     (0.13, 1.60, 14, 0), (0.075, 1.64, 14, 0)]
+    for k in range(8):
+        zb = 1.66 + k * 0.08
+        spindle_rings.append((0.088, zb, 14, 0))
+        spindle_rings.append((0.064, zb + 0.04, 14, 0))
+    spindle_rings.append((0.10, 2.36, 14, 0))
+    objs.append(V.loft_rings("press_screw", spindle_rings, "M_brass", cap_bottom=True, cap_top=True))
+    return objs, {"size": [1.76, 1.68, 2.36], "origin": "bottom-center"}
+
+
+def honey_amphora():
+    """Tall fluted bronze-and-amber liturgical storage vessel for royal comb
+    honey and clarified wax, sealed with a golden comb-stamp stopper and twin
+    brass handles."""
+    objs = []
+    n = 16
+    # Stepped stone foot ring
+    objs.append(V.loft_rings("amphora_foot", [
+        (0.24, 0.00, n, 0),
+        (0.24, 0.07, n, 0),
+        (0.17, 0.12, n, 0),
+        (0.15, 0.22, n, 0),
+    ], "M_stone_trim", cap_bottom=True, cap_top=False))
+
+    # Bronze amphora body with waist flutes
+    objs.append(V.loft_rings("amphora_body", [
+        (0.15, 0.20, n, 0),
+        (0.31, 0.48, n, 0.18),
+        (0.35, 0.72, n, 0.22),
+        (0.28, 0.94, n, 0),
+        (0.14, 1.06, n, 0),
+        (0.16, 1.16, n, 0),
+        (0.21, 1.21, n, 0),
+        (0.18, 1.24, n, 0),
+    ], "M_bronze", cap_bottom=False, cap_top=True))
+
+    # Gilt relief bands & golden wax-seal stopper crown
+    for zh, rh in ((0.46, 0.315), (0.72, 0.356), (0.94, 0.285)):
+        objs.append(V.loft_rings("amphora_band", [
+            (rh - 0.015, zh - 0.02, n, 0),
+            (rh + 0.012, zh - 0.02, n, 0),
+            (rh + 0.012, zh + 0.02, n, 0),
+            (rh - 0.015, zh + 0.02, n, 0),
+        ], "M_gold", cap_bottom=False, cap_top=False))
+
+    objs.append(V.loft_rings("amphora_seal", [
+        (0.17, 1.22, n, 0),
+        (0.19, 1.26, n, 0),
+        (0.11, 1.31, n, 0),
+        (0.03, 1.35, n, 0),
+    ], "M_wax", cap_bottom=False, cap_top=True))
+
+    # Twin curved brass handles on +/-X
+    prof = [(math.cos(a) * 0.022, math.sin(a) * 0.028) for a in [k * math.pi / 4 for k in range(8)]]
+    for sx in (-1, 1):
+        pts = [
+            (sx * 0.27, 0.0, 0.88),
+            (sx * 0.38, 0.0, 0.96),
+            (sx * 0.36, 0.0, 1.12),
+            (sx * 0.17, 0.0, 1.16),
+        ]
+        objs.append(V.sweep_profile(f"amphora_handle_{sx}", pts, prof, "M_brass"))
+    return objs, {"size": [0.76, 0.72, 1.35], "origin": "bottom-center"}
+
+
+def comb_shrine():
+    """Ornate Gothic Apiary Reliquary Stele: stepped dark-stone base, carved
+    freestone gabled tabernacle housing a golden honeycomb cell lattice with
+    glowing ember comb core, flanked by twin bronze colonnettes & lit votive tapers."""
+    objs = []
+    # Stepped dark-stone plinth (z = 0 .. 0.38)
+    bm_base = bmesh.new()
+    V.add_box(bm_base, (-0.66, -0.42, 0.00), (0.66, 0.42, 0.18))
+    V.add_box(bm_base, (-0.58, -0.36, 0.18), (0.58, 0.36, 0.38))
+    objs.append(V.bm_to_object(bm_base, "shrine_plinth", ("M_stone_dark",)))
+
+    # Carved freestone tabernacle body & pointed gable hood (z = 0.38 .. 2.38)
+    bm_st = bmesh.new()
+    V.add_box(bm_st, (-0.54, -0.32, 0.38), (0.54, 0.32, 0.86))
+    # Rear stone slab & side jamb piers of niche
+    V.add_box(bm_st, (-0.48, -0.26, 0.86), (0.48, -0.06, 1.96))
+    for sx in (-0.40, 0.40):
+        V.add_box(bm_st, (sx - 0.09, -0.24, 0.86), (sx + 0.09, 0.20, 1.94))
+    # Stepped Gothic gable roof slabs
+    for k in range(6):
+        t = k / 5.0
+        hw = 0.56 * (1.0 - t * 0.82)
+        zb = 1.94 + t * 0.42
+        V.add_box(bm_st, (-hw, -0.28, zb), (hw, 0.24, zb + 0.09))
+    objs.append(V.bm_to_object(bm_st, "shrine_stone", ("M_stone_trim",)))
+
+    # Twin bronze colonnettes on front jambs + pinnacle skep finial at z = 2.40..2.66
+    bm_br = bmesh.new()
+    for sx in (-0.42, 0.42):
+        V.add_cyl(bm_br, sx, 0.20, 0.86, 1.06, 0.042, n=12)
+        V.add_box(bm_br, (sx - 0.06, 0.14, 0.86), (sx + 0.06, 0.26, 0.94))
+        V.add_box(bm_br, (sx - 0.06, 0.14, 1.86), (sx + 0.06, 0.26, 1.94))
+    objs.append(V.bm_to_object(bm_br, "shrine_cols", ("M_bronze",)))
+
+    # Golden honeycomb cell lattice inside the tabernacle niche + apex skep crown
+    bm_gold = bmesh.new()
+    for row_i, zc in enumerate((1.04, 1.24, 1.44, 1.64, 1.80)):
+        xs = (-0.18, 0.0, 0.18) if row_i % 2 == 0 else (-0.09, 0.09)
+        for xc in xs:
+            if abs(xc) + (zc - 1.0) * 0.12 > 0.26:
+                continue
+            V.add_cyl(bm_gold, xc, -0.02, zc - 0.05, 0.10, 0.068, n=6)
+    objs.append(V.bm_to_object(bm_gold, "shrine_comb", ("M_gold",)))
+
+    objs.append(V.loft_rings("shrine_finial", [
+        (0.08, 2.38, 12, 0),
+        (0.12, 2.48, 12, 0.15),
+        (0.07, 2.58, 12, 0),
+        (0.02, 2.66, 12, 0),
+    ], "M_gold", cap_bottom=True, cap_top=True))
+
+    # Glowing amber royal comb core + twin lit votive tapers on the altar shelf
+    bm_em = bmesh.new()
+    V.add_box(bm_em, (-0.26, -0.06, 0.96), (0.26, 0.03, 1.78))
+    objs.append(V.bm_to_object(bm_em, "shrine_ember", ("M_ember",)))
+
+    bm_wax = bmesh.new()
+    bm_fl = bmesh.new()
+    for sx in (-0.26, -0.14, 0.14, 0.26):
+        h = 0.20 if abs(sx) > 0.2 else 0.15
+        V.add_cyl(bm_wax, sx, 0.18, 0.86, h, 0.024, n=8)
+        V.add_cyl(bm_fl, sx, 0.18, 0.86 + h, 0.065, 0.016, n=8)
+    objs.append(V.bm_to_object(bm_wax, "shrine_tapers", ("M_wax",)))
+    objs.append(V.bm_to_object(bm_fl, "shrine_flames", ("M_flame",)))
+    return objs, {"size": [1.32, 0.84, 2.66], "origin": "bottom-center"}
+
+
+def comb_pillar_4m():
+    """4m Architectural Guild Column: octagonal dark-stone plinth, carved
+    freestone shaft banded with three gilded bronze comb-collars, and a
+    sculpted golden skep-and-foliage capital."""
+    objs = []
+    # Octagonal dark-stone base plinth (z = 0 .. 0.48)
+    objs.append(V.loft_rings("cp_base", [
+        (0.50, 0.00, 8, 0),
+        (0.50, 0.22, 8, 0),
+        (0.42, 0.30, 8, 0),
+        (0.38, 0.48, 8, 0),
+    ], "M_stone_dark", cap_bottom=True, cap_top=True))
+
+    # Fluted 16-sided freestone column shaft (z = 0.46 .. 3.48)
+    objs.append(V.loft_rings("cp_shaft", [
+        (0.34, 0.46, 16, 0),
+        (0.31, 1.95, 16, 0),
+        (0.29, 3.48, 16, 0),
+    ], "M_stone_trim", cap_bottom=False, cap_top=False))
+
+    # Three bronze-and-gold hexagonal comb-relief shaft bands
+    for zh, rh in ((1.15, 0.335), (2.00, 0.320), (2.85, 0.305)):
+        objs.append(V.loft_rings("cp_band", [
+            (rh - 0.02, zh - 0.07, 12, 0),
+            (rh + 0.03, zh - 0.04, 12, 0),
+            (rh + 0.03, zh + 0.04, 12, 0),
+            (rh - 0.02, zh + 0.07, 12, 0),
+        ], "M_bronze", cap_bottom=False, cap_top=False))
+
+    # Gilded capital + freestone abacus top (z = 3.46 .. 4.00)
+    objs.append(V.loft_rings("cp_capital", [
+        (0.29, 3.46, 12, 0),
+        (0.35, 3.56, 12, 0),
+        (0.44, 3.74, 12, 0.15),
+        (0.48, 3.84, 12, 0),
+    ], "M_gild", cap_bottom=False, cap_top=True))
+
+    bm_ab = bmesh.new()
+    V.add_box(bm_ab, (-0.48, -0.48, 3.84), (0.48, 0.48, 4.00))
+    objs.append(V.bm_to_object(bm_ab, "cp_abacus", ("M_stone_trim",)))
+    return objs, {"size": [1.0, 1.0, 4.0], "origin": "bottom-center"}
+
+
 BUILDERS = {
     "chrism_flask": chrism_flask,
     "vigil_lantern": vigil_lantern,
@@ -1836,4 +2075,8 @@ BUILDERS = {
     "tallow_vat_cold": lambda: tallow_vat(False),
     "apiary_skep": apiary_skep,
     "wax_wheel": wax_wheel,
+    "wax_press": wax_press,
+    "honey_amphora": honey_amphora,
+    "comb_shrine": comb_shrine,
+    "comb_pillar_4m": comb_pillar_4m,
 }
